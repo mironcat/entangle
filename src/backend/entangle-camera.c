@@ -164,6 +164,8 @@ static void entangle_camera_begin_job(EntangleCamera *cam)
     }
 
     priv->jobActive = TRUE;
+    g_free(priv->lastError);
+    priv->lastError = NULL;
     g_mutex_unlock(priv->lock);
 }
 
@@ -694,15 +696,6 @@ static void do_entangle_camera_progress_stop(GPContext *ctx G_GNUC_UNUSED,
     g_idle_add(entangle_camera_progress_idle, data);
 }
 
-static void entangle_camera_reset_last_error(EntangleCamera *cam)
-{
-    EntangleCameraPrivate *priv = cam->priv;
-
-    g_free(priv->lastError);
-    priv->lastError = NULL;
-}
-
-
 #ifdef HAVE_GPHOTO25
 static void do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
                                      const char *msg,
@@ -711,7 +704,7 @@ static void do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
     EntangleCamera *cam = data;
     EntangleCameraPrivate *priv = cam->priv;
 
-    entangle_camera_reset_last_error(cam);
+    g_free(priv->lastError);
     priv->lastError = g_strdup(msg);
     ENTANGLE_DEBUG("Got error %s", priv->lastError);
 }
@@ -724,7 +717,7 @@ static void do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
     EntangleCamera *cam = data;
     EntangleCameraPrivate *priv = cam->priv;
 
-    entangle_camera_reset_last_error(cam);
+    g_free(priv->lastError);
     priv->lastError = g_strdup_vprintf(fmt, args);
     ENTANGLE_DEBUG("Got error %s", priv->lastError);
 }
@@ -818,7 +811,7 @@ gboolean entangle_camera_connect(EntangleCamera *cam,
         gp_camera_unref(priv->cam);
         priv->cam = NULL;
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to initialize camera"));
+                    _("Unable to initialize camera: %s"), priv->lastError);
         goto cleanup;
     }
 
@@ -1179,7 +1172,6 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
     }
 
     ENTANGLE_DEBUG("Starting capture");
-    entangle_camera_reset_last_error(cam);
     entangle_camera_begin_job(cam);
     err = gp_camera_capture(priv->cam,
                             GP_CAPTURE_IMAGE,
@@ -1309,7 +1301,6 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
     gp_file_new(&datafile);
 
     ENTANGLE_DEBUG("Starting preview");
-    entangle_camera_reset_last_error(cam);
     entangle_camera_begin_job(cam);
     err = gp_camera_capture_preview(priv->cam,
                                     datafile,
@@ -1464,7 +1455,6 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     gp_file_new(&datafile);
 
     ENTANGLE_DEBUG("Getting file data");
-    entangle_camera_reset_last_error(cam);
     entangle_camera_begin_job(cam);
     err = gp_camera_file_get(priv->cam,
                              entangle_camera_file_get_folder(file),
@@ -1612,7 +1602,6 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
                    entangle_camera_file_get_name(file),
                    entangle_camera_file_get_folder(file));
 
-    entangle_camera_reset_last_error(cam);
     entangle_camera_begin_job(cam);
     err = gp_camera_file_delete(priv->cam,
                                 entangle_camera_file_get_folder(file),
@@ -1750,7 +1739,6 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
                    (unsigned long long)startms,
                    (unsigned long long)waitms);
 
-    entangle_camera_reset_last_error(cam);
     donems = 0;
     do {
         entangle_camera_begin_job(cam);
@@ -2388,7 +2376,7 @@ gboolean entangle_camera_load_controls(EntangleCamera *cam,
     err = gp_camera_get_config(priv->cam, &priv->widgets, priv->ctx);
     if (err != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to fetch camera control configuration"));
+                    _("Unable to fetch camera control configuration: %s"), priv->lastError);
         goto endjob;
     }
 
@@ -2534,8 +2522,8 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
 
     if ((err = gp_camera_set_config(priv->cam, priv->widgets, priv->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to save camera control configuration: %s %d"),
-                    gp_port_result_as_string(err), err);
+                    _("Unable to save camera control configuration: %s"),
+                    priv->lastError);
         goto endjob;
     }
 
@@ -2751,8 +2739,8 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
                                     priv->widgets,
                                     priv->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to save camera control configuration: %s %d"),
-                    gp_port_result_as_string(err), err);
+                    _("Unable to save camera control configuration: %s"),
+                    priv->lastError);
         goto cleanup;
     }
 
@@ -2920,8 +2908,8 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
                                     priv->widgets,
                                     priv->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to save camera control configuration: %s %d"),
-                    gp_port_result_as_string(err), err);
+                    _("Unable to save camera control configuration: %s"),
+                    priv->lastError);
         goto cleanup;
     }
 
@@ -3111,8 +3099,8 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
                                     priv->widgets,
                                     priv->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to save camera control configuration: %s %d"),
-                    gp_port_result_as_string(err), err);
+                    _("Unable to save camera control configuration: %s"),
+                    priv->lastError);
         goto cleanup;
     }
 
@@ -3297,8 +3285,8 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
                                     priv->widgets,
                                     priv->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to save camera control configuration: %s %d"),
-                    gp_port_result_as_string(err), err);
+                    _("Unable to save camera control configuration: %s"),
+                    priv->lastError);
         goto cleanup;
     }
 
@@ -3465,8 +3453,8 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
                                     priv->widgets,
                                     priv->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to save camera control configuration: %s %d"),
-                    gp_port_result_as_string(err), err);
+                    _("Unable to save camera control configuration: %s"),
+                    priv->lastError);
         goto cleanup;
     }
 
