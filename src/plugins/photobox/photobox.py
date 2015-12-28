@@ -17,12 +17,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import gi
+
 from gi.repository import GObject
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import Gio
 from gi.repository import Peas
+gi.require_version("PeasGtk", "1.0")
 from gi.repository import PeasGtk
+gi.require_version("Entangle", "0.1")
 from gi.repository import Entangle
 
 

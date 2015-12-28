@@ -19,13 +19,18 @@
 
 import time
 
+import gi
+
 from gi.repository import GObject
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GLib
 from gi.repository import Gio
 from gi.repository import Peas
+gi.require_version("PeasGtk", "1.0")
 from gi.repository import PeasGtk
+gi.require_version("Entangle", "0.1")
 from gi.repository import Entangle
 
 class ShooterPluginWidget(Gtk.Grid):
