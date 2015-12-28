@@ -42,7 +42,7 @@ struct _EntangleImageStatusbarPrivate {
     GtkWidget *metaDimensions;
 };
 
-G_DEFINE_TYPE(EntangleImageStatusbar, entangle_image_statusbar, GTK_TYPE_EVENT_BOX);
+G_DEFINE_TYPE(EntangleImageStatusbar, entangle_image_statusbar, GTK_TYPE_BOX);
 
 enum {
     PROP_O,
@@ -105,13 +105,35 @@ static void entangle_image_statusbar_finalize(GObject *object)
 }
 
 
+static gboolean entangle_image_statusbar_draw(GtkWidget *widget,
+                                              cairo_t *cr)
+{
+    int ww, wh;
+    ww = gdk_window_get_width(gtk_widget_get_window(widget));
+    wh = gdk_window_get_height(gtk_widget_get_window(widget));
+
+    cairo_save(cr);
+    cairo_set_source_rgba(cr, 0, 0, 0, 0.66);
+    cairo_rectangle(cr, 0, 0, ww, wh);
+
+    cairo_fill(cr);
+    cairo_restore(cr);
+
+    GTK_WIDGET_CLASS(entangle_image_statusbar_parent_class)->draw(widget, cr);
+    return TRUE;
+}
+
+
 static void entangle_image_statusbar_class_init(EntangleImageStatusbarClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 
     object_class->finalize = entangle_image_statusbar_finalize;
     object_class->get_property = entangle_image_statusbar_get_property;
     object_class->set_property = entangle_image_statusbar_set_property;
+
+    widget_class->draw = entangle_image_statusbar_draw;
 
     g_object_class_install_property(object_class,
                                     PROP_IMAGE,
@@ -139,13 +161,12 @@ static void entangle_image_statusbar_init(EntangleImageStatusbar *statusbar)
     g_return_if_fail(ENTANGLE_IS_IMAGE_STATUSBAR(statusbar));
 
     EntangleImageStatusbarPrivate *priv;
-    GdkRGBA white = { 1.0, 1.0, 1.0, 1.0 };
-    GdkRGBA black = { 0.0, 0.0, 0.0, 1.0 };
 
     priv = statusbar->priv = ENTANGLE_IMAGE_STATUSBAR_GET_PRIVATE(statusbar);
 
     priv->metaBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
     g_object_set(priv->metaBox, "homogeneous", TRUE, NULL);
+    g_object_set(priv->metaBox, "expand", TRUE, NULL);
 
     gtk_container_set_border_width(GTK_CONTAINER(priv->metaBox), 6);
 
@@ -162,14 +183,6 @@ static void entangle_image_statusbar_init(EntangleImageStatusbar *statusbar)
     gtk_box_pack_start(GTK_BOX(priv->metaBox), priv->metaDimensions, TRUE, TRUE, 6);
 
     gtk_container_add(GTK_CONTAINER(statusbar), priv->metaBox);
-
-    gtk_widget_override_background_color(GTK_WIDGET(statusbar), GTK_STATE_FLAG_NORMAL, &black);
-
-    gtk_widget_override_color(GTK_WIDGET(priv->metaAperture), GTK_STATE_FLAG_NORMAL, &white);
-    gtk_widget_override_color(GTK_WIDGET(priv->metaShutter), GTK_STATE_FLAG_NORMAL, &white);
-    gtk_widget_override_color(GTK_WIDGET(priv->metaFocal), GTK_STATE_FLAG_NORMAL, &white);
-    gtk_widget_override_color(GTK_WIDGET(priv->metaIso), GTK_STATE_FLAG_NORMAL, &white);
-    gtk_widget_override_color(GTK_WIDGET(priv->metaDimensions), GTK_STATE_FLAG_NORMAL, &white);
 
     gtk_widget_show_all(GTK_WIDGET(statusbar));
 }

@@ -41,7 +41,7 @@ typedef struct _EntangleImageStatusbarClass EntangleImageStatusbarClass;
 
 struct _EntangleImageStatusbar
 {
-    GtkEventBox parent;
+    GtkBox parent;
 
     EntangleImageStatusbarPrivate *priv;
 };
