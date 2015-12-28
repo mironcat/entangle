@@ -197,7 +197,7 @@ static void entangle_camera_automata_init(EntangleCameraAutomata *automata)
 
 typedef struct {
     EntangleCameraAutomata *automata;
-    GSimpleAsyncResult *result;
+    GTask *task;
     GCancellable *cancel;
     GCancellable *confirm;
     EntangleCameraFile *file;
@@ -208,11 +208,11 @@ static EntangleCameraAutomataData *
 entangle_camera_automata_data_new(EntangleCameraAutomata *automata,
                                   GCancellable *cancel,
                                   GCancellable *confirm,
-                                  GSimpleAsyncResult *result)
+                                  GTask *task)
 {
     EntangleCameraAutomataData *data = g_new0(EntangleCameraAutomataData, 1);
     data->automata = g_object_ref(automata);
-    data->result = g_object_ref(result);
+    data->task = g_object_ref(task);
     if (cancel)
         data->cancel = g_object_ref(cancel);
     if (confirm)
@@ -226,7 +226,7 @@ static void entangle_camera_automata_data_free(EntangleCameraAutomataData *data)
     g_object_unref(data->automata);
     if (data->file)
         g_object_unref(data->file);
-    g_object_unref(data->result);
+    g_object_unref(data->task);
     if (data->cancel)
         g_object_unref(data->cancel);
     g_free(data);
@@ -273,13 +273,10 @@ static void do_entangle_camera_delete_finish(GObject *src,
     GError *error = NULL;
 
     if (!entangle_camera_delete_file_finish(camera, res, &error)) {
-        g_simple_async_result_set_from_error(data->result,
-                                             error);
-        g_error_free(error);
-        /* Fallthrough to unref */
+        g_task_return_error(data->task, error);
+    } else {
+        g_task_return_boolean(data->task, TRUE);
     }
-
-    g_simple_async_result_complete(data->result);
     entangle_camera_automata_data_free(data);
 }
 
@@ -294,9 +291,7 @@ static void do_entangle_camera_download_finish(GObject *src,
     GError *error = NULL;
 
     if (!entangle_camera_download_file_finish(camera, res, &error)) {
-        g_simple_async_result_set_from_error(data->result,
-                                             error);
-        g_error_free(error);
+        g_task_return_error(data->task, error);
         /* Fallthrough to delete anyway */
     }
 
@@ -307,7 +302,8 @@ static void do_entangle_camera_download_finish(GObject *src,
                                           do_entangle_camera_delete_finish,
                                           data);
     } else {
-        g_simple_async_result_complete(data->result);
+        if (!error)
+            g_task_return_boolean(data->task, TRUE);
         entangle_camera_automata_data_free(data);
     }
 }
@@ -332,17 +328,16 @@ static void do_entangle_camera_file_add(EntangleCamera *camera,
     EntangleCameraAutomata *automata = ENTANGLE_CAMERA_AUTOMATA(opaque);
     EntangleCameraAutomataPrivate *priv = automata->priv;
     EntangleCameraAutomataData *data;
-    GSimpleAsyncResult *result;
+    GTask *task;
 
-    result = g_simple_async_result_new(G_OBJECT(automata),
-                                       do_entangle_camera_file_add_finish,
-                                       automata,
-                                       do_entangle_camera_file_add);
+    task = g_task_new(automata, NULL,
+                      do_entangle_camera_file_add_finish,
+                      NULL);
     data = entangle_camera_automata_data_new(automata,
                                              NULL,
                                              NULL,
-                                             result);
-    g_object_unref(result);
+                                             task);
+    g_object_unref(task);
     ENTANGLE_DEBUG("File add %p %p %p", camera, file, data);
 
     data->file = g_object_ref(file);
@@ -383,10 +378,7 @@ static void do_entangle_camera_capture_finish(GObject *src,
     g_signal_emit_by_name(data->automata, "camera-capture-end");
 
     if (!(data->file = entangle_camera_capture_image_finish(camera, res, &error))) {
-        g_simple_async_result_set_from_error(data->result,
-                                             error);
-        g_error_free(error);
-        g_simple_async_result_complete(data->result);
+        g_task_return_error(data->task, error);
         entangle_camera_automata_data_free(data);
         return;
     }
@@ -399,7 +391,7 @@ static void do_entangle_camera_capture_finish(GObject *src,
                                               do_entangle_camera_delete_finish,
                                               data);
         } else {
-            g_simple_async_result_complete(data->result);
+            g_task_return_boolean(data->task, TRUE);
             entangle_camera_automata_data_free(data);
         }
     } else {
@@ -421,16 +413,13 @@ void entangle_camera_automata_capture_async(EntangleCameraAutomata *automata,
 
     EntangleCameraAutomataPrivate *priv = automata->priv;
     EntangleCameraAutomataData *data;
-    GSimpleAsyncResult *result;
+    GTask *task;
 
-    result = g_simple_async_result_new(G_OBJECT(automata),
-                                       callback,
-                                       user_data,
-                                       entangle_camera_automata_capture_async);
+    task = g_task_new(automata, NULL, callback, user_data);
     data = entangle_camera_automata_data_new(automata,
                                              cancel,
                                              NULL,
-                                             result);
+                                             task);
 
     g_signal_emit_by_name(automata, "camera-capture-begin");
     entangle_camera_capture_image_async(priv->camera,
@@ -438,7 +427,7 @@ void entangle_camera_automata_capture_async(EntangleCameraAutomata *automata,
                                         do_entangle_camera_capture_finish,
                                         data);
 
-    g_object_unref(result);
+    g_object_unref(task);
 }
 
 
@@ -448,11 +437,7 @@ gboolean entangle_camera_automata_capture_finish(EntangleCameraAutomata *automat
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata), FALSE);
 
-    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(res),
-                                              error))
-        return FALSE;
-
-    return TRUE;
+    return g_task_propagate_boolean(G_TASK(res), error);
 }
 
 
@@ -468,10 +453,7 @@ static void do_entangle_camera_discard_finish(GObject *src,
     char *tmp;
 
     if (!(data->file = entangle_camera_capture_image_finish(camera, res, &error))) {
-        g_simple_async_result_set_from_error(data->result,
-                                             error);
-        g_error_free(error);
-        g_simple_async_result_complete(data->result);
+        g_task_return_error(data->task, error);
         entangle_camera_automata_data_free(data);
         return;
     }
@@ -498,12 +480,10 @@ static void do_entangle_camera_viewfinder_finish(GObject *src,
     GError *error = NULL;
 
     if (!entangle_camera_set_viewfinder_finish(camera, res, &error)) {
-        g_simple_async_result_set_from_error(data->result,
-                                             error);
-        g_error_free(error);
+        g_task_return_error(data->task, error);
+    } else {
+        g_task_return_boolean(data->task, TRUE);
     }
-
-    g_simple_async_result_complete(data->result);
     entangle_camera_automata_data_free(data);
 }
 
@@ -531,13 +511,11 @@ static void do_entangle_camera_preview_finish(GObject *src,
                                                     NULL,
                                                     do_entangle_camera_discard_finish,
                                                     data);
+            g_error_free(error);
         } else {
-            g_simple_async_result_set_from_error(data->result,
-                                                 error);
-            g_simple_async_result_complete(data->result);
+            g_task_return_error(data->task, error);
             entangle_camera_automata_data_free(data);
         }
-        g_error_free(error);
         return;
     }
 
@@ -581,23 +559,20 @@ void entangle_camera_automata_preview_async(EntangleCameraAutomata *automata,
 
     EntangleCameraAutomataPrivate *priv = automata->priv;
     EntangleCameraAutomataData *data;
-    GSimpleAsyncResult *result;
+    GTask *task;
 
-    result = g_simple_async_result_new(G_OBJECT(automata),
-                                       callback,
-                                       user_data,
-                                       entangle_camera_automata_capture_async);
+    task = g_task_new(automata, NULL, callback, user_data);
     data = entangle_camera_automata_data_new(automata,
                                              cancel,
                                              confirm,
-                                             result);
+                                             task);
 
     entangle_camera_preview_image_async(priv->camera,
                                         cancel,
                                         do_entangle_camera_preview_finish,
                                         data);
 
-    g_object_unref(result);
+    g_object_unref(task);
 }
 
 
@@ -607,11 +582,7 @@ gboolean entangle_camera_automata_preview_finish(EntangleCameraAutomata *automat
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata), FALSE);
 
-    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(res),
-                                              error))
-        return FALSE;
-
-    return TRUE;
+    return g_task_propagate_boolean(G_TASK(res), error);
 }
 
 

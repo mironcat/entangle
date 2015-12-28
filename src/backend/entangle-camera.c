@@ -858,15 +858,17 @@ gboolean entangle_camera_connect(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_connect_helper(GSimpleAsyncResult *result,
-                                           GObject *object,
+static void entangle_camera_connect_helper(GTask *task,
+                                           gpointer object,
+                                           gpointer task_data G_GNUC_UNUSED,
                                            GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
     if (!entangle_camera_connect(ENTANGLE_CAMERA(object), &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -890,16 +892,11 @@ void entangle_camera_connect_async(EntangleCamera *cam,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_connect_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_connect_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_connect_helper);
+    g_object_unref(task);
 }
 
 
@@ -918,8 +915,7 @@ gboolean entangle_camera_connect_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -997,15 +993,17 @@ gboolean entangle_camera_disconnect(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_disconnect_helper(GSimpleAsyncResult *result,
-                                              GObject *object,
+static void entangle_camera_disconnect_helper(GTask *task,
+                                              gpointer object,
+                                              gpointer task_data G_GNUC_UNUSED,
                                               GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
     if (!entangle_camera_disconnect(ENTANGLE_CAMERA(object), &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -1030,16 +1028,11 @@ void entangle_camera_disconnect_async(EntangleCamera *cam,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_disconnect_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_disconnect_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_disconnect_helper);
+    g_object_unref(task);
 }
 
 
@@ -1058,8 +1051,7 @@ gboolean entangle_camera_disconnect_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -1215,19 +1207,19 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_capture_image_helper(GSimpleAsyncResult *result,
-                                                 GObject *object,
+static void entangle_camera_capture_image_helper(GTask *task,
+                                                 gpointer object,
+                                                 gpointer task_data G_GNUC_UNUSED,
                                                  GCancellable *cancellable G_GNUC_UNUSED)
 {
     EntangleCameraFile *file;
     GError *error = NULL;
 
     if (!(file = entangle_camera_capture_image(ENTANGLE_CAMERA(object), &error))) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_pointer(task, file, g_object_unref);
     }
-
-    g_simple_async_result_set_op_res_gpointer(result, file, NULL);
 }
 
 
@@ -1254,16 +1246,11 @@ void entangle_camera_capture_image_async(EntangleCamera *cam,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_capture_image_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_capture_image_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_capture_image_helper);
+    g_object_unref(task);
 }
 
 
@@ -1282,14 +1269,7 @@ EntangleCameraFile *entangle_camera_capture_image_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraFile *file;
-    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                              error))
-        return NULL;
-
-    file = g_simple_async_result_get_op_res_gpointer(G_SIMPLE_ASYNC_RESULT(result));
-
-    return file;
+    return g_task_propagate_pointer(G_TASK(result), error);
 }
 
 
@@ -1376,19 +1356,19 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_preview_image_helper(GSimpleAsyncResult *result,
-                                                 GObject *object,
+static void entangle_camera_preview_image_helper(GTask *task,
+                                                 gpointer object,
+                                                 gpointer task_data G_GNUC_UNUSED,
                                                  GCancellable *cancellable G_GNUC_UNUSED)
 {
     EntangleCameraFile *file;
     GError *error = NULL;
 
     if (!(file = entangle_camera_preview_image(ENTANGLE_CAMERA(object), &error))) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_pointer(task, file, g_object_unref);
     }
-
-    g_simple_async_result_set_op_res_gpointer(result, file, NULL);
 }
 
 
@@ -1413,16 +1393,11 @@ void entangle_camera_preview_image_async(EntangleCamera *cam,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_preview_image_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_preview_image_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_preview_image_helper);
+    g_object_unref(task);
 }
 
 
@@ -1441,14 +1416,7 @@ EntangleCameraFile *entangle_camera_preview_image_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraFile *file;
-    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                              error))
-        return NULL;
-
-    file = g_simple_async_result_get_op_res_gpointer(G_SIMPLE_ASYNC_RESULT(result));
-
-    return file;
+    return g_task_propagate_pointer(G_TASK(result), error);
 }
 
 
@@ -1536,18 +1504,18 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_download_file_helper(GSimpleAsyncResult *result,
-                                                 GObject *object,
+static void entangle_camera_download_file_helper(GTask *task,
+                                                 gpointer object,
+                                                 gpointer task_data,
                                                  GCancellable *cancellable G_GNUC_UNUSED)
 {
-    EntangleCameraFile *file;
+    EntangleCameraFile *file = ENTANGLE_CAMERA_FILE(task_data);
     GError *error = NULL;
 
-    file = g_simple_async_result_get_op_res_gpointer(result);
-
     if (!entangle_camera_download_file(ENTANGLE_CAMERA(object), file, &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -1575,19 +1543,14 @@ void entangle_camera_download_file_async(EntangleCamera *cam,
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
     g_return_if_fail(ENTANGLE_IS_CAMERA_FILE(file));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_download_file_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
     g_object_ref(file);
-    g_simple_async_result_set_op_res_gpointer(result, file, g_object_unref);
+    g_task_set_task_data(task, file, g_object_unref);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_download_file_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_download_file_helper);
+    g_object_unref(task);
 
 }
 
@@ -1602,12 +1565,11 @@ void entangle_camera_download_file_async(EntangleCamera *cam,
  */
 gboolean entangle_camera_download_file_finish(EntangleCamera *cam,
                                               GAsyncResult *result,
-                                              GError **err)
+                                              GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  err);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -1670,18 +1632,18 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_delete_file_helper(GSimpleAsyncResult *result,
-                                               GObject *object,
+static void entangle_camera_delete_file_helper(GTask *task,
+                                               gpointer object,
+                                               gpointer task_data,
                                                GCancellable *cancellable G_GNUC_UNUSED)
 {
-    EntangleCameraFile *file;
+    EntangleCameraFile *file = ENTANGLE_CAMERA_FILE(task_data);
     GError *error = NULL;
 
-    file = g_simple_async_result_get_op_res_gpointer(result);
-
     if (!entangle_camera_delete_file(ENTANGLE_CAMERA(object), file, &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -1708,19 +1670,14 @@ void entangle_camera_delete_file_async(EntangleCamera *cam,
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
     g_return_if_fail(ENTANGLE_IS_CAMERA_FILE(file));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_delete_file_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
     g_object_ref(file);
-    g_simple_async_result_set_op_res_gpointer(result, file, g_object_unref);
+    g_task_set_task_data(task, file, g_object_unref);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_delete_file_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_delete_file_helper);
+    g_object_unref(task);
 }
 
 
@@ -1735,12 +1692,11 @@ void entangle_camera_delete_file_async(EntangleCamera *cam,
  */
 gboolean entangle_camera_delete_file_finish(EntangleCamera *cam,
                                             GAsyncResult *result,
-                                            GError **err)
+                                            GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  err);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -1877,18 +1833,18 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_process_events_helper(GSimpleAsyncResult *result,
-                                                  GObject *object,
+static void entangle_camera_process_events_helper(GTask *task,
+                                                  gpointer object,
+                                                  gpointer task_data,
                                                   GCancellable *cancellable G_GNUC_UNUSED)
 {
-    guint64 *waitptr;
+    guint64 *waitptr = task_data;
     GError *error = NULL;
 
-    waitptr = g_simple_async_result_get_op_res_gpointer(result);
-
     if (!entangle_camera_process_events(ENTANGLE_CAMERA(object), *waitptr, &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -1918,19 +1874,14 @@ void entangle_camera_process_events_async(EntangleCamera *cam,
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     guint64 *waitptr = g_new0(guint64, 1);
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_process_events_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
     *waitptr = waitms;
-    g_simple_async_result_set_op_res_gpointer(result, waitptr, g_free);
+    g_task_set_task_data(task, waitptr, g_free);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_process_events_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_process_events_helper);
+    g_object_unref(task);
 }
 
 
@@ -1949,8 +1900,7 @@ gboolean entangle_camera_process_events_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -2465,15 +2415,17 @@ gboolean entangle_camera_load_controls(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_load_controls_helper(GSimpleAsyncResult *result,
-                                                 GObject *object,
+static void entangle_camera_load_controls_helper(GTask *task,
+                                                 gpointer object,
+                                                 gpointer task_data G_GNUC_UNUSED,
                                                  GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
     if (!entangle_camera_load_controls(ENTANGLE_CAMERA(object), &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -2497,16 +2449,11 @@ void entangle_camera_load_controls_async(EntangleCamera *cam,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_load_controls_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_load_controls_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_load_controls_helper);
+    g_object_unref(task);
 }
 
 
@@ -2525,8 +2472,7 @@ gboolean entangle_camera_load_controls_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -2602,15 +2548,17 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
 
 
 
-static void entangle_camera_save_controls_helper(GSimpleAsyncResult *result,
-                                                 GObject *object,
+static void entangle_camera_save_controls_helper(GTask *task,
+                                                 gpointer object,
+                                                 gpointer task_data G_GNUC_UNUSED,
                                                  GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
     if (!entangle_camera_save_controls(ENTANGLE_CAMERA(object), &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -2634,16 +2582,11 @@ void entangle_camera_save_controls_async(EntangleCamera *cam,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_save_controls_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_save_controls_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_save_controls_helper);
+    g_object_unref(task);
 }
 
 
@@ -2662,8 +2605,7 @@ gboolean entangle_camera_save_controls_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -2816,24 +2758,22 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_set_viewfinder_helper(GSimpleAsyncResult *result,
-                                                  GObject *object,
+static void entangle_camera_set_viewfinder_helper(GTask *task,
+                                                  gpointer object,
+                                                  gpointer task_data,
                                                   GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
-    gpointer data;
     gboolean enabled;
 
-    data = g_object_get_data(G_OBJECT(result),
-                             "enabled");
-
-    enabled = GPOINTER_TO_INT(data) == 1 ? TRUE : FALSE;
+    enabled = GPOINTER_TO_INT(task_data) == 1 ? TRUE : FALSE;
 
     if (!entangle_camera_set_viewfinder(ENTANGLE_CAMERA(object),
                                         enabled,
                                         &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -2861,20 +2801,13 @@ void entangle_camera_set_viewfinder_async(EntangleCamera *cam,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_set_viewfinder_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_object_set_data(G_OBJECT(result),
-                      "enabled",
-                      GINT_TO_POINTER(enabled ? 1 : 0));
+    g_task_set_task_data(task, GINT_TO_POINTER(enabled ? 1 : 0), NULL);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_set_viewfinder_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_set_viewfinder_helper);
+    g_object_unref(task);
 }
 
 
@@ -2893,8 +2826,7 @@ gboolean entangle_camera_set_viewfinder_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -2995,16 +2927,18 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_autofocus_helper(GSimpleAsyncResult *result,
-                                             GObject *object,
+static void entangle_camera_autofocus_helper(GTask *task,
+                                             gpointer object,
+                                             gpointer task_data G_GNUC_UNUSED,
                                              GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
     if (!entangle_camera_autofocus(ENTANGLE_CAMERA(object),
                                    &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -3029,16 +2963,11 @@ void entangle_camera_autofocus_async(EntangleCamera *cam,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_autofocus_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_autofocus_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_autofocus_helper);
+    g_object_unref(task);
 }
 
 
@@ -3057,8 +2986,7 @@ gboolean entangle_camera_autofocus_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -3216,21 +3144,19 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_manualfocus_helper(GSimpleAsyncResult *result,
-                                               GObject *object,
+static void entangle_camera_manualfocus_helper(GTask *task,
+                                               gpointer object,
+                                               gpointer task_data,
                                                GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
-    gpointer data;
-
-    data = g_object_get_data(G_OBJECT(result),
-                             "step");
 
     if (!entangle_camera_manualfocus(ENTANGLE_CAMERA(object),
-                                     GPOINTER_TO_INT(data),
+                                     GPOINTER_TO_INT(task_data),
                                      &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
 }
 
@@ -3257,20 +3183,13 @@ void entangle_camera_manualfocus_async(EntangleCamera *cam,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_manualfocus_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_object_set_data(G_OBJECT(result),
-                      "step",
-                      GINT_TO_POINTER(step));
+    g_task_set_task_data(task, GINT_TO_POINTER(step), NULL);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_manualfocus_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_manualfocus_helper);
+    g_object_unref(task);
 }
 
 
@@ -3289,8 +3208,7 @@ gboolean entangle_camera_manualfocus_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -3386,23 +3304,21 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_set_clock_helper(GSimpleAsyncResult *result,
-                                             GObject *object,
+static void entangle_camera_set_clock_helper(GTask *task,
+                                             gpointer object,
+                                             gpointer task_data,
                                              GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
-    guint64 *epochsecsptr;
-
-    epochsecsptr = g_object_get_data(G_OBJECT(result),
-                                     "epochsecs");
+    guint64 *epochsecsptr = task_data;
 
     if (!entangle_camera_set_clock(ENTANGLE_CAMERA(object),
                                    *epochsecsptr,
                                    &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
-    g_free(epochsecsptr);
 }
 
 
@@ -3429,23 +3345,16 @@ void entangle_camera_set_clock_async(EntangleCamera *cam,
     guint64 *epochsecsptr;
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_set_clock_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
     epochsecsptr = g_new0(guint64, 1);
     *epochsecsptr = epochsecs;
 
-    g_object_set_data(G_OBJECT(result),
-                      "epochsecs",
-                      epochsecsptr);
+    g_task_set_task_data(task, epochsecsptr, g_free);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_set_clock_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_set_clock_helper);
+    g_object_unref(task);
 }
 
 
@@ -3464,8 +3373,7 @@ gboolean entangle_camera_set_clock_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -3566,23 +3474,21 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
 }
 
 
-static void entangle_camera_set_capture_target_helper(GSimpleAsyncResult *result,
-                                                      GObject *object,
+static void entangle_camera_set_capture_target_helper(GTask *task,
+                                                      gpointer object,
+                                                      gpointer task_data,
                                                       GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
-    EntangleCameraCaptureTarget *targetptr;
-
-    targetptr = g_object_get_data(G_OBJECT(result),
-                                     "target");
+    EntangleCameraCaptureTarget *targetptr = task_data;
 
     if (!entangle_camera_set_capture_target(ENTANGLE_CAMERA(object),
                                             *targetptr,
                                             &error)) {
-        g_simple_async_result_set_from_error(result, error);
-        g_error_free(error);
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
     }
-    g_free(targetptr);
 }
 
 
@@ -3609,23 +3515,16 @@ void entangle_camera_set_capture_target_async(EntangleCamera *cam,
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     EntangleCameraCaptureTarget *targetptr;
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           callback,
-                                                           user_data,
-                                                           entangle_camera_set_capture_target_async);
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
     targetptr = g_new0(EntangleCameraCaptureTarget, 1);
     *targetptr = target;
 
-    g_object_set_data(G_OBJECT(result),
-                      "target",
-                      targetptr);
+    g_task_set_task_data(task, targetptr, g_free);
 
-    g_simple_async_result_run_in_thread(result,
-                                        entangle_camera_set_capture_target_helper,
-                                        G_PRIORITY_DEFAULT,
-                                        cancellable);
-    g_object_unref(result);
+    g_task_run_in_thread(task,
+                         entangle_camera_set_capture_target_helper);
+    g_object_unref(task);
 }
 
 
@@ -3645,8 +3544,7 @@ gboolean entangle_camera_set_capture_target_finish(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  error);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 
@@ -3887,7 +3785,7 @@ static void entangle_camera_unmount_complete(GObject *object,
                                              GAsyncResult *result,
                                              gpointer user_data)
 {
-    GSimpleAsyncResult *camresult = user_data;
+    GTask *task = G_TASK(user_data);
     GError *err = NULL;
     GMount *mount = G_MOUNT(object);
 
@@ -3896,10 +3794,10 @@ static void entangle_camera_unmount_complete(GObject *object,
                                           &err);
 
     if (err)
-        g_simple_async_result_set_from_error(camresult, err);
-
-    g_simple_async_result_complete(camresult);
-    g_object_unref(camresult);
+        g_task_return_error(task, err);
+    else
+        g_task_return_boolean(task, TRUE);
+    g_object_unref(task);
 }
 
 
@@ -3928,20 +3826,19 @@ void entangle_camera_unmount_async(EntangleCamera *cam,
     data->callback = callback;
     data->user_data = user_data;
 
-    GSimpleAsyncResult *result = g_simple_async_result_new(G_OBJECT(cam),
-                                                           entangle_camera_unmount_cleanup,
-                                                           data,
-                                                           entangle_camera_unmount_async);
+    GTask *task = g_task_new(cam, cancellable,
+                             entangle_camera_unmount_cleanup,
+                             data);
 
     if (data->mount) {
         g_mount_unmount_with_operation(data->mount,
                                        0, NULL,
                                        cancellable,
                                        entangle_camera_unmount_complete,
-                                       result);
+                                       task);
     } else {
-        g_simple_async_result_complete(result);
-        g_object_unref(result);
+        g_task_return_boolean(task, TRUE);
+        g_object_unref(task);
     }
 }
 
@@ -3957,12 +3854,11 @@ void entangle_camera_unmount_async(EntangleCamera *cam,
  */
 gboolean entangle_camera_unmount_finish(EntangleCamera *cam,
                                         GAsyncResult *result,
-                                        GError **err)
+                                        GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    return !g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
-                                                  err);
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 /*
