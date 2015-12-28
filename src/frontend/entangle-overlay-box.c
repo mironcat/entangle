@@ -312,36 +312,6 @@ entangle_overlay_box_get_over_geometry(EntangleOverlayBox *box,
 /*
  *-----------------------------------------------------------------------------
  *
- * entangle_overlay_box_set_background --
- *
- *      Set the background color of the 'underWin' and 'overWin' X windows.
- *
- * Results:
- *      None
- *
- * Side effects:
- *      None
- *
- *-----------------------------------------------------------------------------
- */
-
-static void
-entangle_overlay_box_set_background(EntangleOverlayBox *box)
-{
-    GtkWidget *widget;
-    GtkStyleContext *stylecontext;
-
-    widget = GTK_WIDGET(box);
-    stylecontext = gtk_widget_get_style_context(widget);
-    gtk_style_context_set_background(stylecontext, gtk_widget_get_window(widget));
-    gtk_style_context_set_background(stylecontext, box->priv->underWin);
-    gtk_style_context_set_background(stylecontext, box->priv->overWin);
-}
-
-
-/*
- *-----------------------------------------------------------------------------
- *
  * entangle_overlay_box_realize --
  *
  *      "realize" method of a EntangleOverlayBox.
@@ -408,8 +378,6 @@ entangle_overlay_box_realize(GtkWidget *widget)
         gtk_widget_set_parent_window(priv->over, priv->overWin);
     }
     gdk_window_show(priv->overWin);
-
-    entangle_overlay_box_set_background(box);
 }
 
 
@@ -582,38 +550,6 @@ entangle_overlay_box_size_allocate(GtkWidget *widget,
 /*
  *-----------------------------------------------------------------------------
  *
- * entangle_overlay_box_style_set --
- *
- *      "style_set" method of a EntangleOverlayBox.
- *
- * Results:
- *      None
- *
- * Side effects:
- *      None
- *
- *-----------------------------------------------------------------------------
- */
-
-static void
-entangle_overlay_box_style_set(GtkWidget *widget,
-                               GtkStyle *previousStyle)
-{
-    EntangleOverlayBox *box;
-
-    box = ENTANGLE_OVERLAY_BOX(widget);
-
-    if (gtk_widget_get_realized(widget)) {
-        entangle_overlay_box_set_background(box);
-    }
-
-    GTK_WIDGET_CLASS(entangle_overlay_box_parent_class)->style_set(widget, previousStyle);
-}
-
-
-/*
- *-----------------------------------------------------------------------------
- *
  * entangle_overlay_box_set_child --
  *
  *      Set a child of a EntangleOverlayBox.
@@ -691,7 +627,6 @@ entangle_overlay_box_class_init(EntangleOverlayBoxClass *klass)
     widgetClass->get_preferred_width = entangle_overlay_box_get_preferred_width;
     widgetClass->get_preferred_height = entangle_overlay_box_get_preferred_height;
     widgetClass->size_allocate = entangle_overlay_box_size_allocate;
-    widgetClass->style_set = entangle_overlay_box_style_set;
 
     klass->set_over = entangle_overlay_box_set_over_default;
 
