@@ -90,12 +90,6 @@ class ShooterPluginData(GObject.Object):
     def finished(self):
         return self.count == 0
 
-    def wait(self):
-        if self.interval == 0:
-            # Workaround gphoto bug with camera not ready
-            time.sleep(0.2)
-        else:
-            time.sleep(self.interval)
 
 class ShooterPluginScript(Entangle.ScriptSimple):
     '''The script for controlling the camera'''
