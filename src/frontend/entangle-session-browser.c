@@ -815,7 +815,6 @@ entangle_session_browser_realize(GtkWidget *widget)
     GdkWindow *window;
     GdkWindowAttr attributes;
     gint attributes_mask;
-    GtkStyleContext *context;
 
     gtk_widget_set_realized(widget, TRUE);
 
@@ -857,13 +856,6 @@ entangle_session_browser_realize(GtkWidget *widget)
     priv->bin_window = gdk_window_new(window,
                                       &attributes, attributes_mask);
     gdk_window_set_user_data(priv->bin_window, widget);
-
-    context = gtk_widget_get_style_context(widget);
-
-    gtk_style_context_save(context);
-    gtk_style_context_add_class(context, GTK_STYLE_CLASS_VIEW);
-    gtk_style_context_set_background(context, priv->bin_window);
-    gtk_style_context_restore(context);
 
     gdk_window_show(priv->bin_window);
 }
