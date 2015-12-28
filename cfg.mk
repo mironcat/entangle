@@ -107,7 +107,6 @@ prev_version_file = /dev/null
 msg_gen_function =
 msg_gen_function += g_error
 msg_gen_function += g_set_error
-msg_gen_function += ENTANGLE_ERROR
 
 
 func_or := $(shell printf '$(msg_gen_function)'|tr -s '[[:space:]]' '|')

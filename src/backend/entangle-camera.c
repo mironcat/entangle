@@ -43,12 +43,6 @@
 #define ENTANGLE_CAMERA_GET_PRIVATE(obj)                                \
     (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CAMERA, EntangleCameraPrivate))
 
-#define ENTANGLE_ERROR(err, msg...)                     \
-    g_set_error((err),                                  \
-                g_quark_from_string("entangle-camera"), \
-                0,                                      \
-                msg)
-
 #if GLIB_CHECK_VERSION(2, 31, 0)
 #define g_mutex_new() g_new0(GMutex, 1)
 #define g_mutex_free(m) g_free(m)
@@ -108,7 +102,7 @@ enum {
 
 static GQuark entangle_camera_error_quark(void)
 {
-    return g_quark_from_static_string("entangle-camera-error-quark");
+    return g_quark_from_static_string("entangle-camera-error");
 }
 
 
@@ -1179,7 +1173,8 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
     g_mutex_lock(priv->lock);
 
     if (!priv->cam) {
-        ENTANGLE_ERROR(error, _("Cannot capture image while not connected"));
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Cannot capture image while not connected"));
         goto cleanup;
     }
 
@@ -1192,7 +1187,8 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
                             priv->ctx);
     entangle_camera_end_job(cam);
     if (err!= GP_OK) {
-        ENTANGLE_ERROR(error, _("Unable to capture image: %s"), priv->lastError);
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to capture image: %s"), priv->lastError);
         goto cleanup;
     }
 
@@ -1305,7 +1301,8 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
     g_mutex_lock(priv->lock);
 
     if (!priv->cam) {
-        ENTANGLE_ERROR(error, _("Cannot preview image while not connected"));
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Cannot preview image while not connected"));
         goto cleanup;
     }
 
@@ -1320,18 +1317,21 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
-        ENTANGLE_ERROR(error, _("Unable to capture preview: %s"), priv->lastError);
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to capture preview: %s"), priv->lastError);
         goto cleanup;
     }
 
 
     if (gp_file_get_data_and_size(datafile, &rawdata, &rawdatalen) != GP_OK) {
-        ENTANGLE_ERROR(error, _("Unable to get file data: %s"), priv->lastError);
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to get file data: %s"), priv->lastError);
         goto cleanup;
     }
 
     if (gp_file_get_name(datafile, &name) != GP_OK) {
-        ENTANGLE_ERROR(error, _("Unable to get filename: %s"), priv->lastError);
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to get filename: %s"), priv->lastError);
         goto cleanup;
     }
 
@@ -1452,7 +1452,8 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     g_mutex_lock(priv->lock);
 
     if (!priv->cam) {
-        ENTANGLE_ERROR(error, _("Cannot download file while not connected"));
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Cannot download file while not connected"));
         goto cleanup;
     }
 
@@ -1475,13 +1476,15 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
-        ENTANGLE_ERROR(error, _("Unable to get camera file: %s"), priv->lastError);
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to get camera file: %s"), priv->lastError);
         goto cleanup;
     }
 
     ENTANGLE_DEBUG("Fetching data");
     if (gp_file_get_data_and_size(datafile, &data, &datalen) != GP_OK) {
-        ENTANGLE_ERROR(error, _("Unable to get file data: %s"), priv->lastError);
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to get file data: %s"), priv->lastError);
         goto cleanup;
     }
 
@@ -1600,7 +1603,8 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
     g_mutex_lock(priv->lock);
 
     if (!priv->cam) {
-        ENTANGLE_ERROR(error, _("Cannot delete file while not connected"));
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Cannot delete file while not connected"));
         goto cleanup;
     }
 
@@ -1618,7 +1622,8 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
-        ENTANGLE_ERROR(error, _("Unable to delete file: %s"), priv->lastError);
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to delete file: %s"), priv->lastError);
         goto cleanup;
     }
 
@@ -1733,7 +1738,8 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
     g_mutex_lock(priv->lock);
 
     if (!priv->cam) {
-        ENTANGLE_ERROR(error, _("Cannot wait for events while not connected"));
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Cannot wait for events while not connected"));
         goto cleanup;
     }
 
@@ -1759,7 +1765,8 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
                 ret = TRUE;
                 goto cleanup;
             }
-            ENTANGLE_ERROR(error, _("Unable to wait for events: %s"), priv->lastError);
+            g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                        _("Unable to wait for events: %s"), priv->lastError);
             goto cleanup;
         }
         ENTANGLE_DEBUG("Event type %d", eventType);

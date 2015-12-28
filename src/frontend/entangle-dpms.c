@@ -26,18 +26,20 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#define ENTANGLE_ERROR(err, msg...)                     \
-    g_set_error((err),                                  \
-                g_quark_from_string("entangle-dpms"),   \
-                0,                                      \
-                msg)
-
 #if defined(HAVE_XEXT) && defined(GDK_WINDOWING_X11)
 #include <X11/Xlib.h>
 #include <X11/extensions/dpms.h>
 
 #include <gdk/gdkx.h>
 #endif
+
+#define ENTANGLE_DPMS_ERROR entangle_dpms_error_quark ()
+
+static GQuark entangle_dpms_error_quark(void)
+{
+    return g_quark_from_static_string("entangle-dpms");
+}
+
 
 gboolean entangle_dpms_set_blanking(gboolean enabled,
                                     GError **error)
@@ -53,8 +55,8 @@ gboolean entangle_dpms_set_blanking(gboolean enabled,
 
         if (!DPMSQueryExtension(xdpy, &ignore1, &ignore2) ||
             !DPMSCapable(xdpy)) {
-            ENTANGLE_ERROR(error, "%s",
-                           _("Screen blanking is not available on this display"));
+            g_set_error(error, ENTANGLE_DPMS_ERROR, 0, "%s",
+                        _("Screen blanking is not available on this display"));
             return FALSE;
         }
 
@@ -65,8 +67,8 @@ gboolean entangle_dpms_set_blanking(gboolean enabled,
     }
 #endif
 
-    ENTANGLE_ERROR(error, "%s",
-                   _("Screen blanking is not implemented on this platform"));
+    g_set_error(error, ENTANGLE_DPMS_ERROR, 0, "%s",
+                _("Screen blanking is not implemented on this platform"));
     return FALSE;
 }
 
