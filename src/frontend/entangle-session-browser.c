@@ -918,9 +918,6 @@ entangle_session_browser_scroll_to_item(EntangleSessionBrowser *browser,
         gtk_adjustment_set_value(hadj,
                                  gtk_adjustment_get_value(hadj)
                                  + x + item_area.x + item_area.width - allocation.width);
-
-    gtk_adjustment_changed(hadj);
-    gtk_adjustment_changed(vadj);
 }
 
 
@@ -1164,9 +1161,6 @@ entangle_session_browser_scroll_to_path(EntangleSessionBrowser *browser,
 
         gtk_adjustment_set_value(priv->hadjustment,
                                  gtk_adjustment_get_value(priv->hadjustment) + offset);
-
-        gtk_adjustment_changed(priv->hadjustment);
-        gtk_adjustment_changed(priv->vadjustment);
     } else {
         entangle_session_browser_scroll_to_item(browser, item);
     }
