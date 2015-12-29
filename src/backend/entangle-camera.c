@@ -3055,10 +3055,10 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
         float values[] = {
             [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_COARSE] = 512,
             [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_MEDIUM] = 64,
-            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_FINE] = 16,
+            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_FINE] = 8,
             [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_COARSE] = -512,
             [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_MEDIUM] = -64,
-            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_FINE] = -16,
+            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_FINE] = -8,
         };
 
         float value = values[step];
