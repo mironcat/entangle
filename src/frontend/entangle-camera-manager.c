@@ -1786,7 +1786,7 @@ void entangle_camera_manager_capture(EntangleCameraManager *manager)
         do_capture_widget_sensitivity(manager);
 
         script = entangle_script_config_get_selected(priv->scriptConfig);
-    if (script)
+        if (script)
             entangle_script_execute_async(script,
                                           priv->automata,
                                           priv->taskCancel,
