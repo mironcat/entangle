@@ -2992,7 +2992,7 @@ static void do_entangle_camera_manager_set_builder(EntangleWindow *window,
     gtk_container_add(GTK_CONTAINER(priv->imageScroll), imageViewport);
 
     priv->imageLoader = entangle_image_loader_new();
-    priv->thumbLoader = entangle_thumbnail_loader_new(140, 140);
+    priv->thumbLoader = entangle_thumbnail_loader_new(256, 256);
 
     g_signal_connect(priv->imageLoader, "pixbuf-loaded", G_CALLBACK(do_pixbuf_loaded), NULL);
     g_signal_connect(priv->imageLoader, "metadata-loaded", G_CALLBACK(do_metadata_loaded), NULL);
