@@ -463,6 +463,16 @@ char *entangle_session_next_filename(EntangleSession *session,
 }
 
 
+static gint entangle_session_compare_image(gconstpointer a,
+                                           gconstpointer b)
+{
+    EntangleImage *imga = (EntangleImage *)a;
+    EntangleImage *imgb = (EntangleImage *)b;
+
+    return entangle_image_get_last_modified(imga) -
+        entangle_image_get_last_modified(imgb);
+}
+
 /**
  * entangle_session_add:
  * @session: (transfer none): the session instance
@@ -478,7 +488,10 @@ void entangle_session_add(EntangleSession *session, EntangleImage *image)
     EntangleSessionPrivate *priv = session->priv;
 
     g_object_ref(image);
-    priv->images = g_list_prepend(priv->images, image);
+
+    priv->images = g_list_insert_sorted(priv->images,
+                                        image,
+                                        entangle_session_compare_image);
 
     g_signal_emit_by_name(session, "session-image-added", image);
 }
@@ -553,6 +566,7 @@ gboolean entangle_session_load(EntangleSession *session)
 
     EntangleSessionPrivate *priv = session->priv;
     GFile *dir = g_file_new_for_path(priv->directory);
+    GList *tmp;
     GFileEnumerator *children = g_file_enumerate_children(dir,
                                                           "standard::name,standard::type",
                                                           G_FILE_QUERY_INFO_NONE,
@@ -569,9 +583,7 @@ gboolean entangle_session_load(EntangleSession *session)
                 EntangleImage *image = entangle_image_new_file(g_file_get_path(child));
 
                 ENTANGLE_DEBUG("Adding '%s'", g_file_get_path(child));
-                entangle_session_add(session, image);
-
-                g_object_unref(image);
+                priv->images = g_list_prepend(priv->images, image);
             }
         }
         g_object_unref(child);
@@ -579,6 +591,16 @@ gboolean entangle_session_load(EntangleSession *session)
     }
 
     g_object_unref(children);
+
+    priv->images = g_list_sort(priv->images,
+                               entangle_session_compare_image);
+
+    tmp = priv->images;
+    while (tmp) {
+        EntangleImage *image = ENTANGLE_IMAGE(tmp->data);
+        g_signal_emit_by_name(session, "session-image-added", image);
+        tmp = tmp->next;
+    }
 
     priv->recalculateDigit = TRUE;
 
