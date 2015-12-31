@@ -54,7 +54,7 @@ struct _EntangleThumbnailLoaderClass
 GType entangle_thumbnail_loader_get_type(void) G_GNUC_CONST;
 
 EntangleThumbnailLoader *entangle_thumbnail_loader_new(int width,
-                                               int height);
+                                                       int height);
 
 G_END_DECLS
 

@@ -120,7 +120,7 @@ static char *entangle_thumbnail_loader_uri_to_thumb(const char *uri)
     char *md5 = entangle_thumbnail_loader_uri_to_md5(uri);
     char *thumb;
 
-    thumb = g_strdup_printf("%s/thumbnails/normal/%s.png",
+    thumb = g_strdup_printf("%s/thumbnails/large/%s.png",
                             g_get_user_cache_dir(), md5);
     g_free(md5);
 
@@ -132,7 +132,7 @@ static void entangle_thumbnail_ensure_thumbnail_dir(void)
 {
     char *dir;
 
-    dir = g_strdup_printf("%s/thumbnails/normal/",
+    dir = g_strdup_printf("%s/thumbnails/large/",
                           g_get_user_cache_dir());
 
     g_mkdir_with_parents(dir, 0700);
@@ -169,7 +169,7 @@ static GdkPixbuf *entangle_thumbnail_loader_generate(EntanglePixbufLoader *loade
     if (!master)
         return NULL;
 
-    sw = sh = 128;
+    sw = sh = 256;
     iw = gdk_pixbuf_get_width(master);
     ih = gdk_pixbuf_get_height(master);
 
