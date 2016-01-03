@@ -225,7 +225,7 @@ static gboolean entangle_pixbuf_loader_result(gpointer data)
     ENTANGLE_DEBUG("result %p %p %p", loader, result->image, result->pixbuf);
 
     g_mutex_lock(priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_image_get_filename(result->image));
+    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(result->image)));
     if (!entry) {
         g_mutex_unlock(priv->lock);
         if (result->pixbuf)
@@ -253,7 +253,7 @@ static gboolean entangle_pixbuf_loader_result(gpointer data)
             do_idle_emit(loader, "metadata-loaded", result->image);
         g_mutex_lock(priv->lock);
     } else if (!entry->pending) {
-        g_hash_table_remove(priv->pixbufs, entangle_image_get_filename(result->image));
+        g_hash_table_remove(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(result->image)));
     }
 
     g_object_unref(result->loader);
@@ -285,12 +285,12 @@ static void entangle_pixbuf_loader_worker(gpointer data,
 
     ENTANGLE_DEBUG("worker process job %p %p", loader, image);
     g_mutex_lock(priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_image_get_filename(image));
+    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     if (entry->refs == 0) {
         ENTANGLE_DEBUG("pixbuf already removed");
-        g_hash_table_remove(priv->pixbufs, entangle_image_get_filename(image));
+        g_hash_table_remove(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
         goto cleanup;
     }
     entry->pending = FALSE;
@@ -474,7 +474,7 @@ gboolean entangle_pixbuf_loader_is_ready(EntanglePixbufLoader *loader,
     gboolean ready = FALSE;
 
     g_mutex_lock(priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_image_get_filename(image));
+    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     ready = entry->ready;
@@ -507,7 +507,7 @@ GdkPixbuf *entangle_pixbuf_loader_get_pixbuf(EntanglePixbufLoader *loader,
     GdkPixbuf *pixbuf = NULL;
 
     g_mutex_lock(priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_image_get_filename(image));
+    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     pixbuf = entry->pixbuf;
@@ -540,7 +540,7 @@ GExiv2Metadata *entangle_pixbuf_loader_get_metadata(EntanglePixbufLoader *loader
     GExiv2Metadata *metadata = NULL;
 
     g_mutex_lock(priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_image_get_filename(image));
+    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     metadata = entry->metadata;
@@ -574,11 +574,11 @@ gboolean entangle_pixbuf_loader_load(EntanglePixbufLoader *loader,
 
     ENTANGLE_DEBUG("Queue load %p %p", loader, image);
 
-    if (!entangle_image_get_filename(image))
+    if (!entangle_media_get_filename(ENTANGLE_MEDIA(image)))
         return FALSE;
 
     g_mutex_lock(priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_image_get_filename(image));
+    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (entry) {
         gboolean hasPixbuf = entry->pixbuf != NULL;
         gboolean hasMetadata = entry->metadata != NULL;
@@ -591,7 +591,7 @@ gboolean entangle_pixbuf_loader_load(EntanglePixbufLoader *loader,
         return TRUE;
     }
     entry = entangle_pixbuf_loader_entry_new(image);
-    g_hash_table_insert(priv->pixbufs, g_strdup(entangle_image_get_filename(image)), entry);
+    g_hash_table_insert(priv->pixbufs, g_strdup(entangle_media_get_filename(ENTANGLE_MEDIA(image))), entry);
     g_thread_pool_push(priv->workers, image, NULL);
 
     g_mutex_unlock(priv->lock);
@@ -620,12 +620,12 @@ gboolean entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
     EntanglePixbufLoaderPrivate *priv = loader->priv;
     EntanglePixbufLoaderEntry *entry;
 
-    if (!entangle_image_get_filename(image))
+    if (!entangle_media_get_filename(ENTANGLE_MEDIA(image)))
         return FALSE;
 
     ENTANGLE_DEBUG("Unqueue load %p %p", loader, image);
     g_mutex_lock(priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_image_get_filename(image));
+    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     entry->refs--;
@@ -639,7 +639,7 @@ gboolean entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
             do_idle_emit(loader, "pixbuf-unloaded", image);
         if (hasMetadata)
             do_idle_emit(loader, "metadata-unloaded", image);
-        g_hash_table_remove(priv->pixbufs, entangle_image_get_filename(image));
+        g_hash_table_remove(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     }
 
  cleanup:

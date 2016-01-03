@@ -116,6 +116,9 @@ EXTRA_DIST = \
 	$(NULL)
 
 libentangle_backend_la_SOURCES = \
+	backend/entangle-media.h backend/entangle-media.c \
+	backend/entangle-image.h backend/entangle-image.c \
+	backend/entangle-session.h backend/entangle-session.c \
 	backend/entangle-camera.h backend/entangle-camera.c \
 	backend/entangle-camera-automata.h backend/entangle-camera-automata.c \
 	backend/entangle-camera-file.h backend/entangle-camera-file.c \
@@ -131,12 +134,10 @@ libentangle_backend_la_SOURCES = \
 	backend/entangle-control-toggle.h backend/entangle-control-toggle.c \
 	backend/entangle-debug.h backend/entangle-debug.c \
 	backend/entangle-device-manager.h backend/entangle-device-manager.c \
-	backend/entangle-image.h backend/entangle-image.c \
 	backend/entangle-pixbuf.h backend/entangle-pixbuf.c \
 	backend/entangle-image-loader.h backend/entangle-image-loader.c \
 	backend/entangle-pixbuf-loader.h backend/entangle-pixbuf-loader.c \
 	backend/entangle-progress.h backend/entangle-progress.c \
-	backend/entangle-session.h backend/entangle-session.c \
 	backend/entangle-thumbnail-loader.h backend/entangle-thumbnail-loader.c
 
 nodist_libentangle_backend_la_SOURCES = \

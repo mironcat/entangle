@@ -281,13 +281,13 @@ static gint entangle_session_next_digit(EntangleSession *session)
 
     while (images) {
         EntangleImage *image = images->data;
-        const gchar *name = entangle_image_get_filename(image);
+        const gchar *name = entangle_media_get_filename(ENTANGLE_MEDIA(image));
         gsize used = 0;
         gint digit = 0;
 
         if (!g_str_has_prefix(name, priv->directory)) {
             ENTANGLE_DEBUG("File %s does not match directory",
-                           entangle_image_get_filename(image));
+                           entangle_media_get_filename(ENTANGLE_MEDIA(image)));
             goto next;
         }
         name += strlen(priv->directory);
@@ -297,7 +297,7 @@ static gint entangle_session_next_digit(EntangleSession *session)
         /* Ignore files not matching the template prefix */
         if (!g_str_has_prefix(name, prefix)) {
             ENTANGLE_DEBUG("File %s does not match prefix",
-                           entangle_image_get_filename(image));
+                           entangle_media_get_filename(ENTANGLE_MEDIA(image)));
             goto next;
         }
 
@@ -314,13 +314,13 @@ static gint entangle_session_next_digit(EntangleSession *session)
         /* See if unexpectedly got a non-digit before end of template */
         if (used < templatelen) {
             ENTANGLE_DEBUG("File %s has too few digits",
-                           entangle_image_get_filename(image));
+                           entangle_media_get_filename(ENTANGLE_MEDIA(image)));
             goto next;
         }
 
         if (!g_str_has_prefix(name, postfix)) {
             ENTANGLE_DEBUG("File %s does not match postfix",
-                           entangle_image_get_filename(image));
+                           entangle_media_get_filename(ENTANGLE_MEDIA(image)));
             goto next;
         }
 
@@ -329,14 +329,14 @@ static gint entangle_session_next_digit(EntangleSession *session)
         /* Verify there is a file extension following the digits */
         if (*name != '.') {
             ENTANGLE_DEBUG("File %s has trailing data",
-                           entangle_image_get_filename(image));
+                           entangle_media_get_filename(ENTANGLE_MEDIA(image)));
             goto next;
         }
 
         if (digit > maxDigit)
             maxDigit = digit;
         ENTANGLE_DEBUG("File %s matches maxDigit is %d",
-                       entangle_image_get_filename(image), maxDigit);
+                       entangle_media_get_filename(ENTANGLE_MEDIA(image)), maxDigit);
 
     next:
         images = images->next;
@@ -469,8 +469,8 @@ static gint entangle_session_compare_image(gconstpointer a,
     EntangleImage *imga = (EntangleImage *)a;
     EntangleImage *imgb = (EntangleImage *)b;
 
-    return entangle_image_get_last_modified(imga) -
-        entangle_image_get_last_modified(imgb);
+    return entangle_media_get_last_modified(ENTANGLE_MEDIA(imga)) -
+        entangle_media_get_last_modified(ENTANGLE_MEDIA(imgb));
 }
 
 /**

@@ -76,7 +76,7 @@ static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *displa
     EntangleImage *image = ENTANGLE_IMAGE(priv->images->data);
 
     ENTANGLE_DEBUG("Setting up server pixmap for %p %s",
-                   image, entangle_image_get_filename(image));
+                   image, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
 
     image = ENTANGLE_IMAGE(tmp->data);
     pixbuf = entangle_image_get_pixbuf(image);

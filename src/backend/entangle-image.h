@@ -21,13 +21,9 @@
 #ifndef __ENTANGLE_IMAGE_H__
 #define __ENTANGLE_IMAGE_H__
 
-#include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gexiv2/gexiv2.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 
-#include "entangle-control-group.h"
+#include "entangle-media.h"
 
 G_BEGIN_DECLS
 
@@ -45,14 +41,14 @@ typedef struct _EntangleImageClass EntangleImageClass;
 
 struct _EntangleImage
 {
-    GObject parent;
+    EntangleMedia parent;
 
     EntangleImagePrivate *priv;
 };
 
 struct _EntangleImageClass
 {
-    GObjectClass parent_class;
+    EntangleMediaClass parent_class;
 };
 
 
@@ -61,20 +57,9 @@ GType entangle_image_get_type(void) G_GNUC_CONST;
 EntangleImage *entangle_image_new_file(const char *filename);
 EntangleImage *entangle_image_new_pixbuf(GdkPixbuf *pixbuf);
 
-const char *entangle_image_get_filename(EntangleImage *image);
-
-time_t entangle_image_get_last_modified(EntangleImage *image);
-off_t entangle_image_get_file_size(EntangleImage *image);
-
-gboolean entangle_image_delete(EntangleImage *image, GError **error);
-
 GdkPixbuf *entangle_image_get_pixbuf(EntangleImage *image);
 void entangle_image_set_pixbuf(EntangleImage *image,
                                GdkPixbuf *pixbuf);
-
-GExiv2Metadata *entangle_image_get_metadata(EntangleImage *image);
-void entangle_image_set_metadata(EntangleImage *image,
-                                 GExiv2Metadata *metadata);
 
 G_END_DECLS
 

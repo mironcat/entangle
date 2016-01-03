@@ -232,7 +232,7 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
 {
     EntangleThumbnailLoader *tloader = ENTANGLE_THUMBNAIL_LOADER(loader);
     EntangleThumbnailLoaderPrivate *priv = tloader->priv;
-    char *uri = entangle_thumbnail_loader_path_to_uri(entangle_image_get_filename(image));
+    char *uri = entangle_thumbnail_loader_path_to_uri(entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     char *thumbname = entangle_thumbnail_loader_uri_to_thumb(uri);
     GdkPixbuf *result = NULL;
     GdkPixbuf *thumb = NULL;
@@ -240,8 +240,8 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
     GExiv2Metadata *themetadata = NULL;
 
     /* Sanity check that the base image still exists */
-    if (stat(entangle_image_get_filename(image), &sb) < 0) {
-        ENTANGLE_DEBUG("File %s does not exist", entangle_image_get_filename(image));
+    if (stat(entangle_media_get_filename(ENTANGLE_MEDIA(image)), &sb) < 0) {
+        ENTANGLE_DEBUG("File %s does not exist", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
         goto cleanup;
     }
 

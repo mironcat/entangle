@@ -119,7 +119,7 @@ static gboolean entangle_pixbuf_is_raw(EntangleImage *image)
         ".crw", ".erf", ".mrw", ".raw", ".rw2", ".raf", NULL
     };
     const char **tmp;
-    char *filename = g_utf8_strdown(entangle_image_get_filename(image), -1);
+    char *filename = g_utf8_strdown(entangle_media_get_filename(ENTANGLE_MEDIA(image)), -1);
     gboolean ret = TRUE;
 
     tmp = extlist;
@@ -169,35 +169,35 @@ static GdkPixbuf *entangle_pixbuf_open_image_master_raw(EntangleImage *image)
     raw->params.user_qual = 0;
     raw->params.fbdd_noiserd = 1;
 
-    ENTANGLE_DEBUG("Open raw %s", entangle_image_get_filename(image));
-    if ((ret = libraw_open_file(raw, entangle_image_get_filename(image))) != 0) {
+    ENTANGLE_DEBUG("Open raw %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    if ((ret = libraw_open_file(raw, entangle_media_get_filename(ENTANGLE_MEDIA(image)))) != 0) {
         ENTANGLE_DEBUG("Failed to open raw file: %s",
                        libraw_strerror(ret));
         goto cleanup;
     }
 
-    ENTANGLE_DEBUG("Unpack raw %s", entangle_image_get_filename(image));
+    ENTANGLE_DEBUG("Unpack raw %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if ((ret = libraw_unpack(raw)) != 0) {
         ENTANGLE_DEBUG("Failed to unpack raw file: %s",
                        libraw_strerror(ret));
         goto cleanup;
     }
 
-    ENTANGLE_DEBUG("Process raw %s", entangle_image_get_filename(image));
+    ENTANGLE_DEBUG("Process raw %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if ((ret = libraw_dcraw_process(raw)) != 0) {
         ENTANGLE_DEBUG("Failed to process raw file: %s",
                        libraw_strerror(ret));
         goto cleanup;
     }
 
-    ENTANGLE_DEBUG("Make mem %s", entangle_image_get_filename(image));
+    ENTANGLE_DEBUG("Make mem %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if ((img = libraw_dcraw_make_mem_image(raw, &ret)) == NULL) {
         ENTANGLE_DEBUG("Failed to extract raw file: %s",
                        libraw_strerror(ret));
         goto cleanup;
     }
 
-    ENTANGLE_DEBUG("New pixbuf %s", entangle_image_get_filename(image));
+    ENTANGLE_DEBUG("New pixbuf %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     result = gdk_pixbuf_new_from_data(img->data,
                                       GDK_COLORSPACE_RGB,
                                       FALSE, img->bits,
@@ -218,8 +218,8 @@ static GdkPixbuf *entangle_pixbuf_open_image_master_gdk(EntangleImage *image,
     GdkPixbuf *master;
     GdkPixbuf *result;
 
-    ENTANGLE_DEBUG("Loading %s using GDK Pixbuf", entangle_image_get_filename(image));
-    master = gdk_pixbuf_new_from_file(entangle_image_get_filename(image), NULL);
+    ENTANGLE_DEBUG("Loading %s using GDK Pixbuf", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    master = gdk_pixbuf_new_from_file(entangle_media_get_filename(ENTANGLE_MEDIA(image)), NULL);
 
     if (!master)
         return NULL;
@@ -318,28 +318,28 @@ static GdkPixbuf *entangle_pixbuf_open_image_preview_raw(EntangleImage *image,
         goto cleanup;
     }
 
-    ENTANGLE_DEBUG("Open preview raw %s", entangle_image_get_filename(image));
-    if ((ret = libraw_open_file(raw, entangle_image_get_filename(image))) != 0) {
+    ENTANGLE_DEBUG("Open preview raw %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    if ((ret = libraw_open_file(raw, entangle_media_get_filename(ENTANGLE_MEDIA(image)))) != 0) {
         ENTANGLE_DEBUG("Failed to open preview raw file: %s",
                        libraw_strerror(ret));
         goto cleanup;
     }
 
-    ENTANGLE_DEBUG("Unpack preview raw %s", entangle_image_get_filename(image));
+    ENTANGLE_DEBUG("Unpack preview raw %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if ((ret = libraw_unpack_thumb(raw)) != 0) {
         ENTANGLE_DEBUG("Failed to unpack preview raw file: %s",
                        libraw_strerror(ret));
         goto cleanup;
     }
 
-    ENTANGLE_DEBUG("Adjust preview raw %s", entangle_image_get_filename(image));
+    ENTANGLE_DEBUG("Adjust preview raw %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if ((ret = libraw_adjust_sizes_info_only(raw)) != 0) {
         ENTANGLE_DEBUG("Failed to adjust preview raw file: %s",
                        libraw_strerror(ret));
         goto cleanup;
     }
 
-    ENTANGLE_DEBUG("Make preview mem %s", entangle_image_get_filename(image));
+    ENTANGLE_DEBUG("Make preview mem %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if ((img = libraw_dcraw_make_mem_thumb(raw, &ret)) == NULL) {
         ENTANGLE_DEBUG("Failed to extract preview raw file: %s",
                        libraw_strerror(ret));
@@ -391,7 +391,7 @@ static GdkPixbuf *entangle_pixbuf_open_image_preview_exiv(EntangleImage *image,
     guint32 datalen;
     GExiv2Orientation orient;
 
-    ENTANGLE_DEBUG("Opening preview %s", entangle_image_get_filename(image));
+    ENTANGLE_DEBUG("Opening preview %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
 
     props = gexiv2_metadata_get_preview_properties(metadata);
 
@@ -400,7 +400,7 @@ static GdkPixbuf *entangle_pixbuf_open_image_preview_exiv(EntangleImage *image,
     else
         best = entangle_pixbuf_get_largest_preview(props);
     if (!best) {
-        ENTANGLE_DEBUG("No preview properties for %s", entangle_image_get_filename(image));
+        ENTANGLE_DEBUG("No preview properties for %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
         goto cleanup;
     }
 
@@ -415,12 +415,12 @@ static GdkPixbuf *entangle_pixbuf_open_image_preview_exiv(EntangleImage *image,
                             NULL);
 
     if (!gdk_pixbuf_loader_close(loader, NULL)) {
-        ENTANGLE_DEBUG("Failed to load preview image for %s", entangle_image_get_filename(image));
+        ENTANGLE_DEBUG("Failed to load preview image for %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
         goto cleanup;
     }
 
     if (!(master = gdk_pixbuf_loader_get_pixbuf(loader))) {
-        ENTANGLE_DEBUG("Failed to parse preview for %s", entangle_image_get_filename(image));
+        ENTANGLE_DEBUG("Failed to parse preview for %s", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
         goto cleanup;
     }
 
@@ -500,11 +500,11 @@ GdkPixbuf *entangle_pixbuf_open_image(EntangleImage *image,
                                       gboolean applyOrientation,
                                       GExiv2Metadata **metadata)
 {
-    ENTANGLE_DEBUG("Open image %s %d", entangle_image_get_filename(image), slot);
+    ENTANGLE_DEBUG("Open image %s %d", entangle_media_get_filename(ENTANGLE_MEDIA(image)), slot);
     GExiv2Metadata *themetadata = gexiv2_metadata_new();
     GdkPixbuf *ret = NULL;
 
-    if (!gexiv2_metadata_open_path(themetadata, entangle_image_get_filename(image), NULL)) {
+    if (!gexiv2_metadata_open_path(themetadata, entangle_media_get_filename(ENTANGLE_MEDIA(image)), NULL)) {
         g_object_unref(themetadata);
         themetadata = NULL;
     }

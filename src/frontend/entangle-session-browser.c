@@ -190,7 +190,7 @@ static void do_image_added(EntangleSession *session G_GNUC_UNUSED,
     EntangleSessionBrowser *browser = data;
     EntangleSessionBrowserPrivate *priv = browser->priv;
 
-    ENTANGLE_DEBUG("Request image %s for new image", entangle_image_get_filename(img));
+    ENTANGLE_DEBUG("Request image %s for new image", entangle_media_get_filename(ENTANGLE_MEDIA(img)));
     entangle_pixbuf_loader_load(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
 
     entangle_session_browser_select_image(browser,
@@ -207,7 +207,7 @@ static void do_image_removed(EntangleSession *session G_GNUC_UNUSED,
     EntangleSessionBrowser *browser = data;
     EntangleSessionBrowserPrivate *priv = browser->priv;
 
-    ENTANGLE_DEBUG("Unrequest image %s for new image", entangle_image_get_filename(img));
+    ENTANGLE_DEBUG("Unrequest image %s for new image", entangle_media_get_filename(ENTANGLE_MEDIA(img)));
     entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
 
     if (priv->selectedIndex >= 0) {
@@ -599,7 +599,7 @@ entangle_session_browser_query_tooltip(GtkWidget *widget,
     rect.height = priv->itemsize;
     rect.width = priv->itemsize;
 
-    filename = entangle_image_get_filename(img);
+    filename = entangle_media_get_filename(ENTANGLE_MEDIA(img));
     if (filename) {
         gtk_tooltip_set_text(tooltip, filename);
         gtk_tooltip_set_tip_area(tooltip, &rect);
