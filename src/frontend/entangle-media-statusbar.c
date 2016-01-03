@@ -23,15 +23,15 @@
 #include <string.h>
 
 #include "entangle-debug.h"
-#include "entangle-image-statusbar.h"
-#include "entangle-image.h"
+#include "entangle-media-statusbar.h"
+#include "entangle-media.h"
 
-#define ENTANGLE_IMAGE_STATUSBAR_GET_PRIVATE(obj)                       \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_IMAGE_STATUSBAR, EntangleImageStatusbarPrivate))
+#define ENTANGLE_MEDIA_STATUSBAR_GET_PRIVATE(obj)                       \
+    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_MEDIA_STATUSBAR, EntangleMediaStatusbarPrivate))
 
-struct _EntangleImageStatusbarPrivate {
-    gulong imageNotifyID;
-    EntangleImage *image;
+struct _EntangleMediaStatusbarPrivate {
+    gulong mediaNotifyID;
+    EntangleMedia *media;
 
     GtkWidget *metaBox;
 
@@ -42,26 +42,26 @@ struct _EntangleImageStatusbarPrivate {
     GtkWidget *metaDimensions;
 };
 
-G_DEFINE_TYPE(EntangleImageStatusbar, entangle_image_statusbar, GTK_TYPE_BOX);
+G_DEFINE_TYPE(EntangleMediaStatusbar, entangle_media_statusbar, GTK_TYPE_BOX);
 
 enum {
     PROP_O,
-    PROP_IMAGE,
+    PROP_MEDIA,
 };
 
 
-static void entangle_image_statusbar_get_property(GObject *object,
+static void entangle_media_statusbar_get_property(GObject *object,
                                                   guint prop_id,
                                                   GValue *value,
                                                   GParamSpec *pspec)
 {
-    EntangleImageStatusbar *statusbar = ENTANGLE_IMAGE_STATUSBAR(object);
-    EntangleImageStatusbarPrivate *priv = statusbar->priv;
+    EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
+    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
 
     switch (prop_id)
         {
-        case PROP_IMAGE:
-            g_value_set_object(value, priv->image);
+        case PROP_MEDIA:
+            g_value_set_object(value, priv->media);
             break;
 
         default:
@@ -70,19 +70,19 @@ static void entangle_image_statusbar_get_property(GObject *object,
 }
 
 
-static void entangle_image_statusbar_set_property(GObject *object,
+static void entangle_media_statusbar_set_property(GObject *object,
                                                   guint prop_id,
                                                   const GValue *value,
                                                   GParamSpec *pspec)
 {
-    EntangleImageStatusbar *statusbar = ENTANGLE_IMAGE_STATUSBAR(object);
+    EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
 
-    ENTANGLE_DEBUG("Set prop on image statusbar %d", prop_id);
+    ENTANGLE_DEBUG("Set prop on media statusbar %d", prop_id);
 
     switch (prop_id)
         {
-        case PROP_IMAGE:
-            entangle_image_statusbar_set_image(statusbar, g_value_get_object(value));
+        case PROP_MEDIA:
+            entangle_media_statusbar_set_media(statusbar, g_value_get_object(value));
             break;
 
         default:
@@ -91,21 +91,21 @@ static void entangle_image_statusbar_set_property(GObject *object,
 }
 
 
-static void entangle_image_statusbar_finalize(GObject *object)
+static void entangle_media_statusbar_finalize(GObject *object)
 {
-    EntangleImageStatusbar *statusbar = ENTANGLE_IMAGE_STATUSBAR(object);
-    EntangleImageStatusbarPrivate *priv = statusbar->priv;
+    EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
+    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
 
-    if (priv->image) {
-        g_signal_handler_disconnect(priv->image, priv->imageNotifyID);
-        g_object_unref(priv->image);
+    if (priv->media) {
+        g_signal_handler_disconnect(priv->media, priv->mediaNotifyID);
+        g_object_unref(priv->media);
     }
 
-    G_OBJECT_CLASS(entangle_image_statusbar_parent_class)->finalize(object);
+    G_OBJECT_CLASS(entangle_media_statusbar_parent_class)->finalize(object);
 }
 
 
-static gboolean entangle_image_statusbar_draw(GtkWidget *widget,
+static gboolean entangle_media_statusbar_draw(GtkWidget *widget,
                                               cairo_t *cr)
 {
     int ww, wh;
@@ -119,50 +119,50 @@ static gboolean entangle_image_statusbar_draw(GtkWidget *widget,
     cairo_fill(cr);
     cairo_restore(cr);
 
-    GTK_WIDGET_CLASS(entangle_image_statusbar_parent_class)->draw(widget, cr);
+    GTK_WIDGET_CLASS(entangle_media_statusbar_parent_class)->draw(widget, cr);
     return TRUE;
 }
 
 
-static void entangle_image_statusbar_class_init(EntangleImageStatusbarClass *klass)
+static void entangle_media_statusbar_class_init(EntangleMediaStatusbarClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 
-    object_class->finalize = entangle_image_statusbar_finalize;
-    object_class->get_property = entangle_image_statusbar_get_property;
-    object_class->set_property = entangle_image_statusbar_set_property;
+    object_class->finalize = entangle_media_statusbar_finalize;
+    object_class->get_property = entangle_media_statusbar_get_property;
+    object_class->set_property = entangle_media_statusbar_set_property;
 
-    widget_class->draw = entangle_image_statusbar_draw;
+    widget_class->draw = entangle_media_statusbar_draw;
 
     g_object_class_install_property(object_class,
-                                    PROP_IMAGE,
-                                    g_param_spec_object("image",
-                                                        "Image",
-                                                        "Image",
-                                                        ENTANGLE_TYPE_IMAGE,
+                                    PROP_MEDIA,
+                                    g_param_spec_object("media",
+                                                        "Media",
+                                                        "Media",
+                                                        ENTANGLE_TYPE_MEDIA,
                                                         G_PARAM_READWRITE |
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
 
-    g_type_class_add_private(klass, sizeof(EntangleImageStatusbarPrivate));
+    g_type_class_add_private(klass, sizeof(EntangleMediaStatusbarPrivate));
 }
 
 
-EntangleImageStatusbar *entangle_image_statusbar_new(void)
+EntangleMediaStatusbar *entangle_media_statusbar_new(void)
 {
-    return ENTANGLE_IMAGE_STATUSBAR(g_object_new(ENTANGLE_TYPE_IMAGE_STATUSBAR, NULL));
+    return ENTANGLE_MEDIA_STATUSBAR(g_object_new(ENTANGLE_TYPE_MEDIA_STATUSBAR, NULL));
 }
 
 
-static void entangle_image_statusbar_init(EntangleImageStatusbar *statusbar)
+static void entangle_media_statusbar_init(EntangleMediaStatusbar *statusbar)
 {
-    g_return_if_fail(ENTANGLE_IS_IMAGE_STATUSBAR(statusbar));
+    g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
 
-    EntangleImageStatusbarPrivate *priv;
+    EntangleMediaStatusbarPrivate *priv;
 
-    priv = statusbar->priv = ENTANGLE_IMAGE_STATUSBAR_GET_PRIVATE(statusbar);
+    priv = statusbar->priv = ENTANGLE_MEDIA_STATUSBAR_GET_PRIVATE(statusbar);
 
     priv->metaBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
     g_object_set(priv->metaBox, "homogeneous", TRUE, NULL);
@@ -188,12 +188,12 @@ static void entangle_image_statusbar_init(EntangleImageStatusbar *statusbar)
 }
 
 
-static void entangle_image_statusbar_update_labels(EntangleImageStatusbar *statusbar)
+static void entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statusbar)
 {
-    g_return_if_fail(ENTANGLE_IS_IMAGE_STATUSBAR(statusbar));
+    g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
 
-    EntangleImageStatusbarPrivate *priv = statusbar->priv;
-    GExiv2Metadata *metadata = entangle_media_get_metadata(ENTANGLE_MEDIA(priv->image));
+    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
+    GExiv2Metadata *metadata = entangle_media_get_metadata(ENTANGLE_MEDIA(priv->media));
     gchar *shutter = NULL;
     gchar *aperture = NULL;
     gchar *focal = NULL;
@@ -260,66 +260,66 @@ static void entangle_image_statusbar_update_labels(EntangleImageStatusbar *statu
 }
 
 
-static void entangle_image_statusbar_image_metadata_notify(GObject *image G_GNUC_UNUSED,
+static void entangle_media_statusbar_media_metadata_notify(GObject *media G_GNUC_UNUSED,
                                                            GParamSpec *pspec G_GNUC_UNUSED,
                                                            gpointer data)
 {
-    g_return_if_fail(ENTANGLE_IS_IMAGE_STATUSBAR(data));
+    g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(data));
 
-    EntangleImageStatusbar *statusbar = ENTANGLE_IMAGE_STATUSBAR(data);
+    EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(data);
 
-    entangle_image_statusbar_update_labels(statusbar);
+    entangle_media_statusbar_update_labels(statusbar);
 }
 
 
 /**
- * entangle_image_statusbar_set_image:
+ * entangle_media_statusbar_set_media:
  * @statusbar: (transfer none): the status bar widget
- * @image: (transfer none)(allow-none): the image to display status for, or NULL
+ * @media: (transfer none)(allow-none): the media to display status for, or NULL
  *
- * Set the image to display status information for
+ * Set the media to display status information for
  */
-void entangle_image_statusbar_set_image(EntangleImageStatusbar *statusbar,
-                                        EntangleImage *image)
+void entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
+                                        EntangleMedia *media)
 {
-    g_return_if_fail(ENTANGLE_IS_IMAGE_STATUSBAR(statusbar));
-    g_return_if_fail(!image || ENTANGLE_IS_IMAGE(image));
+    g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
+    g_return_if_fail(!media || ENTANGLE_IS_MEDIA(media));
 
-    EntangleImageStatusbarPrivate *priv = statusbar->priv;
+    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
 
-    if (priv->image) {
-        g_signal_handler_disconnect(priv->image, priv->imageNotifyID);
-        g_object_unref(priv->image);
+    if (priv->media) {
+        g_signal_handler_disconnect(priv->media, priv->mediaNotifyID);
+        g_object_unref(priv->media);
     }
-    priv->image = image;
-    if (priv->image) {
-        g_object_ref(priv->image);
-        priv->imageNotifyID = g_signal_connect(priv->image,
+    priv->media = media;
+    if (priv->media) {
+        g_object_ref(priv->media);
+        priv->mediaNotifyID = g_signal_connect(priv->media,
                                                "notify::metadata",
-                                               G_CALLBACK(entangle_image_statusbar_image_metadata_notify),
+                                               G_CALLBACK(entangle_media_statusbar_media_metadata_notify),
                                                statusbar);
     }
 
-    entangle_image_statusbar_update_labels(statusbar);
+    entangle_media_statusbar_update_labels(statusbar);
     gtk_widget_queue_draw(GTK_WIDGET(statusbar));
 }
 
 
 /**
- * entangle_image_statusbar_get_image:
+ * entangle_media_statusbar_get_media:
  * @statusbar: (transfer none): the status bar widget
  *
- * Retrieve the image that status is currently displayed for
+ * Retrieve the media that status is currently displayed for
  *
- * Returns: (transfer none): the image displayed
+ * Returns: (transfer none): the media displayed
  */
-EntangleImage *entangle_image_statusbar_get_image(EntangleImageStatusbar *statusbar)
+EntangleMedia *entangle_media_statusbar_get_media(EntangleMediaStatusbar *statusbar)
 {
-    g_return_val_if_fail(ENTANGLE_IS_IMAGE_STATUSBAR(statusbar), NULL);
+    g_return_val_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar), NULL);
 
-    EntangleImageStatusbarPrivate *priv = statusbar->priv;
+    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
 
-    return priv->image;
+    return priv->media;
 }
 
 /*

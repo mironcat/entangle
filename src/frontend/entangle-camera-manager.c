@@ -39,7 +39,7 @@
 #include "entangle-camera-picker.h"
 #include "entangle-session.h"
 #include "entangle-image-display.h"
-#include "entangle-image-statusbar.h"
+#include "entangle-media-statusbar.h"
 #include "entangle-image-loader.h"
 #include "entangle-thumbnail-loader.h"
 #include "entangle-image-popup.h"
@@ -76,7 +76,7 @@ struct _EntangleCameraManagerPrivate {
     EntangleColourProfileTransform *colourTransform;
     GtkScrolledWindow *imageScroll;
     EntangleImageDisplay *imageDisplay;
-    EntangleImageStatusbar *imageStatusbar;
+    EntangleMediaStatusbar *mediaStatusbar;
     GtkRevealer *imageDrawer;
     gulong imageDrawerTimer;
     EntangleSessionBrowser *sessionBrowser;
@@ -725,7 +725,7 @@ static void do_select_image(EntangleCameraManager *manager,
         g_object_unref(priv->currentImage);
     priv->currentImage = image;
 
-    entangle_image_statusbar_set_image(priv->imageStatusbar, priv->currentImage);
+    entangle_media_statusbar_set_media(priv->mediaStatusbar, ENTANGLE_MEDIA(priv->currentImage));
     entangle_image_histogram_set_image(priv->imageHistogram, priv->currentImage);
     if (priv->imagePresentation)
         entangle_image_popup_set_image(priv->imagePresentation, priv->currentImage);
@@ -2985,7 +2985,7 @@ static void do_entangle_camera_manager_set_builder(EntangleWindow *window,
     g_signal_connect(priv->imageLoader, "metadata-unloaded", G_CALLBACK(do_metadata_unloaded), NULL);
 
     priv->imageDisplay = entangle_image_display_new();
-    priv->imageStatusbar = entangle_image_statusbar_new();
+    priv->mediaStatusbar = entangle_media_statusbar_new();
     priv->imageDrawer = GTK_REVEALER(gtk_revealer_new());
     priv->sessionBrowser = entangle_session_browser_new();
     priv->sessionBrowserMenu = GTK_MENU(gtk_builder_get_object(priv->builder, "menu-session-browser"));
@@ -3035,8 +3035,8 @@ static void do_entangle_camera_manager_set_builder(EntangleWindow *window,
     gtk_overlay_add_overlay(GTK_OVERLAY(imageOverlay), GTK_WIDGET(priv->imageDrawer));
     gtk_overlay_set_overlay_pass_through(GTK_OVERLAY(imageOverlay),
                                          GTK_WIDGET(priv->imageDrawer), TRUE);
-    gtk_container_add(GTK_CONTAINER(priv->imageDrawer), GTK_WIDGET(priv->imageStatusbar));
-    g_object_set(G_OBJECT(priv->imageStatusbar),
+    gtk_container_add(GTK_CONTAINER(priv->imageDrawer), GTK_WIDGET(priv->mediaStatusbar));
+    g_object_set(G_OBJECT(priv->mediaStatusbar),
                  "valign", GTK_ALIGN_START,
                  NULL);
 
@@ -3044,7 +3044,7 @@ static void do_entangle_camera_manager_set_builder(EntangleWindow *window,
     gtk_revealer_set_transition_type(priv->imageDrawer,
                                      GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
     gtk_widget_show(GTK_WIDGET(priv->imageDrawer));
-    gtk_widget_show(GTK_WIDGET(priv->imageStatusbar));
+    gtk_widget_show(GTK_WIDGET(priv->mediaStatusbar));
 
     gtk_widget_realize(GTK_WIDGET(manager));
     GdkWindow *imgWin = gtk_widget_get_window(GTK_WIDGET(manager));
