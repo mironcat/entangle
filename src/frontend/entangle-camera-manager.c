@@ -103,7 +103,6 @@ struct _EntangleCameraManagerPrivate {
     gulong sigFilePreview;
     gulong sigChanged;
     gulong sigPrefsNotify;
-    gulong sigImageAdd;
 
     GCancellable *monitorCancel;
     GCancellable *taskCancel;
@@ -1296,15 +1295,6 @@ static void do_camera_removed(EntangleCameraList *cameras G_GNUC_UNUSED,
 }
 
 
-static void do_session_image_added(EntangleSession *session G_GNUC_UNUSED,
-                                   EntangleImage *img,
-                                   gpointer data)
-{
-    EntangleCameraManager *manager = data;
-
-    do_select_image(manager, img);
-}
-
 static void do_camera_manager_set_session(EntangleCameraManager *manager,
                                           EntangleSession *session)
 {
@@ -1312,8 +1302,6 @@ static void do_camera_manager_set_session(EntangleCameraManager *manager,
 
     if (priv->session) {
         entangle_camera_automata_set_session(priv->automata, priv->session);
-        g_signal_handler_disconnect(priv->camera, priv->sigImageAdd);
-        priv->sigImageAdd = 0;
         g_object_unref(priv->session);
         priv->session = NULL;
     }
@@ -1321,9 +1309,6 @@ static void do_camera_manager_set_session(EntangleCameraManager *manager,
         EntanglePreferences *prefs = entangle_camera_manager_get_preferences(manager);
         priv->session = g_object_ref(session);
         entangle_session_load(priv->session);
-        priv->sigImageAdd = g_signal_connect(priv->session,
-                                             "session-image-added",
-                                             G_CALLBACK(do_session_image_added), manager);
 
         entangle_preferences_capture_set_last_session(prefs,
                                                       entangle_session_directory(priv->session));
@@ -2613,11 +2598,9 @@ static void do_session_image_selected(GtkIconView *view G_GNUC_UNUSED,
     EntangleImage *img = entangle_session_browser_selected_image(priv->sessionBrowser);
 
     ENTANGLE_DEBUG("Image selection changed");
-    if (img) {
-        ENTANGLE_DEBUG("Try load");
-        do_select_image(manager, img);
+    do_select_image(manager, img);
+    if (img)
         g_object_unref(img);
-    }
 }
 
 
