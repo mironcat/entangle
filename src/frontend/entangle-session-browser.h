@@ -23,7 +23,7 @@
 
 #include <gtk/gtk.h>
 
-#include "entangle-image.h"
+#include "entangle-media.h"
 #include "entangle-thumbnail-loader.h"
 #include "entangle-session.h"
 
@@ -59,11 +59,11 @@ GType entangle_session_browser_get_type(void) G_GNUC_CONST;
 
 EntangleSessionBrowser* entangle_session_browser_new(void);
 
-EntangleImage *entangle_session_browser_selected_image(EntangleSessionBrowser *browser);
+EntangleMedia *entangle_session_browser_get_selected_media(EntangleSessionBrowser *browser);
 
-GList *entangle_session_browser_earlier_images(EntangleSessionBrowser *browser,
-                                               gboolean include_selected,
-                                               gsize count);
+GList *entangle_session_browser_get_earlier_images(EntangleSessionBrowser *browser,
+                                                   gboolean include_selected,
+                                                   gsize count);
 
 void entangle_session_browser_set_thumbnail_loader(EntangleSessionBrowser *browser,
                                                    EntangleThumbnailLoader *loader);
@@ -74,7 +74,7 @@ void entangle_session_browser_set_session(EntangleSessionBrowser *browser,
                                           EntangleSession *session);
 EntangleSession *entangle_session_browser_get_session(EntangleSessionBrowser *browser);
 
-EntangleImage *entangle_session_browser_get_image_at_coords(EntangleSessionBrowser *browser,
+EntangleMedia *entangle_session_browser_get_media_at_coords(EntangleSessionBrowser *browser,
                                                             gint x, gint y);
 
 void entangle_session_browser_set_background(EntangleSessionBrowser *browser,

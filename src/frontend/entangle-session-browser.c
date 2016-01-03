@@ -40,13 +40,14 @@ struct _EntangleSessionBrowserPrivate {
     gulong sigMediaRemoved;
     gulong sigThumbReady;
 
-    EntangleImage *selectedImage;
+    EntangleMedia *selectedMedia;
     gint selectedIndex;
 
     GtkAdjustment *hadjustment;
     GtkAdjustment *vadjustment;
 
     GdkPixbuf *imageIcon;
+    GdkPixbuf *videoIcon;
 
     guint hscroll_policy : 1;
     guint vscroll_policy : 1;
@@ -140,29 +141,29 @@ entangle_session_browser_scroll_to_selected(EntangleSessionBrowser *browser)
 
 
 static gboolean
-entangle_session_browser_select_image(EntangleSessionBrowser *browser,
+entangle_session_browser_select_media(EntangleSessionBrowser *browser,
                                       int idx)
 {
     EntangleSessionBrowserPrivate *priv = browser->priv;
-    EntangleImage *img;
+    EntangleMedia *media;
 
     if (idx == -1) {
-        img = NULL;
+        media = NULL;
     } else {
-        img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, idx));
-        if (!img) {
+        media = entangle_session_get_media(priv->session, idx);
+        if (!media) {
             idx = -1;
         }
     }
     if (idx != priv->selectedIndex ||
-        img != priv->selectedImage) {
-        if (priv->selectedImage) {
-            g_object_unref(priv->selectedImage);
+        media != priv->selectedMedia) {
+        if (priv->selectedMedia) {
+            g_object_unref(priv->selectedMedia);
         }
-        priv->selectedImage = img;
+        priv->selectedMedia = media;
         priv->selectedIndex = idx;
-        if (img) {
-            g_object_ref(priv->selectedImage);
+        if (media) {
+            g_object_ref(priv->selectedMedia);
         }
         entangle_session_browser_scroll_to_selected(browser);
         g_signal_emit(browser, browser_signals[SIGNAL_SELECTION_CHANGED], 0);
@@ -189,12 +190,13 @@ static void do_media_added(EntangleSession *session G_GNUC_UNUSED,
 {
     EntangleSessionBrowser *browser = data;
     EntangleSessionBrowserPrivate *priv = browser->priv;
-    EntangleImage *img = ENTANGLE_IMAGE(media);
 
-    ENTANGLE_DEBUG("Request image %s for new image", entangle_media_get_filename(ENTANGLE_MEDIA(img)));
-    entangle_pixbuf_loader_load(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
+    ENTANGLE_DEBUG("Request image %s for new image", entangle_media_get_filename(media));
+    if (ENTANGLE_IS_IMAGE(media))
+        entangle_pixbuf_loader_load(ENTANGLE_PIXBUF_LOADER(priv->loader),
+                                    ENTANGLE_IMAGE(media));
 
-    entangle_session_browser_select_image(browser,
+    entangle_session_browser_select_media(browser,
                                           entangle_session_get_media_count(priv->session) - 1);
     gtk_widget_queue_resize(GTK_WIDGET(browser));
 }
@@ -207,15 +209,16 @@ static void do_media_removed(EntangleSession *session G_GNUC_UNUSED,
 {
     EntangleSessionBrowser *browser = data;
     EntangleSessionBrowserPrivate *priv = browser->priv;
-    EntangleImage *img = ENTANGLE_IMAGE(media);
 
-    ENTANGLE_DEBUG("Unrequest image %s for new image", entangle_media_get_filename(ENTANGLE_MEDIA(img)));
-    entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
+    ENTANGLE_DEBUG("Unrequest image %s for new image", entangle_media_get_filename(media));
+    if (ENTANGLE_IS_IMAGE(media))
+        entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(priv->loader),
+                                      ENTANGLE_IMAGE(media));
 
     if (priv->selectedIndex >= 0) {
-        img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, priv->selectedIndex));
-        if (img != priv->selectedImage) {
-            entangle_session_browser_select_image(browser, priv->selectedIndex - 1);
+        media = entangle_session_get_media(priv->session, priv->selectedIndex);
+        if (media != priv->selectedMedia) {
+            entangle_session_browser_select_media(browser, priv->selectedIndex - 1);
         }
     }
 
@@ -241,13 +244,15 @@ static void do_model_unload(EntangleSessionBrowser *browser)
 
     count = entangle_session_get_media_count(priv->session);
     for (int i = 0; i < count; i++) {
-        EntangleImage *img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, i));
-        entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
+        EntangleMedia *media = entangle_session_get_media(priv->session, i);
+        if (ENTANGLE_IS_IMAGE(media))
+            entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(priv->loader),
+                                          ENTANGLE_IMAGE(media));
     }
     priv->selectedIndex = -1;
-    if (priv->selectedImage)
-        g_object_unref(priv->selectedImage);
-    priv->selectedImage = NULL;
+    if (priv->selectedMedia)
+        g_object_unref(priv->selectedMedia);
+    priv->selectedMedia = NULL;
 }
 
 static void do_model_load(EntangleSessionBrowser *browser)
@@ -268,13 +273,15 @@ static void do_model_load(EntangleSessionBrowser *browser)
 
     count = entangle_session_get_media_count(priv->session);
     for (int i = 0; i < count; i++) {
-        EntangleImage *img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, i));
+        EntangleMedia *media = entangle_session_get_media(priv->session, i);
 
-        entangle_pixbuf_loader_load(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
+        if (ENTANGLE_IS_IMAGE(media))
+            entangle_pixbuf_loader_load(ENTANGLE_PIXBUF_LOADER(priv->loader),
+                                        ENTANGLE_IMAGE(media));
     }
 
     if (count) {
-        entangle_session_browser_select_image(browser, count - 1);
+        entangle_session_browser_select_media(browser, count - 1);
     }
 }
 
@@ -467,16 +474,16 @@ static int entangle_session_browser_get_index_at_coords(EntangleSessionBrowser *
 
 
 /**
- * entangle_session_browser_get_image_at_coords:
+ * entangle_session_browser_get_media_at_coords:
  * @browser: (transfer none): the session browser
  * @x: the horizontal co-ordinate
  * @y: the vertical co-ordinate
  *
- * Retrieve the image displayed at the co-ordinates (@x, @y)
+ * Retrieve the media displayed at the co-ordinates (@x, @y)
  *
- * Returns: (transfer none): the image, or NULL
+ * Returns: (transfer none): the media, or NULL
  */
-EntangleImage *entangle_session_browser_get_image_at_coords(EntangleSessionBrowser *browser,
+EntangleMedia *entangle_session_browser_get_media_at_coords(EntangleSessionBrowser *browser,
                                                             gint x, gint y)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
@@ -485,7 +492,7 @@ EntangleImage *entangle_session_browser_get_image_at_coords(EntangleSessionBrows
     int idx = entangle_session_browser_get_index_at_coords(browser, x, y);
 
     if (idx >= 0)
-        return ENTANGLE_IMAGE(entangle_session_get_media(priv->session, idx));
+        return entangle_session_get_media(priv->session, idx);
     else
         return NULL;
 }
@@ -516,7 +523,7 @@ entangle_session_browser_button_press(GtkWidget *widget,
                                                            event->y);
 
         if (idx >= 0 &&
-            entangle_session_browser_select_image(browser, idx)) {
+            entangle_session_browser_select_media(browser, idx)) {
             priv->dnd_start_x = event->x;
             priv->dnd_start_y = event->y;
         }
@@ -582,17 +589,17 @@ entangle_session_browser_query_tooltip(GtkWidget *widget,
     gint bx = 0;
     gint by = 0;
     GdkRectangle rect;
-    EntangleImage *img;
+    EntangleMedia *media;
     const gchar *filename;
 
     entangle_session_browser_convert_widget_to_bin_window_coords(browser,
                                                                  x, y,
                                                                  &bx, &by);
 
-    img = entangle_session_browser_get_image_at_coords(browser,
+    media = entangle_session_browser_get_media_at_coords(browser,
                                                        bx, by);
 
-    if (img == NULL) {
+    if (media == NULL) {
         return FALSE;
     }
 
@@ -601,7 +608,7 @@ entangle_session_browser_query_tooltip(GtkWidget *widget,
     rect.height = priv->itemsize;
     rect.width = priv->itemsize;
 
-    filename = entangle_media_get_filename(ENTANGLE_MEDIA(img));
+    filename = entangle_media_get_filename(media);
     if (filename) {
         gtk_tooltip_set_text(tooltip, filename);
         gtk_tooltip_set_tip_area(tooltip, &rect);
@@ -652,13 +659,13 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
     EntangleSessionBrowserPrivate *priv = browser->priv;
-    GdkPixbuf *pixbuf;
+    GdkPixbuf *pixbuf = NULL;
     GtkTargetEntry tentry[] = {
         { g_strdup("demo"), GTK_TARGET_SAME_APP, 0,}
     };
     GtkTargetList *tlist;
     GdkDragContext *ctx;
-    EntangleImage *img;
+    EntangleMedia *media;
 
     if (priv->dnd_start_y == -1 || priv->dnd_start_x == -1)
         return FALSE;
@@ -669,21 +676,23 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
                                   event->x, event->y))
         return TRUE;
 
-    img = entangle_session_browser_get_image_at_coords(browser,
-                                                       priv->dnd_start_x,
-                                                       priv->dnd_start_y);
+    media = entangle_session_browser_get_media_at_coords(browser,
+                                                         priv->dnd_start_x,
+                                                         priv->dnd_start_y);
 
-    if (!img) {
+    if (!media) {
         priv->dnd_start_x = priv->dnd_start_y = -1;
         return FALSE;
     }
 
-    pixbuf = entangle_pixbuf_loader_get_pixbuf(ENTANGLE_PIXBUF_LOADER(priv->loader),
-                                               img);
+    if (ENTANGLE_IS_IMAGE(media)) {
+        pixbuf = entangle_pixbuf_loader_get_pixbuf(ENTANGLE_PIXBUF_LOADER(priv->loader),
+                                                   ENTANGLE_IMAGE(media));
 
-    if (!pixbuf) {
-        priv->dnd_start_x = priv->dnd_start_y = -1;
-        return FALSE;
+        if (!pixbuf) {
+            priv->dnd_start_x = priv->dnd_start_y = -1;
+            return FALSE;
+        }
     }
 
     tlist = gtk_target_list_new(tentry, G_N_ELEMENTS(tentry));
@@ -696,7 +705,8 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
                                           -1, -1);
 
     priv->dnd_start_x = priv->dnd_start_y = -1;
-    gtk_drag_set_icon_pixbuf(ctx, pixbuf, 0, 0);
+    if (pixbuf)
+        gtk_drag_set_icon_pixbuf(ctx, pixbuf, 0, 0);
 
     gtk_target_list_unref(tlist);
 
@@ -716,13 +726,13 @@ entangle_session_browser_key_press(GtkWidget *widget,
     case GDK_KEY_Right:
         if (priv->selectedIndex != -1 &&
             ((priv->selectedIndex + 1) < entangle_session_get_media_count(priv->session))) {
-            entangle_session_browser_select_image(browser, priv->selectedIndex + 1);
+            entangle_session_browser_select_media(browser, priv->selectedIndex + 1);
         }
         return TRUE;
 
     case GDK_KEY_Left:
         if (priv->selectedIndex > 0) {
-            entangle_session_browser_select_image(browser, priv->selectedIndex - 1);
+            entangle_session_browser_select_media(browser, priv->selectedIndex - 1);
         }
         return TRUE;
 
@@ -812,6 +822,8 @@ static void entangle_session_browser_finalize(GObject *object)
         g_object_unref(priv->loader);
     if (priv->imageIcon)
         g_object_unref(priv->imageIcon);
+    if (priv->videoIcon)
+        g_object_unref(priv->videoIcon);
 
     G_OBJECT_CLASS(entangle_session_browser_parent_class)->finalize(object);
 }
@@ -897,6 +909,13 @@ static void entangle_session_browser_load_icons(EntangleSessionBrowser *browser)
                                                256,
                                                0,
                                                NULL);
+    if (priv->videoIcon)
+        g_object_unref(priv->videoIcon);
+    priv->videoIcon = gtk_icon_theme_load_icon(theme,
+                                               "camera-video-symbolic",
+                                               256,
+                                               0,
+                                               NULL);
 }
 
 
@@ -930,27 +949,27 @@ static void entangle_session_browser_init(EntangleSessionBrowser *browser)
 
 
 /**
- * entangle_session_browser_selected_image:
+ * entangle_session_browser_get_selected_media:
  * @browser: (transfer none): the session browser
  *
- * Returns: (transfer full): the selected image or NULL
+ * Returns: (transfer full): the selected media or NULL
  */
-EntangleImage *entangle_session_browser_selected_image(EntangleSessionBrowser *browser)
+EntangleMedia *entangle_session_browser_get_selected_media(EntangleSessionBrowser *browser)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
     EntangleSessionBrowserPrivate *priv = browser->priv;
 
-    if (priv->selectedImage == NULL)
+    if (priv->selectedMedia == NULL)
         return NULL;
 
-    g_object_ref(priv->selectedImage);
-    return priv->selectedImage;
+    g_object_ref(priv->selectedMedia);
+    return priv->selectedMedia;
 }
 
 
 /**
- * entangle_session_browser_earlier_images:
+ * entangle_session_browser_get_earlier_images:
  * @browser: (transfer none): the session browser
  * @include_selected: true to include the current image in the list
  * @count: maximum number of images to return
@@ -961,9 +980,9 @@ EntangleImage *entangle_session_browser_selected_image(EntangleSessionBrowser *b
  *
  * Returns: (transfer full)(element-type EntangleImage): the list of images
  */
-GList *entangle_session_browser_earlier_images(EntangleSessionBrowser *browser,
-                                               gboolean include_selected,
-                                               gsize count)
+GList *entangle_session_browser_get_earlier_images(EntangleSessionBrowser *browser,
+                                                   gboolean include_selected,
+                                                   gsize count)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
@@ -979,10 +998,12 @@ GList *entangle_session_browser_earlier_images(EntangleSessionBrowser *browser,
         idx--;
 
     while (idx >= 0 && count > 0) {
-        EntangleImage *img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, idx));
-        g_object_ref(img);
-        images = g_list_append(images, img);
-        count--;
+        EntangleMedia *media = entangle_session_get_media(priv->session, idx);
+        if (ENTANGLE_IS_IMAGE(media)) {
+            g_object_ref(media);
+            images = g_list_append(images, media);
+            count--;
+        }
         idx--;
     }
     return images;
@@ -1158,7 +1179,7 @@ entangle_session_browser_draw(GtkWidget *widget,
         return TRUE;
 
     for (i = 0; i < entangle_session_get_media_count(priv->session); i++) {
-        EntangleImage *img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, i));
+        EntangleMedia *media = entangle_session_get_media(priv->session, i);
         GdkRectangle paint_area;
 
         paint_area.x = (priv->itemsize + priv->margin) * i + priv->margin;
@@ -1166,7 +1187,7 @@ entangle_session_browser_draw(GtkWidget *widget,
         paint_area.width  = priv->itemsize;
         paint_area.height = priv->itemsize;
 
-        if (img == priv->selectedImage) {
+        if (media == priv->selectedMedia) {
             cairo_save(cr);
             cairo_set_source_rgba(cr, priv->highlight.red, priv->highlight.green, priv->highlight.blue, 1);
             cairo_rectangle(cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
@@ -1179,14 +1200,17 @@ entangle_session_browser_draw(GtkWidget *widget,
         cairo_clip(cr);
 
         if (gdk_cairo_get_clip_rectangle(cr, NULL)) {
-            GdkPixbuf *pixbuf = entangle_pixbuf_loader_get_pixbuf(
-                ENTANGLE_PIXBUF_LOADER(priv->loader), img);
+            GdkPixbuf *pixbuf = NULL;
             gint itemsize = priv->itemsize;
             gdouble offset = 0;
-            if (!pixbuf) {
-                pixbuf = priv->imageIcon;
-                itemsize /= 2;
-                offset = itemsize / 2.0;
+            if (ENTANGLE_IS_IMAGE(media)) {
+                pixbuf = entangle_pixbuf_loader_get_pixbuf(ENTANGLE_PIXBUF_LOADER(priv->loader),
+                                                           ENTANGLE_IMAGE(media));
+                if (!pixbuf) {
+                    pixbuf = priv->imageIcon;
+                    itemsize /= 2;
+                    offset = itemsize / 2.0;
+                }
             }
             if (pixbuf) {
                 gint pw = gdk_pixbuf_get_width(pixbuf);
