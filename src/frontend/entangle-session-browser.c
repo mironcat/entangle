@@ -36,8 +36,8 @@ struct _EntangleSessionBrowserPrivate {
     GdkRGBA background;
     GdkRGBA highlight;
 
-    gulong sigImageAdded;
-    gulong sigImageRemoved;
+    gulong sigMediaAdded;
+    gulong sigMediaRemoved;
     gulong sigThumbReady;
 
     EntangleImage *selectedImage;
@@ -149,7 +149,7 @@ entangle_session_browser_select_image(EntangleSessionBrowser *browser,
     if (idx == -1) {
         img = NULL;
     } else {
-        img = entangle_session_image_get(priv->session, idx);
+        img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, idx));
         if (!img) {
             idx = -1;
         }
@@ -183,35 +183,37 @@ static void do_thumb_loaded(EntanglePixbufLoader *loader G_GNUC_UNUSED,
 }
 
 
-static void do_image_added(EntangleSession *session G_GNUC_UNUSED,
-                           EntangleImage *img,
+static void do_media_added(EntangleSession *session G_GNUC_UNUSED,
+                           EntangleMedia *media,
                            gpointer data)
 {
     EntangleSessionBrowser *browser = data;
     EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleImage *img = ENTANGLE_IMAGE(media);
 
     ENTANGLE_DEBUG("Request image %s for new image", entangle_media_get_filename(ENTANGLE_MEDIA(img)));
     entangle_pixbuf_loader_load(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
 
     entangle_session_browser_select_image(browser,
-                                          entangle_session_image_count(priv->session) - 1);
+                                          entangle_session_get_media_count(priv->session) - 1);
     gtk_widget_queue_resize(GTK_WIDGET(browser));
 }
 
 
 
-static void do_image_removed(EntangleSession *session G_GNUC_UNUSED,
-                             EntangleImage *img,
+static void do_media_removed(EntangleSession *session G_GNUC_UNUSED,
+                             EntangleMedia *media,
                              gpointer data)
 {
     EntangleSessionBrowser *browser = data;
     EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleImage *img = ENTANGLE_IMAGE(media);
 
     ENTANGLE_DEBUG("Unrequest image %s for new image", entangle_media_get_filename(ENTANGLE_MEDIA(img)));
     entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
 
     if (priv->selectedIndex >= 0) {
-        img = entangle_session_image_get(priv->session, priv->selectedIndex);
+        img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, priv->selectedIndex));
         if (img != priv->selectedImage) {
             entangle_session_browser_select_image(browser, priv->selectedIndex - 1);
         }
@@ -231,15 +233,15 @@ static void do_model_unload(EntangleSessionBrowser *browser)
     ENTANGLE_DEBUG("Unload model");
 
     g_signal_handler_disconnect(priv->session,
-                                priv->sigImageAdded);
+                                priv->sigMediaAdded);
     g_signal_handler_disconnect(priv->session,
-                                priv->sigImageRemoved);
+                                priv->sigMediaRemoved);
     g_signal_handler_disconnect(priv->loader,
                                 priv->sigThumbReady);
 
-    count = entangle_session_image_count(priv->session);
+    count = entangle_session_get_media_count(priv->session);
     for (int i = 0; i < count; i++) {
-        EntangleImage *img = entangle_session_image_get(priv->session, i);
+        EntangleImage *img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, i));
         entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
     }
     priv->selectedIndex = -1;
@@ -257,16 +259,16 @@ static void do_model_load(EntangleSessionBrowser *browser)
 
     ENTANGLE_DEBUG("Load model");
 
-    priv->sigImageAdded = g_signal_connect(priv->session, "session-image-added",
-                                           G_CALLBACK(do_image_added), browser);
-    priv->sigImageRemoved = g_signal_connect(priv->session, "session-image-removed",
-                                             G_CALLBACK(do_image_removed), browser);
+    priv->sigMediaAdded = g_signal_connect(priv->session, "session-media-added",
+                                           G_CALLBACK(do_media_added), browser);
+    priv->sigMediaRemoved = g_signal_connect(priv->session, "session-media-removed",
+                                             G_CALLBACK(do_media_removed), browser);
     priv->sigThumbReady = g_signal_connect(priv->loader, "pixbuf-loaded",
                                            G_CALLBACK(do_thumb_loaded), browser);
 
-    count = entangle_session_image_count(priv->session);
+    count = entangle_session_get_media_count(priv->session);
     for (int i = 0; i < count; i++) {
-        EntangleImage *img = entangle_session_image_get(priv->session, i);
+        EntangleImage *img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, i));
 
         entangle_pixbuf_loader_load(ENTANGLE_PIXBUF_LOADER(priv->loader), img);
     }
@@ -379,7 +381,7 @@ entangle_session_browser_realize(GtkWidget *widget)
 
     if (priv->session) {
         priv->binwidth = (priv->itemsize + priv->margin) *
-            entangle_session_image_count(priv->session) +
+            entangle_session_get_media_count(priv->session) +
             priv->margin;
     } else {
         priv->binwidth = allocation.width;
@@ -453,7 +455,7 @@ static int entangle_session_browser_get_index_at_coords(EntangleSessionBrowser *
         return -1;
 
     idx = x / (priv->itemsize + priv->margin);
-    if (idx >= entangle_session_image_count(priv->session))
+    if (idx >= entangle_session_get_media_count(priv->session))
         return -1;
 
     itemx = (idx * (priv->itemsize + priv->margin)) + priv->margin;
@@ -483,7 +485,7 @@ EntangleImage *entangle_session_browser_get_image_at_coords(EntangleSessionBrows
     int idx = entangle_session_browser_get_index_at_coords(browser, x, y);
 
     if (idx >= 0)
-        return entangle_session_image_get(priv->session, idx);
+        return ENTANGLE_IMAGE(entangle_session_get_media(priv->session, idx));
     else
         return NULL;
 }
@@ -713,7 +715,7 @@ entangle_session_browser_key_press(GtkWidget *widget,
     switch (event->keyval) {
     case GDK_KEY_Right:
         if (priv->selectedIndex != -1 &&
-            ((priv->selectedIndex + 1) < entangle_session_image_count(priv->session))) {
+            ((priv->selectedIndex + 1) < entangle_session_get_media_count(priv->session))) {
             entangle_session_browser_select_image(browser, priv->selectedIndex + 1);
         }
         return TRUE;
@@ -745,7 +747,7 @@ entangle_session_browser_size_allocate(GtkWidget *widget,
 
     if (priv->session) {
         priv->binwidth = (priv->itemsize + priv->margin) *
-            entangle_session_image_count(priv->session) +
+            entangle_session_get_media_count(priv->session) +
             priv->margin;
     } else {
         priv->binwidth = allocation->width;
@@ -977,7 +979,7 @@ GList *entangle_session_browser_earlier_images(EntangleSessionBrowser *browser,
         idx--;
 
     while (idx >= 0 && count > 0) {
-        EntangleImage *img = entangle_session_image_get(priv->session, idx);
+        EntangleImage *img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, idx));
         g_object_ref(img);
         images = g_list_append(images, img);
         count--;
@@ -1155,8 +1157,8 @@ entangle_session_browser_draw(GtkWidget *widget,
     if (!priv->session)
         return TRUE;
 
-    for (i = 0; i < entangle_session_image_count(priv->session); i++) {
-        EntangleImage *img = entangle_session_image_get(priv->session, i);
+    for (i = 0; i < entangle_session_get_media_count(priv->session); i++) {
+        EntangleImage *img = ENTANGLE_IMAGE(entangle_session_get_media(priv->session, i));
         GdkRectangle paint_area;
 
         paint_area.x = (priv->itemsize + priv->margin) * i + priv->margin;

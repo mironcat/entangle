@@ -931,7 +931,7 @@ static void do_camera_file_preview(EntangleCamera *cam G_GNUC_UNUSED, EntangleCa
                 ENTANGLE_DEBUG("Saved to %s", localpath);
                 image = entangle_image_new_file(localpath);
 
-                entangle_session_add(priv->session, image);
+                entangle_session_add_media(priv->session, ENTANGLE_MEDIA(image));
             }
             g_free(localpath);
             priv->taskCapture = FALSE;
@@ -2652,7 +2652,7 @@ void do_menu_session_delete_activate(GtkMenuItem *item G_GNUC_UNUSED,
         do_camera_task_error(manager, _("Delete"), error);
         return;
     }
-    entangle_session_remove(priv->session, priv->sessionBrowserImage);
+    entangle_session_remove_media(priv->session, ENTANGLE_MEDIA(priv->sessionBrowserImage));
 }
 
 

@@ -23,7 +23,7 @@
 
 #include <glib-object.h>
 
-#include "entangle-image.h"
+#include "entangle-media.h"
 #include "entangle-camera-file.h"
 
 G_BEGIN_DECLS
@@ -51,8 +51,8 @@ struct _EntangleSessionClass
 {
     GObjectClass parent_class;
 
-    void (*session_image_added)(EntangleSession *session, EntangleImage *image);
-    void (*session_image_removed)(EntangleSession *session, EntangleImage *image);
+    void (*session_media_added)(EntangleSession *session, EntangleMedia *media);
+    void (*session_media_removed)(EntangleSession *session, EntangleMedia *media);
 };
 
 
@@ -69,12 +69,12 @@ char *entangle_session_next_filename(EntangleSession *session,
 
 gboolean entangle_session_load(EntangleSession *session);
 
-void entangle_session_add(EntangleSession *session, EntangleImage *image);
-void entangle_session_remove(EntangleSession *session, EntangleImage *image);
+void entangle_session_add_media(EntangleSession *session, EntangleMedia *media);
+void entangle_session_remove_media(EntangleSession *session, EntangleMedia *media);
 
-int entangle_session_image_count(EntangleSession *session);
+int entangle_session_get_media_count(EntangleSession *session);
 
-EntangleImage *entangle_session_image_get(EntangleSession *session, int idx);
+EntangleMedia *entangle_session_get_media(EntangleSession *session, int idx);
 
 G_END_DECLS
 

@@ -255,7 +255,7 @@ static void do_entangle_camera_file_download(EntangleCamera *cam G_GNUC_UNUSED,
     ENTANGLE_DEBUG("Saved to %s", localpath);
     image = entangle_image_new_file(localpath);
 
-    entangle_session_add(priv->session, image);
+    entangle_session_add_media(priv->session, ENTANGLE_MEDIA(image));
 
     g_object_unref(image);
 
