@@ -9,7 +9,7 @@ src/frontend/entangle-camera-support.c
 src/frontend/entangle-control-panel.c
 src/frontend/entangle-dpms.c
 [type: gettext/glade] src/frontend/entangle-help-about.ui
-[type: gettext/glade] src/frontend/entangle-image-popup.ui
+[type: gettext/glade] src/frontend/entangle-media-popup.ui
 src/frontend/entangle-preferences-display.c
 [type: gettext/glade] src/frontend/entangle-preferences-display.ui
 src/frontend/entangle-script.c

@@ -11,7 +11,7 @@ builder_DATA = \
 	frontend/entangle-camera-manager.ui \
 	frontend/entangle-camera-picker.ui \
 	frontend/entangle-help-about.ui \
-	frontend/entangle-image-popup.ui \
+	frontend/entangle-media-popup.ui \
 	frontend/entangle-preferences-display.ui
 
 desktopdir = $(datadir)/applications
@@ -194,7 +194,7 @@ libentangle_frontend_la_SOURCES = \
 	frontend/entangle-help-about.h frontend/entangle-help-about.c \
 	frontend/entangle-image-display.h frontend/entangle-image-display.c \
 	frontend/entangle-image-histogram.h frontend/entangle-image-histogram.c \
-	frontend/entangle-image-popup.h frontend/entangle-image-popup.c \
+	frontend/entangle-media-popup.h frontend/entangle-media-popup.c \
 	frontend/entangle-media-statusbar.h frontend/entangle-media-statusbar.c \
 	frontend/entangle-preferences.h frontend/entangle-preferences.c \
 	frontend/entangle-preferences-display.h frontend/entangle-preferences-display.c \
