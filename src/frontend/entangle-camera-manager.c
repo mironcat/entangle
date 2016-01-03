@@ -81,13 +81,13 @@ struct _EntangleCameraManagerPrivate {
     gulong imageDrawerTimer;
     EntangleSessionBrowser *sessionBrowser;
     GtkMenu *sessionBrowserMenu;
-    EntangleImage *sessionBrowserImage;
+    EntangleMedia *sessionBrowserMedia;
     EntangleControlPanel *controlPanel;
     EntanglePreferencesDisplay *prefsDisplay;
     EntangleImageHistogram *imageHistogram;
     GtkWidget *scriptConfigExpander;
 
-    EntangleImage *currentImage;
+    EntangleMedia *currentMedia;
 
     EntangleMediaPopup *mediaPresentation;
     gint presentationMonitor;
@@ -120,8 +120,8 @@ static void entangle_camera_progress_interface_init(gpointer g_iface,
                                                     gpointer iface_data);
 static void entangle_camera_manager_window_interface_init(gpointer g_iface,
                                                           gpointer iface_data);
-static void do_select_image(EntangleCameraManager *manager,
-                            EntangleImage *image);
+static void do_select_media(EntangleCameraManager *manager,
+                            EntangleMedia *media);
 
 G_DEFINE_TYPE_EXTENDED(EntangleCameraManager, entangle_camera_manager, GTK_TYPE_WINDOW, 0,
                        G_IMPLEMENT_INTERFACE(ENTANGLE_TYPE_PROGRESS, entangle_camera_progress_interface_init)
@@ -528,11 +528,11 @@ static void entangle_camera_manager_prefs_changed(GObject *object G_GNUC_UNUSED,
     } else if (g_str_equal(spec->name, "img-onion-skin") ||
                g_str_equal(spec->name, "img-onion-layers")) {
         EntangleCameraManagerPrivate *priv = manager->priv;
-        do_select_image(manager, priv->currentImage);
+        do_select_media(manager, priv->currentMedia);
     } else if (g_str_equal(spec->name, "img-background") ||
                g_str_equal(spec->name, "img-highlight")) {
         EntangleCameraManagerPrivate *priv = manager->priv;
-        do_select_image(manager, priv->currentImage);
+        do_select_media(manager, priv->currentMedia);
 
         entangle_camera_manager_update_background_highlight(manager);
     }
@@ -655,8 +655,6 @@ static void do_restore_scroll(GtkWidget *widget,
 static void do_select_image(EntangleCameraManager *manager,
                             EntangleImage *image)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-    g_return_if_fail(!image || ENTANGLE_IS_IMAGE(image));
     GList *newimages = NULL;
     GList *oldimages;
     GList *tmp;
@@ -666,29 +664,27 @@ static void do_select_image(EntangleCameraManager *manager,
     EntangleCameraManagerPrivate *priv = manager->priv;
     EntanglePreferences *prefs = entangle_camera_manager_get_preferences(manager);
 
-    ENTANGLE_DEBUG("Selected image %p %s", image,
-                   image ? entangle_media_get_filename(ENTANGLE_MEDIA(image)) : "<none>");
-
     if (image) {
-        if (entangle_preferences_img_get_onion_skin(prefs))
+        if (entangle_preferences_img_get_onion_skin(prefs)) {
             newimages = entangle_session_browser_get_earlier_images
                 (priv->sessionBrowser,
                  entangle_media_get_filename(ENTANGLE_MEDIA(image)) == NULL,
                  entangle_preferences_img_get_onion_layers(prefs));
-
+        }
         newimages = g_list_prepend(newimages, g_object_ref(image));
     }
 
-    /* Load all new images first */
+    /* Load all new media first */
     tmp = newimages;
     while (tmp) {
-        EntangleImage *thisimage = tmp->data;
-        ENTANGLE_DEBUG("New image %p %s", thisimage,
-                       entangle_media_get_filename(ENTANGLE_MEDIA(thisimage)));
+        EntangleMedia *thismedia = ENTANGLE_MEDIA(tmp->data);
 
-        if (entangle_media_get_filename(ENTANGLE_MEDIA(thisimage)))
+        ENTANGLE_DEBUG("New media %p %s", thismedia,
+                       entangle_media_get_filename(thismedia));
+
+        if (entangle_media_get_filename(thismedia))
             entangle_pixbuf_loader_load(ENTANGLE_PIXBUF_LOADER(priv->imageLoader),
-                                        thisimage);
+                                        ENTANGLE_IMAGE(thismedia));
 
         tmp = tmp->next;
     }
@@ -696,14 +692,14 @@ static void do_select_image(EntangleCameraManager *manager,
     /* Now unload old images */
     tmp = oldimages = entangle_image_display_get_image_list(priv->imageDisplay);
     while (tmp) {
-        EntangleImage *thisimage = tmp->data;
+        EntangleMedia *thismedia = ENTANGLE_MEDIA(tmp->data);
 
-        ENTANGLE_DEBUG("Old %p %s", thisimage,
-                       entangle_media_get_filename(ENTANGLE_MEDIA(thisimage)));
+        ENTANGLE_DEBUG("Old %p %s", thismedia,
+                       entangle_media_get_filename(thismedia));
 
-        if (entangle_media_get_filename(ENTANGLE_MEDIA(thisimage)))
+        if (entangle_media_get_filename(thismedia))
             entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(priv->imageLoader),
-                                          thisimage);
+                                          ENTANGLE_IMAGE(thismedia));
 
         tmp = tmp->next;
     }
@@ -718,22 +714,42 @@ static void do_select_image(EntangleCameraManager *manager,
     }
 
     entangle_image_display_set_image_list(priv->imageDisplay, newimages);
-
-    if (image)
-        g_object_ref(image);
-    if (priv->currentImage)
-        g_object_unref(priv->currentImage);
-    priv->currentImage = image;
-
-    entangle_media_statusbar_set_media(priv->mediaStatusbar, ENTANGLE_MEDIA(priv->currentImage));
-    entangle_image_histogram_set_image(priv->imageHistogram, priv->currentImage);
-    if (priv->mediaPresentation)
-        entangle_media_popup_set_media(priv->mediaPresentation, ENTANGLE_MEDIA(priv->currentImage));
+    entangle_image_histogram_set_image(priv->imageHistogram, image);
 
     g_list_foreach(oldimages, (GFunc)g_object_unref, NULL);
     g_list_free(oldimages);
     g_list_foreach(newimages, (GFunc)g_object_unref, NULL);
     g_list_free(newimages);
+}
+
+
+static void do_select_media(EntangleCameraManager *manager,
+                            EntangleMedia *media)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(!media || ENTANGLE_IS_MEDIA(media));
+
+    EntangleCameraManagerPrivate *priv = manager->priv;
+
+    ENTANGLE_DEBUG("Selected media %p %s", media,
+                   media ? entangle_media_get_filename(media) : "<none>");
+
+    if (ENTANGLE_IS_IMAGE(media)) {
+        do_select_image(manager, ENTANGLE_IMAGE(media));
+    } else {
+        entangle_image_histogram_set_image(priv->imageHistogram, NULL);
+        entangle_image_display_set_image(priv->imageDisplay, NULL);
+    }
+
+    entangle_media_statusbar_set_media(priv->mediaStatusbar, media);
+    if (priv->mediaPresentation)
+        entangle_media_popup_set_media(priv->mediaPresentation, media);
+
+    if (priv->currentMedia)
+        g_object_unref(priv->currentMedia);
+    priv->currentMedia = media;
+    if (priv->currentMedia)
+        g_object_ref(priv->currentMedia);
 }
 
 
@@ -939,7 +955,7 @@ static void do_camera_file_preview(EntangleCamera *cam G_GNUC_UNUSED, EntangleCa
         if (!image)
             image = entangle_image_new_pixbuf(pixbuf);
 
-        do_select_image(manager, image);
+        do_select_media(manager, ENTANGLE_MEDIA(image));
 
         g_object_unref(pixbuf);
         g_object_unref(is);
@@ -1506,7 +1522,7 @@ void do_toolbar_select_session(GtkFileChooserButton *src,
     gchar *pattern;
     gchar *dir;
 
-    do_select_image(manager, NULL);
+    do_select_media(manager, NULL);
     dir = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(src));
     pattern = entangle_preferences_capture_get_filename_pattern(prefs);
     session = entangle_session_new(dir, pattern);
@@ -1552,7 +1568,7 @@ void do_menu_select_session(GtkImageMenuItem *src G_GNUC_UNUSED,
         GtkWidget *toolchooser = GTK_WIDGET(gtk_builder_get_object(priv->builder, "toolbar-session-button"));
         EntangleSession *session;
         gchar *pattern;
-        do_select_image(manager, NULL);
+        do_select_media(manager, NULL);
         dir = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
         pattern = entangle_preferences_capture_get_filename_pattern(prefs);
         session = entangle_session_new(dir, pattern);
@@ -1864,7 +1880,7 @@ void entangle_camera_manager_preview_cancel(EntangleCameraManager *manager)
         g_cancellable_cancel(priv->taskCancel);
 
         media = entangle_session_browser_get_selected_media(priv->sessionBrowser);
-        do_select_image(manager, ENTANGLE_IMAGE(media));
+        do_select_media(manager, media);
         if (media) {
             g_object_unref(media);
         }
@@ -2381,7 +2397,7 @@ void do_menu_presentation(GtkCheckMenuItem *src,
             g_signal_connect(priv->mediaPresentation, "popup-close", G_CALLBACK(do_presentation_end), manager);
             g_free(bg);
         }
-        entangle_media_popup_set_media(priv->mediaPresentation, ENTANGLE_MEDIA(priv->currentImage));
+        entangle_media_popup_set_media(priv->mediaPresentation, priv->currentMedia);
         entangle_media_popup_show_on_monitor(priv->mediaPresentation,
                                              priv->presentationMonitor);
     } else if (priv->mediaPresentation) {
@@ -2596,8 +2612,8 @@ static void do_session_media_selected(GtkIconView *view G_GNUC_UNUSED,
     EntangleCameraManagerPrivate *priv = manager->priv;
     EntangleMedia *media = entangle_session_browser_get_selected_media(priv->sessionBrowser);
 
-    ENTANGLE_DEBUG("Image selection changed");
-    do_select_image(manager, ENTANGLE_IMAGE(media));
+    ENTANGLE_DEBUG("Media selection changed");
+    do_select_media(manager, media);
     if (media)
         g_object_unref(media);
 }
@@ -2614,10 +2630,10 @@ void do_menu_session_open_activate(GtkMenuItem *item G_GNUC_UNUSED,
     GAppInfo *info = NULL;
     const gchar *filename;
 
-    if (!priv->sessionBrowserImage)
+    if (!priv->sessionBrowserMedia)
         return;
 
-    filename = entangle_media_get_filename(ENTANGLE_MEDIA(priv->sessionBrowserImage));
+    filename = entangle_media_get_filename(priv->sessionBrowserMedia);
     ctype = g_content_type_guess(filename,
                                  NULL, 0, NULL);
     if (!ctype)
@@ -2645,14 +2661,14 @@ void do_menu_session_delete_activate(GtkMenuItem *item G_GNUC_UNUSED,
     EntangleCameraManagerPrivate *priv = manager->priv;
     GError *error = NULL;
 
-    if (!priv->sessionBrowserImage)
+    if (!priv->sessionBrowserMedia)
         return;
 
-    if (!entangle_media_delete(ENTANGLE_MEDIA(priv->sessionBrowserImage), &error)) {
+    if (!entangle_media_delete(priv->sessionBrowserMedia, &error)) {
         do_camera_task_error(manager, _("Delete"), error);
         return;
     }
-    entangle_session_remove_media(priv->session, ENTANGLE_MEDIA(priv->sessionBrowserImage));
+    entangle_session_remove_media(priv->session, priv->sessionBrowserMedia);
 }
 
 
@@ -2669,10 +2685,10 @@ static void do_session_browser_open_with_app(GtkMenuItem *src,
     if (!info)
         return;
 
-    if (!priv->sessionBrowserImage)
+    if (!priv->sessionBrowserMedia)
         return;
 
-    filename = entangle_media_get_filename(ENTANGLE_MEDIA(priv->sessionBrowserImage));
+    filename = entangle_media_get_filename(priv->sessionBrowserMedia);
     files = g_list_append(files, g_file_new_for_path(filename));
 
     g_app_info_launch(info, files, NULL, NULL);
@@ -2693,10 +2709,10 @@ static void do_session_browser_open_with_select(GtkMenuItem *src G_GNUC_UNUSED,
     GAppInfo *info;
     GList *files = NULL;
 
-    if (!priv->sessionBrowserImage)
+    if (!priv->sessionBrowserMedia)
         return;
 
-    file = g_file_new_for_path(entangle_media_get_filename(ENTANGLE_MEDIA(priv->sessionBrowserImage)));
+    file = g_file_new_for_path(entangle_media_get_filename(priv->sessionBrowserMedia));
     dialog = GTK_DIALOG(gtk_app_chooser_dialog_new(GTK_WINDOW(manager),
                                                    GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
                                                    file));
@@ -2736,14 +2752,14 @@ static gboolean do_session_browser_popup(EntangleSessionBrowser *browser,
     if (event->button != 3)
         return FALSE;
 
-    priv->sessionBrowserImage = ENTANGLE_IMAGE(entangle_session_browser_get_media_at_coords(browser,
-                                                                                            event->x,
-                                                                                            event->y));
+    priv->sessionBrowserMedia = entangle_session_browser_get_media_at_coords(browser,
+                                                                             event->x,
+                                                                             event->y);
 
-    if (!priv->sessionBrowserImage)
+    if (!priv->sessionBrowserMedia)
         return FALSE;
 
-    filename = entangle_media_get_filename(ENTANGLE_MEDIA(priv->sessionBrowserImage));
+    filename = entangle_media_get_filename(priv->sessionBrowserMedia);
 
     open = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-session-open"));
     openWith = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-session-open-with"));
