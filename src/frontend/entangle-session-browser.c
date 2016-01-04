@@ -718,7 +718,8 @@ entangle_session_browser_key_press(GtkWidget *widget,
 
     switch (event->keyval) {
     case GDK_KEY_Right:
-        if (priv->selectedIndex != -1) {
+        if (priv->selectedIndex != -1 &&
+            ((priv->selectedIndex + 1) < entangle_session_image_count(priv->session))) {
             entangle_session_browser_select_image(browser, priv->selectedIndex + 1);
         }
         return TRUE;
