@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <locale.h>
 
+#include <gst/gst.h>
 #include <gtk/gtk.h>
 #include <girepository.h>
 #include <glib/gi18n.h>
@@ -74,6 +75,8 @@ int main(int argc, char **argv)
         g_error_free(error);
         return 1;
     }
+
+    gst_init(NULL, NULL);
 
     if (ins) {
         g_irepository_dump(ins, NULL);

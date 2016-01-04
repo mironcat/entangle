@@ -118,6 +118,7 @@ EXTRA_DIST = \
 libentangle_backend_la_SOURCES = \
 	backend/entangle-media.h backend/entangle-media.c \
 	backend/entangle-image.h backend/entangle-image.c \
+	backend/entangle-video.h backend/entangle-video.c \
 	backend/entangle-session.h backend/entangle-session.c \
 	backend/entangle-camera.h backend/entangle-camera.c \
 	backend/entangle-camera-automata.h backend/entangle-camera-automata.c \
@@ -152,6 +153,7 @@ libentangle_backend_la_LDFLAGS = \
 	$(GIO_LIBS) \
 	$(GTHREAD_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
+	$(GST_LIBS) \
 	$(GPHOTO2_LIBS) \
 	$(LCMS2_LIBS) \
 	$(GUDEV_LIBS) \
@@ -168,6 +170,7 @@ libentangle_backend_la_CFLAGS = \
 	$(GMODULE_CFLAGS) \
 	$(GTHREAD_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
+	$(GST_CFLAGS) \
 	$(GPHOTO2_CFLAGS) \
 	$(LCMS2_CFLAGS) \
 	$(GUDEV_CFLAGS) \
@@ -215,6 +218,7 @@ libentangle_frontend_la_LDFLAGS = \
 	$(GTHREAD_LIBS) \
 	$(GMODULE_LIBS) \
 	$(GTK_LIBS) \
+	$(GST_LIBS) -lgstvideo-1.0 \
 	$(LIBPEAS_LIBS) \
 	$(LIBPEAS_UI_LIBS) \
 	$(GEXIV2_LIBS) \
@@ -228,6 +232,7 @@ libentangle_frontend_la_CFLAGS = \
 	$(GTHREAD_CFLAGS) \
 	$(GMODULE_CFLAGS) \
 	$(GTK_CFLAGS) \
+	$(GST_CFLAGS) \
 	$(LIBPEAS_CFLAGS) \
 	$(LIBPEAS_UI_CFLAGS) \
 	$(GEXIV2_CFLAGS) \
@@ -249,6 +254,7 @@ entangle_LDFLAGS = \
 	$(GTHREAD_LIBS) \
 	$(GMODULE_LIBS) \
 	$(GTK_LIBS) \
+	$(GST_LIBS) \
 	$(GOBJECT_INTROSPECTION_LIBS) \
 	$(LIBPEAS_LIBS) \
 	$(NULL)
@@ -261,6 +267,7 @@ entangle_CFLAGS = \
 	$(GTHREAD_FLAGS) \
 	$(GMODULE_FLAGS) \
 	$(GTK_CFLAGS) \
+	$(GST_CFLAGS) \
 	$(GOBJECT_INTROSPECTION_CFLAGS) \
 	$(LIBPEAS_CFLAGS) \
 	$(WARN_CFLAGS) \
@@ -405,6 +412,8 @@ Entangle-0.1.gir: entangle $(G_IR_SCANNER) Makefile.am
 		--include GObject-2.0 \
 		--include Gtk-3.0 \
 		--include Peas-1.0 \
+		--include Gst-1.0 \
+		--include GstBase-1.0 \
 		--include GExiv2-$(GEXIV2_GIR_VERSION) \
                 --program=$(builddir)/entangle \
                 --add-include-path=$(srcdir) \
@@ -424,6 +433,7 @@ Entangle-0.1.gir: entangle $(G_IR_SCANNER) Makefile.am
                 --pkg=libpeas-1.0 \
                 --pkg=dbus-glib-1 \
                 --pkg=gexiv2 \
+                --pkg=gstreamer-1.0 \
                 $(libentangle_backend_la_SOURCES:%=$(srcdir)/%) \
                 $(nodist_libentangle_backend_la_SOURCES:%=$(builddir)/%) \
                 $(libentangle_frontend_la_SOURCES:%=$(srcdir)/%) \

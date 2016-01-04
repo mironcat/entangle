@@ -50,6 +50,8 @@ LIBRAW_REQUIRED=0.9.0
 AC_SUBST(LIBRAW_REQUIRED)
 GNOME_ICON_THEME_SYMBOLIC_REQUIRED=3.0.0
 AC_SUBST(GNOME_ICON_THEME_SYMBOLIC_REQUIRED)
+GST_REQUIRED=1.0.0
+AC_SUBST(GST_REQUIRED)
 
 dnl *******************************************************************************
 dnl Setup core compilers / build helpers
@@ -84,6 +86,10 @@ AC_SUBST(GDK_PIXBUF_LIBS)
 PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= $GTK_REQUIRED])
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
+
+PKG_CHECK_MODULES([GST], [gstreamer-1.0 >= $GST_REQUIRED])
+AC_SUBST(GST_CFLAGS)
+AC_SUBST(GST_LIBS)
 
 have_gphoto25=no
 PKG_CHECK_MODULES([GPHOTO2], [libgphoto2 >= 2.5], [
