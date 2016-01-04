@@ -24,6 +24,7 @@
 
 #include "entangle-debug.h"
 #include "entangle-session-browser.h"
+#include "entangle-video.h"
 
 #define ENTANGLE_SESSION_BROWSER_GET_PRIVATE(obj)                       \
     (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_SESSION_BROWSER, EntangleSessionBrowserPrivate))
@@ -1211,6 +1212,10 @@ entangle_session_browser_draw(GtkWidget *widget,
                     itemsize /= 2;
                     offset = itemsize / 2.0;
                 }
+            } else if (ENTANGLE_IS_VIDEO(media)) {
+                pixbuf = priv->videoIcon;
+                itemsize /= 2;
+                offset = itemsize / 2.0;
             }
             if (pixbuf) {
                 gint pw = gdk_pixbuf_get_width(pixbuf);
