@@ -31,6 +31,7 @@
 #include "entangle-debug.h"
 #include "entangle-session.h"
 #include "entangle-image.h"
+#include "entangle-video.h"
 
 #define ENTANGLE_SESSION_GET_PRIVATE(obj)                                   \
     (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_SESSION, EntangleSessionPrivate))
@@ -522,35 +523,6 @@ void entangle_session_remove_media(EntangleSession *session, EntangleMedia *medi
 }
 
 
-static gboolean entangle_session_image_supported(const gchar *name)
-{
-    const char *extlist[] = {
-        ".cr2", ".nef", ".nrw", ".arw", ".orf", ".dng", ".pef",
-        ".crw", ".erf", ".mrw", ".raw", ".rw2", ".raf", ".jpg",
-        ".jpeg", ".png", ".tif", ".tiff", NULL
-    };
-    const char **tmp;
-    char *filename = g_utf8_strdown(name, -1);
-    gboolean ret = TRUE;
-
-    tmp = extlist;
-    while (*tmp) {
-        const char *ext = *tmp;
-
-        if (g_str_has_suffix(filename, ext))
-            goto cleanup;
-
-        tmp++;
-    }
-
-    ret = FALSE;
-
- cleanup:
-    g_free(filename);
-    return ret;
-}
-
-
 /**
  * entangle_session_load:
  * @session: (transfer none): the session instance
@@ -578,13 +550,41 @@ gboolean entangle_session_load(EntangleSession *session)
         GFile *child = g_file_get_child(dir, thisname);
         if (g_file_info_get_file_type(childinfo) == G_FILE_TYPE_REGULAR ||
             g_file_info_get_file_type(childinfo) == G_FILE_TYPE_SYMBOLIC_LINK) {
+            gchar *ctype;
+            gchar *mimetype;
+            EntangleMedia *media = NULL;
+            char *filename = g_file_get_path(child);
 
-            if (entangle_session_image_supported(thisname)) {
-                EntangleImage *image = entangle_image_new_file(g_file_get_path(child));
-
-                ENTANGLE_DEBUG("Adding '%s'", g_file_get_path(child));
-                priv->files = g_list_prepend(priv->files, image);
+            if (!(ctype = g_content_type_guess(filename,
+                                               NULL, 0, NULL))) {
+                ENTANGLE_DEBUG("No content type for %s", filename);
+                g_free(filename);
+                continue;
             }
+
+            if (!(mimetype = g_content_type_get_mime_type(ctype))) {
+                ENTANGLE_DEBUG("No mime type for content type %s file %s",
+                               ctype, filename);
+                g_free(filename);
+                g_free(ctype);
+                continue;
+            }
+            g_free(ctype);
+
+            if (g_str_has_prefix(mimetype, "image/")) {
+                media = ENTANGLE_MEDIA(entangle_image_new_file(filename));
+            } else if (g_str_has_prefix(mimetype, "video/")) {
+                media = ENTANGLE_MEDIA(entangle_video_new_file(filename));
+            } else {
+                ENTANGLE_DEBUG("Mime type %s for file %s not wanted",
+                               mimetype, filename);
+            }
+            g_free(mimetype);
+            if (media) {
+                ENTANGLE_DEBUG("Adding '%s'", filename);
+                priv->files = g_list_prepend(priv->files, media);
+            }
+            g_free(filename);
         }
         g_object_unref(child);
         g_object_unref(childinfo);
