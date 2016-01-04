@@ -46,6 +46,8 @@ struct _EntangleSessionBrowserPrivate {
     GtkAdjustment *hadjustment;
     GtkAdjustment *vadjustment;
 
+    GdkPixbuf *imageIcon;
+
     guint hscroll_policy : 1;
     guint vscroll_policy : 1;
 
@@ -814,6 +816,8 @@ static void entangle_session_browser_finalize(GObject *object)
         g_object_unref(priv->session);
     if (priv->loader)
         g_object_unref(priv->loader);
+    if (priv->imageIcon)
+        g_object_unref(priv->imageIcon);
 
     G_OBJECT_CLASS(entangle_session_browser_parent_class)->finalize(object);
 }
@@ -886,6 +890,22 @@ EntangleSessionBrowser *entangle_session_browser_new(void)
 }
 
 
+static void entangle_session_browser_load_icons(EntangleSessionBrowser *browser)
+{
+    EntangleSessionBrowserPrivate *priv = browser->priv;
+    GtkIconTheme *theme;
+
+    theme = gtk_icon_theme_get_default();
+    if (priv->imageIcon)
+        g_object_unref(priv->imageIcon);
+    priv->imageIcon = gtk_icon_theme_load_icon(theme,
+                                               "camera-photo-symbolic",
+                                               256,
+                                               0,
+                                               NULL);
+}
+
+
 static void entangle_session_browser_init(EntangleSessionBrowser *browser)
 {
     EntangleSessionBrowserPrivate *priv;
@@ -906,6 +926,12 @@ static void entangle_session_browser_init(EntangleSessionBrowser *browser)
     gtk_widget_set_can_focus(GTK_WIDGET(browser), TRUE);
 
     priv->dnd_start_x = priv->dnd_start_y = -1;
+
+    entangle_session_browser_load_icons(browser);
+    g_signal_connect(GTK_WIDGET(browser),
+                     "style-updated",
+                     G_CALLBACK(entangle_session_browser_load_icons),
+                     NULL);
 }
 
 
@@ -1161,16 +1187,28 @@ entangle_session_browser_draw(GtkWidget *widget,
         if (gdk_cairo_get_clip_rectangle(cr, NULL)) {
             GdkPixbuf *pixbuf = entangle_pixbuf_loader_get_pixbuf(
                 ENTANGLE_PIXBUF_LOADER(priv->loader), img);
+            gint itemsize = priv->itemsize;
+            gdouble offset = 0;
+            if (!pixbuf) {
+                pixbuf = priv->imageIcon;
+                itemsize /= 2;
+                offset = itemsize / 2.0;
+            }
             if (pixbuf) {
                 gint pw = gdk_pixbuf_get_width(pixbuf);
                 gint ph = gdk_pixbuf_get_height(pixbuf);
-                double sx = priv->itemsize / (double)pw;
-                double sy = priv->itemsize / (double)ph;
+                double sx = itemsize / (double)pw;
+                double sy = itemsize / (double)ph;
 
                 cairo_scale(cr, sx, sy);
-                gdk_cairo_set_source_pixbuf(cr, pixbuf, paint_area.x / sx, paint_area.y / sy);
+                gdk_cairo_set_source_pixbuf(cr, pixbuf, (paint_area.x + offset) / sx, (paint_area.y + offset) / sy);
                 cairo_rectangle(cr, paint_area.x / sx, paint_area.y / sy,
                                 paint_area.width / sx, paint_area.height / sy);
+                cairo_fill(cr);
+            } else {
+                cairo_save(cr);
+                cairo_set_source_rgba(cr, priv->highlight.red, priv->highlight.green, priv->highlight.blue, 0.2);
+                cairo_rectangle(cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
                 cairo_fill(cr);
             }
         }
