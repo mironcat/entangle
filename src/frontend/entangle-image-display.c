@@ -823,9 +823,13 @@ void entangle_image_display_set_image(EntangleImageDisplay *display,
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
     g_return_if_fail(!image || ENTANGLE_IS_IMAGE(image));
 
-    GList *tmp = g_list_append(NULL, image);
-    entangle_image_display_set_image_list(display, tmp);
-    g_list_free(tmp);
+    if (image) {
+        GList *tmp = g_list_append(NULL, image);
+        entangle_image_display_set_image_list(display, tmp);
+        g_list_free(tmp);
+    } else {
+        entangle_image_display_set_image_list(display, NULL);
+    }
 }
 
 
