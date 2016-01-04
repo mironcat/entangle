@@ -300,6 +300,7 @@ void entangle_image_statusbar_set_image(EntangleImageStatusbar *statusbar,
                                                statusbar);
     }
 
+    entangle_image_statusbar_update_labels(statusbar);
     gtk_widget_queue_draw(GTK_WIDGET(statusbar));
 }
 
