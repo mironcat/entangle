@@ -16,7 +16,7 @@ Release 0.7.1 - "Top" - 2016-02-21
    restarting preview
  * Make Nikon fine focus stepping finer
  * Ensure images are sorted by last modified date
- * Switch from 128 px to 156 px thumbnail sizes to
+ * Switch from 128 px to 256 px thumbnail sizes to
    benefit larger high dpi screens
  * Rewrite film strip browser to dynamically resize
    icons to fit available space
