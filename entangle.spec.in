@@ -39,6 +39,7 @@ BuildRequires: libtool
 
 BuildRequires: gnome-icon-theme-symbolic
 Requires: gnome-icon-theme-symbolic
+Requires: libpeas-loader-python3%{?_isa}
 
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
