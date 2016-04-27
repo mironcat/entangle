@@ -1022,7 +1022,7 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:7 src/entangle.desktop.in:4
 msgid "Entangle"
-msgstr "Verstrikken"
+msgstr "Entangle"
 
 #: src/entangle.appdata.xml.in:8
 msgid "Tethered Camera Control &amp; Capture"
