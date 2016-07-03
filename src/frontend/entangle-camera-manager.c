@@ -2830,11 +2830,14 @@ static void do_session_browser_drag_failed(GtkWidget *widget G_GNUC_UNUSED,
         if (img) {
             GdkScreen *screen;
             GdkDevice *dev;
-            GdkDeviceManager *devmgr;
             int x, y;
-
-            devmgr = gdk_display_get_device_manager(gtk_widget_get_display(widget));
+#if GTK_CHECK_VERSION(3, 20, 0)
+            GdkSeat *seat = gdk_display_get_default_seat(gtk_widget_get_display(widget));
+            dev = gdk_seat_get_pointer(seat);
+#else
+            GdkDeviceManager *devmgr = gdk_display_get_device_manager(gtk_widget_get_display(widget));
             dev = gdk_device_manager_get_client_pointer(devmgr);
+#endif
             gdk_device_get_position(dev,
                                     &screen,
                                     &x, &y);
