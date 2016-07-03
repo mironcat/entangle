@@ -193,7 +193,7 @@ static void entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statu
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
 
     EntangleMediaStatusbarPrivate *priv = statusbar->priv;
-    GExiv2Metadata *metadata = entangle_media_get_metadata(ENTANGLE_MEDIA(priv->media));
+    GExiv2Metadata *metadata = priv->media ? entangle_media_get_metadata(ENTANGLE_MEDIA(priv->media)) : NULL;
     gchar *shutter = NULL;
     gchar *aperture = NULL;
     gchar *focal = NULL;
