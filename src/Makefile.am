@@ -200,10 +200,7 @@ libentangle_frontend_la_SOURCES = \
 	frontend/entangle-script.h frontend/entangle-script.c \
 	frontend/entangle-script-simple.h frontend/entangle-script-simple.c \
 	frontend/entangle-script-config.h frontend/entangle-script-config.c \
-	frontend/entangle-session-browser.h frontend/entangle-session-browser.c \
-	frontend/entangle-overlay-box.h frontend/entangle-overlay-box.c \
-	frontend/entangle-auto-drawer.h frontend/entangle-auto-drawer.c \
-	frontend/entangle-drawer.h frontend/entangle-drawer.c
+	frontend/entangle-session-browser.h frontend/entangle-session-browser.c
 
 nodist_libentangle_frontend_la_SOURCES = \
 	frontend/entangle-image-display-enums.h frontend/entangle-image-display-enums.c \
