@@ -508,7 +508,7 @@ void entangle_camera_list_remove(EntangleCameraList *list,
 /**
  * entangle_camera_list_get:
  * @list: (transfer none): the camera list
- * @entry: (transfer none): the index of the camera to get
+ * @entry: the index of the camera to get
  *
  * Get the camera at position @entry in the list
  *
