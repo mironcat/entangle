@@ -1005,8 +1005,6 @@ static void entangle_camera_disconnect_helper(GTask *task,
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_connect_async
  * can be used to check the status
- *
- * Returns: TRUE if the camera is disconnected, FALSE on error
  */
 void entangle_camera_disconnect_async(EntangleCamera *cam,
                                       GCancellable *cancellable,
