@@ -1211,6 +1211,9 @@ entangle_session_browser_draw(GtkWidget *widget,
                     pixbuf = priv->imageIcon;
                     itemsize /= 2;
                     offset = itemsize / 2.0;
+                } else {
+                    itemsize -= 2;
+                    offset = 1;
                 }
             } else if (ENTANGLE_IS_VIDEO(media)) {
                 pixbuf = priv->videoIcon;
