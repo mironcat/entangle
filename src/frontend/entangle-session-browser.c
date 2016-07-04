@@ -124,7 +124,7 @@ entangle_session_browser_scroll_to_selected(EntangleSessionBrowser *browser)
         return;
 
     minx = priv->selectedIndex * (priv->margin + priv->itemsize);
-    maxx = minx + priv->itemsize;
+    maxx = minx + priv->itemsize + (priv->margin * 2);
 
     gdk_window_get_position(priv->bin_window, &x, &y);
     gtk_widget_get_allocation(GTK_WIDGET(browser), &allocation);
