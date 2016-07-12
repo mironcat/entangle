@@ -47,9 +47,6 @@ struct _EntangleDeviceManager
 struct _EntangleDeviceManagerClass
 {
     GObjectClass parent_class;
-
-    void (*device_added)(EntangleDeviceManager *manager, const char *port);
-    void (*device_removed)(EntangleDeviceManager *manager, const char *port);
 };
 
 

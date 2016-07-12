@@ -50,9 +50,6 @@ struct _EntangleCameraPicker
 struct _EntangleCameraPickerClass
 {
     GtkDialogClass parent_class;
-
-    void (*picker_connect)(EntangleCameraPicker *picker, EntangleCamera *cam);
-    void (*picker_refresh)(EntangleCameraPicker *picker);
 };
 
 

@@ -51,9 +51,6 @@ struct _EntangleCameraManager
 struct _EntangleCameraManagerClass
 {
     GtkWindowClass parent_class;
-
-    void (*manager_connect)(EntangleCameraManager *manager);
-    void (*manager_disconnect)(EntangleCameraManager *manager);
 };
 
 

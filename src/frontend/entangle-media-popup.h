@@ -49,8 +49,6 @@ struct _EntangleMediaPopup
 struct _EntangleMediaPopupClass
 {
     GtkWindowClass parent_class;
-
-    void (*popup_close)(EntangleMediaPopup *popup);
 };
 
 

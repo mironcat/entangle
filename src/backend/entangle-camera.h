@@ -52,17 +52,6 @@ struct _EntangleCamera
 struct _EntangleCameraClass
 {
     GObjectClass parent_class;
-
-    void (*camera_file_added)(EntangleCamera *cam, EntangleCameraFile *file);
-    void (*camera_file_captured)(EntangleCamera *cam, EntangleCameraFile *file);
-    void (*camera_file_previewed)(EntangleCamera *cam, EntangleCameraFile *file);
-    void (*camera_file_downloaded)(EntangleCamera *cam, EntangleCameraFile *file);
-    void (*camera_file_deleted)(EntangleCamera *cam, EntangleCameraFile *file);
-
-    void (*camera_controls_changed)(EntangleCamera *cam);
-
-    void (*camera_connected)(EntangleCamera *cam);
-    void (*camera_disconnected)(EntangleCamera *cam);
 };
 
 

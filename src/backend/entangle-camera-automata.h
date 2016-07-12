@@ -51,9 +51,6 @@ struct _EntangleCameraAutomata
 struct _EntangleCameraAutomataClass
 {
     GObjectClass parent_class;
-
-    void (*camera_capture_begin)(EntangleCameraAutomata *automata);
-    void (*camera_capture_end)(EntangleCameraAutomata *automata);
 };
 
 GType entangle_camera_automata_get_type(void) G_GNUC_CONST;

@@ -212,8 +212,7 @@ static void entangle_media_popup_class_init(EntangleMediaPopupClass *klass)
     g_signal_new("popup-close",
                  G_TYPE_FROM_CLASS(klass),
                  G_SIGNAL_RUN_FIRST,
-                 G_STRUCT_OFFSET(EntangleMediaPopupClass, popup_close),
-                 NULL, NULL,
+                 0, NULL, NULL,
                  g_cclosure_marshal_VOID__VOID,
                  G_TYPE_NONE,
                  0);

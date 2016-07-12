@@ -1456,8 +1456,7 @@ static void entangle_camera_manager_class_init(EntangleCameraManagerClass *klass
     g_signal_new("closed",
                  G_TYPE_FROM_CLASS(klass),
                  G_SIGNAL_RUN_FIRST,
-                 G_STRUCT_OFFSET(EntangleCameraManagerClass, manager_connect),
-                 NULL, NULL,
+                 0, NULL, NULL,
                  g_cclosure_marshal_VOID__VOID,
                  G_TYPE_NONE,
                  0);

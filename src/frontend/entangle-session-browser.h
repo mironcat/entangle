@@ -51,8 +51,6 @@ struct _EntangleSessionBrowser
 struct _EntangleSessionBrowserClass
 {
     GtkDrawingAreaClass parent_class;
-
-    void (*selection_changed)(EntangleSessionBrowser *browser);
 };
 
 GType entangle_session_browser_get_type(void) G_GNUC_CONST;

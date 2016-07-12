@@ -50,9 +50,6 @@ struct _EntangleCameraList
 struct _EntangleCameraListClass
 {
     GObjectClass parent_class;
-
-    void (*camera_added)(EntangleCameraList *list, EntangleCamera *cam);
-    void (*camera_removed)(EntangleCameraList *list, EntangleCamera *cam);
 };
 
 

@@ -50,9 +50,6 @@ struct _EntangleSession
 struct _EntangleSessionClass
 {
     GObjectClass parent_class;
-
-    void (*session_media_added)(EntangleSession *session, EntangleMedia *media);
-    void (*session_media_removed)(EntangleSession *session, EntangleMedia *media);
 };
 
 

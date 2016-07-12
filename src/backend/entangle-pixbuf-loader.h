@@ -53,11 +53,6 @@ struct _EntanglePixbufLoaderClass
 {
     GObjectClass parent_class;
 
-    void (*pixbuf_loaded)(EntanglePixbufLoader *loader, EntangleImage *image);
-    void (*metadata_loaded)(EntanglePixbufLoader *loader, EntangleImage *image);
-    void (*pixbuf_unloaded)(EntanglePixbufLoader *loader, EntangleImage *image);
-    void (*metadata_unloaded)(EntanglePixbufLoader *loader, EntangleImage *image);
-
     GdkPixbuf *(*pixbuf_load)(EntanglePixbufLoader *loader, EntangleImage *image,
                               GExiv2Metadata **metadata);
 };

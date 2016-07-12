@@ -164,16 +164,14 @@ static void entangle_camera_automata_class_init(EntangleCameraAutomataClass *kla
     g_signal_new("camera-capture-begin",
                  G_TYPE_FROM_CLASS(klass),
                  G_SIGNAL_RUN_FIRST,
-                 G_STRUCT_OFFSET(EntangleCameraAutomataClass, camera_capture_begin),
-                 NULL, NULL,
+                 0, NULL, NULL,
                  g_cclosure_marshal_VOID__VOID,
                  G_TYPE_NONE,
                  0);
     g_signal_new("camera-capture-end",
                  G_TYPE_FROM_CLASS(klass),
                  G_SIGNAL_RUN_FIRST,
-                 G_STRUCT_OFFSET(EntangleCameraAutomataClass, camera_capture_end),
-                 NULL, NULL,
+                 0, NULL, NULL,
                  g_cclosure_marshal_VOID__VOID,
                  G_TYPE_NONE,
                  0);
