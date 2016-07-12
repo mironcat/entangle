@@ -56,10 +56,6 @@ struct _EntangleDeviceManagerClass
 GType entangle_device_manager_get_type(void) G_GNUC_CONST;
 EntangleDeviceManager* entangle_device_manager_new(void);
 
-gboolean entangle_device_manager_has_port(EntangleDeviceManager *manager, const char *port);
-
-char *entangle_device_manager_port_serial(EntangleDeviceManager *manager, const char *port);
-
 G_END_DECLS
 
 #endif /* __ENTANGLE_DEVICE_MANAGER_H__ */
