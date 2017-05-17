@@ -297,16 +297,25 @@ void entangle_media_popup_show(EntangleMediaPopup *popup,
 }
 
 
-void entangle_media_popup_move_to_monitor(EntangleMediaPopup *popup, gint monitor)
+void entangle_media_popup_move_to_monitor(EntangleMediaPopup *popup, gint monitorIdx)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup));
 
     EntangleMediaPopupPrivate *priv = popup->priv;
     GtkWidget *win = GTK_WIDGET(gtk_builder_get_object(priv->builder, "media-popup"));
+#if GTK_CHECK_VERSION(3, 22, 0)
+    GdkDisplay *display = gtk_widget_get_display(GTK_WIDGET(win));
+    GdkMonitor *monitor = gdk_display_get_monitor(display, monitorIdx);
+#else
     GdkScreen *screen = gtk_window_get_screen(GTK_WINDOW(win));
+#endif
     GdkRectangle r;
 
-    gdk_screen_get_monitor_geometry(screen, monitor, &r);
+#if GTK_CHECK_VERSION(3, 22, 0)
+    gdk_monitor_get_geometry(monitor, &r);
+#else
+    gdk_screen_get_monitor_geometry(screen, monitorIdx, &r);
+#endif
 
     ENTANGLE_DEBUG("At %d,%d Size %d,%d", r.x, r.y, r.width, r.height);
 

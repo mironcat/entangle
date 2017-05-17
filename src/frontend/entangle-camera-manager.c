@@ -214,12 +214,33 @@ static EntanglePreferences *entangle_camera_manager_get_preferences(EntangleCame
     return entangle_application_get_preferences(app);
 }
 
+#if GTK_CHECK_VERSION(3, 22, 0)
+static int
+entangle_camera_manager_get_monitor_num(GdkMonitor *monitor)
+{
+    GdkDisplay *display;
+    int n_monitors, i;
+
+    display = gdk_monitor_get_display(monitor);
+    n_monitors = gdk_display_get_n_monitors(display);
+    for (i = 0; i < n_monitors; i++) {
+        if (gdk_display_get_monitor(display, i) == monitor)
+            return i;
+    }
+    return -1;
+}
+#endif
+
 static EntangleColourProfile *entangle_camera_manager_monitor_profile(GtkWindow *window)
 {
+#if GTK_CHECK_VERSION(3, 22, 0)
+    GdkDisplay *display;
+    GdkMonitor *monitor;
+#endif
     GdkScreen *screen;
     GByteArray *profileData;
     gchar *atom;
-    int monitor = 0;
+    int monitorIdx = 0;
     GdkAtom type = GDK_NONE;
     gint format = 0;
     gint nitems = 0;
@@ -229,13 +250,20 @@ static EntangleColourProfile *entangle_camera_manager_monitor_profile(GtkWindow 
     gtk_widget_realize(GTK_WIDGET(window));
 
     screen = gtk_widget_get_screen(GTK_WIDGET(window));
-    monitor = gdk_screen_get_monitor_at_window(screen,
-                                               gtk_widget_get_window(GTK_WIDGET(window)));
+#if GTK_CHECK_VERSION(3, 22, 0)
+    display = gtk_widget_get_display(GTK_WIDGET(window));
+    monitor = gdk_display_get_monitor_at_window(display,
+                                                gtk_widget_get_window(GTK_WIDGET(window)));
+    monitorIdx = entangle_camera_manager_get_monitor_num(monitor);
+#else
+    monitorIdx = gdk_screen_get_monitor_at_window(screen,
+                                                  gtk_widget_get_window(GTK_WIDGET(window)));
+#endif
 
-    if (monitor == 0)
+    if (monitorIdx == 0)
         atom = g_strdup("_ICC_PROFILE");
     else
-        atom = g_strdup_printf("_ICC_PROFILE_%d", monitor);
+        atom = g_strdup_printf("_ICC_PROFILE_%d", monitorIdx);
 
     if (!gdk_property_get(gdk_screen_get_root_window(screen),
                           gdk_atom_intern(atom, FALSE),
@@ -419,7 +447,11 @@ static GtkWidget *entangle_camera_manager_monitor_menu(EntangleCameraManager *ma
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager), NULL);
 
     EntangleCameraManagerPrivate *priv = manager->priv;
+#if GTK_CHECK_VERSION(3, 22, 0)
+    GdkDisplay *display = gtk_widget_get_display(GTK_WIDGET(manager));
+#else
     GdkScreen *screen = gtk_window_get_screen(GTK_WINDOW(manager));
+#endif
     GtkWidget *menu = gtk_menu_new();
     GSList *group = NULL;
 #ifdef gdk_screen_get_primary_monitor
@@ -428,8 +460,19 @@ static GtkWidget *entangle_camera_manager_monitor_menu(EntangleCameraManager *ma
     int active = 0;
 #endif
 
-    for (int i = 0; i < gdk_screen_get_n_monitors(screen); i++) {
+    for (int i = 0; i <
+#if GTK_CHECK_VERSION(3, 22, 0)
+             gdk_display_get_n_monitors(display);
+#else
+             gdk_screen_get_n_monitors(screen);
+#endif
+         i++) {
+#if GTK_CHECK_VERSION(3, 22, 0)
+        GdkMonitor *monitor = gdk_display_get_monitor(display, i);
+        const gchar *name = gdk_monitor_get_model(monitor);
+#else
         const gchar *name = gdk_screen_get_monitor_plug_name(screen, i);
+#endif
         GtkWidget *submenu = gtk_radio_menu_item_new_with_label(group, name);
         g_object_set_data(G_OBJECT(submenu), "monitor", GINT_TO_POINTER(i));
         group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(submenu));
