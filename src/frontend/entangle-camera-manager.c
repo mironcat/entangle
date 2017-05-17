@@ -2540,10 +2540,17 @@ void do_menu_help_manual(GtkMenuItem *src G_GNUC_UNUSED,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
 
+#if GTK_CHECK_VERSION(3, 22, 0)
+    gtk_show_uri_on_window(GTK_WINDOW(manager),
+                           "help:entangle",
+                           GDK_CURRENT_TIME,
+                           NULL);
+#else
     gtk_show_uri(gtk_widget_get_screen(GTK_WIDGET(src)),
                  "help:entangle",
                  GDK_CURRENT_TIME,
                  NULL);
+#endif
 }
 
 
