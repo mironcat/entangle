@@ -2989,11 +2989,11 @@ static gboolean do_image_status_hide(gpointer data)
 }
 
 
-static void do_image_status_show(GtkWidget *widget G_GNUC_UNUSED,
-                                 GdkEvent *event G_GNUC_UNUSED,
-                                 gpointer data)
+static gboolean do_image_status_show(GtkWidget *widget G_GNUC_UNUSED,
+                                     GdkEvent *event G_GNUC_UNUSED,
+                                     gpointer data)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(data));
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA_MANAGER(data), FALSE);
 
     EntangleCameraManager *manager = data;
     EntangleCameraManagerPrivate *priv = manager->priv;
@@ -3004,6 +3004,8 @@ static void do_image_status_show(GtkWidget *widget G_GNUC_UNUSED,
     priv->imageDrawerTimer = g_timeout_add_seconds(3,
                                                    do_image_status_hide,
                                                    g_object_ref(manager));
+
+    return FALSE;
 }
 
 
