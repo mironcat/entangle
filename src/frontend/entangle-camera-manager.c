@@ -3094,6 +3094,7 @@ static void do_entangle_camera_manager_set_builder(EntangleWindow *window,
                                    GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_NEVER);
 
+    gtk_widget_set_size_request(settingsViewport, 300, 100);
     gtk_widget_set_size_request(settingsBox, 300, 100);
     gtk_widget_set_size_request(iconScroll, 140, 170);
 
