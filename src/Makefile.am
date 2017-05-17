@@ -157,7 +157,6 @@ libentangle_backend_la_LDFLAGS = \
 	$(GPHOTO2_LIBS) \
 	$(LCMS2_LIBS) \
 	$(GUDEV_LIBS) \
-	$(DBUS_GLIB_LIBS) \
 	$(LIBPEAS_LIBS) \
 	$(GEXIV2_LIBS) \
 	$(LIBRAW_LIBS) \
@@ -174,7 +173,6 @@ libentangle_backend_la_CFLAGS = \
 	$(GPHOTO2_CFLAGS) \
 	$(LCMS2_CFLAGS) \
 	$(GUDEV_CFLAGS) \
-	$(DBUS_GLIB_CFLAGS) \
 	$(LIBPEAS_CFLAGS) \
 	$(GEXIV2_CFLAGS) \
 	$(LIBRAW_CFLAGS) \
@@ -431,7 +429,6 @@ Entangle-0.1.gir: entangle $(G_IR_SCANNER) Makefile.am
                 --pkg=gtk+-3.0 \
                 --pkg=libgphoto2 \
                 --pkg=libpeas-1.0 \
-                --pkg=dbus-glib-1 \
                 --pkg=gexiv2 \
                 --pkg=gstreamer-1.0 \
                 $(libentangle_backend_la_SOURCES:%=$(srcdir)/%) \

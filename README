@@ -43,7 +43,6 @@ be present
  gtk3                  >= 3.0.0
  libgphoto2            >= 2.4.11
  gudev                 >= 145
- dbus-glib             >= 0.60
  gobject-introspection >= 0.9.3
  lcms2                 >= 2.0
  libpeas               >= 0.5.5
