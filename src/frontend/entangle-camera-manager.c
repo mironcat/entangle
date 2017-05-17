@@ -2852,9 +2852,14 @@ static gboolean do_session_browser_popup(EntangleSessionBrowser *browser,
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(openWith), GTK_WIDGET(appList));
 
+#if GTK_CHECK_VERSION(3, 22, 0)
+    gtk_menu_popup_at_pointer(priv->sessionBrowserMenu,
+                              (GdkEvent *)event);
+#else
     gtk_menu_popup(priv->sessionBrowserMenu,
                    NULL, NULL, NULL, NULL,
                    event->button, event->time);
+#endif
 
  cleanup:
     gtk_widget_set_sensitive(GTK_WIDGET(open), ctype && appInfoList ? TRUE : FALSE);
