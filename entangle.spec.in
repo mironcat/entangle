@@ -113,7 +113,7 @@ fi
 %{_datadir}/%{name}/%{name}-camera-picker.ui
 %{_datadir}/%{name}/%{name}-camera-support.ui
 %{_datadir}/%{name}/%{name}-help-about.ui
-%{_datadir}/%{name}/%{name}-image-popup.ui
+%{_datadir}/%{name}/%{name}-media-popup.ui
 %{_datadir}/%{name}/%{name}-preferences-display.ui
 
 %{_datadir}/icons/hicolor/*/apps/entangle.png
