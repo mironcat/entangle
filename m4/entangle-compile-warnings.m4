@@ -65,6 +65,7 @@ AC_DEFUN([ENTANGLE_COMPILE_WARNINGS],[
     gl_WARN_ADD([-Wno-sign-compare])
     gl_WARN_ADD([-Wno-sign-conversion])
     gl_WARN_ADD([-Wno-conversion])
+    gl_WARN_ADD([-Wno-unsafe-loop-optimizations])
 
     # GNULIB expects this to be part of -Wc++-compat, but we turn
     # that one off, so we need to manually enable this again
