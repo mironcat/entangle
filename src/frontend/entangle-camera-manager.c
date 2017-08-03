@@ -3111,7 +3111,7 @@ static void do_entangle_camera_manager_set_builder(EntangleWindow *window,
     gtk_overlay_set_overlay_pass_through(GTK_OVERLAY(imageOverlay),
                                          GTK_WIDGET(priv->imageDrawer), TRUE);
     gtk_container_add(GTK_CONTAINER(priv->imageDrawer), GTK_WIDGET(priv->mediaStatusbar));
-    g_object_set(G_OBJECT(priv->mediaStatusbar),
+    g_object_set(G_OBJECT(priv->imageDrawer),
                  "valign", GTK_ALIGN_START,
                  NULL);
 
