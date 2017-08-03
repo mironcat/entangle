@@ -66,6 +66,8 @@ void do_picker_activate(GtkTreeView *src,
                         EntangleCameraPicker *picker);
 void do_picker_connect(GtkButton *src,
                        EntangleCameraPicker *picker);
+void do_ip_address_changed(GtkEntry *entry,
+                           EntangleCameraPicker *picker);
 
 
 static void entangle_camera_cell_data_model_func(GtkTreeViewColumn *col G_GNUC_UNUSED,
@@ -141,10 +143,14 @@ static void do_model_sensitivity_update(EntangleCameraPicker *picker)
     GtkWidget *warning;
     GtkWidget *list;
     GtkWidget *win;
+    GtkExpander *network;
+    GtkEntry *ipaddr;
 
     warning = GTK_WIDGET(gtk_builder_get_object(priv->builder, "warning-no-cameras"));
     list = GTK_WIDGET(gtk_builder_get_object(priv->builder, "camera-list"));
     win = GTK_WIDGET(gtk_builder_get_object(priv->builder, "camera-picker"));
+    network = GTK_EXPANDER(gtk_builder_get_object(priv->builder, "network-camera"));
+    ipaddr = GTK_ENTRY(gtk_builder_get_object(priv->builder, "ip-address"));
 
     if (priv->cameras && entangle_camera_list_count(priv->cameras)) {
         int w, h;
@@ -152,9 +158,12 @@ static void do_model_sensitivity_update(EntangleCameraPicker *picker)
         gtk_window_resize(GTK_WINDOW(win), w, h);
         gtk_widget_set_sensitive(list, TRUE);
         gtk_widget_hide(warning);
+        gtk_expander_set_expanded(network, FALSE);
     } else {
         gtk_widget_set_sensitive(list, FALSE);
         gtk_widget_show(warning);
+        gtk_expander_set_expanded(network, TRUE);
+        gtk_widget_grab_focus(GTK_WIDGET(ipaddr));
     }
 }
 
@@ -409,8 +418,20 @@ static EntangleCamera *entangle_picker_get_selected_camera(EntangleCameraPicker 
     sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
 
     selected = gtk_tree_selection_get_selected(sel, NULL, &iter);
-    if (!selected)
-        return NULL;
+    if (!selected) {
+        g_printerr("Try ip addr\n");
+        GtkEntry *ipaddr =  GTK_ENTRY(gtk_builder_get_object(priv->builder, "ip-address"));
+        const gchar *addr = gtk_entry_get_text(ipaddr);
+        if (g_str_equal(addr, ""))
+            return NULL;
+
+        gchar *port = g_strdup_printf("ptpip:%s", addr);
+        g_printerr("Try %s\n", port);
+        EntangleCamera *cam = entangle_camera_new("PTP/IP Camera", port, FALSE, FALSE, FALSE);
+        g_free(port);
+
+        return cam;
+    }
 
     memset(&val, 0, sizeof val);
     gtk_tree_model_get_value(GTK_TREE_MODEL(priv->model), &iter, 0, &val);
@@ -470,17 +491,50 @@ static void do_camera_select(GtkTreeSelection *sel, EntangleCameraPicker *picker
 
     EntangleCameraPickerPrivate *priv = picker->priv;
     GtkWidget *connect;
+    GtkExpander *netcamera;
+    GtkEntry *ipaddr;
     GtkTreeIter iter;
     gboolean selected;
 
     ENTANGLE_DEBUG("selection changed");
 
     connect = GTK_WIDGET(gtk_builder_get_object(priv->builder, "picker-connect"));
-
+    netcamera = GTK_EXPANDER(gtk_builder_get_object(priv->builder, "network-camera"));
+    ipaddr = GTK_ENTRY(gtk_builder_get_object(priv->builder, "ip-address"));
     selected = gtk_tree_selection_get_selected(sel, NULL, &iter);
+
+    if (selected) {
+        gtk_expander_set_expanded(netcamera, FALSE);
+        gtk_entry_set_text(ipaddr, "");
+    }
+
     gtk_widget_set_sensitive(connect, selected);
 }
 
+
+void do_ip_address_changed(GtkEntry *entry, EntangleCameraPicker *picker)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
+
+    EntangleCameraPickerPrivate *priv = picker->priv;
+    GtkWidget *connect;
+    GtkTreeView *list;
+    GtkTreeSelection *sel;
+    GtkTreeIter iter;
+    gboolean selected;
+    const gchar *addr;
+
+    connect = GTK_WIDGET(gtk_builder_get_object(priv->builder, "picker-connect"));
+    list = GTK_TREE_VIEW(gtk_builder_get_object(priv->builder, "camera-list"));
+    addr = gtk_entry_get_text(entry);
+
+    sel = gtk_tree_view_get_selection(list);
+    selected = gtk_tree_selection_get_selected(sel, NULL, &iter);
+    if (!g_str_equal(addr, "") && selected)
+        gtk_tree_selection_unselect_all(sel);
+
+    gtk_widget_set_sensitive(connect, g_hostname_is_ip_address(addr));
+}
 
 static void do_entangle_camera_picker_set_builder(EntangleWindow *win,
                                                   GtkBuilder *builder)
