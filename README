@@ -63,7 +63,7 @@ Bugs found when using an OS distribution's binary packages should
 be reported to the OS vendors' own bug tracker first. Otherwise
 they can be reported to
 
-   https://gna.org/bugs/?group=entangle
+   https://gitlab.com/entangle/entangle/issues
 
 The latest entangle code can be found in GIT at:
 
