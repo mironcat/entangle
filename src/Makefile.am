@@ -154,6 +154,7 @@ libentangle_backend_la_LDFLAGS = \
 	$(GTHREAD_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
 	$(GST_LIBS) \
+	$(GST_PLUGINS_BASE_LIBS) \
 	$(GPHOTO2_LIBS) \
 	$(LCMS2_LIBS) \
 	$(GUDEV_LIBS) \
@@ -170,6 +171,7 @@ libentangle_backend_la_CFLAGS = \
 	$(GTHREAD_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
 	$(GST_CFLAGS) \
+	$(GST_PLUGINS_BASE_CFLAGS) \
 	$(GPHOTO2_CFLAGS) \
 	$(LCMS2_CFLAGS) \
 	$(GUDEV_CFLAGS) \
