@@ -3,6 +3,8 @@
 *\.log
 *\.lo
 *\.la
+*\.orig
+*\.rej
 Makefile
 Makefile\.in
 *\.gmo
@@ -20,6 +22,12 @@ config\.sub
 configure
 depcomp
 docs/man/en/entangle\.1
+docs/reference/html/
+docs/reference/xml/
+docs/reference/.libs/
+docs/reference/*stamp
+docs/reference/Entangle-*.txt
+docs/reference/Entangle.*
 entangle\.spec
 gtk-doc\.make
 install-sh
