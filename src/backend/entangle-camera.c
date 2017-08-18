@@ -3678,13 +3678,18 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
                                                   GVolumeMonitor *monitor)
 {
     EntangleCameraPrivate *priv = cam->priv;
-    gchar *uri;
+    gchar *uri1;
+    gchar *uri2;
     GList *mounts;
     GList *tmp;
     GMount *ret = NULL;
+    gchar *host, *eschost;
 
     g_mutex_lock(priv->lock);
-    uri = g_strdup_printf("gphoto2://[%s]/", priv->port);
+    uri1 = g_strdup_printf("gphoto2://[%s]/", priv->port);
+    host = g_strdup_printf("[%s]", priv->port);
+    eschost = g_uri_escape_string(host, ",", TRUE);
+    uri2 = g_strdup_printf("gphoto2://%s/", eschost);
     g_mutex_unlock(priv->lock);
 
     mounts = g_volume_monitor_get_mounts(monitor);
@@ -3694,7 +3699,8 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
         GFile *root = g_mount_get_root(mount);
         gchar *thisuri = g_file_get_uri(root);
 
-        if (g_strcmp0(uri, thisuri) == 0)
+        if (g_str_equal(uri1, thisuri) ||
+            g_str_equal(uri2, thisuri))
             ret = mount;
         else
             g_object_unref(mount);
@@ -3703,7 +3709,10 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
     }
     g_list_free(mounts);
 
-    g_free(uri);
+    g_free(uri1);
+    g_free(uri2);
+    g_free(host);
+    g_free(eschost);
 
     return ret;
 }
