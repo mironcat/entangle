@@ -419,14 +419,12 @@ static EntangleCamera *entangle_picker_get_selected_camera(EntangleCameraPicker 
 
     selected = gtk_tree_selection_get_selected(sel, NULL, &iter);
     if (!selected) {
-        g_printerr("Try ip addr\n");
         GtkEntry *ipaddr =  GTK_ENTRY(gtk_builder_get_object(priv->builder, "ip-address"));
         const gchar *addr = gtk_entry_get_text(ipaddr);
         if (g_str_equal(addr, ""))
             return NULL;
 
         gchar *port = g_strdup_printf("ptpip:%s", addr);
-        g_printerr("Try %s\n", port);
         EntangleCamera *cam = entangle_camera_new("PTP/IP Camera", port, FALSE, FALSE, FALSE);
         g_free(port);
 
