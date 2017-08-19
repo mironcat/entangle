@@ -143,6 +143,14 @@ fi
 %{_datadir}/%{name}/plugins/shooter/schemas/gschemas.compiled
 %{_datadir}/%{name}/plugins/shooter/schemas/org.entangle-photo.plugins.shooter.gschema.xml
 
+%dir %{_libdir}/%{name}/plugins/eclipse
+%dir %{_datadir}/%{name}/plugins/eclipse
+%dir %{_datadir}/%{name}/plugins/eclipse/schemas
+%{_libdir}/%{name}/plugins/eclipse/eclipse.plugin
+%{_libdir}/%{name}/plugins/eclipse/eclipse.py*
+%{_datadir}/%{name}/plugins/eclipse/schemas/gschemas.compiled
+%{_datadir}/%{name}/plugins/eclipse/schemas/org.entangle-photo.plugins.eclipse.gschema.xml
+
 %{_datadir}/%{name}/sRGB.icc
 %{_datadir}/gtk-doc/html/Entangle
 %{_datadir}/applications/%{name}.desktop
