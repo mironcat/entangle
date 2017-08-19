@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+
+  <schema path="/org/entangle-photo/plugins/eclipse/" id="org.entangle-photo.plugins.eclipse" gettext-domain="entangle-photo">
+    <key type="s" name="iso">
+      <default>'400'</default>
+      <summary>ISO</summary>
+      <description>ISO sensitivity</description>
+    </key>
+    <key type="s" name="aperture">
+      <default>'11'</default>
+      <summary>Aperture</summary>
+      <description>Lens/scope aperture</description>
+    </key>
+  </schema>
+
+</schemalist>
