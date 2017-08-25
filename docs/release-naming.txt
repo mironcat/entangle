@@ -34,4 +34,4 @@ Quarks
  0.6.1 - Strange
  0.7.0 - Charm
  0.7.1 - Top
- x.x.x - Bottom
+ 0.7.2 - Bottom

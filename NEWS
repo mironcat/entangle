@@ -1,6 +1,38 @@
       Entangle News
       =============
 
+Release 0.7.2 - "Bottom" - 2017-08-25
+-------------------------------------
+
+ * Requires Gtk >= 3.10.0
+ * Fix some introspection annotations
+ * Use GdkSeat APIs if available
+ * Use GtkOverlay and GtkRevealer in preference to
+   custom widgets
+ * Refactoring to prepare to support display of video
+   files
+ * Draw symbolic icons for video/image files while
+   waiting for thumbnails to load
+ * Ensure session highlight has a min 1 pixel visible
+   border
+ * Ensure session browser scrolls fully to right
+ * Check for Adwaita icon theme which now includes
+   symbolic icons
+ * Remove left over check for DBus GLib
+ * Remove use of deprecated GDK monitor functions
+ * Remove use of deprecated GTK API for loading URIs
+ * Fix handling of motion-notify event that broke client
+   side window dragging
+ * Fix warning when setting size of settings viewport
+ * Update bug reporting address
+ * Turn off over-zealous compiler warning about loop
+   optimizations
+ * Add ability to enter IP address of network camera
+ * Fix URI pattern used to locate gphoto gvfs mounts
+ * Add example plugin for bracketing photos of a total
+   eclipse
+
+
 Release 0.7.1 - "Top" - 2016-02-21
 ----------------------------------
 
