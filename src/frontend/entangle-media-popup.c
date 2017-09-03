@@ -171,6 +171,7 @@ static gboolean entangle_media_popup_key_release(GtkWidget *widget,
     if (ev->keyval == GDK_KEY_Escape ||
         ev->keyval == GDK_KEY_KP_Enter ||
         ev->keyval == GDK_KEY_Return) {
+        g_signal_emit_by_name(widget, "popup-close", NULL);
         gtk_widget_hide(widget);
         return TRUE;
     }
@@ -237,6 +238,7 @@ gboolean do_popup_delete(GtkWidget *src,
 
     ENTANGLE_DEBUG("popup delete");
 
+    g_signal_emit_by_name(src, "popup-close", NULL);
     gtk_widget_hide(src);
     return TRUE;
 }
@@ -358,7 +360,7 @@ void entangle_media_popup_show_on_monitor(EntangleMediaPopup *popup, gint monito
 void entangle_media_popup_set_media(EntangleMediaPopup *popup, EntangleMedia *media)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup));
-    g_return_if_fail(ENTANGLE_IS_MEDIA(media));
+    g_return_if_fail(!media || ENTANGLE_IS_MEDIA(media));
 
     g_object_set(popup, "media", media, NULL);
 }
