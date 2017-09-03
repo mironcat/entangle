@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.1 -->
+<!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.0"/>
+  <requires lib="gtk+" version="3.10"/>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">100</property>
     <property name="step_increment">1</property>
@@ -78,7 +78,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox1">
+          <object class="GtkBox" id="hbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -118,16 +118,17 @@
                     <property name="yalign">0</property>
                     <property name="yscale">0</property>
                     <child>
-                      <object class="GtkVBox" id="vbox2">
+                      <object class="GtkBox" id="vbox2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkEventBox" id="capture-box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkHBox" id="capture-hbox">
+                              <object class="GtkBox" id="capture-hbox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="border_width">6</property>
@@ -135,9 +136,9 @@
                                   <object class="GtkLabel" id="capture-label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">&lt;b&gt;Capture&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
+                                    <property name="xalign">0</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -179,8 +180,8 @@
                               <object class="GtkLabel" id="label4">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Filename pattern:</property>
+                                <property name="xalign">0</property>
                               </object>
                             </child>
                             <child>
@@ -287,16 +288,17 @@
                     <property name="yalign">0</property>
                     <property name="yscale">0</property>
                     <child>
-                      <object class="GtkVBox" id="vbox1">
+                      <object class="GtkBox" id="vbox1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkEventBox" id="cms-box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkHBox" id="cms-hbox">
+                              <object class="GtkBox" id="cms-hbox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="border_width">6</property>
@@ -304,9 +306,9 @@
                                   <object class="GtkLabel" id="cms-label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">&lt;b&gt;Colour management&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
+                                    <property name="xalign">0</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -351,16 +353,16 @@
                               <object class="GtkLabel" id="label6">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Mode of operation:</property>
+                                <property name="xalign">0</property>
                               </object>
                             </child>
                             <child>
                               <object class="GtkLabel" id="label7">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">RGB profile:</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -371,8 +373,8 @@
                               <object class="GtkLabel" id="label8">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Monitor profile:</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="top_attach">2</property>
@@ -383,8 +385,8 @@
                               <object class="GtkLabel" id="label10">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Rendering intent:</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="top_attach">4</property>
@@ -504,16 +506,17 @@
                     <property name="yalign">0</property>
                     <property name="yscale">0</property>
                     <child>
-                      <object class="GtkVBox" id="plugins-panel">
+                      <object class="GtkBox" id="plugins-panel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkEventBox" id="plugins-box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkHBox" id="plugins-hbox">
+                              <object class="GtkBox" id="plugins-hbox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="border_width">6</property>
@@ -521,9 +524,9 @@
                                   <object class="GtkLabel" id="plugins-label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">&lt;b&gt;Plugins&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
+                                    <property name="xalign">0</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -581,16 +584,17 @@
                     <property name="yalign">0</property>
                     <property name="yscale">0</property>
                     <child>
-                      <object class="GtkVBox" id="interface-panel">
+                      <object class="GtkBox" id="interface-panel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkEventBox" id="interface-box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkHBox" id="interface-hbox">
+                              <object class="GtkBox" id="interface-hbox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="border_width">6</property>
@@ -598,9 +602,9 @@
                                   <object class="GtkLabel" id="interface-label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">&lt;b&gt;Interface&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
+                                    <property name="xalign">0</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -717,16 +721,17 @@
                     <property name="yalign">0</property>
                     <property name="yscale">0</property>
                     <child>
-                      <object class="GtkVBox" id="img-panel">
+                      <object class="GtkBox" id="img-panel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkEventBox" id="img-box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkHBox" id="img-hbox">
+                              <object class="GtkBox" id="img-hbox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="border_width">6</property>
@@ -734,9 +739,9 @@
                                   <object class="GtkLabel" id="img-label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="label" translatable="yes">&lt;b&gt;Image Viewer&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
+                                    <property name="xalign">0</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -792,8 +797,8 @@
                               <object class="GtkLabel" id="img-aspect-ratio-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Aspect ratio:</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -804,8 +809,8 @@
                               <object class="GtkLabel" id="img-mask-opacity-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Mask opacity:</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="top_attach">2</property>
@@ -861,8 +866,8 @@
                               <object class="GtkLabel" id="label5">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Grid lines:</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="top_attach">4</property>
@@ -919,8 +924,8 @@
                               <object class="GtkLabel" id="img-onion-layers-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Overlay layers:</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="top_attach">7</property>
@@ -946,8 +951,8 @@
                               <object class="GtkLabel" id="img-background-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Background:</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="top_attach">8</property>
@@ -972,8 +977,8 @@
                               <object class="GtkLabel" id="img-highlight-label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Highlight:</property>
+                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="top_attach">9</property>
@@ -1038,5 +1043,8 @@
     <action-widgets>
       <action-widget response="0">close</action-widget>
     </action-widgets>
+    <child>
+      <placeholder/>
+    </child>
   </object>
 </interface>

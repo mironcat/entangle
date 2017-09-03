@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.2"/>
+  <requires lib="gtk+" version="3.10"/>
   <object class="GtkDialog" id="camera-picker">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -85,10 +85,11 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="vbox1">
+          <object class="GtkBox" id="vbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
@@ -129,7 +130,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="warning-no-cameras">
+              <object class="GtkBox" id="warning-no-cameras">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>

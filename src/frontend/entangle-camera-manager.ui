@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.0"/>
+  <requires lib="gtk+" version="3.10"/>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -14,9 +14,10 @@
     <property name="default_height">600</property>
     <signal name="key-release-event" handler="do_manager_key_release" swapped="no"/>
     <child>
-      <object class="GtkVBox" id="win-box">
+      <object class="GtkBox" id="win-box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkMenuBar" id="win-menubar">
             <property name="visible">True</property>
@@ -139,8 +140,8 @@
                         <property name="label" translatable="yes">Capture</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="do_menu_capture" swapped="no"/>
-                        <accelerator key="space" signal="activate"/>
                         <accelerator key="s" signal="activate"/>
+                        <accelerator key="space" signal="activate"/>
                       </object>
                     </child>
                     <child>
@@ -618,7 +619,7 @@ native pixel size</property>
           </packing>
         </child>
         <child>
-          <object class="GtkHPaned" id="win-mainpane">
+          <object class="GtkPaned" id="win-mainpane">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="border_width">6</property>
@@ -645,9 +646,10 @@ native pixel size</property>
               </packing>
             </child>
             <child>
-              <object class="GtkVPaned" id="display-panel">
+              <object class="GtkPaned" id="display-panel">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+		<property name="orientation">vertical</property>
                 <child>
                   <placeholder/>
                 </child>
@@ -668,6 +670,9 @@ native pixel size</property>
           </packing>
         </child>
       </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
     </child>
   </object>
   <object class="GtkMenu" id="menu-session-browser">
