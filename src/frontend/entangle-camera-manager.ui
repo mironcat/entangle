@@ -37,9 +37,9 @@
                         <property name="label" translatable="yes">Select session</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.session</property>
                         <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
-                        <signal name="activate" handler="do_menu_select_session" swapped="no"/>
                         <accelerator key="o" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
@@ -54,9 +54,9 @@
                         <property name="label">gtk-close</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.close</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="do_menu_close" swapped="no"/>
                         <accelerator key="w" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
@@ -65,9 +65,9 @@
                         <property name="label">gtk-quit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">app.quit</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="do_menu_quit" swapped="no"/>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
@@ -90,9 +90,9 @@
                         <property name="label">gtk-preferences</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.preferences</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="do_menu_preferences" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -114,8 +114,8 @@
                         <property name="label" translatable="yes">Connect</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.connect</property>
                         <property name="use_stock">False</property>
-                        <signal name="activate" handler="do_menu_connect" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -123,8 +123,8 @@
                         <property name="label">Disconnect</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.disconnect</property>
                         <property name="use_stock">False</property>
-                        <signal name="activate" handler="do_menu_disconnect" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -137,20 +137,20 @@
                       <object class="GtkMenuItem" id="menu-capture">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.capture</property>
                         <property name="label" translatable="yes">Capture</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="do_menu_capture" swapped="no"/>
-                        <accelerator key="s" signal="activate"/>
                         <accelerator key="space" signal="activate"/>
+                        <accelerator key="s" signal="activate"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkCheckMenuItem" id="menu-preview">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.preview</property>
                         <property name="label" translatable="yes">Preview</property>
                         <property name="use_underline">True</property>
-                        <signal name="toggled" handler="do_menu_preview" swapped="no"/>
                         <accelerator key="p" signal="activate"/>
                       </object>
                     </child>
@@ -158,9 +158,9 @@
                       <object class="GtkMenuItem" id="menu-cancel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.cancel</property>
                         <property name="label" translatable="yes">Cancel</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="do_menu_cancel" swapped="no"/>
                         <accelerator key="Escape" signal="activate"/>
                       </object>
                     </child>
@@ -172,9 +172,9 @@
                     <child>
                       <object class="GtkMenuItem" id="menu-sync-clock">
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.sync-clock</property>
                         <property name="label" translatable="yes">Synchronize clock</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="do_menu_sync_clock" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -196,9 +196,9 @@
                         <property name="label">gtk-zoom-fit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.zoom-best</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="do_menu_zoom_best" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -212,9 +212,9 @@
                         <property name="label">gtk-zoom-out</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.zoom-out</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="do_menu_zoom_out" swapped="no"/>
                         <accelerator key="minus" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
@@ -223,9 +223,9 @@
                         <property name="label">gtk-zoom-100</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.zoom-normal</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="do_menu_zoom_normal" swapped="no"/>
                         <accelerator key="0" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
@@ -234,9 +234,9 @@
                         <property name="label">gtk-zoom-in</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.zoom-in</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="do_menu_zoom_in" swapped="no"/>
                         <accelerator key="plus" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
@@ -250,19 +250,19 @@
                       <object class="GtkCheckMenuItem" id="menu-settings">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.settings</property>
                         <property name="label" translatable="yes">Settings</property>
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
-                        <signal name="toggled" handler="do_menu_settings_toggled" swapped="no"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkCheckMenuItem" id="menu-fullscreen">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.fullscreen</property>
                         <property name="label" translatable="yes">Fullscreen</property>
                         <property name="use_underline">True</property>
-                        <signal name="toggled" handler="do_menu_fullscreen" swapped="no"/>
                         <accelerator key="F11" signal="activate"/>
                       </object>
                     </child>
@@ -270,9 +270,9 @@
                       <object class="GtkCheckMenuItem" id="menu-presentation">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">win.presentation</property>
                         <property name="label" translatable="yes">Presentation</property>
                         <property name="use_underline">True</property>
-                        <signal name="toggled" handler="do_menu_presentation" swapped="no"/>
                         <accelerator key="F5" signal="activate"/>
                       </object>
                     </child>
@@ -308,9 +308,9 @@
                       <object class="GtkMenuItem" id="menu-new-window">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">app.new-window</property>
                         <property name="label" translatable="yes">New window</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="do_menu_new_window" swapped="no"/>
                         <accelerator key="n" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
@@ -324,6 +324,7 @@
                       <object class="GtkCheckMenuItem" id="menu-sync-windows">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">app.sync-capture</property>
                         <property name="label" translatable="yes">Synchronize capture</property>
                         <property name="use_underline">True</property>
                       </object>
@@ -347,9 +348,9 @@
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">app.about</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="do_menu_help_about" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -357,9 +358,9 @@
                         <property name="label" translatable="yes">Manual</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">app.manual</property>
                         <property name="image">image1</property>
                         <property name="use_stock">False</property>
-                        <signal name="activate" handler="do_menu_help_manual" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -373,8 +374,8 @@
                         <property name="label" translatable="yes">Supported Cameras</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="action_name">app.devices</property>
                         <property name="use_stock">False</property>
-                        <signal name="activate" handler="do_menu_help_supported" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -427,11 +428,11 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">View the full list of camera settings</property>
+                <property name="action_name">win.settings</property>
                 <property name="label" translatable="yes">Settings</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">emblem-system-symbolic</property>
                 <property name="active">True</property>
-                <signal name="toggled" handler="do_toolbar_settings" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -454,10 +455,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Capture an image</property>
+                <property name="action_name">win.capture</property>
                 <property name="label" translatable="yes">Capture</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">camera-photo-symbolic</property>
-                <signal name="clicked" handler="do_toolbar_capture" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -469,10 +470,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Continuous capture preview</property>
+                <property name="action_name">win.preview</property>
                 <property name="label" translatable="yes">Preview</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">emblem-photos-symbolic</property>
-                <signal name="toggled" handler="do_toolbar_preview" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -485,10 +486,10 @@
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Attempt to cancel the currently
 executing camera operation</property>
+                <property name="action_name">win.cancel</property>
                 <property name="label" translatable="yes">Cancel</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">process-stop-symbolic</property>
-                <signal name="clicked" handler="do_toolbar_cancel_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -512,10 +513,10 @@ executing camera operation</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Shrink the display of the image
 by one factor</property>
+                <property name="action_name">win.zoom-out</property>
                 <property name="label" translatable="yes">Zoom Out</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">zoom-out-symbolic</property>
-                <signal name="clicked" handler="do_toolbar_zoom_out" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -528,10 +529,10 @@ by one factor</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Enlarge the display of the image
 by one factor</property>
+                <property name="action_name">win.zoom-in</property>
                 <property name="label" translatable="yes">Zoom In</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">zoom-in-symbolic</property>
-                <signal name="clicked" handler="do_toolbar_zoom_in" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -544,10 +545,10 @@ by one factor</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Resize the image to automatically
 fit the available window real estate</property>
+                <property name="action_name">win.zoom-best</property>
                 <property name="label" translatable="yes">Best Fit</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">zoom-fit-best-symbolic</property>
-                <signal name="clicked" handler="do_toolbar_zoom_best" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -560,10 +561,10 @@ fit the available window real estate</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Display the image with its
 native pixel size</property>
+                <property name="action_name">win.zoom-normal</property>
                 <property name="label" translatable="yes">Normal</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">zoom-original-symbolic</property>
-                <signal name="clicked" handler="do_toolbar_zoom_normal" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -585,10 +586,10 @@ native pixel size</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Switch to fullscreen display mode</property>
+                <property name="action_name">win.fullscreen</property>
                 <property name="label" translatable="yes">Full Screen</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">view-fullscreen-symbolic</property>
-                <signal name="toggled" handler="do_toolbar_fullscreen" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -649,7 +650,7 @@ native pixel size</property>
               <object class="GtkPaned" id="display-panel">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-		<property name="orientation">vertical</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <placeholder/>
                 </child>

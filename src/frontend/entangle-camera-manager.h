@@ -43,14 +43,14 @@ typedef struct _EntangleCameraManagerClass EntangleCameraManagerClass;
 
 struct _EntangleCameraManager
 {
-    GtkWindow parent;
+    GtkApplicationWindow parent;
 
     EntangleCameraManagerPrivate *priv;
 };
 
 struct _EntangleCameraManagerClass
 {
-    GtkWindowClass parent_class;
+    GtkApplicationWindowClass parent_class;
 };
 
 

@@ -29,6 +29,8 @@
 #include "entangle-application.h"
 #include "entangle-preferences.h"
 #include "entangle-camera-manager.h"
+#include "entangle-help-about.h"
+#include "entangle-camera-support.h"
 
 /**
  * SECTION:entangle-application
@@ -56,6 +58,8 @@ struct _EntangleApplicationPrivate {
     EntangleCameraList *supportedCameras;
 
     EntanglePreferences *preferences;
+    EntangleHelpAbout *about;
+    EntangleCameraSupport *devices;
 
     PeasEngine *pluginEngine;
     PeasExtensionSet *pluginExt;
@@ -166,6 +170,111 @@ static void entangle_application_activate(GApplication *gapp)
     }
 }
 
+static void do_action_devices(GSimpleAction *act G_GNUC_UNUSED,
+                              GVariant *param G_GNUC_UNUSED,
+                              gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
+
+    EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
+    EntangleApplicationPrivate *priv = app->priv;
+
+    if (!priv->devices) {
+        priv->devices = entangle_camera_support_new();
+        entangle_camera_support_set_camera_list(priv->devices,
+                                                entangle_application_get_supported_cameras(app));
+        gtk_window_set_transient_for(GTK_WINDOW(priv->devices),
+                                     gtk_application_get_active_window(GTK_APPLICATION(app)));
+    }
+
+    gtk_widget_show(GTK_WIDGET(priv->devices));
+}
+
+
+static void do_action_quit(GSimpleAction *act G_GNUC_UNUSED,
+                           GVariant *param G_GNUC_UNUSED,
+                           gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
+
+    EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
+    GList *windows = gtk_application_get_windows(GTK_APPLICATION(app));
+    GList *tmp = g_list_copy(windows);
+
+    while (tmp) {
+        GtkWidget *window = GTK_WIDGET(tmp->data);
+        gtk_widget_destroy(window);
+        tmp = tmp->next;
+    }
+    g_list_free(tmp);
+}
+
+
+static void do_action_about(GSimpleAction *act G_GNUC_UNUSED,
+                            GVariant *param G_GNUC_UNUSED,
+                            gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
+
+    EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
+    EntangleApplicationPrivate *priv = app->priv;
+
+    if (!priv->about) {
+        priv->about = entangle_help_about_new();
+        gtk_window_set_transient_for(GTK_WINDOW(priv->about),
+                                     gtk_application_get_active_window(GTK_APPLICATION(app)));
+    }
+
+    gtk_widget_show(GTK_WIDGET(priv->about));
+}
+
+
+static void do_action_manual(GSimpleAction *act G_GNUC_UNUSED,
+                             GVariant *param G_GNUC_UNUSED,
+                             gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
+
+    EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
+#if GTK_CHECK_VERSION(3, 22, 0)
+    gtk_show_uri_on_window(gtk_application_get_active_window(GTK_APPLICATION(app)),
+                           "help:entangle",
+                           GDK_CURRENT_TIME,
+                           NULL);
+#else
+    gtk_show_uri(gtk_widget_get_screen(GTK_WIDGET(src)),
+                 "help:entangle",
+                 GDK_CURRENT_TIME,
+                 NULL);
+#endif
+}
+
+static void do_action_new_window(GSimpleAction *act G_GNUC_UNUSED,
+                                 GVariant *param G_GNUC_UNUSED,
+                                 gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
+
+    EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
+    EntangleCameraManager *newmanager = entangle_camera_manager_new();
+    gtk_window_set_application(GTK_WINDOW(newmanager), GTK_APPLICATION(app));
+
+    gtk_widget_show(GTK_WIDGET(newmanager));
+    gtk_window_present(GTK_WINDOW(newmanager));
+}
+
+
+
+static GActionEntry actions[] =
+{
+    { .name = "about", .activate = do_action_about },
+    { .name = "manual", .activate = do_action_manual },
+    { .name = "devices", .activate = do_action_devices },
+    { .name = "quit", .activate = do_action_quit },
+    { .name = "new-window", .activate = do_action_new_window },
+};
+
+
 static void entangle_application_startup(GApplication *gapp)
 {
     g_return_if_fail(ENTANGLE_IS_APPLICATION(gapp));
@@ -176,6 +285,10 @@ static void entangle_application_startup(GApplication *gapp)
     gboolean gotcamera = FALSE;
 
     (*G_APPLICATION_CLASS(entangle_application_parent_class)->startup)(gapp);
+
+    g_action_map_add_action_entries(G_ACTION_MAP(app),
+                                    actions, G_N_ELEMENTS(actions),
+                                    app);
 
     gtk_window_set_default_icon_name("entangle");
 

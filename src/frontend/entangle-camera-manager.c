@@ -35,7 +35,6 @@
 #include "entangle-camera-automata.h"
 #include "entangle-camera-manager.h"
 #include "entangle-camera-list.h"
-#include "entangle-camera-support.h"
 #include "entangle-camera-picker.h"
 #include "entangle-session.h"
 #include "entangle-image-display.h"
@@ -44,7 +43,6 @@
 #include "entangle-thumbnail-loader.h"
 #include "entangle-media-popup.h"
 #include "entangle-image-histogram.h"
-#include "entangle-help-about.h"
 #include "entangle-script-config.h"
 #include "entangle-session-browser.h"
 #include "entangle-control-panel.h"
@@ -63,13 +61,11 @@ struct _EntangleCameraManagerPrivate {
     EntangleCameraPreferences *cameraPrefs;
     gboolean cameraReady;
     gboolean cameraChanged;
+    gboolean fullscreen;
     EntangleSession *session;
     EntangleScriptConfig *scriptConfig;
 
     EntangleCameraPicker *picker;
-    EntangleHelpAbout *about;
-
-    EntangleCameraSupport *supported;
 
     EntangleImageLoader *imageLoader;
     EntangleThumbnailLoader *thumbLoader;
@@ -123,7 +119,7 @@ static void entangle_camera_manager_window_interface_init(gpointer g_iface,
 static void do_select_media(EntangleCameraManager *manager,
                             EntangleMedia *media);
 
-G_DEFINE_TYPE_EXTENDED(EntangleCameraManager, entangle_camera_manager, GTK_TYPE_WINDOW, 0,
+G_DEFINE_TYPE_EXTENDED(EntangleCameraManager, entangle_camera_manager, GTK_TYPE_APPLICATION_WINDOW, 0,
                        G_IMPLEMENT_INTERFACE(ENTANGLE_TYPE_PROGRESS, entangle_camera_progress_interface_init)
                        G_IMPLEMENT_INTERFACE(ENTANGLE_TYPE_WINDOW, entangle_camera_manager_window_interface_init));
 
@@ -133,68 +129,8 @@ enum {
 };
 
 
-void do_menu_help_supported(GtkMenuItem *src,
-                            EntangleCameraManager *manager);
-void do_menu_new_window(GtkImageMenuItem *src,
-                        EntangleCameraManager *manager);
-void do_menu_select_session(GtkImageMenuItem *src,
-                            EntangleCameraManager *manager);
-void do_menu_settings_toggled(GtkCheckMenuItem *src,
-                              EntangleCameraManager *manager);
-void do_menu_zoom_in(GtkImageMenuItem *src,
-                     EntangleCameraManager *manager);
-void do_menu_zoom_out(GtkImageMenuItem *src,
-                      EntangleCameraManager *manager);
-void do_menu_zoom_normal(GtkImageMenuItem *src,
-                         EntangleCameraManager *manager);
-void do_menu_zoom_best(GtkImageMenuItem *src,
-                       EntangleCameraManager *manager);
-void do_menu_fullscreen(GtkCheckMenuItem *src,
-                        EntangleCameraManager *manager);
-void do_menu_presentation(GtkCheckMenuItem *src,
-                          EntangleCameraManager *manager);
-void do_menu_preferences(GtkCheckMenuItem *src,
-                         EntangleCameraManager *manager);
 void do_toolbar_select_session(GtkFileChooserButton *src,
                                EntangleCameraManager *manager);
-void do_toolbar_settings(GtkToggleToolButton *src,
-                         EntangleCameraManager *manager);
-void do_toolbar_cancel_clicked(GtkToolButton *src,
-                               EntangleCameraManager *manager);
-void do_toolbar_capture(GtkToolButton *src,
-                        EntangleCameraManager *manager);
-void do_toolbar_preview(GtkToggleToolButton *src,
-                        EntangleCameraManager *manager);
-void do_toolbar_zoom_in(GtkToolButton *src,
-                        EntangleCameraManager *manager);
-void do_toolbar_zoom_out(GtkToolButton *src,
-                         EntangleCameraManager *manager);
-void do_toolbar_zoom_normal(GtkToolButton *src,
-                            EntangleCameraManager *manager);
-void do_toolbar_zoom_best(GtkToolButton *src,
-                          EntangleCameraManager *manager);
-void do_toolbar_fullscreen(GtkToggleToolButton *src,
-                           EntangleCameraManager *manager);
-void do_menu_close(GtkMenuItem *src,
-                   EntangleCameraManager *manager);
-void do_menu_quit(GtkMenuItem *src,
-                  EntangleCameraManager *manager);
-void do_menu_help_about(GtkMenuItem *src,
-                        EntangleCameraManager *manager);
-void do_menu_help_manual(GtkMenuItem *src,
-                         EntangleCameraManager *manager);
-void do_menu_connect(GtkMenuItem *src,
-                     EntangleCameraManager *manager);
-void do_menu_disconnect(GtkMenuItem *src,
-                        EntangleCameraManager *manager);
-void do_menu_capture(GtkMenuItem *src,
-                     EntangleCameraManager *manager);
-void do_menu_preview(GtkMenuItem *src,
-                     EntangleCameraManager *manager);
-void do_menu_cancel(GtkMenuItem *src,
-                    EntangleCameraManager *manager);
-void do_menu_sync_clock(GtkMenuItem *src,
-                        EntangleCameraManager *manager);
 gboolean do_manager_key_release(GtkWidget *widget G_GNUC_UNUSED,
                                 GdkEventKey *ev,
                                 gpointer data);
@@ -1519,40 +1455,6 @@ static void entangle_camera_manager_class_init(EntangleCameraManagerClass *klass
 }
 
 
-void do_menu_help_supported(GtkMenuItem *src G_GNUC_UNUSED,
-                            EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    EntangleCameraManagerPrivate *priv = manager->priv;
-
-    if (!priv->supported) {
-        EntangleApplication *app = ENTANGLE_APPLICATION(gtk_window_get_application(GTK_WINDOW(manager)));
-        priv->supported = entangle_camera_support_new();
-        entangle_camera_support_set_camera_list(priv->supported,
-                                                entangle_application_get_supported_cameras(app));
-        gtk_window_set_transient_for(GTK_WINDOW(priv->supported),
-                                     GTK_WINDOW(manager));
-    }
-
-    gtk_widget_show(GTK_WIDGET(priv->supported));
-}
-
-
-void do_menu_new_window(GtkImageMenuItem *src G_GNUC_UNUSED,
-                        EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    GtkApplication *app = gtk_window_get_application(GTK_WINDOW(manager));
-    EntangleCameraManager *newmanager = entangle_camera_manager_new();
-    gtk_window_set_application(GTK_WINDOW(newmanager), app);
-
-    gtk_widget_show(GTK_WIDGET(newmanager));
-    gtk_window_present(GTK_WINDOW(newmanager));
-}
-
-
 void do_toolbar_select_session(GtkFileChooserButton *src,
                                EntangleCameraManager *manager)
 {
@@ -1577,11 +1479,13 @@ void do_toolbar_select_session(GtkFileChooserButton *src,
 }
 
 
-void do_menu_select_session(GtkImageMenuItem *src G_GNUC_UNUSED,
-                            EntangleCameraManager *manager)
+static void do_action_session(GSimpleAction *act G_GNUC_UNUSED,
+                              GVariant *param G_GNUC_UNUSED,
+                              gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     EntangleCameraManagerPrivate *priv = manager->priv;
     GtkWidget *chooser;
     gchar *dir;
@@ -1626,57 +1530,42 @@ void do_menu_select_session(GtkImageMenuItem *src G_GNUC_UNUSED,
 }
 
 
-void do_menu_settings_toggled(GtkCheckMenuItem *src,
-                              EntangleCameraManager *manager)
+static void do_action_settings(GSimpleAction *act G_GNUC_UNUSED,
+                               GVariant *param G_GNUC_UNUSED,
+                               gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     EntangleCameraManagerPrivate *priv = manager->priv;
     GtkWidget *settings;
     GtkWidget *toolbar;
-    gboolean active;
+    GtkWidget *menu;
+    gboolean visible;
 
     settings = GTK_WIDGET(gtk_builder_get_object(priv->builder, "settings-scroll"));
     toolbar = GTK_WIDGET(gtk_builder_get_object(priv->builder, "toolbar-settings"));
-
-    active = gtk_check_menu_item_get_active(src);
-    gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(toolbar), active);
-
-    if (active)
-        gtk_widget_show(settings);
-    else
-        gtk_widget_hide(settings);
-}
-
-
-void do_toolbar_settings(GtkToggleToolButton *src,
-                         EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    EntangleCameraManagerPrivate *priv = manager->priv;
-    GtkWidget *settings;
-    GtkWidget *menu;
-    gboolean active;
-
-    settings = GTK_WIDGET(gtk_builder_get_object(priv->builder, "settings-scroll"));
     menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-settings"));
 
-    active = gtk_toggle_tool_button_get_active(src);
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu), active);
+    visible = gtk_widget_get_visible(settings);
+    gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(toolbar), !visible);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu), !visible);
 
-    if (active)
+    if (!visible)
         gtk_widget_show(settings);
     else
         gtk_widget_hide(settings);
 }
 
 
-void do_toolbar_cancel_clicked(GtkToolButton *src G_GNUC_UNUSED,
-                               EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
 
+static void do_action_cancel(GSimpleAction *act G_GNUC_UNUSED,
+                             GVariant *param G_GNUC_UNUSED,
+                             gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     EntangleCameraManagerPrivate *priv = manager->priv;
 
     if (priv->taskCancel)
@@ -1930,77 +1819,38 @@ void entangle_camera_manager_preview_cancel(EntangleCameraManager *manager)
 }
 
 
-void do_toolbar_capture(GtkToolButton *src G_GNUC_UNUSED,
-                        EntangleCameraManager *manager)
+static void do_action_capture(GSimpleAction *act G_GNUC_UNUSED,
+                              GVariant *param G_GNUC_UNUSED,
+                              gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
 
     do_camera_manager_capture(manager);
 }
 
 
-void do_toolbar_preview(GtkToggleToolButton *src,
-                        EntangleCameraManager *manager)
+static void do_action_preview(GSimpleAction *act G_GNUC_UNUSED,
+                              GVariant *param G_GNUC_UNUSED,
+                              gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     EntangleCameraManagerPrivate *priv = manager->priv;
     GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM(gtk_builder_get_object(priv->builder, "menu-preview"));
-
-    if (gtk_toggle_tool_button_get_active(src)) {
-        if (!gtk_check_menu_item_get_active(item)) {
-            gtk_check_menu_item_set_active(item, True);
-            do_camera_manager_preview_begin(manager);
-        }
-    } else {
-        if (gtk_check_menu_item_get_active(item)) {
-            gtk_check_menu_item_set_active(item, False);
-            do_camera_manager_preview_cancel(manager);
-        }
-    }
-}
-
-
-void do_menu_capture(GtkMenuItem *src G_GNUC_UNUSED,
-                     EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    do_camera_manager_capture(manager);
-}
-
-
-void do_menu_preview(GtkMenuItem *src,
-                     EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    EntangleCameraManagerPrivate *priv = manager->priv;
     GtkToggleToolButton *button = GTK_TOGGLE_TOOL_BUTTON(gtk_builder_get_object(priv->builder, "toolbar-preview"));
 
-    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(src))) {
-        if (!gtk_toggle_tool_button_get_active(button)) {
-            gtk_toggle_tool_button_set_active(button, True);
-            do_camera_manager_preview_begin(manager);
-        }
+    if (!priv->taskPreview) {
+        gtk_check_menu_item_set_active(item, True);
+        gtk_toggle_tool_button_set_active(button, True);
+        do_camera_manager_preview_begin(manager);
     } else {
-        if (gtk_toggle_tool_button_get_active(button)) {
-            gtk_toggle_tool_button_set_active(button, False);
-            do_camera_manager_preview_cancel(manager);
-        }
+        gtk_check_menu_item_set_active(item, False);
+        gtk_toggle_tool_button_set_active(button, False);
+        do_camera_manager_preview_cancel(manager);
     }
-}
-
-
-void do_menu_cancel(GtkMenuItem *src G_GNUC_UNUSED,
-                    EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    EntangleCameraManagerPrivate *priv = manager->priv;
-
-    if (priv->taskCancel)
-        g_cancellable_cancel(priv->taskCancel);
 }
 
 
@@ -2022,13 +1872,15 @@ static void do_camera_sync_clock_finish(GObject *src,
 }
 
 
-void do_menu_sync_clock(GtkMenuItem *src G_GNUC_UNUSED,
-                        EntangleCameraManager *manager)
+static void do_action_sync_clock(GSimpleAction *act G_GNUC_UNUSED,
+                                 GVariant *param G_GNUC_UNUSED,
+                                 gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-    gint64 epochsecs = g_get_real_time() / (1000 * 1000);
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     EntangleCameraManagerPrivate *priv = manager->priv;
+    gint64 epochsecs = g_get_real_time() / (1000 * 1000);
 
     ENTANGLE_DEBUG("starting sync clock operation");
 
@@ -2294,121 +2146,76 @@ static void entangle_camera_manager_zoom_best(EntangleCameraManager *manager)
 }
 
 
-void do_toolbar_zoom_in(GtkToolButton *src G_GNUC_UNUSED,
-                        EntangleCameraManager *manager)
+static void do_action_zoom_in(GSimpleAction *act G_GNUC_UNUSED,
+                              GVariant *param G_GNUC_UNUSED,
+                              gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
 
     entangle_camera_manager_zoom_in(manager);
 }
 
 
-void do_toolbar_zoom_out(GtkToolButton *src G_GNUC_UNUSED,
-                         EntangleCameraManager *manager)
+static void do_action_zoom_out(GSimpleAction *act G_GNUC_UNUSED,
+                               GVariant *param G_GNUC_UNUSED,
+                               gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
 
     entangle_camera_manager_zoom_out(manager);
 }
 
 
-void do_toolbar_zoom_normal(GtkToolButton *src G_GNUC_UNUSED,
-                            EntangleCameraManager *manager)
+static void do_action_zoom_normal(GSimpleAction *act G_GNUC_UNUSED,
+                                  GVariant *param G_GNUC_UNUSED,
+                                  gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
 
     entangle_camera_manager_zoom_normal(manager);
 }
 
 
-void do_toolbar_zoom_best(GtkToolButton *src G_GNUC_UNUSED,
-                          EntangleCameraManager *manager)
+static void do_action_zoom_best(GSimpleAction *act G_GNUC_UNUSED,
+                                GVariant *param G_GNUC_UNUSED,
+                                gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
 
     entangle_camera_manager_zoom_best(manager);
 }
 
 
-void do_menu_zoom_in(GtkImageMenuItem *src G_GNUC_UNUSED,
-                     EntangleCameraManager *manager)
+static void do_action_fullscreen(GSimpleAction *act G_GNUC_UNUSED,
+                                 GVariant *param G_GNUC_UNUSED,
+                                 gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
-    entangle_camera_manager_zoom_in(manager);
-}
-
-
-void do_menu_zoom_out(GtkImageMenuItem *src G_GNUC_UNUSED,
-                      EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    entangle_camera_manager_zoom_out(manager);
-}
-
-void do_menu_zoom_normal(GtkImageMenuItem *src G_GNUC_UNUSED,
-                         EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    entangle_camera_manager_zoom_normal(manager);
-}
-
-void do_menu_zoom_best(GtkImageMenuItem *src G_GNUC_UNUSED,
-                       EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    entangle_camera_manager_zoom_best(manager);
-}
-
-
-void do_toolbar_fullscreen(GtkToggleToolButton *src,
-                           EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     EntangleCameraManagerPrivate *priv = manager->priv;
     GtkWidget *menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-fullscreen"));
-    GtkWidget *menubar = GTK_WIDGET(gtk_builder_get_object(priv->builder, "win-menubar"));
-
-    if (gtk_toggle_tool_button_get_active(src)) {
-        if (0) gtk_widget_hide(menubar);
-        gtk_window_fullscreen(GTK_WINDOW(manager));
-    } else {
-        gtk_window_unfullscreen(GTK_WINDOW(manager));
-        if (0) gtk_widget_show(menubar);
-    }
-
-    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu)) !=
-        gtk_toggle_tool_button_get_active(src))
-        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu),
-                                       gtk_toggle_tool_button_get_active(src));
-}
-
-
-void do_menu_fullscreen(GtkCheckMenuItem *src,
-                        EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    EntangleCameraManagerPrivate *priv = manager->priv;
     GtkWidget *tool = GTK_WIDGET(gtk_builder_get_object(priv->builder, "toolbar-fullscreen"));
-    GtkWidget *menubar = GTK_WIDGET(gtk_builder_get_object(priv->builder, "win-menubar"));
+    gboolean fs = !priv->fullscreen;
 
-    if (gtk_check_menu_item_get_active(src)) {
-        gtk_widget_hide(menubar);
+    if (fs) {
         gtk_window_fullscreen(GTK_WINDOW(manager));
     } else {
         gtk_window_unfullscreen(GTK_WINDOW(manager));
-        gtk_widget_show(menubar);
     }
 
-    if (gtk_toggle_tool_button_get_active(GTK_TOGGLE_TOOL_BUTTON(tool)) !=
-        gtk_check_menu_item_get_active(src))
-        gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(tool),
-                                          gtk_check_menu_item_get_active(src));
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu), fs);
+    gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(tool), fs);
+
+    priv->fullscreen = fs;
 }
 
 
@@ -2423,39 +2230,43 @@ static void do_presentation_end(EntangleMediaPopup *popup G_GNUC_UNUSED,
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu), FALSE);
 }
 
-void do_menu_presentation(GtkCheckMenuItem *src,
-                          EntangleCameraManager *manager)
+static void do_action_presentation(GSimpleAction *act G_GNUC_UNUSED,
+                                   GVariant *param G_GNUC_UNUSED,
+                                   gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     EntangleCameraManagerPrivate *priv = manager->priv;
 
-    if (gtk_check_menu_item_get_active(src)) {
-        if (!priv->mediaPresentation) {
-            EntanglePreferences *prefs = entangle_camera_manager_get_preferences(manager);
-            gchar *bg = entangle_preferences_img_get_background(prefs);
-            priv->mediaPresentation = entangle_media_popup_new();
-            entangle_media_popup_set_background(priv->mediaPresentation, bg);
-            g_signal_connect(priv->mediaPresentation, "popup-close", G_CALLBACK(do_presentation_end), manager);
-            g_free(bg);
-        }
+    if (!priv->mediaPresentation) {
+        EntanglePreferences *prefs = entangle_camera_manager_get_preferences(manager);
+        gchar *bg = entangle_preferences_img_get_background(prefs);
+        priv->mediaPresentation = entangle_media_popup_new();
+        entangle_media_popup_set_background(priv->mediaPresentation, bg);
+        g_signal_connect(priv->mediaPresentation, "popup-close", G_CALLBACK(do_presentation_end), manager);
+        g_free(bg);
+    }
+
+    if (!gtk_widget_get_visible(GTK_WIDGET(priv->mediaPresentation))) {
         entangle_media_popup_set_media(priv->mediaPresentation, priv->currentMedia);
         entangle_media_popup_show_on_monitor(priv->mediaPresentation,
                                              priv->presentationMonitor);
-    } else if (priv->mediaPresentation) {
+    } else {
         gtk_widget_hide(GTK_WIDGET(priv->mediaPresentation));
-        g_object_unref(priv->mediaPresentation);
-        priv->mediaPresentation = NULL;
     }
 }
 
 
-void do_menu_preferences(GtkCheckMenuItem *src G_GNUC_UNUSED,
-                         EntangleCameraManager *manager)
+static void do_action_preferences(GSimpleAction *act G_GNUC_UNUSED,
+                                  GVariant *param G_GNUC_UNUSED,
+                                  gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     EntangleCameraManagerPrivate *priv = manager->priv;
+
     if (priv->prefsDisplay == NULL) {
         GtkApplication *app = gtk_window_get_application(GTK_WINDOW(manager));
         priv->prefsDisplay = entangle_preferences_display_new();
@@ -2468,11 +2279,13 @@ void do_menu_preferences(GtkCheckMenuItem *src G_GNUC_UNUSED,
 }
 
 
-void do_menu_close(GtkMenuItem *src G_GNUC_UNUSED,
-                   EntangleCameraManager *manager)
+static void do_action_close(GSimpleAction *act G_GNUC_UNUSED,
+                            GVariant *param G_GNUC_UNUSED,
+                            gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     EntangleCameraManagerPrivate *priv = manager->priv;
 
     if (priv->prefsDisplay) {
@@ -2499,59 +2312,6 @@ static gboolean do_manager_delete(GtkWidget *src G_GNUC_UNUSED,
     return TRUE;
 }
 
-
-void do_menu_quit(GtkMenuItem *src G_GNUC_UNUSED,
-                  EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    GtkApplication *app = gtk_window_get_application(GTK_WINDOW(manager));
-    GList *windows = gtk_application_get_windows(app);
-    GList *tmp = g_list_copy(windows);
-
-    while (tmp) {
-        GtkWidget *window = GTK_WIDGET(tmp->data);
-        gtk_widget_destroy(window);
-        tmp = tmp->next;
-    }
-    g_list_free(tmp);
-}
-
-
-void do_menu_help_about(GtkMenuItem *src G_GNUC_UNUSED,
-                        EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    EntangleCameraManagerPrivate *priv = manager->priv;
-
-    if (!priv->about) {
-        priv->about = entangle_help_about_new();
-        gtk_window_set_transient_for(GTK_WINDOW(priv->about),
-                                     GTK_WINDOW(manager));
-    }
-
-    gtk_widget_show(GTK_WIDGET(priv->about));
-}
-
-
-void do_menu_help_manual(GtkMenuItem *src G_GNUC_UNUSED,
-                         EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-#if GTK_CHECK_VERSION(3, 22, 0)
-    gtk_show_uri_on_window(GTK_WINDOW(manager),
-                           "help:entangle",
-                           GDK_CURRENT_TIME,
-                           NULL);
-#else
-    gtk_show_uri(gtk_widget_get_screen(GTK_WIDGET(src)),
-                 "help:entangle",
-                 GDK_CURRENT_TIME,
-                 NULL);
-#endif
-}
 
 
 static void do_picker_refresh(EntangleCameraPicker *picker G_GNUC_UNUSED, EntangleCameraManager *manager)
@@ -2634,19 +2394,25 @@ static void do_camera_connect(EntangleCameraManager *manager)
 }
 
 
-void do_menu_connect(GtkMenuItem *src G_GNUC_UNUSED,
-                     EntangleCameraManager *manager)
+static void do_action_connect(GSimpleAction *act G_GNUC_UNUSED,
+                              GVariant *param G_GNUC_UNUSED,
+                              gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
 
     do_camera_connect(manager);
 }
 
 
-void do_menu_disconnect(GtkMenuItem *src G_GNUC_UNUSED,
-                        EntangleCameraManager *manager)
+static void do_action_disconnect(GSimpleAction *act G_GNUC_UNUSED,
+                                 GVariant *param G_GNUC_UNUSED,
+                                 gpointer opaque)
 {
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
 
     entangle_camera_manager_set_camera(manager, NULL);
 }
@@ -3205,6 +2971,25 @@ static void do_camera_capture_end(EntangleCameraAutomata *automata,
         entangle_dpms_set_blanking(FALSE, NULL);
 }
 
+static GActionEntry actions[] =
+{
+    { .name = "session", .activate = do_action_session },
+    { .name = "close", .activate = do_action_close },
+    { .name = "preferences", .activate = do_action_preferences },
+    { .name = "connect", .activate = do_action_connect },
+    { .name = "disconnect", .activate = do_action_disconnect },
+    { .name = "capture", .activate = do_action_capture },
+    { .name = "preview", .activate = do_action_preview },
+    { .name = "cancel", .activate = do_action_cancel },
+    { .name = "sync-clock", .activate = do_action_sync_clock },
+    { .name = "zoom-best", .activate = do_action_zoom_best },
+    { .name = "zoom-out", .activate = do_action_zoom_out },
+    { .name = "zoom-normal", .activate = do_action_zoom_normal },
+    { .name = "zoom-in", .activate = do_action_zoom_in },
+    { .name = "settings", .activate = do_action_settings },
+    { .name = "fullscreen", .activate = do_action_fullscreen },
+    { .name = "presentation", .activate = do_action_presentation },
+};
 
 static void entangle_camera_manager_init(EntangleCameraManager *manager)
 {
@@ -3216,6 +3001,10 @@ static void entangle_camera_manager_init(EntangleCameraManager *manager)
 
     priv->automata = entangle_camera_automata_new();
     priv->cameraPrefs = entangle_camera_preferences_new();
+
+    g_action_map_add_action_entries(G_ACTION_MAP(manager),
+                                    actions, G_N_ELEMENTS(actions),
+                                    manager);
 
     g_signal_connect(priv->automata, "camera-capture-begin",
                      G_CALLBACK(do_camera_capture_begin), manager);
