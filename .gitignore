@@ -59,6 +59,7 @@ src/backend/entangle-camera-enums\.h
 src/backend/entangle-colour-profile-enums\.c
 src/backend/entangle-colour-profile-enums\.h
 src/entangle
+src/entangle-resources\.c
 src/entangle-entangle-main\.o
 src/entangle\.appdata\.xml
 src/entangle\.desktop

@@ -110,13 +110,6 @@ fi
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/plugins
 
-%{_datadir}/%{name}/%{name}-camera-manager.ui
-%{_datadir}/%{name}/%{name}-camera-picker.ui
-%{_datadir}/%{name}/%{name}-camera-support.ui
-%{_datadir}/%{name}/%{name}-help-about.ui
-%{_datadir}/%{name}/%{name}-media-popup.ui
-%{_datadir}/%{name}/%{name}-preferences-display.ui
-
 %{_datadir}/icons/hicolor/*/apps/entangle.png
 %{_datadir}/icons/hicolor/*/apps/entangle-*.png
 %{_datadir}/icons/hicolor/scalable/apps/entangle.svg

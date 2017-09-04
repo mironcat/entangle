@@ -5,8 +5,7 @@ lib_LTLIBRARIES = libentangle_backend.la libentangle_frontend.la
 
 bin_PROGRAMS = entangle
 
-builderdir = $(pkgdatadir)
-builder_DATA = \
+UI_FILES = \
 	frontend/entangle-camera-support.ui \
 	frontend/entangle-camera-manager.ui \
 	frontend/entangle-camera-picker.ui \
@@ -96,7 +95,7 @@ BUILT_SOURCES = \
 	$(NULL)
 
 EXTRA_DIST = \
-	$(builder_DATA) \
+	$(UI_FILES) \
 	$(desktop_DATA) \
 	$(desktop_DATA_IN) \
 	$(appdata_DATA) \
@@ -113,6 +112,7 @@ EXTRA_DIST = \
 	$(iconscalable_DATA) \
 	$(icc_DATA) \
 	$(gsettings_SCHEMAS) \
+	entangle.gresource.xml \
 	$(NULL)
 
 libentangle_backend_la_SOURCES = \
@@ -208,6 +208,7 @@ libentangle_frontend_la_SOURCES = \
 
 nodist_libentangle_frontend_la_SOURCES = \
 	frontend/entangle-image-display-enums.h frontend/entangle-image-display-enums.c \
+	entangle-resources.c \
 	$(NULL)
 
 BUILT_SOURCES += $(nodist_libentangle_frontend_la_SOURCES)
@@ -285,6 +286,10 @@ entangle_CFLAGS = \
 
 %.appdata.xml: %.appdata.xml.in
 	$(AM_V_GEN)intltool-merge -x $(top_srcdir)/po $< $@
+
+entangle-resources.c: entangle.gresource.xml $(shell glib-compile-resources --sourcedir=. --generate-dependencies entangle.gresource.xml)
+	$(AM_V_GEN)glib-compile-resources $< --target=$@ --sourcedir=$(srcdir) --generate-source
+
 
 backend/entangle-camera-enums.c: backend/entangle-camera.h backend/entangle-camera-enums.h Makefile.am
 	$(AM_V_GEN)glib-mkenums \

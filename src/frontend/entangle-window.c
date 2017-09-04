@@ -43,21 +43,22 @@ EntangleWindow *entangle_window_new(GType newwintype,
                                     const gchar *winname)
 {
     GtkBuilder *builder;
-    gchar *filename;
+    gchar *resname;
     EntangleWindow *win;
     GError *error = NULL;
+    GBytes *data;
     gchar *buffer;
     gsize length;
 
     builder = gtk_builder_new();
 
-    if (access("./entangle", R_OK) == 0)
-        filename = g_strdup_printf("%s/entangle-%s.ui", "frontend", winname);
-    else
-        filename = g_strdup_printf("%s/entangle-%s.ui", PKGDATADIR, winname);
+    resname = g_strdup_printf("/org/entangle/frontend/entangle-%s.ui", winname);
 
-    if (!g_file_get_contents(filename, &buffer, &length, &error))
-        g_error(_("Could not load user interface definition file: %s"), error->message);
+    if (!(data = g_resources_lookup_data(resname, 0, &error)))
+        g_error(_("Could not load user interface definition file %s: %s"), resname, error->message);
+
+    length = g_bytes_get_size(data);
+    buffer = g_memdup(g_bytes_get_data(data, NULL), length + 1);
 
     gchar *offset = strstr(buffer, g_type_name(oldwintype));
     gchar *tmp;
@@ -70,10 +71,9 @@ EntangleWindow *entangle_window_new(GType newwintype,
     g_free(buffer);
     buffer = tmp;
     length = strlen(buffer);
-    //g_print("%s", buffer);
 
     gtk_builder_add_from_string(builder, buffer, length, &error);
-    g_free(filename);
+    g_free(resname);
     if (error)
         g_error(_("Could not load user interface definition file: %s"), error->message);
 
@@ -83,6 +83,8 @@ EntangleWindow *entangle_window_new(GType newwintype,
     g_free(buffer);
 
     entangle_window_set_builder(win, builder);
+
+    g_bytes_unref(data);
 
     return win;
 }
