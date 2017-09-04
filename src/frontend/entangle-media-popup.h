@@ -36,14 +36,11 @@ G_BEGIN_DECLS
 
 
 typedef struct _EntangleMediaPopup EntangleMediaPopup;
-typedef struct _EntangleMediaPopupPrivate EntangleMediaPopupPrivate;
 typedef struct _EntangleMediaPopupClass EntangleMediaPopupClass;
 
 struct _EntangleMediaPopup
 {
     GtkWindow parent;
-
-    EntangleMediaPopupPrivate *priv;
 };
 
 struct _EntangleMediaPopupClass
