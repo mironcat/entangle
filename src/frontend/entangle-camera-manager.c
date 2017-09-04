@@ -47,7 +47,6 @@
 #include "entangle-session-browser.h"
 #include "entangle-control-panel.h"
 #include "entangle-colour-profile.h"
-#include "entangle-preferences-display.h"
 #include "entangle-progress.h"
 #include "entangle-dpms.h"
 #include "entangle-window.h"
@@ -79,7 +78,6 @@ struct _EntangleCameraManagerPrivate {
     GtkMenu *sessionBrowserMenu;
     EntangleMedia *sessionBrowserMedia;
     EntangleControlPanel *controlPanel;
-    EntanglePreferencesDisplay *prefsDisplay;
     EntangleImageHistogram *imageHistogram;
     GtkWidget *scriptConfigExpander;
 
@@ -1404,8 +1402,6 @@ static void entangle_camera_manager_finalize(GObject *object)
         g_object_unref(priv->colourTransform);
     if (priv->camera)
         g_object_unref(priv->camera);
-    if (priv->prefsDisplay)
-        g_object_unref(priv->prefsDisplay);
     if (priv->picker)
         g_object_unref(priv->picker);
 
@@ -2258,27 +2254,6 @@ static void do_action_presentation(GSimpleAction *act G_GNUC_UNUSED,
 }
 
 
-static void do_action_preferences(GSimpleAction *act G_GNUC_UNUSED,
-                                  GVariant *param G_GNUC_UNUSED,
-                                  gpointer opaque)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
-
-    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
-    EntangleCameraManagerPrivate *priv = manager->priv;
-
-    if (priv->prefsDisplay == NULL) {
-        GtkApplication *app = gtk_window_get_application(GTK_WINDOW(manager));
-        priv->prefsDisplay = entangle_preferences_display_new();
-        gtk_application_add_window(app, GTK_WINDOW(priv->prefsDisplay));
-        gtk_window_set_transient_for(GTK_WINDOW(priv->prefsDisplay),
-                                     GTK_WINDOW(manager));
-    }
-
-    gtk_widget_show(GTK_WIDGET(priv->prefsDisplay));
-}
-
-
 static void do_action_close(GSimpleAction *act G_GNUC_UNUSED,
                             GVariant *param G_GNUC_UNUSED,
                             gpointer opaque)
@@ -2286,12 +2261,7 @@ static void do_action_close(GSimpleAction *act G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
     EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
-    EntangleCameraManagerPrivate *priv = manager->priv;
 
-    if (priv->prefsDisplay) {
-        gtk_widget_destroy(GTK_WIDGET(priv->prefsDisplay));
-        priv->prefsDisplay = NULL;
-    }
     gtk_widget_destroy(GTK_WIDGET(manager));
 }
 
@@ -2302,12 +2272,6 @@ static gboolean do_manager_delete(GtkWidget *src G_GNUC_UNUSED,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager), TRUE);
 
-    EntangleCameraManagerPrivate *priv = manager->priv;
-
-    if (priv->prefsDisplay) {
-        gtk_widget_destroy(GTK_WIDGET(priv->prefsDisplay));
-        priv->prefsDisplay = NULL;
-    }
     gtk_widget_destroy(GTK_WIDGET(manager));
     return TRUE;
 }
@@ -2975,7 +2939,6 @@ static GActionEntry actions[] =
 {
     { .name = "session", .activate = do_action_session },
     { .name = "close", .activate = do_action_close },
-    { .name = "preferences", .activate = do_action_preferences },
     { .name = "connect", .activate = do_action_connect },
     { .name = "disconnect", .activate = do_action_disconnect },
     { .name = "capture", .activate = do_action_capture },

@@ -31,6 +31,7 @@
 #include "entangle-camera-manager.h"
 #include "entangle-help-about.h"
 #include "entangle-camera-support.h"
+#include "entangle-preferences-display.h"
 
 /**
  * SECTION:entangle-application
@@ -58,6 +59,7 @@ struct _EntangleApplicationPrivate {
     EntangleCameraList *supportedCameras;
 
     EntanglePreferences *preferences;
+    EntanglePreferencesDisplay *prefsDisplay;
     EntangleHelpAbout *about;
     EntangleCameraSupport *devices;
 
@@ -144,6 +146,8 @@ static void entangle_application_finalize(GObject *object)
 
     ENTANGLE_DEBUG("Finalize application %p", object);
 
+    if (priv->prefsDisplay)
+        g_object_unref(priv->prefsDisplay);
     if (priv->activeCameras)
         g_object_unref(priv->activeCameras);
     if (priv->supportedCameras)
@@ -169,6 +173,44 @@ static void entangle_application_activate(GApplication *gapp)
         wins = wins->next;
     }
 }
+
+static void do_prefs_hide(GObject *media G_GNUC_UNUSED,
+                          GParamSpec *pspec G_GNUC_UNUSED,
+                          gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
+
+    EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
+    EntangleApplicationPrivate *priv = app->priv;
+
+    if (!gtk_widget_get_visible(GTK_WIDGET(priv->prefsDisplay))) {
+        gtk_widget_destroy(GTK_WIDGET(priv->prefsDisplay));
+        priv->prefsDisplay = NULL;
+    }
+}
+
+
+static void do_action_preferences(GSimpleAction *act G_GNUC_UNUSED,
+                                  GVariant *param G_GNUC_UNUSED,
+                                  gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
+
+    EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
+    EntangleApplicationPrivate *priv = app->priv;
+
+    if (priv->prefsDisplay == NULL) {
+        GtkWindow *win = gtk_application_get_active_window(GTK_APPLICATION(app));
+        priv->prefsDisplay = entangle_preferences_display_new();
+        gtk_application_add_window(GTK_APPLICATION(app), GTK_WINDOW(priv->prefsDisplay));
+        gtk_window_set_transient_for(GTK_WINDOW(priv->prefsDisplay), win);
+        g_signal_connect(priv->prefsDisplay, "notify::visible",
+                         G_CALLBACK(do_prefs_hide), app);
+    }
+
+    gtk_widget_show(GTK_WIDGET(priv->prefsDisplay));
+}
+
 
 static void do_action_devices(GSimpleAction *act G_GNUC_UNUSED,
                               GVariant *param G_GNUC_UNUSED,
@@ -272,6 +314,7 @@ static GActionEntry actions[] =
     { .name = "devices", .activate = do_action_devices },
     { .name = "quit", .activate = do_action_quit },
     { .name = "new-window", .activate = do_action_new_window },
+    { .name = "preferences", .activate = do_action_preferences },
 };
 
 
