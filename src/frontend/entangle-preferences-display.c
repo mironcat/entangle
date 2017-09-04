@@ -33,25 +33,79 @@
 #include "entangle-camera-picker.h"
 #include "entangle-camera-manager.h"
 #include "entangle-image-display.h"
-#include "entangle-window.h"
-
-
-#define ENTANGLE_PREFERENCES_DISPLAY_GET_PRIVATE(obj)                   \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_PREFERENCES_DISPLAY, EntanglePreferencesDisplayPrivate))
 
 static void entangle_preferences_display_refresh(EntanglePreferencesDisplay *preferences);
 
+typedef struct _EntanglePreferencesDisplayPrivate EntanglePreferencesDisplayPrivate;
 struct _EntanglePreferencesDisplayPrivate {
     PeasGtkPluginManager *pluginManager;
+    EntanglePreferences *prefs;
     gulong prefsID;
-    GtkBuilder *builder;
+
+    GtkTreeView *preferencesSwitch;
+    GtkNotebook *preferencesNotebook;
+
+    GtkEventBox *captureBox;
+    GtkBox *captureHBox;
+    GtkLabel *captureLabel;
+    GtkImage *captureImage;
+
+    GtkEventBox *cmsBox;
+    GtkBox *cmsHBox;
+    GtkLabel *cmsLabel;
+    GtkImage *cmsImage;
+
+    GtkEventBox *pluginsBox;
+    GtkBox *pluginsHBox;
+    GtkLabel *pluginsLabel;
+    GtkImage *pluginsImage;
+
+    GtkEventBox *interfaceBox;
+    GtkBox *interfaceHBox;
+    GtkLabel *interfaceLabel;
+    GtkImage *interfaceImage;
+
+    GtkEventBox *imgBox;
+    GtkBox *imgHBox;
+    GtkLabel *imgLabel;
+    GtkImage *imgImage;
+
+    GtkEntry *captureFilenamePattern;
+    GtkToggleButton *captureContinuousPreview;
+    GtkToggleButton *captureElectronicShutter;
+    GtkToggleButton *captureDeleteFile;
+    GtkToggleButton *captureSyncClock;
+
+    GtkToggleButton *cmsEnabled;
+    GtkFileChooser *cmsRgbProfile;
+    GtkFileChooser *cmsMonitorProfile;
+    GtkToggleButton *cmsDetectSystemProfile;
+    GtkComboBox *cmsRenderingIntent;
+
+    GtkContainer *pluginsPanel;
+
+    GtkToggleButton *interfaceAutoConnect;
+    GtkToggleButton *interfaceScreenBlank;
+    GtkToggleButton *interfaceHistogramLinear;
+
+    GtkToggleButton *imgMaskEnabled;
+    GtkLabel *imgAspectRatioLabel;
+    GtkLabel *imgMaskOpacityLabel;
+    GtkComboBox *imgAspectRatio;
+    GtkSpinButton *imgMaskOpacity;
+    GtkToggleButton *imgFocusPoint;
+    GtkComboBox *imgGridLines;
+    GtkToggleButton *imgEmbeddedPreview;
+    GtkToggleButton *imgOnionSkin;
+    GtkLabel *imgOnionLayersLabel;
+    GtkSpinButton *imgOnionLayers;
+    GtkLabel *imgBackgroundLabel;
+    GtkColorChooser *imgBackground;
+    GtkLabel *imgHighlightLabel;
+    GtkColorChooser *imgHighlight;
 };
 
-static void entangle_preferences_display_window_interface_init(gpointer g_iface,
-                                                               gpointer iface_data);
-
-G_DEFINE_TYPE_EXTENDED(EntanglePreferencesDisplay, entangle_preferences_display, GTK_TYPE_DIALOG, 0,
-                       G_IMPLEMENT_INTERFACE(ENTANGLE_TYPE_WINDOW, entangle_preferences_display_window_interface_init));
+G_DEFINE_TYPE_WITH_PRIVATE(EntanglePreferencesDisplay, entangle_preferences_display, GTK_TYPE_DIALOG);
 
 enum {
     PROP_0,
@@ -90,14 +144,6 @@ void do_img_onion_layers_changed(GtkSpinButton *src, EntanglePreferencesDisplay 
 void do_img_background_changed(GtkColorButton *src, EntanglePreferencesDisplay *display);
 void do_img_highlight_changed(GtkColorButton *src, EntanglePreferencesDisplay *display);
 
-static EntanglePreferences *entangle_preferences_display_get_preferences(EntanglePreferencesDisplay *preferences)
-{
-    GtkApplication *gapp = gtk_window_get_application(GTK_WINDOW(preferences));
-    EntangleApplication *app = ENTANGLE_APPLICATION(gapp);
-    return entangle_application_get_preferences(app);
-}
-
-
 static void entangle_preferences_display_notify(GObject *object,
                                                 GParamSpec *spec,
                                                 gpointer data)
@@ -105,8 +151,7 @@ static void entangle_preferences_display_notify(GObject *object,
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(data));
 
     EntanglePreferencesDisplay *preferences = ENTANGLE_PREFERENCES_DISPLAY(data);
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    GtkWidget *tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, spec->name));
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
 
     ENTANGLE_DEBUG("Internal display Set %p %s", object, spec->name);
     if (strcmp(spec->name, "cms-enabled") == 0) {
@@ -114,19 +159,19 @@ static void entangle_preferences_display_notify(GObject *object,
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->cmsEnabled);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->cmsEnabled, newvalue);
     } else if (strcmp(spec->name, "cms-detect-system-profile") == 0) {
         gboolean newvalue;
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->cmsDetectSystemProfile);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->cmsDetectSystemProfile, newvalue);
     } else if (strcmp(spec->name, "cms-rgb-profile") == 0) {
         EntangleColourProfile *profile;
         const gchar *oldvalue;
@@ -135,12 +180,12 @@ static void entangle_preferences_display_notify(GObject *object,
         g_object_get(object, spec->name, &profile, NULL);
 
         newvalue = profile ? entangle_colour_profile_filename(profile) : NULL;
-        oldvalue = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(tmp));
+        oldvalue = gtk_file_chooser_get_filename(priv->cmsRgbProfile);
 
         if ((newvalue && !oldvalue) ||
             (!newvalue && oldvalue) ||
             strcmp(newvalue, oldvalue) != 0)
-            gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(tmp), newvalue);
+            gtk_file_chooser_set_filename(priv->cmsRgbProfile, newvalue);
 
         if (profile)
             g_object_unref(profile);
@@ -152,12 +197,12 @@ static void entangle_preferences_display_notify(GObject *object,
         g_object_get(object, spec->name, &profile, NULL);
 
         newvalue = profile ? entangle_colour_profile_filename(profile) : NULL;
-        oldvalue = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(tmp));
+        oldvalue = gtk_file_chooser_get_filename(priv->cmsMonitorProfile);
 
         if ((newvalue && !oldvalue) ||
             (!newvalue && oldvalue) ||
             strcmp(newvalue, oldvalue) != 0)
-            gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(tmp), newvalue);
+            gtk_file_chooser_set_filename(priv->cmsMonitorProfile, newvalue);
 
         if (profile)
             g_object_unref(profile);
@@ -166,48 +211,48 @@ static void entangle_preferences_display_notify(GObject *object,
         int oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_combo_box_get_active(GTK_COMBO_BOX(tmp));
+        oldvalue = gtk_combo_box_get_active(priv->cmsRenderingIntent);
 
         if (oldvalue != newvalue)
-            gtk_combo_box_set_active(GTK_COMBO_BOX(tmp), newvalue);
+            gtk_combo_box_set_active(priv->cmsRenderingIntent, newvalue);
     } else if (strcmp(spec->name, "interface-auto-connect") == 0) {
         gboolean newvalue;
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->interfaceAutoConnect);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->interfaceAutoConnect, newvalue);
     } else if (strcmp(spec->name, "interface-screen-blank") == 0) {
         gboolean newvalue;
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->interfaceScreenBlank);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->interfaceScreenBlank, newvalue);
     } else if (strcmp(spec->name, "interface-histogram-linear") == 0) {
         gboolean newvalue;
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->interfaceHistogramLinear);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->interfaceHistogramLinear, newvalue);
     } else if (strcmp(spec->name, "capture-filename-pattern") == 0) {
         gchar *newvalue;
         const gchar *oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
 
-        oldvalue = gtk_entry_get_text(GTK_ENTRY(tmp));
+        oldvalue = gtk_entry_get_text(priv->captureFilenamePattern);
         if ((newvalue && !oldvalue) ||
             (!newvalue && oldvalue) ||
             strcmp(newvalue, oldvalue) != 0)
-            gtk_entry_set_text(GTK_ENTRY(tmp), newvalue);
+            gtk_entry_set_text(priv->captureFilenamePattern, newvalue);
 
         g_free(newvalue);
     } else if (strcmp(spec->name, "capture-continuous-preview") == 0) {
@@ -215,61 +260,61 @@ static void entangle_preferences_display_notify(GObject *object,
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->captureContinuousPreview);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->captureContinuousPreview, newvalue);
     } else if (strcmp(spec->name, "capture-electronic-shutter") == 0) {
         gboolean newvalue;
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->captureElectronicShutter);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->captureElectronicShutter, newvalue);
     } else if (strcmp(spec->name, "capture-delete-file") == 0) {
         gboolean newvalue;
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->captureDeleteFile);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->captureDeleteFile, newvalue);
     } else if (strcmp(spec->name, "capture-sync-clock") == 0) {
         gboolean newvalue;
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->captureSyncClock);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->captureSyncClock, newvalue);
     } else if (strcmp(spec->name, "img-mask-enabled") == 0) {
         gboolean newvalue;
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->imgMaskEnabled);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->imgMaskEnabled, newvalue);
     } else if (strcmp(spec->name, "img-aspect-ratio") == 0) {
         gchar *newvalue;
         const gchar *oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
 
-        oldvalue = gtk_combo_box_get_active_id(GTK_COMBO_BOX(tmp));
+        oldvalue = gtk_combo_box_get_active_id(priv->imgAspectRatio);
         if ((newvalue && !oldvalue) ||
             (!newvalue && oldvalue) ||
             strcmp(newvalue, oldvalue) != 0)
-            gtk_combo_box_set_active_id(GTK_COMBO_BOX(tmp), newvalue);
+            gtk_combo_box_set_active_id(priv->imgAspectRatio, newvalue);
 
         g_free(newvalue);
     } else if (strcmp(spec->name, "img-mask-opacity") == 0) {
-        GtkAdjustment *adjust = gtk_spin_button_get_adjustment(GTK_SPIN_BUTTON(tmp));
+        GtkAdjustment *adjust = gtk_spin_button_get_adjustment(priv->imgMaskOpacity);
         gint newvalue;
         gfloat oldvalue;
 
@@ -283,10 +328,10 @@ static void entangle_preferences_display_notify(GObject *object,
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->imgFocusPoint);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->imgFocusPoint, newvalue);
     } else if (strcmp(spec->name, "img-grid-lines") == 0) {
         gint newvalue;
         gint oldvalue;
@@ -297,7 +342,7 @@ static void entangle_preferences_display_notify(GObject *object,
         enum_class = g_type_class_ref(ENTANGLE_TYPE_IMAGE_DISPLAY_GRID);
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldid = gtk_combo_box_get_active_id(GTK_COMBO_BOX(tmp));
+        oldid = gtk_combo_box_get_active_id(priv->imgGridLines);
 
         oldvalue = ENTANGLE_IMAGE_DISPLAY_GRID_NONE;
         if (oldid) {
@@ -309,9 +354,9 @@ static void entangle_preferences_display_notify(GObject *object,
         if (newvalue != oldvalue) {
             enum_value = g_enum_get_value(enum_class, newvalue);
             if (enum_value != NULL)
-                gtk_combo_box_set_active_id(GTK_COMBO_BOX(tmp), enum_value->value_nick);
+                gtk_combo_box_set_active_id(priv->imgGridLines, enum_value->value_nick);
             else
-                gtk_combo_box_set_active_id(GTK_COMBO_BOX(tmp), "none");
+                gtk_combo_box_set_active_id(priv->imgGridLines, "none");
         }
 
         g_type_class_unref(enum_class);
@@ -320,21 +365,21 @@ static void entangle_preferences_display_notify(GObject *object,
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->imgEmbeddedPreview);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->imgEmbeddedPreview, newvalue);
     } else if (strcmp(spec->name, "img-onion-skin") == 0) {
         gboolean newvalue;
         gboolean oldvalue;
 
         g_object_get(object, spec->name, &newvalue, NULL);
-        oldvalue = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tmp));
+        oldvalue = gtk_toggle_button_get_active(priv->imgOnionSkin);
 
         if (newvalue != oldvalue)
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), newvalue);
+            gtk_toggle_button_set_active(priv->imgOnionSkin, newvalue);
     } else if (strcmp(spec->name, "img-onion-layers") == 0) {
-        GtkAdjustment *adjust = gtk_spin_button_get_adjustment(GTK_SPIN_BUTTON(tmp));
+        GtkAdjustment *adjust = gtk_spin_button_get_adjustment(priv->imgOnionLayers);
         gint newvalue;
         gfloat oldvalue;
 
@@ -350,24 +395,20 @@ static void do_entangle_preferences_display_set_app(GObject *object,
                                                     GParamSpec *spec G_GNUC_UNUSED)
 {
     EntanglePreferencesDisplay *preferences = ENTANGLE_PREFERENCES_DISPLAY(object);
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    EntanglePreferences *prefs;
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     PeasEngine *pluginEngine;
-    GtkWidget *panel;
     EntangleApplication *app;
 
     app = ENTANGLE_APPLICATION(gtk_window_get_application(GTK_WINDOW(preferences)));
-
-    panel = GTK_WIDGET(gtk_builder_get_object(priv->builder, "plugins-panel"));
+    priv->prefs = g_object_ref(entangle_application_get_preferences(app));
     entangle_preferences_display_refresh(preferences);
-    prefs = entangle_preferences_display_get_preferences(preferences);
-    priv->prefsID = g_signal_connect(prefs,
+    priv->prefsID = g_signal_connect(priv->prefs,
                                      "notify",
                                      G_CALLBACK(entangle_preferences_display_notify),
                                      object);
     pluginEngine = entangle_application_get_plugin_engine(app);
     priv->pluginManager = PEAS_GTK_PLUGIN_MANAGER(peas_gtk_plugin_manager_new(pluginEngine));
-    gtk_container_add(GTK_CONTAINER(panel), GTK_WIDGET(priv->pluginManager));
+    gtk_container_add(priv->pluginsPanel, GTK_WIDGET(priv->pluginManager));
     gtk_widget_show_all(GTK_WIDGET(priv->pluginManager));
 }
 
@@ -376,130 +417,102 @@ static void entangle_preferences_display_refresh(EntanglePreferencesDisplay *pre
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    GtkWidget *tmp;
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     EntangleColourProfile *profile;
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
     const gchar *ratio;
     GtkAdjustment *adjust;
     gboolean hasContinuousPreview;
     gboolean hasRatio;
     gboolean hasOnion;
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-enabled"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), entangle_preferences_cms_get_enabled(prefs));
+    gtk_toggle_button_set_active(priv->cmsEnabled, entangle_preferences_cms_get_enabled(priv->prefs));
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-detect-system-profile"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), entangle_preferences_cms_get_detect_system_profile(prefs));
+    gtk_toggle_button_set_active(priv->cmsDetectSystemProfile, entangle_preferences_cms_get_detect_system_profile(priv->prefs));
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-rgb-profile"));
-    profile = entangle_preferences_cms_get_rgb_profile(prefs);
+    profile = entangle_preferences_cms_get_rgb_profile(priv->prefs);
     if (profile) {
-        gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(tmp), entangle_colour_profile_filename(profile));
+        gtk_file_chooser_set_filename(priv->cmsRgbProfile, entangle_colour_profile_filename(profile));
         g_object_unref(profile);
     }
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-monitor-profile"));
-    profile = entangle_preferences_cms_get_monitor_profile(prefs);
+    profile = entangle_preferences_cms_get_monitor_profile(priv->prefs);
     if (profile) {
-        gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(tmp), entangle_colour_profile_filename(profile));
+        gtk_file_chooser_set_filename(priv->cmsMonitorProfile, entangle_colour_profile_filename(profile));
         g_object_unref(profile);
     }
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-rendering-intent"));
-    gtk_combo_box_set_active(GTK_COMBO_BOX(tmp), entangle_preferences_cms_get_rendering_intent(prefs));
+    gtk_combo_box_set_active(priv->cmsRenderingIntent, entangle_preferences_cms_get_rendering_intent(priv->prefs));
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "interface-auto-connect"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), entangle_preferences_interface_get_auto_connect(prefs));
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "interface-screen-blank"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), entangle_preferences_interface_get_screen_blank(prefs));
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "interface-histogram-linear"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp),
-                                 entangle_preferences_interface_get_histogram_linear(prefs));
+    gtk_toggle_button_set_active(priv->interfaceAutoConnect, entangle_preferences_interface_get_auto_connect(priv->prefs));
+    gtk_toggle_button_set_active(priv->interfaceScreenBlank, entangle_preferences_interface_get_screen_blank(priv->prefs));
+    gtk_toggle_button_set_active(priv->interfaceHistogramLinear,
+                                 entangle_preferences_interface_get_histogram_linear(priv->prefs));
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "capture-filename-pattern"));
-    gtk_entry_set_text(GTK_ENTRY(tmp), entangle_preferences_capture_get_filename_pattern(prefs));
+    gtk_entry_set_text(priv->captureFilenamePattern, entangle_preferences_capture_get_filename_pattern(priv->prefs));
 
-    hasContinuousPreview = entangle_preferences_capture_get_continuous_preview(prefs);
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "capture-continuous-preview"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), hasContinuousPreview);
+    hasContinuousPreview = entangle_preferences_capture_get_continuous_preview(priv->prefs);
+    gtk_toggle_button_set_active(priv->captureContinuousPreview, hasContinuousPreview);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "capture-electronic-shutter"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), entangle_preferences_capture_get_electronic_shutter(prefs));
-    gtk_widget_set_sensitive(tmp, hasContinuousPreview);
+    gtk_toggle_button_set_active(priv->captureElectronicShutter, entangle_preferences_capture_get_electronic_shutter(priv->prefs));
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->captureElectronicShutter), hasContinuousPreview);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "capture-delete-file"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), entangle_preferences_capture_get_delete_file(prefs));
+    gtk_toggle_button_set_active(priv->captureDeleteFile, entangle_preferences_capture_get_delete_file(priv->prefs));
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "capture-sync-clock"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), entangle_preferences_capture_get_sync_clock(prefs));
+    gtk_toggle_button_set_active(priv->captureSyncClock, entangle_preferences_capture_get_sync_clock(priv->prefs));
 
-    ratio = entangle_preferences_img_get_aspect_ratio(prefs);
-    hasRatio = entangle_preferences_img_get_mask_enabled(prefs);
+    ratio = entangle_preferences_img_get_aspect_ratio(priv->prefs);
+    hasRatio = entangle_preferences_img_get_mask_enabled(priv->prefs);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-mask-enabled"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), hasRatio);
+    gtk_toggle_button_set_active(priv->imgMaskEnabled, hasRatio);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-aspect-ratio"));
-    gtk_combo_box_set_active_id(GTK_COMBO_BOX(tmp), ratio);
-    gtk_widget_set_sensitive(tmp, hasRatio);
+    gtk_combo_box_set_active_id(priv->imgAspectRatio, ratio);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgAspectRatio), hasRatio);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-aspect-ratio-label"));
-    gtk_widget_set_sensitive(tmp, hasRatio);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgAspectRatioLabel), hasRatio);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-mask-opacity"));
-    gtk_widget_set_sensitive(tmp, hasRatio);
-    adjust = gtk_spin_button_get_adjustment(GTK_SPIN_BUTTON(tmp));
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgMaskOpacity), hasRatio);
+    adjust = gtk_spin_button_get_adjustment(priv->imgMaskOpacity);
     gtk_adjustment_set_value(adjust,
-                             entangle_preferences_img_get_mask_opacity(prefs));
+                             entangle_preferences_img_get_mask_opacity(priv->prefs));
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-mask-opacity-label"));
-    gtk_widget_set_sensitive(tmp, hasRatio);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgMaskOpacityLabel), hasRatio);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-focus-point"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp),
-                                 entangle_preferences_img_get_focus_point(prefs));
+    gtk_toggle_button_set_active(priv->imgFocusPoint,
+                                 entangle_preferences_img_get_focus_point(priv->prefs));
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-grid-lines"));
     GEnumClass *enum_class = g_type_class_ref(ENTANGLE_TYPE_IMAGE_DISPLAY_GRID);
     GEnumValue *enum_value = g_enum_get_value(enum_class,
-                                              entangle_preferences_img_get_grid_lines(prefs));
+                                              entangle_preferences_img_get_grid_lines(priv->prefs));
     g_type_class_unref(enum_class);
 
     if (enum_value != NULL)
-        gtk_combo_box_set_active_id(GTK_COMBO_BOX(tmp), enum_value->value_nick);
+        gtk_combo_box_set_active_id(priv->imgGridLines, enum_value->value_nick);
     else
-        gtk_combo_box_set_active_id(GTK_COMBO_BOX(tmp), NULL);
+        gtk_combo_box_set_active_id(priv->imgGridLines, NULL);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-embedded-preview"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp),
-                                 entangle_preferences_img_get_embedded_preview(prefs));
+    gtk_toggle_button_set_active(priv->imgEmbeddedPreview,
+                                 entangle_preferences_img_get_embedded_preview(priv->prefs));
 
-    hasOnion = entangle_preferences_img_get_onion_skin(prefs);
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-onion-skin"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmp), hasOnion);
+    hasOnion = entangle_preferences_img_get_onion_skin(priv->prefs);
+    gtk_toggle_button_set_active(priv->imgOnionSkin, hasOnion);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-onion-layers"));
-    gtk_widget_set_sensitive(tmp, hasOnion);
-    adjust = gtk_spin_button_get_adjustment(GTK_SPIN_BUTTON(tmp));
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgOnionLayers), hasOnion);
+    adjust = gtk_spin_button_get_adjustment(priv->imgOnionLayers);
     gtk_adjustment_set_value(adjust,
-                             entangle_preferences_img_get_onion_layers(prefs));
+                             entangle_preferences_img_get_onion_layers(priv->prefs));
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-onion-layers-label"));
-    gtk_widget_set_sensitive(tmp, hasOnion);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgOnionLayersLabel), hasOnion);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-background"));
     GdkRGBA gbg;
-    gchar *bg = entangle_preferences_img_get_background(prefs);
+    gchar *bg = entangle_preferences_img_get_background(priv->prefs);
     gdk_rgba_parse(&gbg, bg);
-    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(tmp), &gbg);
+    gtk_color_chooser_set_rgba(priv->imgBackground, &gbg);
     g_free(bg);
 
-    tmp = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-highlight"));
     GdkRGBA ghl;
-    gchar *hl = entangle_preferences_img_get_highlight(prefs);
+    gchar *hl = entangle_preferences_img_get_highlight(priv->prefs);
     gdk_rgba_parse(&ghl, hl);
-    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(tmp), &ghl);
+    gtk_color_chooser_set_rgba(priv->imgHighlight, &ghl);
     g_free(hl);
 }
 
@@ -507,30 +520,15 @@ static void entangle_preferences_display_refresh(EntanglePreferencesDisplay *pre
 static void entangle_preferences_display_finalize(GObject *object)
 {
     EntanglePreferencesDisplay *preferences = ENTANGLE_PREFERENCES_DISPLAY(object);
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
 
     ENTANGLE_DEBUG("Finalize preferences");
 
-    g_signal_handler_disconnect(prefs, priv->prefsID);
-
-    if (priv->builder)
-        g_object_unref(priv->builder);
+    g_signal_handler_disconnect(priv->prefs, priv->prefsID);
 
     G_OBJECT_CLASS(entangle_preferences_display_parent_class)->finalize(object);
 }
 
-static void do_entangle_preferences_display_set_builder(EntangleWindow *window,
-                                                        GtkBuilder *builder);
-static GtkBuilder *do_entangle_preferences_display_get_builder(EntangleWindow *window);
-
-static void entangle_preferences_display_window_interface_init(gpointer g_iface,
-                                                               gpointer iface_data G_GNUC_UNUSED)
-{
-    EntangleWindowInterface *iface = g_iface;
-    iface->set_builder = do_entangle_preferences_display_set_builder;
-    iface->get_builder = do_entangle_preferences_display_get_builder;
-}
 
 static void entangle_preferences_display_class_init(EntanglePreferencesDisplayClass *klass)
 {
@@ -538,16 +536,129 @@ static void entangle_preferences_display_class_init(EntanglePreferencesDisplayCl
 
     object_class->finalize = entangle_preferences_display_finalize;
 
-    g_type_class_add_private(klass, sizeof(EntanglePreferencesDisplayPrivate));
+    gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
+                                                "/org/entangle/frontend/entangle-preferences-display.ui");
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, preferencesSwitch);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, preferencesNotebook);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, captureBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, captureHBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, captureLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, captureImage);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, cmsBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, cmsHBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, cmsLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, cmsImage);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, pluginsBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, pluginsHBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, pluginsLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, pluginsImage);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, interfaceBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, interfaceHBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, interfaceLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, interfaceImage);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgHBox);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgImage);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, captureFilenamePattern);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, captureContinuousPreview);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, captureElectronicShutter);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, captureDeleteFile);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, captureSyncClock);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, cmsEnabled);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, cmsRgbProfile);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, cmsMonitorProfile);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, cmsDetectSystemProfile);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, cmsRenderingIntent);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, pluginsPanel);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, interfaceAutoConnect);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, interfaceScreenBlank);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, interfaceHistogramLinear);
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgMaskEnabled);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgAspectRatioLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgMaskOpacityLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgAspectRatio);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgMaskOpacity);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgFocusPoint);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgGridLines);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgEmbeddedPreview);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgOnionSkin);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgOnionLayersLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgOnionLayers);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgBackgroundLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgBackground);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgHighlightLabel);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgHighlight);
 }
 
 
 EntanglePreferencesDisplay *entangle_preferences_display_new(void)
 {
-    return ENTANGLE_PREFERENCES_DISPLAY(entangle_window_new(ENTANGLE_TYPE_PREFERENCES_DISPLAY,
-                                                            GTK_TYPE_DIALOG,
-                                                            "preferences-display"));
+    return ENTANGLE_PREFERENCES_DISPLAY(g_object_new(ENTANGLE_TYPE_PREFERENCES_DISPLAY, NULL));
 }
+
 
 void do_preferences_close(GtkButton *src G_GNUC_UNUSED, EntanglePreferencesDisplay *preferences)
 {
@@ -573,30 +684,25 @@ void do_page_changed(GtkTreeSelection *selection,
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    GtkWidget *list;
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     GtkTreeIter iter;
     gboolean selected;
     GValue val;
     int page;
-    GtkWidget *notebook;
 
     ENTANGLE_DEBUG("select page");
-
-    list = GTK_WIDGET(gtk_builder_get_object(priv->builder, "preferences-switch"));
 
     selected = gtk_tree_selection_get_selected(selection, NULL, &iter);
     if (!selected)
         return;
 
     memset(&val, 0, sizeof val);
-    gtk_tree_model_get_value(gtk_tree_view_get_model(GTK_TREE_VIEW(list)),
+    gtk_tree_model_get_value(gtk_tree_view_get_model(priv->preferencesSwitch),
                              &iter, 0, &val);
 
-    notebook = GTK_WIDGET(gtk_builder_get_object(priv->builder, "preferences-notebook"));
     page = g_value_get_int(&val);
     if (page >= 0)
-        gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook), page);
+        gtk_notebook_set_current_page(priv->preferencesNotebook, page);
 }
 
 
@@ -604,30 +710,25 @@ void do_cms_enabled_toggled(GtkToggleButton *src, EntanglePreferencesDisplay *pr
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
-    GtkWidget *rgbProfile = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-rgb-profile"));
-    GtkWidget *monitorProfile = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-monitor-profile"));
-    GtkWidget *systemProfile = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-detect-system-profile"));
-    GtkWidget *renderIntent = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-rendering-intent"));
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
 
-    entangle_preferences_cms_set_enabled(prefs, enabled);
-    gtk_widget_set_sensitive(rgbProfile, enabled);
-    gtk_widget_set_sensitive(systemProfile, enabled);
-    gtk_widget_set_sensitive(renderIntent, enabled);
-    gtk_widget_set_sensitive(monitorProfile, !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(systemProfile)));
+    entangle_preferences_cms_set_enabled(priv->prefs, enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->cmsRgbProfile), enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->cmsDetectSystemProfile), enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->cmsRenderingIntent), enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->cmsMonitorProfile), !gtk_toggle_button_get_active(priv->cmsDetectSystemProfile));
 }
 
 void do_cms_rgb_profile_file_set(GtkFileChooserButton *src, EntanglePreferencesDisplay *preferences)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     char *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(src));
     EntangleColourProfile *profile = entangle_colour_profile_new_file(filename);
 
-    entangle_preferences_cms_set_rgb_profile(prefs, profile);
+    entangle_preferences_cms_set_rgb_profile(priv->prefs, profile);
     g_free(filename);
     g_object_unref(profile);
 }
@@ -636,11 +737,11 @@ void do_cms_monitor_profile_file_set(GtkFileChooserButton *src, EntanglePreferen
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     char *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(src));
     EntangleColourProfile *profile = entangle_colour_profile_new_file(filename);
 
-    entangle_preferences_cms_set_monitor_profile(prefs, profile);
+    entangle_preferences_cms_set_monitor_profile(priv->prefs, profile);
     g_free(filename);
     g_object_unref(profile);
 }
@@ -649,25 +750,23 @@ void do_cms_detect_system_profile_toggled(GtkToggleButton *src, EntanglePreferen
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
-    GtkWidget *monitorProfile = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-monitor-profile"));
 
-    entangle_preferences_cms_set_detect_system_profile(prefs, enabled);
-    gtk_widget_set_sensitive(monitorProfile, !enabled);
+    entangle_preferences_cms_set_detect_system_profile(priv->prefs, enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->cmsMonitorProfile), !enabled);
 }
 
 void do_cms_rendering_intent_changed(GtkComboBox *src, EntanglePreferencesDisplay *preferences)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     int option = gtk_combo_box_get_active(src);
 
     if (option < 0)
         option = ENTANGLE_COLOUR_PROFILE_INTENT_PERCEPTUAL;
-    entangle_preferences_cms_set_rendering_intent(prefs, option);
+    entangle_preferences_cms_set_rendering_intent(priv->prefs, option);
 }
 
 
@@ -675,10 +774,10 @@ void do_capture_filename_pattern_changed(GtkEntry *src, EntanglePreferencesDispl
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     const char *text = gtk_entry_get_text(src);
 
-    entangle_preferences_capture_set_filename_pattern(prefs, text);
+    entangle_preferences_capture_set_filename_pattern(priv->prefs, text);
 }
 
 
@@ -686,15 +785,12 @@ void do_capture_continuous_preview_toggled(GtkToggleButton *src, EntanglePrefere
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
 
-    GtkWidget *widget = GTK_WIDGET(gtk_builder_get_object(priv->builder, "capture-electronic-shutter"));
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->captureElectronicShutter), enabled);
 
-    gtk_widget_set_sensitive(widget, enabled);
-
-    entangle_preferences_capture_set_continuous_preview(prefs, enabled);
+    entangle_preferences_capture_set_continuous_preview(priv->prefs, enabled);
 }
 
 
@@ -702,10 +798,10 @@ void do_capture_electronic_shutter(GtkToggleButton *src, EntanglePreferencesDisp
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
 
-    entangle_preferences_capture_set_electronic_shutter(prefs, enabled);
+    entangle_preferences_capture_set_electronic_shutter(priv->prefs, enabled);
 }
 
 
@@ -713,10 +809,10 @@ void do_interface_auto_connect_toggled(GtkToggleButton *src, EntanglePreferences
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
 
-    entangle_preferences_interface_set_auto_connect(prefs, enabled);
+    entangle_preferences_interface_set_auto_connect(priv->prefs, enabled);
 }
 
 
@@ -724,10 +820,10 @@ void do_interface_screen_blank_toggled(GtkToggleButton *src, EntanglePreferences
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
 
-    entangle_preferences_interface_set_screen_blank(prefs, enabled);
+    entangle_preferences_interface_set_screen_blank(priv->prefs, enabled);
 }
 
 
@@ -735,10 +831,10 @@ void do_interface_histogram_linear_toggled(GtkToggleButton *src, EntanglePrefere
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
 
-    entangle_preferences_interface_set_histogram_linear(prefs, enabled);
+    entangle_preferences_interface_set_histogram_linear(priv->prefs, enabled);
 }
 
 
@@ -746,10 +842,10 @@ void do_capture_delete_file_toggled(GtkToggleButton *src, EntanglePreferencesDis
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
 
-    entangle_preferences_capture_set_delete_file(prefs, enabled);
+    entangle_preferences_capture_set_delete_file(priv->prefs, enabled);
 }
 
 
@@ -757,10 +853,10 @@ void do_capture_sync_clock_toggled(GtkToggleButton *src, EntanglePreferencesDisp
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
 
-    entangle_preferences_capture_set_sync_clock(prefs, enabled);
+    entangle_preferences_capture_set_sync_clock(priv->prefs, enabled);
 }
 
 
@@ -768,20 +864,15 @@ void do_img_mask_enabled_toggled(GtkToggleButton *src, EntanglePreferencesDispla
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
-    GtkWidget *aspect = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-aspect-ratio"));
-    GtkWidget *aspectLbl = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-aspect-ratio-label"));
-    GtkWidget *opacity = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-mask-opacity"));
-    GtkWidget *opacityLbl = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-mask-opacity-label"));
 
-    gtk_widget_set_sensitive(aspect, enabled);
-    gtk_widget_set_sensitive(aspectLbl, enabled);
-    gtk_widget_set_sensitive(opacity, enabled);
-    gtk_widget_set_sensitive(opacityLbl, enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgAspectRatio), enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgAspectRatioLabel), enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgMaskOpacity), enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgMaskOpacityLabel), enabled);
 
-    entangle_preferences_img_set_mask_enabled(prefs, enabled);
+    entangle_preferences_img_set_mask_enabled(priv->prefs, enabled);
 }
 
 
@@ -789,13 +880,13 @@ void do_img_aspect_ratio_changed(GtkComboBox *src, EntanglePreferencesDisplay *p
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     const gchar *ratio = gtk_combo_box_get_active_id(src);
 
     if (ratio == NULL)
         ratio = "";
 
-    entangle_preferences_img_set_aspect_ratio(prefs, ratio);
+    entangle_preferences_img_set_aspect_ratio(priv->prefs, ratio);
 }
 
 
@@ -803,10 +894,10 @@ void do_img_mask_opacity_changed(GtkSpinButton *src, EntanglePreferencesDisplay 
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     GtkAdjustment *adjust = gtk_spin_button_get_adjustment(src);
 
-    entangle_preferences_img_set_mask_opacity(prefs,
+    entangle_preferences_img_set_mask_opacity(priv->prefs,
                                               gtk_adjustment_get_value(adjust));
 }
 
@@ -815,10 +906,10 @@ void do_img_focus_point_toggled(GtkToggleButton *src, EntanglePreferencesDisplay
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
 
-    entangle_preferences_img_set_focus_point(prefs, enabled);
+    entangle_preferences_img_set_focus_point(priv->prefs, enabled);
 }
 
 
@@ -826,7 +917,7 @@ void do_img_grid_lines_changed(GtkComboBox *src, EntanglePreferencesDisplay *pre
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     const gchar *id = gtk_combo_box_get_active_id(src);
     EntangleImageDisplayGrid grid = ENTANGLE_IMAGE_DISPLAY_GRID_NONE;
 
@@ -839,7 +930,7 @@ void do_img_grid_lines_changed(GtkComboBox *src, EntanglePreferencesDisplay *pre
             grid = enum_value->value;
     }
 
-    entangle_preferences_img_set_grid_lines(prefs, grid);
+    entangle_preferences_img_set_grid_lines(priv->prefs, grid);
 }
 
 
@@ -847,10 +938,10 @@ void do_img_embedded_preview_toggled(GtkToggleButton *src, EntanglePreferencesDi
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
 
-    entangle_preferences_img_set_embedded_preview(prefs, enabled);
+    entangle_preferences_img_set_embedded_preview(priv->prefs, enabled);
 }
 
 
@@ -858,16 +949,13 @@ void do_img_onion_skin_toggled(GtkToggleButton *src, EntanglePreferencesDisplay 
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     gboolean enabled = gtk_toggle_button_get_active(src);
-    GtkWidget *layers = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-onion-layers"));
-    GtkWidget *layersLbl = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-onion-layers-label"));
 
-    gtk_widget_set_sensitive(layers, enabled);
-    gtk_widget_set_sensitive(layersLbl, enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgOnionLayers), enabled);
+    gtk_widget_set_sensitive(GTK_WIDGET(priv->imgOnionLayersLabel), enabled);
 
-    entangle_preferences_img_set_onion_skin(prefs, enabled);
+    entangle_preferences_img_set_onion_skin(priv->prefs, enabled);
 }
 
 
@@ -875,10 +963,10 @@ void do_img_onion_layers_changed(GtkSpinButton *src, EntanglePreferencesDisplay 
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     GtkAdjustment *adjust = gtk_spin_button_get_adjustment(src);
 
-    entangle_preferences_img_set_onion_layers(prefs,
+    entangle_preferences_img_set_onion_layers(priv->prefs,
                                               gtk_adjustment_get_value(adjust));
 }
 
@@ -886,12 +974,11 @@ void do_img_background_changed(GtkColorButton *src, EntanglePreferencesDisplay *
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
-
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     GdkRGBA gbg;
     gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(src), &gbg);
     gchar *bg = gdk_rgba_to_string(&gbg);
-    entangle_preferences_img_set_background(prefs, bg);
+    entangle_preferences_img_set_background(priv->prefs, bg);
     g_free(bg);
 }
 
@@ -899,73 +986,50 @@ void do_img_highlight_changed(GtkColorButton *src, EntanglePreferencesDisplay *p
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
 
-    EntanglePreferences *prefs = entangle_preferences_display_get_preferences(preferences);
-
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     GdkRGBA ghl;
     gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(src), &ghl);
     gchar *hl = gdk_rgba_to_string(&ghl);
-    entangle_preferences_img_set_highlight(prefs, hl);
+    entangle_preferences_img_set_highlight(priv->prefs, hl);
     g_free(hl);
 }
 
 
-static void do_entangle_preferences_display_set_builder(EntangleWindow *win,
-                                                        GtkBuilder *builder)
+static void entangle_preferences_display_init(EntanglePreferencesDisplay *preferences)
 {
-    EntanglePreferencesDisplay *preferences = ENTANGLE_PREFERENCES_DISPLAY(win);
-    EntanglePreferencesDisplayPrivate *priv = preferences->priv;
-    GtkWidget *notebook;
-    GtkWidget *box;
-    GtkWidget *image;
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     GtkListStore *list;
-    GtkWidget *tree;
     GtkTreeIter iter;
     GtkCellRenderer *cellImage;
     GtkCellRenderer *cellText;
     GtkTreeViewColumn *colImage;
     GtkTreeViewColumn *colText;
     GtkTreeSelection *selection;
-    GtkFileChooser *chooser;
     GtkFileFilter *allFilter;
     GtkFileFilter *iccFilter;
-    GtkComboBox *aspectRatio;
-    GtkComboBox *gridLines;
     GtkIconTheme *theme = gtk_icon_theme_get_default();
 
-    priv->builder = g_object_ref(builder);
+    gtk_widget_init_template(GTK_WIDGET(preferences));
 
     g_signal_connect(preferences, "delete-event",
                      G_CALLBACK(do_preferences_delete), preferences);
 
-    notebook = GTK_WIDGET(gtk_builder_get_object(priv->builder, "preferences-notebook"));
-    gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
+    gtk_notebook_set_show_tabs(priv->preferencesNotebook, FALSE);
 
-    //gtk_notebook_remove_page(GTK_NOTEBOOK(notebook), 2);
+    gtk_widget_set_state_flags(GTK_WIDGET(priv->interfaceBox), GTK_STATE_FLAG_SELECTED, TRUE);
+    gtk_image_set_from_icon_name(priv->interfaceImage, "entangle-interface", GTK_ICON_SIZE_DIALOG);
 
-    box = GTK_WIDGET(gtk_builder_get_object(priv->builder, "interface-box"));
-    gtk_widget_set_state_flags(box, GTK_STATE_FLAG_SELECTED, TRUE);
-    image = GTK_WIDGET(gtk_builder_get_object(priv->builder, "interface-image"));
-    gtk_image_set_from_icon_name(GTK_IMAGE(image), "entangle-interface", GTK_ICON_SIZE_DIALOG);
+    gtk_widget_set_state_flags(GTK_WIDGET(priv->cmsBox), GTK_STATE_FLAG_SELECTED, TRUE);
+    gtk_image_set_from_icon_name(priv->cmsImage, "entangle-color-management", GTK_ICON_SIZE_DIALOG);
 
-    box = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-box"));
-    gtk_widget_set_state_flags(box, GTK_STATE_FLAG_SELECTED, TRUE);
-    image = GTK_WIDGET(gtk_builder_get_object(priv->builder, "cms-image"));
-    gtk_image_set_from_icon_name(GTK_IMAGE(image), "entangle-color-management", GTK_ICON_SIZE_DIALOG);
+    gtk_widget_set_state_flags(GTK_WIDGET(priv->captureBox), GTK_STATE_FLAG_SELECTED, TRUE);
+    gtk_image_set_from_icon_name(priv->captureImage, "entangle-capture", GTK_ICON_SIZE_DIALOG);
 
-    box = GTK_WIDGET(gtk_builder_get_object(priv->builder, "capture-box"));
-    gtk_widget_set_state_flags(box, GTK_STATE_FLAG_SELECTED, TRUE);
-    image = GTK_WIDGET(gtk_builder_get_object(priv->builder, "capture-image"));
-    gtk_image_set_from_icon_name(GTK_IMAGE(image), "entangle-capture", GTK_ICON_SIZE_DIALOG);
+    gtk_widget_set_state_flags(GTK_WIDGET(priv->pluginsBox), GTK_STATE_FLAG_SELECTED, TRUE);
+    gtk_image_set_from_icon_name(priv->pluginsImage, "entangle-plugins", GTK_ICON_SIZE_DIALOG);
 
-    box = GTK_WIDGET(gtk_builder_get_object(priv->builder, "plugins-box"));
-    gtk_widget_set_state_flags(box, GTK_STATE_FLAG_SELECTED, TRUE);
-    image = GTK_WIDGET(gtk_builder_get_object(priv->builder, "plugins-image"));
-    gtk_image_set_from_icon_name(GTK_IMAGE(image), "entangle-plugins", GTK_ICON_SIZE_DIALOG);
-
-    box = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-box"));
-    gtk_widget_set_state_flags(box, GTK_STATE_FLAG_SELECTED, TRUE);
-    image = GTK_WIDGET(gtk_builder_get_object(priv->builder, "img-image"));
-    gtk_image_set_from_icon_name(GTK_IMAGE(image), "entangle-imageviewer", GTK_ICON_SIZE_DIALOG);
+    gtk_widget_set_state_flags(GTK_WIDGET(priv->imgBox), GTK_STATE_FLAG_SELECTED, TRUE);
+    gtk_image_set_from_icon_name(priv->imgImage, "entangle-imageviewer", GTK_ICON_SIZE_DIALOG);
 
     list = gtk_list_store_new(3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF, -1);
 
@@ -1013,12 +1077,11 @@ static void do_entangle_preferences_display_set_builder(EntangleWindow *win,
     g_object_set(colText, "expand", TRUE, NULL);
     g_object_set(colImage, "expand", FALSE, NULL);
 
-    tree = GTK_WIDGET(gtk_builder_get_object(priv->builder, "preferences-switch"));
-    gtk_tree_view_set_model(GTK_TREE_VIEW(tree), GTK_TREE_MODEL(list));
-    gtk_tree_view_append_column(GTK_TREE_VIEW(tree), colImage);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(tree), colText);
+    gtk_tree_view_set_model(priv->preferencesSwitch, GTK_TREE_MODEL(list));
+    gtk_tree_view_append_column(priv->preferencesSwitch, colImage);
+    gtk_tree_view_append_column(priv->preferencesSwitch, colText);
 
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+    selection = gtk_tree_view_get_selection(priv->preferencesSwitch);
 
     iccFilter = gtk_file_filter_new();
     gtk_file_filter_set_name(iccFilter, _("ICC profiles (*.icc, *.icm)"));
@@ -1029,24 +1092,21 @@ static void do_entangle_preferences_display_set_builder(EntangleWindow *win,
     gtk_file_filter_set_name(allFilter, _("All files (*.*)"));
     gtk_file_filter_add_pattern(allFilter, "*");
 
-    chooser = GTK_FILE_CHOOSER(gtk_builder_get_object(priv->builder, "cms-rgb-profile"));
     g_object_ref(allFilter);
-    gtk_file_chooser_add_filter(chooser, allFilter);
+    gtk_file_chooser_add_filter(priv->cmsRgbProfile, allFilter);
     g_object_ref(iccFilter);
-    gtk_file_chooser_add_filter(chooser, iccFilter);
-    gtk_file_chooser_set_filter(chooser, iccFilter);
+    gtk_file_chooser_add_filter(priv->cmsRgbProfile, iccFilter);
+    gtk_file_chooser_set_filter(priv->cmsRgbProfile, iccFilter);
 
-    chooser = GTK_FILE_CHOOSER(gtk_builder_get_object(priv->builder, "cms-monitor-profile"));
     g_object_ref(allFilter);
-    gtk_file_chooser_add_filter(chooser, allFilter);
+    gtk_file_chooser_add_filter(priv->cmsMonitorProfile, allFilter);
     g_object_ref(iccFilter);
-    gtk_file_chooser_add_filter(chooser, iccFilter);
-    gtk_file_chooser_set_filter(chooser, iccFilter);
+    gtk_file_chooser_add_filter(priv->cmsMonitorProfile, iccFilter);
+    gtk_file_chooser_set_filter(priv->cmsMonitorProfile, iccFilter);
 
     g_object_unref(iccFilter);
     g_object_unref(allFilter);
 
-    aspectRatio = GTK_COMBO_BOX(gtk_builder_get_object(priv->builder, "img-aspect-ratio"));
     list = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING, -1);
 
     gtk_list_store_append(list, &iter);
@@ -1175,16 +1235,15 @@ static void do_entangle_preferences_display_set_builder(EntangleWindow *win,
                        1, _("12.00:1 - Circle-Vision 360"),
                        -1);
 
-    gtk_combo_box_set_model(GTK_COMBO_BOX(aspectRatio), GTK_TREE_MODEL(list));
-    gtk_combo_box_set_id_column(GTK_COMBO_BOX(aspectRatio), 0);
+    gtk_combo_box_set_model(priv->imgAspectRatio, GTK_TREE_MODEL(list));
+    gtk_combo_box_set_id_column(priv->imgAspectRatio, 0);
 
     cellText = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(aspectRatio), cellText, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(aspectRatio),
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(priv->imgAspectRatio), cellText, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(priv->imgAspectRatio),
                                    cellText, "text", 1, NULL);
 
 
-    gridLines = GTK_COMBO_BOX(gtk_builder_get_object(priv->builder, "img-grid-lines"));
     list = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING, -1);
 
     gtk_list_store_append(list, &iter);
@@ -1217,35 +1276,16 @@ static void do_entangle_preferences_display_set_builder(EntangleWindow *win,
                        0, "golden-sections",
                        1, _("Golden sections"),
                        -1);
-    gtk_combo_box_set_model(GTK_COMBO_BOX(gridLines), GTK_TREE_MODEL(list));
-    gtk_combo_box_set_id_column(GTK_COMBO_BOX(gridLines), 0);
+    gtk_combo_box_set_model(priv->imgGridLines, GTK_TREE_MODEL(list));
+    gtk_combo_box_set_id_column(priv->imgGridLines, 0);
 
     cellText = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(gridLines), cellText, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(gridLines),
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(priv->imgGridLines), cellText, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(priv->imgGridLines),
                                    cellText, "text", 1, NULL);
 
     g_signal_connect(selection, "changed", G_CALLBACK(do_page_changed), preferences);
-}
 
-
-static GtkBuilder *do_entangle_preferences_display_get_builder(EntangleWindow *window)
-{
-    EntanglePreferencesDisplay *display = ENTANGLE_PREFERENCES_DISPLAY(window);
-    EntanglePreferencesDisplayPrivate *priv = display->priv;
-
-    return priv->builder;
-}
-
-
-static void entangle_preferences_display_init(EntanglePreferencesDisplay *preferences)
-{
-    preferences->priv = ENTANGLE_PREFERENCES_DISPLAY_GET_PRIVATE(preferences);
-
-    g_signal_connect(preferences,
-                     "notify::builder",
-                     G_CALLBACK(do_entangle_preferences_display_set_builder),
-                     NULL);
     g_signal_connect(preferences,
                      "notify::application",
                      G_CALLBACK(do_entangle_preferences_display_set_app),

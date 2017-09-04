@@ -37,14 +37,11 @@ G_BEGIN_DECLS
 
 
 typedef struct _EntanglePreferencesDisplay EntanglePreferencesDisplay;
-typedef struct _EntanglePreferencesDisplayPrivate EntanglePreferencesDisplayPrivate;
 typedef struct _EntanglePreferencesDisplayClass EntanglePreferencesDisplayClass;
 
 struct _EntanglePreferencesDisplay
 {
     GtkDialog parent;
-
-    EntanglePreferencesDisplayPrivate *priv;
 };
 
 struct _EntanglePreferencesDisplayClass
