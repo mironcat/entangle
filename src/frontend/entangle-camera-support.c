@@ -27,28 +27,21 @@
 
 #include "entangle-debug.h"
 #include "entangle-camera-support.h"
-#include "entangle-window.h"
 
-
-#define ENTANGLE_CAMERA_SUPPORT_GET_PRIVATE(obj)                        \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CAMERA_SUPPORT, EntangleCameraSupportPrivate))
 
 gboolean do_support_close(GtkButton *src,
                           gpointer data);
 gboolean do_support_delete(GtkWidget *src,
                            GdkEvent *ev);
 
+typedef struct _EntangleCameraSupportPrivate EntangleCameraSupportPrivate;
 struct _EntangleCameraSupportPrivate {
     EntangleCameraList *cameraList;
 
-    GtkBuilder *builder;
+    GtkLabel *infoText;
 };
 
-static void entangle_camera_support_window_interface_init(gpointer g_iface,
-                                                          gpointer iface_data);
-
-G_DEFINE_TYPE_EXTENDED(EntangleCameraSupport, entangle_camera_support, GTK_TYPE_DIALOG, 0,
-                       G_IMPLEMENT_INTERFACE(ENTANGLE_TYPE_WINDOW, entangle_camera_support_window_interface_init));
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleCameraSupport, entangle_camera_support, GTK_TYPE_DIALOG);
 
 enum {
     PROP_O,
@@ -62,7 +55,7 @@ static void entangle_camera_support_get_property(GObject *object,
                                                  GParamSpec *pspec)
 {
     EntangleCameraSupport *support = ENTANGLE_CAMERA_SUPPORT(object);
-    EntangleCameraSupportPrivate *priv = support->priv;
+    EntangleCameraSupportPrivate *priv = entangle_camera_support_get_instance_private(support);
 
     switch (prop_id)
         {
@@ -100,25 +93,12 @@ static void entangle_camera_support_set_property(GObject *object,
 static void entangle_camera_support_finalize(GObject *object)
 {
     EntangleCameraSupport *support = ENTANGLE_CAMERA_SUPPORT(object);
-    EntangleCameraSupportPrivate *priv = support->priv;
+    EntangleCameraSupportPrivate *priv = entangle_camera_support_get_instance_private(support);
 
     if (priv->cameraList)
         g_object_unref(priv->cameraList);
-    g_object_unref(priv->builder);
 
     G_OBJECT_CLASS(entangle_camera_support_parent_class)->finalize(object);
-}
-
-static void do_entangle_camera_support_set_builder(EntangleWindow *window,
-                                                   GtkBuilder *builder);
-static GtkBuilder *do_entangle_camera_support_get_builder(EntangleWindow *window);
-
-static void entangle_camera_support_window_interface_init(gpointer g_iface,
-                                                          gpointer iface_data G_GNUC_UNUSED)
-{
-    EntangleWindowInterface *iface = g_iface;
-    iface->set_builder = do_entangle_camera_support_set_builder;
-    iface->get_builder = do_entangle_camera_support_get_builder;
 }
 
 
@@ -141,15 +121,17 @@ static void entangle_camera_support_class_init(EntangleCameraSupportClass *klass
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
 
-    g_type_class_add_private(klass, sizeof(EntangleCameraSupportPrivate));
+    gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
+                                                "/org/entangle/frontend/entangle-camera-support.ui");
+
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntangleCameraSupport, infoText);
 }
 
 
 EntangleCameraSupport *entangle_camera_support_new(void)
 {
-    return ENTANGLE_CAMERA_SUPPORT(entangle_window_new(ENTANGLE_TYPE_CAMERA_SUPPORT,
-                                                       GTK_TYPE_DIALOG,
-                                                       "camera-support"));
+    return ENTANGLE_CAMERA_SUPPORT(g_object_new(ENTANGLE_TYPE_CAMERA_SUPPORT, NULL));
 }
 
 
@@ -177,28 +159,10 @@ gboolean do_support_delete(GtkWidget *src,
     return FALSE;
 }
 
-static void do_entangle_camera_support_set_builder(EntangleWindow *win,
-                                                   GtkBuilder *builder)
-{
-    EntangleCameraSupport *support = ENTANGLE_CAMERA_SUPPORT(win);
-    EntangleCameraSupportPrivate *priv = support->priv;
-
-    priv->builder = g_object_ref(builder);
-}
-
-
-static GtkBuilder *do_entangle_camera_support_get_builder(EntangleWindow *window)
-{
-    EntangleCameraSupport *support = ENTANGLE_CAMERA_SUPPORT(window);
-    EntangleCameraSupportPrivate *priv = support->priv;
-
-    return priv->builder;
-}
-
 
 static void entangle_camera_support_init(EntangleCameraSupport *support)
 {
-    support->priv = ENTANGLE_CAMERA_SUPPORT_GET_PRIVATE(support);
+    gtk_widget_init_template(GTK_WIDGET(support));
 }
 
 
@@ -206,8 +170,7 @@ static void do_support_refresh(EntangleCameraSupport *support)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_SUPPORT(support));
 
-    EntangleCameraSupportPrivate *priv = support->priv;
-    GtkWidget *text = GTK_WIDGET(gtk_builder_get_object(priv->builder, "info-text"));
+    EntangleCameraSupportPrivate *priv = entangle_camera_support_get_instance_private(support);
 
     if (priv->cameraList) {
         GList *cameras, *tmp;
@@ -244,10 +207,10 @@ static void do_support_refresh(EntangleCameraSupport *support)
             tmp = tmp->next;
         }
         g_list_free(cameras);
-        gtk_label_set_text(GTK_LABEL(text), str->str);
+        gtk_label_set_text(priv->infoText, str->str);
         g_string_free(str, TRUE);
     } else {
-        gtk_label_set_text(GTK_LABEL(text), "");
+        gtk_label_set_text(priv->infoText, "");
     }
 }
 
@@ -265,7 +228,7 @@ void entangle_camera_support_set_camera_list(EntangleCameraSupport *support,
     g_return_if_fail(ENTANGLE_IS_CAMERA_SUPPORT(support));
     g_return_if_fail(ENTANGLE_IS_CAMERA_LIST(list));
 
-    EntangleCameraSupportPrivate *priv = support->priv;
+    EntangleCameraSupportPrivate *priv = entangle_camera_support_get_instance_private(support);
 
     if (priv->cameraList)
         g_object_unref(priv->cameraList);
@@ -289,7 +252,7 @@ EntangleCameraList *entangle_camera_support_get_camera_list(EntangleCameraSuppor
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_SUPPORT(support), NULL);
 
-    EntangleCameraSupportPrivate *priv = support->priv;
+    EntangleCameraSupportPrivate *priv = entangle_camera_support_get_instance_private(support);
 
     return priv->cameraList;
 }

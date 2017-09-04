@@ -37,14 +37,11 @@ G_BEGIN_DECLS
 
 
 typedef struct _EntangleCameraSupport EntangleCameraSupport;
-typedef struct _EntangleCameraSupportPrivate EntangleCameraSupportPrivate;
 typedef struct _EntangleCameraSupportClass EntangleCameraSupportClass;
 
 struct _EntangleCameraSupport
 {
     GtkDialog parent;
-
-    EntangleCameraSupportPrivate *priv;
 };
 
 struct _EntangleCameraSupportClass
