@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
-  <object class="GtkDialog" id="camera-picker">
+  <template class="EntangleCameraPicker" parent="GtkDialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Select camera - Entangle</property>
@@ -28,7 +28,7 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="picker-close">
+              <object class="GtkButton" id="pickerClose">
                 <property name="label">gtk-close</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
@@ -45,7 +45,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="picker-refresh">
+              <object class="GtkButton" id="pickerRefresh">
                 <property name="label">gtk-refresh</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
@@ -61,7 +61,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="picker-connect">
+              <object class="GtkButton" id="pickerConnect">
                 <property name="label">gtk-connect</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
@@ -88,8 +88,8 @@
           <object class="GtkBox" id="vbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">6</property>
             <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
@@ -110,7 +110,7 @@
                 <property name="vexpand">True</property>
                 <property name="shadow_type">etched-in</property>
                 <child>
-                  <object class="GtkTreeView" id="camera-list">
+                  <object class="GtkTreeView" id="cameraList">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="headers_clickable">False</property>
@@ -130,7 +130,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="warning-no-cameras">
+              <object class="GtkBox" id="warningNoCameras">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
@@ -183,7 +183,7 @@ or enter a network camera IP address</property>
               </packing>
             </child>
             <child>
-              <object class="GtkExpander" id="network-camera">
+              <object class="GtkExpander" id="networkCamera">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
@@ -206,7 +206,7 @@ or enter a network camera IP address</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="ip-address">
+                      <object class="GtkEntry" id="ipAddress">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <signal name="changed" handler="do_ip_address_changed" swapped="no"/>
@@ -244,9 +244,12 @@ or enter a network camera IP address</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">picker-close</action-widget>
-      <action-widget response="0">picker-refresh</action-widget>
-      <action-widget response="0">picker-connect</action-widget>
+      <action-widget response="0">pickerClose</action-widget>
+      <action-widget response="0">pickerRefresh</action-widget>
+      <action-widget response="0">pickerConnect</action-widget>
     </action-widgets>
-  </object>
+    <child>
+      <placeholder/>
+    </child>
+  </template>
 </interface>
