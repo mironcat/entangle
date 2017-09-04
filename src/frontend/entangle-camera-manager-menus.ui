@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <menu id="action-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Select session…</attribute>
+        <attribute name="action">win.session</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Connect…</attribute>
+        <attribute name="action">win.connect</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Disconnect…</attribute>
+        <attribute name="action">win.disconnect</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Close</attribute>
+        <attribute name="action">win.close</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <menu id="view-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Fullscreen</attribute>
+        <attribute name="action">win.fullscreen</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Presentation</attribute>
+        <attribute name="action">win.presentation</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Settings</attribute>
+        <attribute name="action">win.settings</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+	<attribute name="label" translatable="yes">_Synchronize capture</attribute>
+	<attribute name="action">win.sync-capture</attribute>
+      </item>
+    </section>
+  </menu>
+
+  <menu id="zoom-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Best Fit</attribute>
+        <attribute name="action">win.zoom-best</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Normal Size</attribute>
+        <attribute name="action">win.zoom-normal</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Zoom _In</attribute>
+        <attribute name="action">win.zoom-in</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Zoom _Out</attribute>
+        <attribute name="action">win.zoom-out</attribute>
+      </item>
+    </section>
+    <section>
+    </section>
+  </menu>
+
+</interface>

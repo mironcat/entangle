@@ -1,6 +1,7 @@
 src/backend/entangle-camera-list.c
 src/backend/entangle-camera.c
 [type: gettext/glade] src/frontend/entangle-application-menus.ui
+[type: gettext/glade] src/frontend/entangle-camera-manager-menus.ui
 src/frontend/entangle-camera-manager.c
 [type: gettext/glade] src/frontend/entangle-camera-manager.ui
 src/frontend/entangle-camera-picker.c

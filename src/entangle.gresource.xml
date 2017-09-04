@@ -3,6 +3,7 @@
   <gresource prefix="/org/entangle">
     <file preprocess="xml-stripblanks">frontend/entangle-application-menus.ui</file>
     <file preprocess="xml-stripblanks">frontend/entangle-camera-manager.ui</file>
+    <file preprocess="xml-stripblanks">frontend/entangle-camera-manager-menus.ui</file>
     <file preprocess="xml-stripblanks">frontend/entangle-camera-picker.ui</file>
     <file preprocess="xml-stripblanks">frontend/entangle-camera-support.ui</file>
     <file preprocess="xml-stripblanks">frontend/entangle-help-about.ui</file>

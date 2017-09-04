@@ -9,10 +9,12 @@ UI_FILES = \
 	frontend/entangle-application-menus.ui \
 	frontend/entangle-camera-support.ui \
 	frontend/entangle-camera-manager.ui \
+	frontend/entangle-camera-manager-menus.ui \
 	frontend/entangle-camera-picker.ui \
 	frontend/entangle-help-about.ui \
 	frontend/entangle-media-popup.ui \
-	frontend/entangle-preferences-display.ui
+	frontend/entangle-preferences-display.ui \
+	$(NULL)
 
 desktopdir = $(datadir)/applications
 desktop_DATA_IN = entangle.desktop.in
