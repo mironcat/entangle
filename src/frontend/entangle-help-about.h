@@ -34,14 +34,11 @@ G_BEGIN_DECLS
 
 
 typedef struct _EntangleHelpAbout EntangleHelpAbout;
-typedef struct _EntangleHelpAboutPrivate EntangleHelpAboutPrivate;
 typedef struct _EntangleHelpAboutClass EntangleHelpAboutClass;
 
 struct _EntangleHelpAbout
 {
     GtkAboutDialog parent;
-
-    EntangleHelpAboutPrivate *priv;
 };
 
 struct _EntangleHelpAboutClass

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.1 -->
+<!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
-  <object class="GtkAboutDialog" id="help-about">
+  <template class="EntangleHelpAbout" parent="GtkAboutDialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">About - Entangle</property>
@@ -13,7 +13,6 @@
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
     <property name="deletable">False</property>
-    <property name="has_resize_grip">False</property>
     <property name="program_name">Entangle</property>
     <property name="copyright">© 2009-2015 Daniel P. Berrangé</property>
     <property name="comments" translatable="yes">Tethered Camera Control &amp; Capture</property>
@@ -668,5 +667,8 @@ copy of the Program in return for a fee.
         </child>
       </object>
     </child>
-  </object>
+    <child>
+      <placeholder/>
+    </child>
+  </template>
 </interface>
