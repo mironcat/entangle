@@ -7,23 +7,23 @@
     <property name="can_focus">False</property>
     <property name="stock">gtk-help</property>
   </object>
-  <object class="GtkWindow" id="camera-manager">
+  <template class="EntangleCameraManager" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Entangle</property>
     <property name="default_width">1000</property>
     <property name="default_height">600</property>
     <signal name="key-release-event" handler="do_manager_key_release" swapped="no"/>
     <child>
-      <object class="GtkBox" id="win-box">
+      <object class="GtkBox" id="winBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkMenuBar" id="win-menubar">
+          <object class="GtkMenuBar" id="winMenubar">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkMenuItem" id="menu-file">
+              <object class="GtkMenuItem" id="menuFile">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_File</property>
@@ -33,7 +33,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-session">
+                      <object class="GtkImageMenuItem" id="menuSession">
                         <property name="label" translatable="yes">Select session</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -50,7 +50,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-close">
+                      <object class="GtkImageMenuItem" id="menuClose">
                         <property name="label">gtk-close</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -61,7 +61,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-quit">
+                      <object class="GtkImageMenuItem" id="menuQuit">
                         <property name="label">gtk-quit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -76,7 +76,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menu-edit">
+              <object class="GtkMenuItem" id="menuEdit">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Edit</property>
@@ -100,7 +100,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menu-camera">
+              <object class="GtkMenuItem" id="menuCamera">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Camera</property>
@@ -110,7 +110,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-connect">
+                      <object class="GtkImageMenuItem" id="menuConnect">
                         <property name="label" translatable="yes">Connect</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -119,7 +119,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-disconnect">
+                      <object class="GtkImageMenuItem" id="menuDisconnect">
                         <property name="label">Disconnect</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -134,18 +134,18 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem" id="menu-capture">
+                      <object class="GtkMenuItem" id="menuCapture">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="action_name">win.capture</property>
                         <property name="label" translatable="yes">Capture</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="space" signal="activate"/>
                         <accelerator key="s" signal="activate"/>
+                        <accelerator key="space" signal="activate"/>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkCheckMenuItem" id="menu-preview">
+                      <object class="GtkCheckMenuItem" id="menuPreview">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="action_name">win.preview</property>
@@ -155,7 +155,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem" id="menu-cancel">
+                      <object class="GtkMenuItem" id="menuCancel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="action_name">win.cancel</property>
@@ -170,7 +170,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem" id="menu-sync-clock">
+                      <object class="GtkMenuItem" id="menuSyncClock">
                         <property name="can_focus">False</property>
                         <property name="action_name">win.sync-clock</property>
                         <property name="label" translatable="yes">Synchronize clock</property>
@@ -182,7 +182,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menu-view">
+              <object class="GtkMenuItem" id="menuView">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_View</property>
@@ -192,7 +192,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-zoom-best">
+                      <object class="GtkImageMenuItem" id="menuZoomBest">
                         <property name="label">gtk-zoom-fit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -208,7 +208,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-zoom-out">
+                      <object class="GtkImageMenuItem" id="menuZoomOut">
                         <property name="label">gtk-zoom-out</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -219,7 +219,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-zoom-normal">
+                      <object class="GtkImageMenuItem" id="menuZoomNormal">
                         <property name="label">gtk-zoom-100</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -230,7 +230,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-zoom-in">
+                      <object class="GtkImageMenuItem" id="menuZoomIn">
                         <property name="label">gtk-zoom-in</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -247,7 +247,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkCheckMenuItem" id="menu-settings">
+                      <object class="GtkCheckMenuItem" id="menuSettings">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="action_name">win.settings</property>
@@ -257,7 +257,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkCheckMenuItem" id="menu-fullscreen">
+                      <object class="GtkCheckMenuItem" id="menuFullscreen">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="action_name">win.fullscreen</property>
@@ -267,7 +267,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkCheckMenuItem" id="menu-presentation">
+                      <object class="GtkCheckMenuItem" id="menuPresentation">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="action_name">win.presentation</property>
@@ -283,7 +283,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem" id="menu-monitor">
+                      <object class="GtkMenuItem" id="menuMonitor">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Present on</property>
@@ -295,7 +295,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menu-windows">
+              <object class="GtkMenuItem" id="menuWindows">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Windows</property>
@@ -305,7 +305,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkMenuItem" id="menu-new-window">
+                      <object class="GtkMenuItem" id="menuNewWindow">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="action_name">app.new-window</property>
@@ -321,7 +321,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkCheckMenuItem" id="menu-sync-windows">
+                      <object class="GtkCheckMenuItem" id="menuSyncWindows">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="action_name">app.sync-capture</property>
@@ -334,13 +334,13 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menu-hel">
+              <object class="GtkMenuItem" id="menu7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Help</property>
                 <property name="use_underline">True</property>
                 <child type="submenu">
-                  <object class="GtkMenu" id="menu-help">
+                  <object class="GtkMenu" id="menuHelp">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
@@ -370,7 +370,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu-help-supported">
+                      <object class="GtkImageMenuItem" id="menuitem1">
                         <property name="label" translatable="yes">Supported Cameras</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -390,15 +390,15 @@
           </packing>
         </child>
         <child>
-          <object class="GtkToolbar" id="win-toolbar">
+          <object class="GtkToolbar" id="winToolbar">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkToolItem" id="toolbar-session">
+              <object class="GtkToolItem" id="toolbarSession">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkFileChooserButton" id="toolbar-session-button">
+                  <object class="GtkFileChooserButton" id="toolbarSessionButton">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="action">select-folder</property>
@@ -424,7 +424,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToggleToolButton" id="toolbar-settings">
+              <object class="GtkToggleToolButton" id="toolbarSettings">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">View the full list of camera settings</property>
@@ -451,7 +451,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="toolbar-capture">
+              <object class="GtkToolButton" id="toolbarCapture">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Capture an image</property>
@@ -466,7 +466,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToggleToolButton" id="toolbar-preview">
+              <object class="GtkToggleToolButton" id="toolbarPreview">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Continuous capture preview</property>
@@ -481,7 +481,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="toolbar-cancel">
+              <object class="GtkToolButton" id="toolbarCancel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Attempt to cancel the currently
@@ -508,7 +508,7 @@ executing camera operation</property>
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="toolbar-zoom-out">
+              <object class="GtkToolButton" id="toolbarZoomOut">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Shrink the display of the image
@@ -524,7 +524,7 @@ by one factor</property>
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="toolbar-zoom-in">
+              <object class="GtkToolButton" id="toolbarZoomIn">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Enlarge the display of the image
@@ -540,7 +540,7 @@ by one factor</property>
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="toolbar-zoom-best">
+              <object class="GtkToolButton" id="toolbarZoomBest">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Resize the image to automatically
@@ -556,7 +556,7 @@ fit the available window real estate</property>
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="toolbar-zoom-normal">
+              <object class="GtkToolButton" id="toolbarZoomNormal">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Display the image with its
@@ -582,7 +582,7 @@ native pixel size</property>
               </packing>
             </child>
             <child>
-              <object class="GtkToggleToolButton" id="toolbar-fullscreen">
+              <object class="GtkToggleToolButton" id="toolbarFullscreen">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Switch to fullscreen display mode</property>
@@ -601,7 +601,7 @@ native pixel size</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkSpinner" id="toolbar-spinner">
+                  <object class="GtkSpinner" id="toolbarSpinner">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                   </object>
@@ -620,17 +620,17 @@ native pixel size</property>
           </packing>
         </child>
         <child>
-          <object class="GtkPaned" id="win-mainpane">
+          <object class="GtkPaned" id="winMainpane">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="border_width">6</property>
             <child>
-              <object class="GtkScrolledWindow" id="settings-scroll">
+              <object class="GtkScrolledWindow" id="settingsScroll">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">never</property>
                 <child>
-                  <object class="GtkViewport" id="settings-viewport">
+                  <object class="GtkViewport" id="settingsViewport">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="resize_mode">queue</property>
@@ -647,7 +647,7 @@ native pixel size</property>
               </packing>
             </child>
             <child>
-              <object class="GtkPaned" id="display-panel">
+              <object class="GtkPaned" id="displayPanel">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="orientation">vertical</property>
@@ -675,5 +675,5 @@ native pixel size</property>
     <child type="titlebar">
       <placeholder/>
     </child>
-  </object>
+  </template>
 </interface>

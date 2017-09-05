@@ -38,14 +38,11 @@ G_BEGIN_DECLS
 
 
 typedef struct _EntangleCameraManager EntangleCameraManager;
-typedef struct _EntangleCameraManagerPrivate EntangleCameraManagerPrivate;
 typedef struct _EntangleCameraManagerClass EntangleCameraManagerClass;
 
 struct _EntangleCameraManager
 {
     GtkApplicationWindow parent;
-
-    EntangleCameraManagerPrivate *priv;
 };
 
 struct _EntangleCameraManagerClass
