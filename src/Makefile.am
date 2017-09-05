@@ -186,7 +186,6 @@ libentangle_backend_la_CFLAGS = \
 	$(NULL)
 
 libentangle_frontend_la_SOURCES = \
-	frontend/entangle-window.h frontend/entangle-window.c \
 	frontend/entangle-application.h frontend/entangle-application.c \
 	frontend/entangle-camera-support.h frontend/entangle-camera-support.c \
 	frontend/entangle-camera-manager.h frontend/entangle-camera-manager.c \
