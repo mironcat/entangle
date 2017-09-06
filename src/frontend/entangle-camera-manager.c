@@ -2859,6 +2859,19 @@ static void do_camera_capture_end(EntangleCameraAutomata *automata,
         entangle_dpms_set_blanking(FALSE, NULL);
 }
 
+static void do_image_realize(GtkWidget *widget,
+                             EntangleCameraManager *manager)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+
+    GdkWindow *imgWin = gtk_widget_get_window(GTK_WIDGET(widget));
+
+    gdk_window_set_events(imgWin,
+                          gdk_window_get_events(imgWin) | GDK_POINTER_MOTION_MASK);
+    g_signal_connect(widget, "motion-notify-event",
+                     G_CALLBACK(do_image_status_show), manager);
+}
+
 static GActionEntry actions[] =
 {
     { .name = "session", .activate = do_action_session },
@@ -2989,13 +3002,6 @@ static void entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_widget_show(GTK_WIDGET(priv->imageDrawer));
     gtk_widget_show(GTK_WIDGET(priv->mediaStatusbar));
 
-    gtk_widget_realize(GTK_WIDGET(manager));
-    GdkWindow *imgWin = gtk_widget_get_window(GTK_WIDGET(manager));
-    gdk_window_set_events(imgWin,
-                          gdk_window_get_events(imgWin) | GDK_POINTER_MOTION_MASK);
-    g_signal_connect(manager, "motion-notify-event",
-                     G_CALLBACK(do_image_status_show), manager);
-
     ENTANGLE_DEBUG("Adding %p to %p", priv->imageDisplay, imageViewport);
     gtk_paned_pack1(priv->displayPanel, imageOverlay, TRUE, TRUE);
     gtk_paned_pack2(priv->displayPanel, GTK_WIDGET(iconScroll), FALSE, TRUE);
@@ -3027,11 +3033,12 @@ static void entangle_camera_manager_init(EntangleCameraManager *manager)
     do_zoom_widget_sensitivity(manager);
     do_capture_widget_sensitivity(manager);
 
-    gtk_widget_show(GTK_WIDGET(manager));
     gtk_widget_show(GTK_WIDGET(priv->controlPanel));
     gtk_widget_show(GTK_WIDGET(priv->imageDisplay));
     gtk_widget_show(GTK_WIDGET(priv->sessionBrowser));
 
+    g_signal_connect(manager, "realize",
+                     G_CALLBACK(do_image_realize), manager);
     g_signal_connect(manager, "hide",
                      G_CALLBACK(do_entangle_camera_manager_hide), NULL);
     g_signal_connect(manager, "delete-event",
