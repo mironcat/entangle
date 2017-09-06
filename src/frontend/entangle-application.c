@@ -325,10 +325,20 @@ static void entangle_application_startup(GApplication *gapp)
     EntangleApplicationPrivate *priv = app->priv;
     GList *cameras = NULL, *tmp = NULL;
     gboolean gotcamera = FALSE;
+    GtkBuilder *builder;
+    GMenuModel *appmenu;
 
     (*G_APPLICATION_CLASS(entangle_application_parent_class)->startup)(gapp);
 
-    g_action_map_add_action_entries(G_ACTION_MAP(app),
+    builder = gtk_builder_new_from_resource("/org/entangle/frontend/entangle-application-menus.ui");
+
+    appmenu = G_MENU_MODEL(gtk_builder_get_object(builder, "app-menu"));
+
+    gtk_application_set_app_menu(GTK_APPLICATION(gapp), appmenu);
+
+    g_object_unref(builder);
+
+    g_action_map_add_action_entries(G_ACTION_MAP(gapp),
                                     actions, G_N_ELEMENTS(actions),
                                     app);
 

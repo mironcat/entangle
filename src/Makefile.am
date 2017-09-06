@@ -6,6 +6,7 @@ lib_LTLIBRARIES = libentangle_backend.la libentangle_frontend.la
 bin_PROGRAMS = entangle
 
 UI_FILES = \
+	frontend/entangle-application-menus.ui \
 	frontend/entangle-camera-support.ui \
 	frontend/entangle-camera-manager.ui \
 	frontend/entangle-camera-picker.ui \
