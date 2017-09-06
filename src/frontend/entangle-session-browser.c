@@ -1175,8 +1175,10 @@ entangle_session_browser_draw(GtkWidget *widget,
     gtk_cairo_transform_to_window(cr, widget, priv->bin_window);
     cairo_set_line_width(cr, 1.);
 
-    if (!priv->session)
+    if (!priv->session) {
+        cairo_restore(cr);
         return TRUE;
+    }
 
     for (i = 0; i < entangle_session_get_media_count(priv->session); i++) {
         EntangleMedia *media = entangle_session_get_media(priv->session, i);
