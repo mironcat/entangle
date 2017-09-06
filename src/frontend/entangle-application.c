@@ -298,8 +298,7 @@ static void do_action_new_window(GSimpleAction *act G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
 
     EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
-    EntangleCameraManager *newmanager = entangle_camera_manager_new();
-    gtk_window_set_application(GTK_WINDOW(newmanager), GTK_APPLICATION(app));
+    EntangleCameraManager *newmanager = entangle_camera_manager_new(app);
 
     gtk_widget_show(GTK_WIDGET(newmanager));
     gtk_window_present(GTK_WINDOW(newmanager));
@@ -345,8 +344,7 @@ static void entangle_application_startup(GApplication *gapp)
                        entangle_camera_get_port(cam));
 
         if (entangle_camera_get_has_capture(cam)) {
-            EntangleCameraManager *manager = entangle_camera_manager_new();
-            gtk_application_add_window(GTK_APPLICATION(gapp), GTK_WINDOW(manager));
+            EntangleCameraManager *manager = entangle_camera_manager_new(app);
             gtk_widget_show(GTK_WIDGET(manager));
             entangle_camera_manager_set_camera(manager, cam);
             gotcamera = TRUE;
@@ -357,8 +355,7 @@ static void entangle_application_startup(GApplication *gapp)
     g_list_free(cameras);
 
     if (!gotcamera) {
-        EntangleCameraManager *manager = entangle_camera_manager_new();
-        gtk_application_add_window(GTK_APPLICATION(gapp), GTK_WINDOW(manager));
+        EntangleCameraManager *manager = entangle_camera_manager_new(app);
         gtk_widget_show(GTK_WIDGET(manager));
     }
 }

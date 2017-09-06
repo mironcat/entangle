@@ -3039,9 +3039,11 @@ static void entangle_camera_manager_init(EntangleCameraManager *manager)
 }
 
 
-EntangleCameraManager *entangle_camera_manager_new(void)
+EntangleCameraManager *entangle_camera_manager_new(EntangleApplication *app)
 {
-    return ENTANGLE_CAMERA_MANAGER(g_object_new(ENTANGLE_TYPE_CAMERA_MANAGER, NULL));
+    return ENTANGLE_CAMERA_MANAGER(g_object_new(ENTANGLE_TYPE_CAMERA_MANAGER,
+                                                "application", app,
+                                                NULL));
 }
 
 

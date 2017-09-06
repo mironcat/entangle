@@ -52,7 +52,7 @@ struct _EntangleCameraManagerClass
 
 
 GType entangle_camera_manager_get_type(void) G_GNUC_CONST;
-EntangleCameraManager* entangle_camera_manager_new(void);
+EntangleCameraManager* entangle_camera_manager_new(EntangleApplication *app);
 
 void entangle_camera_manager_add_script(EntangleCameraManager *manager,
                                         EntangleScript *script);
