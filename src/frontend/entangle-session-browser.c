@@ -123,6 +123,9 @@ entangle_session_browser_scroll_to_selected(EntangleSessionBrowser *browser)
     if (priv->selectedIndex == -1)
         return;
 
+    if (!priv->bin_window)
+        return;
+
     minx = priv->selectedIndex * (priv->margin + priv->itemsize);
     maxx = minx + priv->itemsize + (priv->margin * 2);
 
