@@ -12,7 +12,6 @@
     <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
-    <property name="deletable">False</property>
     <property name="program_name">Entangle</property>
     <property name="copyright">© 2009-2015 Daniel P. Berrangé</property>
     <property name="comments" translatable="yes">Tethered Camera Control &amp; Capture</property>
