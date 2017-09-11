@@ -408,7 +408,8 @@ static void do_entangle_preferences_display_set_app(GObject *object,
                                      object);
     pluginEngine = entangle_application_get_plugin_engine(app);
     priv->pluginManager = PEAS_GTK_PLUGIN_MANAGER(peas_gtk_plugin_manager_new(pluginEngine));
-    gtk_container_add(priv->pluginsPanel, GTK_WIDGET(priv->pluginManager));
+    gtk_container_add_with_properties(priv->pluginsPanel, GTK_WIDGET(priv->pluginManager),
+                                      "expand", TRUE, NULL);
     gtk_widget_show_all(GTK_WIDGET(priv->pluginManager));
 }
 
