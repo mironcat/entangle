@@ -18,8 +18,6 @@
  *
  */
 
-#include <config.h>
-
 #include <libraw/libraw.h>
 
 #include "entangle-debug.h"

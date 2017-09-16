@@ -18,8 +18,6 @@
  *
  */
 
-#include <config.h>
-
 #include "entangle-debug.h"
 #include "entangle-pixbuf.h"
 #include "entangle-image-loader.h"

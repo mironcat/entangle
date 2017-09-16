@@ -10,20 +10,21 @@ and 'hands off' shooting directly from the controlling computer.
 Installation
 ------------
 
-The Entangle package uses GNU autotools, so the build install
-process follows the standard process documented in the INSTALL file.
+The Entangle package uses the Meson build system available from:
+
+  http://mesonbuild.com/
+
 As a quick start you can do
 
-  ./configure --prefix=/usr --sysconfdir=/etc \
-        --localstatedir=/var --libdir=/usr/lib
-  make
-  sudo make install
+  meson build-dir
+  ninja -C build-dir all
+  sudo ninja -C build-dir install
 
 Or to install into a private user specific location
 
-  ./configure --prefix=$HOME/usr/entangle
-  make
-  make install
+  meson build-dir --prefix=$HOME/entangle
+  ninja -C build-dir all
+  ninja -C build-dir install
 
 NB, if not installing in /usr, you need to set the XDG_DATA_DIRS env
 variable to point to the data directory, eg in the above example use:
@@ -38,6 +39,7 @@ installing to the /usr prefix
 Building entangle requires the following external packages to
 be present
 
+ meson                 >= 0.41.0
  glib2                 >= 2.26.0
  gdk-pixbf             >= 2.12.0
  gtk3                  >= 3.0.0
@@ -48,7 +50,7 @@ be present
  libpeas               >= 0.5.5
  gexiv2                >= 0.2.2
  LibRaw                >= 0.9.0
- gnome-icon-theme-symbolic >= 3.0.0
+ adwaita-icon-theme
 
 
 Communication
@@ -57,7 +59,7 @@ Communication
 To communicate with the development team, or to post patches
 there is a technical mailing list:
 
-   https://mail.gna.org/listinfo/entangle-devel/
+   https://groups.google.com/forum/#!forum/entangle-devel
 
 Bugs found when using an OS distribution's binary packages should
 be reported to the OS vendors' own bug tracker first. Otherwise

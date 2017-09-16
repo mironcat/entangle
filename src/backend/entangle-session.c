@@ -18,8 +18,6 @@
  *
  */
 
-#include <config.h>
-
 #include <glib.h>
 #include <gio/gio.h>
 #include <stdio.h>

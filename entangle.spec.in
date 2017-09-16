@@ -1,18 +1,11 @@
 # -*- rpm-spec -*-
 
-# Default to skipping autoreconf.  Distros can change just this one line
-# (or provide a command-line override) if they backport any patches that
-# touch configure.ac or Makefile.am.
-%{!?enable_autotools:%global enable_autotools 0}
-
 Summary: Tethered shooting & control of digital cameras
 Name: entangle
-Version: @VERSION@
-Release: 1%{?dist}%{?extra_release}
+Version: #VERSION#
+Release: 1%{?dist}
 License: GPLv3+
-Group: Applications/Multimedia
-Source: http://entangle-photo.org/download/sources/%{name}-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+Source: http://entangle-photo.org/download/sources/%{name}-%{version}.tar.xz
 URL: http://entangle-photo.org/
 
 BuildRequires: glib2-devel >= 2.36.0
@@ -31,12 +24,7 @@ BuildRequires: itstool
 BuildRequires: gtk-doc
 BuildRequires: gstreamer1-devel >= 1.0.0
 BuildRequires: gstreamer1-plugins-base-devel >= 1.0.0
-%if 0%{?enable_autotools}
-BuildRequires: autoconf
-BuildRequires: automake
-BuildRequires: gettext-devel
-BuildRequires: libtool
-%endif
+BuildRequires: meson >= 0.41.0
 
 BuildRequires: adwaita-icon-theme
 Requires: adwaita-icon-theme
@@ -56,27 +44,15 @@ and 'hands off' shooting directly from the controlling computer.
 %setup -q
 
 %build
-
-%if 0%{?enable_autotools}
-autoreconf -if
-%endif
-%configure --disable-schemas-compile
-make %{?_smp_mflags} V=1
+%meson -Denable-gtk-doc=true
+%meson_build
 
 %install
-rm -fr %{buildroot}
-
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -rf %{buildroot}%{_datadir}/%{name}/website
+%meson_install
 %find_lang %{name}
 
 rm -f %{buildroot}%{_libdir}/libentangle_backend.so
-rm -f %{buildroot}%{_libdir}/libentangle_backend.la
 rm -f %{buildroot}%{_libdir}/libentangle_frontend.so
-rm -f %{buildroot}%{_libdir}/libentangle_frontend.la
-
-%clean
-rm -fr %{buildroot}
 
 %post
 update-desktop-database %{_datadir}/applications
@@ -145,7 +121,7 @@ fi
 %{_datadir}/%{name}/plugins/eclipse/schemas/org.entangle-photo.plugins.eclipse.gschema.xml
 
 %{_datadir}/%{name}/sRGB.icc
-%{_datadir}/gtk-doc/html/Entangle
+%{_datadir}/gtk-doc/html/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_datadir}/glib-2.0/schemas/org.entangle-photo.manager.gschema.xml

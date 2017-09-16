@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+
+VERSION=`grep 'version:' meson.build  | head -1 | awk '{print $2}' | sed -e "s/'//g" -e "s/,//"`
+DISTDIR=entangle-$VERSION
+
+rm -rf $DISTDIR
+mkdir $DISTDIR
+
+git clone --shared . $DISTDIR
+rm -rf $DISTDIR/.git
+
+build-aux/gitlog-to-changelog > $DISTDIR/ChangeLog
+
+out="`git log --pretty=format:'%aN <%aE>' | sort -u`"
+perl -p -e "s/#authorslist#// and print '$$out'" < AUTHORS.in > $DISTDIR/AUTHORS
+rm -f $DISTDIR/AUTHORS.in
+
+perl -p -e "s/#VERSION#/$VERSION/" entangle.spec.in > $DISTDIR/entangle.spec
+rm -f $DISTDIR/entangle.spec.in
+
+tar Jcf $DISTDIR.tar.xz $DISTDIR/
+rm -rf $DISTDIR
+
+echo "Created $DISTDIR.tar.xz"

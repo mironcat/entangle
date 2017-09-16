@@ -18,15 +18,13 @@
  *
  */
 
-#include <config.h>
-
 #include "entangle-dpms.h"
 #include "entangle-debug.h"
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#if defined(HAVE_XEXT) && defined(GDK_WINDOWING_X11)
+#if defined(GDK_WINDOWING_X11)
 #include <X11/Xlib.h>
 #include <X11/extensions/dpms.h>
 
@@ -48,7 +46,7 @@ gboolean entangle_dpms_set_blanking(gboolean enabled,
 
     ENTANGLE_DEBUG("Toggle set blanking %d", enabled);
 
-#if defined(HAVE_XEXT) && defined(GDK_WINDOWING_X11)
+#if defined(GDK_WINDOWING_X11)
     if (GDK_IS_X11_DISPLAY(dpy)) {
         Display *xdpy = gdk_x11_display_get_xdisplay(dpy);
         int ignore1, ignore2;

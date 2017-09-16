@@ -18,8 +18,6 @@
  *
  */
 
-#include <config.h>
-
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <stdio.h>
@@ -140,7 +138,6 @@ static void entangle_camera_list_finalize(GObject *object)
 }
 
 
-#ifdef HAVE_GPHOTO25
 static void entangle_camera_list_gphoto_log(GPLogLevel level G_GNUC_UNUSED,
                                             const char *domain,
                                             const char *msg,
@@ -148,18 +145,6 @@ static void entangle_camera_list_gphoto_log(GPLogLevel level G_GNUC_UNUSED,
 {
     g_debug("%s: %s", domain, msg);
 }
-#else
-static void entangle_camera_list_gphoto_log(GPLogLevel level G_GNUC_UNUSED,
-                                            const char *domain,
-                                            const char *format,
-                                            va_list args,
-                                            void *data G_GNUC_UNUSED)
-{
-    char *msg = g_strdup_vprintf(format, args);
-    g_debug("%s: %s", domain, msg);
-    g_free(msg);
-}
-#endif
 
 static void entangle_camera_list_class_init(EntangleCameraListClass *klass)
 {

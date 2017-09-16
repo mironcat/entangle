@@ -18,8 +18,6 @@
  *
  */
 
-#include <config.h>
-
 #include <lcms2.h>
 #include <string.h>
 

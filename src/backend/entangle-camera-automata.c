@@ -18,7 +18,6 @@
  *
  */
 
-#include <config.h>
 #include <string.h>
 
 #include "entangle-debug.h"

@@ -1,0 +1,1 @@
+option('enable-gtk-doc', type: 'boolean', value: false, description: 'use gtk-doc to build documentation')

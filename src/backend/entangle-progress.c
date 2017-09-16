@@ -18,8 +18,6 @@
  *
  */
 
-#include <config.h>
-
 #include "entangle-debug.h"
 #include "entangle-progress.h"
 

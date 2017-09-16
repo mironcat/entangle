@@ -21,6 +21,8 @@ local-checks-to-skip =			\
   makefile-check			\
   makefile_path_separator_check		\
   patch-check				\
+  sc_require_config_h			\
+  sc_require_config_h_first		\
   sc_GPL_version			\
   sc_always_defined_macros		\
   sc_cast_of_alloca_return_value	\

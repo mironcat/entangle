@@ -18,8 +18,6 @@
  *
  */
 
-#include <config.h>
-
 #include "entangle-debug.h"
 
 gboolean entangle_debug_app = FALSE;

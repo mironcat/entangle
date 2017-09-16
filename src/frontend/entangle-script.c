@@ -18,7 +18,6 @@
  *
  */
 
-#include <config.h>
 #include <glib/gi18n.h>
 
 #include "entangle-script.h"
