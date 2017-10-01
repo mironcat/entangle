@@ -23,6 +23,7 @@ from gi.repository import GObject
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import Gdk
+from gi.repository import GLib
 from gi.repository import Gio
 from gi.repository import Peas
 gi.require_version("PeasGtk", "1.0")
@@ -47,6 +48,9 @@ class PhotoBoxPluginUnlockDialog(Gtk.Dialog):
         self.set_transient_for(win)
 
         self.config = config
+
+        box = self.get_child()
+        box.set_border_width(6)
 
         controls = Gtk.Box()
         controls.set_orientation(Gtk.Orientation.VERTICAL)
@@ -104,26 +108,18 @@ class PhotoBoxPluginWindow(object):
 
         self.config = config
         self.win = win
-        self.menu = Gtk.CheckMenuItem(label="Photo Box")
+        self.action = None
         self.button = Gtk.Button("Shoot")
-        self.menusig = None
         self.winsig = None
         self.buttonsig = None
 
     def do_set_widget_state(self, visible):
-        builder = self.win.get_builder()
-        widgets = [
-            builder.get_object("win-menubar"),
-            builder.get_object("win-toolbar"),
-            builder.get_object("settings-viewport"),
-        ]
-        for w in widgets:
-            w.set_visible(visible)
+        settings = self.win.get_template_child(Entangle.CameraManager, "settingsScroll")
+        settings.set_visible(visible)
 
     def do_start_photobox(self):
         self.do_set_widget_state(False)
-        builder = self.win.get_builder()
-        pane = builder.get_object("win-box")
+        pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
         pane.pack_start(self.button, False, True, 0)
         self.button.show()
         self.button.grab_focus()
@@ -133,26 +129,32 @@ class PhotoBoxPluginWindow(object):
 
     def do_stop_photobox(self):
         self.do_set_widget_state(True)
-        builder = self.win.get_builder()
-        pane = builder.get_object("win-box")
+        pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
         pane.remove(self.button)
         self.win.unfullscreen()
         self.win.disconnect(self.winsig)
         self.button.disconnect(self.buttonsig)
 
-    def do_toggle_photobox(self, src):
-        if src.get_active():
+    def do_close_greeting(self, src, response, data=None):
+        src.set_visible(False)
+        src.destroy()
+
+    def do_show_greeting(self):
+        dlg = Gtk.MessageDialog(title="Photo box active",
+                                parent=self.win,
+                                flags=Gtk.DialogFlags.MODAL,
+                                type=Gtk.MessageType.INFO,
+                                buttons=Gtk.ButtonsType.OK)
+        dlg.set_markup("Press 'Escape' to exit photo box")
+        dlg.set_transient_for(self.win)
+        dlg.connect("response", self.do_close_greeting)
+        dlg.show()
+
+    def do_toggle_photobox(self, action, state, data=None):
+        if state.unpack():
             self.do_start_photobox()
 
-            dlg = Gtk.MessageDialog(title="Photo box active",
-                                    parent=self.win,
-                                    flags=Gtk.DialogFlags.MODAL,
-                                    type=Gtk.MessageType.INFO,
-                                    buttons=Gtk.ButtonsType.OK)
-            dlg.set_markup("Press 'Escape' to exit photo box")
-            dlg.set_transient_for(self.win)
-            dlg.run()
-            dlg.destroy()
+            GLib.timeout_add(500, self.do_show_greeting)
         else:
             self.do_stop_photobox()
 
@@ -160,37 +162,47 @@ class PhotoBoxPluginWindow(object):
         if ev.keyval == Gdk.KEY_Escape:
             passwd = self.config.get_unlock_password()
             if passwd == "":
-                self.menu.set_active(False)
+                self.action.change_state(GLib.Variant('b', False))
             else:
                 dlg = PhotoBoxPluginUnlockDialog(self.win,
                                                  self.config)
                 if dlg.run():
-                    self.menu.set_active(False)
+                    self.action.change_state(GLib.Variant('b', False))
                 dlg.destroy()
 
     def do_capture(self, src):
         self.win.capture()
 
+    def do_state_photobox(self, action, data=None):
+        action.change_state(GLib.Variant('b', not action.get_state()))
+
     def activate(self):
         '''Activate the plugin on the window'''
-        builder = self.win.get_builder()
-        wins = builder.get_object("menu-windows")
-        items = wins.get_submenu()
-        items.append(self.menu)
-        self.menu.show()
-        self.menusig = self.menu.connect("toggled", self.do_toggle_photobox)
+
+        action = Gio.SimpleAction.new_stateful("photobox", None, GLib.Variant('b', False))
+        action.connect("activate", self.do_state_photobox)
+        action.connect("change-state", self.do_toggle_photobox)
+        self.win.add_action(action)
+        self.action = action
+
+        button = self.win.get_template_child(Entangle.CameraManager, "titlebarButtonView")
+        mod = button.get_menu_model()
+        mod.append("Photobox", "win.photobox")
 
     def deactivate(self):
         '''Deactivate the plugin on the window, undoing
         all changes made since the 'activate' call'''
 
-        if self.menu.get_active():
+        if self.action.get_state().unpack():
             self.do_stop_photobox()
-        builder = self.win.get_builder()
-        wins = builder.get_object("menu-windows")
-        items = wins.get_submenu()
-        items.remove(self.menu)
-        self.menu.disconnect(self.menusig)
+
+        button = self.win.get_template_child(Entangle.CameraManager, "titlebarButtonView")
+        mod = wins.get_menu_model()
+        nth = mod.get_n_items()
+        mod.remove(nth - 1)
+
+        self.action = None
+        self.wins.remove_action("photobox")
 
 
 class PhotoBoxPluginConfig(Gtk.Grid):
