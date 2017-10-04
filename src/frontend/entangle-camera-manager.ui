@@ -45,7 +45,8 @@
         <child>
           <object class="GtkHeaderBar" id="toolbarBox">
             <property name="can_focus">False</property>
-            <property name="has_subtitle">False</property>
+            <property name="title">Entangle</property>
+            <property name="subtitle">&lt;disconnected&gt;</property>
             <child>
               <object class="GtkButton" id="toolbarButtonCapture">
                 <property name="visible">True</property>
@@ -207,7 +208,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="title">Entangle</property>
-        <property name="subtitle">Nikon D90</property>
+        <property name="subtitle">&lt;disconnected&gt;</property>
         <property name="show_close_button">True</property>
         <child>
           <object class="GtkButton" id="titlebarButtonCapture">
