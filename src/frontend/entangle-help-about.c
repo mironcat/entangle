@@ -38,7 +38,7 @@ G_DEFINE_TYPE(EntangleHelpAbout, entangle_help_about, GTK_TYPE_ABOUT_DIALOG);
 static void entangle_help_about_class_init(EntangleHelpAboutClass *klass)
 {
     gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle/frontend/entangle-help-about.ui");
+                                                "/org/entangle_photo/Manager/frontend/entangle-help-about.ui");
 }
 
 

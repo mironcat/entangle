@@ -1434,7 +1434,7 @@ static void entangle_camera_manager_class_init(EntangleCameraManagerClass *klass
                                                         G_PARAM_STATIC_BLURB));
 
     gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle/frontend/entangle-camera-manager.ui");
+                                                "/org/entangle_photo/Manager/frontend/entangle-camera-manager.ui");
 
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
                                                  EntangleCameraManager, winBox);
@@ -2860,7 +2860,7 @@ static void entangle_camera_manager_init(EntangleCameraManager *manager)
                      G_CALLBACK(do_entangle_camera_manager_set_app),
                      NULL);
 
-    menuBuilder = gtk_builder_new_from_resource("/org/entangle/frontend/entangle-camera-manager-menus.ui");
+    menuBuilder = gtk_builder_new_from_resource("/org/entangle_photo/Manager/frontend/entangle-camera-manager-menus.ui");
 
     gtk_menu_button_set_menu_model(priv->titlebarButtonView, G_MENU_MODEL(gtk_builder_get_object(menuBuilder, "view-menu")));
     gtk_menu_button_set_menu_model(priv->titlebarButtonAction, G_MENU_MODEL(gtk_builder_get_object(menuBuilder, "action-menu")));

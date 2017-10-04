@@ -120,7 +120,7 @@ static void entangle_camera_support_class_init(EntangleCameraSupportClass *klass
                                                         G_PARAM_STATIC_BLURB));
 
     gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle/frontend/entangle-camera-support.ui");
+                                                "/org/entangle_photo/Manager/frontend/entangle-camera-support.ui");
 
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
                                                  EntangleCameraSupport, infoText);

@@ -11,6 +11,7 @@ src/frontend/entangle-camera-support.c
 src/frontend/entangle-control-panel.c
 src/frontend/entangle-dpms.c
 [type: gettext/glade] src/frontend/entangle-help-about.ui
+[type: gettext/glade] src/frontend/entangle-help-overlay.ui
 [type: gettext/glade] src/frontend/entangle-media-popup.ui
 src/frontend/entangle-preferences-display.c
 [type: gettext/glade] src/frontend/entangle-preferences-display.ui

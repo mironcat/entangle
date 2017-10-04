@@ -20,6 +20,10 @@
         <attribute name="action">app.devices</attribute>
       </item>
       <item>
+        <attribute name="label" translatable="yes">_Keyboard shortcuts</attribute>
+        <attribute name="action">win.show-help-overlay</attribute>
+      </item>
+      <item>
         <attribute name="label" translatable="yes">_Help</attribute>
         <attribute name="action">app.manual</attribute>
       </item>

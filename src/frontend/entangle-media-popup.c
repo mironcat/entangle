@@ -187,7 +187,7 @@ static void entangle_media_popup_class_init(EntangleMediaPopupClass *klass)
                  0);
 
     gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle/frontend/entangle-media-popup.ui");
+                                                "/org/entangle_photo/Manager/frontend/entangle-media-popup.ui");
 }
 
 

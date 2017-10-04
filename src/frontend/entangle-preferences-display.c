@@ -536,7 +536,7 @@ static void entangle_preferences_display_class_init(EntanglePreferencesDisplayCl
     object_class->finalize = entangle_preferences_display_finalize;
 
     gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle/frontend/entangle-preferences-display.ui");
+                                                "/org/entangle_photo/Manager/frontend/entangle-preferences-display.ui");
 
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
                                                  EntanglePreferencesDisplay, preferencesSwitch);

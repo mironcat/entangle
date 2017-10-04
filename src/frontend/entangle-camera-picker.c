@@ -328,7 +328,7 @@ static void entangle_camera_picker_class_init(EntangleCameraPickerClass *klass)
                                                         G_PARAM_STATIC_BLURB));
 
     gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle/frontend/entangle-camera-picker.ui");
+                                                "/org/entangle_photo/Manager/frontend/entangle-camera-picker.ui");
 
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
                                                  EntangleCameraPicker, warningNoCameras);

@@ -347,7 +347,7 @@ static void entangle_application_startup(GApplication *gapp)
 
     (*G_APPLICATION_CLASS(entangle_application_parent_class)->startup)(gapp);
 
-    builder = gtk_builder_new_from_resource("/org/entangle/frontend/entangle-application-menus.ui");
+    builder = gtk_builder_new_from_resource("/org/entangle_photo/Manager/frontend/entangle-application-menus.ui");
 
     appmenu = G_MENU_MODEL(gtk_builder_get_object(builder, "app-menu"));
 
