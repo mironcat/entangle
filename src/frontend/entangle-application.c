@@ -314,6 +314,24 @@ static GActionEntry actions[] =
     { .name = "preferences", .activate = do_action_preferences },
 };
 
+struct {
+    const char *name;
+    const char *accels[3];
+} actionAccels[] = {
+    { .name = "app.new-window", .accels = { "<Primary>n",  NULL } },
+    { .name = "app.quit", .accels = { "<Primary>q", NULL } },
+    { .name = "app.manual", .accels = { "F1", NULL } },
+    { .name = "win.capture", .accels = { "s", "space", NULL } },
+    { .name = "win.preview", .accels = { "p", NULL } },
+    { .name = "win.zoom-in", .accels = { "<Primary>plus", "<Primary>equal", NULL } },
+    { .name = "win.zoom-out", .accels = { "<Primary>minus", NULL } },
+    { .name = "win.zoom-normal", .accels = { "<Primary>0", NULL } },
+    { .name = "win.zoom-best", .accels = { "<Primary>i", NULL } },
+    { .name = "win.fullscreen", .accels = { "F11", NULL } },
+    { .name = "win.presentation", .accels = { "F5", NULL } },
+
+};
+
 
 static void entangle_application_startup(GApplication *gapp)
 {
@@ -325,6 +343,7 @@ static void entangle_application_startup(GApplication *gapp)
     gboolean gotcamera = FALSE;
     GtkBuilder *builder;
     GMenuModel *appmenu;
+    gsize i;
 
     (*G_APPLICATION_CLASS(entangle_application_parent_class)->startup)(gapp);
 
@@ -339,6 +358,11 @@ static void entangle_application_startup(GApplication *gapp)
     g_action_map_add_action_entries(G_ACTION_MAP(gapp),
                                     actions, G_N_ELEMENTS(actions),
                                     app);
+
+    for (i = 0; i < G_N_ELEMENTS(actionAccels); i++)
+        gtk_application_set_accels_for_action(GTK_APPLICATION(gapp),
+                                              actionAccels[i].name,
+                                              actionAccels[i].accels);
 
     gtk_window_set_default_icon_name("entangle");
 
