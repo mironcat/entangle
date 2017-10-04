@@ -35,3 +35,14 @@ Quarks
  0.7.0 - Charm
  0.7.1 - Top
  0.7.2 - Bottom
+
+
+Alkali Metals
+-------------
+
+ 1.0 - Lithium
+ - Sodium
+ - Potassium
+ - Rubidium
+ - Caesium
+ - Francium

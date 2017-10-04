@@ -1,6 +1,23 @@
       Entangle News
       =============
 
+Release 1.0 - "Lithium" - 2017-10-05
+------------------------------------
+
+ * Requires Meson + Ninja build system instead of make
+ * Switch to 2-digit version numbering
+ * Fix corruption of display when drawing session browser
+ * Register application actions for main operations
+ * Compile UI files into binary
+ * Add a custom application menu
+ * Switch over to using header bar, instead of menu bar
+   and tool bar.
+ * Enable close button for about dialog
+ * Ensure plugin panel fills preferences dialog
+ * Tweak UI spacing in supported cameras dialog
+ * Add keyboard shortcuts overlay
+
+
 Release 0.7.2 - "Bottom" - 2017-08-25
 -------------------------------------
 
