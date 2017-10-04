@@ -197,7 +197,7 @@ class PhotoBoxPluginWindow(object):
             self.do_stop_photobox()
 
         button = self.win.get_template_child(Entangle.CameraManager, "titlebarButtonView")
-        mod = wins.get_menu_model()
+        mod = button.get_menu_model()
         nth = mod.get_n_items()
         mod.remove(nth - 1)
 
