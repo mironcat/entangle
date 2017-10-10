@@ -171,7 +171,6 @@ check_cflags = [
   '-fipa-pure-const',
   '-Wno-suggest-attribute=pure',
   '-Wno-suggest-attribute=const',
-  '-Werror'
 ]
 
 cflags = []
@@ -180,6 +179,14 @@ foreach cflag: check_cflags
     cflags += [cflag]
   endif
 endforeach
+
+werror_option = get_option('enable-werror')
+if werror_option
+  if cc.has_argument('-Werror')
+    cflags += ['-Werror']
+  endif
+endif
+
 
 add_project_arguments(cflags, language: 'c')
 
