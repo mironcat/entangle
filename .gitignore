@@ -6,3 +6,4 @@
 *\.gmo
 build/
 vroot/
+po/entangle.pot
