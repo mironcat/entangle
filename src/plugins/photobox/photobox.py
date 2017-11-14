@@ -202,7 +202,7 @@ class PhotoBoxPluginWindow(object):
         mod.remove(nth - 1)
 
         self.action = None
-        self.wins.remove_action("photobox")
+        self.win.remove_action("photobox")
 
 
 class PhotoBoxPluginConfig(Gtk.Grid):
