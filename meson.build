@@ -41,8 +41,10 @@ libpeas_dep = dependency('libpeas-1.0', version: libpeas_min_version)
 libpeas_gtk_dep = dependency('libpeas-gtk-1.0', version: libpeas_min_version)
 gexiv2_dep = dependency('gexiv2', version: gexiv2_min_version)
 xext_dep = dependency('xext', version: xext_min_version)
+# Cannot use pkg-config file as it includes a bogus '-fopenmp' arg in Libs
+# which in turn confuses g-ir-scanner
 #libraw_dep = dependency('libraw_r', version: libraw_min_version)
-libraw_dep = cc.find_library('libraw_r')
+libraw_dep = cc.find_library('raw_r')
 gst_dep = dependency('gstreamer-1.0', version: gst_min_version)
 gst_video_dep = dependency('gstreamer-video-1.0', version: gst_min_version)
 
