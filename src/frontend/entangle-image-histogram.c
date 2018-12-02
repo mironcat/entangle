@@ -205,7 +205,7 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
     cairo_restore(cr);
 
     if (priv->hasFreq) {
-        for (idx = 0; idx < 255; idx++) {
+        for (idx = 0; idx <= 255; idx++) {
             double rv = entangle_image_histogram_calculate_value(priv->freq_red[idx], priv->linear);
             double gv = entangle_image_histogram_calculate_value(priv->freq_green[idx], priv->linear);
             double bv = entangle_image_histogram_calculate_value(priv->freq_blue[idx], priv->linear);
@@ -227,7 +227,7 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
         cairo_set_source_rgba(cr, 1.0, 0.0, 0.0, 0.7);
         cairo_move_to(cr, 0, wh);
 
-        for (idx = 0; idx < 255; idx++) {
+        for (idx = 0; idx <= 255; idx++) {
             double rv = entangle_image_histogram_calculate_value(priv->freq_red[idx], priv->linear);
             double x = (double)ww * (double)idx / 255.0;
             double y = (double)(wh - 2) * (double)rv / peak;
@@ -244,7 +244,7 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
         cairo_set_source_rgba(cr, 0.0, 1.0, 0.0, 0.7);
         cairo_move_to(cr, 0, wh);
 
-        for (idx = 0; idx < 255; idx++) {
+        for (idx = 0; idx <= 255; idx++) {
             double gv = entangle_image_histogram_calculate_value(priv->freq_green[idx], priv->linear);
             double x = (double)ww * (double)idx / 255.0;
             double y = (double)(wh - 2) * (double)gv / peak;
@@ -261,7 +261,7 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
         cairo_set_source_rgba(cr, 0.0, 0.0, 1.0, 0.7);
         cairo_move_to(cr, 0, wh);
 
-        for (idx = 0; idx < 255; idx++) {
+        for (idx = 0; idx <= 255; idx++) {
             double bv = entangle_image_histogram_calculate_value(priv->freq_blue[idx], priv->linear);
             double x = (double)ww * (double)idx / 255.0;
             double y = (double)(wh - 2) * (double)bv / peak;
