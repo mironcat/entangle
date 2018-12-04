@@ -115,6 +115,27 @@ static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *displa
 
         tmp = tmp->next;
     }
+
+    /* Check for blown highlights (overexposure), and set such pixels
+       to red. */
+    cairo_surface_flush(priv->pixmap);
+    unsigned char *data = cairo_image_surface_get_data(priv->pixmap);
+    gboolean blown = FALSE;
+    unsigned char *p = data;
+    for (int i=0; i < height; i++) {
+        for (int j=0; j < width; j++, p+=4) {
+            if (p[0] == 255 || p[1] == 255 || p[2] == 255) {
+                p[0] = 0;
+                p[1] = 0;
+                p[2] = 254;
+                blown = TRUE;
+            }
+        }
+    }
+
+    if (blown)
+        cairo_surface_mark_dirty(priv->pixmap);
+
     cairo_destroy(cr);
 }
 
