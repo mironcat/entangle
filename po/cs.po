@@ -8,13 +8,15 @@
 # pavelb <pavel.borecki@gmail.com>, 2013
 # Zdenek <chmelarz@gmail.com>, 2015. #zanata
 # Zdenek <chmelarz@gmail.com>, 2016. #zanata
+# Zdenek <chmelarz@gmail.com>, 2017. #zanata
+# Pavel Borecki <pavel.borecki@gmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-10 21:32+0100\n"
-"PO-Revision-Date: 2016-09-15 06:27-0400\n"
-"Last-Translator: Zdenek <chmelarz@gmail.com>\n"
+"POT-Creation-Date: 2018-12-05 23:56+0000\n"
+"PO-Revision-Date: 2018-11-25 06:33+0000\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/entangle/language/"
 "cs/)\n"
 "Language: cs\n"
@@ -22,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: src/backend/entangle-camera-list.c:249 src/backend/entangle-camera.c:719
 #, c-format
@@ -57,7 +59,7 @@ msgstr "Když fotoaparát není připojen, není možné pořizovat snímky"
 #: src/backend/entangle-camera.c:1135
 #, c-format
 msgid "Unable to capture image: %s"
-msgstr "Nezdařilo se pořídit snímek: %s"
+msgstr "Nezdařilo se pořídit snímek: %s\\"
 
 #: src/backend/entangle-camera.c:1249
 #, c-format
@@ -251,63 +253,71 @@ msgstr "Nepodařilo se nastavit zachycení cíle: %s %d"
 
 #: src/frontend/entangle-application-menus.ui:7
 msgid "_New window"
-msgstr ""
+msgstr "_Nové okno"
 
 #: src/frontend/entangle-application-menus.ui:13
 msgid "_Preferences…"
-msgstr ""
+msgstr "_Předvolby..."
 
 #: src/frontend/entangle-application-menus.ui:19
 msgid "_Supported cameras"
-msgstr ""
+msgstr "Podporované _kamery"
 
 #: src/frontend/entangle-application-menus.ui:23
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "Klávesové _zkratky"
 
 #: src/frontend/entangle-application-menus.ui:27
 msgid "_Help"
 msgstr "_Nápověda"
 
+# auto translated by TM merge from project: virt-viewer, version: master,
+# DocId: virt-viewer
 #: src/frontend/entangle-application-menus.ui:31
 msgid "_About"
-msgstr ""
+msgstr "O _metodě"
 
+# auto translated by TM merge from project: virt-viewer, version: master,
+# DocId: virt-viewer
 #: src/frontend/entangle-application-menus.ui:37
 msgid "_Quit"
-msgstr ""
+msgstr "_Ukončit"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_Select session…"
-msgstr ""
+msgstr "Vybrat _relaci..."
 
 #: src/frontend/entangle-camera-manager-menus.ui:12
 msgid "_Connect…"
-msgstr ""
+msgstr "Př_ipojit..."
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Disconnect…"
-msgstr ""
+msgstr "_Odpojit..."
 
+# auto translated by TM merge from project: ibus-anthy, version: head, DocId:
+# ibus-anthy
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Close"
-msgstr ""
+msgstr "Z_avřít"
 
+# auto translated by TM merge from project: virt-manager, version: master,
+# DocId: virt-manager
 #: src/frontend/entangle-camera-manager-menus.ui:31
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Celá obrazovka"
 
 #: src/frontend/entangle-camera-manager-menus.ui:35
 msgid "_Presentation"
-msgstr ""
+msgstr "Pre_zentace"
 
 #: src/frontend/entangle-camera-manager-menus.ui:41
 msgid "_Settings"
-msgstr ""
+msgstr "Na_stavení"
 
 #: src/frontend/entangle-camera-manager-menus.ui:47
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "_Synchronizovat zachycení"
 
 #: src/frontend/entangle-camera-manager-menus.ui:56
 msgid "Best Fit"
@@ -315,15 +325,15 @@ msgstr "Přizpůsobit velikosti okna"
 
 #: src/frontend/entangle-camera-manager-menus.ui:60
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Normální velikost"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "Zoom _In"
-msgstr ""
+msgstr "Př_iblížit"
 
 #: src/frontend/entangle-camera-manager-menus.ui:70
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Oddálit"
 
 #: src/frontend/entangle-camera-manager.c:580
 #: src/frontend/entangle-camera-manager.c:584
@@ -488,9 +498,11 @@ msgstr "Entangle: ruční ostření se nezdařilo"
 msgid "Delete"
 msgstr "Smazat"
 
+# auto translated by TM merge from project: virt-manager, version: master,
+# DocId: virt-manager
 #: src/frontend/entangle-camera-manager.c:2528
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #: src/frontend/entangle-camera-manager.c:2532
 msgid "Open with"
@@ -537,14 +549,27 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"Nebyly nalezeny žádné fotoaparáty, zkontrolujte zda:\n"
+"\n"
+"- jsou <b>kabely</b> zapojené\n"
+"- je fotoaparát <b>zapnutý</b>\n"
+"- je fotoaparát přepnutý do <b>příslušného režimu</b>\n"
+"- je tento typ fotoaparátu <b>podporován</b>\n"
+"\n"
+"Fotoaparáty s rozhraním USB jsou po připojení\n"
+"rozpoznány automaticky, u ostatních rozhraní\n"
+"je po připojení třeba kliknout na tlačítko obnovit\n"
+"nebo zadejte IP adresu síťové kamery."
 
+# auto translated by TM merge from project: Cockpit, version: master, DocId:
+# cockpit
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
-msgstr ""
+msgstr "IP adresa:"
 
 #: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
-msgstr ""
+msgstr "Síťová kamera"
 
 #: src/frontend/entangle-camera-support.c:188
 msgid "capture"
@@ -606,76 +631,120 @@ msgstr "Ovládání a pořizování snímků z fotoaparátu přes počítač"
 #: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "Řízení aplikace"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "Otevřít nové okno fotoaparátu"
 
 #: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "Zavřít všechna okna & skončit"
 
 #: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "Zobrazit nápovědu"
 
 #: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "Zobrazení obrazu"
 
 #: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Přiblížit"
 
 #: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Oddálit"
 
 #: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "Přiblížit normálně"
 
 #: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
+msgstr "Přiblížit nejlépe"
+
+#: src/frontend/entangle-help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle image mask"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:74
+#: src/frontend/entangle-help-overlay.ui:79
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "Okno zobrazení"
 
-#: src/frontend/entangle-help-overlay.ui:78
+# auto translated by TM merge from project: Entangle, version: master, DocId:
+# entangle
+#: src/frontend/entangle-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "Celá obrazovka"
 
-#: src/frontend/entangle-help-overlay.ui:85
+# auto translated by TM merge from project: Entangle, version: master, DocId:
+# entangle
+#: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "Spustit prezentaci"
 
-#: src/frontend/entangle-help-overlay.ui:94
+#: src/frontend/entangle-help-overlay.ui:108
 msgctxt "shortcut window"
-msgid "Camera control"
+msgid "Shutter control"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:98
+#: src/frontend/entangle-help-overlay.ui:112
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "Pořídit jeden snímek"
 
-#: src/frontend/entangle-help-overlay.ui:105
+#: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Toggle live preview"
+msgstr "Zapnout/vypnout živý náhled"
+
+#: src/frontend/entangle-help-overlay.ui:128
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:132
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:139
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:146
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:153
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:160
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
 msgstr ""
 
 #: src/frontend/entangle-preferences-display.c:1038
@@ -923,9 +992,11 @@ msgstr "Poměr stran:"
 msgid "Mask opacity:"
 msgstr "Průhlednost masky:"
 
+# auto translated by TM merge from project: virt-manager, version: master,
+# DocId: virt-manager
 #: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
@@ -947,9 +1018,11 @@ msgstr "Zobrazit současně s dřívějšími obrázky (překrývání)"
 msgid "Overlay layers:"
 msgstr "Počet překrývajících se vrstev:"
 
+# auto translated by TM merge from project: libguestfs, version: master,
+# DocId: po-docs/libguestfs-docs
 #: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
@@ -1032,8 +1105,8 @@ msgstr ""
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
-msgstr ""
+msgstr "Entangle"
 
 #: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr ""
+msgstr "Zachytit;Fotoaparát;Tethered;Foto;"

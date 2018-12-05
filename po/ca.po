@@ -5,12 +5,13 @@
 # Translators:
 # Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2015. #zanata
 # Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2016. #zanata
+# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-10 21:32+0100\n"
-"PO-Revision-Date: 2016-10-22 04:10-0400\n"
+"POT-Creation-Date: 2018-12-05 23:56+0000\n"
+"PO-Revision-Date: 2017-12-04 06:36+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/entangle/"
 "language/ca/)\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: src/backend/entangle-camera-list.c:249 src/backend/entangle-camera.c:719
 #, c-format
@@ -250,19 +251,19 @@ msgstr "Error en establir el destí de la captura: %s %d"
 
 #: src/frontend/entangle-application-menus.ui:7
 msgid "_New window"
-msgstr ""
+msgstr "Finestra _nova"
 
 #: src/frontend/entangle-application-menus.ui:13
 msgid "_Preferences…"
-msgstr ""
+msgstr "_Preferències..."
 
 #: src/frontend/entangle-application-menus.ui:19
 msgid "_Supported cameras"
-msgstr ""
+msgstr "Càmere_s compatibles"
 
 #: src/frontend/entangle-application-menus.ui:23
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "_Dreceres de teclat"
 
 #: src/frontend/entangle-application-menus.ui:27
 msgid "_Help"
@@ -270,43 +271,43 @@ msgstr "A_juda"
 
 #: src/frontend/entangle-application-menus.ui:31
 msgid "_About"
-msgstr ""
+msgstr "Quant _a"
 
 #: src/frontend/entangle-application-menus.ui:37
 msgid "_Quit"
-msgstr ""
+msgstr "_Surt"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_Select session…"
-msgstr ""
+msgstr "_Selecciona la sessió..."
 
 #: src/frontend/entangle-camera-manager-menus.ui:12
 msgid "_Connect…"
-msgstr ""
+msgstr "_Connecta..."
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Disconnect…"
-msgstr ""
+msgstr "_Desconnecta..."
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Close"
-msgstr ""
+msgstr "Tan_ca"
 
 #: src/frontend/entangle-camera-manager-menus.ui:31
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Pantalla completa"
 
 #: src/frontend/entangle-camera-manager-menus.ui:35
 msgid "_Presentation"
-msgstr ""
+msgstr "_Presentació"
 
 #: src/frontend/entangle-camera-manager-menus.ui:41
 msgid "_Settings"
-msgstr ""
+msgstr "Ajust_s"
 
 #: src/frontend/entangle-camera-manager-menus.ui:47
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "_Sincronitza la captura"
 
 #: src/frontend/entangle-camera-manager-menus.ui:56
 msgid "Best Fit"
@@ -314,15 +315,15 @@ msgstr "Millor ajust"
 
 #: src/frontend/entangle-camera-manager-menus.ui:60
 msgid "_Normal Size"
-msgstr ""
+msgstr "Mida _normal"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "Zoom _In"
-msgstr ""
+msgstr "_Augmenta el zoom"
 
 #: src/frontend/entangle-camera-manager-menus.ui:70
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Disminueix el zoom"
 
 #: src/frontend/entangle-camera-manager.c:580
 #: src/frontend/entangle-camera-manager.c:584
@@ -487,7 +488,7 @@ msgstr "Suprimeix"
 
 #: src/frontend/entangle-camera-manager.c:2528
 msgid "Open"
-msgstr ""
+msgstr "Obre"
 
 #: src/frontend/entangle-camera-manager.c:2532
 msgid "Open with"
@@ -534,14 +535,24 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"No s'ha detectat cap càmera, comproveu que\n"
+"\n"
+"  - els <b>cables</b> estiguin connectats\n"
+"  - la càmera estigui <b>engegada</b>\n"
+"  - la càmera estigui en <b>mode de connexió</b>\n"
+"  - la càmera sigui <b>compatible</b>\n"
+"\n"
+"Les càmeres USB es detecten automàticament\n"
+"quan s'endollen, per a les altres proveu amb\n"
+"actualitzar o introduir l'IP d'una càmera de xarxa"
 
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
-msgstr ""
+msgstr "Adreça IP:"
 
 #: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
-msgstr ""
+msgstr "Càmera de xarxa"
 
 #: src/frontend/entangle-camera-support.c:188
 msgid "capture"
@@ -602,76 +613,116 @@ msgstr "Controleu la càmera enllaçada i captureu"
 #: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "Control de l'aplicació"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "Obre en una finestra de càmera nova"
 
 #: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "Tanca totes les finestres i surt"
 
 #: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "Mostra el manual d'ajuda"
 
 #: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "Visualització de la imatge"
 
 #: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Augmenta el zoom"
 
 #: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Disminueix el zoom"
 
 #: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "Zoom normal"
 
 #: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
+msgstr "Millor zoom"
+
+#: src/frontend/entangle-help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle image mask"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:74
+#: src/frontend/entangle-help-overlay.ui:79
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "Visualització de la finestra"
 
-#: src/frontend/entangle-help-overlay.ui:78
+#: src/frontend/entangle-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "Pantalla completa"
 
-#: src/frontend/entangle-help-overlay.ui:85
+#: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "Presentació"
 
-#: src/frontend/entangle-help-overlay.ui:94
+#: src/frontend/entangle-help-overlay.ui:108
 msgctxt "shortcut window"
-msgid "Camera control"
+msgid "Shutter control"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:98
+#: src/frontend/entangle-help-overlay.ui:112
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "Captura una sola imatge"
 
-#: src/frontend/entangle-help-overlay.ui:105
+#: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Toggle live preview"
+msgstr "Commuta la vista prèvia en directe"
+
+#: src/frontend/entangle-help-overlay.ui:128
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:132
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:139
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:146
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:153
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:160
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
 msgstr ""
 
 #: src/frontend/entangle-preferences-display.c:1038
@@ -920,7 +971,7 @@ msgstr "Màscara d'opacitat:"
 
 #: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
@@ -944,7 +995,7 @@ msgstr "Capes superposades:"
 
 #: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
@@ -1028,8 +1079,8 @@ msgstr ""
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
-msgstr ""
+msgstr "entangle"
 
 #: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr ""
+msgstr "Captura;Càmera;Tethered;Foto;"

@@ -1,107 +1,103 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-10 21:32+0100\n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2018-12-05 23:56+0000\n"
+"PO-Revision-Date: 2018-03-18 10:38+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Zanata 3.5.1\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 2 : 1;\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: src/backend/entangle-camera-list.c:249 src/backend/entangle-camera.c:719
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
-msgstr ""
+msgstr "לא ניתן להפעיל את היכולות של gphoto2"
 
 #: src/backend/entangle-camera-list.c:252 src/backend/entangle-camera.c:725
 #, c-format
 msgid "Cannot load gphoto2 abilities"
-msgstr ""
+msgstr "לא ניתן לטעון את היכולות של gphoto2"
 
 #: src/backend/entangle-camera-list.c:398 src/backend/entangle-camera.c:731
 #, c-format
 msgid "Cannot initialize gphoto2 ports"
-msgstr ""
+msgstr "לא ניתן להפעיל את הפתחות של gphoto2"
 
 #: src/backend/entangle-camera-list.c:401 src/backend/entangle-camera.c:737
 #, c-format
 msgid "Cannot load gphoto2 ports"
-msgstr ""
+msgstr "לא ניתן לטעון את הפתחות של gphoto2"
 
 #: src/backend/entangle-camera.c:768
 #, c-format
 msgid "Unable to initialize camera: %s"
-msgstr ""
+msgstr "לא ניתן להפעיל את המצלמה: %s"
 
 #: src/backend/entangle-camera.c:1122
 #, c-format
 msgid "Cannot capture image while not connected"
-msgstr ""
+msgstr "לא ניתן לצלם תמונה אם אין לך חיבור"
 
 #: src/backend/entangle-camera.c:1135
 #, c-format
 msgid "Unable to capture image: %s"
-msgstr ""
+msgstr "לא ניתן לצלם תמונה: %s"
 
 #: src/backend/entangle-camera.c:1249
 #, c-format
 msgid "Cannot preview image while not connected"
-msgstr ""
+msgstr "לא ניתן להציג תצוגה מרדימה של התמונה בזמן שאין חיבור"
 
 #: src/backend/entangle-camera.c:1264
 #, c-format
 msgid "Unable to capture preview: %s"
-msgstr ""
+msgstr "לא ניתן ללכוד תצוגה מקדימה: %s"
 
 #: src/backend/entangle-camera.c:1271 src/backend/entangle-camera.c:1429
 #, c-format
 msgid "Unable to get file data: %s"
-msgstr ""
+msgstr "לא ניתן לקבל את נתוני הקובץ: %s"
 
 #: src/backend/entangle-camera.c:1277
 #, c-format
 msgid "Unable to get filename: %s"
-msgstr ""
+msgstr "לא ניתן לקבל את שם הקובץ: %s"
 
 #: src/backend/entangle-camera.c:1399
 #, c-format
 msgid "Cannot download file while not connected"
-msgstr ""
+msgstr "לא ניתן להוריד את הקובץ בזמן שאין חיבור"
 
 #: src/backend/entangle-camera.c:1422
 #, c-format
 msgid "Unable to get camera file: %s"
-msgstr ""
+msgstr "לא ניתן לקבל את קובץ המצלמה: %s"
 
 #: src/backend/entangle-camera.c:1549
 #, c-format
 msgid "Cannot delete file while not connected"
-msgstr ""
+msgstr "לא ניתן למחוק קבצים בזמן שאין חיבור"
 
 #: src/backend/entangle-camera.c:1567
 #, c-format
 msgid "Unable to delete file: %s"
-msgstr ""
+msgstr "לא ניתן למחוק קובץ: %s"
 
 #: src/backend/entangle-camera.c:1683
 #, c-format
 msgid "Cannot wait for events while not connected"
-msgstr ""
+msgstr "לא ניתן להמתין לאירועים בזמן שאין חיבור"
 
 #: src/backend/entangle-camera.c:1709
 #, c-format
 msgid "Unable to wait for events: %s"
-msgstr ""
+msgstr "לא ניתן להמתין לאירועים: %s"
 
 #: src/backend/entangle-camera.c:1904 src/backend/entangle-camera.c:2067
 #: src/backend/entangle-camera.c:2203 src/backend/entangle-camera.c:2658
@@ -109,54 +105,54 @@ msgstr ""
 #: src/backend/entangle-camera.c:3218 src/backend/entangle-camera.c:3384
 #, c-format
 msgid "Unable to fetch widget type"
-msgstr ""
+msgstr "לא ניתן לקבל את סוג הווידג׳ט"
 
 #: src/backend/entangle-camera.c:1910 src/backend/entangle-camera.c:2073
 #: src/backend/entangle-camera.c:2209
 #, c-format
 msgid "Unable to fetch widget name"
-msgstr ""
+msgstr "לא ניתן לקבל את שם הווידג׳ט"
 
 #: src/backend/entangle-camera.c:2322
 #, c-format
 msgid "Unable to load controls, camera is not connected"
-msgstr ""
+msgstr "לא ניתן לטעון פקדים, המצלמה אינה מחוברת"
 
 #: src/backend/entangle-camera.c:2331
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
-msgstr ""
+msgstr "לא ניתן לקבל את תצורת בקרת המצלמה: %s"
 
 #: src/backend/entangle-camera.c:2452
 #, c-format
 msgid "Unable to save controls, camera is not connected"
-msgstr ""
+msgstr "לא ניתן לשמור את הפקדים, המצלמה אינה מחוברת"
 
 #: src/backend/entangle-camera.c:2458
 #, c-format
 msgid "Unable to save controls, camera is not configurable"
-msgstr ""
+msgstr "לא ניתן לשמור את הפקדים, המצלמה אינה זמינה לשינוי הגדרות"
 
 #: src/backend/entangle-camera.c:2477 src/backend/entangle-camera.c:2694
 #: src/backend/entangle-camera.c:2863 src/backend/entangle-camera.c:3054
 #: src/backend/entangle-camera.c:3240 src/backend/entangle-camera.c:3408
 #, c-format
 msgid "Unable to save camera control configuration: %s"
-msgstr ""
+msgstr "לא ניתן לשמור את תצורת בקרת המצלמה: %s"
 
 #: src/backend/entangle-camera.c:2580 src/backend/entangle-camera.c:2634
 #: src/backend/entangle-camera.c:2812 src/backend/entangle-camera.c:2973
 #: src/backend/entangle-camera.c:3197 src/backend/entangle-camera.c:3363
 #, c-format
 msgid "Controls not available when camera is disconnected"
-msgstr ""
+msgstr "הפקדים אינם זמינים כאשר המצלמה אינה מחוברת"
 
 #: src/backend/entangle-camera.c:2586 src/backend/entangle-camera.c:2640
 #: src/backend/entangle-camera.c:2818 src/backend/entangle-camera.c:2979
 #: src/backend/entangle-camera.c:3203 src/backend/entangle-camera.c:3369
 #, c-format
 msgid "Controls not available for this camera"
-msgstr ""
+msgstr "פקדים אינם זמינים למצלמה זו"
 
 #: src/backend/entangle-camera.c:2651
 #, c-format
@@ -241,84 +237,84 @@ msgstr ""
 
 #: src/frontend/entangle-application-menus.ui:7
 msgid "_New window"
-msgstr ""
+msgstr "_חלון חדש"
 
 #: src/frontend/entangle-application-menus.ui:13
 msgid "_Preferences…"
-msgstr ""
+msgstr "ה_עדפות…"
 
 #: src/frontend/entangle-application-menus.ui:19
 msgid "_Supported cameras"
-msgstr ""
+msgstr "מצלמות _נתמכות"
 
 #: src/frontend/entangle-application-menus.ui:23
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "_קיצורי מקלדת"
 
 #: src/frontend/entangle-application-menus.ui:27
 msgid "_Help"
-msgstr ""
+msgstr "ע_זרה"
 
 #: src/frontend/entangle-application-menus.ui:31
 msgid "_About"
-msgstr ""
+msgstr "על _אודות"
 
 #: src/frontend/entangle-application-menus.ui:37
 msgid "_Quit"
-msgstr ""
+msgstr "י_ציאה"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_Select session…"
-msgstr ""
+msgstr "נא _לבחור הפעלה…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:12
 msgid "_Connect…"
-msgstr ""
+msgstr "התח_ברות…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Disconnect…"
-msgstr ""
+msgstr "ני_תוק…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Close"
-msgstr ""
+msgstr "_סגירה"
 
 #: src/frontend/entangle-camera-manager-menus.ui:31
 msgid "_Fullscreen"
-msgstr ""
+msgstr "מס_ך מלא"
 
 #: src/frontend/entangle-camera-manager-menus.ui:35
 msgid "_Presentation"
-msgstr ""
+msgstr "מ_צגת"
 
 #: src/frontend/entangle-camera-manager-menus.ui:41
 msgid "_Settings"
-msgstr ""
+msgstr "ה_גדרות"
 
 #: src/frontend/entangle-camera-manager-menus.ui:47
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "סנ_כרון צילום"
 
 #: src/frontend/entangle-camera-manager-menus.ui:56
 msgid "Best Fit"
-msgstr ""
+msgstr "התאמה מיטבית"
 
 #: src/frontend/entangle-camera-manager-menus.ui:60
 msgid "_Normal Size"
-msgstr ""
+msgstr "גודל _רגיל"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "Zoom _In"
-msgstr ""
+msgstr "הת_קרבות"
 
 #: src/frontend/entangle-camera-manager-menus.ui:70
 msgid "Zoom _Out"
-msgstr ""
+msgstr "הת_רחקות"
 
 #: src/frontend/entangle-camera-manager.c:580
 #: src/frontend/entangle-camera-manager.c:584
 msgid "Capture an image"
-msgstr ""
+msgstr "צילום תמונה"
 
 #: src/frontend/entangle-camera-manager.c:582
 #: src/frontend/entangle-camera-manager.c:586
@@ -338,7 +334,7 @@ msgstr ""
 #: src/frontend/entangle-camera-manager.c:741
 #, c-format
 msgid "Operation: %s"
-msgstr ""
+msgstr "פעולה: %s"
 
 #: src/frontend/entangle-camera-manager.c:743
 msgid "Entangle: Operation failed"
@@ -361,13 +357,13 @@ msgstr ""
 #: src/frontend/entangle-camera-manager.c:1000
 #: src/frontend/entangle-control-panel.c:841
 msgid "No camera connected"
-msgstr ""
+msgstr "אין מצלמה מחוברת"
 
 #: src/frontend/entangle-camera-manager.c:1089
 #: src/frontend/entangle-camera-manager.c:2283
 #, c-format
 msgid "Unable to connect to camera: %s"
-msgstr ""
+msgstr "לא ניתן לחבר את המצלמה: %s"
 
 #: src/frontend/entangle-camera-manager.c:1094
 #: src/frontend/entangle-camera-manager.c:2289
@@ -382,128 +378,129 @@ msgstr ""
 #: src/frontend/entangle-camera-manager.c:1099
 #: src/frontend/entangle-camera-manager.c:2294
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: src/frontend/entangle-camera-manager.c:1100
 #: src/frontend/entangle-camera-manager.c:2295
 msgid "Retry"
-msgstr ""
+msgstr "ניסיון חוזר"
 
 #: src/frontend/entangle-camera-manager.c:1131
 msgid "Camera is in use"
-msgstr ""
+msgstr "המצלמה בשימוש"
 
 #: src/frontend/entangle-camera-manager.c:1135
 msgid ""
 "The camera cannot be opened because it is currently mounted as a filesystem. "
 "Do you wish to umount it now ?"
 msgstr ""
+"לא ניתן לפתוח את המצלמה כיוון שהיא מעוגנת כמערכת קבצים. לנתק את העיגון כעת?"
 
 #: src/frontend/entangle-camera-manager.c:1139
 #: src/frontend/entangle-camera-picker.c:127
 msgid "No"
-msgstr ""
+msgstr "לא"
 
 #: src/frontend/entangle-camera-manager.c:1140
 #: src/frontend/entangle-camera-picker.c:127
 msgid "Yes"
-msgstr ""
+msgstr "כן"
 
 #: src/frontend/entangle-camera-manager.c:1175
 msgid "Camera connect failed"
-msgstr ""
+msgstr "ההתחברות למצלמה נכשלה"
 
 #: src/frontend/entangle-camera-manager.c:1177
 msgid "Entangle: Camera connect failed"
-msgstr ""
+msgstr "Entangle: ההתחברות למצלמה נכשלה"
 
 #: src/frontend/entangle-camera-manager.c:1487
 msgid "Select a folder"
-msgstr ""
+msgstr "נא לבחור תיקייה"
 
 #: src/frontend/entangle-camera-manager.c:1490
 msgid "_Cancel"
-msgstr ""
+msgstr "_ביטול"
 
 #: src/frontend/entangle-camera-manager.c:1492
 msgid "_Open"
-msgstr ""
+msgstr "_פתיחה"
 
 #: src/frontend/entangle-camera-manager.c:1643
 #: src/frontend/entangle-camera-picker.c:531
 #: src/frontend/entangle-preferences-display.c:1052
 #: src/frontend/entangle-preferences-display.ui:237
 msgid "Capture"
-msgstr ""
+msgstr "צילום"
 
 #: src/frontend/entangle-camera-manager.c:1664
 msgid "Script"
-msgstr ""
+msgstr "סקריפט"
 
 #: src/frontend/entangle-camera-manager.c:1731
 msgid "Preview"
-msgstr ""
+msgstr "תצוגה מקדימה"
 
 #: src/frontend/entangle-camera-manager.c:1845
 msgid "Set clock"
-msgstr ""
+msgstr "הגדרת שעון"
 
 #: src/frontend/entangle-camera-manager.c:1890
 msgid "Autofocus failed"
-msgstr ""
+msgstr "המיקוד האוטומטי נכשל"
 
 #: src/frontend/entangle-camera-manager.c:1892
 msgid "Entangle: Camera autofocus failed"
-msgstr ""
+msgstr "Entangle: המיקוד האוטומטי של המצלמה נכשל"
 
 #: src/frontend/entangle-camera-manager.c:1922
 msgid "Manual focus failed"
-msgstr ""
+msgstr "המיקוד הידני נכשל"
 
 #: src/frontend/entangle-camera-manager.c:1924
 msgid "Entangle: Camera manual focus failed"
-msgstr ""
+msgstr "Entangle: המיקוד הידני של המצלמה נכשל"
 
 #: src/frontend/entangle-camera-manager.c:2418
 #: src/frontend/entangle-camera-manager.c:2536
 msgid "Delete"
-msgstr ""
+msgstr "מחיקה"
 
 #: src/frontend/entangle-camera-manager.c:2528
 msgid "Open"
-msgstr ""
+msgstr "פתיחה"
 
 #: src/frontend/entangle-camera-manager.c:2532
 msgid "Open with"
-msgstr ""
+msgstr "פתיחה עם"
 
 #: src/frontend/entangle-camera-manager.c:2566
 msgid "Select application..."
-msgstr ""
+msgstr "בחירת יישום…"
 
 #: src/frontend/entangle-camera-manager.c:2905
 msgid "Image histogram"
-msgstr ""
+msgstr "היסטוגרמת התמונה"
 
 #: src/frontend/entangle-camera-manager.c:2907
 msgid "Automation"
-msgstr ""
+msgstr "אוטומציה"
 
 #: src/frontend/entangle-camera-picker.c:529
 msgid "Model"
-msgstr ""
+msgstr "דגם"
 
 #: src/frontend/entangle-camera-picker.c:530
 msgid "Port"
-msgstr ""
+msgstr "פתחה"
 
 #: src/frontend/entangle-camera-picker.ui:8
 msgid "Select camera - Entangle"
-msgstr ""
+msgstr "בחירת מצלמה - Entangle"
 
 #: src/frontend/entangle-camera-picker.ui:97
 msgid "Select a camera to connect to:"
-msgstr ""
+msgstr "נא לבחור מצלמה להתחבר אליה:"
 
 #: src/frontend/entangle-camera-picker.ui:157
 msgid ""
@@ -628,34 +625,74 @@ msgctxt "shortcut window"
 msgid "Zoom best"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:74
+#: src/frontend/entangle-help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle image mask"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:79
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Window display"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:78
+#: src/frontend/entangle-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:85
+#: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Presentation"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:94
+#: src/frontend/entangle-help-overlay.ui:108
 msgctxt "shortcut window"
-msgid "Camera control"
+msgid "Shutter control"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:98
+#: src/frontend/entangle-help-overlay.ui:112
 msgctxt "shortcut window"
 msgid "Capture a single image"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:105
+#: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Toggle live preview"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:128
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:132
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:139
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:146
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:153
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:160
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
 msgstr ""
 
 #: src/frontend/entangle-preferences-display.c:1038

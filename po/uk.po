@@ -6,12 +6,13 @@
 # Yuri Chornoivan <yurchor@ukr.net>, 2012-2014
 # Yuri Chornoivan <yurchor@ukr.net>, 2015. #zanata
 # Yuri Chornoivan <yurchor@ukr.net>, 2016. #zanata
+# Yuri Chornoivan <yurchor@ukr.net>, 2017. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-10 21:32+0100\n"
-"PO-Revision-Date: 2016-02-12 03:08-0500\n"
+"POT-Creation-Date: 2018-12-05 23:56+0000\n"
+"PO-Revision-Date: 2017-10-12 01:49+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/entangle/"
 "language/uk/)\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: src/backend/entangle-camera-list.c:249 src/backend/entangle-camera.c:719
 #, c-format
@@ -255,19 +256,19 @@ msgstr "Не вдалося встановити ціль захоплення: 
 
 #: src/frontend/entangle-application-menus.ui:7
 msgid "_New window"
-msgstr ""
+msgstr "_Нове вікно"
 
 #: src/frontend/entangle-application-menus.ui:13
 msgid "_Preferences…"
-msgstr ""
+msgstr "_Налаштування…"
 
 #: src/frontend/entangle-application-menus.ui:19
 msgid "_Supported cameras"
-msgstr ""
+msgstr "_Підтримувані фотоапарати"
 
 #: src/frontend/entangle-application-menus.ui:23
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "_Клавіатурні скорочення"
 
 #: src/frontend/entangle-application-menus.ui:27
 msgid "_Help"
@@ -275,43 +276,43 @@ msgstr "_Довідка"
 
 #: src/frontend/entangle-application-menus.ui:31
 msgid "_About"
-msgstr ""
+msgstr "_Про програму"
 
 #: src/frontend/entangle-application-menus.ui:37
 msgid "_Quit"
-msgstr ""
+msgstr "Ви_йти"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_Select session…"
-msgstr ""
+msgstr "_Вибрати сеанс…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:12
 msgid "_Connect…"
-msgstr ""
+msgstr "З'_єднати…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Disconnect…"
-msgstr ""
+msgstr "Ві_д'єднати…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Close"
-msgstr ""
+msgstr "За_крити"
 
 #: src/frontend/entangle-camera-manager-menus.ui:31
 msgid "_Fullscreen"
-msgstr ""
+msgstr "На весь _екран"
 
 #: src/frontend/entangle-camera-manager-menus.ui:35
 msgid "_Presentation"
-msgstr ""
+msgstr "Пр_езентація"
 
 #: src/frontend/entangle-camera-manager-menus.ui:41
 msgid "_Settings"
-msgstr ""
+msgstr "П_араметри"
 
 #: src/frontend/entangle-camera-manager-menus.ui:47
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "_Синхронізувати захоплення"
 
 #: src/frontend/entangle-camera-manager-menus.ui:56
 msgid "Best Fit"
@@ -319,15 +320,15 @@ msgstr "Найкраще заповнення"
 
 #: src/frontend/entangle-camera-manager-menus.ui:60
 msgid "_Normal Size"
-msgstr ""
+msgstr "Зви_чайний розмір"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "Zoom _In"
-msgstr ""
+msgstr "З_більшити"
 
 #: src/frontend/entangle-camera-manager-menus.ui:70
 msgid "Zoom _Out"
-msgstr ""
+msgstr "З_меншити"
 
 #: src/frontend/entangle-camera-manager.c:580
 #: src/frontend/entangle-camera-manager.c:584
@@ -495,7 +496,7 @@ msgstr "Вилучити"
 
 #: src/frontend/entangle-camera-manager.c:2528
 msgid "Open"
-msgstr ""
+msgstr "Відкрити"
 
 #: src/frontend/entangle-camera-manager.c:2532
 msgid "Open with"
@@ -542,14 +543,24 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"Не виявлено жодної фотоапарата. Переконайтеся, що:\n"
+"\n"
+"  - фотоапарат з’єднано <b>кабелям</b>;\n"
+"  - фотоапарат <b>увімкнено</b>;\n"
+"  - фотоапарат працює у <b>належному режимі</b>;\n"
+"  - використано фотоапарат <b>підтримуваної</b> моделі.\n"
+"\n"
+"Програма автоматично виявляє фотоапарати, з’єднані за допомогою\n"
+"USB. Для виявлення фотоапаратів, з’єднаних іншим способом, слід\n"
+"оновити список або вказати IP-адресу фотоапарата у мережі вручну."
 
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
-msgstr ""
+msgstr "IP-адреса:"
 
 #: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
-msgstr ""
+msgstr "Фотоапарат у мережі"
 
 #: src/frontend/entangle-camera-support.c:188
 msgid "capture"
@@ -611,76 +622,116 @@ msgstr "Керування фотоапаратами та захоплення 
 #: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "Керування програмою"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "Відкрити вікно нового фотоапарата"
 
 #: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "Закрити усі вікна і вийти з програми"
 
 #: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "Показати підручник"
 
 #: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "Показ зображення"
 
 #: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Збільшити"
 
 #: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Зменшити"
 
 #: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "Звичайний розмір"
 
 #: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
+msgstr "Найкращий масштаб"
+
+#: src/frontend/entangle-help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle image mask"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:74
+#: src/frontend/entangle-help-overlay.ui:79
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "Показ у вікні"
 
-#: src/frontend/entangle-help-overlay.ui:78
+#: src/frontend/entangle-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "На весь екран"
 
-#: src/frontend/entangle-help-overlay.ui:85
+#: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "Показ"
 
-#: src/frontend/entangle-help-overlay.ui:94
+#: src/frontend/entangle-help-overlay.ui:108
 msgctxt "shortcut window"
-msgid "Camera control"
+msgid "Shutter control"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:98
+#: src/frontend/entangle-help-overlay.ui:112
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "Захопити одне зображення"
 
-#: src/frontend/entangle-help-overlay.ui:105
+#: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Toggle live preview"
+msgstr "Увімкнути або вимкнути інтерактивний перегляд"
+
+#: src/frontend/entangle-help-overlay.ui:128
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:132
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:139
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:146
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:153
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:160
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
 msgstr ""
 
 #: src/frontend/entangle-preferences-display.c:1038
@@ -929,7 +980,7 @@ msgstr "Непрозорість маски:"
 
 #: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
@@ -953,7 +1004,7 @@ msgstr "Шари накладання"
 
 #: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
@@ -1037,8 +1088,9 @@ msgstr ""
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
-msgstr ""
+msgstr "entangle"
 
 #: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
 msgstr ""
+"Capture;Camera;Tethered;Photo;захоплення;фотоапарат;камера;зв'язок;фото;"

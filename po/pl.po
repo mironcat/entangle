@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-10 21:32+0100\n"
-"PO-Revision-Date: 2017-03-28 09:52-0400\n"
+"POT-Creation-Date: 2018-12-05 23:56+0000\n"
+"PO-Revision-Date: 2017-10-11 12:21+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/entangle/language/"
 "pl/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: src/backend/entangle-camera-list.c:249 src/backend/entangle-camera.c:719
 #, c-format
@@ -126,53 +126,53 @@ msgstr "Nie można pobrać nazwy widżetu"
 #: src/backend/entangle-camera.c:2322
 #, c-format
 msgid "Unable to load controls, camera is not connected"
-msgstr "Nie można wczytać kontroli, aparat nie jest podłączony"
+msgstr "Nie można wczytać sterowania, aparat nie jest podłączony"
 
 #: src/backend/entangle-camera.c:2331
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
-msgstr "Nie można pobrać konfiguracji kontroli aparatu: %s"
+msgstr "Nie można pobrać konfiguracji sterowania aparatem: %s"
 
 #: src/backend/entangle-camera.c:2452
 #, c-format
 msgid "Unable to save controls, camera is not connected"
-msgstr "Nie można zapisać kontroli, aparat nie jest podłączony"
+msgstr "Nie można zapisać sterowania, aparat nie jest podłączony"
 
 #: src/backend/entangle-camera.c:2458
 #, c-format
 msgid "Unable to save controls, camera is not configurable"
-msgstr "Nie można wczytać kontroli, aparat nie jest konfigurowalny"
+msgstr "Nie można wczytać sterowania, aparat nie jest konfigurowalny"
 
 #: src/backend/entangle-camera.c:2477 src/backend/entangle-camera.c:2694
 #: src/backend/entangle-camera.c:2863 src/backend/entangle-camera.c:3054
 #: src/backend/entangle-camera.c:3240 src/backend/entangle-camera.c:3408
 #, c-format
 msgid "Unable to save camera control configuration: %s"
-msgstr "Nie można zapisać konfiguracji kontroli aparatu: %s"
+msgstr "Nie można zapisać konfiguracji sterowania aparatem: %s"
 
 #: src/backend/entangle-camera.c:2580 src/backend/entangle-camera.c:2634
 #: src/backend/entangle-camera.c:2812 src/backend/entangle-camera.c:2973
 #: src/backend/entangle-camera.c:3197 src/backend/entangle-camera.c:3363
 #, c-format
 msgid "Controls not available when camera is disconnected"
-msgstr "Kontrole nie są dostępne, kiedy aparat jest rozłączony"
+msgstr "Sterowanie nie jest dostępne, kiedy aparat jest rozłączony"
 
 #: src/backend/entangle-camera.c:2586 src/backend/entangle-camera.c:2640
 #: src/backend/entangle-camera.c:2818 src/backend/entangle-camera.c:2979
 #: src/backend/entangle-camera.c:3203 src/backend/entangle-camera.c:3369
 #, c-format
 msgid "Controls not available for this camera"
-msgstr "Kontrole nie są dostępne dla tego aparatu"
+msgstr "Sterowanie nie jest dostępne dla tego aparatu"
 
 #: src/backend/entangle-camera.c:2651
 #, c-format
 msgid "Viewfinder control not available with this camera"
-msgstr "Kontrola widoku wyszukiwania nie jest dostępna dla tego aparatu"
+msgstr "Sterowanie widokiem wyszukiwania nie jest dostępne dla tego aparatu"
 
 #: src/backend/entangle-camera.c:2664
 #, c-format
 msgid "Viewfinder control was not a toggle widget"
-msgstr "Kontrola widoku wyszukiwania nie jest widżetem przełączania"
+msgstr "Sterowanie widokiem wyszukiwania nie jest widżetem przełączania"
 
 #: src/backend/entangle-camera.c:2678 src/backend/entangle-camera.c:2685
 #, c-format
@@ -182,12 +182,12 @@ msgstr "Ustawienie stanu widoku wyszukiwania się nie powiodło: %s %d"
 #: src/backend/entangle-camera.c:2826
 #, c-format
 msgid "Autofocus control not available with this camera"
-msgstr "Kontrola automatycznej ostrości nie jest dostępna dla tego aparatu"
+msgstr "Sterowanie automatyczną ostrością nie jest dostępne dla tego aparatu"
 
 #: src/backend/entangle-camera.c:2839
 #, c-format
 msgid "Autofocus control was not a toggle widget"
-msgstr "Kontrola automatycznej ostrości nie jest widżetem przełączania"
+msgstr "Sterowanie automatyczną ostrością nie jest widżetem przełączania"
 
 #: src/backend/entangle-camera.c:2846 src/backend/entangle-camera.c:2854
 #, c-format
@@ -197,12 +197,12 @@ msgstr "Ustawienie stanu automatycznej ostrości się nie powiodło: %s %d"
 #: src/backend/entangle-camera.c:2987
 #, c-format
 msgid "Manual focus control not available with this camera"
-msgstr "Kontrola ręcznej ostrości nie jest dostępna dla tego aparatu"
+msgstr "Sterowanie ręczną ostrością nie jest dostępne dla tego aparatu"
 
 #: src/backend/entangle-camera.c:3001
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
-msgstr "Kontrola ręcznej ostrości nie jest widżetem zakresu lub polem wyboru"
+msgstr "Sterowanie ręczną ostrością nie jest widżetem zakresu lub polem wyboru"
 
 #: src/backend/entangle-camera.c:3020 src/backend/entangle-camera.c:3044
 #: src/backend/entangle-camera.c:3063 src/backend/entangle-camera.c:3079
@@ -247,19 +247,19 @@ msgstr "Ustawienie celu przechwytywania się nie powiodło: %s %d"
 
 #: src/frontend/entangle-application-menus.ui:7
 msgid "_New window"
-msgstr ""
+msgstr "_Nowe okno"
 
 #: src/frontend/entangle-application-menus.ui:13
 msgid "_Preferences…"
-msgstr ""
+msgstr "_Preferencje…"
 
 #: src/frontend/entangle-application-menus.ui:19
 msgid "_Supported cameras"
-msgstr ""
+msgstr "_Obsługiwane aparaty"
 
 #: src/frontend/entangle-application-menus.ui:23
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "_Skróty klawiszowe"
 
 #: src/frontend/entangle-application-menus.ui:27
 msgid "_Help"
@@ -267,43 +267,43 @@ msgstr "Pomo_c"
 
 #: src/frontend/entangle-application-menus.ui:31
 msgid "_About"
-msgstr ""
+msgstr "_O programie"
 
 #: src/frontend/entangle-application-menus.ui:37
 msgid "_Quit"
-msgstr ""
+msgstr "Za_kończ"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_Select session…"
-msgstr ""
+msgstr "_Wybierz sesję…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:12
 msgid "_Connect…"
-msgstr ""
+msgstr "_Połącz…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Disconnect…"
-msgstr ""
+msgstr "_Rozłącz…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Close"
-msgstr ""
+msgstr "Za_mknij"
 
 #: src/frontend/entangle-camera-manager-menus.ui:31
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Pełny ekran"
 
 #: src/frontend/entangle-camera-manager-menus.ui:35
 msgid "_Presentation"
-msgstr ""
+msgstr "_Prezentacja"
 
 #: src/frontend/entangle-camera-manager-menus.ui:41
 msgid "_Settings"
-msgstr ""
+msgstr "_Ustawienia"
 
 #: src/frontend/entangle-camera-manager-menus.ui:47
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "Z_synchronizuj pobieranie"
 
 #: src/frontend/entangle-camera-manager-menus.ui:56
 msgid "Best Fit"
@@ -311,15 +311,15 @@ msgstr "Najlepsze dopasowanie"
 
 #: src/frontend/entangle-camera-manager-menus.ui:60
 msgid "_Normal Size"
-msgstr ""
+msgstr "Z_wykły rozmiar"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "Zoom _In"
-msgstr ""
+msgstr "Przy_bliż"
 
 #: src/frontend/entangle-camera-manager-menus.ui:70
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Oddal"
 
 #: src/frontend/entangle-camera-manager.c:580
 #: src/frontend/entangle-camera-manager.c:584
@@ -353,12 +353,12 @@ msgstr "Entangle: działanie się nie powiodło"
 #: src/frontend/entangle-camera-manager.c:775
 #: src/frontend/entangle-camera-manager.c:1038
 msgid "Camera load controls failed"
-msgstr "Kontrole wczytania aparatu się nie powiodły"
+msgstr "Sterowanie wczytywaniem aparatu się nie powiodło"
 
 #: src/frontend/entangle-camera-manager.c:777
 #: src/frontend/entangle-camera-manager.c:1040
 msgid "Entangle: Camera load controls failed"
-msgstr "Entangle: kontrole wczytania aparatu się nie powiodły"
+msgstr "Entangle: sterowanie wczytywaniem aparatu się nie powiodło"
 
 #: src/frontend/entangle-camera-manager.c:815
 msgid "Monitor"
@@ -484,7 +484,7 @@ msgstr "Usuń"
 
 #: src/frontend/entangle-camera-manager.c:2528
 msgid "Open"
-msgstr ""
+msgstr "Otwórz"
 
 #: src/frontend/entangle-camera-manager.c:2532
 msgid "Open with"
@@ -531,14 +531,24 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"Nie wykryto aparatów, proszę sprawdzić, czy\n"
+"\n"
+"  • <b>kable</b> są podłączone\n"
+"  • aparat jest <b>włączony</b>\n"
+"  • aparat jest we <b>właściwym trybie</b>\n"
+"  • aparat jest <b>obsługiwanym</b> modelem\n"
+"\n"
+"Aparaty USB są automatycznie wykrywane po\n"
+"podłączeniu, inne mogą potrzebować odświeżenia\n"
+"lub podania adresu IP aparatu sieciowego"
 
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
-msgstr ""
+msgstr "Adres IP:"
 
 #: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
-msgstr ""
+msgstr "Aparat sieciowy"
 
 #: src/frontend/entangle-camera-support.c:188
 msgid "capture"
@@ -558,11 +568,11 @@ msgstr "etykieta"
 
 #: src/frontend/entangle-control-panel.c:84
 msgid "Camera control update failed"
-msgstr "Aktualizacja kontroli aparatu się nie powiodła"
+msgstr "Aktualizacja sterowania aparatem się nie powiodła"
 
 #: src/frontend/entangle-control-panel.c:86
 msgid "Entangle: Camera control update failed"
-msgstr "Entangle: aktualizacja kontroli aparatu się nie powiodła"
+msgstr "Entangle: aktualizacja sterowania aparatem się nie powiodła"
 
 #: src/frontend/entangle-control-panel.c:314
 msgid "On"
@@ -574,11 +584,11 @@ msgstr "Wyłączone"
 
 #: src/frontend/entangle-control-panel.c:769
 msgid "Reset controls"
-msgstr "Przywróć kontrolę"
+msgstr "Przywróć sterowanie"
 
 #: src/frontend/entangle-control-panel.c:848
 msgid "No controls available"
-msgstr "Brak dostępnych kontroli"
+msgstr "Brak dostępnego sterowania"
 
 #: src/frontend/entangle-dpms.c:57
 msgid "Screen blanking is not available on this display"
@@ -594,81 +604,121 @@ msgstr "O programie Entangle"
 
 #: src/frontend/entangle-help-about.ui:17 src/entangle.desktop.in:5
 msgid "Tethered Camera Control & Capture"
-msgstr "Kontrola i pobieranie zdjęć z podłączonego aparatu"
+msgstr "Sterowanie i pobieranie zdjęć z podłączonego aparatu"
 
 #: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "Sterowanie aplikacją"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "Otwarcie okna nowego aparatu"
 
 #: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "Zamknięcie wszystkich okien i zakończenie działania"
 
 #: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "Wyświetlenie podręcznika pomocy"
 
 #: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "Wyświetlanie obrazów"
 
 #: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Przybliżenie"
 
 #: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Oddalenie"
 
 #: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "Zwykły rozmiar"
 
 #: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
+msgstr "Dopasowanie do ekranu"
+
+#: src/frontend/entangle-help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle image mask"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:74
+#: src/frontend/entangle-help-overlay.ui:79
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "Wyświetlanie okna"
 
-#: src/frontend/entangle-help-overlay.ui:78
+#: src/frontend/entangle-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "Pełny ekran"
 
-#: src/frontend/entangle-help-overlay.ui:85
+#: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "Prezentacja"
 
-#: src/frontend/entangle-help-overlay.ui:94
+#: src/frontend/entangle-help-overlay.ui:108
 msgctxt "shortcut window"
-msgid "Camera control"
+msgid "Shutter control"
 msgstr ""
 
-#: src/frontend/entangle-help-overlay.ui:98
+#: src/frontend/entangle-help-overlay.ui:112
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "Pobranie jednego obrazu"
 
-#: src/frontend/entangle-help-overlay.ui:105
+#: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Toggle live preview"
+msgstr "Przełączenie podglądu na żywo"
+
+#: src/frontend/entangle-help-overlay.ui:128
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:132
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:139
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:146
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:153
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr ""
+
+#: src/frontend/entangle-help-overlay.ui:160
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
 msgstr ""
 
 #: src/frontend/entangle-preferences-display.c:1038
@@ -917,7 +967,7 @@ msgstr "Nieprzezroczystość maski:"
 
 #: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
@@ -941,7 +991,7 @@ msgstr "Warstwy pokrywania:"
 
 #: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
@@ -989,15 +1039,15 @@ msgstr "Entangle"
 
 #: src/entangle.appdata.xml.in:8
 msgid "Tethered Camera Control &amp; Capture"
-msgstr "Kontrola i pobieranie zdjęć z podłączonego aparatu"
+msgstr "Sterowanie i pobieranie zdjęć z podłączonego aparatu"
 
 #: src/entangle.appdata.xml.in:10
 msgid ""
 "Entangle is a program used to control digital cameras that are connected to "
 "the computer via USB."
 msgstr ""
-"Entangle jest programem używanym do kontrolowania aparatów cyfrowych "
-"połączonych do komputera przez USB."
+"Entangle jest programem do sterowania aparatami cyfrowych połączonymi do "
+"komputera przez USB."
 
 #: src/entangle.appdata.xml.in:14
 msgid ""
@@ -1025,8 +1075,10 @@ msgstr ""
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
-msgstr ""
+msgstr "entangle"
 
 #: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
 msgstr ""
+"Pobieranie;Pobranie;Pobierz;Przechwytywanie;Przechwyć;Aparat;Kamera;"
+"Podłączanie;Podłącz;Łączenie;Połącz;Zdjęcie;Zdjęcia;Fotografia;Fotografie;"
