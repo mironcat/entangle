@@ -67,6 +67,7 @@ G_DEFINE_TYPE(EntanglePreferences, entangle_preferences, G_TYPE_OBJECT);
 #define SETTING_IMG_ASPECT_RATIO           "aspect-ratio"
 #define SETTING_IMG_MASK_OPACITY           "mask-opacity"
 #define SETTING_IMG_MASK_ENABLED           "mask-enabled"
+#define SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING "overexposure-highlighting"
 #define SETTING_IMG_FOCUS_POINT            "focus-point"
 #define SETTING_IMG_GRID_LINES             "grid-lines"
 #define SETTING_IMG_EMBEDDED_PREVIEW       "embedded-preview"
@@ -96,6 +97,7 @@ G_DEFINE_TYPE(EntanglePreferences, entangle_preferences, G_TYPE_OBJECT);
 #define PROP_NAME_IMG_ASPECT_RATIO           SETTING_IMG "-" SETTING_IMG_ASPECT_RATIO
 #define PROP_NAME_IMG_MASK_OPACITY           SETTING_IMG "-" SETTING_IMG_MASK_OPACITY
 #define PROP_NAME_IMG_MASK_ENABLED           SETTING_IMG "-" SETTING_IMG_MASK_ENABLED
+#define PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING SETTING_IMG "-" SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING
 #define PROP_NAME_IMG_FOCUS_POINT            SETTING_IMG "-" SETTING_IMG_FOCUS_POINT
 #define PROP_NAME_IMG_GRID_LINES             SETTING_IMG "-" SETTING_IMG_GRID_LINES
 #define PROP_NAME_IMG_EMBEDDED_PREVIEW       SETTING_IMG "-" SETTING_IMG_EMBEDDED_PREVIEW
@@ -127,6 +129,7 @@ enum {
     PROP_IMG_ASPECT_RATIO,
     PROP_IMG_MASK_OPACITY,
     PROP_IMG_MASK_ENABLED,
+    PROP_IMG_OVEREXPOSURE_HIGHLIGHTING,
     PROP_IMG_FOCUS_POINT,
     PROP_IMG_GRID_LINES,
     PROP_IMG_EMBEDDED_PREVIEW,
@@ -276,6 +279,12 @@ static void entangle_preferences_get_property(GObject *object,
             g_value_set_boolean(value,
                                 g_settings_get_boolean(priv->imgSettings,
                                                        SETTING_IMG_MASK_ENABLED));
+            break;
+
+        case PROP_IMG_OVEREXPOSURE_HIGHLIGHTING:
+            g_value_set_boolean(value,
+                                g_settings_get_boolean(priv->imgSettings,
+                                                       SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING));
             break;
 
         case PROP_IMG_ASPECT_RATIO:
@@ -447,6 +456,12 @@ static void entangle_preferences_set_property(GObject *object,
         case PROP_IMG_MASK_ENABLED:
             g_settings_set_boolean(priv->imgSettings,
                                    SETTING_IMG_MASK_ENABLED,
+                                   g_value_get_boolean(value));
+            break;
+
+        case PROP_IMG_OVEREXPOSURE_HIGHLIGHTING:
+            g_settings_set_boolean(priv->imgSettings,
+                                   SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING,
                                    g_value_get_boolean(value));
             break;
 
@@ -720,6 +735,17 @@ static void entangle_preferences_class_init(EntanglePreferencesClass *klass)
                                                          "Mask enabled",
                                                          "Enable aspect ratio image mask",
                                                          FALSE,
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_STATIC_NAME |
+                                                         G_PARAM_STATIC_NICK |
+                                                         G_PARAM_STATIC_BLURB));
+
+    g_object_class_install_property(object_class,
+                                    PROP_IMG_OVEREXPOSURE_HIGHLIGHTING,
+                                    g_param_spec_boolean(PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING,
+                                                         "Overexposure highlighting",
+                                                         "Highlight areas of overexposure",
+                                                         TRUE,
                                                          G_PARAM_READWRITE |
                                                          G_PARAM_STATIC_NAME |
                                                          G_PARAM_STATIC_NICK |
@@ -1634,6 +1660,46 @@ void entangle_preferences_img_set_mask_enabled(EntanglePreferences *prefs, gbool
     g_settings_set_boolean(priv->imgSettings,
                            SETTING_IMG_MASK_ENABLED, enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_MASK_ENABLED);
+}
+
+
+/**
+ * entangle_preferences_img_get_overexposure_highlighting:
+ * @prefs: (transfer none): the preferences store
+ *
+ * Determine if areas of overexposure should be highlighted on
+ * the image display
+ *
+ * Returns: TRUE if overexposure should be highlighted
+ */
+gboolean entangle_preferences_img_get_overexposure_highlighting(EntanglePreferences *prefs)
+{
+    g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
+
+    EntanglePreferencesPrivate *priv = prefs->priv;
+
+    return g_settings_get_boolean(priv->imgSettings,
+                                  SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING);
+}
+
+
+/**
+ * entangle_preferences_img_set_overexposure_highlighting:
+ * @prefs: (transfer none): the preferences store
+ * @enabled: TRUE to highlight overeposure
+ *
+ * If @enabled is TRUE areas of overexposure will be highlighted on
+ * the image display
+ */
+void entangle_preferences_img_set_overexposure_highlighting(EntanglePreferences *prefs, gboolean enabled)
+{
+    g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
+
+    EntanglePreferencesPrivate *priv = prefs->priv;
+
+    g_settings_set_boolean(priv->imgSettings,
+                           SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING, enabled);
+    g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING);
 }
 
 

@@ -327,6 +327,18 @@ static void entangle_camera_manager_update_mask_enabled(EntangleCameraManager *m
 }
 
 
+static void entangle_camera_manager_update_overexposure_highlighting(EntangleCameraManager *manager)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+
+    EntangleCameraManagerPrivate *priv = entangle_camera_manager_get_instance_private(manager);
+    EntanglePreferences *prefs = entangle_camera_manager_get_preferences(manager);
+    gboolean enabled = entangle_preferences_img_get_overexposure_highlighting(prefs);
+
+    entangle_image_display_set_overexposure_highlighting(priv->imageDisplay, enabled);
+}
+
+
 static void entangle_camera_manager_update_histogram_linear(EntangleCameraManager *manager)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
@@ -505,6 +517,8 @@ static void entangle_camera_manager_prefs_changed(GObject *object G_GNUC_UNUSED,
         entangle_camera_manager_update_mask_opacity(manager);
     } else if (g_str_equal(spec->name, "img-mask-enabled")) {
         entangle_camera_manager_update_mask_enabled(manager);
+    } else if (g_str_equal(spec->name, "img-overexposure-highlighting")) {
+        entangle_camera_manager_update_overexposure_highlighting(manager);
     } else if (g_str_equal(spec->name, "img-focus-point") ||
                g_str_equal(spec->name, "img-grid-lines")) {
         entangle_camera_manager_update_viewfinder(manager);
@@ -1319,6 +1333,7 @@ static void do_entangle_camera_manager_set_app(GObject *object,
     entangle_camera_manager_update_aspect_ratio(manager);
     entangle_camera_manager_update_mask_opacity(manager);
     entangle_camera_manager_update_mask_enabled(manager);
+    entangle_camera_manager_update_overexposure_highlighting(manager);
     entangle_camera_manager_update_image_loader(manager);
     entangle_camera_manager_update_background_highlight(manager);
     entangle_camera_manager_update_automata(manager);
@@ -1950,6 +1965,12 @@ gboolean do_manager_key_release(GtkWidget *widget G_GNUC_UNUSED,
         EntanglePreferences *prefs = entangle_camera_manager_get_preferences(manager);
         gboolean enabled = entangle_preferences_img_get_mask_enabled(prefs);
         entangle_preferences_img_set_mask_enabled(prefs, !enabled);
+    }   break;
+
+    case GDK_KEY_o: {
+        EntanglePreferences *prefs = entangle_camera_manager_get_preferences(manager);
+        gboolean enabled = entangle_preferences_img_get_overexposure_highlighting(prefs);
+        entangle_preferences_img_set_overexposure_highlighting(prefs, !enabled);
     }   break;
 
     case GDK_KEY_h: {

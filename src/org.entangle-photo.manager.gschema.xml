@@ -139,6 +139,12 @@
       <description>Enable aspect ratio image mask</description>
     </key>
 
+    <key type="b" name="overexposure-highlighting">
+      <default>true</default>
+      <summary>Overexposure highlighting</summary>
+      <description>Highlight areas of overexposure</description>
+    </key>
+
     <key type="b" name="focus-point">
       <default>true</default>
       <summary>Focus point</summary>

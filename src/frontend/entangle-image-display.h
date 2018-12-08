@@ -95,6 +95,10 @@ void entangle_image_display_set_focus_point(EntangleImageDisplay *display,
                                             gboolean enabled);
 gboolean entangle_image_display_get_focus_point(EntangleImageDisplay *display);
 
+void entangle_image_display_set_overexposure_highlighting(EntangleImageDisplay *display,
+                                                          gboolean enabled);
+gboolean entangle_image_display_get_overexposure_highlighting(EntangleImageDisplay *display);
+
 gboolean entangle_image_display_get_loaded(EntangleImageDisplay *display);
 
 typedef enum {

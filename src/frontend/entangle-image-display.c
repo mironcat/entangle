@@ -40,6 +40,7 @@ struct _EntangleImageDisplayPrivate {
     gdouble aspectRatio;
     gdouble maskOpacity;
     gboolean maskEnabled;
+    gboolean overexposureHighlighting;
 
     gboolean focusPoint;
     EntangleImageDisplayGrid gridDisplay;
@@ -57,6 +58,7 @@ enum {
     PROP_MASK_ENABLED,
     PROP_FOCUS_POINT,
     PROP_GRID_DISPLAY,
+    PROP_OVEREXPOSURE_HIGHLIGHTING,
 };
 
 
@@ -116,25 +118,27 @@ static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *displa
         tmp = tmp->next;
     }
 
-    /* Check for blown highlights (overexposure), and set such pixels
-       to red. */
-    cairo_surface_flush(priv->pixmap);
-    unsigned char *data = cairo_image_surface_get_data(priv->pixmap);
-    gboolean blown = FALSE;
-    unsigned char *p = data;
-    for (int i=0; i < height; i++) {
-        for (int j=0; j < width; j++, p+=4) {
-            if (p[0] == 255 || p[1] == 255 || p[2] == 255) {
-                p[0] = 0;
-                p[1] = 0;
-                p[2] = 254;
-                blown = TRUE;
+    if (priv->overexposureHighlighting) {
+        /* Check for blown highlights (overexposure), and set such pixels
+           to red. */
+        cairo_surface_flush(priv->pixmap);
+        unsigned char *data = cairo_image_surface_get_data(priv->pixmap);
+        gboolean blown = FALSE;
+        unsigned char *p = data;
+        for (int i=0; i < height; i++) {
+            for (int j=0; j < width; j++, p+=4) {
+                if (p[0] == 255 || p[1] == 255 || p[2] == 255) {
+                    p[0] = 0;
+                    p[1] = 0;
+                    p[2] = 254;
+                    blown = TRUE;
+                }
             }
         }
-    }
 
-    if (blown)
-        cairo_surface_mark_dirty(priv->pixmap);
+        if (blown)
+            cairo_surface_mark_dirty(priv->pixmap);
+    }
 
     cairo_destroy(cr);
 }
@@ -242,6 +246,10 @@ static void entangle_image_display_get_property(GObject *object,
             g_value_set_enum(value, priv->gridDisplay);
             break;
 
+        case PROP_OVEREXPOSURE_HIGHLIGHTING:
+            g_value_set_boolean(value, priv->overexposureHighlighting);
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
         }
@@ -285,6 +293,10 @@ static void entangle_image_display_set_property(GObject *object,
 
         case PROP_GRID_DISPLAY:
             entangle_image_display_set_grid_display(display, g_value_get_enum(value));
+            break;
+
+        case PROP_OVEREXPOSURE_HIGHLIGHTING:
+            entangle_image_display_set_overexposure_highlighting(display, g_value_get_boolean(value));
             break;
 
         default:
@@ -805,6 +817,17 @@ static void entangle_image_display_class_init(EntangleImageDisplayClass *klass)
                                                       G_PARAM_STATIC_NICK |
                                                       G_PARAM_STATIC_BLURB));
 
+    g_object_class_install_property(object_class,
+                                    PROP_OVEREXPOSURE_HIGHLIGHTING,
+                                    g_param_spec_boolean("overexposure-highlighting",
+                                                         "Overexposure highlighting",
+                                                         "Highlight areas of overexposure",
+                                                         TRUE,
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_STATIC_NAME |
+                                                         G_PARAM_STATIC_NICK |
+                                                         G_PARAM_STATIC_BLURB));
+
     g_type_class_add_private(klass, sizeof(EntangleImageDisplayPrivate));
 }
 
@@ -825,6 +848,7 @@ static void entangle_image_display_init(EntangleImageDisplay *display)
     priv->maskOpacity = 0.9;
     priv->aspectRatio = 1.33;
     priv->maskEnabled = FALSE;
+    priv->overexposureHighlighting = TRUE;
 }
 
 
@@ -1099,6 +1123,32 @@ EntangleImageDisplayGrid entangle_image_display_get_grid_display(EntangleImageDi
 
     return priv->gridDisplay;
 }
+
+
+void entangle_image_display_set_overexposure_highlighting(EntangleImageDisplay *display,
+                                                          gboolean enabled)
+{
+    g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
+
+    EntangleImageDisplayPrivate *priv = display->priv;
+
+    priv->overexposureHighlighting = enabled;
+
+    entangle_image_display_try_render_pixmap(display);
+    if (gtk_widget_get_visible((GtkWidget*)display))
+        gtk_widget_queue_draw(GTK_WIDGET(display));
+}
+
+
+gboolean entangle_image_display_get_overexposure_highlighting(EntangleImageDisplay *display)
+{
+    g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
+
+    EntangleImageDisplayPrivate *priv = display->priv;
+
+    return priv->overexposureHighlighting;
+}
+
 
 
 gboolean entangle_image_display_get_loaded(EntangleImageDisplay *display)

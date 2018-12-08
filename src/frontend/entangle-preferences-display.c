@@ -87,6 +87,7 @@ struct _EntanglePreferencesDisplayPrivate {
     GtkToggleButton *interfaceHistogramLinear;
 
     GtkToggleButton *imgMaskEnabled;
+    GtkToggleButton *imgOverexposureHighlighting;
     GtkLabel *imgAspectRatioLabel;
     GtkLabel *imgMaskOpacityLabel;
     GtkComboBox *imgAspectRatio;
@@ -132,6 +133,7 @@ void do_capture_delete_file_toggled(GtkToggleButton *src, EntanglePreferencesDis
 void do_capture_sync_clock_toggled(GtkToggleButton *src, EntanglePreferencesDisplay *display);
 
 void do_img_mask_enabled_toggled(GtkToggleButton *src, EntanglePreferencesDisplay *display);
+void do_img_overexposure_highlighting_toggled(GtkToggleButton *src, EntanglePreferencesDisplay *display);
 void do_img_aspect_ratio_changed(GtkComboBox *src, EntanglePreferencesDisplay *display);
 void do_img_mask_opacity_changed(GtkSpinButton *src, EntanglePreferencesDisplay *display);
 void do_img_focus_point_toggled(GtkToggleButton *src, EntanglePreferencesDisplay *display);
@@ -298,6 +300,15 @@ static void entangle_preferences_display_notify(GObject *object,
 
         if (newvalue != oldvalue)
             gtk_toggle_button_set_active(priv->imgMaskEnabled, newvalue);
+    } else if (strcmp(spec->name, "img-overexposure-highlighting") == 0) {
+        gboolean newvalue;
+        gboolean oldvalue;
+
+        g_object_get(object, spec->name, &newvalue, NULL);
+        oldvalue = gtk_toggle_button_get_active(priv->imgOverexposureHighlighting);
+
+        if (newvalue != oldvalue)
+            gtk_toggle_button_set_active(priv->imgOverexposureHighlighting, newvalue);
     } else if (strcmp(spec->name, "img-aspect-ratio") == 0) {
         gchar *newvalue;
         const gchar *oldvalue;
@@ -464,6 +475,9 @@ static void entangle_preferences_display_refresh(EntanglePreferencesDisplay *pre
 
     gtk_toggle_button_set_active(priv->imgMaskEnabled, hasRatio);
 
+    gtk_toggle_button_set_active(priv->imgOverexposureHighlighting,
+                                 entangle_preferences_img_get_overexposure_highlighting(priv->prefs));
+
     gtk_combo_box_set_active_id(priv->imgAspectRatio, ratio);
     gtk_widget_set_sensitive(GTK_WIDGET(priv->imgAspectRatio), hasRatio);
 
@@ -622,6 +636,8 @@ static void entangle_preferences_display_class_init(EntanglePreferencesDisplayCl
 
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
                                                  EntanglePreferencesDisplay, imgMaskEnabled);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
+                                                 EntanglePreferencesDisplay, imgOverexposureHighlighting);
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
                                                  EntanglePreferencesDisplay, imgAspectRatioLabel);
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(klass),
@@ -872,6 +888,17 @@ void do_img_mask_enabled_toggled(GtkToggleButton *src, EntanglePreferencesDispla
     gtk_widget_set_sensitive(GTK_WIDGET(priv->imgMaskOpacityLabel), enabled);
 
     entangle_preferences_img_set_mask_enabled(priv->prefs, enabled);
+}
+
+
+void do_img_overexposure_highlighting_toggled(GtkToggleButton *src, EntanglePreferencesDisplay *preferences)
+{
+    g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
+
+    EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
+    gboolean enabled = gtk_toggle_button_get_active(src);
+
+    entangle_preferences_img_set_overexposure_highlighting(priv->prefs, enabled);
 }
 
 

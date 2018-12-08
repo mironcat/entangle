@@ -76,6 +76,13 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
+                <property name="title" translatable="yes" context="shortcut window">Toggle overexposure highlighting</property>
+                <property name="accelerator">o</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">True</property>
                 <property name="title" translatable="yes" context="shortcut window">Toggle histogram scale</property>
                 <property name="accelerator">h</property>
               </object>
