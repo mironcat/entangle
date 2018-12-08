@@ -47,7 +47,7 @@ struct _EntangleControlPanelPrivate {
     gsize rows;
 };
 
-G_DEFINE_TYPE(EntangleControlPanel, entangle_control_panel, GTK_TYPE_EXPANDER);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlPanel, entangle_control_panel, GTK_TYPE_EXPANDER);
 
 enum {
     PROP_O,
@@ -987,8 +987,6 @@ static void entangle_control_panel_class_init(EntangleControlPanelClass *klass)
                                                          G_PARAM_STATIC_NAME |
                                                          G_PARAM_STATIC_NICK |
                                                          G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleControlPanelPrivate));
 }
 
 

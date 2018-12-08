@@ -32,7 +32,7 @@ struct _EntangleVideoPrivate {
     GstBaseSrc *source;
 };
 
-G_DEFINE_TYPE(EntangleVideo, entangle_video, ENTANGLE_TYPE_MEDIA);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleVideo, entangle_video, ENTANGLE_TYPE_MEDIA);
 
 enum {
     PROP_0,
@@ -114,8 +114,6 @@ static void entangle_video_class_init(EntangleVideoClass *klass)
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleVideoPrivate));
 }
 
 

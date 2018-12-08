@@ -46,7 +46,7 @@ struct _EntangleImageDisplayPrivate {
     EntangleImageDisplayGrid gridDisplay;
 };
 
-G_DEFINE_TYPE(EntangleImageDisplay, entangle_image_display, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleImageDisplay, entangle_image_display, GTK_TYPE_DRAWING_AREA);
 
 enum {
     PROP_O,
@@ -827,8 +827,6 @@ static void entangle_image_display_class_init(EntangleImageDisplayClass *klass)
                                                          G_PARAM_STATIC_NAME |
                                                          G_PARAM_STATIC_NICK |
                                                          G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleImageDisplayPrivate));
 }
 
 

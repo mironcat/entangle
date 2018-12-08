@@ -65,7 +65,7 @@ struct _EntangleApplicationPrivate {
     PeasExtensionSet *pluginExt;
 };
 
-G_DEFINE_TYPE(EntangleApplication, entangle_application, GTK_TYPE_APPLICATION);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleApplication, entangle_application, GTK_TYPE_APPLICATION);
 
 enum {
     PROP_0,
@@ -437,8 +437,6 @@ static void entangle_application_class_init(EntangleApplicationClass *klass)
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleApplicationPrivate));
 }
 
 

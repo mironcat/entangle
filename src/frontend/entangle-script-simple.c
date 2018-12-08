@@ -30,7 +30,7 @@ struct _EntangleScriptSimplePrivate
     gboolean unused;
 };
 
-G_DEFINE_TYPE(EntangleScriptSimple, entangle_script_simple, ENTANGLE_TYPE_SCRIPT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleScriptSimple, entangle_script_simple, ENTANGLE_TYPE_SCRIPT);
 
 static void entangle_script_simple_finalize(GObject *object)
 {

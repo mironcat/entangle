@@ -40,7 +40,7 @@ struct _EntangleMediaStatusbarPrivate {
     GtkWidget *metaDimensions;
 };
 
-G_DEFINE_TYPE(EntangleMediaStatusbar, entangle_media_statusbar, GTK_TYPE_BOX);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleMediaStatusbar, entangle_media_statusbar, GTK_TYPE_BOX);
 
 enum {
     PROP_O,
@@ -143,8 +143,6 @@ static void entangle_media_statusbar_class_init(EntangleMediaStatusbarClass *kla
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleMediaStatusbarPrivate));
 }
 
 

@@ -36,7 +36,7 @@ struct _EntangleDeviceManagerPrivate {
     GUdevClient *ctx;
 };
 
-G_DEFINE_TYPE(EntangleDeviceManager, entangle_device_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleDeviceManager, entangle_device_manager, G_TYPE_OBJECT);
 
 
 static void entangle_device_manager_finalize(GObject *object)
@@ -75,9 +75,6 @@ static void entangle_device_manager_class_init(EntangleDeviceManagerClass *klass
                  G_TYPE_NONE,
                  1,
                  G_TYPE_STRING);
-
-
-    g_type_class_add_private(klass, sizeof(EntangleDeviceManagerPrivate));
 }
 
 

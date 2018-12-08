@@ -87,7 +87,9 @@ static void
 entangle_session_browser_scroll_to_selected(EntangleSessionBrowser *browser);
 
 G_DEFINE_TYPE_WITH_CODE(EntangleSessionBrowser, entangle_session_browser, GTK_TYPE_DRAWING_AREA,
-                        G_IMPLEMENT_INTERFACE(GTK_TYPE_SCROLLABLE, NULL))
+                        G_IMPLEMENT_INTERFACE(GTK_TYPE_SCROLLABLE, NULL)
+                        G_ADD_PRIVATE(EntangleSessionBrowser)
+                        )
 
 enum {
     PROP_O,
@@ -886,8 +888,6 @@ static void entangle_session_browser_class_init(EntangleSessionBrowserClass *kla
                      0, NULL, NULL,
                      g_cclosure_marshal_VOID__VOID,
                      G_TYPE_NONE, 0);
-
-    g_type_class_add_private(klass, sizeof(EntangleSessionBrowserPrivate));
 }
 
 

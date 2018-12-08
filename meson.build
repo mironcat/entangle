@@ -14,7 +14,7 @@ pod2man = find_program('pod2man')
 
 cc = meson.get_compiler('c')
 
-glib_min_version = '>= 2.36.0'
+glib_min_version = '>= 2.38.0'
 gdk_pixbuf_min_version = '>= 2.12.0'
 gtk_min_version = '>= 3.12.0'
 gphoto2_min_version = '>= 2.5.0'

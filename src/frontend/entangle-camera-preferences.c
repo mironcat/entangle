@@ -36,7 +36,7 @@ struct _EntangleCameraPreferencesPrivate {
     GSettings *settings;
 };
 
-G_DEFINE_TYPE(EntangleCameraPreferences, entangle_camera_preferences, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleCameraPreferences, entangle_camera_preferences, G_TYPE_OBJECT);
 
 enum {
     PROP_O,
@@ -116,8 +116,6 @@ static void entangle_camera_preferences_class_init(EntangleCameraPreferencesClas
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleCameraPreferencesPrivate));
 }
 
 

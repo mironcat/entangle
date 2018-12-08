@@ -38,7 +38,7 @@ struct _EntangleImageHistogramPrivate {
     EntangleImage *image;
 };
 
-G_DEFINE_TYPE(EntangleImageHistogram, entangle_image_histogram, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleImageHistogram, entangle_image_histogram, GTK_TYPE_DRAWING_AREA);
 
 enum {
     PROP_O,
@@ -325,8 +325,6 @@ static void entangle_image_histogram_class_init(EntangleImageHistogramClass *kla
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleImageHistogramPrivate));
 }
 
 

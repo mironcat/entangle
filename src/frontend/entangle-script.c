@@ -31,7 +31,7 @@ struct _EntangleScriptPrivate
     char *title;
 };
 
-G_DEFINE_ABSTRACT_TYPE(EntangleScript, entangle_script, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(EntangleScript, entangle_script, G_TYPE_OBJECT);
 
 enum {
     PROP_O,
@@ -98,8 +98,6 @@ static void entangle_script_class_init(EntangleScriptClass *klass)
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleScriptPrivate));
 }
 
 

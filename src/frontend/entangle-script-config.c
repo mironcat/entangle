@@ -32,7 +32,7 @@ struct _EntangleScriptConfigPrivate {
     GtkWidget *scriptConfig;
 };
 
-G_DEFINE_TYPE(EntangleScriptConfig, entangle_script_config, GTK_TYPE_BOX);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleScriptConfig, entangle_script_config, GTK_TYPE_BOX);
 
 
 static void entangle_script_config_finalize(GObject *object)
@@ -51,8 +51,6 @@ static void entangle_script_config_class_init(EntangleScriptConfigClass *klass)
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
     object_class->finalize = entangle_script_config_finalize;
-
-    g_type_class_add_private(klass, sizeof(EntangleScriptConfigPrivate));
 }
 
 

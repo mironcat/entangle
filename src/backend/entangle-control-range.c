@@ -34,7 +34,7 @@ struct _EntangleControlRangePrivate {
     float step;
 };
 
-G_DEFINE_TYPE(EntangleControlRange, entangle_control_range, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlRange, entangle_control_range, ENTANGLE_TYPE_CONTROL);
 
 enum {
     PROP_0,
@@ -177,9 +177,6 @@ static void entangle_control_range_class_init(EntangleControlRangeClass *klass)
                                                        G_PARAM_STATIC_NAME |
                                                        G_PARAM_STATIC_NICK |
                                                        G_PARAM_STATIC_BLURB));
-
-
-    g_type_class_add_private(klass, sizeof(EntangleControlRangePrivate));
 }
 
 

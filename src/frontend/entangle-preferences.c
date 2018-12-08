@@ -39,7 +39,7 @@ struct _EntanglePreferencesPrivate {
     GSettings *imgSettings;
 };
 
-G_DEFINE_TYPE(EntanglePreferences, entangle_preferences, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntanglePreferences, entangle_preferences, G_TYPE_OBJECT);
 
 #define SETTING_INTERFACE                  "interface"
 #define SETTING_CAPTURE                    "capture"
@@ -829,8 +829,6 @@ static void entangle_preferences_class_init(EntanglePreferencesClass *klass)
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntanglePreferencesPrivate));
 }
 
 

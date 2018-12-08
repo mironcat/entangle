@@ -37,7 +37,7 @@ struct _EntangleCameraFilePrivate {
     GByteArray *data;
 };
 
-G_DEFINE_TYPE(EntangleCameraFile, entangle_camera_file, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleCameraFile, entangle_camera_file, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -188,8 +188,6 @@ static void entangle_camera_file_class_init(EntangleCameraFileClass *klass)
                                                        G_PARAM_STATIC_BLURB));
 
     ENTANGLE_DEBUG("install prog done");
-
-    g_type_class_add_private(klass, sizeof(EntangleCameraFilePrivate));
 }
 
 

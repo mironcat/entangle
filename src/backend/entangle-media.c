@@ -36,7 +36,7 @@ struct _EntangleMediaPrivate {
     struct stat st;
 };
 
-G_DEFINE_TYPE(EntangleMedia, entangle_media, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleMedia, entangle_media, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -143,8 +143,6 @@ static void entangle_media_class_init(EntangleMediaClass *klass)
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleMediaPrivate));
 }
 
 

@@ -40,7 +40,7 @@ struct _EntangleThumbnailLoaderPrivate {
     guint height;
 };
 
-G_DEFINE_TYPE(EntangleThumbnailLoader, entangle_thumbnail_loader, ENTANGLE_TYPE_PIXBUF_LOADER);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleThumbnailLoader, entangle_thumbnail_loader, ENTANGLE_TYPE_PIXBUF_LOADER);
 
 enum {
     PROP_0,
@@ -376,8 +376,6 @@ static void entangle_thumbnail_loader_class_init(EntangleThumbnailLoaderClass *k
                                                      G_PARAM_STATIC_NAME |
                                                      G_PARAM_STATIC_NICK |
                                                      G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleThumbnailLoaderPrivate));
 }
 
 

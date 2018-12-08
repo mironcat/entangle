@@ -30,7 +30,7 @@ struct _EntangleControlButtonPrivate {
     gboolean dummy;
 };
 
-G_DEFINE_TYPE(EntangleControlButton, entangle_control_button, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlButton, entangle_control_button, ENTANGLE_TYPE_CONTROL);
 
 
 static void entangle_control_button_finalize(GObject *object)
@@ -43,8 +43,6 @@ static void entangle_control_button_class_init(EntangleControlButtonClass *klass
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
     object_class->finalize = entangle_control_button_finalize;
-
-    g_type_class_add_private(klass, sizeof(EntangleControlButtonPrivate));
 }
 
 

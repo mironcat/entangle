@@ -50,8 +50,8 @@ struct _EntangleColourProfileTransformPrivate {
     EntangleColourProfileIntent renderIntent;
 };
 
-G_DEFINE_TYPE(EntangleColourProfile, entangle_colour_profile, G_TYPE_OBJECT);
-G_DEFINE_TYPE(EntangleColourProfileTransform, entangle_colour_profile_transform, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleColourProfile, entangle_colour_profile, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleColourProfileTransform, entangle_colour_profile_transform, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -239,9 +239,6 @@ static void entangle_colour_profile_class_init(EntangleColourProfileClass *klass
                                                        G_PARAM_STATIC_NAME |
                                                        G_PARAM_STATIC_NICK |
                                                        G_PARAM_STATIC_BLURB));
-
-
-    g_type_class_add_private(klass, sizeof(EntangleColourProfilePrivate));
 }
 
 static void entangle_colour_profile_transform_class_init(EntangleColourProfileTransformClass *klass)
@@ -287,8 +284,6 @@ static void entangle_colour_profile_transform_class_init(EntangleColourProfileTr
                                                       G_PARAM_STATIC_NAME |
                                                       G_PARAM_STATIC_NICK |
                                                       G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleColourProfileTransformPrivate));
 }
 
 

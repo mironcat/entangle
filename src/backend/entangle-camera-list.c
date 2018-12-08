@@ -43,7 +43,7 @@ struct _EntangleCameraListPrivate {
     GPPortInfoList *ports;
 };
 
-G_DEFINE_TYPE(EntangleCameraList, entangle_camera_list, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleCameraList, entangle_camera_list, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -195,8 +195,6 @@ static void entangle_camera_list_class_init(EntangleCameraListClass *klass)
                                                          G_PARAM_STATIC_NAME |
                                                          G_PARAM_STATIC_NICK |
                                                          G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleCameraListPrivate));
 }
 
 

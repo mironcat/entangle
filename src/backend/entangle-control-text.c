@@ -31,7 +31,7 @@ struct _EntangleControlTextPrivate {
     char *value;
 };
 
-G_DEFINE_TYPE(EntangleControlText, entangle_control_text, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlText, entangle_control_text, ENTANGLE_TYPE_CONTROL);
 
 enum {
     PROP_0,
@@ -131,9 +131,6 @@ static void entangle_control_text_class_init(EntangleControlTextClass *klass)
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-
-    g_type_class_add_private(klass, sizeof(EntangleControlTextPrivate));
 }
 
 

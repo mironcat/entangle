@@ -36,7 +36,7 @@ struct _EntangleControlPrivate {
     gboolean dirty;
 };
 
-G_DEFINE_ABSTRACT_TYPE(EntangleControl, entangle_control, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(EntangleControl, entangle_control, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -229,8 +229,6 @@ static void entangle_control_class_init(EntangleControlClass *klass)
                                                          G_PARAM_STATIC_NAME |
                                                          G_PARAM_STATIC_NICK |
                                                          G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleControlPrivate));
 }
 
 

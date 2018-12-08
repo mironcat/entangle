@@ -30,7 +30,7 @@ struct _EntangleControlTogglePrivate {
     gboolean value;
 };
 
-G_DEFINE_TYPE(EntangleControlToggle, entangle_control_toggle, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlToggle, entangle_control_toggle, ENTANGLE_TYPE_CONTROL);
 
 enum {
     PROP_0,
@@ -102,8 +102,6 @@ static void entangle_control_toggle_class_init(EntangleControlToggleClass *klass
                                                          G_PARAM_STATIC_NAME |
                                                          G_PARAM_STATIC_NICK |
                                                          G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleControlTogglePrivate));
 }
 
 

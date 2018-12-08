@@ -59,7 +59,7 @@ struct _EntanglePixbufLoaderPrivate {
     gboolean withMetadata;
 };
 
-G_DEFINE_ABSTRACT_TYPE(EntanglePixbufLoader, entangle_pixbuf_loader, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(EntanglePixbufLoader, entangle_pixbuf_loader, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -419,8 +419,6 @@ static void entangle_pixbuf_loader_class_init(EntanglePixbufLoaderClass *klass)
                  G_TYPE_NONE,
                  1,
                  ENTANGLE_TYPE_IMAGE);
-
-    g_type_class_add_private(klass, sizeof(EntanglePixbufLoaderPrivate));
 }
 
 

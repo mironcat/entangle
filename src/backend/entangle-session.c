@@ -46,7 +46,7 @@ struct _EntangleSessionPrivate {
     GList *files;
 };
 
-G_DEFINE_TYPE(EntangleSession, entangle_session, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleSession, entangle_session, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -181,8 +181,6 @@ static void entangle_session_class_init(EntangleSessionClass *klass)
                                                         G_PARAM_STATIC_NAME |
                                                         G_PARAM_STATIC_NICK |
                                                         G_PARAM_STATIC_BLURB));
-
-    g_type_class_add_private(klass, sizeof(EntangleSessionPrivate));
 }
 
 

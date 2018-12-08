@@ -80,7 +80,7 @@ struct _EntangleCameraPrivate {
     gboolean hasViewfinder;
 };
 
-G_DEFINE_TYPE(EntangleCamera, entangle_camera, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleCamera, entangle_camera, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -512,8 +512,6 @@ static void entangle_camera_class_init(EntangleCameraClass *klass)
                                                          G_PARAM_STATIC_NICK |
                                                          G_PARAM_STATIC_BLURB));
     ENTANGLE_DEBUG("install prog done");
-
-    g_type_class_add_private(klass, sizeof(EntangleCameraPrivate));
 }
 
 

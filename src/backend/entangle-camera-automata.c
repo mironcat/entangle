@@ -38,7 +38,7 @@ struct _EntangleCameraAutomataPrivate {
     gulong sigFileDownload;
 };
 
-G_DEFINE_TYPE(EntangleCameraAutomata, entangle_camera_automata, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleCameraAutomata, entangle_camera_automata, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -174,8 +174,6 @@ static void entangle_camera_automata_class_init(EntangleCameraAutomataClass *kla
                  g_cclosure_marshal_VOID__VOID,
                  G_TYPE_NONE,
                  0);
-
-    g_type_class_add_private(klass, sizeof(EntangleCameraAutomataPrivate));
 }
 
 
