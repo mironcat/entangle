@@ -1021,7 +1021,7 @@ void entangle_image_display_set_aspect_ratio(EntangleImageDisplay *display,
     priv->aspectRatio = aspect;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
-        gtk_widget_queue_resize(GTK_WIDGET(display));
+        gtk_widget_queue_draw(GTK_WIDGET(display));
 }
 
 
@@ -1045,7 +1045,7 @@ void entangle_image_display_set_mask_opacity(EntangleImageDisplay *display,
     priv->maskOpacity = opacity;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
-        gtk_widget_queue_resize(GTK_WIDGET(display));
+        gtk_widget_queue_draw(GTK_WIDGET(display));
 }
 
 
@@ -1069,7 +1069,7 @@ void entangle_image_display_set_mask_enabled(EntangleImageDisplay *display,
     priv->maskEnabled = enabled;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
-        gtk_widget_queue_resize(GTK_WIDGET(display));
+        gtk_widget_queue_draw(GTK_WIDGET(display));
 }
 
 
@@ -1092,7 +1092,7 @@ void entangle_image_display_set_focus_point(EntangleImageDisplay *display,
     priv->focusPoint = enabled;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
-        gtk_widget_queue_resize(GTK_WIDGET(display));
+        gtk_widget_queue_draw(GTK_WIDGET(display));
 }
 
 
@@ -1111,7 +1111,7 @@ void entangle_image_display_set_grid_display(EntangleImageDisplay *display,
     priv->gridDisplay = mode;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
-        gtk_widget_queue_resize(GTK_WIDGET(display));
+        gtk_widget_queue_draw(GTK_WIDGET(display));
 }
 
 
