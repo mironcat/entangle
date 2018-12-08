@@ -160,6 +160,7 @@ check_cflags = [
   '-Wno-sign-conversion',
   '-Wno-conversion',
   '-Wno-unsafe-loop-optimizations',
+  '-Wno-cast-function-type',
   '-Wjump-misses-init',
   '-Wframe-larger-than=40096',
   '-O2',
