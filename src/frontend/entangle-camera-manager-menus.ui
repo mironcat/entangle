@@ -3,6 +3,16 @@
   <menu id="action-menu">
     <section>
       <item>
+        <attribute name="label" translatable="yes">_New window</attribute>
+        <attribute name="action">app.new-window</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Preferences…</attribute>
+        <attribute name="action">app.preferences</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">_Select session…</attribute>
         <attribute name="action">win.session</attribute>
       </item>
@@ -18,9 +28,30 @@
       </item>
     </section>
     <section>
+      <submenu>
+	<attribute name="label" translatable="yes">_Help</attribute>
+	<item>
+          <attribute name="label" translatable="yes">_Supported cameras</attribute>
+          <attribute name="action">app.devices</attribute>
+	</item>
+	<item>
+          <attribute name="label" translatable="yes">_Keyboard shortcuts</attribute>
+          <attribute name="action">win.show-help-overlay</attribute>
+	</item>
+	<item>
+          <attribute name="label" translatable="yes">_Manual</attribute>
+          <attribute name="action">app.manual</attribute>
+	</item>
+	<item>
+          <attribute name="label" translatable="yes">_About</attribute>
+          <attribute name="action">app.about</attribute>
+	</item>
+      </submenu>
+    </section>
+    <section>
       <item>
-        <attribute name="label" translatable="yes">_Close</attribute>
-        <attribute name="action">win.close</attribute>
+        <attribute name="label" translatable="yes">_Quit</attribute>
+        <attribute name="action">app.quit</attribute>
       </item>
     </section>
   </menu>

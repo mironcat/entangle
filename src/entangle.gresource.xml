@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/entangle_photo/Manager">
-    <file preprocess="xml-stripblanks">frontend/entangle-application-menus.ui</file>
     <file preprocess="xml-stripblanks">frontend/entangle-camera-manager.ui</file>
     <file preprocess="xml-stripblanks">frontend/entangle-camera-manager-menus.ui</file>
     <file preprocess="xml-stripblanks">frontend/entangle-camera-picker.ui</file>
