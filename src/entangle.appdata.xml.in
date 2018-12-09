@@ -25,6 +25,7 @@
       cameras from other manufacturers.
     </p>
   </description>
+  <launchable type="desktop-id">entangle.desktop</launchable>
   <keywords>
     <keyword>Capture</keyword>
     <keyword>Camera</keyword>
@@ -35,6 +36,7 @@
     <screenshot type="default">http://entangle-photo.org/appdata/en_US/screenshots/camera-manager.png</screenshot>
   </screenshots>
   <url type="homepage">http://entangle-photo.org/</url>
+  <developer_name>The Entangle Photo project</developer_name>
   <updatecontact>https://groups.google.com/forum/#!forum/entangle-devel</updatecontact>
   <translation type="gettext">entangle</translation>
 </component>
