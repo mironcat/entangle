@@ -58,6 +58,7 @@ struct _EntangleCameraManagerPrivate {
     EntangleSession *session;
     EntangleScriptConfig *scriptConfig;
 
+    EntanglePreferences *prefs;
     EntangleCameraPicker *picker;
 
     EntangleImageLoader *imageLoader;
@@ -1309,7 +1310,6 @@ static void do_entangle_camera_manager_set_app(GObject *object,
 
     EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(object);
     EntangleCameraManagerPrivate *priv = entangle_camera_manager_get_instance_private(manager);
-    EntanglePreferences *prefs;
     EntangleCameraList *cameras;
     gchar *directory;
     gchar *pattern;
@@ -1318,15 +1318,15 @@ static void do_entangle_camera_manager_set_app(GObject *object,
 
     app = ENTANGLE_APPLICATION(gtk_window_get_application(GTK_WINDOW(manager)));
 
-    prefs = entangle_application_get_preferences(app);
-    priv->sigPrefsNotify = g_signal_connect(prefs,
+    priv->prefs = g_object_ref(entangle_application_get_preferences(app));
+    priv->sigPrefsNotify = g_signal_connect(priv->prefs,
                                             "notify",
                                             G_CALLBACK(entangle_camera_manager_prefs_changed),
                                             manager);
     cameras = entangle_application_get_active_cameras(app);
     g_signal_connect(cameras, "camera-removed", G_CALLBACK(do_camera_removed), manager);
-    directory = entangle_preferences_capture_get_last_session(prefs);
-    pattern = entangle_preferences_capture_get_filename_pattern(prefs);
+    directory = entangle_preferences_capture_get_last_session(priv->prefs);
+    pattern = entangle_preferences_capture_get_filename_pattern(priv->prefs);
 
     entangle_camera_manager_update_histogram_linear(manager);
     entangle_camera_manager_update_colour_transform(manager);
@@ -1382,12 +1382,15 @@ static void entangle_camera_manager_finalize(GObject *object)
         priv->sessionBrowserMenu = NULL;
     }
 
-    g_object_unref(priv->scriptConfig);
-
     g_object_unref(priv->monitorCancel);
     g_object_unref(priv->taskCancel);
     g_object_unref(priv->taskConfirm);
 
+    if (priv->sigPrefsNotify)
+        g_signal_handler_disconnect(priv->prefs, priv->sigPrefsNotify);
+    g_object_unref(priv->prefs);
+    if (priv->imageDrawerTimer)
+        g_source_remove(priv->imageDrawerTimer);
     if (priv->imageLoader)
         g_object_unref(priv->imageLoader);
     if (priv->thumbLoader)
@@ -1404,7 +1407,6 @@ static void entangle_camera_manager_finalize(GObject *object)
 
     g_hash_table_destroy(priv->popups);
 
-    g_object_unref(priv->cameraPrefs);
     g_object_unref(priv->automata);
 
     G_OBJECT_CLASS(entangle_camera_manager_parent_class)->finalize(object);
@@ -2723,7 +2725,6 @@ static gboolean do_image_status_hide(gpointer data)
 
     gtk_revealer_set_reveal_child(priv->imageDrawer, FALSE);
     priv->imageDrawerTimer = 0;
-    g_object_unref(manager);
     return FALSE;
 }
 
@@ -2742,7 +2743,7 @@ static gboolean do_image_status_show(GtkWidget *widget G_GNUC_UNUSED,
         g_source_remove(priv->imageDrawerTimer);
     priv->imageDrawerTimer = g_timeout_add_seconds(3,
                                                    do_image_status_hide,
-                                                   g_object_ref(manager));
+                                                   manager);
 
     return FALSE;
 }
