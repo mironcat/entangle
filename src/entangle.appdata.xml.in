@@ -35,6 +35,6 @@
     <screenshot type="default">http://entangle-photo.org/appdata/en_US/screenshots/camera-manager.png</screenshot>
   </screenshots>
   <url type="homepage">http://entangle-photo.org/</url>
-  <updatecontact>entangle-devel_at_gna_dot_org</updatecontact>
+  <updatecontact>https://groups.google.com/forum/#!forum/entangle-devel</updatecontact>
   <translation type="gettext">entangle</translation>
 </component>
