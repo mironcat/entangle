@@ -275,14 +275,14 @@ static void do_action_manual(GSimpleAction *act G_GNUC_UNUSED,
 {
     g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
 
-    EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
 #if GTK_CHECK_VERSION(3, 22, 0)
+    EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
     gtk_show_uri_on_window(gtk_application_get_active_window(GTK_APPLICATION(app)),
                            "help:entangle",
                            GDK_CURRENT_TIME,
                            NULL);
 #else
-    gtk_show_uri(gtk_widget_get_screen(GTK_WIDGET(src)),
+    gtk_show_uri(gdk_screen_get_default(),
                  "help:entangle",
                  GDK_CURRENT_TIME,
                  NULL);
