@@ -1,6 +1,5 @@
 src/backend/entangle-camera-list.c
 src/backend/entangle-camera.c
-src/frontend/entangle-application-menus.ui
 src/frontend/entangle-camera-manager-menus.ui
 src/frontend/entangle-camera-manager.c
 src/frontend/entangle-camera-manager.ui
