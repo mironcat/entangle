@@ -1,10 +1,10 @@
-job:
+jobfedora29:
   image: quay.io/entangle/cibuild-fedora29
   script:
     - meson build
     - ninja -C build
 
-job:
+jobubuntu1804:
   image: quay.io/entangle/cibuild-ubuntu1804
   script:
     - meson build
