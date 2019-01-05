@@ -1408,7 +1408,7 @@ static void entangle_camera_manager_finalize(GObject *object)
     if (priv->camera)
         g_object_unref(priv->camera);
     if (priv->picker)
-        g_object_unref(priv->picker);
+        gtk_widget_destroy(GTK_WIDGET(priv->picker));
     if (priv->mediaPresentation)
         gtk_widget_destroy(GTK_WIDGET(priv->mediaPresentation));
 
