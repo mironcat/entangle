@@ -1013,6 +1013,7 @@ static void do_remove_camera(EntangleCameraManager *manager)
     g_cancellable_cancel(priv->taskCancel);
 
     gtk_window_set_title(GTK_WINDOW(manager), _("No camera connected"));
+    gtk_header_bar_set_title(priv->toolbarBox, _("No camera connected"));
 
     entangle_camera_preferences_set_camera(priv->cameraPrefs, NULL);
     entangle_camera_set_progress(priv->camera, NULL);
@@ -1224,6 +1225,7 @@ static void do_add_camera(EntangleCameraManager *manager)
     EntangleCameraManagerPrivate *priv = entangle_camera_manager_get_instance_private(manager);
 
     gtk_window_set_title(GTK_WINDOW(manager), entangle_camera_get_model(priv->camera));
+    gtk_header_bar_set_title(priv->toolbarBox, entangle_camera_get_model(priv->camera));
 
     priv->sigFilePreview = g_signal_connect(priv->camera, "camera-file-previewed",
                                             G_CALLBACK(do_camera_file_preview), manager);
