@@ -830,7 +830,7 @@ static void do_camera_process_events_finish(GObject *src,
             do_camera_task_error(manager, _("Monitor"), error);
         }
         g_error_free(error);
-        return;
+        goto cleanup;
     }
 
     if (!priv->cameraReady) {
@@ -840,7 +840,7 @@ static void do_camera_process_events_finish(GObject *src,
     }
 
     if (!priv->camera)
-        return;
+        goto cleanup;
 
     if (priv->cameraChanged) {
         priv->cameraChanged = FALSE;
@@ -851,6 +851,9 @@ static void do_camera_process_events_finish(GObject *src,
     } else {
         do_camera_process_events(manager);
     }
+
+ cleanup:
+    g_object_unref(manager);
 }
 
 
@@ -866,6 +869,7 @@ static void do_camera_process_events(EntangleCameraManager *manager)
     if (priv->taskProcessEvents)
         return;
 
+    g_object_ref(manager);
     entangle_camera_process_events_async(priv->camera, 500, priv->monitorCancel,
                                          do_camera_process_events_finish, manager);
 
