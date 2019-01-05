@@ -59,6 +59,7 @@ GType entangle_camera_get_type(void) G_GNUC_CONST;
 
 EntangleCamera *entangle_camera_new(const char *model,
                                     const char *port,
+                                    const char *serial,
                                     gboolean hasCapture,
                                     gboolean hasPreview,
                                     gboolean hasSettings);

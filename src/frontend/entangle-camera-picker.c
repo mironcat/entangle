@@ -401,7 +401,7 @@ static EntangleCamera *entangle_picker_get_selected_camera(EntangleCameraPicker 
             return NULL;
 
         gchar *port = g_strdup_printf("ptpip:%s", addr);
-        EntangleCamera *cam = entangle_camera_new("PTP/IP Camera", port, FALSE, FALSE, FALSE);
+        EntangleCamera *cam = entangle_camera_new("PTP/IP Camera", port, NULL, FALSE, FALSE, FALSE);
         g_free(port);
 
         return cam;

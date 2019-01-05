@@ -53,6 +53,9 @@ struct _EntangleDeviceManagerClass
 GType entangle_device_manager_get_type(void) G_GNUC_CONST;
 EntangleDeviceManager* entangle_device_manager_new(void);
 
+char *entangle_device_manager_serial_id(EntangleDeviceManager *manager,
+                                        const char *devpath);
+
 G_END_DECLS
 
 #endif /* __ENTANGLE_DEVICE_MANAGER_H__ */

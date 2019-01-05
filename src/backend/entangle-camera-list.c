@@ -282,6 +282,7 @@ entangle_camera_list_refresh_active(EntangleCameraList *list,
         int n;
         EntangleCamera *cam;
         CameraAbilities cap;
+        char *serial = NULL;
 
         gp_list_get_name(cams, i, &model);
         gp_list_get_value(cams, i, &port);
@@ -301,11 +302,23 @@ entangle_camera_list_refresh_active(EntangleCameraList *list,
         if (strcmp(port, "usb:") == 0)
             continue;
 
+        if (g_str_has_prefix(port, "usb:")) {
+            char *devpath, *sep;
+            devpath = g_strdup_printf("/dev/bus/usb/%s", port + 4);
+            sep = strchr(devpath, ',');
+            if (sep)
+                *sep = '/';
+
+            serial = entangle_device_manager_serial_id(priv->devManager, devpath);
+            g_free(devpath);
+        }
+
         ENTANGLE_DEBUG("New camera '%s' '%s' %d", model, port, cap.operations);
-        cam = entangle_camera_new(model, port,
+        cam = entangle_camera_new(model, port, serial,
                                   cap.operations & GP_OPERATION_CAPTURE_IMAGE ? TRUE : FALSE,
                                   cap.operations & GP_OPERATION_CAPTURE_PREVIEW ? TRUE : FALSE,
                                   cap.operations & GP_OPERATION_CONFIG ? TRUE : FALSE);
+        g_free(serial);
         entangle_camera_list_add(list, cam);
         g_object_unref(cam);
     }
@@ -362,7 +375,7 @@ entangle_camera_list_refresh_supported(EntangleCameraList *list,
 
         gp_abilities_list_get_abilities(priv->caps, i, &cap);
 
-        cam = entangle_camera_new(cap.model, NULL,
+        cam = entangle_camera_new(cap.model, NULL, NULL,
                                   cap.operations & GP_OPERATION_CAPTURE_IMAGE ? TRUE : FALSE,
                                   cap.operations & GP_OPERATION_CAPTURE_PREVIEW ? TRUE : FALSE,
                                   cap.operations & GP_OPERATION_CONFIG ? TRUE : FALSE);

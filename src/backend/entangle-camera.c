@@ -69,6 +69,7 @@ struct _EntangleCameraPrivate {
 
     char *model;  /* R/O */
     char *port;   /* R/O */
+    char *serial; /* R/O */
 
     char *manual;
     char *summary;
@@ -86,6 +87,7 @@ enum {
     PROP_0,
     PROP_MODEL,
     PROP_PORT,
+    PROP_SERIAL,
     PROP_MANUAL,
     PROP_SUMMARY,
     PROP_DRIVER,
@@ -197,6 +199,10 @@ static void entangle_camera_get_property(GObject *object,
             g_value_set_string(value, priv->port);
             break;
 
+        case PROP_SERIAL:
+            g_value_set_string(value, priv->serial);
+            break;
+
         case PROP_MANUAL:
             g_value_set_string(value, priv->manual);
             break;
@@ -252,6 +258,11 @@ static void entangle_camera_set_property(GObject *object,
         case PROP_PORT:
             g_free(priv->port);
             priv->port = g_value_dup_string(value);
+            break;
+
+        case PROP_SERIAL:
+            g_free(priv->serial);
+            priv->serial = g_value_dup_string(value);
             break;
 
         case PROP_PROGRESS:
@@ -311,6 +322,7 @@ static void entangle_camera_finalize(GObject *object)
     g_free(priv->driver);
     g_free(priv->summary);
     g_free(priv->manual);
+    g_free(priv->serial);
     g_free(priv->model);
     g_free(priv->port);
     g_free(priv->lastError);
@@ -424,6 +436,18 @@ static void entangle_camera_class_init(EntangleCameraClass *klass)
                                                         G_PARAM_STATIC_BLURB));
 
     g_object_class_install_property(object_class,
+                                    PROP_SERIAL,
+                                    g_param_spec_string("serial",
+                                                        "Camera serial",
+                                                        "Device serial of the camera",
+                                                        NULL,
+                                                        G_PARAM_READWRITE |
+                                                        G_PARAM_CONSTRUCT_ONLY |
+                                                        G_PARAM_STATIC_NAME |
+                                                        G_PARAM_STATIC_NICK |
+                                                        G_PARAM_STATIC_BLURB));
+
+    g_object_class_install_property(object_class,
                                     PROP_SUMMARY,
                                     g_param_spec_string("summary",
                                                         "Camera summary",
@@ -517,6 +541,7 @@ static void entangle_camera_class_init(EntangleCameraClass *klass)
 
 EntangleCamera *entangle_camera_new(const char *model,
                                     const char *port,
+                                    const char *serial,
                                     gboolean hasCapture,
                                     gboolean hasPreview,
                                     gboolean hasSettings)
@@ -524,6 +549,7 @@ EntangleCamera *entangle_camera_new(const char *model,
     return ENTANGLE_CAMERA(g_object_new(ENTANGLE_TYPE_CAMERA,
                                         "model", model,
                                         "port", port,
+                                        "serial", serial,
                                         "has-capture", hasCapture,
                                         "has-preview", hasPreview,
                                         "has-settings", hasSettings,
@@ -3640,6 +3666,7 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
     EntangleCameraPrivate *priv = cam->priv;
     gchar *uri1;
     gchar *uri2;
+    gchar *uri3 = NULL;
     GList *mounts;
     GList *tmp;
     GMount *ret = NULL;
@@ -3650,8 +3677,14 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
     host = g_strdup_printf("[%s]", priv->port);
     eschost = g_uri_escape_string(host, ",", TRUE);
     uri2 = g_strdup_printf("gphoto2://%s/", eschost);
+    if (priv->serial)
+        uri3 = g_strdup_printf("gphoto2://%s/", priv->serial);
     g_mutex_unlock(priv->lock);
 
+    ENTANGLE_DEBUG("Look for URI 1 '%s'", uri1);
+    ENTANGLE_DEBUG("Look for URI 2 '%s'", uri2);
+    if (uri3)
+        ENTANGLE_DEBUG("Look for URI 3 '%s'", uri3);
     mounts = g_volume_monitor_get_mounts(monitor);
     tmp = mounts;
     while (tmp) {
@@ -3659,8 +3692,10 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
         GFile *root = g_mount_get_root(mount);
         gchar *thisuri = g_file_get_uri(root);
 
+        ENTANGLE_DEBUG("Check against URI '%s'", thisuri);
         if (g_str_equal(uri1, thisuri) ||
-            g_str_equal(uri2, thisuri))
+            g_str_equal(uri2, thisuri) ||
+            (uri3 && g_str_equal(uri3, thisuri)))
             ret = mount;
         else
             g_object_unref(mount);
@@ -3671,6 +3706,7 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
 
     g_free(uri1);
     g_free(uri2);
+    g_free(uri3);
     g_free(host);
     g_free(eschost);
 

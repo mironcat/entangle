@@ -65,6 +65,7 @@ static void entangle_device_manager_class_init(EntangleDeviceManagerClass *klass
                  g_cclosure_marshal_VOID__STRING,
                  G_TYPE_NONE,
                  1,
+                 G_TYPE_STRING,
                  G_TYPE_STRING);
 
     g_signal_new("device-removed",
@@ -74,6 +75,7 @@ static void entangle_device_manager_class_init(EntangleDeviceManagerClass *klass
                  g_cclosure_marshal_VOID__STRING,
                  G_TYPE_NONE,
                  1,
+                 G_TYPE_STRING,
                  G_TYPE_STRING);
 }
 
@@ -87,6 +89,7 @@ static void do_udev_event(GUdevClient *client G_GNUC_UNUSED,
     const gchar *sysfs;
     const gchar *usbbus, *usbdev;
     const gchar *devtype;
+    const gchar *serial;
     gchar *port;
 
     if (strcmp(action, "add") != 0 &&
@@ -102,6 +105,7 @@ static void do_udev_event(GUdevClient *client G_GNUC_UNUSED,
 
     usbbus = g_udev_device_get_property(dev, "BUSNUM");
     usbdev = g_udev_device_get_property(dev, "DEVNUM");
+    serial = g_udev_device_get_property(dev, "ID_SERIAL");
 
     if (sysfs == NULL ||
         usbbus == NULL ||
@@ -113,9 +117,9 @@ static void do_udev_event(GUdevClient *client G_GNUC_UNUSED,
     ENTANGLE_DEBUG("%s device '%s' '%s'", action, sysfs, port);
 
     if (strcmp(action, "add") == 0) {
-        g_signal_emit_by_name(manager, "device-added", port);
+        g_signal_emit_by_name(manager, "device-added", port, serial);
     } else {
-        g_signal_emit_by_name(manager, "device-removed", port);
+        g_signal_emit_by_name(manager, "device-removed", port, serial);
     }
     g_free(port);
 }
@@ -164,6 +168,23 @@ static void entangle_device_manager_init(EntangleDeviceManager *manager)
     entangle_device_manager_init_devices(manager);
 }
 
+
+char *entangle_device_manager_serial_id(EntangleDeviceManager *manager,
+                                        const char *devpath)
+{
+    EntangleDeviceManagerPrivate *priv = manager->priv;
+    GUdevDevice *dev;
+    char *ret;
+
+    dev = g_udev_client_query_by_device_file(priv->ctx, devpath);
+
+    if (!dev)
+        return NULL;
+
+    ret = g_strdup(g_udev_device_get_property(dev, "ID_SERIAL"));
+    g_object_unref(dev);
+    return ret;
+}
 
 /*
  * Local variables:
