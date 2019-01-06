@@ -174,6 +174,7 @@ static void entangle_preferences_get_property(GObject *object,
     EntangleColourProfile *prof;
     gchar *dir;
     gchar *file;
+    gchar *val;
 
     switch (prop_id)
         {
@@ -201,6 +202,7 @@ static void entangle_preferences_get_property(GObject *object,
             if (!dir)
                 dir = entangle_find_picture_dir();
             g_value_set_string(value, dir);
+            g_free(dir);
             break;
 
         case PROP_CAPTURE_FILENAME_PATTERN:
@@ -288,9 +290,10 @@ static void entangle_preferences_get_property(GObject *object,
             break;
 
         case PROP_IMG_ASPECT_RATIO:
-            g_value_set_string(value,
-                               g_settings_get_string(priv->imgSettings,
-                                                     SETTING_IMG_ASPECT_RATIO));
+            val = g_settings_get_string(priv->imgSettings,
+                                        SETTING_IMG_ASPECT_RATIO);
+            g_value_set_string(value, val);
+            g_free(val);
             break;
 
         case PROP_IMG_MASK_OPACITY:
@@ -330,15 +333,17 @@ static void entangle_preferences_get_property(GObject *object,
             break;
 
         case PROP_IMG_BACKGROUND:
-            g_value_set_string(value,
-                               g_settings_get_string(priv->imgSettings,
-                                                     SETTING_IMG_BACKGROUND));
+            val = g_settings_get_string(priv->imgSettings,
+                                        SETTING_IMG_BACKGROUND);
+            g_value_set_string(value, val);
+            g_free(val);
             break;
 
         case PROP_IMG_HIGHLIGHT:
-            g_value_set_string(value,
-                               g_settings_get_string(priv->imgSettings,
-                                                     SETTING_IMG_HIGHLIGHT));
+            val = g_settings_get_string(priv->imgSettings,
+                                        SETTING_IMG_HIGHLIGHT);
+            g_value_set_string(value, val);
+            g_free(val);
             break;
 
         default:
@@ -1349,9 +1354,10 @@ EntangleColourProfile *entangle_preferences_cms_get_rgb_profile(EntanglePreferen
 
     EntanglePreferencesPrivate *priv = prefs->priv;
     EntangleColourProfile *prof;
-
-    prof = entangle_colour_profile_new_file(g_settings_get_string(priv->cmsSettings,
-                                                                  SETTING_CMS_RGB_PROFILE));
+    gchar *val = g_settings_get_string(priv->cmsSettings,
+                                       SETTING_CMS_RGB_PROFILE);
+    prof = entangle_colour_profile_new_file(val);
+    g_free(val);
 
     return prof;
 }
@@ -1392,10 +1398,10 @@ EntangleColourProfile *entangle_preferences_cms_get_monitor_profile(EntanglePref
 
     EntanglePreferencesPrivate *priv = prefs->priv;
     EntangleColourProfile *prof;
-
-    prof = entangle_colour_profile_new_file(g_settings_get_string(priv->cmsSettings,
-                                                                  SETTING_CMS_MONITOR_PROFILE));
-
+    gchar *val = g_settings_get_string(priv->cmsSettings,
+                                       SETTING_CMS_MONITOR_PROFILE);
+    prof = entangle_colour_profile_new_file(val);
+    g_free(val);
     return prof;
 }
 
