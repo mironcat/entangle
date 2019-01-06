@@ -434,6 +434,7 @@ static void do_setup_control(EntangleControlPanel *panel,
                                entangle_control_choice_entry_get(ENTANGLE_CONTROL_CHOICE(control), n),
                                -1);
         }
+        g_free(text);
 
         if (entangle_control_get_readonly(control))
             gtk_widget_set_sensitive(value, FALSE);
