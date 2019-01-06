@@ -598,6 +598,8 @@ gboolean entangle_session_load(EntangleSession *session)
 
     priv->recalculateDigit = TRUE;
 
+    g_object_unref(dir);
+
     return TRUE;
 }
 
