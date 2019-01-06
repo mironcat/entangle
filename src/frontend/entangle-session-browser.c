@@ -664,21 +664,25 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
     EntangleSessionBrowserPrivate *priv = browser->priv;
     GdkPixbuf *pixbuf = NULL;
+    gchar *demo = g_strdup("demo");
     GtkTargetEntry tentry[] = {
-        { g_strdup("demo"), GTK_TARGET_SAME_APP, 0,}
+        { demo, GTK_TARGET_SAME_APP, 0,}
     };
     GtkTargetList *tlist;
     GdkDragContext *ctx;
     EntangleMedia *media;
+    gboolean ret = FALSE;
 
     if (priv->dnd_start_y == -1 || priv->dnd_start_x == -1)
-        return FALSE;
+        goto cleanup;
 
     if (!gtk_drag_check_threshold(widget,
                                   priv->dnd_start_x,
                                   priv->dnd_start_y,
-                                  event->x, event->y))
-        return TRUE;
+                                  event->x, event->y)) {
+        ret = TRUE;
+        goto cleanup;
+    }
 
     media = entangle_session_browser_get_media_at_coords(browser,
                                                          priv->dnd_start_x,
@@ -686,7 +690,7 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
 
     if (!media) {
         priv->dnd_start_x = priv->dnd_start_y = -1;
-        return FALSE;
+        goto cleanup;
     }
 
     if (ENTANGLE_IS_IMAGE(media)) {
@@ -695,7 +699,7 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
 
         if (!pixbuf) {
             priv->dnd_start_x = priv->dnd_start_y = -1;
-            return FALSE;
+            goto cleanup;
         }
     }
 
@@ -714,7 +718,10 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
 
     gtk_target_list_unref(tlist);
 
-    return TRUE;
+    ret = TRUE;
+  cleanup:
+    g_free(demo);
+    return ret;
 }
 
 static gboolean
