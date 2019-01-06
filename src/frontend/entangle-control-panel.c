@@ -834,6 +834,7 @@ static void do_setup_camera(EntangleControlPanel *panel)
     g_return_if_fail(ENTANGLE_IS_CONTROL_PANEL(panel));
 
     EntangleControlPanelPrivate *priv = panel->priv;
+    EntangleControlGroup *ctrls = NULL;
 
     gtk_container_foreach(GTK_CONTAINER(priv->grid), do_control_remove, panel);
     priv->rows = 0;
@@ -845,7 +846,7 @@ static void do_setup_camera(EntangleControlPanel *panel)
         gtk_widget_set_halign(label, GTK_ALIGN_FILL);
         gtk_grid_attach(GTK_GRID(priv->grid), label, 0, 0, 2, 1);
         gtk_widget_show_all(GTK_WIDGET(panel));
-    } else if (entangle_camera_get_controls(priv->camera, NULL) == NULL) {
+    } else if ((ctrls = entangle_camera_get_controls(priv->camera, NULL)) == NULL) {
         GtkWidget *label = gtk_label_new(_("No controls available"));
         gtk_widget_set_hexpand(label, TRUE);
         gtk_widget_set_halign(label, GTK_ALIGN_FILL);
@@ -854,6 +855,8 @@ static void do_setup_camera(EntangleControlPanel *panel)
     } else {
         do_setup_controls(panel);
     }
+    if (ctrls)
+        g_object_unref(ctrls);
 }
 
 
