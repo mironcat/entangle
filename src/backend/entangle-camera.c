@@ -3700,6 +3700,8 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
         else
             g_object_unref(mount);
 
+        g_free(thisuri);
+        g_object_unref(root);
         tmp = tmp->next;
     }
     g_list_free(mounts);
