@@ -98,11 +98,14 @@ static void entangle_thumbnail_loader_set_property(GObject *object,
 
 static char *entangle_thumbnail_loader_path_to_uri(const char *filename)
 {
+    char *ret;
     char *path = g_uri_escape_string(filename,
                                      G_URI_RESERVED_CHARS_ALLOWED_IN_PATH,
                                      TRUE);
 
-    return g_strdup_printf("file://%s", path);
+    ret = g_strdup_printf("file://%s", path);
+    g_free(path);
+    return ret;
 }
 
 
