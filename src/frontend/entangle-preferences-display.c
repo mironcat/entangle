@@ -429,7 +429,8 @@ static void entangle_preferences_display_refresh(EntanglePreferencesDisplay *pre
 
     EntanglePreferencesDisplayPrivate *priv = entangle_preferences_display_get_instance_private(preferences);
     EntangleColourProfile *profile;
-    const gchar *ratio;
+    gchar *ratio;
+    gchar *pattern;
     GtkAdjustment *adjust;
     gboolean hasContinuousPreview;
     gboolean hasRatio;
@@ -458,7 +459,8 @@ static void entangle_preferences_display_refresh(EntanglePreferencesDisplay *pre
     gtk_toggle_button_set_active(priv->interfaceHistogramLinear,
                                  entangle_preferences_interface_get_histogram_linear(priv->prefs));
 
-    gtk_entry_set_text(priv->captureFilenamePattern, entangle_preferences_capture_get_filename_pattern(priv->prefs));
+    pattern = entangle_preferences_capture_get_filename_pattern(priv->prefs);
+    gtk_entry_set_text(priv->captureFilenamePattern, pattern);
 
     hasContinuousPreview = entangle_preferences_capture_get_continuous_preview(priv->prefs);
     gtk_toggle_button_set_active(priv->captureContinuousPreview, hasContinuousPreview);
@@ -527,6 +529,9 @@ static void entangle_preferences_display_refresh(EntanglePreferencesDisplay *pre
     gdk_rgba_parse(&ghl, hl);
     gtk_color_chooser_set_rgba(priv->imgHighlight, &ghl);
     g_free(hl);
+
+    g_free(ratio);
+    g_free(pattern);
 }
 
 
