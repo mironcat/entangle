@@ -288,7 +288,7 @@ static void entangle_camera_manager_update_aspect_ratio(EntangleCameraManager *m
 
     EntangleCameraManagerPrivate *priv = entangle_camera_manager_get_instance_private(manager);
     EntanglePreferences *prefs = entangle_camera_manager_get_preferences(manager);
-    const gchar *aspect = entangle_preferences_img_get_aspect_ratio(prefs);
+    gchar *aspect = entangle_preferences_img_get_aspect_ratio(prefs);
 
     if (!aspect) {
         entangle_image_display_set_aspect_ratio(priv->imageDisplay, 1.33);
@@ -301,6 +301,7 @@ static void entangle_camera_manager_update_aspect_ratio(EntangleCameraManager *m
         else
             entangle_image_display_set_aspect_ratio(priv->imageDisplay, d);
     }
+    g_free(aspect);
 }
 
 
@@ -440,6 +441,7 @@ static GMenu *entangle_camera_manager_monitor_menu(EntangleCameraManager *manage
                                                 g_variant_new_int32(i));
 
         g_menu_append_item(menu, submenu);
+        g_object_unref(submenu);
     }
 
     g_simple_action_set_state(action, g_variant_new_int32(active));
