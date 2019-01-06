@@ -93,6 +93,7 @@ int main(int argc, char **argv)
 
     g_application_run(G_APPLICATION(app), argc, argv);
 
+    g_option_context_free(optContext);
     g_object_unref(app);
     return 0;
 }
