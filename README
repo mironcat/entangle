@@ -26,11 +26,24 @@ Or to install into a private user specific location
   ninja -C build-dir all
   ninja -C build-dir install
 
-NB, if not installing in /usr, you need to set the XDG_DATA_DIRS env
-variable to point to the data directory, eg in the above example use:
+NB, if not installing in the default prefix "/usr", GTK will
+probably have trouble finding the gsettings files and the GI
+typelib files needed by the plugins. To fix this set some
+environment variables
 
-  XDG_DATA_DIRS=/usr/share:/usr/local/share:$HOME/entangle/share
-  export XDG_DATA_DIRS
+ - XDG_DATA_DIRS variable to point to the data directory,
+   which is usually "$prefix/share" where $prefix is the
+   arg given to meson. eg
+
+    XDG_DATA_DIRS=/usr/share:/usr/local/share:$HOME/entangle/share
+    export XDG_DATA_DIRS
+
+ - GI_TYPELIB_PATH variable to point to the gobject introspection
+   typelib repository which is usually "$prefix/lib/girepository-1.0"
+   Some distros will need "lib64" instead of "lib".
+
+    GI_TYPELIB_PATH=$HOME/entangle/lib/girepository-1.0
+    export GI_TYPELIB_PATH
 
 OS distro packagers should use the --disable-schemas-compile arg
 to configure to skip the compilation stage for schema files if

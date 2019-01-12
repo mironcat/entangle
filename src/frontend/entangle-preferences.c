@@ -843,7 +843,7 @@ EntanglePreferences *entangle_preferences_new(void)
 }
 
 
-void entangle_preferences_ensure_data_dir(void)
+void entangle_preferences_ensure_gsettings_dir(void)
 {
     const char *const *dirs;
     const char *dir;
@@ -863,6 +863,33 @@ void entangle_preferences_ensure_data_dir(void)
 
     ENTANGLE_DEBUG("Setting %s in GSETTINGS_SCHEMA_DIR", DATADIR "/glib-2.0/schemas");
     setenv("GSETTINGS_SCHEMA_DIR", DATADIR "/glib-2.0/schemas", 1);
+}
+
+
+void entangle_preferences_ensure_girepository_dir(void)
+{
+#define GI_DIR LIBDIR "/girepository-1.0"
+    const char *path;
+
+    if (g_str_equal(PREFIX, "/usr")) {
+        ENTANGLE_DEBUG("Installed into /usr, standard girepository location");
+        return;
+    }
+
+    if ((path = getenv("GI_TYPELIB_PATH")) &&
+        strstr(path, GI_DIR)) {
+        ENTANGLE_DEBUG("Found dir " GI_DIR " in GI_TYPELIB_PATH");
+        return;
+    }
+
+    ENTANGLE_DEBUG("Setting %s in GSETTINGS_SCHEMA_DIR", DATADIR "/glib-2.0/schemas");
+    if (path) {
+        char *dir = g_strdup_printf("%s:%s", path, GI_DIR);
+        setenv("GI_TYPELIB_PATH", dir, 1);
+        g_free(dir);
+    } else {
+        setenv("GI_TYPELIB_PATH", GI_DIR, 1);
+    }
 }
 
 static void entangle_preferences_init(EntanglePreferences *picker)

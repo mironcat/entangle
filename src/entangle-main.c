@@ -82,7 +82,9 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    entangle_preferences_ensure_data_dir();
+    entangle_preferences_ensure_gsettings_dir();
+    entangle_preferences_ensure_girepository_dir();
+
     if (!gtk_init_check(NULL, NULL))
         return 1;
 

@@ -91,6 +91,7 @@ entangle_frontend_deps = [
 ]
 
 entangle_frontend_cflags = [
+    '-DPREFIX="' + entangle_prefix + '"',
     '-DDATADIR="' + entangle_datadir + '"',
     '-DPKGDATADIR="' + entangle_pkgdatadir + '"',
     '-DLIBDIR="' + entangle_libdir + '"',
