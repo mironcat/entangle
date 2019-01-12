@@ -42,7 +42,7 @@ be present
  meson                 >= 0.41.0
  glib2                 >= 2.26.0
  gdk-pixbf             >= 2.12.0
- gtk3                  >= 3.0.0
+ gtk3                  >= 3.12.0
  libgphoto2            >= 2.4.11
  gudev                 >= 145
  gobject-introspection >= 1.54.0
