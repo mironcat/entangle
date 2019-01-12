@@ -843,7 +843,7 @@ EntanglePreferences *entangle_preferences_new(void)
 }
 
 
-static void entangle_preferences_ensure_data_dir(void)
+void entangle_preferences_ensure_data_dir(void)
 {
     const char *const *dirs;
     const char *dir;
@@ -871,8 +871,6 @@ static void entangle_preferences_init(EntanglePreferences *picker)
     GSettings *settings;
 
     priv = picker->priv = ENTANGLE_PREFERENCES_GET_PRIVATE(picker);
-
-    entangle_preferences_ensure_data_dir();
 
     settings = g_settings_new("org.entangle-photo.manager");
     priv->interfaceSettings = g_settings_get_child(settings,

@@ -115,6 +115,8 @@ void entangle_preferences_img_set_background(EntanglePreferences *prefs, const g
 gchar *entangle_preferences_img_get_highlight(EntanglePreferences *prefs);
 void entangle_preferences_img_set_highlight(EntanglePreferences *prefs, const gchar *bkg);
 
+void entangle_preferences_ensure_data_dir(void);
+
 G_END_DECLS
 
 #endif /* __ENTANGLE_PREFERENCES_H__ */
