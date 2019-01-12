@@ -32,6 +32,10 @@
 #include "entangle-control-text.h"
 #include "entangle-control-toggle.h"
 
+#ifdef GDK_WINDOWING_WAYLAND
+#include <gdk/gdkwayland.h>
+#endif
+
 #define ENTANGLE_CONTROL_PANEL_GET_PRIVATE(obj)                         \
     (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CONTROL_PANEL, EntangleControlPanelPrivate))
 
@@ -439,6 +443,14 @@ static void do_setup_control(EntangleControlPanel *panel,
         if (entangle_control_get_readonly(control))
             gtk_widget_set_sensitive(value, FALSE);
         gtk_combo_box_set_active(GTK_COMBO_BOX(value), active);
+
+#if GTK_CHECK_VERSION(3, 20, 0) && defined(GDK_WINDOWING_WAYLAND)
+        /* Hack until https://gitlab.gnome.org/GNOME/gtk/issues/1463 is fixed */
+        if (GDK_IS_WAYLAND_DISPLAY(gtk_widget_get_display(GTK_WIDGET(value))) &&
+            (entangle_control_choice_entry_count(ENTANGLE_CONTROL_CHOICE(control)) > 15)) {
+            gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(value), 1);
+        }
+#endif
 
         g_signal_connect(value, "changed",
                          G_CALLBACK(do_update_control_combo), panel);
