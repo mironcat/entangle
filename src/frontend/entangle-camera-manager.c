@@ -400,9 +400,6 @@ static GMenu *entangle_camera_manager_monitor_menu(EntangleCameraManager *manage
     EntangleCameraManagerPrivate *priv = entangle_camera_manager_get_instance_private(manager);
     GdkDisplay *display = gtk_widget_get_display(GTK_WIDGET(manager));
     GMenu *menu = g_menu_new();
-    GdkMonitor *thismon = gdk_display_get_monitor_at_window(display,
-                                                            gtk_widget_get_window(GTK_WIDGET(manager)));
-    int active = 0;
     GSimpleAction *action;
 
     action = G_SIMPLE_ACTION(g_action_map_lookup_action(G_ACTION_MAP(manager), "presentation-monitor"));
@@ -414,16 +411,14 @@ static GMenu *entangle_camera_manager_monitor_menu(EntangleCameraManager *manage
         g_menu_item_set_action_and_target_value(submenu,
                                                 "win.presentation-monitor",
                                                 g_variant_new_int32(i));
-        if (monitor == thismon)
-            active = i;
 
         g_menu_append_item(menu, submenu);
         g_object_unref(submenu);
     }
 
-    g_simple_action_set_state(action, g_variant_new_int32(active));
+    g_simple_action_set_state(action, g_variant_new_int32(0));
 
-    priv->presentationMonitor = active;
+    priv->presentationMonitor = 0;
 
     return menu;
 }
