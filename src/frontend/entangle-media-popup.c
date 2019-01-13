@@ -252,19 +252,11 @@ void entangle_media_popup_move_to_monitor(EntangleMediaPopup *popup, gint monito
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup));
 
-#if GTK_CHECK_VERSION(3, 22, 0)
     GdkDisplay *display = gtk_widget_get_display(GTK_WIDGET(popup));
     GdkMonitor *monitor = gdk_display_get_monitor(display, monitorIdx);
-#else
-    GdkScreen *screen = gtk_window_get_screen(GTK_WINDOW(popup));
-#endif
     GdkRectangle r;
 
-#if GTK_CHECK_VERSION(3, 22, 0)
     gdk_monitor_get_geometry(monitor, &r);
-#else
-    gdk_screen_get_monitor_geometry(screen, monitorIdx, &r);
-#endif
 
     ENTANGLE_DEBUG("At %d,%d Size %d,%d", r.x, r.y, r.width, r.height);
 

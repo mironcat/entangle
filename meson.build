@@ -16,7 +16,7 @@ cc = meson.get_compiler('c')
 
 glib_min_version = '>= 2.38.0'
 gdk_pixbuf_min_version = '>= 2.12.0'
-gtk_min_version = '>= 3.12.0'
+gtk_min_version = '>= 3.22.0'
 gphoto2_min_version = '>= 2.5.0'
 gudev_min_version = '>= 145'
 gobject_introspection_min_version = '>= 1.54.0'

@@ -444,7 +444,7 @@ static void do_setup_control(EntangleControlPanel *panel,
             gtk_widget_set_sensitive(value, FALSE);
         gtk_combo_box_set_active(GTK_COMBO_BOX(value), active);
 
-#if GTK_CHECK_VERSION(3, 20, 0) && defined(GDK_WINDOWING_WAYLAND)
+#ifdef GDK_WINDOWING_WAYLAND
         /* Hack until https://gitlab.gnome.org/GNOME/gtk/issues/1463 is fixed */
         if (GDK_IS_WAYLAND_DISPLAY(gtk_widget_get_display(GTK_WIDGET(value))) &&
             (entangle_control_choice_entry_count(ENTANGLE_CONTROL_CHOICE(control)) > 15)) {
@@ -827,12 +827,7 @@ static void do_setup_controls(EntangleControlPanel *panel)
                               menu);
     gtk_widget_set_hexpand(settingsButton, TRUE);
     gtk_widget_set_halign(settingsButton, GTK_ALIGN_END);
-#if GTK_CHECK_VERSION(3, 12, 0)
     gtk_widget_set_margin_end(settingsButton, 6);
-#else
-    gtk_widget_set_margin_right(settingsButton, 6);
-#endif
-
 
     gtk_grid_attach(GTK_GRID(priv->grid), settingsButton, 1, priv->rows, 2, 1);
 

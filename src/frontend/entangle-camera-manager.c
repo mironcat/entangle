@@ -160,7 +160,6 @@ static EntanglePreferences *entangle_camera_manager_get_preferences(EntangleCame
     return entangle_application_get_preferences(app);
 }
 
-#if GTK_CHECK_VERSION(3, 22, 0)
 static int
 entangle_camera_manager_get_monitor_num(GdkMonitor *monitor)
 {
@@ -175,14 +174,11 @@ entangle_camera_manager_get_monitor_num(GdkMonitor *monitor)
     }
     return -1;
 }
-#endif
 
 static EntangleColourProfile *entangle_camera_manager_monitor_profile(GtkWindow *window)
 {
-#if GTK_CHECK_VERSION(3, 22, 0)
     GdkDisplay *display;
     GdkMonitor *monitor;
-#endif
     GdkScreen *screen;
     GByteArray *profileData;
     gchar *atom;
@@ -196,15 +192,10 @@ static EntangleColourProfile *entangle_camera_manager_monitor_profile(GtkWindow 
     gtk_widget_realize(GTK_WIDGET(window));
 
     screen = gtk_widget_get_screen(GTK_WIDGET(window));
-#if GTK_CHECK_VERSION(3, 22, 0)
     display = gtk_widget_get_display(GTK_WIDGET(window));
     monitor = gdk_display_get_monitor_at_window(display,
                                                 gtk_widget_get_window(GTK_WIDGET(window)));
     monitorIdx = entangle_camera_manager_get_monitor_num(monitor);
-#else
-    monitorIdx = gdk_screen_get_monitor_at_window(screen,
-                                                  gtk_widget_get_window(GTK_WIDGET(window)));
-#endif
 
     if (monitorIdx == 0)
         atom = g_strdup("_ICC_PROFILE");
@@ -407,38 +398,24 @@ static GMenu *entangle_camera_manager_monitor_menu(EntangleCameraManager *manage
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager), NULL);
 
     EntangleCameraManagerPrivate *priv = entangle_camera_manager_get_instance_private(manager);
-#if GTK_CHECK_VERSION(3, 22, 0)
     GdkDisplay *display = gtk_widget_get_display(GTK_WIDGET(manager));
-#else
-    GdkScreen *screen = gtk_window_get_screen(GTK_WINDOW(manager));
-#endif
     GMenu *menu = g_menu_new();
-#ifdef gdk_screen_get_primary_monitor
-    int active = gdk_screen_get_primary_monitor(screen);
-#else
+    GdkMonitor *thismon = gdk_display_get_monitor_at_window(display,
+                                                            gtk_widget_get_window(GTK_WIDGET(manager)));
     int active = 0;
-#endif
     GSimpleAction *action;
 
     action = G_SIMPLE_ACTION(g_action_map_lookup_action(G_ACTION_MAP(manager), "presentation-monitor"));
 
-    for (int i = 0; i <
-#if GTK_CHECK_VERSION(3, 22, 0)
-             gdk_display_get_n_monitors(display);
-#else
-             gdk_screen_get_n_monitors(screen);
-#endif
-         i++) {
-#if GTK_CHECK_VERSION(3, 22, 0)
+    for (int i = 0; i < gdk_display_get_n_monitors(display); i++) {
         GdkMonitor *monitor = gdk_display_get_monitor(display, i);
         const gchar *name = gdk_monitor_get_model(monitor);
-#else
-        const gchar *name = gdk_screen_get_monitor_plug_name(screen, i);
-#endif
         GMenuItem *submenu = g_menu_item_new(name, NULL);
         g_menu_item_set_action_and_target_value(submenu,
                                                 "win.presentation-monitor",
                                                 g_variant_new_int32(i));
+        if (monitor == thismon)
+            active = i;
 
         g_menu_append_item(menu, submenu);
         g_object_unref(submenu);
@@ -2603,12 +2580,7 @@ static gboolean do_session_browser_popup(EntangleSessionBrowser *browser,
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(openWith), GTK_WIDGET(appList));
 
-#if GTK_CHECK_VERSION(3, 22, 0)
     gtk_menu_popup_at_pointer(priv->sessionBrowserMenu, (GdkEvent *)event);
-#else
-    gtk_menu_popup(priv->sessionBrowserMenu, NULL, NULL, NULL, NULL,
-                   event->button, event->time);
-#endif
 
     gtk_widget_set_sensitive(GTK_WIDGET(open), ctype && appInfoList ? TRUE : FALSE);
     return TRUE;
@@ -2649,13 +2621,8 @@ static void do_session_browser_drag_failed(GtkWidget *widget G_GNUC_UNUSED,
             GdkScreen *screen;
             GdkDevice *dev;
             int x, y;
-#if GTK_CHECK_VERSION(3, 20, 0)
             GdkSeat *seat = gdk_display_get_default_seat(gtk_widget_get_display(widget));
             dev = gdk_seat_get_pointer(seat);
-#else
-            GdkDeviceManager *devmgr = gdk_display_get_device_manager(gtk_widget_get_display(widget));
-            dev = gdk_device_manager_get_client_pointer(devmgr);
-#endif
             gdk_device_get_position(dev,
                                     &screen,
                                     &x, &y);
@@ -2984,13 +2951,8 @@ static void entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_widget_show(settingsBox);
     gtk_widget_show(imageHistogramExpander);
 
-#if GTK_CHECK_VERSION(3, 12, 0)
     gtk_widget_set_margin_end(priv->scriptConfigExpander, 6);
     gtk_widget_set_margin_end(imageHistogramExpander, 6);
-#else
-    gtk_widget_set_margin_right(priv->scriptConfigExpander, 6);
-    gtk_widget_set_margin_right(imageHistogramExpander, 6);
-#endif
 
     priv->monitorCancel = g_cancellable_new();
     priv->taskCancel = g_cancellable_new();
