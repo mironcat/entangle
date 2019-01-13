@@ -41,7 +41,7 @@ Alkali Metals
 -------------
 
  1.0 - Lithium
- - Sodium
+ 2.0 - Sodium
  - Potassium
  - Rubidium
  - Caesium

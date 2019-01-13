@@ -1,6 +1,33 @@
       Entangle News
       =============
 
+Release 2.0 - "Sodium" - 2019-01-13
+-----------------------------------
+
+ * Require gobject introspection >= 1.54
+ * Require GTK3 >= 3.22
+ * Fix dependency on libraw
+ * Fix variable name in photobox plugin
+ * Document some missing keyboard shortcuts
+ * Fix upper bound in histogram to display clipped pixel
+ * Refresh translations
+ * Option to highlight over exposed pixels in red
+ * Disable noisy compiler warning
+ * Remove use of deprecated application menu concept
+ * Fix image redraw when changing some settings
+ * Update mailing list address in appdaat
+ * Add more fields to appdata content
+ * Fix refrence counting during window close
+ * Use correct API for destroying top level windows
+ * Fix unmounting of cameras with newer gvfs URI naming scheme
+ * Avoid out of bounds read of property values
+ * Fix many memory leaks
+ * Workaround for combo boxes not displaying on Wayland
+ * Fix race condition in building enums
+ * Fix setting of gschema directory during startup
+ * Set env to ensure plugins can find introspection typelib
+
+
 Release 1.0 - "Lithium" - 2017-10-10
 ------------------------------------
 
