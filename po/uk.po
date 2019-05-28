@@ -8,12 +8,13 @@
 # Yuri Chornoivan <yurchor@ukr.net>, 2016. #zanata
 # Yuri Chornoivan <yurchor@ukr.net>, 2017. #zanata
 # Yuri Chornoivan <yurchor@ukr.net>, 2018. #zanata
+# Yuri Chornoivan <yurchor@ukr.net>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-13 19:10+0000\n"
-"PO-Revision-Date: 2018-12-07 06:20+0000\n"
+"POT-Creation-Date: 2019-05-28 10:30-0500\n"
+"PO-Revision-Date: 2019-01-18 11:17+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/entangle/"
 "language/uk/)\n"
@@ -289,7 +290,7 @@ msgstr "_Клавіатурні скорочення"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
-msgstr ""
+msgstr "_Підручник"
 
 #: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
@@ -674,7 +675,7 @@ msgstr "Перемкнути маскування зображення"
 #: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "Увімкнути або вимкнути підсвічування переекспонованого"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
@@ -1023,7 +1024,7 @@ msgstr "Підсвічування:"
 
 #: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "Підсвітити переекспоновані ділянки"
 
 #: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
@@ -1099,7 +1100,7 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Проект Entangle Photo"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"

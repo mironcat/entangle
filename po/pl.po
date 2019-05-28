@@ -8,12 +8,13 @@
 # Piotr Drąg <piotrdrag@gmail.com>, 2016. #zanata
 # Piotr Drąg <piotrdrag@gmail.com>, 2017. #zanata
 # Piotr Drąg <piotrdrag@gmail.com>, 2018. #zanata
+# Piotr Drąg <piotrdrag@gmail.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-13 19:10+0000\n"
-"PO-Revision-Date: 2018-12-06 11:38+0000\n"
+"POT-Creation-Date: 2019-05-28 10:30-0500\n"
+"PO-Revision-Date: 2019-01-17 09:53+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/entangle/language/"
 "pl/)\n"
@@ -280,7 +281,7 @@ msgstr "_Skróty klawiszowe"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
-msgstr ""
+msgstr "_Podręcznik"
 
 #: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
@@ -661,7 +662,7 @@ msgstr "Przełączenie maski obrazu"
 #: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "Przełączenie wyróżniania prześwietlenia"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
@@ -1010,7 +1011,7 @@ msgstr "Wyróżnianie:"
 
 #: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "Wyróżnianie prześwietlonych obszarów"
 
 #: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
@@ -1068,11 +1069,10 @@ msgid ""
 "are captured by the camera. Entangle also allows the settings of the camera "
 "to be changed from the computer."
 msgstr ""
-"Program Entangle może automatycznie wykonywać zdjęcia. Jeśli jest to "
-"obsługiwane przez aparat, to podgląd sceny może być wyświetlany przez "
-"zrobieniem zdjęcia. Obrazy zostaną pobrane i wyświetlone po wykonaniu przez "
-"aparat. Program Entangle umożliwia także zmienianie ustawień aparatu "
-"z poziomu komputera."
+"Entangle może automatycznie wykonywać zdjęcia. Jeśli jest to obsługiwane "
+"przez aparat, to podgląd sceny może być wyświetlany przed zrobieniem "
+"zdjęcia. Obrazy zostaną pobrane i wyświetlone po wykonaniu przez aparat. "
+"Entangle umożliwia także zmienianie ustawień aparatu z poziomu komputera."
 
 #: src/entangle.appdata.xml.in:22
 msgid ""
@@ -1080,13 +1080,13 @@ msgid ""
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
 msgstr ""
-"Program Entangle jest zgodny z większością lustrzanek cyfrowych film Nikon "
-"i Canon, niektórymi modelami kompaktowymi, a także różnymi innymi aparatami "
-"innych producentów."
+"Entangle jest zgodny z większością lustrzanek cyfrowych firm Nikon i Canon, "
+"niektórymi modelami kompaktowymi, a także różnymi innymi aparatami innych "
+"producentów."
 
 #: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Projekt Entangle"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"

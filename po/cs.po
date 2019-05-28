@@ -10,12 +10,13 @@
 # Zdenek <chmelarz@gmail.com>, 2016. #zanata
 # Zdenek <chmelarz@gmail.com>, 2017. #zanata
 # Pavel Borecki <pavel.borecki@gmail.com>, 2018. #zanata
+# Pavel Borecki <pavel.borecki@gmail.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-13 19:10+0000\n"
-"PO-Revision-Date: 2018-11-25 06:33+0000\n"
+"POT-Creation-Date: 2019-05-28 10:30-0500\n"
+"PO-Revision-Date: 2019-01-17 06:49+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/entangle/language/"
 "cs/)\n"
@@ -285,7 +286,7 @@ msgstr "Klávesové _zkratky"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
-msgstr ""
+msgstr "_Ruční"
 
 # auto translated by TM merge from project: virt-viewer, version: master,
 # DocId: virt-viewer
@@ -675,17 +676,17 @@ msgstr "Přiblížit nejlépe"
 #: src/frontend/entangle-help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle image mask"
-msgstr ""
+msgstr "Vyp/zap masku obrázku"
 
 #: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "Vyp/zap zvýraznění přeexpozice"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
-msgstr ""
+msgstr "Vyz/zap stupnici histogramu"
 
 #: src/frontend/entangle-help-overlay.ui:95
 msgctxt "shortcut window"
@@ -709,7 +710,7 @@ msgstr "Spustit prezentaci"
 #: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr ""
+msgstr "Ovládání závěrky"
 
 #: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
@@ -724,32 +725,32 @@ msgstr "Zapnout/vypnout živý náhled"
 #: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr ""
+msgstr "Ovládání ostření (v živém náhledu)"
 
 #: src/frontend/entangle-help-overlay.ui:139
 msgctxt "shortcut window"
 msgid "Autofocus"
-msgstr ""
+msgstr "Automatické ostření"
 
 #: src/frontend/entangle-help-overlay.ui:146
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "Zaostřit (malý krok)"
 
 #: src/frontend/entangle-help-overlay.ui:153
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "Rozostřit (malý krok)"
 
 #: src/frontend/entangle-help-overlay.ui:160
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "Zaostřit (malý krok)"
 
 #: src/frontend/entangle-help-overlay.ui:167
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "Rozostřit (velký krok)"
 
 #: src/frontend/entangle-preferences-display.c:1070
 #: src/frontend/entangle-preferences-display.ui:645
@@ -1038,7 +1039,7 @@ msgstr "Zdůraznení:"
 
 #: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "Zvýraznit přeexponované oblati"
 
 #: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
@@ -1113,7 +1114,7 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Fotografický projekt Entangle"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
