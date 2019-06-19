@@ -107,7 +107,6 @@ check_cflags = [
   '-Wold-style-definition',
   '-Wopenmp-simd',
   '-Woverflow',
-  '-Woverlength-strings',
   '-Woverride-init',
   '-Wpacked',
   '-Wpacked-bitfield-compat',
