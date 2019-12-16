@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-13 19:10+0000\n"
+"POT-Creation-Date: 2019-12-16 14:19+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Finnish\n"
@@ -1052,6 +1052,94 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:46
+msgid "Require gobject introspection &gt;= 1.54"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:47
+msgid "Require GTK3 &gt;= 3.22"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:48
+msgid "Fix dependency on libraw"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:49
+msgid "Fix variable name in photobox plugin"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:50
+msgid "Document some missing keyboard shortcuts"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:51
+msgid "Fix upper bound in histogram to display clipped pixel"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:52
+msgid "Refresh translations"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:53
+msgid "Option to highlight over exposed pixels in red"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:54
+msgid "Disable noisy compiler warning"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:55
+msgid "Remove use of deprecated application menu concept"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:56
+msgid "Fix image redraw when changing some settings"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:57
+msgid "Update mailing list address in appdaat"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:58
+msgid "Add more fields to appdata content"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:59
+msgid "Fix reference counting during window close"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:60
+msgid "Use correct API for destroying top level windows"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:61
+msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:62
+msgid "Avoid out of bounds read of property values"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:63
+msgid "Fix many memory leaks"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:64
+msgid "Workaround for combo boxes not displaying on Wayland"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:65
+msgid "Fix race condition in building enums"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:66
+msgid "Fix setting of gschema directory during startup"
+msgstr ""
+
+#: src/entangle.appdata.xml.in:67
+msgid "Set env to ensure plugins can find introspection typelib"
 msgstr ""
 
 #: src/entangle.desktop.in:6
