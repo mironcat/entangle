@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-16 14:19+0000\n"
-"PO-Revision-Date: 2020-01-07 15:09+0000\n"
+"PO-Revision-Date: 2020-01-07 15:25+0000\n"
 "Last-Translator: Geert Warrink <geert.warrink@onsnet.nu>\n"
 "Language-Team: Dutch <https://translate.stg.fedoraproject.org/projects/"
 "entangle/master/nl/>\n"
@@ -240,27 +240,27 @@ msgstr "Tijdinstelling is geen keuzewidget"
 #: src/backend/entangle-camera.c:3423
 #, c-format
 msgid "Failed to set capture target: %s %d"
-msgstr ""
+msgstr "Instellen van doel vastleggen mislukte: %s %d"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_New window"
-msgstr ""
+msgstr "_Nieuw venster"
 
 #: src/frontend/entangle-camera-manager-menus.ui:10
 msgid "_Preferences…"
-msgstr ""
+msgstr "_Voorkeuren…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Select session…"
-msgstr ""
+msgstr "_Selecteer sessie…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Connect…"
-msgstr ""
+msgstr "_Verbinden…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:26
 msgid "_Disconnect…"
-msgstr ""
+msgstr "_Afbreken…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:32
 msgid "_Help"
@@ -268,39 +268,39 @@ msgstr "_Hulp"
 
 #: src/frontend/entangle-camera-manager-menus.ui:34
 msgid "_Supported cameras"
-msgstr ""
+msgstr "_Ondersteunde camera's"
 
 #: src/frontend/entangle-camera-manager-menus.ui:38
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "_Toetsenbord snelkoppelingen"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
-msgstr ""
+msgstr "_Handmatig"
 
 #: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
-msgstr ""
+msgstr "_Over"
 
 #: src/frontend/entangle-camera-manager-menus.ui:53
 msgid "_Quit"
-msgstr ""
+msgstr "_Verlaten"
 
 #: src/frontend/entangle-camera-manager-menus.ui:62
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Volledig scherm"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "_Presentation"
-msgstr ""
+msgstr "_Presentatie"
 
 #: src/frontend/entangle-camera-manager-menus.ui:72
 msgid "_Settings"
-msgstr ""
+msgstr "_Instellingen"
 
 #: src/frontend/entangle-camera-manager-menus.ui:78
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "_Synchroniseer opname"
 
 #: src/frontend/entangle-camera-manager-menus.ui:87
 msgid "Best Fit"
@@ -308,15 +308,15 @@ msgstr "Best passend"
 
 #: src/frontend/entangle-camera-manager-menus.ui:91
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Normale grootte"
 
 #: src/frontend/entangle-camera-manager-menus.ui:97
 msgid "Zoom _In"
-msgstr ""
+msgstr "_In zoomen"
 
 #: src/frontend/entangle-camera-manager-menus.ui:101
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Uit zoomen"
 
 #: src/frontend/entangle-camera-manager.c:569
 #: src/frontend/entangle-camera-manager.c:573
@@ -448,8 +448,9 @@ msgid "Capture"
 msgstr "Vastleggen"
 
 #: src/frontend/entangle-camera-manager.c:1660
+#, fuzzy
 msgid "Script"
-msgstr ""
+msgstr "Script"
 
 #: src/frontend/entangle-camera-manager.c:1727
 msgid "Preview"
@@ -482,7 +483,7 @@ msgstr "Verwijderen"
 
 #: src/frontend/entangle-camera-manager.c:2530
 msgid "Open"
-msgstr ""
+msgstr "Openen"
 
 #: src/frontend/entangle-camera-manager.c:2534
 msgid "Open with"
@@ -494,11 +495,11 @@ msgstr "Selecteer toepassing..."
 
 #: src/frontend/entangle-camera-manager.c:2896
 msgid "Image histogram"
-msgstr ""
+msgstr "Histogram van afbeelding"
 
 #: src/frontend/entangle-camera-manager.c:2898
 msgid "Automation"
-msgstr ""
+msgstr "Automatisering"
 
 #: src/frontend/entangle-camera-picker.c:529
 msgid "Model"
