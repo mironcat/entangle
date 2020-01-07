@@ -7,88 +7,91 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-03 22:10+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-01-07 15:25+0000\n"
+"Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
+"Language-Team: Turkish <https://translate.stg.fedoraproject.org/projects/"
+"entangle/master/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.9.1\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
-msgstr ""
+msgstr "gphoto2 özellikleri başlatılamıyor"
 
 #: src/backend/entangle-camera-list.c:250 src/backend/entangle-camera.c:749
 #, c-format
 msgid "Cannot load gphoto2 abilities"
-msgstr ""
+msgstr "gphoto2 özellikleri yüklenemiyor"
 
 #: src/backend/entangle-camera-list.c:409 src/backend/entangle-camera.c:755
 #, c-format
 msgid "Cannot initialize gphoto2 ports"
-msgstr ""
+msgstr "gphoto2 bağlantı noktaları başlatılamıyor"
 
 #: src/backend/entangle-camera-list.c:412 src/backend/entangle-camera.c:761
 #, c-format
 msgid "Cannot load gphoto2 ports"
-msgstr ""
+msgstr "gphoto2 bağlantı noktaları yüklenemiyor"
 
 #: src/backend/entangle-camera.c:792
 #, c-format
 msgid "Unable to initialize camera: %s"
-msgstr ""
+msgstr "Kamera başlatılamadı: %s"
 
 #: src/backend/entangle-camera.c:1146
 #, c-format
 msgid "Cannot capture image while not connected"
-msgstr ""
+msgstr "Bağlı değilken görüntü yakalanamıyor"
 
 #: src/backend/entangle-camera.c:1159
 #, c-format
 msgid "Unable to capture image: %s"
-msgstr ""
+msgstr "Görüntü yakalanamadı: %s"
 
 #: src/backend/entangle-camera.c:1273
 #, c-format
 msgid "Cannot preview image while not connected"
-msgstr ""
+msgstr "Bağlı değilken görüntü ön izleme yapılamıyor"
 
 #: src/backend/entangle-camera.c:1288
 #, c-format
 msgid "Unable to capture preview: %s"
-msgstr ""
+msgstr "Ön izleme yakalanamadı: %s"
 
 #: src/backend/entangle-camera.c:1295 src/backend/entangle-camera.c:1453
 #, c-format
 msgid "Unable to get file data: %s"
-msgstr ""
+msgstr "Dosya verisi alınamadı: %s"
 
 #: src/backend/entangle-camera.c:1301
 #, c-format
 msgid "Unable to get filename: %s"
-msgstr ""
+msgstr "Dosya adı alınamadı: %s"
 
 #: src/backend/entangle-camera.c:1423
 #, c-format
 msgid "Cannot download file while not connected"
-msgstr ""
+msgstr "Bağlı değilken dosya indirilemiyor"
 
 #: src/backend/entangle-camera.c:1446
 #, c-format
 msgid "Unable to get camera file: %s"
-msgstr ""
+msgstr "Kamera dosyası alınamadı: %s"
 
 #: src/backend/entangle-camera.c:1573
 #, c-format
 msgid "Cannot delete file while not connected"
-msgstr ""
+msgstr "Bağlı değilken dosya silinemiyor"
 
 #: src/backend/entangle-camera.c:1591
 #, c-format
 msgid "Unable to delete file: %s"
-msgstr ""
+msgstr "Dosya silinemedi: %s"
 
 #: src/backend/entangle-camera.c:1707
 #, c-format
