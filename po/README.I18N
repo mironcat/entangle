@@ -1,14 +1,14 @@
   Entangle Translations
   =====================
 
-The translations for Entangle are managed via the Transifex
+The translations for Entangle are managed via the Weblate
 tool. The Entangle application is outsourced to the Fedora
-translation team in Transifex.
+translation team in Weblate.
 
-  https://fedora.transifex.com/projects/p/entangle/
+  https://translate.stg.fedoraproject.org/projects/entangle/master
 
 If you are interested in doing translations of Entangle, we
-request that you join the Fedora team in Transifex & submit
+request that you join the Fedora team in Weblate & submit
 them that way. We cannot accept translations done outside of
-Transifex, because we do not wish to have multiple translators
+Weblate, because we do not wish to have multiple translators
 stepping on each others toes.
