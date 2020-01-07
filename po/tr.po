@@ -96,7 +96,7 @@ msgstr "Dosya silinemedi: %s"
 #: src/backend/entangle-camera.c:1707
 #, c-format
 msgid "Cannot wait for events while not connected"
-msgstr ""
+msgstr "Bağlı değilken olaylar beklenemiyor"
 
 #: src/backend/entangle-camera.c:1733
 #, c-format
