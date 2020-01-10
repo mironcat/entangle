@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-03 22:10+0000\n"
-"PO-Revision-Date: 2020-01-07 15:25+0000\n"
+"PO-Revision-Date: 2020-01-10 15:16+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://translate.stg.fedoraproject.org/projects/"
 "entangle/master/tr/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 3.10.1\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -101,7 +101,7 @@ msgstr "Bağlı değilken olaylar beklenemiyor"
 #: src/backend/entangle-camera.c:1733
 #, c-format
 msgid "Unable to wait for events: %s"
-msgstr ""
+msgstr "Olaylar beklenemedi: %s"
 
 #: src/backend/entangle-camera.c:1928 src/backend/entangle-camera.c:2091
 #: src/backend/entangle-camera.c:2227 src/backend/entangle-camera.c:2682
@@ -109,266 +109,266 @@ msgstr ""
 #: src/backend/entangle-camera.c:3242 src/backend/entangle-camera.c:3408
 #, c-format
 msgid "Unable to fetch widget type"
-msgstr ""
+msgstr "Widget türü getirilemedi"
 
 #: src/backend/entangle-camera.c:1934 src/backend/entangle-camera.c:2097
 #: src/backend/entangle-camera.c:2233
 #, c-format
 msgid "Unable to fetch widget name"
-msgstr ""
+msgstr "Widget adı getirilemedi"
 
 #: src/backend/entangle-camera.c:2346
 #, c-format
 msgid "Unable to load controls, camera is not connected"
-msgstr ""
+msgstr "Kontroller yüklenemedi, kamera bağlı değil"
 
 #: src/backend/entangle-camera.c:2355
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
-msgstr ""
+msgstr "Kamera kontrol yapılandırması alınamadı: %s"
 
 #: src/backend/entangle-camera.c:2476
 #, c-format
 msgid "Unable to save controls, camera is not connected"
-msgstr ""
+msgstr "Kontroller kaydedilemedi, kamera bağlı değil"
 
 #: src/backend/entangle-camera.c:2482
 #, c-format
 msgid "Unable to save controls, camera is not configurable"
-msgstr ""
+msgstr "Kontroller kaydedilemedi, kamera yapılandırılamıyor"
 
 #: src/backend/entangle-camera.c:2501 src/backend/entangle-camera.c:2718
 #: src/backend/entangle-camera.c:2887 src/backend/entangle-camera.c:3078
 #: src/backend/entangle-camera.c:3264 src/backend/entangle-camera.c:3432
 #, c-format
 msgid "Unable to save camera control configuration: %s"
-msgstr ""
+msgstr "Kamera kontrol yapılandırması kaydedilemedi: %s"
 
 #: src/backend/entangle-camera.c:2604 src/backend/entangle-camera.c:2658
 #: src/backend/entangle-camera.c:2836 src/backend/entangle-camera.c:2997
 #: src/backend/entangle-camera.c:3221 src/backend/entangle-camera.c:3387
 #, c-format
 msgid "Controls not available when camera is disconnected"
-msgstr ""
+msgstr "Kamera bağlı değilken kontroller kullanılamaz"
 
 #: src/backend/entangle-camera.c:2610 src/backend/entangle-camera.c:2664
 #: src/backend/entangle-camera.c:2842 src/backend/entangle-camera.c:3003
 #: src/backend/entangle-camera.c:3227 src/backend/entangle-camera.c:3393
 #, c-format
 msgid "Controls not available for this camera"
-msgstr ""
+msgstr "Bu kamera için kontrol mevcut değil"
 
 #: src/backend/entangle-camera.c:2675
 #, c-format
 msgid "Viewfinder control not available with this camera"
-msgstr ""
+msgstr "Bu kamera için vizör kontrolü mevcut değil"
 
 #: src/backend/entangle-camera.c:2688
 #, c-format
 msgid "Viewfinder control was not a toggle widget"
-msgstr ""
+msgstr "Vizör kontrolü bir değiştirme (toggle) widget'ı değildi"
 
 #: src/backend/entangle-camera.c:2702 src/backend/entangle-camera.c:2709
 #, c-format
 msgid "Failed to set viewfinder state: %s %d"
-msgstr ""
+msgstr "Vizör durumu ayarlanamadı: %s %d"
 
 #: src/backend/entangle-camera.c:2850
 #, c-format
 msgid "Autofocus control not available with this camera"
-msgstr ""
+msgstr "Bu kamera için otomatik odak kontrolü mevcut değil"
 
 #: src/backend/entangle-camera.c:2863
 #, c-format
 msgid "Autofocus control was not a toggle widget"
-msgstr ""
+msgstr "Otomatik odak kontrolü bir değiştirme (toggle) widget'ı değildi"
 
 #: src/backend/entangle-camera.c:2870 src/backend/entangle-camera.c:2878
 #, c-format
 msgid "Failed to set autofocus state: %s %d"
-msgstr ""
+msgstr "Otomatik odak durumu ayarlanamadı: %s %d"
 
 #: src/backend/entangle-camera.c:3011
 #, c-format
 msgid "Manual focus control not available with this camera"
-msgstr ""
+msgstr "Bu kamera için manuel odak kontrolü mevcut değil"
 
 #: src/backend/entangle-camera.c:3025
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
-msgstr ""
+msgstr "Manuel odak kontrolü bir aralık veya radyo widget'ı değildi"
 
 #: src/backend/entangle-camera.c:3044 src/backend/entangle-camera.c:3068
 #: src/backend/entangle-camera.c:3087 src/backend/entangle-camera.c:3103
 #, c-format
 msgid "Failed to set manual focus state: %s %d"
-msgstr ""
+msgstr "Manuel odak durumu ayarlanamadı: %s %d"
 
 #: src/backend/entangle-camera.c:3061 src/backend/entangle-camera.c:3096
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
-msgstr ""
+msgstr "%d manuel odak seçimi okunamadı: %s %d"
 
 #: src/backend/entangle-camera.c:3235
 #, c-format
 msgid "Time setting not available with this camera"
-msgstr ""
+msgstr "Bu kamera için zaman ayarı mevcut değil"
 
 #: src/backend/entangle-camera.c:3248
 #, c-format
 msgid "Time setting was not a date widget"
-msgstr ""
+msgstr "Zaman ayarı bir tarih widget'ı değildi"
 
 #: src/backend/entangle-camera.c:3255
 #, c-format
 msgid "Failed to set time state: %s %d"
-msgstr ""
+msgstr "Zaman durumu ayarlanamadı: %s %d"
 
 #: src/backend/entangle-camera.c:3401
 #, c-format
 msgid "Capture target setting not available with this camera"
-msgstr ""
+msgstr "Bu kamera için yakalama hedefi ayarı mevcut değil"
 
 #: src/backend/entangle-camera.c:3414
 #, c-format
 msgid "Time setting was not a choice widget"
-msgstr ""
+msgstr "Zaman ayarı bir seçim widget'ı değildi"
 
 #: src/backend/entangle-camera.c:3423
 #, c-format
 msgid "Failed to set capture target: %s %d"
-msgstr ""
+msgstr "Yakalama hedefi ayarlanamadı: %s %d"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_New window"
-msgstr ""
+msgstr "Yeni _pencere"
 
 #: src/frontend/entangle-camera-manager-menus.ui:10
 msgid "_Preferences…"
-msgstr ""
+msgstr "_Tercihler…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Select session…"
-msgstr ""
+msgstr "_Oturum seç…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Connect…"
-msgstr ""
+msgstr "_Bağlan…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:26
 msgid "_Disconnect…"
-msgstr ""
+msgstr "Bağlantıyı _kes…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:32
 msgid "_Help"
-msgstr ""
+msgstr "_Yardım"
 
 #: src/frontend/entangle-camera-manager-menus.ui:34
 msgid "_Supported cameras"
-msgstr ""
+msgstr "_Desteklenen kameralar"
 
 #: src/frontend/entangle-camera-manager-menus.ui:38
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "_Klavye kısayolları"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
-msgstr ""
+msgstr "Kı_lavuz"
 
 #: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
-msgstr ""
+msgstr "_Hakkında"
 
 #: src/frontend/entangle-camera-manager-menus.ui:53
 msgid "_Quit"
-msgstr ""
+msgstr "_Çıkış"
 
 #: src/frontend/entangle-camera-manager-menus.ui:62
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Tam ekran"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "_Presentation"
-msgstr ""
+msgstr "_Sunum"
 
 #: src/frontend/entangle-camera-manager-menus.ui:72
 msgid "_Settings"
-msgstr ""
+msgstr "_Ayarlar"
 
 #: src/frontend/entangle-camera-manager-menus.ui:78
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "_Yakalamayı senkronize et"
 
 #: src/frontend/entangle-camera-manager-menus.ui:87
 msgid "Best Fit"
-msgstr ""
+msgstr "En Uygun"
 
 #: src/frontend/entangle-camera-manager-menus.ui:91
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Normal Boyut"
 
 #: src/frontend/entangle-camera-manager-menus.ui:97
 msgid "Zoom _In"
-msgstr ""
+msgstr "_Yakınlaştır"
 
 #: src/frontend/entangle-camera-manager-menus.ui:101
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Uzaklaştır"
 
 #: src/frontend/entangle-camera-manager.c:569
 #: src/frontend/entangle-camera-manager.c:573
 msgid "Capture an image"
-msgstr ""
+msgstr "Bir görüntü yakala"
 
 #: src/frontend/entangle-camera-manager.c:571
 #: src/frontend/entangle-camera-manager.c:575
 msgid "Continuous capture preview"
-msgstr ""
+msgstr "Sürekli çekim ön izlemesi"
 
 #: src/frontend/entangle-camera-manager.c:580
 #: src/frontend/entangle-camera-manager.c:582
 msgid "This camera does not support image capture"
-msgstr ""
+msgstr "Bu kamera görüntü yakalamayı desteklemiyor"
 
 #: src/frontend/entangle-camera-manager.c:587
 #: src/frontend/entangle-camera-manager.c:589
 msgid "This camera does not support image preview"
-msgstr ""
+msgstr "Bu kamera görüntü ön izlemeyi desteklemiyor"
 
 #: src/frontend/entangle-camera-manager.c:730
 #, c-format
 msgid "Operation: %s"
-msgstr ""
+msgstr "İşlem: %s"
 
 #: src/frontend/entangle-camera-manager.c:732
 msgid "Entangle: Operation failed"
-msgstr ""
+msgstr "Entangle: İşlem başarısız oldu"
 
 #: src/frontend/entangle-camera-manager.c:764
 #: src/frontend/entangle-camera-manager.c:1032
 msgid "Camera load controls failed"
-msgstr ""
+msgstr "Kamera kontrolleri yüklenemedi"
 
 #: src/frontend/entangle-camera-manager.c:766
 #: src/frontend/entangle-camera-manager.c:1034
 msgid "Entangle: Camera load controls failed"
-msgstr ""
+msgstr "Entangle: Kamera kontrolleri yüklenemedi"
 
 #: src/frontend/entangle-camera-manager.c:804
 msgid "Monitor"
-msgstr ""
+msgstr "Monitör"
 
 #: src/frontend/entangle-camera-manager.c:993
 #: src/frontend/entangle-camera-manager.c:994
 #: src/frontend/entangle-control-panel.c:850
 msgid "No camera connected"
-msgstr ""
+msgstr "Bağlı kamera yok"
 
 #: src/frontend/entangle-camera-manager.c:1083
 #: src/frontend/entangle-camera-manager.c:2285
 #, c-format
 msgid "Unable to connect to camera: %s"
-msgstr ""
+msgstr "Kameraya bağlanılamadı: %s"
 
 #: src/frontend/entangle-camera-manager.c:1088
 #: src/frontend/entangle-camera-manager.c:2291
@@ -379,132 +379,139 @@ msgid ""
 " - mounted as a <b>filesystem</b> on the desktop\n"
 " - in <b>sleep mode</b> to save battery power\n"
 msgstr ""
+"Kameranın\n"
+"\n"
+" - başka bir fotoğraf <b>uygulaması</b> tarafından açılmadığını\n"
+" - masaüstünde bir <b>dosya sistemi</b> olarak monte edilmediğini\n"
+" - pilden tasarruf etmek için <b>uyku modunda</b> olmadığını kontrol edin\n"
 
 #: src/frontend/entangle-camera-manager.c:1093
 #: src/frontend/entangle-camera-manager.c:2296
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: src/frontend/entangle-camera-manager.c:1094
 #: src/frontend/entangle-camera-manager.c:2297
 msgid "Retry"
-msgstr ""
+msgstr "Yeniden dene"
 
 #: src/frontend/entangle-camera-manager.c:1125
 msgid "Camera is in use"
-msgstr ""
+msgstr "Kamera kullanımda"
 
 #: src/frontend/entangle-camera-manager.c:1129
 msgid ""
 "The camera cannot be opened because it is currently mounted as a filesystem. "
 "Do you wish to umount it now ?"
 msgstr ""
+"Kamera şu anda bir dosya sistemi olarak monte edildiği için açılamıyor. "
+"Şimdi çıkarmak ister misiniz?"
 
 #: src/frontend/entangle-camera-manager.c:1133
 #: src/frontend/entangle-camera-picker.c:127
 msgid "No"
-msgstr ""
+msgstr "Hayır"
 
 #: src/frontend/entangle-camera-manager.c:1134
 #: src/frontend/entangle-camera-picker.c:127
 msgid "Yes"
-msgstr ""
+msgstr "Evet"
 
 #: src/frontend/entangle-camera-manager.c:1169
 msgid "Camera connect failed"
-msgstr ""
+msgstr "Kameraya bağlanılamadı"
 
 #: src/frontend/entangle-camera-manager.c:1171
 msgid "Entangle: Camera connect failed"
-msgstr ""
+msgstr "Entangle: Kameraya bağlanılamadı"
 
 #: src/frontend/entangle-camera-manager.c:1483
 msgid "Select a folder"
-msgstr ""
+msgstr "Bir klasör seç"
 
 #: src/frontend/entangle-camera-manager.c:1486
 msgid "_Cancel"
-msgstr ""
+msgstr "_İptal"
 
 #: src/frontend/entangle-camera-manager.c:1488
 msgid "_Open"
-msgstr ""
+msgstr "_Aç"
 
 #: src/frontend/entangle-camera-manager.c:1639
 #: src/frontend/entangle-camera-picker.c:531
 #: src/frontend/entangle-preferences-display.c:1084
 #: src/frontend/entangle-preferences-display.ui:237
 msgid "Capture"
-msgstr ""
+msgstr "Yakala"
 
 #: src/frontend/entangle-camera-manager.c:1660
 msgid "Script"
-msgstr ""
+msgstr "Komut dosyası"
 
 #: src/frontend/entangle-camera-manager.c:1727
 msgid "Preview"
-msgstr ""
+msgstr "Ön izleme"
 
 #: src/frontend/entangle-camera-manager.c:1841
 msgid "Set clock"
-msgstr ""
+msgstr "Saati ayarla"
 
 #: src/frontend/entangle-camera-manager.c:1886
 msgid "Autofocus failed"
-msgstr ""
+msgstr "Otomatik odaklama başarısız oldu"
 
 #: src/frontend/entangle-camera-manager.c:1888
 msgid "Entangle: Camera autofocus failed"
-msgstr ""
+msgstr "Entangle: Kamera otomatik odaklama başarısız oldu"
 
 #: src/frontend/entangle-camera-manager.c:1918
 msgid "Manual focus failed"
-msgstr ""
+msgstr "Manuel odaklama başarısız oldu"
 
 #: src/frontend/entangle-camera-manager.c:1920
 msgid "Entangle: Camera manual focus failed"
-msgstr ""
+msgstr "Entangle: Kamera manuel odaklama başarısız oldu"
 
 #: src/frontend/entangle-camera-manager.c:2420
 #: src/frontend/entangle-camera-manager.c:2538
 msgid "Delete"
-msgstr ""
+msgstr "Sil"
 
 #: src/frontend/entangle-camera-manager.c:2530
 msgid "Open"
-msgstr ""
+msgstr "Aç"
 
 #: src/frontend/entangle-camera-manager.c:2534
 msgid "Open with"
-msgstr ""
+msgstr "Birlikte aç"
 
 #: src/frontend/entangle-camera-manager.c:2568
 msgid "Select application..."
-msgstr ""
+msgstr "Uygulama seç..."
 
 #: src/frontend/entangle-camera-manager.c:2896
 msgid "Image histogram"
-msgstr ""
+msgstr "Görüntü histogramı"
 
 #: src/frontend/entangle-camera-manager.c:2898
 msgid "Automation"
-msgstr ""
+msgstr "Otomasyon"
 
 #: src/frontend/entangle-camera-picker.c:529
 msgid "Model"
-msgstr ""
+msgstr "Model"
 
 #: src/frontend/entangle-camera-picker.c:530
 msgid "Port"
-msgstr ""
+msgstr "Bağlantı noktası"
 
 #: src/frontend/entangle-camera-picker.ui:8
 msgid "Select camera - Entangle"
-msgstr ""
+msgstr "Kamera seç - Entangle"
 
 #: src/frontend/entangle-camera-picker.ui:97
 msgid "Select a camera to connect to:"
-msgstr ""
+msgstr "Bağlanmak için bir kamera seç:"
 
 #: src/frontend/entangle-camera-picker.ui:157
 msgid ""
@@ -519,520 +526,532 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"Hiçbir kamera tespit edilmedi,\n"
+"\n"
+"  - <b>kabloların</b> bağlı olduğunu\n"
+"  - kameranın <b>açık</b> olduğunu\n"
+"  - kameranın<b>doğru modda</b> olduğunu\n"
+"  - kameranın <b>desteklenen</b> bir model olduğunu kontrol edin\n"
+"\n"
+"USB kameralar takıldıkları anda otomatik\n"
+"olarak algılanır, diğerleri için yenilemeyi\n"
+"deneyin veya bir ağ kamerası IP adresi girin"
 
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
-msgstr ""
+msgstr "IP Adresi:"
 
 #: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
-msgstr ""
+msgstr "Ağ kamerası"
 
 #: src/frontend/entangle-camera-support.c:188
 msgid "capture"
-msgstr ""
+msgstr "yakala"
 
 #: src/frontend/entangle-camera-support.c:194
 msgid "preview"
-msgstr ""
+msgstr "ön izleme"
 
 #: src/frontend/entangle-camera-support.c:200
 msgid "settings"
-msgstr ""
+msgstr "ayarlar"
 
 #: src/frontend/entangle-camera-support.ui:65
 msgid "label"
-msgstr ""
+msgstr "etiket"
 
 #: src/frontend/entangle-control-panel.c:88
 msgid "Camera control update failed"
-msgstr ""
+msgstr "Kamera kontrolü güncellenemedi"
 
 #: src/frontend/entangle-control-panel.c:90
 msgid "Entangle: Camera control update failed"
-msgstr ""
+msgstr "Entangle: Kamera kontrolü güncellenemedi"
 
 #: src/frontend/entangle-control-panel.c:318
 msgid "On"
-msgstr ""
+msgstr "Açık"
 
 #: src/frontend/entangle-control-panel.c:318
 msgid "Off"
-msgstr ""
+msgstr "Kapalı"
 
 #: src/frontend/entangle-control-panel.c:782
 msgid "Reset controls"
-msgstr ""
+msgstr "Kontrolleri sıfırla"
 
 #: src/frontend/entangle-control-panel.c:857
 msgid "No controls available"
-msgstr ""
+msgstr "Kontrol mevcut değil"
 
 #: src/frontend/entangle-dpms.c:57
 msgid "Screen blanking is not available on this display"
-msgstr ""
+msgstr "Bu ekranda, ekran karartma mevcut değil"
 
 #: src/frontend/entangle-dpms.c:69
 msgid "Screen blanking is not implemented on this platform"
-msgstr ""
+msgstr "Bu platformda ekran karartma uygulanmıyor"
 
 #: src/frontend/entangle-help-about.ui:8
 msgid "About - Entangle"
-msgstr ""
+msgstr "Hakkında - Entangle"
 
 #: src/frontend/entangle-help-about.ui:17 src/entangle.desktop.in:5
 msgid "Tethered Camera Control & Capture"
-msgstr ""
+msgstr "Bağlı Kamera Kontrolü ve Yakalama"
 
 #: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "Uygulamayı kontrol etme"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "Yeni bir kamera penceresi aç"
 
 #: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "Tüm pencereleri kapat ve çık"
 
 #: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "Yardım kılavuzunu görüntüle"
 
 #: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "Görüntü gösterimi"
 
 #: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Yakınlaştır"
 
 #: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Uzaklaştır"
 
 #: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "Normal yakınlaştırma"
 
 #: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
-msgstr ""
+msgstr "En iyi yakınlaştırma"
 
 #: src/frontend/entangle-help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle image mask"
-msgstr ""
+msgstr "Görüntü maskelemesini aç/kapat"
 
 #: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "Aşırı pozlama vurgulamasını aç/kapat"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
-msgstr ""
+msgstr "Histogram ölçeklemesini aç/kapat"
 
 #: src/frontend/entangle-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "Pencere gösterimi"
 
 #: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "Tam ekran"
 
 #: src/frontend/entangle-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "Sunum"
 
 #: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr ""
+msgstr "Deklanşör kontrolü"
 
 #: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "Tek bir görüntü yakala"
 
 #: src/frontend/entangle-help-overlay.ui:126
 msgctxt "shortcut window"
 msgid "Toggle live preview"
-msgstr ""
+msgstr "Canlı ön izlemeyi aç/kapat"
 
 #: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr ""
+msgstr "Odak kontrolü (canlı ön izleme sırasında)"
 
 #: src/frontend/entangle-help-overlay.ui:139
 msgctxt "shortcut window"
 msgid "Autofocus"
-msgstr ""
+msgstr "Otomatik odaklama"
 
 #: src/frontend/entangle-help-overlay.ui:146
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "Odağı arttır (küçük adım)"
 
 #: src/frontend/entangle-help-overlay.ui:153
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "Odağı azalt (küçük adım)"
 
 #: src/frontend/entangle-help-overlay.ui:160
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "Odağı arttır (büyük adım)"
 
 #: src/frontend/entangle-help-overlay.ui:167
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "Odağı azalt (büyük adım)"
 
 #: src/frontend/entangle-preferences-display.c:1070
 #: src/frontend/entangle-preferences-display.ui:645
 msgid "Interface"
-msgstr ""
+msgstr "Arayüz"
 
 #: src/frontend/entangle-preferences-display.c:1077
 #: src/frontend/entangle-preferences-display.ui:967
 msgid "Image Viewer"
-msgstr ""
+msgstr "Resim Görüntüleyici"
 
 #: src/frontend/entangle-preferences-display.c:1091
 #: src/frontend/entangle-preferences-display.ui:446
 msgid "Color Management"
-msgstr ""
+msgstr "Renk Yönetimi"
 
 #: src/frontend/entangle-preferences-display.c:1098
 #: src/frontend/entangle-preferences-display.ui:516
 msgid "Plugins"
-msgstr ""
+msgstr "Eklentiler"
 
 #: src/frontend/entangle-preferences-display.c:1118
 msgid "ICC profiles (*.icc, *.icm)"
-msgstr ""
+msgstr "ICC profilleri (*.icc, *.icm)"
 
 #: src/frontend/entangle-preferences-display.c:1123
 msgid "All files (*.*)"
-msgstr ""
+msgstr "Tüm dosyalar (*.*)"
 
 #: src/frontend/entangle-preferences-display.c:1146
 msgid "1:1 - Square / MF 6x6"
-msgstr ""
+msgstr "1:1 - Kare / MF 6x6"
 
 #: src/frontend/entangle-preferences-display.c:1151
 msgid "1.15:1 - Movietone"
-msgstr ""
+msgstr "1.15:1 - Movietone"
 
 #: src/frontend/entangle-preferences-display.c:1156
 msgid "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
-msgstr ""
+msgstr "1.33:1 (4:3, 12:9) - Süper 35mm / DSLR / MF 645"
 
 #: src/frontend/entangle-preferences-display.c:1161
 msgid "1.37:1 - 35mm movie"
-msgstr ""
+msgstr "1.37:1 - 35mm film"
 
 #: src/frontend/entangle-preferences-display.c:1166
 msgid "1.44:1 - IMAX"
-msgstr ""
+msgstr "1.44:1 - IMAX"
 
 #: src/frontend/entangle-preferences-display.c:1171
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
-msgstr ""
+msgstr "1.50:1 (3:2, 15:10) - 35mm SLR"
 
 #: src/frontend/entangle-preferences-display.c:1176
 msgid "1.6:1 (8:5, 16:10) - Widescreen"
-msgstr ""
+msgstr "1.6:1 (8:5, 16:10) - Geniş ekran"
 
 #: src/frontend/entangle-preferences-display.c:1181
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
-msgstr ""
+msgstr "1.66:1 (5:3, 15:9) - Süper 16mm"
 
 #: src/frontend/entangle-preferences-display.c:1186
 msgid "1.75:1 (7:4) - Widescreen"
-msgstr ""
+msgstr "1.75:1 (7:4) - Geniş ekran"
 
 #: src/frontend/entangle-preferences-display.c:1191
 msgid "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
-msgstr ""
+msgstr "1.77:1 (16:9) - APS-H / HDTV / Geniş ekran"
 
 #: src/frontend/entangle-preferences-display.c:1196
 msgid "1.85:1 - 35mm Widescreen"
-msgstr ""
+msgstr "1.85:1 - 35mm Geniş ekran"
 
 #: src/frontend/entangle-preferences-display.c:1201
 msgid "2.00:1 - SuperScope"
-msgstr ""
+msgstr "2.00:1 - SuperScope"
 
 #: src/frontend/entangle-preferences-display.c:1206
 msgid "2.10:1 (21:10) - Planned HDTV"
-msgstr ""
+msgstr "2.10:1 (21:10) - Planlanan HDTV"
 
 #: src/frontend/entangle-preferences-display.c:1211
 msgid "2.20:1 (11:5, 22:10) - 70mm movie"
-msgstr ""
+msgstr "2.20:1 (11:5, 22:10) - 70mm film"
 
 #: src/frontend/entangle-preferences-display.c:1216
 msgid "2.35:1 - CinemaScope"
-msgstr ""
+msgstr "2.35:1 - CinemaScope"
 
 #: src/frontend/entangle-preferences-display.c:1221
 msgid "2.37:1 (64:27)- HDTV cinema"
-msgstr ""
+msgstr "2.37:1 (64:27) - HDTV sinema"
 
 #: src/frontend/entangle-preferences-display.c:1226
 msgid "2.39:1 (12:5)- Panavision"
-msgstr ""
+msgstr "2.39:1 (12:5) - Panavision"
 
 #: src/frontend/entangle-preferences-display.c:1231
 msgid "2.55:1 (23:9)- CinemaScope 55"
-msgstr ""
+msgstr "2.55:1 (23:9) - CinemaScope 55"
 
 #: src/frontend/entangle-preferences-display.c:1236
 msgid "2.59:1 (13:5)- Cinerama"
-msgstr ""
+msgstr "2.59:1 (13:5) - Cinerama"
 
 #: src/frontend/entangle-preferences-display.c:1241
 msgid "2.66:1 (8:3, 24:9)- Super 16mm"
-msgstr ""
+msgstr "2.66:1 (8:3, 24:9) - Süper 16mm"
 
 #: src/frontend/entangle-preferences-display.c:1246
 msgid "2.76:1 (11:4) - Ultra Panavision"
-msgstr ""
+msgstr "2.76:1 (11:4) - Ultra Panavision"
 
 #: src/frontend/entangle-preferences-display.c:1251
 msgid "2.93:1 - MGM Camera 65"
-msgstr ""
+msgstr "2.93:1 - MGM Camera 65"
 
 #: src/frontend/entangle-preferences-display.c:1256
 msgid "3:1 APS Panorama"
-msgstr ""
+msgstr "3:1 APS Panorama"
 
 #: src/frontend/entangle-preferences-display.c:1261
 msgid "4.00:1 - Polyvision"
-msgstr ""
+msgstr "4.00:1 - Polyvision"
 
 #: src/frontend/entangle-preferences-display.c:1266
 msgid "12.00:1 - Circle-Vision 360"
-msgstr ""
+msgstr "12.00:1 - Circle-Vision 360"
 
 #: src/frontend/entangle-preferences-display.c:1283
 msgid "None"
-msgstr ""
+msgstr "Hiçbiri"
 
 #: src/frontend/entangle-preferences-display.c:1288
 msgid "Center lines"
-msgstr ""
+msgstr "Merkez çizgiler"
 
 #: src/frontend/entangle-preferences-display.c:1293
 msgid "Rule of 3rds"
-msgstr ""
+msgstr "1/3 kuralı"
 
 #: src/frontend/entangle-preferences-display.c:1298
 msgid "Quarters"
-msgstr ""
+msgstr "Çeyrekler"
 
 #: src/frontend/entangle-preferences-display.c:1303
 msgid "Rule of 5ths"
-msgstr ""
+msgstr "1/5 kuralı"
 
 #: src/frontend/entangle-preferences-display.c:1308
 msgid "Golden sections"
-msgstr ""
+msgstr "Altın bölümler"
 
 #: src/frontend/entangle-preferences-display.ui:8
 msgid "Entangle Preferences"
-msgstr ""
+msgstr "Entangle Tercihleri"
 
 #: src/frontend/entangle-preferences-display.ui:101
 msgid "<b>Capture</b>"
-msgstr ""
+msgstr "<b>Yakalama</b>"
 
 #: src/frontend/entangle-preferences-display.ui:145
 msgid "Filename pattern:"
-msgstr ""
+msgstr "Dosya adı kalıbı:"
 
 #: src/frontend/entangle-preferences-display.ui:163
 msgid "Continue preview mode after capture"
-msgstr ""
+msgstr "Çektikten sonra ön izleme moduna devam et"
 
 #: src/frontend/entangle-preferences-display.ui:179
 msgid "Use preview output as capture image"
-msgstr ""
+msgstr "Önizleme çıktısını yakalama görüntüsü olarak kullan"
 
 #: src/frontend/entangle-preferences-display.ui:195
 msgid "Delete file from camera after downloading"
-msgstr ""
+msgstr "İndirdikten sonra dosyayı kameradan sil"
 
 #: src/frontend/entangle-preferences-display.ui:211
 msgid "Automatically synchronize camera clock"
-msgstr ""
+msgstr "Kamera saatini otomatik olarak senkronize et"
 
 #: src/frontend/entangle-preferences-display.ui:263
 msgid "<b>Colour management</b>"
-msgstr ""
+msgstr "<b>Renk yönetimi</b>"
 
 #: src/frontend/entangle-preferences-display.ui:310
 msgid "Mode of operation:"
-msgstr ""
+msgstr "Çalışma modu:"
 
 #: src/frontend/entangle-preferences-display.ui:318
 msgid "RGB profile:"
-msgstr ""
+msgstr "RGB profili:"
 
 #: src/frontend/entangle-preferences-display.ui:330
 msgid "Monitor profile:"
-msgstr ""
+msgstr "Monitor profili:"
 
 #: src/frontend/entangle-preferences-display.ui:342
 msgid "Rendering intent:"
-msgstr ""
+msgstr "Oluşturma amacı:"
 
 #: src/frontend/entangle-preferences-display.ui:352
 msgid "Detect the system monitor profile"
-msgstr ""
+msgstr "Sistem monitör profilini algıla"
 
 #: src/frontend/entangle-preferences-display.ui:417
 msgid "Colour managed display"
-msgstr ""
+msgstr "Renk yönetimli ekran"
 
 #: src/frontend/entangle-preferences-display.ui:473
 msgid "<b>Plugins</b>"
-msgstr ""
+msgstr "<b>Eklentiler</b>"
 
 #: src/frontend/entangle-preferences-display.ui:543
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Arayüz</b>"
 
 #: src/frontend/entangle-preferences-display.ui:585
 msgid "Automatically connect to cameras at startup"
-msgstr ""
+msgstr "Başlangıçta kameralara otomatik olarak bağlan"
 
 #: src/frontend/entangle-preferences-display.ui:599
 msgid "Blank screen when capturing images"
-msgstr ""
+msgstr "Fotoğraf çekerken ekranı karart"
 
 #: src/frontend/entangle-preferences-display.ui:615
 msgid "Show linear histogram"
-msgstr ""
+msgstr "Doğrusal histogramı göster"
 
 #: src/frontend/entangle-preferences-display.ui:672
 msgid "<b>Image Viewer</b>"
-msgstr ""
+msgstr "<b>Resim Görüntüleyici</b>"
 
 #: src/frontend/entangle-preferences-display.ui:714
 msgid "Apply mask to alter aspect ratio"
-msgstr ""
+msgstr "En/boy oranını değiştirmek için maske uygula"
 
 #: src/frontend/entangle-preferences-display.ui:730
 msgid "Aspect ratio:"
-msgstr ""
+msgstr "En/boy oranı:"
 
 #: src/frontend/entangle-preferences-display.ui:742
 msgid "Mask opacity:"
-msgstr ""
+msgstr "Maske opaklığı:"
 
 #: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
-msgstr ""
+msgstr "Ön izleme sırasında odak noktasını görüntüle"
 
 #: src/frontend/entangle-preferences-display.ui:800
 msgid "Grid lines:"
-msgstr ""
+msgstr "Izgara çizgileri:"
 
 #: src/frontend/entangle-preferences-display.ui:824
 msgid "Use embedded preview from raw files"
-msgstr ""
+msgstr "Ham dosyalardan gömülü ön izlemeyi kullan"
 
 #: src/frontend/entangle-preferences-display.ui:840
 msgid "Overlay earlier images"
-msgstr ""
+msgstr "Önceki görüntülerin üzerine bindir"
 
 #: src/frontend/entangle-preferences-display.ui:858
 msgid "Overlay layers:"
-msgstr ""
+msgstr "Bindirme katmanları:"
 
 #: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
-msgstr ""
+msgstr "Arka plan:"
 
 #: src/frontend/entangle-preferences-display.ui:913
 msgid "Highlight:"
-msgstr ""
+msgstr "Vurgula:"
 
 #: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "Aşırı pozlama alanlarını vurgula"
 
 #: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
-msgstr ""
+msgstr "Algısal"
 
 #: src/frontend/entangle-preferences-display.ui:1019
 msgid "Relative colourimetric"
-msgstr ""
+msgstr "Bağıl kolorimetrik"
 
 #: src/frontend/entangle-preferences-display.ui:1022
 msgid "Saturation"
-msgstr ""
+msgstr "Doygunluk"
 
 #: src/frontend/entangle-preferences-display.ui:1025
 msgid "Absolute colourimetric"
-msgstr ""
+msgstr "Mutlak kolorimetrik"
 
 #: src/frontend/entangle-script.c:96
 msgid "Untitled script"
-msgstr ""
+msgstr "Adsız komut dosyası"
 
 #: src/frontend/entangle-script-config.c:77
 msgid "No script"
-msgstr ""
+msgstr "Komut dosyası yok"
 
 #: src/frontend/entangle-script-config.c:159
 msgid "No config options"
-msgstr ""
+msgstr "Yapılandırma seçeneği yok"
 
 #: src/frontend/entangle-script-simple.c:63
 msgid "Missing 'execute' method implementation"
-msgstr ""
+msgstr "'execute' yöntemi uygulaması eksik"
 
 #: src/entangle.appdata.xml.in:7 src/entangle.desktop.in:4
 msgid "Entangle"
-msgstr ""
+msgstr "Entangle"
 
 #: src/entangle.appdata.xml.in:8
 msgid "Tethered Camera Control &amp; Capture"
-msgstr ""
+msgstr "Bağlı Kamera Kontrolü &amp; Yakalama"
 
 #: src/entangle.appdata.xml.in:10
 msgid ""
 "Entangle is a program used to control digital cameras that are connected to "
 "the computer via USB."
 msgstr ""
+"Entangle, bilgisayara USB ile bağlı dijital kameraları kontrol etmek için "
+"kullanılan bir programdır."
 
 #: src/entangle.appdata.xml.in:14
 msgid ""
@@ -1042,6 +1061,11 @@ msgid ""
 "are captured by the camera. Entangle also allows the settings of the camera "
 "to be changed from the computer."
 msgstr ""
+"Entangle yeni görüntüler yakalamak için kamera deklanşörünü tetikleyebilir. "
+"Kamera tarafından desteklendiğinde, çekimden önce görüntünün sürekli "
+"güncellenen bir önizlemesi görüntülenebilir. Görüntüler kamera tarafından "
+"yakalandığında indirilecek ve görüntülenecektir. Entangle ayrıca kamera "
+"ayarlarının bilgisayardan değiştirilmesine de izin vermektedir."
 
 #: src/entangle.appdata.xml.in:22
 msgid ""
@@ -1049,103 +1073,107 @@ msgid ""
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
 msgstr ""
+"Entangle, Nikon ve Canon'un çoğu DSLR kamerası, bunların bazı kompakt kamera "
+"modelleri ve diğer üreticilerin çeşitli kameralarıyla uyumludur."
 
 #: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Entangle Fotoğraf projesi"
 
 #: src/entangle.appdata.xml.in:46
 msgid "Require gobject introspection &gt;= 1.54"
-msgstr ""
+msgstr "gobject introspection &gt;= 1.54 iste"
 
 #: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
-msgstr ""
+msgstr "GTK3 &gt;= 3.22 iste"
 
 #: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
-msgstr ""
+msgstr "libraw bağımlılığını düzelt"
 
 #: src/entangle.appdata.xml.in:49
 msgid "Fix variable name in photobox plugin"
-msgstr ""
+msgstr "Fotoğraf kutusu eklentisindeki değişken adını düzelt"
 
 #: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
-msgstr ""
+msgstr "Bazı eksik klavye kısayollarını dokümante et"
 
 #: src/entangle.appdata.xml.in:51
 msgid "Fix upper bound in histogram to display clipped pixel"
-msgstr ""
+msgstr "Kırpılmış pikseli görüntülemek için histogramdaki üst sınırı düzelt"
 
 #: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
-msgstr ""
+msgstr "Çevirileri yenile"
 
 #: src/entangle.appdata.xml.in:53
 msgid "Option to highlight over exposed pixels in red"
-msgstr ""
+msgstr "Aşırı pozlanmış pikselleri kırmızı renkle vurgulama seçeneği"
 
 #: src/entangle.appdata.xml.in:54
 msgid "Disable noisy compiler warning"
-msgstr ""
+msgstr "Gürültülü derleyici uyarısını devre dışı bırak"
 
 #: src/entangle.appdata.xml.in:55
 msgid "Remove use of deprecated application menu concept"
-msgstr ""
+msgstr "Artık kullanılmayan uygulama menüsü konseptini kaldır"
 
 #: src/entangle.appdata.xml.in:56
 msgid "Fix image redraw when changing some settings"
-msgstr ""
+msgstr "Bazı ayarları değiştirirken görüntüyü yeniden oluşturmayı düzelt"
 
 #: src/entangle.appdata.xml.in:57
 msgid "Update mailing list address in appdaat"
-msgstr ""
+msgstr "appdata'daki e-posta listesi adresini güncelle"
 
 #: src/entangle.appdata.xml.in:58
 msgid "Add more fields to appdata content"
-msgstr ""
+msgstr "appdata içeriğine daha fazla alan ekle"
 
 #: src/entangle.appdata.xml.in:59
 msgid "Fix reference counting during window close"
-msgstr ""
+msgstr "Pencereyi kapatma sırasındaki referans saymayı düzelt"
 
 #: src/entangle.appdata.xml.in:60
 msgid "Use correct API for destroying top level windows"
-msgstr ""
+msgstr "Üst düzey pencereleri yok etmek için doğru API'yi kullan"
 
 #: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
 msgstr ""
+"Daha yeni gvfs URI adlandırma şemasına sahip kameraların bağlantısını "
+"kaldırmayı düzelt"
 
 #: src/entangle.appdata.xml.in:62
 msgid "Avoid out of bounds read of property values"
-msgstr ""
+msgstr "Özellik değerlerini aralık dışında okumaktan kaçın"
 
 #: src/entangle.appdata.xml.in:63
 msgid "Fix many memory leaks"
-msgstr ""
+msgstr "Birçok bellek sızıntısını düzelt"
 
 #: src/entangle.appdata.xml.in:64
 msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr ""
+msgstr "Wayland'da görüntülenmeyen açılır kutular için geçici çözüm"
 
 #: src/entangle.appdata.xml.in:65
 msgid "Fix race condition in building enums"
-msgstr ""
+msgstr "Enum oluşturmadaki yarış durumunu düzelt"
 
 #: src/entangle.appdata.xml.in:66
 msgid "Fix setting of gschema directory during startup"
-msgstr ""
+msgstr "Başlatma sırasında gschema dizinini ayarlamayı düzelt"
 
 #: src/entangle.appdata.xml.in:67
 msgid "Set env to ensure plugins can find introspection typelib"
-msgstr ""
+msgstr "Eklentilerin introspection typelib'i bulabilmesi için ortamı ayarla"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
-msgstr ""
+msgstr "entangle"
 
 #: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr ""
+msgstr "Yakala;Kamera;Bağlı;Fotoğraf;"
