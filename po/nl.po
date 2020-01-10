@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-16 14:19+0000\n"
-"PO-Revision-Date: 2020-01-07 15:25+0000\n"
+"PO-Revision-Date: 2020-01-10 15:15+0000\n"
 "Last-Translator: Geert Warrink <geert.warrink@onsnet.nu>\n"
 "Language-Team: Dutch <https://translate.stg.fedoraproject.org/projects/"
 "entangle/master/nl/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 3.10.1\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -210,7 +210,7 @@ msgstr "Handmatig instellen van scherpstellingstaat mislukte: %s %d"
 #: src/backend/entangle-camera.c:3061 src/backend/entangle-camera.c:3096
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
-msgstr "Failed to read manual focus choice %d: %s %d"
+msgstr "Kan handmatige focuskeuze %d niet lezen: %s %d"
 
 #: src/backend/entangle-camera.c:3235
 #, c-format
@@ -448,13 +448,12 @@ msgid "Capture"
 msgstr "Vastleggen"
 
 #: src/frontend/entangle-camera-manager.c:1660
-#, fuzzy
 msgid "Script"
 msgstr "Script"
 
 #: src/frontend/entangle-camera-manager.c:1727
 msgid "Preview"
-msgstr "Preview"
+msgstr "Voorbeeld"
 
 #: src/frontend/entangle-camera-manager.c:1841
 msgid "Set clock"
@@ -470,7 +469,7 @@ msgstr "Entangle: Camera autofocus mislukte"
 
 #: src/frontend/entangle-camera-manager.c:1918
 msgid "Manual focus failed"
-msgstr "Handmatige scherpstelling mislukte "
+msgstr "Handmatige scherpstelling mislukte"
 
 #: src/frontend/entangle-camera-manager.c:1920
 msgid "Entangle: Camera manual focus failed"
@@ -530,14 +529,24 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"Er werden geen camera's gedetecteerd, controleer of\n"
+"\n"
+"  - de <b>kabels</b> aangesloten zijn\n"
+"  - de camera <b>ingeschakeld</b>\n"
+"  - de camera zich in de <b>juiste modus</b> bevindt\n"
+"  - de camera een <b>ondersteund</b> model is\n"
+"\n"
+"USB camera's worden automatisch gedetecteerd\n"
+"als ze ingeplugd worden, probeer voor andere een\n"
+"verversing of vul een netwerk camera IP adres in"
 
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
-msgstr ""
+msgstr "IP adres:"
 
 #: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
-msgstr ""
+msgstr "Netwerk camera"
 
 #: src/frontend/entangle-camera-support.c:188
 msgid "capture"
@@ -545,7 +554,7 @@ msgstr "vangen"
 
 #: src/frontend/entangle-camera-support.c:194
 msgid "preview"
-msgstr "preview"
+msgstr "voorbeeld"
 
 #: src/frontend/entangle-camera-support.c:200
 msgid "settings"
@@ -573,7 +582,7 @@ msgstr "Uiy"
 
 #: src/frontend/entangle-control-panel.c:782
 msgid "Reset controls"
-msgstr ""
+msgstr "Reset bediening"
 
 #: src/frontend/entangle-control-panel.c:857
 msgid "No controls available"
@@ -598,122 +607,122 @@ msgstr "Gebonden camera controle & vastleggen"
 #: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "Controle van de toepassing"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "Open een nieuw cameravenster"
 
 #: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "Sluit alle vensters & sluit af"
 
 #: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "Toon hulp-handleiding"
 
 #: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "Beeldweergave"
 
 #: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "In zoomen"
 
 #: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Uit zoomen"
 
 #: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "Normale zoom"
 
 #: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
-msgstr ""
+msgstr "Beste zoom"
 
 #: src/frontend/entangle-help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle image mask"
-msgstr ""
+msgstr "Beeldmasker omschakelen"
 
 #: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "Overbelichting markeren omschakelen"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
-msgstr ""
+msgstr "Histogramschaal omschakelen"
 
 #: src/frontend/entangle-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "Vensterweergave"
 
 #: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "Volledig scherm"
 
 #: src/frontend/entangle-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "Presentatie"
 
 #: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr ""
+msgstr "Sluitercontrole"
 
 #: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "Maak een enkele afbeelding"
 
 #: src/frontend/entangle-help-overlay.ui:126
 msgctxt "shortcut window"
 msgid "Toggle live preview"
-msgstr ""
+msgstr "Live preview omschakelen"
 
 #: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr ""
+msgstr "Focusregeling (tijdens live preview)"
 
 #: src/frontend/entangle-help-overlay.ui:139
 msgctxt "shortcut window"
 msgid "Autofocus"
-msgstr ""
+msgstr "Autofocus"
 
 #: src/frontend/entangle-help-overlay.ui:146
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "Focus in (kleine stap)"
 
 #: src/frontend/entangle-help-overlay.ui:153
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "Focus uit (kleine stap)"
 
 #: src/frontend/entangle-help-overlay.ui:160
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "Focus in (grote stap)"
 
 #: src/frontend/entangle-help-overlay.ui:167
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "Focus uit (grote stap)"
 
 #: src/frontend/entangle-preferences-display.c:1070
 #: src/frontend/entangle-preferences-display.ui:645
@@ -885,7 +894,7 @@ msgstr "Ga verder met  preview modus na schermopname"
 
 #: src/frontend/entangle-preferences-display.ui:179
 msgid "Use preview output as capture image"
-msgstr ""
+msgstr "Gebruik preview output om afbeelding vast te leggen"
 
 #: src/frontend/entangle-preferences-display.ui:195
 msgid "Delete file from camera after downloading"
@@ -901,7 +910,7 @@ msgstr "<b>Kleurbeheer</b>"
 
 #: src/frontend/entangle-preferences-display.ui:310
 msgid "Mode of operation:"
-msgstr "Werkingsmodus"
+msgstr "Werkingsmodus:"
 
 #: src/frontend/entangle-preferences-display.ui:318
 msgid "RGB profile:"
@@ -961,7 +970,7 @@ msgstr "Maskerondoorzichtigheid:"
 
 #: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
@@ -985,7 +994,7 @@ msgstr "Bedekkingslagen:"
 
 #: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
@@ -997,7 +1006,7 @@ msgstr "Markering:"
 
 #: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "Markeer gebieden met overbelichting"
 
 #: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
@@ -1017,19 +1026,19 @@ msgstr "Absolute colorimetrie"
 
 #: src/frontend/entangle-script.c:96
 msgid "Untitled script"
-msgstr ""
+msgstr "Naamloos script"
 
 #: src/frontend/entangle-script-config.c:77
 msgid "No script"
-msgstr ""
+msgstr "Geen script"
 
 #: src/frontend/entangle-script-config.c:159
 msgid "No config options"
-msgstr ""
+msgstr "Geen configureeropties"
 
 #: src/frontend/entangle-script-simple.c:63
 msgid "Missing 'execute' method implementation"
-msgstr ""
+msgstr "Implementatie van de methode 'uitvoeren' ontbreekt"
 
 #: src/entangle.appdata.xml.in:7 src/entangle.desktop.in:4
 msgid "Entangle"
@@ -1074,100 +1083,108 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Het Entangle Photo project"
 
 #: src/entangle.appdata.xml.in:46
 msgid "Require gobject introspection &gt;= 1.54"
-msgstr ""
+msgstr "Vereist gobject introspectie &gt;= 1.54"
 
 #: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
-msgstr ""
+msgstr "Vereist GTK3 &gt;= 3.22"
 
 #: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
-msgstr ""
+msgstr "Repareert de afhankelijkheid van libraw"
 
 #: src/entangle.appdata.xml.in:49
 msgid "Fix variable name in photobox plugin"
-msgstr ""
+msgstr "Repareert variabelenaam in photobox plug-in"
 
 #: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
-msgstr ""
+msgstr "Documenteert enkel ontbrekende toetsenbord snelkoppelingen"
 
 #: src/entangle.appdata.xml.in:51
 msgid "Fix upper bound in histogram to display clipped pixel"
 msgstr ""
+"Repareert de bovengrens in het histogram om de uitgeknipte pixel weer te "
+"geven"
 
 #: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
-msgstr ""
+msgstr "Ververst vertalingen"
 
 #: src/entangle.appdata.xml.in:53
 msgid "Option to highlight over exposed pixels in red"
-msgstr ""
+msgstr "Optie om overbelichte pixels rood te markeren"
 
 #: src/entangle.appdata.xml.in:54
 msgid "Disable noisy compiler warning"
-msgstr ""
+msgstr "Schakel de lawaaierige compilerwaarschuwing uit"
 
 #: src/entangle.appdata.xml.in:55
 msgid "Remove use of deprecated application menu concept"
-msgstr ""
+msgstr "Verwijder het gebruik van het verouderde applicatiemenu-concept"
 
 #: src/entangle.appdata.xml.in:56
 msgid "Fix image redraw when changing some settings"
 msgstr ""
+"Herstel opnieuw tekenen van het beeld bij het wijzigen van enkele "
+"instellingen"
 
 #: src/entangle.appdata.xml.in:57
 msgid "Update mailing list address in appdaat"
-msgstr ""
+msgstr "Vernieuw mailinglijst adres in appdaat"
 
 #: src/entangle.appdata.xml.in:58
 msgid "Add more fields to appdata content"
-msgstr ""
+msgstr "Voeg meer velden toe aan appdata-inhoud"
 
 #: src/entangle.appdata.xml.in:59
 msgid "Fix reference counting during window close"
-msgstr ""
+msgstr "Repareer referentietelling tijdens sluiten van venster"
 
 #: src/entangle.appdata.xml.in:60
 msgid "Use correct API for destroying top level windows"
-msgstr ""
+msgstr "Gebruik de juiste API om vensters op het hoogste niveau te vernietigen"
 
 #: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
 msgstr ""
+"Repareer loskoppelen van camera's met nieuwere gvfs URI-naamgevingsschema"
 
 #: src/entangle.appdata.xml.in:62
 msgid "Avoid out of bounds read of property values"
-msgstr ""
+msgstr "Vermijd het buiten bereik lezen van eigenschapswaarden"
 
 #: src/entangle.appdata.xml.in:63
 msgid "Fix many memory leaks"
-msgstr ""
+msgstr "Herstel veel geheugenlekken"
 
 #: src/entangle.appdata.xml.in:64
 msgid "Workaround for combo boxes not displaying on Wayland"
 msgstr ""
+"Tijdelijke oplossing voor comboboxen die niet worden weergegeven op Wayland"
 
 #: src/entangle.appdata.xml.in:65
 msgid "Fix race condition in building enums"
-msgstr ""
+msgstr "Repareer raceconditie bij het bouwen van enums"
 
 #: src/entangle.appdata.xml.in:66
 msgid "Fix setting of gschema directory during startup"
-msgstr ""
+msgstr "Repareer instelling van de gschema-map tijdens het opstarten"
 
 #: src/entangle.appdata.xml.in:67
 msgid "Set env to ensure plugins can find introspection typelib"
 msgstr ""
+"Stel env in om ervoor te zorgen dat plug-ins introspectie typelib kunnen "
+"vinden"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
-msgstr ""
+msgstr "entangle"
 
 #: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr ""
+msgstr "Vastleggen;Camera;Vastgebonden; Foto;"
