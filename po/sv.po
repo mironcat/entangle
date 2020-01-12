@@ -1,29 +1,28 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
 # Translators:
-# Göran Uddeborg <goeran@uddeborg.se>, 2012-2013
+# Göran Uddeborg <goeran@uddeborg.se>, 2012-2013, 2020.
 # Klap <jojje3000@hotmail.com>, 2014
 # Ulrika Uddeborg <aurorauddeborg@gmail.com>, 2014
-# Göran Uddeborg <goeran@uddeborg.se>, 2015. #zanata
-# Göran Uddeborg <goeran@uddeborg.se>, 2016. #zanata
-# Göran Uddeborg <goeran@uddeborg.se>, 2018. #zanata
+# Göran Uddeborg <goeran@uddeborg.se>, 2015. #zanata, 2020.
+# Göran Uddeborg <goeran@uddeborg.se>, 2016. #zanata, 2020.
+# Göran Uddeborg <goeran@uddeborg.se>, 2018. #zanata, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-16 14:19+0000\n"
-"PO-Revision-Date: 2018-05-17 04:24+0000\n"
+"PO-Revision-Date: 2020-01-12 11:15+0000\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
-"Language-Team: Swedish (http://www.transifex.com/projects/p/entangle/"
-"language/sv/)\n"
+"Language-Team: Swedish <https://translate.stg.fedoraproject.org/projects/"
+"entangle/master/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.10.1\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -281,7 +280,7 @@ msgstr "_Tangentbordsgenvägar"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
-msgstr ""
+msgstr "_Manual"
 
 #: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
@@ -657,17 +656,17 @@ msgstr "Zooma bäst"
 #: src/frontend/entangle-help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle image mask"
-msgstr ""
+msgstr "Växla bildmask"
 
 #: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "Växla överexponeringsmarkering"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
-msgstr ""
+msgstr "Växla histogramskala"
 
 #: src/frontend/entangle-help-overlay.ui:95
 msgctxt "shortcut window"
@@ -687,7 +686,7 @@ msgstr "Presentation"
 #: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr ""
+msgstr "Slutarstyrning"
 
 #: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
@@ -702,32 +701,32 @@ msgstr "Växla live-förhandsvisning"
 #: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr ""
+msgstr "Fokusstyrning (under förhandsvisning)"
 
 #: src/frontend/entangle-help-overlay.ui:139
 msgctxt "shortcut window"
 msgid "Autofocus"
-msgstr ""
+msgstr "Autofokus"
 
 #: src/frontend/entangle-help-overlay.ui:146
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "Fokusera in (litet steg)"
 
 #: src/frontend/entangle-help-overlay.ui:153
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "Fokusera ut (litet steg)"
 
 #: src/frontend/entangle-help-overlay.ui:160
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "Fokusera in (stort steg)"
 
 #: src/frontend/entangle-help-overlay.ui:167
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "Fokusera ut (stort steg)"
 
 #: src/frontend/entangle-preferences-display.c:1070
 #: src/frontend/entangle-preferences-display.ui:645
@@ -1011,7 +1010,7 @@ msgstr "Markera:"
 
 #: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "Markera områden med överexponering"
 
 #: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
@@ -1087,15 +1086,15 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Fotoprojektet Entagle"
 
 #: src/entangle.appdata.xml.in:46
 msgid "Require gobject introspection &gt;= 1.54"
-msgstr ""
+msgstr "Begär gobjekt-introspektion ≥ 1.54"
 
 #: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
-msgstr ""
+msgstr "Begär GTK3 ≥ 3.22"
 
 #: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
