@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-16 14:19+0000\n"
-"PO-Revision-Date: 2020-01-12 11:15+0000\n"
+"PO-Revision-Date: 2020-01-13 17:15+0000\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://translate.stg.fedoraproject.org/projects/"
 "entangle/master/sv/>\n"
@@ -1098,83 +1098,85 @@ msgstr "Begär GTK3 ≥ 3.22"
 
 #: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
-msgstr ""
+msgstr "Fixa beroende på libraw"
 
 #: src/entangle.appdata.xml.in:49
 msgid "Fix variable name in photobox plugin"
-msgstr ""
+msgstr "Fixa variabelnamn i photobox-insticksmodulen"
 
 #: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
-msgstr ""
+msgstr "Dokumentera några saknade tangentbordsgenvägar"
 
 #: src/entangle.appdata.xml.in:51
 msgid "Fix upper bound in histogram to display clipped pixel"
-msgstr ""
+msgstr "Fixa övre gräns i histogram för att visa avhuggen bildpunkt"
 
 #: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
-msgstr ""
+msgstr "Fräscha upp översättningar"
 
 #: src/entangle.appdata.xml.in:53
 msgid "Option to highlight over exposed pixels in red"
-msgstr ""
+msgstr "Alternativ för att markera överexponerade bildpunkter i rött"
 
 #: src/entangle.appdata.xml.in:54
 msgid "Disable noisy compiler warning"
-msgstr ""
+msgstr "Avaktivera en störande kompilatorvarning"
 
 #: src/entangle.appdata.xml.in:55
 msgid "Remove use of deprecated application menu concept"
-msgstr ""
+msgstr "Ta bort användningen av undanbedda programmenykoncept"
 
 #: src/entangle.appdata.xml.in:56
 msgid "Fix image redraw when changing some settings"
-msgstr ""
+msgstr "Fixa bildomritningen vid ändring av några inställningar"
 
 #: src/entangle.appdata.xml.in:57
 msgid "Update mailing list address in appdaat"
-msgstr ""
+msgstr "Uppdatera adressen till e-postlistan i appdata"
 
 #: src/entangle.appdata.xml.in:58
 msgid "Add more fields to appdata content"
-msgstr ""
+msgstr "Lägg till flera fält till appdata-innehållet"
 
 #: src/entangle.appdata.xml.in:59
 msgid "Fix reference counting during window close"
-msgstr ""
+msgstr "Fixa referensräknaren när fönster stängs"
 
 #: src/entangle.appdata.xml.in:60
 msgid "Use correct API for destroying top level windows"
-msgstr ""
+msgstr "Använd rätt API för att förstöra toppnivåfönster"
 
 #: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
-msgstr ""
+msgstr "Fixa avmontering av kameror med nyare gvfs-URI-namngivningsschema"
 
 #: src/entangle.appdata.xml.in:62
 msgid "Avoid out of bounds read of property values"
-msgstr ""
+msgstr "Undvik läsningar av egenskapsvärden utanför gränserna"
 
 #: src/entangle.appdata.xml.in:63
 msgid "Fix many memory leaks"
-msgstr ""
+msgstr "Fixa många minnesläckor"
 
 #: src/entangle.appdata.xml.in:64
 msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr ""
+msgstr "Gå runt att combo-rutor inte visas i Wayland"
 
 #: src/entangle.appdata.xml.in:65
 msgid "Fix race condition in building enums"
-msgstr ""
+msgstr "Fixa race condition vid bygge av uppräkningar"
 
 #: src/entangle.appdata.xml.in:66
 msgid "Fix setting of gschema directory during startup"
-msgstr ""
+msgstr "Fixa inställning av gschema-katalog vid uppstart"
 
 #: src/entangle.appdata.xml.in:67
 msgid "Set env to ensure plugins can find introspection typelib"
 msgstr ""
+"Sätt miljön för att säkerställa att insticksmoduler kan hitta introspektion "
+"av typelib"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
