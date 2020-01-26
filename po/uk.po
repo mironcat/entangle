@@ -1,30 +1,29 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
 # Translators:
-# Yuri Chornoivan <yurchor@ukr.net>, 2012-2014
-# Yuri Chornoivan <yurchor@ukr.net>, 2015. #zanata
-# Yuri Chornoivan <yurchor@ukr.net>, 2016. #zanata
-# Yuri Chornoivan <yurchor@ukr.net>, 2017. #zanata
-# Yuri Chornoivan <yurchor@ukr.net>, 2018. #zanata
-# Yuri Chornoivan <yurchor@ukr.net>, 2019. #zanata
+# Yuri Chornoivan <yurchor@ukr.net>, 2012-2014, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2015. #zanata, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2016. #zanata, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2017. #zanata, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2018. #zanata, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2019. #zanata, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-16 14:24+0000\n"
-"PO-Revision-Date: 2019-06-03 03:41+0000\n"
+"PO-Revision-Date: 2020-01-17 19:16+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/projects/p/entangle/"
-"language/uk/)\n"
+"Language-Team: Ukrainian <https://translate.stg.fedoraproject.org/projects/"
+"entangle/master/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.10.1\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -531,7 +530,7 @@ msgstr "Вибір фотоапарата — Entangle"
 
 #: src/frontend/entangle-camera-picker.ui:97
 msgid "Select a camera to connect to:"
-msgstr "Виберіть фотоапарат, з яким слід встановити з’єднання"
+msgstr "Виберіть фотоапарат, з яким слід встановити з’єднання:"
 
 #: src/frontend/entangle-camera-picker.ui:157
 msgid ""
@@ -555,7 +554,7 @@ msgstr ""
 "\n"
 "Програма автоматично виявляє фотоапарати, з’єднані за допомогою\n"
 "USB. Для виявлення фотоапаратів, з’єднаних іншим способом, слід\n"
-"оновити список або вказати IP-адресу фотоапарата у мережі вручну."
+"оновити список або вказати IP-адресу фотоапарата у мережі вручну"
 
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
@@ -1008,7 +1007,7 @@ msgstr "Накладати попередні зображення"
 
 #: src/frontend/entangle-preferences-display.ui:858
 msgid "Overlay layers:"
-msgstr "Шари накладання"
+msgstr "Шари накладання:"
 
 #: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
@@ -1104,91 +1103,96 @@ msgstr "Проєкт Entangle Photo"
 
 #: src/entangle.appdata.xml.in:46
 msgid "Require gobject introspection &gt;= 1.54"
-msgstr ""
+msgstr "Потребує інтроспекції gobject &gt;= 1.54"
 
 #: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
-msgstr ""
+msgstr "Потребує GTK3 &gt;= 3.22"
 
 #: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
-msgstr ""
+msgstr "Виправлено залежність від libraw"
 
 #: src/entangle.appdata.xml.in:49
 msgid "Fix variable name in photobox plugin"
-msgstr ""
+msgstr "Виправлено назву змінної у додатку photobox"
 
 #: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
-msgstr ""
+msgstr "Документовано усі клавіатурні скорочення"
 
 #: src/entangle.appdata.xml.in:51
 msgid "Fix upper bound in histogram to display clipped pixel"
-msgstr ""
+msgstr "Виправлено обрізання пікселів на верхній межі гістограми"
 
 #: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
-msgstr ""
+msgstr "Оновлено переклади"
 
 #: src/entangle.appdata.xml.in:53
 msgid "Option to highlight over exposed pixels in red"
-msgstr ""
+msgstr "Параметр для підсвічування переекспонованих пікселів червоним кольором"
 
 #: src/entangle.appdata.xml.in:54
 msgid "Disable noisy compiler warning"
-msgstr ""
+msgstr "Виправлено надокучливе попередження компілятора"
 
 #: src/entangle.appdata.xml.in:55
 msgid "Remove use of deprecated application menu concept"
-msgstr ""
+msgstr "Вилучено використання застарілої концепції меню програми"
 
 #: src/entangle.appdata.xml.in:56
 msgid "Fix image redraw when changing some settings"
-msgstr ""
+msgstr "Виправлено перемальовування зображення при зміні деяких параметрів"
 
 #: src/entangle.appdata.xml.in:57
 msgid "Update mailing list address in appdaat"
-msgstr ""
+msgstr "Оновлено адресу списку листування у appdata"
 
 #: src/entangle.appdata.xml.in:58
 msgid "Add more fields to appdata content"
-msgstr ""
+msgstr "Додано додаткові поля до даних appdata"
 
 #: src/entangle.appdata.xml.in:59
 msgid "Fix reference counting during window close"
-msgstr ""
+msgstr "Виправлено облік посилань під час закриття вікна"
 
 #: src/entangle.appdata.xml.in:60
 msgid "Use correct API for destroying top level windows"
 msgstr ""
+"Використано належний програмний інтерфейс для закриття вікон верхнього рівня"
 
 #: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
 msgstr ""
+"Виправлено демонтування фотоапаратів із новою схемою побудови адрес у gvfs"
 
 #: src/entangle.appdata.xml.in:62
 msgid "Avoid out of bounds read of property values"
 msgstr ""
+"Усунено читання за межами припустимого діапазону для значень властивостей"
 
 #: src/entangle.appdata.xml.in:63
 msgid "Fix many memory leaks"
-msgstr ""
+msgstr "Виправлено багато витоків пам'яті"
 
 #: src/entangle.appdata.xml.in:64
 msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr ""
+msgstr "Усунено проблему із показом спадних списків у Wayland"
 
 #: src/entangle.appdata.xml.in:65
 msgid "Fix race condition in building enums"
-msgstr ""
+msgstr "Виправлено конкуренцію при побудові переліків"
 
 #: src/entangle.appdata.xml.in:66
 msgid "Fix setting of gschema directory during startup"
-msgstr ""
+msgstr "Виправлено встановлення каталогу gschema під час запуску"
 
 #: src/entangle.appdata.xml.in:67
 msgid "Set env to ensure plugins can find introspection typelib"
 msgstr ""
+"Встановлено параметри середовища для забезпечення виявлення "
+"typelib-інтроспекції"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
