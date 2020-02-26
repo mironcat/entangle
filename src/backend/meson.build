@@ -66,9 +66,10 @@ foreach f: entangle_backend_sources + entangle_backend_headers
   entangle_backend_files += [fn]
 endforeach
 
-entangle_backend_enums = []
+entangle_backend_enum_headers = []
+entangle_backend_enum_sources = []
 
-entangle_backend_enums += gnome.mkenums(
+entangle_backend_enum_headers += gnome.mkenums(
   'entangle-camera-enums.h',
   sources: camera_enum_headers,
   comments: '/* @comment@ */',
@@ -79,7 +80,7 @@ entangle_backend_enums += gnome.mkenums(
   install_header: false,
 )
 
-entangle_backend_enums += gnome.mkenums(
+entangle_backend_enum_sources += gnome.mkenums(
   'entangle-camera-enums.c',
   sources: camera_enum_headers,
   comments: '/* @comment@ */',
@@ -91,7 +92,7 @@ entangle_backend_enums += gnome.mkenums(
   install_header: false,
 )
 
-entangle_backend_enums += gnome.mkenums(
+entangle_backend_enum_headers += gnome.mkenums(
   'entangle-colour-profile-enums.h',
   sources: colour_profile_enum_headers,
   comments: '/* @comment@ */',
@@ -102,7 +103,7 @@ entangle_backend_enums += gnome.mkenums(
   install_header: false,
 )
 
-entangle_backend_enums += gnome.mkenums(
+entangle_backend_enum_sources += gnome.mkenums(
   'entangle-colour-profile-enums.c',
   sources: colour_profile_enum_headers,
   comments: '/* @comment@ */',
@@ -114,7 +115,8 @@ entangle_backend_enums += gnome.mkenums(
   install_header: false,
 )
 
-entangle_backend_sources += entangle_backend_enums
+entangle_backend_sources += entangle_backend_enum_headers
+entangle_backend_sources += entangle_backend_enum_sources
 
 entangle_backend_deps = [
   glib_dep,
@@ -132,7 +134,7 @@ entangle_backend_deps = [
 ]
 
 entangle_backend = shared_library(
-  'entangle_backend', entangle_backend_enums,
+  'entangle_backend',
   sources: entangle_backend_sources,
   dependencies: entangle_backend_deps,
   version: '0.0.0',

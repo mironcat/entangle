@@ -51,9 +51,10 @@ foreach f: entangle_frontend_sources + entangle_frontend_headers
 endforeach
 
 
-entangle_frontend_enums = []
+entangle_frontend_enum_headers = []
+entangle_frontend_enum_sources = []
 
-entangle_frontend_enums += gnome.mkenums(
+entangle_frontend_enum_headers += gnome.mkenums(
   'entangle-image-display-enums.h',
   sources: image_display_enum_headers,
   comments: '/* @comment@ */',
@@ -64,7 +65,7 @@ entangle_frontend_enums += gnome.mkenums(
   install_header: false,
 )
 
-entangle_frontend_enums += gnome.mkenums(
+entangle_frontend_enum_sources += gnome.mkenums(
   'entangle-image-display-enums.c',
   sources: image_display_enum_headers,
   comments: '/* @comment@ */',
@@ -76,7 +77,9 @@ entangle_frontend_enums += gnome.mkenums(
   install_header: false,
 )
 
-entangle_frontend_sources += entangle_frontend_enums
+entangle_frontend_sources += entangle_backend_enum_headers
+entangle_frontend_sources += entangle_frontend_enum_headers
+entangle_frontend_sources += entangle_frontend_enum_sources
 
 entangle_frontend_deps = [
   gthread_dep,
@@ -99,7 +102,7 @@ entangle_frontend_cflags = [
 ]
 
 entangle_frontend = shared_library(
-  'entangle_frontend', entangle_frontend_enums,
+  'entangle_frontend',
   sources: entangle_frontend_sources,
   dependencies: entangle_frontend_deps,
   include_directories: backend_inc,

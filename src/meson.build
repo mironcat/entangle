@@ -17,6 +17,9 @@ entangle_sources += gnome.compile_resources(
   source_dir: '.',
 )
 
+entangle_sources += entangle_backend_enum_headers
+entangle_sources += entangle_frontend_enum_headers
+
 entangle_deps = [
   entangle_backend_dep,
   entangle_frontend_dep,
