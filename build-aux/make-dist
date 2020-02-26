@@ -12,6 +12,7 @@ git clone --shared . $DISTDIR
 rm -rf $DISTDIR/.git
 
 build-aux/gitlog-to-changelog > $DISTDIR/ChangeLog
+build-aux/appdata-to-news > $DISTDIR/NEWS
 
 out="`git log --pretty=format:'   %aN <%aE>' | sort -u`"
 perl -p -e "s/#authorslist#// and print '$out'" < AUTHORS.in > $DISTDIR/AUTHORS
