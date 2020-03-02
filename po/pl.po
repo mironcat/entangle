@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Piotr Drąg <piotrdrag@gmail.com>, 2012-2014
 # Piotr Drąg <piotrdrag@gmail.com>, 2015. #zanata
@@ -9,22 +9,23 @@
 # Piotr Drąg <piotrdrag@gmail.com>, 2017. #zanata
 # Piotr Drąg <piotrdrag@gmail.com>, 2018. #zanata
 # Piotr Drąg <piotrdrag@gmail.com>, 2019. #zanata
+# Michal Biesiada <biesiadmichal@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-16 14:19+0000\n"
-"PO-Revision-Date: 2019-01-17 09:53+0000\n"
-"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/entangle/language/"
-"pl/)\n"
+"PO-Revision-Date: 2020-03-02 02:38+0000\n"
+"Last-Translator: Michal Biesiada <biesiadmichal@gmail.com>\n"
+"Language-Team: Polish <https://translate.fedoraproject.org/projects/entangle/"
+"master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.11.2\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -1094,7 +1095,7 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
-msgstr ""
+msgstr "Wymagaj GTK3 &gt;= 3.22"
 
 #: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
@@ -1102,7 +1103,7 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:49
 msgid "Fix variable name in photobox plugin"
-msgstr ""
+msgstr "Napraw nazwę zmiennej we wtyczce Photobox"
 
 #: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
@@ -1114,7 +1115,7 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
-msgstr ""
+msgstr "Odśwież tłumaczenia"
 
 #: src/entangle.appdata.xml.in:53
 msgid "Option to highlight over exposed pixels in red"
@@ -1134,7 +1135,7 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:57
 msgid "Update mailing list address in appdaat"
-msgstr ""
+msgstr "Zaktualizuj adres listy mailingowej w appdaat"
 
 #: src/entangle.appdata.xml.in:58
 msgid "Add more fields to appdata content"
@@ -1158,7 +1159,7 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:63
 msgid "Fix many memory leaks"
-msgstr ""
+msgstr "Napraw wiele wycieków pamięci"
 
 #: src/entangle.appdata.xml.in:64
 msgid "Workaround for combo boxes not displaying on Wayland"
