@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-03 22:10+0000\n"
-"PO-Revision-Date: 2020-01-10 15:16+0000\n"
+"PO-Revision-Date: 2020-03-24 13:38+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
-"Language-Team: Turkish <https://translate.stg.fedoraproject.org/projects/"
+"Language-Team: Turkish <https://translate.fedoraproject.org/projects/"
 "entangle/master/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.1\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -1138,7 +1138,7 @@ msgstr "Pencereyi kapatma sırasındaki referans saymayı düzelt"
 
 #: src/entangle.appdata.xml.in:60
 msgid "Use correct API for destroying top level windows"
-msgstr "Üst düzey pencereleri yok etmek için doğru API'yi kullan"
+msgstr "Üst seviye pencereleri yok etmek için doğru API'yi kullan"
 
 #: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
