@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Piotr Drąg <piotrdrag@gmail.com>, 2012-2014
-# Piotr Drąg <piotrdrag@gmail.com>, 2015. #zanata
-# Piotr Drąg <piotrdrag@gmail.com>, 2016. #zanata
-# Piotr Drąg <piotrdrag@gmail.com>, 2017. #zanata
-# Piotr Drąg <piotrdrag@gmail.com>, 2018. #zanata
-# Piotr Drąg <piotrdrag@gmail.com>, 2019. #zanata
+# Piotr Drąg <piotrdrag@gmail.com>, 2012-2014, 2020.
+# Piotr Drąg <piotrdrag@gmail.com>, 2015. #zanata, 2020.
+# Piotr Drąg <piotrdrag@gmail.com>, 2016. #zanata, 2020.
+# Piotr Drąg <piotrdrag@gmail.com>, 2017. #zanata, 2020.
+# Piotr Drąg <piotrdrag@gmail.com>, 2018. #zanata, 2020.
+# Piotr Drąg <piotrdrag@gmail.com>, 2019. #zanata, 2020.
 # Michal Biesiada <biesiadmichal@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-16 14:19+0000\n"
-"PO-Revision-Date: 2020-03-02 02:38+0000\n"
-"Last-Translator: Michal Biesiada <biesiadmichal@gmail.com>\n"
+"PO-Revision-Date: 2020-03-15 12:02+0000\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <https://translate.fedoraproject.org/projects/entangle/"
 "master/pl/>\n"
 "Language: pl\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.11.2\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -1091,91 +1091,96 @@ msgstr "Projekt Entangle"
 
 #: src/entangle.appdata.xml.in:46
 msgid "Require gobject introspection &gt;= 1.54"
-msgstr ""
+msgstr "Wymaganie introspekcji GObject &gt;= 1.54"
 
 #: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
-msgstr "Wymagaj GTK3 &gt;= 3.22"
+msgstr "Wymaganie biblioteki GTK3 &gt;= 3.22"
 
 #: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
-msgstr ""
+msgstr "Naprawa zależności od biblioteki libraw"
 
 #: src/entangle.appdata.xml.in:49
 msgid "Fix variable name in photobox plugin"
-msgstr "Napraw nazwę zmiennej we wtyczce Photobox"
+msgstr "Naprawa nazwy zmiennej we wtyczce Photobox"
 
 #: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
-msgstr ""
+msgstr "Dokumentacja niektórych brakujących skrótów klawiszowych"
 
 #: src/entangle.appdata.xml.in:51
 msgid "Fix upper bound in histogram to display clipped pixel"
-msgstr ""
+msgstr "Naprawa górnej granicy na histogramie, aby wyświetlać ucięte piksele"
 
 #: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
-msgstr "Odśwież tłumaczenia"
+msgstr "Odświeżenie tłumaczeń"
 
 #: src/entangle.appdata.xml.in:53
 msgid "Option to highlight over exposed pixels in red"
-msgstr ""
+msgstr "Opcja wyróżniania prześwietlonych pikseli na czerwono"
 
 #: src/entangle.appdata.xml.in:54
 msgid "Disable noisy compiler warning"
-msgstr ""
+msgstr "Wyłączenie głośnego ostrzeżenia kompilatora"
 
 #: src/entangle.appdata.xml.in:55
 msgid "Remove use of deprecated application menu concept"
-msgstr ""
+msgstr "Usunięcie użycia przestarzałego menu programu"
 
 #: src/entangle.appdata.xml.in:56
 msgid "Fix image redraw when changing some settings"
-msgstr ""
+msgstr "Naprawa ponownego wyświetlania obrazu po zmianie niektórych ustawień"
 
 #: src/entangle.appdata.xml.in:57
 msgid "Update mailing list address in appdaat"
-msgstr "Zaktualizuj adres listy mailingowej w appdaat"
+msgstr "Zaktualizowanie adresu listy pocztowej w AppData"
 
 #: src/entangle.appdata.xml.in:58
 msgid "Add more fields to appdata content"
-msgstr ""
+msgstr "Dodanie więcej pól do pliku AppData"
 
 #: src/entangle.appdata.xml.in:59
 msgid "Fix reference counting during window close"
-msgstr ""
+msgstr "Naprawa liczenia odniesień podczas zamykania okna"
 
 #: src/entangle.appdata.xml.in:60
 msgid "Use correct API for destroying top level windows"
-msgstr ""
+msgstr "Użycie właściwego API do niszczenia okien najwyższego poziomu"
 
 #: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
 msgstr ""
+"Naprawa odmontowywania aparatów za pomocą nowszego schematu nazywania "
+"adresów URI biblioteki GVFS"
 
 #: src/entangle.appdata.xml.in:62
 msgid "Avoid out of bounds read of property values"
-msgstr ""
+msgstr "Uniknięcie odczytu wartości właściwości poza granicami"
 
 #: src/entangle.appdata.xml.in:63
 msgid "Fix many memory leaks"
-msgstr "Napraw wiele wycieków pamięci"
+msgstr "Naprawa wielu wycieków pamięci"
 
 #: src/entangle.appdata.xml.in:64
 msgid "Workaround for combo boxes not displaying on Wayland"
 msgstr ""
+"Obejście problemu pól kombinowanych niewyświetlających się w systemie Wayland"
 
 #: src/entangle.appdata.xml.in:65
 msgid "Fix race condition in building enums"
-msgstr ""
+msgstr "Naprawa hazardu podczas budowania wyliczeń"
 
 #: src/entangle.appdata.xml.in:66
 msgid "Fix setting of gschema directory during startup"
-msgstr ""
+msgstr "Naprawa ustawiania katalogu GSchema podczas uruchamiania"
 
 #: src/entangle.appdata.xml.in:67
 msgid "Set env to ensure plugins can find introspection typelib"
 msgstr ""
+"Ustawienie zmiennej środowiskowej, aby zapewnić wtyczkom możliwość "
+"znajdowania typelib introspekcji"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
