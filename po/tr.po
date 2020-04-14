@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-03 22:10+0000\n"
-"PO-Revision-Date: 2020-03-24 13:38+0000\n"
+"PO-Revision-Date: 2020-04-14 06:40+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://translate.fedoraproject.org/projects/"
 "entangle/master/tr/>\n"
@@ -191,23 +191,23 @@ msgstr "Otomatik odak durumu ayarlanamadı: %s %d"
 #: src/backend/entangle-camera.c:3011
 #, c-format
 msgid "Manual focus control not available with this camera"
-msgstr "Bu kamera için manuel odak kontrolü mevcut değil"
+msgstr "Bu kamera için elle odak kontrolü mevcut değil"
 
 #: src/backend/entangle-camera.c:3025
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
-msgstr "Manuel odak kontrolü bir aralık veya radyo widget'ı değildi"
+msgstr "Elle odak kontrolü bir aralık veya radyo widget'ı değildi"
 
 #: src/backend/entangle-camera.c:3044 src/backend/entangle-camera.c:3068
 #: src/backend/entangle-camera.c:3087 src/backend/entangle-camera.c:3103
 #, c-format
 msgid "Failed to set manual focus state: %s %d"
-msgstr "Manuel odak durumu ayarlanamadı: %s %d"
+msgstr "Elle odak durumu ayarlanamadı: %s %d"
 
 #: src/backend/entangle-camera.c:3061 src/backend/entangle-camera.c:3096
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
-msgstr "%d manuel odak seçimi okunamadı: %s %d"
+msgstr "%d elle odak seçimi okunamadı: %s %d"
 
 #: src/backend/entangle-camera.c:3235
 #, c-format
@@ -297,7 +297,7 @@ msgstr "_Ayarlar"
 
 #: src/frontend/entangle-camera-manager-menus.ui:78
 msgid "_Synchronize capture"
-msgstr "_Yakalamayı senkronize et"
+msgstr "_Yakalamayı eşzamanla"
 
 #: src/frontend/entangle-camera-manager-menus.ui:87
 msgid "Best Fit"
@@ -466,11 +466,11 @@ msgstr "Entangle: Kamera otomatik odaklama başarısız oldu"
 
 #: src/frontend/entangle-camera-manager.c:1918
 msgid "Manual focus failed"
-msgstr "Manuel odaklama başarısız oldu"
+msgstr "Elle odaklama başarısız oldu"
 
 #: src/frontend/entangle-camera-manager.c:1920
 msgid "Entangle: Camera manual focus failed"
-msgstr "Entangle: Kamera manuel odaklama başarısız oldu"
+msgstr "Entangle: Elle kamera odaklama başarısız oldu"
 
 #: src/frontend/entangle-camera-manager.c:2420
 #: src/frontend/entangle-camera-manager.c:2538
@@ -526,7 +526,7 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
-"Hiçbir kamera tespit edilmedi,\n"
+"Hiçbir kamera algılanmadı,\n"
 "\n"
 "  - <b>kabloların</b> bağlı olduğunu\n"
 "  - kameranın <b>açık</b> olduğunu\n"
@@ -899,7 +899,7 @@ msgstr "İndirdikten sonra dosyayı kameradan sil"
 
 #: src/frontend/entangle-preferences-display.ui:211
 msgid "Automatically synchronize camera clock"
-msgstr "Kamera saatini otomatik olarak senkronize et"
+msgstr "Kamera saatini otomatik olarak eşzamanla"
 
 #: src/frontend/entangle-preferences-display.ui:263
 msgid "<b>Colour management</b>"
