@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-03 22:10+0000\n"
-"PO-Revision-Date: 2020-04-14 06:40+0000\n"
+"PO-Revision-Date: 2020-04-16 17:40+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://translate.fedoraproject.org/projects/"
 "entangle/master/tr/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11.3\n"
+"X-Generator: Weblate 4.0.1\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -120,53 +120,53 @@ msgstr "Widget adı getirilemedi"
 #: src/backend/entangle-camera.c:2346
 #, c-format
 msgid "Unable to load controls, camera is not connected"
-msgstr "Kontroller yüklenemedi, kamera bağlı değil"
+msgstr "Denetlemeler yüklenemedi, kamera bağlı değil"
 
 #: src/backend/entangle-camera.c:2355
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
-msgstr "Kamera kontrol yapılandırması alınamadı: %s"
+msgstr "Kamera denetleme yapılandırması alınamadı: %s"
 
 #: src/backend/entangle-camera.c:2476
 #, c-format
 msgid "Unable to save controls, camera is not connected"
-msgstr "Kontroller kaydedilemedi, kamera bağlı değil"
+msgstr "Denetlemeler kaydedilemedi, kamera bağlı değil"
 
 #: src/backend/entangle-camera.c:2482
 #, c-format
 msgid "Unable to save controls, camera is not configurable"
-msgstr "Kontroller kaydedilemedi, kamera yapılandırılamıyor"
+msgstr "Denetlemeler kaydedilemedi, kamera yapılandırılamıyor"
 
 #: src/backend/entangle-camera.c:2501 src/backend/entangle-camera.c:2718
 #: src/backend/entangle-camera.c:2887 src/backend/entangle-camera.c:3078
 #: src/backend/entangle-camera.c:3264 src/backend/entangle-camera.c:3432
 #, c-format
 msgid "Unable to save camera control configuration: %s"
-msgstr "Kamera kontrol yapılandırması kaydedilemedi: %s"
+msgstr "Kamera denetleme yapılandırması kaydedilemedi: %s"
 
 #: src/backend/entangle-camera.c:2604 src/backend/entangle-camera.c:2658
 #: src/backend/entangle-camera.c:2836 src/backend/entangle-camera.c:2997
 #: src/backend/entangle-camera.c:3221 src/backend/entangle-camera.c:3387
 #, c-format
 msgid "Controls not available when camera is disconnected"
-msgstr "Kamera bağlı değilken kontroller kullanılamaz"
+msgstr "Kamera bağlı değilken denetlemeler kullanılamıyor"
 
 #: src/backend/entangle-camera.c:2610 src/backend/entangle-camera.c:2664
 #: src/backend/entangle-camera.c:2842 src/backend/entangle-camera.c:3003
 #: src/backend/entangle-camera.c:3227 src/backend/entangle-camera.c:3393
 #, c-format
 msgid "Controls not available for this camera"
-msgstr "Bu kamera için kontrol mevcut değil"
+msgstr "Bu kamera için denetlemeler kullanılamıyor"
 
 #: src/backend/entangle-camera.c:2675
 #, c-format
 msgid "Viewfinder control not available with this camera"
-msgstr "Bu kamera için vizör kontrolü mevcut değil"
+msgstr "Bu kamera için vizör denetleme kullanılamıyor"
 
 #: src/backend/entangle-camera.c:2688
 #, c-format
 msgid "Viewfinder control was not a toggle widget"
-msgstr "Vizör kontrolü bir değiştirme (toggle) widget'ı değildi"
+msgstr "Vizör denetleme bir değiştirme (toggle) widget'ı değildi"
 
 #: src/backend/entangle-camera.c:2702 src/backend/entangle-camera.c:2709
 #, c-format
@@ -176,12 +176,12 @@ msgstr "Vizör durumu ayarlanamadı: %s %d"
 #: src/backend/entangle-camera.c:2850
 #, c-format
 msgid "Autofocus control not available with this camera"
-msgstr "Bu kamera için otomatik odak kontrolü mevcut değil"
+msgstr "Bu kamera için otomatik odak denetleme kullanılamıyor"
 
 #: src/backend/entangle-camera.c:2863
 #, c-format
 msgid "Autofocus control was not a toggle widget"
-msgstr "Otomatik odak kontrolü bir değiştirme (toggle) widget'ı değildi"
+msgstr "Otomatik odak denetleme bir değiştirme (toggle) widget'ı değildi"
 
 #: src/backend/entangle-camera.c:2870 src/backend/entangle-camera.c:2878
 #, c-format
@@ -191,12 +191,12 @@ msgstr "Otomatik odak durumu ayarlanamadı: %s %d"
 #: src/backend/entangle-camera.c:3011
 #, c-format
 msgid "Manual focus control not available with this camera"
-msgstr "Bu kamera için elle odak kontrolü mevcut değil"
+msgstr "Bu kamera için elle odak denetleme kullanılamıyor"
 
 #: src/backend/entangle-camera.c:3025
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
-msgstr "Elle odak kontrolü bir aralık veya radyo widget'ı değildi"
+msgstr "Elle odak denetleme bir aralık veya radyo widget'ı değildi"
 
 #: src/backend/entangle-camera.c:3044 src/backend/entangle-camera.c:3068
 #: src/backend/entangle-camera.c:3087 src/backend/entangle-camera.c:3103
@@ -212,7 +212,7 @@ msgstr "%d elle odak seçimi okunamadı: %s %d"
 #: src/backend/entangle-camera.c:3235
 #, c-format
 msgid "Time setting not available with this camera"
-msgstr "Bu kamera için zaman ayarı mevcut değil"
+msgstr "Bu kamera için zaman ayarı kullanılamıyor"
 
 #: src/backend/entangle-camera.c:3248
 #, c-format
@@ -227,7 +227,7 @@ msgstr "Zaman durumu ayarlanamadı: %s %d"
 #: src/backend/entangle-camera.c:3401
 #, c-format
 msgid "Capture target setting not available with this camera"
-msgstr "Bu kamera için yakalama hedefi ayarı mevcut değil"
+msgstr "Bu kamera için yakalama hedefi ayarı kullanılamıyor"
 
 #: src/backend/entangle-camera.c:3414
 #, c-format
@@ -347,12 +347,12 @@ msgstr "Entangle: İşlem başarısız oldu"
 #: src/frontend/entangle-camera-manager.c:764
 #: src/frontend/entangle-camera-manager.c:1032
 msgid "Camera load controls failed"
-msgstr "Kamera kontrolleri yüklenemedi"
+msgstr "Kamera denetlemeleri yüklenemedi"
 
 #: src/frontend/entangle-camera-manager.c:766
 #: src/frontend/entangle-camera-manager.c:1034
 msgid "Entangle: Camera load controls failed"
-msgstr "Entangle: Kamera kontrolleri yüklenemedi"
+msgstr "Entangle: Kamera denetlemeleri yüklenemedi"
 
 #: src/frontend/entangle-camera-manager.c:804
 msgid "Monitor"
@@ -446,7 +446,7 @@ msgstr "Yakala"
 
 #: src/frontend/entangle-camera-manager.c:1660
 msgid "Script"
-msgstr "Komut dosyası"
+msgstr "Betik"
 
 #: src/frontend/entangle-camera-manager.c:1727
 msgid "Preview"
@@ -563,11 +563,11 @@ msgstr "etiket"
 
 #: src/frontend/entangle-control-panel.c:88
 msgid "Camera control update failed"
-msgstr "Kamera kontrolü güncellenemedi"
+msgstr "Kamera denetleme güncellenemedi"
 
 #: src/frontend/entangle-control-panel.c:90
 msgid "Entangle: Camera control update failed"
-msgstr "Entangle: Kamera kontrolü güncellenemedi"
+msgstr "Entangle: Kamera denetleme güncellenemedi"
 
 #: src/frontend/entangle-control-panel.c:318
 msgid "On"
@@ -579,15 +579,15 @@ msgstr "Kapalı"
 
 #: src/frontend/entangle-control-panel.c:782
 msgid "Reset controls"
-msgstr "Kontrolleri sıfırla"
+msgstr "Denetlemeleri sıfırla"
 
 #: src/frontend/entangle-control-panel.c:857
 msgid "No controls available"
-msgstr "Kontrol mevcut değil"
+msgstr "Kullanılabilir denetleme yok"
 
 #: src/frontend/entangle-dpms.c:57
 msgid "Screen blanking is not available on this display"
-msgstr "Bu ekranda, ekran karartma mevcut değil"
+msgstr "Bu ekranda, ekran karartma kullanılamıyor"
 
 #: src/frontend/entangle-dpms.c:69
 msgid "Screen blanking is not implemented on this platform"
@@ -599,12 +599,12 @@ msgstr "Hakkında - Entangle"
 
 #: src/frontend/entangle-help-about.ui:17 src/entangle.desktop.in:5
 msgid "Tethered Camera Control & Capture"
-msgstr "Bağlı Kamera Kontrolü ve Yakalama"
+msgstr "Bağlı Kamera Denetleme ve Yakalama"
 
 #: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr "Uygulamayı kontrol etme"
+msgstr "Uygulamayı denetleme"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
@@ -679,7 +679,7 @@ msgstr "Sunum"
 #: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr "Deklanşör kontrolü"
+msgstr "Deklanşör denetleme"
 
 #: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
@@ -694,7 +694,7 @@ msgstr "Canlı ön izlemeyi aç/kapat"
 #: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr "Odak kontrolü (canlı ön izleme sırasında)"
+msgstr "Odak denetleme (canlı ön izleme sırasında)"
 
 #: src/frontend/entangle-help-overlay.ui:139
 msgctxt "shortcut window"
@@ -1023,11 +1023,11 @@ msgstr "Mutlak kolorimetrik"
 
 #: src/frontend/entangle-script.c:96
 msgid "Untitled script"
-msgstr "Adsız komut dosyası"
+msgstr "Adsız betik"
 
 #: src/frontend/entangle-script-config.c:77
 msgid "No script"
-msgstr "Komut dosyası yok"
+msgstr "Betik yok"
 
 #: src/frontend/entangle-script-config.c:159
 msgid "No config options"
@@ -1043,14 +1043,14 @@ msgstr "Entangle"
 
 #: src/entangle.appdata.xml.in:8
 msgid "Tethered Camera Control &amp; Capture"
-msgstr "Bağlı Kamera Kontrolü &amp; Yakalama"
+msgstr "Bağlı Kamera Denetleme &amp; Yakalama"
 
 #: src/entangle.appdata.xml.in:10
 msgid ""
 "Entangle is a program used to control digital cameras that are connected to "
 "the computer via USB."
 msgstr ""
-"Entangle, bilgisayara USB ile bağlı dijital kameraları kontrol etmek için "
+"Entangle, bilgisayara USB ile bağlı dijital kameraları denetlemek için "
 "kullanılan bir programdır."
 
 #: src/entangle.appdata.xml.in:14
