@@ -27,6 +27,9 @@ xext_min_version = '>= 1.3.0'
 libraw_min_version = '>= 0.9.0'
 gst_min_version = '>= 1.0.0'
 
+add_global_arguments('-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_38', language : 'c')
+add_global_arguments('-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_38', language : 'c')
+
 glib_dep = dependency('glib-2.0', version: glib_min_version)
 gio_dep = dependency('gio-2.0', version: glib_min_version)
 gthread_dep = dependency('gthread-2.0', version: glib_min_version)
