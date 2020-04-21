@@ -44,8 +44,6 @@ typedef struct _EntangleSessionBrowserClass EntangleSessionBrowserClass;
 struct _EntangleSessionBrowser
 {
     GtkDrawingArea parent;
-
-    EntangleSessionBrowserPrivate *priv;
 };
 
 struct _EntangleSessionBrowserClass

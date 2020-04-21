@@ -24,10 +24,6 @@
 #include "entangle-session-browser.h"
 #include "entangle-video.h"
 
-#define ENTANGLE_SESSION_BROWSER_GET_PRIVATE(obj)                       \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_SESSION_BROWSER, EntangleSessionBrowserPrivate))
-
-
 struct _EntangleSessionBrowserPrivate {
     EntangleSession *session;
     EntangleThumbnailLoader *loader;
@@ -115,7 +111,7 @@ entangle_session_browser_scroll_to_selected(EntangleSessionBrowser *browser)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     int minx, maxx;
     int x, y;
     GtkAllocation allocation;
@@ -148,7 +144,7 @@ static gboolean
 entangle_session_browser_select_media(EntangleSessionBrowser *browser,
                                       int idx)
 {
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     EntangleMedia *media;
 
     if (idx == -1) {
@@ -193,7 +189,7 @@ static void do_media_added(EntangleSession *session G_GNUC_UNUSED,
                            gpointer data)
 {
     EntangleSessionBrowser *browser = data;
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     ENTANGLE_DEBUG("Request image %s for new image", entangle_media_get_filename(media));
     if (ENTANGLE_IS_IMAGE(media))
@@ -212,7 +208,7 @@ static void do_media_removed(EntangleSession *session G_GNUC_UNUSED,
                              gpointer data)
 {
     EntangleSessionBrowser *browser = data;
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     ENTANGLE_DEBUG("Unrequest image %s for new image", entangle_media_get_filename(media));
     if (ENTANGLE_IS_IMAGE(media))
@@ -234,7 +230,7 @@ static void do_model_unload(EntangleSessionBrowser *browser)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     int count;
 
     ENTANGLE_DEBUG("Unload model");
@@ -263,7 +259,7 @@ static void do_model_load(EntangleSessionBrowser *browser)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     int count;
 
     ENTANGLE_DEBUG("Load model");
@@ -296,7 +292,7 @@ static void entangle_session_browser_get_property(GObject *object,
                                                   GParamSpec *pspec)
 {
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(object);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     switch (prop_id) {
     case PROP_SESSION:
@@ -335,7 +331,7 @@ static void entangle_session_browser_set_property(GObject *object,
                                                   GParamSpec *pspec)
 {
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(object);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     ENTANGLE_DEBUG("Set prop on session browser %d", prop_id);
 
@@ -378,7 +374,7 @@ entangle_session_browser_realize(GtkWidget *widget)
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget));
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     GtkAllocation allocation;
     GdkWindow *window;
     GdkWindowAttr attributes;
@@ -445,7 +441,7 @@ entangle_session_browser_unrealize(GtkWidget *widget)
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget));
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     gdk_window_set_user_data(priv->bin_window, NULL);
     gdk_window_destroy(priv->bin_window);
@@ -458,7 +454,7 @@ entangle_session_browser_unrealize(GtkWidget *widget)
 static int entangle_session_browser_get_index_at_coords(EntangleSessionBrowser *browser,
                                                         gint x, gint y)
 {
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     int idx;
     int itemx;
 
@@ -492,7 +488,7 @@ EntangleMedia *entangle_session_browser_get_media_at_coords(EntangleSessionBrows
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     int idx = entangle_session_browser_get_index_at_coords(browser, x, y);
 
     if (idx >= 0)
@@ -509,7 +505,7 @@ entangle_session_browser_button_press(GtkWidget *widget,
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     int idx;
 
     if (!priv->session)
@@ -544,7 +540,7 @@ entangle_session_browser_button_release(GtkWidget *widget,
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     if (event->button == 1 && event->type == GDK_BUTTON_RELEASE) {
         priv->dnd_start_x = -1;
@@ -562,12 +558,13 @@ entangle_session_browser_convert_widget_to_bin_window_coords(EntangleSessionBrow
                                                              gint *bx,
                                                              gint *by)
 {
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     gint x, y;
 
     g_return_if_fail(ENTANGLE_SESSION_BROWSER(browser));
 
-    if (browser->priv->bin_window)
-        gdk_window_get_position(browser->priv->bin_window, &x, &y);
+    if (priv->bin_window)
+        gdk_window_get_position(priv->bin_window, &x, &y);
     else
         x = y = 0;
 
@@ -589,7 +586,7 @@ entangle_session_browser_query_tooltip(GtkWidget *widget,
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     gint bx = 0;
     gint by = 0;
     GdkRectangle rect;
@@ -630,7 +627,7 @@ entangle_session_browser_scroll(GtkWidget *widget,
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     switch (event->direction) {
     case GDK_SCROLL_UP:
@@ -662,7 +659,7 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     GdkPixbuf *pixbuf = NULL;
     gchar *demo = g_strdup("demo");
     GtkTargetEntry tentry[] = {
@@ -731,7 +728,7 @@ entangle_session_browser_key_press(GtkWidget *widget,
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     switch (event->keyval) {
     case GDK_KEY_Right:
@@ -760,7 +757,7 @@ entangle_session_browser_size_allocate(GtkWidget *widget,
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget));
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     gtk_widget_set_allocation(widget, allocation);
 
@@ -803,7 +800,7 @@ static void entangle_session_browser_destroy(GtkWidget *widget)
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget));
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     if (priv->hadjustment != NULL) {
         g_object_unref(priv->hadjustment);
@@ -822,7 +819,7 @@ static void entangle_session_browser_destroy(GtkWidget *widget)
 static void entangle_session_browser_finalize(GObject *object)
 {
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(object);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     if (priv->session && priv->loader)
         do_model_unload(browser);
@@ -906,7 +903,7 @@ EntangleSessionBrowser *entangle_session_browser_new(void)
 
 static void entangle_session_browser_load_icons(EntangleSessionBrowser *browser)
 {
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     GtkIconTheme *theme;
 
     theme = gtk_icon_theme_get_default();
@@ -929,9 +926,7 @@ static void entangle_session_browser_load_icons(EntangleSessionBrowser *browser)
 
 static void entangle_session_browser_init(EntangleSessionBrowser *browser)
 {
-    EntangleSessionBrowserPrivate *priv;
-
-    priv = browser->priv = ENTANGLE_SESSION_BROWSER_GET_PRIVATE(browser);
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     gtk_widget_set_has_tooltip(GTK_WIDGET(browser), TRUE);
 
@@ -966,7 +961,7 @@ EntangleMedia *entangle_session_browser_get_selected_media(EntangleSessionBrowse
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     if (priv->selectedMedia == NULL)
         return NULL;
@@ -994,7 +989,7 @@ GList *entangle_session_browser_get_earlier_images(EntangleSessionBrowser *brows
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     GList *images = NULL;
     int idx;
 
@@ -1031,7 +1026,7 @@ void entangle_session_browser_set_thumbnail_loader(EntangleSessionBrowser *brows
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     if (priv->loader) {
         if (priv->session)
@@ -1061,7 +1056,7 @@ EntangleThumbnailLoader *entangle_session_browser_get_thumbnail_loader(EntangleS
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     return priv->loader;
 }
@@ -1079,7 +1074,7 @@ void entangle_session_browser_set_session(EntangleSessionBrowser *browser,
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     if (priv->session) {
         if (priv->loader)
@@ -1108,7 +1103,7 @@ EntangleSession *entangle_session_browser_get_session(EntangleSessionBrowser *br
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     return priv->session;
 }
@@ -1118,7 +1113,7 @@ void entangle_session_browser_set_background(EntangleSessionBrowser *browser,
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     gdk_rgba_parse(&priv->background, background);
 
@@ -1130,7 +1125,7 @@ gchar *entangle_session_browser_get_background(EntangleSessionBrowser *browser)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     return gdk_rgba_to_string(&priv->background);
 }
@@ -1140,7 +1135,7 @@ void entangle_session_browser_set_highlight(EntangleSessionBrowser *browser,
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     gdk_rgba_parse(&priv->highlight, highlight);
 
@@ -1152,7 +1147,7 @@ gchar *entangle_session_browser_get_highlight(EntangleSessionBrowser *browser)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     return gdk_rgba_to_string(&priv->highlight);
 }
@@ -1165,7 +1160,7 @@ entangle_session_browser_draw(GtkWidget *widget,
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     int ww, wh; /* Available drawing area extents */
     int i;
 
@@ -1263,7 +1258,7 @@ entangle_session_browser_set_hadjustment_values(EntangleSessionBrowser *browser)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     GtkAllocation allocation;
     GtkAdjustment *adj = priv->hadjustment;
 
@@ -1284,7 +1279,7 @@ entangle_session_browser_set_vadjustment_values(EntangleSessionBrowser *browser)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
     GtkAllocation allocation;
     GtkAdjustment *adj = priv->vadjustment;
 
@@ -1306,7 +1301,7 @@ entangle_session_browser_set_hadjustment(EntangleSessionBrowser *browser,
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     if (adjustment && priv->hadjustment == adjustment)
         return;
@@ -1337,7 +1332,7 @@ entangle_session_browser_set_vadjustment(EntangleSessionBrowser *browser,
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     if (adjustment && priv->vadjustment == adjustment)
         return;
@@ -1368,7 +1363,7 @@ entangle_session_browser_adjustment_changed(GtkAdjustment *adjustment G_GNUC_UNU
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
-    EntangleSessionBrowserPrivate *priv = browser->priv;
+    EntangleSessionBrowserPrivate *priv = entangle_session_browser_get_instance_private(browser);
 
     if (gtk_widget_get_realized(GTK_WIDGET(browser))) {
         gdk_window_move(priv->bin_window,

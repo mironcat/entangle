@@ -40,8 +40,6 @@ typedef struct _EntangleDeviceManagerClass EntangleDeviceManagerClass;
 struct _EntangleDeviceManager
 {
     GObject parent;
-
-    EntangleDeviceManagerPrivate *priv;
 };
 
 struct _EntangleDeviceManagerClass

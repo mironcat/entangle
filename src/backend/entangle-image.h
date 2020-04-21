@@ -42,8 +42,6 @@ typedef struct _EntangleImageClass EntangleImageClass;
 struct _EntangleImage
 {
     EntangleMedia parent;
-
-    EntangleImagePrivate *priv;
 };
 
 struct _EntangleImageClass

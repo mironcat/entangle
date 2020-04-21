@@ -42,8 +42,6 @@ typedef struct _EntangleControlToggleClass EntangleControlToggleClass;
 struct _EntangleControlToggle
 {
     EntangleControl parent;
-
-    EntangleControlTogglePrivate *priv;
 };
 
 struct _EntangleControlToggleClass

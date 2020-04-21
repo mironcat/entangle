@@ -23,9 +23,6 @@
 #include "entangle-debug.h"
 #include "entangle-control-date.h"
 
-#define ENTANGLE_CONTROL_DATE_GET_PRIVATE(obj)                          \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CONTROL_DATE, EntangleControlDatePrivate))
-
 struct _EntangleControlDatePrivate {
     int value;
 };
@@ -42,8 +39,8 @@ static void entangle_control_get_property(GObject *object,
                                           GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleControlDate *picker = ENTANGLE_CONTROL_DATE(object);
-    EntangleControlDatePrivate *priv = picker->priv;
+    EntangleControlDate *control = ENTANGLE_CONTROL_DATE(object);
+    EntangleControlDatePrivate *priv = entangle_control_date_get_instance_private(control);
 
     switch (prop_id)
         {
@@ -61,8 +58,8 @@ static void entangle_control_set_property(GObject *object,
                                           const GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleControlDate *picker = ENTANGLE_CONTROL_DATE(object);
-    EntangleControlDatePrivate *priv = picker->priv;
+    EntangleControlDate *control = ENTANGLE_CONTROL_DATE(object);
+    EntangleControlDatePrivate *priv = entangle_control_date_get_instance_private(control);
 
     switch (prop_id)
         {
@@ -126,9 +123,8 @@ EntangleControlDate *entangle_control_date_new(const char *path,
 }
 
 
-static void entangle_control_date_init(EntangleControlDate *picker)
+static void entangle_control_date_init(EntangleControlDate *control G_GNUC_UNUSED)
 {
-    picker->priv = ENTANGLE_CONTROL_DATE_GET_PRIVATE(picker);
 }
 
 

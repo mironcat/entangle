@@ -41,8 +41,6 @@ typedef struct _EntangleThumbnailLoaderClass EntangleThumbnailLoaderClass;
 struct _EntangleThumbnailLoader
 {
     EntanglePixbufLoader parent;
-
-    EntangleThumbnailLoaderPrivate *priv;
 };
 
 struct _EntangleThumbnailLoaderClass

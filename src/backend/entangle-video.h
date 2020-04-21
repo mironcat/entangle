@@ -41,8 +41,6 @@ typedef struct _EntangleVideoClass EntangleVideoClass;
 struct _EntangleVideo
 {
     EntangleMedia parent;
-
-    EntangleVideoPrivate *priv;
 };
 
 struct _EntangleVideoClass

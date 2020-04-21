@@ -42,8 +42,6 @@ typedef struct _EntangleControlChoiceClass EntangleControlChoiceClass;
 struct _EntangleControlChoice
 {
     EntangleControl parent;
-
-    EntangleControlChoicePrivate *priv;
 };
 
 struct _EntangleControlChoiceClass

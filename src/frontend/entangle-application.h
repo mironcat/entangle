@@ -44,8 +44,6 @@ typedef struct _EntangleApplicationClass EntangleApplicationClass;
 struct _EntangleApplication
 {
     GtkApplication parent;
-
-    EntangleApplicationPrivate *priv;
 };
 
 struct _EntangleApplicationClass

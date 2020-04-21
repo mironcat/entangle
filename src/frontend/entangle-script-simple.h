@@ -39,8 +39,6 @@ typedef struct _EntangleScriptSimpleClass EntangleScriptSimpleClass;
 struct _EntangleScriptSimple
 {
     EntangleScript parent;
-
-    EntangleScriptSimplePrivate *priv;
 };
 
 struct _EntangleScriptSimpleClass

@@ -31,9 +31,6 @@
 #include "entangle-image.h"
 #include "entangle-video.h"
 
-#define ENTANGLE_SESSION_GET_PRIVATE(obj)                                   \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_SESSION, EntangleSessionPrivate))
-
 struct _EntangleSessionPrivate {
     char *directory;
     char *filenamePattern;
@@ -59,8 +56,8 @@ static void entangle_session_get_property(GObject *object,
                                           GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleSession *picker = ENTANGLE_SESSION(object);
-    EntangleSessionPrivate *priv = picker->priv;
+    EntangleSession *session = ENTANGLE_SESSION(object);
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
 
     switch (prop_id) {
     case PROP_DIRECTORY:
@@ -81,8 +78,8 @@ static void entangle_session_set_property(GObject *object,
                                           const GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleSession *picker = ENTANGLE_SESSION(object);
-    EntangleSessionPrivate *priv = picker->priv;
+    EntangleSession *session = ENTANGLE_SESSION(object);
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
 
     switch (prop_id) {
     case PROP_DIRECTORY:
@@ -114,7 +111,7 @@ static void do_media_unref(gpointer object,
 static void entangle_session_finalize(GObject *object)
 {
     EntangleSession *session = ENTANGLE_SESSION(object);
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
 
     ENTANGLE_DEBUG("Finalize session %p", object);
 
@@ -207,9 +204,7 @@ EntangleSession *entangle_session_new(const char *directory,
 
 static void entangle_session_init(EntangleSession *session)
 {
-    EntangleSessionPrivate *priv;
-
-    priv = session->priv = ENTANGLE_SESSION_GET_PRIVATE(session);
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
 
     priv->recalculateDigit = TRUE;
 }
@@ -227,7 +222,7 @@ const char *entangle_session_directory(EntangleSession *session)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), NULL);
 
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
 
     return priv->directory;
 }
@@ -245,7 +240,7 @@ const char *entangle_session_filename_pattern(EntangleSession *session)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), NULL);
 
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
 
     return priv->filenamePattern;
 }
@@ -253,7 +248,7 @@ const char *entangle_session_filename_pattern(EntangleSession *session)
 
 static gint entangle_session_next_digit(EntangleSession *session)
 {
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
     gint maxDigit = -1;
     GList *files = priv->files;
     const gchar *template = strchr(priv->filenamePattern, 'X');
@@ -345,7 +340,7 @@ static gint entangle_session_next_digit(EntangleSession *session)
 
 static char *entangle_session_next_file_prefix(EntangleSession *session)
 {
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
     const char *template = strchr(priv->filenamePattern, 'X');
     const char *postfix;
     char *prefix;
@@ -407,7 +402,7 @@ char *entangle_session_next_filename(EntangleSession *session,
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), NULL);
 
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
     const char *srcname = entangle_camera_file_get_name(file);
     char *dstname = NULL;
     char *ext = NULL;
@@ -480,7 +475,7 @@ void entangle_session_add_media(EntangleSession *session, EntangleMedia *media)
     g_return_if_fail(ENTANGLE_IS_SESSION(session));
     g_return_if_fail(ENTANGLE_IS_MEDIA(media));
 
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
 
     g_object_ref(media);
 
@@ -504,7 +499,7 @@ void entangle_session_remove_media(EntangleSession *session, EntangleMedia *medi
     g_return_if_fail(ENTANGLE_IS_SESSION(session));
     g_return_if_fail(ENTANGLE_IS_MEDIA(media));
 
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
     GList *tmp = g_list_find(priv->files, media);
 
     if (!tmp)
@@ -530,7 +525,7 @@ gboolean entangle_session_load(EntangleSession *session)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), FALSE);
 
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
     GFile *dir = g_file_new_for_path(priv->directory);
     GList *tmp;
     GFileEnumerator *children = g_file_enumerate_children(dir,
@@ -616,7 +611,7 @@ int entangle_session_get_media_count(EntangleSession *session)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), 0);
 
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
 
     return g_list_length(priv->files);
 }
@@ -635,7 +630,7 @@ EntangleMedia *entangle_session_get_media(EntangleSession *session, int idx)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), NULL);
 
-    EntangleSessionPrivate *priv = session->priv;
+    EntangleSessionPrivate *priv = entangle_session_get_instance_private(session);
 
     return g_list_nth_data(priv->files, idx);
 }

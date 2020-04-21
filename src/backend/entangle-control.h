@@ -40,8 +40,6 @@ typedef struct _EntangleControlClass EntangleControlClass;
 struct _EntangleControl
 {
     GObject parent;
-
-    EntangleControlPrivate *priv;
 };
 
 struct _EntangleControlClass

@@ -28,9 +28,6 @@
 #include "entangle-debug.h"
 #include "entangle-camera-preferences.h"
 
-#define ENTANGLE_CAMERA_PREFERENCES_GET_PRIVATE(obj)                               \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CAMERA_PREFERENCES, EntangleCameraPreferencesPrivate))
-
 struct _EntangleCameraPreferencesPrivate {
     EntangleCamera *camera;
     GSettings *settings;
@@ -48,8 +45,8 @@ static void entangle_camera_preferences_get_property(GObject *object,
                                                      GValue *value,
                                                      GParamSpec *pspec)
 {
-    EntangleCameraPreferences *preferences = ENTANGLE_CAMERA_PREFERENCES(object);
-    EntangleCameraPreferencesPrivate *priv = preferences->priv;
+    EntangleCameraPreferences *prefs = ENTANGLE_CAMERA_PREFERENCES(object);
+    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
 
     switch (prop_id)
         {
@@ -68,14 +65,14 @@ static void entangle_camera_preferences_set_property(GObject *object,
                                                      const GValue *value,
                                                      GParamSpec *pspec)
 {
-    EntangleCameraPreferences *preferences = ENTANGLE_CAMERA_PREFERENCES(object);
+    EntangleCameraPreferences *prefs = ENTANGLE_CAMERA_PREFERENCES(object);
 
     ENTANGLE_DEBUG("Set prop on camera preferences %d", prop_id);
 
     switch (prop_id)
         {
         case PROP_CAMERA:
-            entangle_camera_preferences_set_camera(preferences, g_value_get_object(value));
+            entangle_camera_preferences_set_camera(prefs, g_value_get_object(value));
             break;
 
         default:
@@ -87,7 +84,7 @@ static void entangle_camera_preferences_set_property(GObject *object,
 static void entangle_camera_preferences_finalize(GObject *object)
 {
     EntangleCameraPreferences *preferences = ENTANGLE_CAMERA_PREFERENCES(object);
-    EntangleCameraPreferencesPrivate *priv = preferences->priv;
+    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(preferences);
 
     ENTANGLE_DEBUG("Finalize preferences %p", object);
 
@@ -126,9 +123,8 @@ EntangleCameraPreferences *entangle_camera_preferences_new(void)
 }
 
 
-static void entangle_camera_preferences_init(EntangleCameraPreferences *prefs)
+static void entangle_camera_preferences_init(EntangleCameraPreferences *prefs G_GNUC_UNUSED)
 {
-    prefs->priv = ENTANGLE_CAMERA_PREFERENCES_GET_PRIVATE(prefs);
 }
 
 
@@ -145,7 +141,7 @@ void entangle_camera_preferences_set_camera(EntangleCameraPreferences *prefs,
     g_return_if_fail(ENTANGLE_IS_CAMERA_PREFERENCES(prefs));
     g_return_if_fail(!camera || ENTANGLE_IS_CAMERA(camera));
 
-    EntangleCameraPreferencesPrivate *priv = prefs->priv;
+    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
 
     if (priv->camera) {
         g_object_unref(priv->camera);
@@ -189,7 +185,7 @@ EntangleCamera *entangle_camera_preferences_get_camera(EntangleCameraPreferences
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_PREFERENCES(prefs), NULL);
 
-    EntangleCameraPreferencesPrivate *priv = prefs->priv;
+    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
 
     return priv->camera;
 }
@@ -205,7 +201,7 @@ gchar **entangle_camera_preferences_get_controls(EntangleCameraPreferences *pref
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_PREFERENCES(prefs), NULL);
 
-    EntangleCameraPreferencesPrivate *priv = prefs->priv;
+    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
 
     if (!priv->settings)
         return NULL;
@@ -224,7 +220,7 @@ void entangle_camera_preferences_set_controls(EntangleCameraPreferences *prefs,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PREFERENCES(prefs));
 
-    EntangleCameraPreferencesPrivate *priv = prefs->priv;
+    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
 
     if (!priv->settings)
         return;

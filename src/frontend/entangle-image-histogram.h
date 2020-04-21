@@ -42,8 +42,6 @@ typedef struct _EntangleImageHistogramClass EntangleImageHistogramClass;
 struct _EntangleImageHistogram
 {
     GtkDrawingArea parent;
-
-    EntangleImageHistogramPrivate *priv;
 };
 
 struct _EntangleImageHistogramClass

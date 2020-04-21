@@ -43,8 +43,6 @@ typedef struct _EntangleSessionClass EntangleSessionClass;
 struct _EntangleSession
 {
     GObject parent;
-
-    EntangleSessionPrivate *priv;
 };
 
 struct _EntangleSessionClass

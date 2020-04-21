@@ -45,8 +45,6 @@ typedef struct _EntanglePixbufLoaderClass EntanglePixbufLoaderClass;
 struct _EntanglePixbufLoader
 {
     GObject parent;
-
-    EntanglePixbufLoaderPrivate *priv;
 };
 
 struct _EntanglePixbufLoaderClass

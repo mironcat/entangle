@@ -54,8 +54,6 @@ typedef struct _EntangleColourProfileTransformClass EntangleColourProfileTransfo
 struct _EntangleColourProfile
 {
     GObject parent;
-
-    EntangleColourProfilePrivate *priv;
 };
 
 struct _EntangleColourProfileClass
@@ -67,8 +65,6 @@ struct _EntangleColourProfileClass
 struct _EntangleColourProfileTransform
 {
     GObject parent;
-
-    EntangleColourProfileTransformPrivate *priv;
 };
 
 struct _EntangleColourProfileTransformClass

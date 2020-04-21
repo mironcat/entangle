@@ -29,9 +29,6 @@
 #include "entangle-debug.h"
 #include "entangle-device-manager.h"
 
-#define ENTANGLE_DEVICE_MANAGER_GET_PRIVATE(obj)                        \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_DEVICE_MANAGER, EntangleDeviceManagerPrivate))
-
 struct _EntangleDeviceManagerPrivate {
     GUdevClient *ctx;
 };
@@ -42,7 +39,7 @@ G_DEFINE_TYPE_WITH_PRIVATE(EntangleDeviceManager, entangle_device_manager, G_TYP
 static void entangle_device_manager_finalize(GObject *object)
 {
     EntangleDeviceManager *manager = ENTANGLE_DEVICE_MANAGER(object);
-    EntangleDeviceManagerPrivate *priv = manager->priv;
+    EntangleDeviceManagerPrivate *priv = entangle_device_manager_get_instance_private(manager);
     ENTANGLE_DEBUG("Finalize manager");
 
     if (priv->ctx)
@@ -133,7 +130,7 @@ EntangleDeviceManager *entangle_device_manager_new(void)
 
 static void entangle_device_manager_init_devices(EntangleDeviceManager *manager)
 {
-    EntangleDeviceManagerPrivate *priv = manager->priv;
+    EntangleDeviceManagerPrivate *priv = entangle_device_manager_get_instance_private(manager);
     GList *devs, *tmp;
     const gchar *const subsys[] = {
         "usb/usb_device", NULL,
@@ -163,8 +160,6 @@ static void entangle_device_manager_init_devices(EntangleDeviceManager *manager)
 
 static void entangle_device_manager_init(EntangleDeviceManager *manager)
 {
-    manager->priv = ENTANGLE_DEVICE_MANAGER_GET_PRIVATE(manager);
-
     entangle_device_manager_init_devices(manager);
 }
 
@@ -172,7 +167,7 @@ static void entangle_device_manager_init(EntangleDeviceManager *manager)
 char *entangle_device_manager_serial_id(EntangleDeviceManager *manager,
                                         const char *devpath)
 {
-    EntangleDeviceManagerPrivate *priv = manager->priv;
+    EntangleDeviceManagerPrivate *priv = entangle_device_manager_get_instance_private(manager);
     GUdevDevice *dev;
     char *ret;
 

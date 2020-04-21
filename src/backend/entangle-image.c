@@ -25,9 +25,6 @@
 #include "entangle-debug.h"
 #include "entangle-image.h"
 
-#define ENTANGLE_IMAGE_GET_PRIVATE(obj)                                     \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_IMAGE, EntangleImagePrivate))
-
 struct _EntangleImagePrivate {
     GdkPixbuf *pixbuf;
 };
@@ -44,8 +41,8 @@ static void entangle_image_get_property(GObject *object,
                                         GValue *value,
                                         GParamSpec *pspec)
 {
-    EntangleImage *picker = ENTANGLE_IMAGE(object);
-    EntangleImagePrivate *priv = picker->priv;
+    EntangleImage *image = ENTANGLE_IMAGE(object);
+    EntangleImagePrivate *priv = entangle_image_get_instance_private(image);
 
     switch (prop_id)
         {
@@ -64,7 +61,7 @@ static void entangle_image_set_property(GObject *object,
                                         GParamSpec *pspec)
 {
     EntangleImage *image = ENTANGLE_IMAGE(object);
-    EntangleImagePrivate *priv = image->priv;
+    EntangleImagePrivate *priv = entangle_image_get_instance_private(image);
 
     switch (prop_id)
         {
@@ -85,7 +82,7 @@ static void entangle_image_set_property(GObject *object,
 static void entangle_image_finalize(GObject *object)
 {
     EntangleImage *image = ENTANGLE_IMAGE(object);
-    EntangleImagePrivate *priv = image->priv;
+    EntangleImagePrivate *priv = entangle_image_get_instance_private(image);
 
     ENTANGLE_DEBUG("Finalize image %p", object);
 
@@ -151,9 +148,8 @@ EntangleImage *entangle_image_new_pixbuf(GdkPixbuf *pixbuf)
 }
 
 
-static void entangle_image_init(EntangleImage *image)
+static void entangle_image_init(EntangleImage *image G_GNUC_UNUSED)
 {
-    image->priv = ENTANGLE_IMAGE_GET_PRIVATE(image);
 }
 
 
@@ -169,7 +165,7 @@ GdkPixbuf *entangle_image_get_pixbuf(EntangleImage *image)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE(image), NULL);
 
-    EntangleImagePrivate *priv = image->priv;
+    EntangleImagePrivate *priv = entangle_image_get_instance_private(image);
     return priv->pixbuf;
 }
 

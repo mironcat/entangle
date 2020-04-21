@@ -28,8 +28,6 @@
 #include "entangle-camera-list.h"
 #include "entangle-device-manager.h"
 
-#define ENTANGLE_CAMERA_LIST_GET_PRIVATE(obj)                           \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CAMERA_LIST, EntangleCameraListPrivate))
 
 struct _EntangleCameraListPrivate {
     size_t ncamera;
@@ -70,7 +68,7 @@ static void entangle_camera_list_get_property(GObject *object,
                                               GParamSpec *pspec)
 {
     EntangleCameraList *list = ENTANGLE_CAMERA_LIST(object);
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     switch (prop_id) {
     case PROP_DEVMANAGER:
@@ -92,7 +90,7 @@ static void entangle_camera_list_set_property(GObject *object,
                                               GParamSpec *pspec)
 {
     EntangleCameraList *list = ENTANGLE_CAMERA_LIST(object);
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     switch (prop_id) {
     case PROP_DEVMANAGER:
@@ -116,7 +114,7 @@ static void entangle_camera_list_set_property(GObject *object,
 static void entangle_camera_list_finalize(GObject *object)
 {
     EntangleCameraList *list = ENTANGLE_CAMERA_LIST(object);
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     ENTANGLE_DEBUG("Finalize list");
 
     for (int i = 0; i < priv->ncamera; i++) {
@@ -232,9 +230,7 @@ EntangleCameraList* entangle_camera_list_new_supported(void)
 
 static void entangle_camera_list_init(EntangleCameraList *list)
 {
-    EntangleCameraListPrivate *priv;
-
-    priv = list->priv = ENTANGLE_CAMERA_LIST_GET_PRIVATE(list);
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     if (entangle_debug_gphoto)
         gp_log_add_func(GP_LOG_DEBUG,
@@ -257,7 +253,7 @@ entangle_camera_list_refresh_active(EntangleCameraList *list,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), FALSE);
 
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     CameraList *cams = NULL;
     GHashTable *toRemove;
     GHashTableIter iter;
@@ -363,7 +359,7 @@ entangle_camera_list_refresh_supported(EntangleCameraList *list,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), FALSE);
 
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     int cnt;
     gsize i;
 
@@ -400,7 +396,7 @@ gboolean entangle_camera_list_refresh(EntangleCameraList *list,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), FALSE);
 
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     if (!priv->devManager && priv->active) {
         priv->devManager = entangle_device_manager_new();
@@ -436,7 +432,7 @@ int entangle_camera_list_count(EntangleCameraList *list)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), 0);
 
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     return priv->ncamera;
 }
@@ -455,7 +451,7 @@ void entangle_camera_list_add(EntangleCameraList *list,
     g_return_if_fail(ENTANGLE_IS_CAMERA_LIST(list));
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     priv->cameras = g_renew(EntangleCamera *, priv->cameras, priv->ncamera+1);
     priv->cameras[priv->ncamera++] = cam;
@@ -480,7 +476,7 @@ void entangle_camera_list_remove(EntangleCameraList *list,
     g_return_if_fail(ENTANGLE_IS_CAMERA_LIST(list));
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     for (int i = 0; i < priv->ncamera; i++) {
         if (priv->cameras[i] == cam) {
@@ -513,7 +509,7 @@ EntangleCamera *entangle_camera_list_get(EntangleCameraList *list,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), NULL);
 
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     if (entry < 0 || entry >= priv->ncamera)
         return NULL;
@@ -532,7 +528,7 @@ EntangleCamera *entangle_camera_list_get(EntangleCameraList *list,
  */
 GList *entangle_camera_list_get_cameras(EntangleCameraList *list)
 {
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     GList *cameras = NULL;
 
     for (int i = (priv->ncamera - 1); i >= 0; i--) {
@@ -554,7 +550,7 @@ GList *entangle_camera_list_get_cameras(EntangleCameraList *list)
 EntangleCamera *entangle_camera_list_find(EntangleCameraList *list,
                                           const char *port)
 {
-    EntangleCameraListPrivate *priv = list->priv;
+    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     int i;
 
     for (i = 0; i < priv->ncamera; i++) {

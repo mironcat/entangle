@@ -24,9 +24,6 @@
 #include "entangle-media-statusbar.h"
 #include "entangle-media.h"
 
-#define ENTANGLE_MEDIA_STATUSBAR_GET_PRIVATE(obj)                       \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_MEDIA_STATUSBAR, EntangleMediaStatusbarPrivate))
-
 struct _EntangleMediaStatusbarPrivate {
     gulong mediaNotifyID;
     EntangleMedia *media;
@@ -54,7 +51,7 @@ static void entangle_media_statusbar_get_property(GObject *object,
                                                   GParamSpec *pspec)
 {
     EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
-    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
+    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
 
     switch (prop_id)
         {
@@ -92,7 +89,7 @@ static void entangle_media_statusbar_set_property(GObject *object,
 static void entangle_media_statusbar_finalize(GObject *object)
 {
     EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
-    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
+    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
 
     if (priv->media) {
         g_signal_handler_disconnect(priv->media, priv->mediaNotifyID);
@@ -156,9 +153,7 @@ static void entangle_media_statusbar_init(EntangleMediaStatusbar *statusbar)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
 
-    EntangleMediaStatusbarPrivate *priv;
-
-    priv = statusbar->priv = ENTANGLE_MEDIA_STATUSBAR_GET_PRIVATE(statusbar);
+    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
 
     priv->metaBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
     g_object_set(priv->metaBox, "homogeneous", TRUE, NULL);
@@ -188,7 +183,7 @@ static void entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statu
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
 
-    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
+    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
     GExiv2Metadata *metadata = priv->media ? entangle_media_get_metadata(ENTANGLE_MEDIA(priv->media)) : NULL;
     gchar *shutter = NULL;
     gchar *aperture = NULL;
@@ -281,7 +276,7 @@ void entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
     g_return_if_fail(!media || ENTANGLE_IS_MEDIA(media));
 
-    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
+    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
 
     if (priv->media) {
         g_signal_handler_disconnect(priv->media, priv->mediaNotifyID);
@@ -313,7 +308,7 @@ EntangleMedia *entangle_media_statusbar_get_media(EntangleMediaStatusbar *status
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar), NULL);
 
-    EntangleMediaStatusbarPrivate *priv = statusbar->priv;
+    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
 
     return priv->media;
 }

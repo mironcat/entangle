@@ -23,9 +23,6 @@
 #include "entangle-debug.h"
 #include "entangle-control-toggle.h"
 
-#define ENTANGLE_CONTROL_TOGGLE_GET_PRIVATE(obj)                        \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CONTROL_TOGGLE, EntangleControlTogglePrivate))
-
 struct _EntangleControlTogglePrivate {
     gboolean value;
 };
@@ -42,8 +39,8 @@ static void entangle_control_get_property(GObject *object,
                                           GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleControlToggle *picker = ENTANGLE_CONTROL_TOGGLE(object);
-    EntangleControlTogglePrivate *priv = picker->priv;
+    EntangleControlToggle *control = ENTANGLE_CONTROL_TOGGLE(object);
+    EntangleControlTogglePrivate *priv = entangle_control_toggle_get_instance_private(control);
 
     switch (prop_id)
         {
@@ -61,8 +58,8 @@ static void entangle_control_set_property(GObject *object,
                                           const GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleControlToggle *picker = ENTANGLE_CONTROL_TOGGLE(object);
-    EntangleControlTogglePrivate *priv = picker->priv;
+    EntangleControlToggle *control = ENTANGLE_CONTROL_TOGGLE(object);
+    EntangleControlTogglePrivate *priv = entangle_control_toggle_get_instance_private(control);
 
     switch (prop_id)
         {
@@ -124,9 +121,8 @@ EntangleControlToggle *entangle_control_toggle_new(const char *path,
 }
 
 
-static void entangle_control_toggle_init(EntangleControlToggle *picker)
+static void entangle_control_toggle_init(EntangleControlToggle *control G_GNUC_UNUSED)
 {
-    picker->priv = ENTANGLE_CONTROL_TOGGLE_GET_PRIVATE(picker);
 }
 
 /*

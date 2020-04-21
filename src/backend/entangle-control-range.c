@@ -24,9 +24,6 @@
 #include "entangle-debug.h"
 #include "entangle-control-range.h"
 
-#define ENTANGLE_CONTROL_RANGE_GET_PRIVATE(obj)                         \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CONTROL_RANGE, EntangleControlRangePrivate))
-
 struct _EntangleControlRangePrivate {
     float value;
     float min;
@@ -49,8 +46,8 @@ static void entangle_control_range_get_property(GObject *object,
                                                 GValue *value,
                                                 GParamSpec *pspec)
 {
-    EntangleControlRange *picker = ENTANGLE_CONTROL_RANGE(object);
-    EntangleControlRangePrivate *priv = picker->priv;
+    EntangleControlRange *control = ENTANGLE_CONTROL_RANGE(object);
+    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
 
     switch (prop_id)
         {
@@ -80,8 +77,8 @@ static void entangle_control_range_set_property(GObject *object,
                                                 const GValue *value,
                                                 GParamSpec *pspec)
 {
-    EntangleControlRange *picker = ENTANGLE_CONTROL_RANGE(object);
-    EntangleControlRangePrivate *priv = picker->priv;
+    EntangleControlRange *control = ENTANGLE_CONTROL_RANGE(object);
+    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
 
     switch (prop_id)
         {
@@ -205,35 +202,34 @@ EntangleControlRange *entangle_control_range_new(const char *path,
 }
 
 
-static void entangle_control_range_init(EntangleControlRange *picker)
+static void entangle_control_range_init(EntangleControlRange *control G_GNUC_UNUSED)
 {
-    picker->priv = ENTANGLE_CONTROL_RANGE_GET_PRIVATE(picker);
 }
 
 
-float entangle_control_range_get_min(EntangleControlRange *range)
+float entangle_control_range_get_min(EntangleControlRange *control)
 {
-    g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(range), 0.0);
+    g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(control), 0.0);
 
-    EntangleControlRangePrivate *priv = range->priv;
+    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
 
     return priv->min;
 }
 
-float entangle_control_range_get_max(EntangleControlRange *range)
+float entangle_control_range_get_max(EntangleControlRange *control)
 {
-    g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(range), 0.0);
+    g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(control), 0.0);
 
-    EntangleControlRangePrivate *priv = range->priv;
+    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
 
     return priv->max;
 }
 
-float entangle_control_range_get_step(EntangleControlRange *range)
+float entangle_control_range_get_step(EntangleControlRange *control)
 {
-    g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(range), 0.0);
+    g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(control), 0.0);
 
-    EntangleControlRangePrivate *priv = range->priv;
+    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
 
     return priv->step;
 }

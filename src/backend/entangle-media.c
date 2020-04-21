@@ -25,9 +25,6 @@
 #include "entangle-debug.h"
 #include "entangle-media.h"
 
-#define ENTANGLE_MEDIA_GET_PRIVATE(obj)                                     \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_MEDIA, EntangleMediaPrivate))
-
 struct _EntangleMediaPrivate {
     char *filename;
     GExiv2Metadata *metadata;
@@ -49,8 +46,8 @@ static void entangle_media_get_property(GObject *object,
                                         GValue *value,
                                         GParamSpec *pspec)
 {
-    EntangleMedia *picker = ENTANGLE_MEDIA(object);
-    EntangleMediaPrivate *priv = picker->priv;
+    EntangleMedia *media = ENTANGLE_MEDIA(object);
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
 
     switch (prop_id)
         {
@@ -73,7 +70,7 @@ static void entangle_media_set_property(GObject *object,
                                         GParamSpec *pspec)
 {
     EntangleMedia *media = ENTANGLE_MEDIA(object);
-    EntangleMediaPrivate *priv = media->priv;
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
 
     switch (prop_id)
         {
@@ -100,7 +97,7 @@ static void entangle_media_set_property(GObject *object,
 static void entangle_media_finalize(GObject *object)
 {
     EntangleMedia *media = ENTANGLE_MEDIA(object);
-    EntangleMediaPrivate *priv = media->priv;
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
 
     ENTANGLE_DEBUG("Finalize media %p", object);
 
@@ -148,9 +145,7 @@ static void entangle_media_class_init(EntangleMediaClass *klass)
 
 static void entangle_media_init(EntangleMedia *media)
 {
-    EntangleMediaPrivate *priv;
-
-    priv = media->priv = ENTANGLE_MEDIA_GET_PRIVATE(media);
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
 
     priv->dirty = TRUE;
 }
@@ -168,14 +163,14 @@ const char *entangle_media_get_filename(EntangleMedia *media)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA(media), NULL);
 
-    EntangleMediaPrivate *priv = media->priv;
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
     return priv->filename;
 }
 
 
 static gboolean entangle_media_load(EntangleMedia *media)
 {
-    EntangleMediaPrivate *priv = media->priv;
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
 
     if (!priv->dirty)
         return TRUE;
@@ -203,7 +198,7 @@ time_t entangle_media_get_last_modified(EntangleMedia *media)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA(media), 0);
 
-    EntangleMediaPrivate *priv = media->priv;
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
 
     if (!entangle_media_load(media))
         return 0;
@@ -225,7 +220,7 @@ off_t entangle_media_get_file_size(EntangleMedia *media)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA(media), 0);
 
-    EntangleMediaPrivate *priv = media->priv;
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
 
     if (!entangle_media_load(media))
         return 0;
@@ -246,7 +241,7 @@ gboolean entangle_media_delete(EntangleMedia *media, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA(media), FALSE);
 
-    EntangleMediaPrivate *priv = media->priv;
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
     GFile *file = g_file_new_for_path(priv->filename);
 
     return g_file_delete(file, NULL, error);
@@ -265,7 +260,7 @@ GExiv2Metadata *entangle_media_get_metadata(EntangleMedia *media)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA(media), NULL);
 
-    EntangleMediaPrivate *priv = media->priv;
+    EntangleMediaPrivate *priv = entangle_media_get_instance_private(media);
     return priv->metadata;
 }
 

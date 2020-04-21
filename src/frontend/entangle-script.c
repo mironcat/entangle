@@ -23,9 +23,6 @@
 #include "entangle-script.h"
 #include "entangle-debug.h"
 
-#define ENTANGLE_SCRIPT_GET_PRIVATE(obj)                         \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_SCRIPT, EntangleScriptPrivate))
-
 struct _EntangleScriptPrivate
 {
     char *title;
@@ -43,8 +40,8 @@ static void entangle_script_get_property(GObject *object,
                                          GValue *value,
                                          GParamSpec *pspec)
 {
-    EntangleScript *display = ENTANGLE_SCRIPT(object);
-    EntangleScriptPrivate *priv = display->priv;
+    EntangleScript *script = ENTANGLE_SCRIPT(object);
+    EntangleScriptPrivate *priv = entangle_script_get_instance_private(script);
 
     switch (prop_id)
         {
@@ -63,10 +60,10 @@ static void entangle_script_set_property(GObject *object,
                                          const GValue *value,
                                          GParamSpec *pspec)
 {
-    EntangleScript *display = ENTANGLE_SCRIPT(object);
-    EntangleScriptPrivate *priv = display->priv;
+    EntangleScript *script = ENTANGLE_SCRIPT(object);
+    EntangleScriptPrivate *priv = entangle_script_get_instance_private(script);
 
-    ENTANGLE_DEBUG("Set prop on image display %d", prop_id);
+    ENTANGLE_DEBUG("Set prop on image script %d", prop_id);
 
     switch (prop_id)
         {
@@ -101,9 +98,8 @@ static void entangle_script_class_init(EntangleScriptClass *klass)
 }
 
 
-static void entangle_script_init(EntangleScript *script)
+static void entangle_script_init(EntangleScript *script G_GNUC_UNUSED)
 {
-    script->priv = ENTANGLE_SCRIPT_GET_PRIVATE(script);
 }
 
 
@@ -119,7 +115,7 @@ const gchar *entangle_script_get_title(EntangleScript *script)
 {
     g_return_val_if_fail(ENTANGLE_IS_SCRIPT(script), NULL);
 
-    EntangleScriptPrivate *priv = script->priv;
+    EntangleScriptPrivate *priv = entangle_script_get_instance_private(script);
 
     return priv->title;
 }

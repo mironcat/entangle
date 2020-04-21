@@ -42,8 +42,6 @@ typedef struct _EntangleMediaStatusbarClass EntangleMediaStatusbarClass;
 struct _EntangleMediaStatusbar
 {
     GtkBox parent;
-
-    EntangleMediaStatusbarPrivate *priv;
 };
 
 struct _EntangleMediaStatusbarClass

@@ -42,8 +42,6 @@ typedef struct _EntangleControlTextClass EntangleControlTextClass;
 struct _EntangleControlText
 {
     EntangleControl parent;
-
-    EntangleControlTextPrivate *priv;
 };
 
 struct _EntangleControlTextClass

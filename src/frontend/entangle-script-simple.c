@@ -22,9 +22,6 @@
 
 #include "entangle-script-simple.h"
 
-#define ENTANGLE_SCRIPT_SIMPLE_GET_PRIVATE(obj)                         \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_SCRIPT_SIMPLE, EntangleScriptSimplePrivate))
-
 struct _EntangleScriptSimplePrivate
 {
     gboolean unused;
@@ -125,9 +122,8 @@ static void entangle_script_simple_class_init(EntangleScriptSimpleClass *klass)
     script_klass->execute_finish = entangle_script_simple_execute_finish;
 }
 
-static void entangle_script_simple_init(EntangleScriptSimple *script)
+static void entangle_script_simple_init(EntangleScriptSimple *script G_GNUC_UNUSED)
 {
-    script->priv = ENTANGLE_SCRIPT_SIMPLE_GET_PRIVATE(script);
 }
 
 /*

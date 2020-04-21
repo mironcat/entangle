@@ -38,9 +38,6 @@
 #include "entangle-control-text.h"
 #include "entangle-control-toggle.h"
 
-#define ENTANGLE_CAMERA_GET_PRIVATE(obj)                                \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CAMERA, EntangleCameraPrivate))
-
 #if GLIB_CHECK_VERSION(2, 31, 0)
 #define g_mutex_new() g_new0(GMutex, 1)
 #define g_mutex_free(m) g_free(m)
@@ -155,7 +152,7 @@ static void entangle_camera_emit_deferred(EntangleCamera *cam,
 
 static void entangle_camera_begin_job(EntangleCamera *cam)
 {
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     g_object_ref(cam);
 
@@ -172,7 +169,7 @@ static void entangle_camera_begin_job(EntangleCamera *cam)
 
 static void entangle_camera_end_job(EntangleCamera *cam)
 {
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     priv->jobActive = FALSE;
     g_cond_broadcast(priv->jobCond);
@@ -187,7 +184,7 @@ static void entangle_camera_get_property(GObject *object,
                                          GParamSpec *pspec)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(object);
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     switch (prop_id)
         {
@@ -246,7 +243,7 @@ static void entangle_camera_set_property(GObject *object,
                                          GParamSpec *pspec)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(object);
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     switch (prop_id)
         {
@@ -298,7 +295,7 @@ static void entangle_camera_set_property(GObject *object,
 static void entangle_camera_finalize(GObject *object)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(object);
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     ENTANGLE_DEBUG("Finalize camera %p", object);
 
@@ -559,9 +556,10 @@ EntangleCamera *entangle_camera_new(const char *model,
 
 static void entangle_camera_init(EntangleCamera *cam)
 {
-    cam->priv = ENTANGLE_CAMERA_GET_PRIVATE(cam);
-    cam->priv->lock = g_mutex_new();
-    cam->priv->jobCond = g_cond_new();
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
+
+    priv->lock = g_mutex_new();
+    priv->jobCond = g_cond_new();
 }
 
 
@@ -577,7 +575,7 @@ const char *entangle_camera_get_model(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     return priv->model;
 }
 
@@ -594,7 +592,7 @@ const char *entangle_camera_get_port(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     return priv->port;
 }
 
@@ -612,22 +610,23 @@ struct EntangleCameraProgressData {
 static gboolean entangle_camera_progress_idle(gpointer opaque)
 {
     struct EntangleCameraProgressData *data = opaque;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(data->cam);
 
-    if (data->cam->priv->progress) {
+    if (priv->progress) {
         switch (data->op) {
         case ENTANGLE_CAMERA_PROGRESS_START:
-            entangle_progress_start(data->cam->priv->progress,
+            entangle_progress_start(priv->progress,
                                     data->value,
                                     data->msg);
             break;
 
         case ENTANGLE_CAMERA_PROGRESS_UPDATE:
-            entangle_progress_update(data->cam->priv->progress,
+            entangle_progress_update(priv->progress,
                                      data->value);
             break;
 
         case ENTANGLE_CAMERA_PROGRESS_STOP:
-            entangle_progress_stop(data->cam->priv->progress);
+            entangle_progress_stop(priv->progress);
             break;
 
         default:
@@ -694,7 +693,7 @@ static void do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
                                      void *data)
 {
     EntangleCamera *cam = data;
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     g_free(priv->lastError);
     priv->lastError = g_strdup(msg);
@@ -719,7 +718,7 @@ gboolean entangle_camera_connect(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     int i;
     GPPortInfo port;
     CameraAbilities cap;
@@ -900,7 +899,7 @@ gboolean entangle_camera_disconnect(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
 
     ENTANGLE_DEBUG("Disconnecting from cam");
@@ -1030,7 +1029,7 @@ gboolean entangle_camera_get_connected(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
     g_mutex_lock(priv->lock);
@@ -1053,7 +1052,7 @@ char *entangle_camera_get_summary(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     char *ret;
 
     g_mutex_lock(priv->lock);
@@ -1078,7 +1077,7 @@ char *entangle_camera_get_manual(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     char *ret;
 
     g_mutex_lock(priv->lock);
@@ -1102,7 +1101,7 @@ char *entangle_camera_get_driver(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     char *ret;
 
     g_mutex_lock(priv->lock);
@@ -1134,7 +1133,7 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraFilePath camerapath;
     EntangleCameraFile *file = NULL;
     int err;
@@ -1256,7 +1255,7 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     EntangleCameraFile *file = NULL;
     CameraFile *datafile = NULL;
     const char *mimetype = NULL;
@@ -1408,7 +1407,7 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraFile *datafile = NULL;
     const char *data;
     unsigned long int datalen;
@@ -1562,7 +1561,7 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     int err;
 
@@ -1692,7 +1691,7 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraEventType eventType = 0;
     void *eventData = NULL;
     GTimeVal tv;
@@ -1879,7 +1878,7 @@ static CameraWidget *
 entangle_camera_find_widget(EntangleCamera *cam,
                             const gchar *path)
 {
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gchar **names = g_strsplit(path, "/", 0);
     CameraWidget *ret = NULL;
     CameraWidget *curr = priv->widgets;
@@ -1913,7 +1912,7 @@ static EntangleControl *do_build_controls(EntangleCamera *cam,
                                           CameraWidget *widget,
                                           GError **error)
 {
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraWidgetType type;
     EntangleControl *ret = NULL;
     const char *name;
@@ -2078,7 +2077,7 @@ static gboolean do_load_controls(EntangleCamera *cam,
                                  CameraWidget *widget,
                                  GError **error)
 {
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraWidgetType type;
     EntangleControl *ctrl = NULL;
     const char *name;
@@ -2215,7 +2214,7 @@ static gboolean do_save_controls(EntangleCamera *cam,
                                  gboolean *dirty,
                                  GError **error)
 {
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraWidgetType type;
     EntangleControl *ctrl = NULL;
     const char *name;
@@ -2335,7 +2334,7 @@ gboolean entangle_camera_load_controls(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     int err;
 
@@ -2464,7 +2463,7 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     gboolean dirty = FALSE;
     int err;
@@ -2594,7 +2593,7 @@ EntangleControlGroup *entangle_camera_get_controls(EntangleCamera *cam, GError *
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     EntangleControlGroup *ret = NULL;
 
     g_mutex_lock(priv->lock);
@@ -2641,7 +2640,7 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
@@ -2819,7 +2818,7 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
@@ -2981,7 +2980,7 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
@@ -3204,7 +3203,7 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
@@ -3368,7 +3367,7 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
@@ -3531,7 +3530,7 @@ gboolean entangle_camera_get_has_capture(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
     g_mutex_lock(priv->lock);
@@ -3554,7 +3553,7 @@ gboolean entangle_camera_get_has_preview(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
     g_mutex_lock(priv->lock);
@@ -3577,7 +3576,7 @@ gboolean entangle_camera_get_has_settings(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
     g_mutex_lock(priv->lock);
@@ -3600,7 +3599,7 @@ gboolean entangle_camera_get_has_viewfinder(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
     g_mutex_lock(priv->lock);
@@ -3623,7 +3622,7 @@ void entangle_camera_set_progress(EntangleCamera *cam, EntangleProgress *prog)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     g_mutex_lock(priv->lock);
     if (priv->progress)
@@ -3648,7 +3647,7 @@ EntangleProgress *entangle_camera_get_progress(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     EntangleProgress *ret;
 
     g_mutex_unlock(priv->lock);
@@ -3663,7 +3662,7 @@ EntangleProgress *entangle_camera_get_progress(EntangleCamera *cam)
 static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
                                                   GVolumeMonitor *monitor)
 {
-    EntangleCameraPrivate *priv = cam->priv;
+    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gchar *uri1;
     gchar *uri2;
     gchar *uri3 = NULL;

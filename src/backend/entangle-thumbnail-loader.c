@@ -31,10 +31,6 @@
 #include "entangle-thumbnail-loader.h"
 #include "entangle-colour-profile.h"
 
-#define ENTANGLE_THUMBNAIL_LOADER_GET_PRIVATE(obj)                      \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_THUMBNAIL_LOADER, EntangleThumbnailLoaderPrivate))
-
-
 struct _EntangleThumbnailLoaderPrivate {
     guint width;
     guint height;
@@ -55,7 +51,7 @@ static void entangle_thumbnail_loader_get_property(GObject *object,
                                                    GParamSpec *pspec)
 {
     EntangleThumbnailLoader *loader = ENTANGLE_THUMBNAIL_LOADER(object);
-    EntangleThumbnailLoaderPrivate *priv = loader->priv;
+    EntangleThumbnailLoaderPrivate *priv = entangle_thumbnail_loader_get_instance_private(loader);
 
     switch (prop_id)
         {
@@ -78,7 +74,7 @@ static void entangle_thumbnail_loader_set_property(GObject *object,
                                                    GParamSpec *pspec)
 {
     EntangleThumbnailLoader *loader = ENTANGLE_THUMBNAIL_LOADER(object);
-    EntangleThumbnailLoaderPrivate *priv = loader->priv;
+    EntangleThumbnailLoaderPrivate *priv = entangle_thumbnail_loader_get_instance_private(loader);
 
     switch (prop_id)
         {
@@ -232,7 +228,7 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
                                                         GExiv2Metadata **metadata G_GNUC_UNUSED)
 {
     EntangleThumbnailLoader *tloader = ENTANGLE_THUMBNAIL_LOADER(loader);
-    EntangleThumbnailLoaderPrivate *priv = tloader->priv;
+    EntangleThumbnailLoaderPrivate *priv = entangle_thumbnail_loader_get_instance_private(tloader);
     char *uri = entangle_thumbnail_loader_path_to_uri(entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     char *thumbname = entangle_thumbnail_loader_uri_to_thumb(uri);
     GdkPixbuf *result = NULL;
@@ -394,10 +390,7 @@ EntangleThumbnailLoader *entangle_thumbnail_loader_new(int width,
 
 static void entangle_thumbnail_loader_init(EntangleThumbnailLoader *loader)
 {
-    EntangleThumbnailLoaderPrivate *priv;
-
-    priv = loader->priv = ENTANGLE_THUMBNAIL_LOADER_GET_PRIVATE(loader);
-    memset(priv, 0, sizeof(*priv));
+    EntangleThumbnailLoaderPrivate *priv = entangle_thumbnail_loader_get_instance_private(loader);
 
     priv->width = priv->height = 128;
 }

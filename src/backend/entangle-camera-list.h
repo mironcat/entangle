@@ -43,8 +43,6 @@ typedef struct _EntangleCameraListClass EntangleCameraListClass;
 struct _EntangleCameraList
 {
     GObject parent;
-
-    EntangleCameraListPrivate *priv;
 };
 
 struct _EntangleCameraListClass

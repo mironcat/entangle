@@ -25,9 +25,6 @@
 #include "entangle-image-display.h"
 #include "entangle-image.h"
 
-#define ENTANGLE_IMAGE_DISPLAY_GET_PRIVATE(obj)                         \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_IMAGE_DISPLAY, EntangleImageDisplayPrivate))
-
 struct _EntangleImageDisplayPrivate {
     GList *images;
 
@@ -69,7 +66,7 @@ static void entangle_image_display_image_pixbuf_notify(GObject *image,
 
 static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     int width, height;
     GdkPixbuf *pixbuf = NULL;
     GList *tmp = priv->images;
@@ -146,7 +143,7 @@ static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *displa
 
 static void entangle_image_display_try_render_pixmap(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     GList *tmp = priv->images;
     gboolean missing = FALSE;
@@ -214,7 +211,7 @@ static void entangle_image_display_get_property(GObject *object,
                                                 GParamSpec *pspec)
 {
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(object);
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     switch (prop_id)
         {
@@ -308,7 +305,7 @@ static void entangle_image_display_set_property(GObject *object,
 static void entangle_image_display_finalize(GObject *object)
 {
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(object);
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     GList *tmp = priv->images;
 
     while (tmp) {
@@ -406,7 +403,7 @@ static void entangle_image_display_draw_grid_display(GtkWidget *widget, cairo_t 
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(widget));
 
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     gint ww = gdk_window_get_width(gtk_widget_get_window(widget));
     gint wh = gdk_window_get_height(gtk_widget_get_window(widget));
     gdouble cx = (ww - (mx * 2))/2.0;
@@ -505,7 +502,7 @@ static gboolean entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(widget), FALSE);
 
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     int ww, wh; /* Available drawing area extents */
     int pw = 0, ph = 0; /* Original image size */
     double iw, ih; /* Desired image size */
@@ -645,7 +642,7 @@ static void entangle_image_display_get_preferred_width(GtkWidget *widget,
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(widget));
 
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     GdkPixbuf *pixbuf = NULL;
     EntangleImage *image = entangle_image_display_get_image(display);
 
@@ -681,7 +678,7 @@ static void entangle_image_display_get_preferred_height(GtkWidget *widget,
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(widget));
 
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     GdkPixbuf *pixbuf = NULL;
     EntangleImage *image = entangle_image_display_get_image(display);
 
@@ -838,9 +835,7 @@ EntangleImageDisplay *entangle_image_display_new(void)
 
 static void entangle_image_display_init(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv;
-
-    priv = display->priv = ENTANGLE_IMAGE_DISPLAY_GET_PRIVATE(display);
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     priv->autoscale = TRUE;
     priv->maskOpacity = 0.9;
@@ -887,7 +882,7 @@ EntangleImage *entangle_image_display_get_image(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), NULL);
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     if (!priv->images)
         return NULL;
@@ -909,7 +904,7 @@ void entangle_image_display_set_image_list(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     GList *tmp;
 
     tmp = priv->images;
@@ -955,7 +950,7 @@ GList *entangle_image_display_get_image_list(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     g_list_foreach(priv->images, (GFunc)g_object_ref, NULL);
 
@@ -968,7 +963,7 @@ void entangle_image_display_set_autoscale(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     priv->autoscale = autoscale;
 
@@ -981,7 +976,7 @@ gboolean entangle_image_display_get_autoscale(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     return priv->autoscale;
 }
@@ -992,7 +987,7 @@ void entangle_image_display_set_scale(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     priv->scale = scale;
 
@@ -1005,7 +1000,7 @@ gdouble entangle_image_display_get_scale(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), 1.0);
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     return priv->scale;
 }
@@ -1016,7 +1011,7 @@ void entangle_image_display_set_aspect_ratio(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     priv->aspectRatio = aspect;
 
@@ -1029,7 +1024,7 @@ gdouble entangle_image_display_get_aspect_ratio(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), 1.0);
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     return priv->aspectRatio;
 }
@@ -1040,7 +1035,7 @@ void entangle_image_display_set_mask_opacity(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     priv->maskOpacity = opacity;
 
@@ -1053,7 +1048,7 @@ gdouble entangle_image_display_get_mask_opacity(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), 1.0);
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     return priv->maskOpacity;
 }
@@ -1064,7 +1059,7 @@ void entangle_image_display_set_mask_enabled(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     priv->maskEnabled = enabled;
 
@@ -1077,7 +1072,7 @@ gboolean entangle_image_display_get_mask_enabled(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     return priv->maskEnabled;
 }
@@ -1087,7 +1082,7 @@ gboolean entangle_image_display_get_mask_enabled(EntangleImageDisplay *display)
 void entangle_image_display_set_focus_point(EntangleImageDisplay *display,
                                             gboolean enabled)
 {
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     priv->focusPoint = enabled;
 
@@ -1098,7 +1093,7 @@ void entangle_image_display_set_focus_point(EntangleImageDisplay *display,
 
 gboolean entangle_image_display_get_focus_point(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     return priv->focusPoint;
 }
@@ -1106,7 +1101,7 @@ gboolean entangle_image_display_get_focus_point(EntangleImageDisplay *display)
 void entangle_image_display_set_grid_display(EntangleImageDisplay *display,
                                              EntangleImageDisplayGrid mode)
 {
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     priv->gridDisplay = mode;
 
@@ -1117,7 +1112,7 @@ void entangle_image_display_set_grid_display(EntangleImageDisplay *display,
 
 EntangleImageDisplayGrid entangle_image_display_get_grid_display(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     return priv->gridDisplay;
 }
@@ -1128,7 +1123,7 @@ void entangle_image_display_set_overexposure_highlighting(EntangleImageDisplay *
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     priv->overexposureHighlighting = enabled;
 
@@ -1142,7 +1137,7 @@ gboolean entangle_image_display_get_overexposure_highlighting(EntangleImageDispl
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     return priv->overexposureHighlighting;
 }
@@ -1165,7 +1160,7 @@ void entangle_image_display_set_background(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     gdk_rgba_parse(&priv->bkg, background);
 
@@ -1178,7 +1173,7 @@ gchar *entangle_image_display_get_background(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = display->priv;
+    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     return gdk_rgba_to_string(&priv->bkg);
 }

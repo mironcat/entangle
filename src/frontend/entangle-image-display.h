@@ -44,8 +44,6 @@ typedef struct _EntangleImageDisplayClass EntangleImageDisplayClass;
 struct _EntangleImageDisplay
 {
     GtkDrawingArea parent;
-
-    EntangleImageDisplayPrivate *priv;
 };
 
 struct _EntangleImageDisplayClass

@@ -23,9 +23,6 @@
 #include "entangle-debug.h"
 #include "entangle-control-button.h"
 
-#define ENTANGLE_CONTROL_BUTTON_GET_PRIVATE(obj)                            \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CONTROL_BUTTON, EntangleControlButtonPrivate))
-
 struct _EntangleControlButtonPrivate {
     gboolean dummy;
 };
@@ -65,9 +62,8 @@ EntangleControlButton *entangle_control_button_new(const char *path,
 }
 
 
-static void entangle_control_button_init(EntangleControlButton *picker)
+static void entangle_control_button_init(EntangleControlButton *control G_GNUC_UNUSED)
 {
-    picker->priv = ENTANGLE_CONTROL_BUTTON_GET_PRIVATE(picker);
 }
 
 /*

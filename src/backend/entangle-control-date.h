@@ -42,8 +42,6 @@ typedef struct _EntangleControlDateClass EntangleControlDateClass;
 struct _EntangleControlDate
 {
     EntangleControl parent;
-
-    EntangleControlDatePrivate *priv;
 };
 
 struct _EntangleControlDateClass

@@ -42,8 +42,6 @@ typedef struct _EntangleControlRangeClass EntangleControlRangeClass;
 struct _EntangleControlRange
 {
     EntangleControl parent;
-
-    EntangleControlRangePrivate *priv;
 };
 
 struct _EntangleControlRangeClass

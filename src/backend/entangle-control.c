@@ -24,9 +24,6 @@
 #include "entangle-debug.h"
 #include "entangle-control.h"
 
-#define ENTANGLE_CONTROL_GET_PRIVATE(obj)                               \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CONTROL, EntangleControlPrivate))
-
 struct _EntangleControlPrivate {
     char *path;
     int id;
@@ -53,8 +50,8 @@ static void entangle_control_get_property(GObject *object,
                                           GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleControl *picker = ENTANGLE_CONTROL(object);
-    EntangleControlPrivate *priv = picker->priv;
+    EntangleControl *control = ENTANGLE_CONTROL(object);
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
 
     switch (prop_id)
         {
@@ -92,8 +89,8 @@ static void entangle_control_set_property(GObject *object,
                                           const GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleControl *picker = ENTANGLE_CONTROL(object);
-    EntangleControlPrivate *priv = picker->priv;
+    EntangleControl *control = ENTANGLE_CONTROL(object);
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
     gsize len;
 
     switch (prop_id)
@@ -140,8 +137,8 @@ static void entangle_control_set_property(GObject *object,
 
 static void entangle_control_finalize(GObject *object)
 {
-    EntangleControl *picker = ENTANGLE_CONTROL(object);
-    EntangleControlPrivate *priv = picker->priv;
+    EntangleControl *control = ENTANGLE_CONTROL(object);
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
 
     g_free(priv->path);
     g_free(priv->label);
@@ -251,9 +248,8 @@ EntangleControl *entangle_control_new(const gchar *path,
 }
 
 
-static void entangle_control_init(EntangleControl *control)
+static void entangle_control_init(EntangleControl *control G_GNUC_UNUSED)
 {
-    control->priv = ENTANGLE_CONTROL_GET_PRIVATE(control);
 }
 
 
@@ -261,7 +257,7 @@ gint entangle_control_get_id(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), 0);
 
-    EntangleControlPrivate *priv = control->priv;
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
 
     return priv->id;
 }
@@ -270,7 +266,7 @@ const gchar *entangle_control_get_path(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), NULL);
 
-    EntangleControlPrivate *priv = control->priv;
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
 
     return priv->path;
 }
@@ -279,7 +275,7 @@ const gchar *entangle_control_get_label(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), NULL);
 
-    EntangleControlPrivate *priv = control->priv;
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
 
     return priv->label;
 }
@@ -288,7 +284,7 @@ const gchar *entangle_control_get_info(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), NULL);
 
-    EntangleControlPrivate *priv = control->priv;
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
 
     return priv->info;
 }
@@ -297,7 +293,7 @@ gboolean entangle_control_get_dirty(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), FALSE);
 
-    EntangleControlPrivate *priv = control->priv;
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
 
     return priv->dirty;
 }
@@ -307,7 +303,7 @@ void entangle_control_set_dirty(EntangleControl *control,
 {
     g_return_if_fail(ENTANGLE_IS_CONTROL(control));
 
-    EntangleControlPrivate *priv = control->priv;
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
     gboolean changed = priv->dirty != dirty;
 
     priv->dirty = dirty;
@@ -319,7 +315,7 @@ gboolean entangle_control_get_readonly(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), TRUE);
 
-    EntangleControlPrivate *priv = control->priv;
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
 
     return priv->readonly;
 }
@@ -329,7 +325,7 @@ void entangle_control_set_readonly(EntangleControl *control,
 {
     g_return_if_fail(ENTANGLE_IS_CONTROL(control));
 
-    EntangleControlPrivate *priv = control->priv;
+    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
     gboolean changed = priv->readonly != ro;
 
     priv->readonly = ro;

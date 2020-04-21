@@ -25,9 +25,6 @@
 #include "entangle-image-histogram.h"
 #include "entangle-image.h"
 
-#define ENTANGLE_IMAGE_HISTOGRAM_GET_PRIVATE(obj)                       \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_IMAGE_HISTOGRAM, EntangleImageHistogramPrivate))
-
 struct _EntangleImageHistogramPrivate {
     double freq_red[256];
     double freq_green[256];
@@ -52,7 +49,7 @@ static void do_entangle_pixmap_setup(EntangleImageHistogram *histogram)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram));
 
-    EntangleImageHistogramPrivate *priv = histogram->priv;
+    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
     GdkPixbuf *pixbuf = NULL;
 
     if (priv->image)
@@ -100,7 +97,7 @@ static void entangle_image_histogram_get_property(GObject *object,
                                                   GParamSpec *pspec)
 {
     EntangleImageHistogram *histogram = ENTANGLE_IMAGE_HISTOGRAM(object);
-    EntangleImageHistogramPrivate *priv = histogram->priv;
+    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
 
     switch (prop_id)
         {
@@ -138,7 +135,7 @@ static void entangle_image_histogram_set_property(GObject *object,
 static void entangle_image_histogram_finalize(GObject *object)
 {
     EntangleImageHistogram *histogram = ENTANGLE_IMAGE_HISTOGRAM(object);
-    EntangleImageHistogramPrivate *priv = histogram->priv;
+    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
 
     if (priv->image) {
         g_signal_handler_disconnect(priv->image, priv->imageNotifyID);
@@ -182,7 +179,7 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(widget), FALSE);
 
     EntangleImageHistogram *histogram = ENTANGLE_IMAGE_HISTOGRAM(widget);
-    EntangleImageHistogramPrivate *priv = histogram->priv;
+    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
     int ww, wh; /* Available drawing area extents */
     double peak = 0.0;
     int idx;
@@ -334,12 +331,8 @@ EntangleImageHistogram *entangle_image_histogram_new(void)
 }
 
 
-static void entangle_image_histogram_init(EntangleImageHistogram *histogram)
+static void entangle_image_histogram_init(EntangleImageHistogram *histogram G_GNUC_UNUSED)
 {
-    EntangleImageHistogramPrivate *priv;
-
-    priv = histogram->priv = ENTANGLE_IMAGE_HISTOGRAM_GET_PRIVATE(histogram);
-    memset(priv, 0, sizeof *priv);
 }
 
 
@@ -369,7 +362,7 @@ void entangle_image_histogram_set_image(EntangleImageHistogram *histogram,
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram));
     g_return_if_fail(!image || ENTANGLE_IS_IMAGE(image));
 
-    EntangleImageHistogramPrivate *priv = histogram->priv;
+    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
 
     if (priv->image) {
         g_signal_handler_disconnect(priv->image, priv->imageNotifyID);
@@ -403,7 +396,7 @@ EntangleImage *entangle_image_histogram_get_image(EntangleImageHistogram *histog
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram), NULL);
 
-    EntangleImageHistogramPrivate *priv = histogram->priv;
+    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
 
     return priv->image;
 }
@@ -413,7 +406,7 @@ void entangle_image_histogram_set_histogram_linear(EntangleImageHistogram *histo
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram));
 
-    EntangleImageHistogramPrivate *priv = histogram->priv;
+    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
 
     priv->linear = linear;
 
@@ -425,7 +418,7 @@ gboolean entangle_image_histogram_get_histogram_linear(EntangleImageHistogram *h
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram), FALSE);
 
-    EntangleImageHistogramPrivate *priv = histogram->priv;
+    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
 
     return priv->linear;
 }

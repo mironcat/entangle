@@ -42,8 +42,6 @@ typedef struct _EntangleScriptConfigClass EntangleScriptConfigClass;
 struct _EntangleScriptConfig
 {
     GtkBox parent;
-
-    EntangleScriptConfigPrivate *priv;
 };
 
 struct _EntangleScriptConfigClass

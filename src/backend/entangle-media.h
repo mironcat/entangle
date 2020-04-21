@@ -45,8 +45,6 @@ typedef struct _EntangleMediaClass EntangleMediaClass;
 struct _EntangleMedia
 {
     GObject parent;
-
-    EntangleMediaPrivate *priv;
 };
 
 struct _EntangleMediaClass

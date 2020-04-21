@@ -40,8 +40,6 @@ typedef struct _EntangleScriptClass EntangleScriptClass;
 
 struct _EntangleScript {
     GObject parent;
-
-    EntangleScriptPrivate *priv;
 };
 
 struct _EntangleScriptClass

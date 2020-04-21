@@ -24,9 +24,6 @@
 #include "entangle-debug.h"
 #include "entangle-control-text.h"
 
-#define ENTANGLE_CONTROL_TEXT_GET_PRIVATE(obj)                              \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_CONTROL_TEXT, EntangleControlTextPrivate))
-
 struct _EntangleControlTextPrivate {
     char *value;
 };
@@ -43,8 +40,8 @@ static void entangle_control_get_property(GObject *object,
                                           GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleControlText *picker = ENTANGLE_CONTROL_TEXT(object);
-    EntangleControlTextPrivate *priv = picker->priv;
+    EntangleControlText *control = ENTANGLE_CONTROL_TEXT(object);
+    EntangleControlTextPrivate *priv = entangle_control_text_get_instance_private(control);
 
     switch (prop_id)
         {
@@ -62,8 +59,8 @@ static void entangle_control_set_property(GObject *object,
                                           const GValue *value,
                                           GParamSpec *pspec)
 {
-    EntangleControlText *picker = ENTANGLE_CONTROL_TEXT(object);
-    EntangleControlTextPrivate *priv = picker->priv;
+    EntangleControlText *control = ENTANGLE_CONTROL_TEXT(object);
+    EntangleControlTextPrivate *priv = entangle_control_text_get_instance_private(control);
     gchar *newvalue;
 
     switch (prop_id)
@@ -105,8 +102,8 @@ static void entangle_control_set_property(GObject *object,
 
 static void entangle_control_text_finalize(GObject *object)
 {
-    EntangleControlText *picker = ENTANGLE_CONTROL_TEXT(object);
-    EntangleControlTextPrivate *priv = picker->priv;
+    EntangleControlText *control = ENTANGLE_CONTROL_TEXT(object);
+    EntangleControlTextPrivate *priv = entangle_control_text_get_instance_private(control);
 
     g_free(priv->value);
 
@@ -153,9 +150,8 @@ EntangleControlText *entangle_control_text_new(const char *path,
 }
 
 
-static void entangle_control_text_init(EntangleControlText *picker)
+static void entangle_control_text_init(EntangleControlText *control G_GNUC_UNUSED)
 {
-    picker->priv = ENTANGLE_CONTROL_TEXT_GET_PRIVATE(picker);
 }
 
 /*

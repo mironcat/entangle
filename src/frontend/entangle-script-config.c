@@ -23,9 +23,6 @@
 #include "entangle-debug.h"
 #include "entangle-script-config.h"
 
-#define ENTANGLE_SCRIPT_CONFIG_GET_PRIVATE(obj)                       \
-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), ENTANGLE_TYPE_SCRIPT_CONFIG, EntangleScriptConfigPrivate))
-
 struct _EntangleScriptConfigPrivate {
     GtkWidget *scriptBox;
     GtkListStore *scriptModel;
@@ -38,7 +35,7 @@ G_DEFINE_TYPE_WITH_PRIVATE(EntangleScriptConfig, entangle_script_config, GTK_TYP
 static void entangle_script_config_finalize(GObject *object)
 {
     EntangleScriptConfig *config = ENTANGLE_SCRIPT_CONFIG(object);
-    EntangleScriptConfigPrivate *priv = config->priv;
+    EntangleScriptConfigPrivate *priv = entangle_script_config_get_instance_private(config);
 
     g_object_unref(priv->scriptModel);
 
@@ -85,7 +82,7 @@ entangle_script_config_changed(GtkWidget *src G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(data));
 
     EntangleScriptConfig *config = ENTANGLE_SCRIPT_CONFIG(data);
-    EntangleScriptConfigPrivate *priv = config->priv;
+    EntangleScriptConfigPrivate *priv = entangle_script_config_get_instance_private(config);
     GtkTreeIter iter;
     EntangleScript *script;
     GtkWidget *widget;
@@ -108,11 +105,9 @@ entangle_script_config_changed(GtkWidget *src G_GNUC_UNUSED,
 
 static void entangle_script_config_init(EntangleScriptConfig *config)
 {
-    EntangleScriptConfigPrivate *priv;
+    EntangleScriptConfigPrivate *priv = entangle_script_config_get_instance_private(config);
     GtkCellRenderer *cell;
     GtkTreeIter iter;
-
-    priv = config->priv = ENTANGLE_SCRIPT_CONFIG_GET_PRIVATE(config);
 
     gtk_orientable_set_orientation(GTK_ORIENTABLE(config), GTK_ORIENTATION_VERTICAL);
 
@@ -150,7 +145,7 @@ void entangle_script_config_add_script(EntangleScriptConfig *config,
     g_return_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(config));
     g_return_if_fail(ENTANGLE_IS_SCRIPT(script));
 
-    EntangleScriptConfigPrivate *priv = config->priv;
+    EntangleScriptConfigPrivate *priv = entangle_script_config_get_instance_private(config);
     GtkTreeIter iter;
     GtkWidget *widget;
 
@@ -172,7 +167,7 @@ void entangle_script_config_remove_script(EntangleScriptConfig *config,
     g_return_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(config));
     g_return_if_fail(ENTANGLE_IS_SCRIPT(script));
 
-    EntangleScriptConfigPrivate *priv = config->priv;
+    EntangleScriptConfigPrivate *priv = entangle_script_config_get_instance_private(config);
     GtkTreeIter iter;
 
     if (!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(priv->scriptModel), &iter))
@@ -203,7 +198,7 @@ gboolean entangle_script_config_has_scripts(EntangleScriptConfig *config)
 {
     g_return_val_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(config), FALSE);
 
-    EntangleScriptConfigPrivate *priv = config->priv;
+    EntangleScriptConfigPrivate *priv = entangle_script_config_get_instance_private(config);
 
     return gtk_tree_model_iter_n_children(GTK_TREE_MODEL(priv->scriptModel), NULL) > 1;
 }
@@ -220,7 +215,7 @@ EntangleScript *entangle_script_config_get_selected(EntangleScriptConfig *config
 {
     g_return_val_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(config), NULL);
 
-    EntangleScriptConfigPrivate *priv = config->priv;
+    EntangleScriptConfigPrivate *priv = entangle_script_config_get_instance_private(config);
     GtkTreeIter iter;
     EntangleScript *script;
 

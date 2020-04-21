@@ -43,8 +43,6 @@ typedef struct _EntanglePreferencesClass EntanglePreferencesClass;
 struct _EntanglePreferences
 {
     GObject parent;
-
-    EntanglePreferencesPrivate *priv;
 };
 
 struct _EntanglePreferencesClass
