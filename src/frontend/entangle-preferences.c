@@ -157,10 +157,12 @@ static char *entangle_find_picture_dir(void)
 static char *entangle_find_srgb_profile(void)
 {
     gchar *filename;
-    if (access("./sRGB.icc", R_OK) == 0)
-        filename = g_strdup("./sRGB.icc");
-    else
+    if (access("meson.build", R_OK) == 0) {
+        ENTANGLE_DEBUG("Loading local sRGB");
+        filename = g_strdup("./src/sRGB.icc");
+    } else {
         filename = g_strdup(PKGDATADIR "/sRGB.icc");
+    }
     return filename;
 }
 
