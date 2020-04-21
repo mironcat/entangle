@@ -1694,7 +1694,6 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraEventType eventType = 0;
     void *eventData = NULL;
-    GTimeVal tv;
     guint64 startms, endms, donems;
     gboolean ret = FALSE;
     int err;
@@ -1707,8 +1706,7 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
         goto cleanup;
     }
 
-    g_get_current_time(&tv);
-    startms = (tv.tv_sec * 1000ll) + (tv.tv_usec / 1000ll);
+    startms = g_get_real_time() / 1000;
 
     ENTANGLE_DEBUG("Waiting for events start %llu duration %llu",
                    (unsigned long long)startms,
@@ -1785,8 +1783,7 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
 
         free(eventData);
         eventData = NULL;
-        g_get_current_time(&tv);
-        endms = (tv.tv_sec * 1000ll) + (tv.tv_usec / 1000ll);
+        endms = g_get_real_time() / 1000;
         donems = endms - startms;
     } while (eventType != GP_EVENT_TIMEOUT &&
              donems < waitms);
