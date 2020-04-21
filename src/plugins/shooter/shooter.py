@@ -18,6 +18,7 @@
 #
 
 import time
+from datetime import datetime
 
 import gi
 
@@ -53,7 +54,9 @@ class ShooterPluginWidget(Gtk.Grid):
                             row_spacing=6,
                             expand=False)
 
-        self.attach(Gtk.Label("Shot count:"), 0, 0, 1, 1)
+        label = Gtk.Label("Shot count:")
+        label.props.halign = Gtk.Align.END
+        self.attach(label,  0, 0, 1, 1)
         self.countadjust = Gtk.Adjustment(0, 1, 10000, 1, 10, 10);
         self.countspin = Gtk.SpinButton()
         self.countspin.set_adjustment(self.countadjust)
@@ -62,7 +65,9 @@ class ShooterPluginWidget(Gtk.Grid):
         self.countadjust.connect("value-changed", self.do_count_change)
         self.attach(self.countspin, 1, 0, 1, 1)
 
-        self.attach(Gtk.Label("Shot interval:"), 0, 1, 1, 1)
+        label = Gtk.Label("Shot interval:")
+        label.props.halign = Gtk.Align.END
+        self.attach(label, 0, 1, 1, 1)
         self.intervaladjust = Gtk.Adjustment(0, 0, 1000, 1, 10, 10);
         self.intervalspin = Gtk.SpinButton()
         self.intervalspin.set_adjustment(self.intervaladjust)
@@ -70,6 +75,13 @@ class ShooterPluginWidget(Gtk.Grid):
         self.intervalspin.set_properties(expand=True)
         self.intervaladjust.connect("value-changed", self.do_interval_change)
         self.attach(self.intervalspin, 1, 1, 1, 1)
+
+        label = Gtk.Label("Remaining:")
+        label.props.halign = Gtk.Align.END
+        self.attach(label, 0, 2, 1, 1)
+        self.remaining = Gtk.Label("")
+        self.remaining.props.halign = Gtk.Align.START
+        self.attach(self.remaining, 1, 2, 1, 1)
 
         self.show_all()
 
@@ -83,12 +95,25 @@ class ShooterPluginData(GObject.Object):
         self.count = count
         self.interval = interval
         self.automata = None
+        self.done = 0
+        self.start = datetime.now()
+        self.end = None
 
     def shoot(self):
-        self.count = self.count - 1
+        self.done = self.done + 1
+
+        now = datetime.now()
+        delta = (now - self.start)
+        self.end = now + (delta / self.done)
+
+    def remaining(self):
+        return self.count - self.done
+
+    def end_time(self):
+        return self.end
 
     def finished(self):
-        return self.count == 0
+        return self.remaining() == 0
 
 
 class ShooterPluginScript(Entangle.ScriptSimple):
@@ -113,18 +138,30 @@ class ShooterPluginScript(Entangle.ScriptSimple):
                                              self.do_capture_callback,
                                              script_result)
 
+    def reset(self):
+        self.widget.remaining.set_text("")
+
     def do_capture_callback(self, automata, result, script_result):
         try:
             automata.capture_finish(result)
         except GLib.Error as e:
             self.return_task_error(script_result, str(e));
+            self.reset()
             return
 
         if script_result.return_error_if_cancelled():
+            self.reset()
             return
 
         data = self.get_task_data(script_result)
         data.shoot()
+        if data.remaining():
+            self.widget.remaining.set_text(
+                "%s shots, ETA %s" % (data.remaining(),
+                                      data.end_time().strftime("%H:%M:%S")))
+        else:
+            self.reset()
+
         if data.finished():
             script_result.return_boolean(True)
         else:
@@ -143,6 +180,9 @@ class ShooterPluginScript(Entangle.ScriptSimple):
 
     def do_execute(self, automata, cancel, result):
         result.automata = automata
+        data = self.get_task_data(result)
+        self.widget.remaining.set_text("%d shots" %
+                                       data.remaining())
         automata.capture_async(cancel, self.do_capture_callback, result)
 
 
