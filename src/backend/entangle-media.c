@@ -25,6 +25,7 @@
 #include "entangle-debug.h"
 #include "entangle-media.h"
 
+typedef struct _EntangleMediaPrivate EntangleMediaPrivate;
 struct _EntangleMediaPrivate {
     char *filename;
     GExiv2Metadata *metadata;

@@ -28,30 +28,9 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_MEDIA_POPUP            (entangle_media_popup_get_type ())
-#define ENTANGLE_MEDIA_POPUP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_MEDIA_POPUP, EntangleMediaPopup))
-#define ENTANGLE_MEDIA_POPUP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_MEDIA_POPUP, EntangleMediaPopupClass))
-#define ENTANGLE_IS_MEDIA_POPUP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_MEDIA_POPUP))
-#define ENTANGLE_IS_MEDIA_POPUP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_MEDIA_POPUP))
-#define ENTANGLE_MEDIA_POPUP_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_MEDIA_POPUP, EntangleMediaPopupClass))
+G_DECLARE_FINAL_TYPE(EntangleMediaPopup, entangle_media_popup, ENTANGLE, MEDIA_POPUP, GtkWindow)
 
-
-typedef struct _EntangleMediaPopup EntangleMediaPopup;
-typedef struct _EntangleMediaPopupClass EntangleMediaPopupClass;
-
-struct _EntangleMediaPopup
-{
-    GtkWindow parent;
-};
-
-struct _EntangleMediaPopupClass
-{
-    GtkWindowClass parent_class;
-};
-
-
-GType entangle_media_popup_get_type(void) G_GNUC_CONST;
-
-EntangleMediaPopup* entangle_media_popup_new(void);
+EntangleMediaPopup *entangle_media_popup_new(void);
 
 void entangle_media_popup_show(EntangleMediaPopup *popup,
                                GtkWindow *parent,

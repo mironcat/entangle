@@ -28,12 +28,13 @@
 #include "entangle-debug.h"
 #include "entangle-camera-preferences.h"
 
-struct _EntangleCameraPreferencesPrivate {
+struct _EntangleCameraPreferences {
+    GObject parent;
     EntangleCamera *camera;
     GSettings *settings;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleCameraPreferences, entangle_camera_preferences, G_TYPE_OBJECT);
+G_DEFINE_TYPE(EntangleCameraPreferences, entangle_camera_preferences, G_TYPE_OBJECT);
 
 enum {
     PROP_O,
@@ -46,12 +47,11 @@ static void entangle_camera_preferences_get_property(GObject *object,
                                                      GParamSpec *pspec)
 {
     EntangleCameraPreferences *prefs = ENTANGLE_CAMERA_PREFERENCES(object);
-    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
 
     switch (prop_id)
         {
         case PROP_CAMERA:
-            g_value_set_object(value, priv->camera);
+            g_value_set_object(value, prefs->camera);
             break;
 
         default:
@@ -83,13 +83,12 @@ static void entangle_camera_preferences_set_property(GObject *object,
 
 static void entangle_camera_preferences_finalize(GObject *object)
 {
-    EntangleCameraPreferences *preferences = ENTANGLE_CAMERA_PREFERENCES(object);
-    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(preferences);
+    EntangleCameraPreferences *prefs = ENTANGLE_CAMERA_PREFERENCES(object);
 
     ENTANGLE_DEBUG("Finalize preferences %p", object);
 
-    if (priv->settings)
-        g_object_unref(priv->settings);
+    if (prefs->settings)
+        g_object_unref(prefs->settings);
 
     G_OBJECT_CLASS(entangle_camera_preferences_parent_class)->finalize(object);
 }
@@ -141,18 +140,16 @@ void entangle_camera_preferences_set_camera(EntangleCameraPreferences *prefs,
     g_return_if_fail(ENTANGLE_IS_CAMERA_PREFERENCES(prefs));
     g_return_if_fail(!camera || ENTANGLE_IS_CAMERA(camera));
 
-    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
-
-    if (priv->camera) {
-        g_object_unref(priv->camera);
-        g_object_unref(priv->settings);
-        priv->camera = NULL;
-        priv->settings = NULL;
+    if (prefs->camera) {
+        g_object_unref(prefs->camera);
+        g_object_unref(prefs->settings);
+        prefs->camera = NULL;
+        prefs->settings = NULL;
     }
     if (camera) {
-        priv->camera = g_object_ref(camera);
+        prefs->camera = g_object_ref(camera);
 
-        gchar *suffix = g_strdup(entangle_camera_get_model(priv->camera));
+        gchar *suffix = g_strdup(entangle_camera_get_model(prefs->camera));
         gsize i;
         for (i = 0; suffix[i] != '\0'; i++) {
             if (g_ascii_isalnum(suffix[i]) ||
@@ -163,7 +160,7 @@ void entangle_camera_preferences_set_camera(EntangleCameraPreferences *prefs,
         }
         gchar *path = g_strdup_printf("/org/entangle-photo/manager/camera/%s/",
                                       suffix);
-        priv->settings = g_settings_new_with_path("org.entangle-photo.manager.camera",
+        prefs->settings = g_settings_new_with_path("org.entangle-photo.manager.camera",
                                                   path);
 
         g_free(suffix);
@@ -185,9 +182,7 @@ EntangleCamera *entangle_camera_preferences_get_camera(EntangleCameraPreferences
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_PREFERENCES(prefs), NULL);
 
-    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
-
-    return priv->camera;
+    return prefs->camera;
 }
 
 
@@ -201,12 +196,10 @@ gchar **entangle_camera_preferences_get_controls(EntangleCameraPreferences *pref
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_PREFERENCES(prefs), NULL);
 
-    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
-
-    if (!priv->settings)
+    if (!prefs->settings)
         return NULL;
 
-    return g_settings_get_strv(priv->settings, "controls");
+    return g_settings_get_strv(prefs->settings, "controls");
 }
 
 
@@ -220,12 +213,10 @@ void entangle_camera_preferences_set_controls(EntangleCameraPreferences *prefs,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PREFERENCES(prefs));
 
-    EntangleCameraPreferencesPrivate *priv = entangle_camera_preferences_get_instance_private(prefs);
-
-    if (!priv->settings)
+    if (!prefs->settings)
         return;
 
-    g_settings_set_strv(priv->settings, "controls", controls);
+    g_settings_set_strv(prefs->settings, "controls", controls);
 }
 
 

@@ -41,6 +41,7 @@ typedef struct _EntanglePixbufrLoaderResult {
     GExiv2Metadata *metadata;
 } EntanglePixbufLoaderResult;
 
+typedef struct _EntanglePixbufLoaderPrivate EntanglePixbufLoaderPrivate;
 struct _EntanglePixbufLoaderPrivate {
     GThreadPool *workers;
     EntangleColourProfileTransform *colourTransform;

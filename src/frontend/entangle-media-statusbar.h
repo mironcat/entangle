@@ -28,31 +28,9 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_MEDIA_STATUSBAR            (entangle_media_statusbar_get_type ())
-#define ENTANGLE_MEDIA_STATUSBAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_MEDIA_STATUSBAR, EntangleMediaStatusbar))
-#define ENTANGLE_MEDIA_STATUSBAR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_MEDIA_STATUSBAR, EntangleMediaStatusbarClass))
-#define ENTANGLE_IS_MEDIA_STATUSBAR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_MEDIA_STATUSBAR))
-#define ENTANGLE_IS_MEDIA_STATUSBAR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_MEDIA_STATUSBAR))
-#define ENTANGLE_MEDIA_STATUSBAR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_MEDIA_STATUSBAR, EntangleMediaStatusbarClass))
+G_DECLARE_FINAL_TYPE(EntangleMediaStatusbar, entangle_media_statusbar, ENTANGLE, MEDIA_STATUSBAR, GtkBox)
 
-
-typedef struct _EntangleMediaStatusbar EntangleMediaStatusbar;
-typedef struct _EntangleMediaStatusbarPrivate EntangleMediaStatusbarPrivate;
-typedef struct _EntangleMediaStatusbarClass EntangleMediaStatusbarClass;
-
-struct _EntangleMediaStatusbar
-{
-    GtkBox parent;
-};
-
-struct _EntangleMediaStatusbarClass
-{
-    GtkEventBoxClass parent_class;
-
-};
-
-GType entangle_media_statusbar_get_type(void) G_GNUC_CONST;
-
-EntangleMediaStatusbar* entangle_media_statusbar_new(void);
+EntangleMediaStatusbar *entangle_media_statusbar_new(void);
 
 void entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
                                         EntangleMedia *media);

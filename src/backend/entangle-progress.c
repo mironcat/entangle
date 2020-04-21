@@ -25,21 +25,21 @@ void entangle_progress_start(EntangleProgress *prog, float target, const char *m
 {
     g_return_if_fail(ENTANGLE_IS_PROGRESS(prog));
 
-    ENTANGLE_PROGRESS_GET_INTERFACE(prog)->start(prog, target, msg);
+    ENTANGLE_PROGRESS_GET_IFACE(prog)->start(prog, target, msg);
 }
 
 void entangle_progress_update(EntangleProgress *prog, float current)
 {
     g_return_if_fail(ENTANGLE_IS_PROGRESS(prog));
 
-    ENTANGLE_PROGRESS_GET_INTERFACE(prog)->update(prog, current);
+    ENTANGLE_PROGRESS_GET_IFACE(prog)->update(prog, current);
 }
 
 void entangle_progress_stop(EntangleProgress *prog)
 {
     g_return_if_fail(ENTANGLE_IS_PROGRESS(prog));
 
-    ENTANGLE_PROGRESS_GET_INTERFACE(prog)->stop(prog);
+    ENTANGLE_PROGRESS_GET_IFACE(prog)->stop(prog);
 }
 
 GType

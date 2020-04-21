@@ -28,12 +28,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_PROGRESS                (entangle_progress_get_type ())
-#define ENTANGLE_PROGRESS(obj)                (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_PROGRESS, EntangleProgress))
-#define ENTANGLE_IS_PROGRESS(obj)             (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_PROGRESS))
-#define ENTANGLE_PROGRESS_GET_INTERFACE(inst) (G_TYPE_INSTANCE_GET_INTERFACE ((inst), ENTANGLE_TYPE_PROGRESS, EntangleProgressInterface))
-
-typedef struct _EntangleProgress EntangleProgress; /* dummy object */
-typedef struct _EntangleProgressInterface EntangleProgressInterface;
+G_DECLARE_INTERFACE(EntangleProgress, entangle_progress, ENTANGLE, PROGRESS, GObject)
 
 struct _EntangleProgressInterface {
     GTypeInterface parent;
@@ -42,8 +37,6 @@ struct _EntangleProgressInterface {
     void (*update) (EntangleProgress *prog, float current);
     void (*stop) (EntangleProgress *prog);
 };
-
-GType entangle_progress_get_type(void);
 
 void entangle_progress_start(EntangleProgress *prog, float target, const char *msg);
 void entangle_progress_update(EntangleProgress *prog, float current);

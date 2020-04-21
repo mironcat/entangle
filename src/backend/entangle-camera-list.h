@@ -29,31 +29,10 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CAMERA_LIST            (entangle_camera_list_get_type ())
-#define ENTANGLE_CAMERA_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CAMERA_LIST, EntangleCameraList))
-#define ENTANGLE_CAMERA_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CAMERA_LIST, EntangleCameraListClass))
-#define ENTANGLE_IS_CAMERA_LIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CAMERA_LIST))
-#define ENTANGLE_IS_CAMERA_LIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CAMERA_LIST))
-#define ENTANGLE_CAMERA_LIST_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CAMERA_LIST, EntangleCameraListClass))
+G_DECLARE_FINAL_TYPE(EntangleCameraList, entangle_camera_list, ENTANGLE, CAMERA_LIST, GObject)
 
-
-typedef struct _EntangleCameraList EntangleCameraList;
-typedef struct _EntangleCameraListPrivate EntangleCameraListPrivate;
-typedef struct _EntangleCameraListClass EntangleCameraListClass;
-
-struct _EntangleCameraList
-{
-    GObject parent;
-};
-
-struct _EntangleCameraListClass
-{
-    GObjectClass parent_class;
-};
-
-
-GType entangle_camera_list_get_type(void) G_GNUC_CONST;
-EntangleCameraList* entangle_camera_list_new_active(void);
-EntangleCameraList* entangle_camera_list_new_supported(void);
+EntangleCameraList *entangle_camera_list_new_active(void);
+EntangleCameraList *entangle_camera_list_new_supported(void);
 
 gboolean entangle_camera_list_refresh(EntangleCameraList *list,
                                       GError **error);

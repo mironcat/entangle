@@ -30,28 +30,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_APPLICATION            (entangle_application_get_type ())
-#define ENTANGLE_APPLICATION(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_APPLICATION, EntangleApplication))
-#define ENTANGLE_APPLICATION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_APPLICATION, EntangleApplicationClass))
-#define ENTANGLE_IS_APPLICATION(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_APPLICATION))
-#define ENTANGLE_IS_APPLICATION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_APPLICATION))
-#define ENTANGLE_APPLICATION_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_APPLICATION, EntangleApplicationClass))
-
-
-typedef struct _EntangleApplication EntangleApplication;
-typedef struct _EntangleApplicationPrivate EntangleApplicationPrivate;
-typedef struct _EntangleApplicationClass EntangleApplicationClass;
-
-struct _EntangleApplication
-{
-    GtkApplication parent;
-};
-
-struct _EntangleApplicationClass
-{
-    GtkApplicationClass parent_class;
-};
-
-GType entangle_application_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleApplication, entangle_application, ENTANGLE, APPLICATION, GtkApplication)
 
 EntangleApplication *entangle_application_new(void);
 

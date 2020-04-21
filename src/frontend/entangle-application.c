@@ -48,7 +48,10 @@
  * </para>
  */
 
-struct _EntangleApplicationPrivate {
+struct _EntangleApplication
+{
+    GtkApplication parent;
+
     EntangleCameraList *activeCameras;
     EntangleCameraList *supportedCameras;
 
@@ -61,7 +64,7 @@ struct _EntangleApplicationPrivate {
     PeasExtensionSet *pluginExt;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleApplication, entangle_application, GTK_TYPE_APPLICATION);
+G_DEFINE_TYPE(EntangleApplication, entangle_application, GTK_TYPE_APPLICATION);
 
 enum {
     PROP_0,
@@ -76,19 +79,18 @@ static void entangle_application_get_property(GObject *object,
                                               GParamSpec *pspec)
 {
     EntangleApplication *app = ENTANGLE_APPLICATION(object);
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
 
     switch (prop_id) {
     case PROP_ACTIVE_CAMERAS:
-        g_value_set_object(value, priv->activeCameras);
+        g_value_set_object(value, app->activeCameras);
         break;
 
     case PROP_SUPPORTED_CAMERAS:
-        g_value_set_object(value, priv->supportedCameras);
+        g_value_set_object(value, app->supportedCameras);
         break;
 
     case PROP_PREFERENCES:
-        g_value_set_object(value, priv->preferences);
+        g_value_set_object(value, app->preferences);
         break;
 
     default:
@@ -103,28 +105,27 @@ static void entangle_application_set_property(GObject *object,
                                               GParamSpec *pspec)
 {
     EntangleApplication *app = ENTANGLE_APPLICATION(object);
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
 
     switch (prop_id) {
     case PROP_ACTIVE_CAMERAS:
-        if (priv->activeCameras)
-            g_object_unref(priv->activeCameras);
-        priv->activeCameras = g_value_get_object(value);
-        g_object_ref(priv->activeCameras);
+        if (app->activeCameras)
+            g_object_unref(app->activeCameras);
+        app->activeCameras = g_value_get_object(value);
+        g_object_ref(app->activeCameras);
         break;
 
     case PROP_SUPPORTED_CAMERAS:
-        if (priv->supportedCameras)
-            g_object_unref(priv->supportedCameras);
-        priv->supportedCameras = g_value_get_object(value);
-        g_object_ref(priv->supportedCameras);
+        if (app->supportedCameras)
+            g_object_unref(app->supportedCameras);
+        app->supportedCameras = g_value_get_object(value);
+        g_object_ref(app->supportedCameras);
         break;
 
     case PROP_PREFERENCES:
-        if (priv->preferences)
-            g_object_unref(priv->preferences);
-        priv->preferences = g_value_get_object(value);
-        g_object_ref(priv->preferences);
+        if (app->preferences)
+            g_object_unref(app->preferences);
+        app->preferences = g_value_get_object(value);
+        g_object_ref(app->preferences);
         break;
 
     default:
@@ -136,22 +137,21 @@ static void entangle_application_set_property(GObject *object,
 static void entangle_application_finalize(GObject *object)
 {
     EntangleApplication *app = ENTANGLE_APPLICATION(object);
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
 
     ENTANGLE_DEBUG("Finalize application %p", object);
 
-    if (priv->prefsDisplay)
-        g_object_unref(priv->prefsDisplay);
-    if (priv->activeCameras)
-        g_object_unref(priv->activeCameras);
-    if (priv->supportedCameras)
-        g_object_unref(priv->supportedCameras);
-    if (priv->preferences)
-        g_object_unref(priv->preferences);
-    if (priv->pluginEngine)
-        g_object_unref(priv->pluginEngine);
-    if (priv->pluginExt)
-        g_object_unref(priv->pluginExt);
+    if (app->prefsDisplay)
+        g_object_unref(app->prefsDisplay);
+    if (app->activeCameras)
+        g_object_unref(app->activeCameras);
+    if (app->supportedCameras)
+        g_object_unref(app->supportedCameras);
+    if (app->preferences)
+        g_object_unref(app->preferences);
+    if (app->pluginEngine)
+        g_object_unref(app->pluginEngine);
+    if (app->pluginExt)
+        g_object_unref(app->pluginExt);
 
     G_OBJECT_CLASS(entangle_application_parent_class)->finalize(object);
 }
@@ -175,11 +175,10 @@ static void do_prefs_hide(GObject *media G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
 
     EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
 
-    if (!gtk_widget_get_visible(GTK_WIDGET(priv->prefsDisplay))) {
-        gtk_widget_destroy(GTK_WIDGET(priv->prefsDisplay));
-        priv->prefsDisplay = NULL;
+    if (!gtk_widget_get_visible(GTK_WIDGET(app->prefsDisplay))) {
+        gtk_widget_destroy(GTK_WIDGET(app->prefsDisplay));
+        app->prefsDisplay = NULL;
     }
 }
 
@@ -191,18 +190,17 @@ static void do_action_preferences(GSimpleAction *act G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
 
     EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
 
-    if (priv->prefsDisplay == NULL) {
+    if (app->prefsDisplay == NULL) {
         GtkWindow *win = gtk_application_get_active_window(GTK_APPLICATION(app));
-        priv->prefsDisplay = entangle_preferences_display_new();
-        gtk_application_add_window(GTK_APPLICATION(app), GTK_WINDOW(priv->prefsDisplay));
-        gtk_window_set_transient_for(GTK_WINDOW(priv->prefsDisplay), win);
-        g_signal_connect(priv->prefsDisplay, "notify::visible",
+        app->prefsDisplay = entangle_preferences_display_new();
+        gtk_application_add_window(GTK_APPLICATION(app), GTK_WINDOW(app->prefsDisplay));
+        gtk_window_set_transient_for(GTK_WINDOW(app->prefsDisplay), win);
+        g_signal_connect(app->prefsDisplay, "notify::visible",
                          G_CALLBACK(do_prefs_hide), app);
     }
 
-    gtk_widget_show(GTK_WIDGET(priv->prefsDisplay));
+    gtk_widget_show(GTK_WIDGET(app->prefsDisplay));
 }
 
 
@@ -213,17 +211,16 @@ static void do_action_devices(GSimpleAction *act G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
 
     EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
 
-    if (!priv->devices) {
-        priv->devices = entangle_camera_support_new();
-        entangle_camera_support_set_camera_list(priv->devices,
+    if (!app->devices) {
+        app->devices = entangle_camera_support_new();
+        entangle_camera_support_set_camera_list(app->devices,
                                                 entangle_application_get_supported_cameras(app));
-        gtk_window_set_transient_for(GTK_WINDOW(priv->devices),
+        gtk_window_set_transient_for(GTK_WINDOW(app->devices),
                                      gtk_application_get_active_window(GTK_APPLICATION(app)));
     }
 
-    gtk_widget_show(GTK_WIDGET(priv->devices));
+    gtk_widget_show(GTK_WIDGET(app->devices));
 }
 
 
@@ -253,15 +250,14 @@ static void do_action_about(GSimpleAction *act G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_APPLICATION(opaque));
 
     EntangleApplication *app = ENTANGLE_APPLICATION(opaque);
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
 
-    if (!priv->about) {
-        priv->about = entangle_help_about_new();
-        gtk_window_set_transient_for(GTK_WINDOW(priv->about),
+    if (!app->about) {
+        app->about = entangle_help_about_new();
+        gtk_window_set_transient_for(GTK_WINDOW(app->about),
                                      gtk_application_get_active_window(GTK_APPLICATION(app)));
     }
 
-    gtk_widget_show(GTK_WIDGET(priv->about));
+    gtk_widget_show(GTK_WIDGET(app->about));
 }
 
 
@@ -327,7 +323,6 @@ static void entangle_application_startup(GApplication *gapp)
     g_return_if_fail(ENTANGLE_IS_APPLICATION(gapp));
 
     EntangleApplication *app = ENTANGLE_APPLICATION(gapp);
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
     GList *cameras = NULL, *tmp = NULL;
     gboolean gotcamera = FALSE;
     gsize i;
@@ -345,8 +340,8 @@ static void entangle_application_startup(GApplication *gapp)
 
     gtk_window_set_default_icon_name("entangle");
 
-    if (entangle_preferences_interface_get_auto_connect(priv->preferences))
-        cameras = tmp = entangle_camera_list_get_cameras(priv->activeCameras);
+    if (entangle_preferences_interface_get_auto_connect(app->preferences))
+        cameras = tmp = entangle_camera_list_get_cameras(app->activeCameras);
 
     while (tmp) {
         EntangleCamera *cam = ENTANGLE_CAMERA(tmp->data);
@@ -455,9 +450,8 @@ on_plugin_load(PeasEngine *engine G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_APPLICATION(data));
 
     EntangleApplication *app = data;
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
 
-    entangle_preferences_interface_add_plugin(priv->preferences,
+    entangle_preferences_interface_add_plugin(app->preferences,
                                               peas_plugin_info_get_module_name(info));
 }
 
@@ -470,16 +464,14 @@ on_plugin_unload(PeasEngine *engine G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_APPLICATION(data));
 
     EntangleApplication *app = data;
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
 
-    entangle_preferences_interface_remove_plugin(priv->preferences,
+    entangle_preferences_interface_remove_plugin(app->preferences,
                                                  peas_plugin_info_get_module_name(info));
 }
 
 
 static void entangle_application_init(EntangleApplication *app)
 {
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
     int i;
     gchar *userdir;
     gchar **plugins;
@@ -488,9 +480,9 @@ static void entangle_application_init(EntangleApplication *app)
     gtk_settings = gtk_settings_get_default();
     g_object_set(G_OBJECT(gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
 
-    priv->preferences = entangle_preferences_new();
-    priv->activeCameras = entangle_camera_list_new_active();
-    priv->supportedCameras = entangle_camera_list_new_supported();
+    app->preferences = entangle_preferences_new();
+    app->activeCameras = entangle_camera_list_new_active();
+    app->supportedCameras = entangle_camera_list_new_supported();
 
     g_irepository_require(g_irepository_get_default(),
                           "Peas", "1.0", 0, NULL);
@@ -498,50 +490,50 @@ static void entangle_application_init(EntangleApplication *app)
     userdir = g_build_filename(g_get_user_config_dir(), "entangle/plugins", NULL);
     g_mkdir_with_parents(userdir, 0777);
 
-    priv->pluginEngine = peas_engine_get_default();
-    peas_engine_enable_loader(priv->pluginEngine, "python3");
+    app->pluginEngine = peas_engine_get_default();
+    peas_engine_enable_loader(app->pluginEngine, "python3");
 
-    peas_engine_add_search_path(priv->pluginEngine,
+    peas_engine_add_search_path(app->pluginEngine,
                                 userdir, userdir);
     g_free(userdir);
     if (access("meson.build", R_OK) == 0) {
         ENTANGLE_DEBUG("Loading local plugins");
-        peas_engine_add_search_path(priv->pluginEngine,
+        peas_engine_add_search_path(app->pluginEngine,
                                     "./src/plugins",
                                     "./src/plugins");
     } else {
-        peas_engine_add_search_path(priv->pluginEngine,
+        peas_engine_add_search_path(app->pluginEngine,
                                     LIBDIR "/entangle/plugins",
                                     DATADIR "/entangle/plugins");
     }
-    peas_engine_rescan_plugins(priv->pluginEngine);
+    peas_engine_rescan_plugins(app->pluginEngine);
 
-    priv->pluginExt = peas_extension_set_new(priv->pluginEngine,
+    app->pluginExt = peas_extension_set_new(app->pluginEngine,
                                              PEAS_TYPE_ACTIVATABLE,
                                              "object", app,
                                              NULL);
 
-    peas_extension_set_foreach(priv->pluginExt,
+    peas_extension_set_foreach(app->pluginExt,
                                (PeasExtensionSetForeachFunc)on_extension_added,
                                NULL);
 
-    g_signal_connect(priv->pluginExt, "extension-added",
+    g_signal_connect(app->pluginExt, "extension-added",
                      G_CALLBACK(on_extension_added), NULL);
-    g_signal_connect(priv->pluginExt, "extension-removed",
+    g_signal_connect(app->pluginExt, "extension-removed",
                      G_CALLBACK(on_extension_removed), NULL);
 
-    g_signal_connect(priv->pluginEngine, "load-plugin",
+    g_signal_connect(app->pluginEngine, "load-plugin",
                      G_CALLBACK(on_plugin_load), app);
-    g_signal_connect(priv->pluginEngine, "unload-plugin",
+    g_signal_connect(app->pluginEngine, "unload-plugin",
                      G_CALLBACK(on_plugin_unload), app);
 
-    plugins = entangle_preferences_interface_get_plugins(priv->preferences);
+    plugins = entangle_preferences_interface_get_plugins(app->preferences);
     for (i = 0; plugins[i] != NULL; i++) {
-        PeasPluginInfo *plugin = peas_engine_get_plugin_info(priv->pluginEngine,
+        PeasPluginInfo *plugin = peas_engine_get_plugin_info(app->pluginEngine,
                                                              plugins[i]);
         if (plugin) {
             ENTANGLE_DEBUG("Plugin %p %s", plugin, plugins[i]);
-            peas_engine_load_plugin(priv->pluginEngine, plugin);
+            peas_engine_load_plugin(app->pluginEngine, plugin);
         }
     }
     g_strfreev(plugins);
@@ -559,8 +551,7 @@ EntangleCameraList *entangle_application_get_active_cameras(EntangleApplication 
 {
     g_return_val_if_fail(ENTANGLE_IS_APPLICATION(app), NULL);
 
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
-    return priv->activeCameras;
+    return app->activeCameras;
 }
 
 
@@ -575,8 +566,7 @@ EntangleCameraList *entangle_application_get_supported_cameras(EntangleApplicati
 {
     g_return_val_if_fail(ENTANGLE_IS_APPLICATION(app), NULL);
 
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
-    return priv->supportedCameras;
+    return app->supportedCameras;
 }
 
 
@@ -591,8 +581,7 @@ EntanglePreferences *entangle_application_get_preferences(EntangleApplication *a
 {
     g_return_val_if_fail(ENTANGLE_IS_APPLICATION(app), NULL);
 
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
-    return priv->preferences;
+    return app->preferences;
 }
 
 /**
@@ -606,8 +595,7 @@ PeasEngine *entangle_application_get_plugin_engine(EntangleApplication *app)
 {
     g_return_val_if_fail(ENTANGLE_IS_APPLICATION(app), NULL);
 
-    EntangleApplicationPrivate *priv = entangle_application_get_instance_private(app);
-    return priv->pluginEngine;
+    return app->pluginEngine;
 }
 
 

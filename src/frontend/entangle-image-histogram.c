@@ -25,7 +25,9 @@
 #include "entangle-image-histogram.h"
 #include "entangle-image.h"
 
-struct _EntangleImageHistogramPrivate {
+struct _EntangleImageHistogram {
+    GtkDrawingArea parent;
+
     double freq_red[256];
     double freq_green[256];
     double freq_blue[256];
@@ -35,7 +37,7 @@ struct _EntangleImageHistogramPrivate {
     EntangleImage *image;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleImageHistogram, entangle_image_histogram, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE(EntangleImageHistogram, entangle_image_histogram, GTK_TYPE_DRAWING_AREA);
 
 enum {
     PROP_O,
@@ -49,18 +51,17 @@ static void do_entangle_pixmap_setup(EntangleImageHistogram *histogram)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram));
 
-    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
     GdkPixbuf *pixbuf = NULL;
 
-    if (priv->image)
-        pixbuf = entangle_image_get_pixbuf(priv->image);
+    if (histogram->image)
+        pixbuf = entangle_image_get_pixbuf(histogram->image);
 
-    memset(priv->freq_red, 0, sizeof(priv->freq_red));
-    memset(priv->freq_green, 0, sizeof(priv->freq_green));
-    memset(priv->freq_blue, 0, sizeof(priv->freq_blue));
+    memset(histogram->freq_red, 0, sizeof(histogram->freq_red));
+    memset(histogram->freq_green, 0, sizeof(histogram->freq_green));
+    memset(histogram->freq_blue, 0, sizeof(histogram->freq_blue));
 
     if (!pixbuf) {
-        priv->hasFreq = FALSE;
+        histogram->hasFreq = FALSE;
         return;
     }
 
@@ -77,9 +78,9 @@ static void do_entangle_pixmap_setup(EntangleImageHistogram *histogram)
             guchar level_green = pixel[1];
             guchar level_blue = pixel[2];
 
-            priv->freq_red[level_red]++;
-            priv->freq_green[level_green]++;
-            priv->freq_blue[level_blue]++;
+            histogram->freq_red[level_red]++;
+            histogram->freq_green[level_green]++;
+            histogram->freq_blue[level_blue]++;
 
             pixel+=3;
         }
@@ -87,7 +88,7 @@ static void do_entangle_pixmap_setup(EntangleImageHistogram *histogram)
         pixels += stride;
     }
 
-    priv->hasFreq = TRUE;
+    histogram->hasFreq = TRUE;
 }
 
 
@@ -97,12 +98,11 @@ static void entangle_image_histogram_get_property(GObject *object,
                                                   GParamSpec *pspec)
 {
     EntangleImageHistogram *histogram = ENTANGLE_IMAGE_HISTOGRAM(object);
-    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
 
     switch (prop_id)
         {
         case PROP_IMAGE:
-            g_value_set_object(value, priv->image);
+            g_value_set_object(value, histogram->image);
             break;
 
         default:
@@ -135,11 +135,10 @@ static void entangle_image_histogram_set_property(GObject *object,
 static void entangle_image_histogram_finalize(GObject *object)
 {
     EntangleImageHistogram *histogram = ENTANGLE_IMAGE_HISTOGRAM(object);
-    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
 
-    if (priv->image) {
-        g_signal_handler_disconnect(priv->image, priv->imageNotifyID);
-        g_object_unref(priv->image);
+    if (histogram->image) {
+        g_signal_handler_disconnect(histogram->image, histogram->imageNotifyID);
+        g_object_unref(histogram->image);
     }
 
     G_OBJECT_CLASS(entangle_image_histogram_parent_class)->finalize(object);
@@ -179,7 +178,6 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(widget), FALSE);
 
     EntangleImageHistogram *histogram = ENTANGLE_IMAGE_HISTOGRAM(widget);
-    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
     int ww, wh; /* Available drawing area extents */
     double peak = 0.0;
     int idx;
@@ -201,11 +199,11 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
     entangle_image_histogram_draw_grid(cr, ww, wh);
     cairo_restore(cr);
 
-    if (priv->hasFreq) {
+    if (histogram->hasFreq) {
         for (idx = 0; idx <= 255; idx++) {
-            double rv = entangle_image_histogram_calculate_value(priv->freq_red[idx], priv->linear);
-            double gv = entangle_image_histogram_calculate_value(priv->freq_green[idx], priv->linear);
-            double bv = entangle_image_histogram_calculate_value(priv->freq_blue[idx], priv->linear);
+            double rv = entangle_image_histogram_calculate_value(histogram->freq_red[idx], histogram->linear);
+            double gv = entangle_image_histogram_calculate_value(histogram->freq_green[idx], histogram->linear);
+            double bv = entangle_image_histogram_calculate_value(histogram->freq_blue[idx], histogram->linear);
 
             if (rv > peak)
                 peak = rv;
@@ -225,7 +223,7 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
         cairo_move_to(cr, 0, wh);
 
         for (idx = 0; idx <= 255; idx++) {
-            double rv = entangle_image_histogram_calculate_value(priv->freq_red[idx], priv->linear);
+            double rv = entangle_image_histogram_calculate_value(histogram->freq_red[idx], histogram->linear);
             double x = (double)ww * (double)idx / 255.0;
             double y = (double)(wh - 2) * (double)rv / peak;
 
@@ -242,7 +240,7 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
         cairo_move_to(cr, 0, wh);
 
         for (idx = 0; idx <= 255; idx++) {
-            double gv = entangle_image_histogram_calculate_value(priv->freq_green[idx], priv->linear);
+            double gv = entangle_image_histogram_calculate_value(histogram->freq_green[idx], histogram->linear);
             double x = (double)ww * (double)idx / 255.0;
             double y = (double)(wh - 2) * (double)gv / peak;
 
@@ -259,7 +257,7 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
         cairo_move_to(cr, 0, wh);
 
         for (idx = 0; idx <= 255; idx++) {
-            double bv = entangle_image_histogram_calculate_value(priv->freq_blue[idx], priv->linear);
+            double bv = entangle_image_histogram_calculate_value(histogram->freq_blue[idx], histogram->linear);
             double x = (double)ww * (double)idx / 255.0;
             double y = (double)(wh - 2) * (double)bv / peak;
 
@@ -362,16 +360,14 @@ void entangle_image_histogram_set_image(EntangleImageHistogram *histogram,
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram));
     g_return_if_fail(!image || ENTANGLE_IS_IMAGE(image));
 
-    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
-
-    if (priv->image) {
-        g_signal_handler_disconnect(priv->image, priv->imageNotifyID);
-        g_object_unref(priv->image);
+    if (histogram->image) {
+        g_signal_handler_disconnect(histogram->image, histogram->imageNotifyID);
+        g_object_unref(histogram->image);
     }
-    priv->image = image;
-    if (priv->image) {
-        g_object_ref(priv->image);
-        priv->imageNotifyID = g_signal_connect(priv->image,
+    histogram->image = image;
+    if (histogram->image) {
+        g_object_ref(histogram->image);
+        histogram->imageNotifyID = g_signal_connect(histogram->image,
                                                "notify::pixbuf",
                                                G_CALLBACK(entangle_image_histogram_image_pixbuf_notify),
                                                histogram);
@@ -396,9 +392,7 @@ EntangleImage *entangle_image_histogram_get_image(EntangleImageHistogram *histog
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram), NULL);
 
-    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
-
-    return priv->image;
+    return histogram->image;
 }
 
 
@@ -406,9 +400,7 @@ void entangle_image_histogram_set_histogram_linear(EntangleImageHistogram *histo
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram));
 
-    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
-
-    priv->linear = linear;
+    histogram->linear = linear;
 
     gtk_widget_queue_draw(GTK_WIDGET(histogram));
 }
@@ -418,9 +410,7 @@ gboolean entangle_image_histogram_get_histogram_linear(EntangleImageHistogram *h
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram), FALSE);
 
-    EntangleImageHistogramPrivate *priv = entangle_image_histogram_get_instance_private(histogram);
-
-    return priv->linear;
+    return histogram->linear;
 }
 
 /*

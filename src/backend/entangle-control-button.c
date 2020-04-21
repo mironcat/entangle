@@ -23,11 +23,11 @@
 #include "entangle-debug.h"
 #include "entangle-control-button.h"
 
-struct _EntangleControlButtonPrivate {
-    gboolean dummy;
+struct _EntangleControlButton {
+    EntangleControl parent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlButton, entangle_control_button, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlButton, entangle_control_button, ENTANGLE_TYPE_CONTROL);
 
 
 static void entangle_control_button_finalize(GObject *object)

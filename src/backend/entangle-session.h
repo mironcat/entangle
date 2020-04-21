@@ -29,29 +29,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_SESSION            (entangle_session_get_type ())
-#define ENTANGLE_SESSION(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_SESSION, EntangleSession))
-#define ENTANGLE_SESSION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_SESSION, EntangleSessionClass))
-#define ENTANGLE_IS_SESSION(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_SESSION))
-#define ENTANGLE_IS_SESSION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_SESSION))
-#define ENTANGLE_SESSION_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_SESSION, EntangleSessionClass))
-
-
-typedef struct _EntangleSession EntangleSession;
-typedef struct _EntangleSessionPrivate EntangleSessionPrivate;
-typedef struct _EntangleSessionClass EntangleSessionClass;
-
-struct _EntangleSession
-{
-    GObject parent;
-};
-
-struct _EntangleSessionClass
-{
-    GObjectClass parent_class;
-};
-
-
-GType entangle_session_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleSession, entangle_session, ENTANGLE, SESSION, GObject)
 
 EntangleSession *entangle_session_new(const char *directory,
                                       const char *filenamePattern);

@@ -26,20 +26,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_SCRIPT_SIMPLE            (entangle_script_simple_get_type ())
-#define ENTANGLE_SCRIPT_SIMPLE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_SCRIPT_SIMPLE, EntangleScriptSimple))
-#define ENTANGLE_SCRIPT_SIMPLE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_SCRIPT_SIMPLE, EntangleScriptSimpleClass))
-#define ENTANGLE_IS_SCRIPT_SIMPLE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_SCRIPT_SIMPLE))
-#define ENTANGLE_IS_SCRIPT_SIMPLE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_SCRIPT_SIMPLE))
-#define ENTANGLE_SCRIPT_SIMPLE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_SCRIPT_SIMPLE, EntangleScriptSimpleClass))
-
-typedef struct _EntangleScriptSimple EntangleScriptSimple;
-typedef struct _EntangleScriptSimplePrivate EntangleScriptSimplePrivate;
-typedef struct _EntangleScriptSimpleClass EntangleScriptSimpleClass;
-
-struct _EntangleScriptSimple
-{
-    EntangleScript parent;
-};
+G_DECLARE_DERIVABLE_TYPE(EntangleScriptSimple, entangle_script_simple, ENTANGLE, SCRIPT_SIMPLE, EntangleScript)
 
 struct _EntangleScriptSimpleClass
 {
@@ -52,9 +39,6 @@ struct _EntangleScriptSimpleClass
 
     GObject *(*init_task_data)(EntangleScriptSimple *script);
 };
-
-
-GType entangle_script_simple_get_type(void) G_GNUC_CONST;
 
 void entangle_script_simple_return_task_error(EntangleScriptSimple *script,
                                               GTask *result,

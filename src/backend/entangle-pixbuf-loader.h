@@ -31,21 +31,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_PIXBUF_LOADER            (entangle_pixbuf_loader_get_type ())
-#define ENTANGLE_PIXBUF_LOADER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_PIXBUF_LOADER, EntanglePixbufLoader))
-#define ENTANGLE_PIXBUF_LOADER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_PIXBUF_LOADER, EntanglePixbufLoaderClass))
-#define ENTANGLE_IS_PIXBUF_LOADER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_PIXBUF_LOADER))
-#define ENTANGLE_IS_PIXBUF_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_PIXBUF_LOADER))
-#define ENTANGLE_PIXBUF_LOADER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_PIXBUF_LOADER, EntanglePixbufLoaderClass))
-
-
-typedef struct _EntanglePixbufLoader EntanglePixbufLoader;
-typedef struct _EntanglePixbufLoaderPrivate EntanglePixbufLoaderPrivate;
-typedef struct _EntanglePixbufLoaderClass EntanglePixbufLoaderClass;
-
-struct _EntanglePixbufLoader
-{
-    GObject parent;
-};
+G_DECLARE_DERIVABLE_TYPE(EntanglePixbufLoader, entangle_pixbuf_loader, ENTANGLE, PIXBUF_LOADER, GObject)
 
 struct _EntanglePixbufLoaderClass
 {
@@ -55,8 +41,6 @@ struct _EntanglePixbufLoaderClass
                               GExiv2Metadata **metadata);
 };
 
-
-GType entangle_pixbuf_loader_get_type(void) G_GNUC_CONST;
 
 gboolean entangle_pixbuf_loader_is_ready(EntanglePixbufLoader *loader,
                                          EntangleImage *image);

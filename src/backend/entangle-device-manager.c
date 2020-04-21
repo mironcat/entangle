@@ -29,21 +29,22 @@
 #include "entangle-debug.h"
 #include "entangle-device-manager.h"
 
-struct _EntangleDeviceManagerPrivate {
+struct _EntangleDeviceManager {
+    GObject parent;
     GUdevClient *ctx;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleDeviceManager, entangle_device_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE(EntangleDeviceManager, entangle_device_manager, G_TYPE_OBJECT);
 
 
 static void entangle_device_manager_finalize(GObject *object)
 {
     EntangleDeviceManager *manager = ENTANGLE_DEVICE_MANAGER(object);
-    EntangleDeviceManagerPrivate *priv = entangle_device_manager_get_instance_private(manager);
+
     ENTANGLE_DEBUG("Finalize manager");
 
-    if (priv->ctx)
-        g_object_unref(priv->ctx);
+    if (manager->ctx)
+        g_object_unref(manager->ctx);
 
     G_OBJECT_CLASS(entangle_device_manager_parent_class)->finalize(object);
 }
@@ -130,7 +131,6 @@ EntangleDeviceManager *entangle_device_manager_new(void)
 
 static void entangle_device_manager_init_devices(EntangleDeviceManager *manager)
 {
-    EntangleDeviceManagerPrivate *priv = entangle_device_manager_get_instance_private(manager);
     GList *devs, *tmp;
     const gchar *const subsys[] = {
         "usb/usb_device", NULL,
@@ -138,17 +138,17 @@ static void entangle_device_manager_init_devices(EntangleDeviceManager *manager)
 
     ENTANGLE_DEBUG("Init udev");
 
-    priv->ctx = g_udev_client_new(subsys);
+    manager->ctx = g_udev_client_new(subsys);
 
-    g_signal_connect(priv->ctx, "uevent", G_CALLBACK(do_udev_event), manager);
+    g_signal_connect(manager->ctx, "uevent", G_CALLBACK(do_udev_event), manager);
 
-    devs = g_udev_client_query_by_subsystem(priv->ctx, "usb");
+    devs = g_udev_client_query_by_subsystem(manager->ctx, "usb");
 
     tmp = devs;
     while (tmp) {
         GUdevDevice *dev = tmp->data;
 
-        do_udev_event(priv->ctx, "add", dev, manager);
+        do_udev_event(manager->ctx, "add", dev, manager);
 
         g_object_unref(dev);
         tmp = tmp->next;
@@ -167,11 +167,10 @@ static void entangle_device_manager_init(EntangleDeviceManager *manager)
 char *entangle_device_manager_serial_id(EntangleDeviceManager *manager,
                                         const char *devpath)
 {
-    EntangleDeviceManagerPrivate *priv = entangle_device_manager_get_instance_private(manager);
     GUdevDevice *dev;
     char *ret;
 
-    dev = g_udev_client_query_by_device_file(priv->ctx, devpath);
+    dev = g_udev_client_query_by_device_file(manager->ctx, devpath);
 
     if (!dev)
         return NULL;

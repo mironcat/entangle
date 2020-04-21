@@ -29,29 +29,8 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_PREFERENCES_DISPLAY            (entangle_preferences_display_get_type ())
-#define ENTANGLE_PREFERENCES_DISPLAY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_PREFERENCES_DISPLAY, EntanglePreferencesDisplay))
-#define ENTANGLE_PREFERENCES_DISPLAY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_PREFERENCES_DISPLAY, EntanglePreferencesDisplayClass))
-#define ENTANGLE_IS_PREFERENCES_DISPLAY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_PREFERENCES_DISPLAY))
-#define ENTANGLE_IS_PREFERENCES_DISPLAY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_PREFERENCES_DISPLAY))
-#define ENTANGLE_PREFERENCES_DISPLAY_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_PREFERENCES_DISPLAY, EntanglePreferencesDisplayClass))
+G_DECLARE_FINAL_TYPE(EntanglePreferencesDisplay, entangle_preferences_display, ENTANGLE, PREFERENCES_DISPLAY, GtkDialog)
 
-
-typedef struct _EntanglePreferencesDisplay EntanglePreferencesDisplay;
-typedef struct _EntanglePreferencesDisplayClass EntanglePreferencesDisplayClass;
-
-struct _EntanglePreferencesDisplay
-{
-    GtkDialog parent;
-};
-
-struct _EntanglePreferencesDisplayClass
-{
-    GtkDialogClass parent_class;
-
-};
-
-
-GType entangle_preferences_display_get_type(void) G_GNUC_CONST;
 EntanglePreferencesDisplay *entangle_preferences_display_new(void);
 
 G_END_DECLS

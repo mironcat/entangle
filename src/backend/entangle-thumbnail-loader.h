@@ -27,29 +27,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_THUMBNAIL_LOADER            (entangle_thumbnail_loader_get_type ())
-#define ENTANGLE_THUMBNAIL_LOADER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_THUMBNAIL_LOADER, EntangleThumbnailLoader))
-#define ENTANGLE_THUMBNAIL_LOADER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_THUMBNAIL_LOADER, EntangleThumbnailLoaderClass))
-#define ENTANGLE_IS_THUMBNAIL_LOADER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_THUMBNAIL_LOADER))
-#define ENTANGLE_IS_THUMBNAIL_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_THUMBNAIL_LOADER))
-#define ENTANGLE_THUMBNAIL_LOADER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_THUMBNAIL_LOADER, EntangleThumbnailLoaderClass))
-
-
-typedef struct _EntangleThumbnailLoader EntangleThumbnailLoader;
-typedef struct _EntangleThumbnailLoaderPrivate EntangleThumbnailLoaderPrivate;
-typedef struct _EntangleThumbnailLoaderClass EntangleThumbnailLoaderClass;
-
-struct _EntangleThumbnailLoader
-{
-    EntanglePixbufLoader parent;
-};
-
-struct _EntangleThumbnailLoaderClass
-{
-    EntanglePixbufLoaderClass parent_class;
-};
-
-
-GType entangle_thumbnail_loader_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleThumbnailLoader, entangle_thumbnail_loader, ENTANGLE, THUMBNAIL_LOADER, EntanglePixbufLoader)
 
 EntangleThumbnailLoader *entangle_thumbnail_loader_new(int width,
                                                        int height);

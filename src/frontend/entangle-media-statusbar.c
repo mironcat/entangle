@@ -24,7 +24,9 @@
 #include "entangle-media-statusbar.h"
 #include "entangle-media.h"
 
-struct _EntangleMediaStatusbarPrivate {
+struct _EntangleMediaStatusbar {
+    GtkBox parent;
+
     gulong mediaNotifyID;
     EntangleMedia *media;
 
@@ -37,7 +39,7 @@ struct _EntangleMediaStatusbarPrivate {
     GtkWidget *metaDimensions;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleMediaStatusbar, entangle_media_statusbar, GTK_TYPE_BOX);
+G_DEFINE_TYPE(EntangleMediaStatusbar, entangle_media_statusbar, GTK_TYPE_BOX);
 
 enum {
     PROP_O,
@@ -51,12 +53,11 @@ static void entangle_media_statusbar_get_property(GObject *object,
                                                   GParamSpec *pspec)
 {
     EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
-    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
 
     switch (prop_id)
         {
         case PROP_MEDIA:
-            g_value_set_object(value, priv->media);
+            g_value_set_object(value, statusbar->media);
             break;
 
         default:
@@ -89,11 +90,10 @@ static void entangle_media_statusbar_set_property(GObject *object,
 static void entangle_media_statusbar_finalize(GObject *object)
 {
     EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
-    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
 
-    if (priv->media) {
-        g_signal_handler_disconnect(priv->media, priv->mediaNotifyID);
-        g_object_unref(priv->media);
+    if (statusbar->media) {
+        g_signal_handler_disconnect(statusbar->media, statusbar->mediaNotifyID);
+        g_object_unref(statusbar->media);
     }
 
     G_OBJECT_CLASS(entangle_media_statusbar_parent_class)->finalize(object);
@@ -153,27 +153,25 @@ static void entangle_media_statusbar_init(EntangleMediaStatusbar *statusbar)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
 
-    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
+    statusbar->metaBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+    g_object_set(statusbar->metaBox, "homogeneous", TRUE, NULL);
+    g_object_set(statusbar->metaBox, "expand", TRUE, NULL);
 
-    priv->metaBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
-    g_object_set(priv->metaBox, "homogeneous", TRUE, NULL);
-    g_object_set(priv->metaBox, "expand", TRUE, NULL);
+    gtk_container_set_border_width(GTK_CONTAINER(statusbar->metaBox), 6);
 
-    gtk_container_set_border_width(GTK_CONTAINER(priv->metaBox), 6);
+    statusbar->metaAperture = gtk_label_new("");
+    statusbar->metaShutter = gtk_label_new("");
+    statusbar->metaFocal = gtk_label_new("");
+    statusbar->metaIso = gtk_label_new("");
+    statusbar->metaDimensions = gtk_label_new("");
 
-    priv->metaAperture = gtk_label_new("");
-    priv->metaShutter = gtk_label_new("");
-    priv->metaFocal = gtk_label_new("");
-    priv->metaIso = gtk_label_new("");
-    priv->metaDimensions = gtk_label_new("");
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaAperture, TRUE, TRUE, 6);
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaShutter, TRUE, TRUE, 6);
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaFocal, TRUE, TRUE, 6);
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaIso, TRUE, TRUE, 6);
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaDimensions, TRUE, TRUE, 6);
 
-    gtk_box_pack_start(GTK_BOX(priv->metaBox), priv->metaAperture, TRUE, TRUE, 6);
-    gtk_box_pack_start(GTK_BOX(priv->metaBox), priv->metaShutter, TRUE, TRUE, 6);
-    gtk_box_pack_start(GTK_BOX(priv->metaBox), priv->metaFocal, TRUE, TRUE, 6);
-    gtk_box_pack_start(GTK_BOX(priv->metaBox), priv->metaIso, TRUE, TRUE, 6);
-    gtk_box_pack_start(GTK_BOX(priv->metaBox), priv->metaDimensions, TRUE, TRUE, 6);
-
-    gtk_container_add(GTK_CONTAINER(statusbar), priv->metaBox);
+    gtk_container_add(GTK_CONTAINER(statusbar), statusbar->metaBox);
 
     gtk_widget_show_all(GTK_WIDGET(statusbar));
 }
@@ -183,8 +181,7 @@ static void entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statu
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
 
-    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
-    GExiv2Metadata *metadata = priv->media ? entangle_media_get_metadata(ENTANGLE_MEDIA(priv->media)) : NULL;
+    GExiv2Metadata *metadata = statusbar->media ? entangle_media_get_metadata(ENTANGLE_MEDIA(statusbar->media)) : NULL;
     gchar *shutter = NULL;
     gchar *aperture = NULL;
     gchar *focal = NULL;
@@ -237,11 +234,11 @@ static void entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statu
                                      gexiv2_metadata_get_pixel_height(metadata));
     }
 
-    gtk_label_set_text(GTK_LABEL(priv->metaShutter), shutter ? shutter : "");
-    gtk_label_set_text(GTK_LABEL(priv->metaAperture), aperture ? aperture : "");
-    gtk_label_set_text(GTK_LABEL(priv->metaFocal), focal ? focal : "");
-    gtk_label_set_text(GTK_LABEL(priv->metaIso), iso ? iso : "");
-    gtk_label_set_text(GTK_LABEL(priv->metaDimensions), dimensions ? dimensions : "");
+    gtk_label_set_text(GTK_LABEL(statusbar->metaShutter), shutter ? shutter : "");
+    gtk_label_set_text(GTK_LABEL(statusbar->metaAperture), aperture ? aperture : "");
+    gtk_label_set_text(GTK_LABEL(statusbar->metaFocal), focal ? focal : "");
+    gtk_label_set_text(GTK_LABEL(statusbar->metaIso), iso ? iso : "");
+    gtk_label_set_text(GTK_LABEL(statusbar->metaDimensions), dimensions ? dimensions : "");
 
     g_free(shutter);
     g_free(aperture);
@@ -276,16 +273,14 @@ void entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
     g_return_if_fail(!media || ENTANGLE_IS_MEDIA(media));
 
-    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
-
-    if (priv->media) {
-        g_signal_handler_disconnect(priv->media, priv->mediaNotifyID);
-        g_object_unref(priv->media);
+    if (statusbar->media) {
+        g_signal_handler_disconnect(statusbar->media, statusbar->mediaNotifyID);
+        g_object_unref(statusbar->media);
     }
-    priv->media = media;
-    if (priv->media) {
-        g_object_ref(priv->media);
-        priv->mediaNotifyID = g_signal_connect(priv->media,
+    statusbar->media = media;
+    if (statusbar->media) {
+        g_object_ref(statusbar->media);
+        statusbar->mediaNotifyID = g_signal_connect(statusbar->media,
                                                "notify::metadata",
                                                G_CALLBACK(entangle_media_statusbar_media_metadata_notify),
                                                statusbar);
@@ -308,9 +303,7 @@ EntangleMedia *entangle_media_statusbar_get_media(EntangleMediaStatusbar *status
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar), NULL);
 
-    EntangleMediaStatusbarPrivate *priv = entangle_media_statusbar_get_instance_private(statusbar);
-
-    return priv->media;
+    return statusbar->media;
 }
 
 /*

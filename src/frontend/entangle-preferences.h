@@ -29,29 +29,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_PREFERENCES            (entangle_preferences_get_type ())
-#define ENTANGLE_PREFERENCES(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_PREFERENCES, EntanglePreferences))
-#define ENTANGLE_PREFERENCES_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_PREFERENCES, EntanglePreferencesClass))
-#define ENTANGLE_IS_PREFERENCES(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_PREFERENCES))
-#define ENTANGLE_IS_PREFERENCES_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_PREFERENCES))
-#define ENTANGLE_PREFERENCES_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_PREFERENCES, EntanglePreferencesClass))
-
-
-typedef struct _EntanglePreferences EntanglePreferences;
-typedef struct _EntanglePreferencesPrivate EntanglePreferencesPrivate;
-typedef struct _EntanglePreferencesClass EntanglePreferencesClass;
-
-struct _EntanglePreferences
-{
-    GObject parent;
-};
-
-struct _EntanglePreferencesClass
-{
-    GObjectClass parent_class;
-};
-
-
-GType entangle_preferences_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntanglePreferences, entangle_preferences, ENTANGLE, PREFERENCES, GObject)
 
 EntanglePreferences *entangle_preferences_new(void);
 

@@ -27,29 +27,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_IMAGE_LOADER            (entangle_image_loader_get_type ())
-#define ENTANGLE_IMAGE_LOADER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_IMAGE_LOADER, EntangleImageLoader))
-#define ENTANGLE_IMAGE_LOADER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_IMAGE_LOADER, EntangleImageLoaderClass))
-#define ENTANGLE_IS_IMAGE_LOADER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_IMAGE_LOADER))
-#define ENTANGLE_IS_IMAGE_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_IMAGE_LOADER))
-#define ENTANGLE_IMAGE_LOADER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_IMAGE_LOADER, EntangleImageLoaderClass))
-
-
-typedef struct _EntangleImageLoader EntangleImageLoader;
-typedef struct _EntangleImageLoaderClass EntangleImageLoaderClass;
-typedef struct _EntangleImageLoaderPrivate EntangleImageLoaderPrivate;
-
-struct _EntangleImageLoader
-{
-    EntanglePixbufLoader parent;
-};
-
-struct _EntangleImageLoaderClass
-{
-    EntanglePixbufLoaderClass parent_class;
-};
-
-
-GType entangle_image_loader_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleImageLoader, entangle_image_loader, ENTANGLE, IMAGE_LOADER, EntanglePixbufLoader)
 
 EntangleImageLoader *entangle_image_loader_new(void);
 

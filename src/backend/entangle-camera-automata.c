@@ -23,7 +23,8 @@
 #include "entangle-debug.h"
 #include "entangle-camera-automata.h"
 
-struct _EntangleCameraAutomataPrivate {
+struct _EntangleCameraAutomata {
+    GObject parent;
     EntangleSession *session;
     EntangleCamera *camera;
 
@@ -35,7 +36,7 @@ struct _EntangleCameraAutomataPrivate {
     gulong sigFileDownload;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleCameraAutomata, entangle_camera_automata, G_TYPE_OBJECT);
+G_DEFINE_TYPE(EntangleCameraAutomata, entangle_camera_automata, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -51,19 +52,18 @@ static void entangle_camera_automata_get_property(GObject *object,
                                                   GParamSpec *pspec)
 {
     EntangleCameraAutomata *automata = ENTANGLE_CAMERA_AUTOMATA(object);
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
 
     switch (prop_id) {
     case PROP_SESSION:
-        g_value_set_object(value, priv->session);
+        g_value_set_object(value, automata->session);
         break;
 
     case PROP_CAMERA:
-        g_value_set_object(value, priv->camera);
+        g_value_set_object(value, automata->camera);
         break;
 
     case PROP_DELETE_FILE:
-        g_value_set_boolean(value, priv->deleteFile);
+        g_value_set_boolean(value, automata->deleteFile);
         break;
 
     default:
@@ -77,7 +77,6 @@ static void entangle_camera_automata_set_property(GObject *object,
                                                   GParamSpec *pspec)
 {
     EntangleCameraAutomata *automata = ENTANGLE_CAMERA_AUTOMATA(object);
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
 
     switch (prop_id) {
     case PROP_SESSION:
@@ -91,7 +90,7 @@ static void entangle_camera_automata_set_property(GObject *object,
         break;
 
     case PROP_DELETE_FILE:
-        priv->deleteFile = g_value_get_boolean(value);
+        automata->deleteFile = g_value_get_boolean(value);
         break;
 
     default:
@@ -103,16 +102,15 @@ static void entangle_camera_automata_set_property(GObject *object,
 static void entangle_camera_automata_finalize(GObject *object)
 {
     EntangleCameraAutomata *automata = ENTANGLE_CAMERA_AUTOMATA(object);
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
 
     ENTANGLE_DEBUG("Finalize camera automata %p", object);
 
-    if (priv->camera)
-        g_object_unref(priv->camera);
-    if (priv->session)
-        g_object_unref(priv->session);
+    if (automata->camera)
+        g_object_unref(automata->camera);
+    if (automata->session)
+        g_object_unref(automata->session);
 
-    g_free(priv->deleteImageDup);
+    g_free(automata->deleteImageDup);
 
     G_OBJECT_CLASS(entangle_camera_automata_parent_class)->finalize(object);
 }
@@ -231,13 +229,12 @@ static void do_entangle_camera_file_download(EntangleCamera *cam G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(opaque));
 
     EntangleCameraAutomata *automata = opaque;
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
     EntangleImage *image;
     gchar *localpath;
 
     ENTANGLE_DEBUG("File download %p %p %p", cam, file, automata);
 
-    localpath = entangle_session_next_filename(priv->session, file);
+    localpath = entangle_session_next_filename(automata->session, file);
 
     if (!entangle_camera_file_save_path(file, localpath, NULL)) {
         ENTANGLE_DEBUG("Failed save path");
@@ -246,7 +243,7 @@ static void do_entangle_camera_file_download(EntangleCamera *cam G_GNUC_UNUSED,
     ENTANGLE_DEBUG("Saved to %s", localpath);
     image = entangle_image_new_file(localpath);
 
-    entangle_session_add_media(priv->session, ENTANGLE_MEDIA(image));
+    entangle_session_add_media(automata->session, ENTANGLE_MEDIA(image));
 
     g_object_unref(image);
 
@@ -277,7 +274,7 @@ static void do_entangle_camera_download_finish(GObject *src,
                                                gpointer opaque)
 {
     EntangleCameraAutomataData *data = opaque;
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(data->automata);
+    EntangleCameraAutomata *automata = data->automata;
     EntangleCamera *camera = ENTANGLE_CAMERA(src);
     GError *error = NULL;
 
@@ -286,7 +283,7 @@ static void do_entangle_camera_download_finish(GObject *src,
         /* Fallthrough to delete anyway */
     }
 
-    if (priv->deleteFile) {
+    if (automata->deleteFile) {
         entangle_camera_delete_file_async(camera,
                                           data->file,
                                           NULL,
@@ -317,7 +314,6 @@ static void do_entangle_camera_file_add(EntangleCamera *camera,
     g_return_if_fail(ENTANGLE_IS_CAMERA_FILE(file));
 
     EntangleCameraAutomata *automata = ENTANGLE_CAMERA_AUTOMATA(opaque);
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
     EntangleCameraAutomataData *data;
     GTask *task;
 
@@ -333,13 +329,13 @@ static void do_entangle_camera_file_add(EntangleCamera *camera,
 
     data->file = g_object_ref(file);
 
-    if (priv->deleteImageDup) {
-        gsize len = strlen(priv->deleteImageDup);
+    if (automata->deleteImageDup) {
+        gsize len = strlen(automata->deleteImageDup);
         if (strncmp(entangle_camera_file_get_name(file),
-                    priv->deleteImageDup,
+                    automata->deleteImageDup,
                     len) == 0) {
-            g_free(priv->deleteImageDup);
-            priv->deleteImageDup = NULL;
+            g_free(automata->deleteImageDup);
+            automata->deleteImageDup = NULL;
             entangle_camera_delete_file_async(camera,
                                               data->file,
                                               NULL,
@@ -362,7 +358,7 @@ static void do_entangle_camera_flush_events_finish(GObject *src,
                                                    gpointer opaque)
 {
     EntangleCameraAutomataData *data = opaque;
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(data->automata);
+    EntangleCameraAutomata *automata = data->automata;
     EntangleCamera *camera = ENTANGLE_CAMERA(src);
     GError *error = NULL;
 
@@ -373,7 +369,7 @@ static void do_entangle_camera_flush_events_finish(GObject *src,
     }
 
     if (g_cancellable_is_cancelled(data->cancel)) {
-        if (priv->deleteFile) {
+        if (automata->deleteFile) {
             entangle_camera_delete_file_async(camera,
                                               data->file,
                                               NULL,
@@ -398,7 +394,7 @@ static void do_entangle_camera_capture_finish(GObject *src,
                                               gpointer opaque)
 {
     EntangleCameraAutomataData *data = opaque;
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(data->automata);
+    EntangleCameraAutomata *automata = data->automata;
     EntangleCamera *camera = ENTANGLE_CAMERA(src);
     GError *error = NULL;
 
@@ -411,7 +407,7 @@ static void do_entangle_camera_capture_finish(GObject *src,
     }
 
     if (g_cancellable_is_cancelled(data->cancel)) {
-        if (priv->deleteFile) {
+        if (automata->deleteFile) {
             entangle_camera_delete_file_async(camera,
                                               data->file,
                                               NULL,
@@ -437,7 +433,6 @@ void entangle_camera_automata_capture_async(EntangleCameraAutomata *automata,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata));
 
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
     EntangleCameraAutomataData *data;
     GTask *task;
 
@@ -448,7 +443,7 @@ void entangle_camera_automata_capture_async(EntangleCameraAutomata *automata,
                                              task);
 
     g_signal_emit_by_name(automata, "camera-capture-begin");
-    entangle_camera_capture_image_async(priv->camera,
+    entangle_camera_capture_image_async(automata->camera,
                                         cancel,
                                         do_entangle_camera_capture_finish,
                                         data);
@@ -472,7 +467,7 @@ static void do_entangle_camera_discard_finish(GObject *src,
                                               gpointer opaque)
 {
     EntangleCameraAutomataData *data = opaque;
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(data->automata);
+    EntangleCameraAutomata *automata = data->automata;
     EntangleCamera *camera = ENTANGLE_CAMERA(src);
     GError *error = NULL;
     char *filename;
@@ -487,7 +482,7 @@ static void do_entangle_camera_discard_finish(GObject *src,
     filename = g_strdup(entangle_camera_file_get_name(data->file));
     if ((tmp = strrchr(filename, '.')))
         *tmp = '\0';
-    priv->deleteImageDup = filename;
+    automata->deleteImageDup = filename;
 
     entangle_camera_delete_file_async(camera,
                                       data->file,
@@ -519,21 +514,21 @@ static void do_entangle_camera_preview_finish(GObject *src,
                                               gpointer opaque)
 {
     EntangleCameraAutomataData *data = opaque;
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(data->automata);
+    EntangleCameraAutomata *automata = data->automata;
     EntangleCamera *camera = ENTANGLE_CAMERA(src);
     EntangleCameraFile *file;
     GError *error = NULL;
 
     if (!(file = entangle_camera_preview_image_finish(camera, res, &error))) {
-        if (g_cancellable_is_cancelled(data->cancel) && priv->camera) {
-            if (entangle_camera_get_has_viewfinder(priv->camera))
-                entangle_camera_set_viewfinder_async(priv->camera,
+        if (g_cancellable_is_cancelled(data->cancel) && automata->camera) {
+            if (entangle_camera_get_has_viewfinder(automata->camera))
+                entangle_camera_set_viewfinder_async(automata->camera,
                                                      FALSE,
                                                      NULL,
                                                      do_entangle_camera_viewfinder_finish,
                                                      data);
             else
-                entangle_camera_capture_image_async(priv->camera,
+                entangle_camera_capture_image_async(automata->camera,
                                                     NULL,
                                                     do_entangle_camera_discard_finish,
                                                     data);
@@ -548,26 +543,26 @@ static void do_entangle_camera_preview_finish(GObject *src,
     g_object_unref(file);
 
     if (g_cancellable_is_cancelled(data->cancel)) {
-        if (entangle_camera_get_has_viewfinder(priv->camera))
-            entangle_camera_set_viewfinder_async(priv->camera,
+        if (entangle_camera_get_has_viewfinder(automata->camera))
+            entangle_camera_set_viewfinder_async(automata->camera,
                                                  FALSE,
                                                  NULL,
                                                  do_entangle_camera_viewfinder_finish,
                                                  data);
         else
-            entangle_camera_capture_image_async(priv->camera,
+            entangle_camera_capture_image_async(automata->camera,
                                                 NULL,
                                                 do_entangle_camera_discard_finish,
                                                 data);
     } else if (g_cancellable_is_cancelled(data->confirm)) {
         g_signal_emit_by_name(data->automata, "camera-capture-begin");
         g_cancellable_reset(data->confirm);
-        entangle_camera_capture_image_async(priv->camera,
+        entangle_camera_capture_image_async(automata->camera,
                                             data->cancel,
                                             do_entangle_camera_capture_finish,
                                             data);
     } else {
-        entangle_camera_preview_image_async(priv->camera,
+        entangle_camera_preview_image_async(automata->camera,
                                             data->cancel,
                                             do_entangle_camera_preview_finish,
                                             data);
@@ -583,7 +578,6 @@ void entangle_camera_automata_preview_async(EntangleCameraAutomata *automata,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata));
 
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
     EntangleCameraAutomataData *data;
     GTask *task;
 
@@ -593,7 +587,7 @@ void entangle_camera_automata_preview_async(EntangleCameraAutomata *automata,
                                              confirm,
                                              task);
 
-    entangle_camera_preview_image_async(priv->camera,
+    entangle_camera_preview_image_async(automata->camera,
                                         cancel,
                                         do_entangle_camera_preview_finish,
                                         data);
@@ -618,24 +612,22 @@ void entangle_camera_automata_set_camera(EntangleCameraAutomata *automata,
     g_return_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata));
     g_return_if_fail(!camera || ENTANGLE_IS_CAMERA(camera));
 
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
+    if (automata->camera) {
+        g_signal_handler_disconnect(automata->camera, automata->sigFileDownload);
+        g_signal_handler_disconnect(automata->camera, automata->sigFileAdd);
 
-    if (priv->camera) {
-        g_signal_handler_disconnect(priv->camera, priv->sigFileDownload);
-        g_signal_handler_disconnect(priv->camera, priv->sigFileAdd);
-
-        g_object_unref(priv->camera);
-        priv->camera = NULL;
+        g_object_unref(automata->camera);
+        automata->camera = NULL;
     }
 
     if (camera) {
-        priv->camera = g_object_ref(camera);
+        automata->camera = g_object_ref(camera);
 
-        priv->sigFileDownload = g_signal_connect(priv->camera,
+        automata->sigFileDownload = g_signal_connect(automata->camera,
                                                  "camera-file-downloaded",
                                                  G_CALLBACK(do_entangle_camera_file_download),
                                                  automata);
-        priv->sigFileAdd = g_signal_connect(priv->camera,
+        automata->sigFileAdd = g_signal_connect(automata->camera,
                                             "camera-file-added",
                                             G_CALLBACK(do_entangle_camera_file_add),
                                             automata);
@@ -655,9 +647,7 @@ EntangleCamera *entangle_camera_automata_get_camera(EntangleCameraAutomata *auto
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata), NULL);
 
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
-
-    return priv->camera;
+    return automata->camera;
 }
 
 
@@ -667,15 +657,13 @@ void entangle_camera_automata_set_session(EntangleCameraAutomata *automata,
     g_return_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata));
     g_return_if_fail(!session || ENTANGLE_IS_SESSION(session));
 
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
-
-    if (priv->session) {
-        g_object_unref(priv->session);
-        priv->session = NULL;
+    if (automata->session) {
+        g_object_unref(automata->session);
+        automata->session = NULL;
     }
 
     if (session) {
-        priv->session = g_object_ref(session);
+        automata->session = g_object_ref(session);
     }
 }
 
@@ -692,9 +680,7 @@ EntangleSession *entangle_camera_automata_get_session(EntangleCameraAutomata *au
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata), NULL);
 
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
-
-    return priv->session;
+    return automata->session;
 }
 
 
@@ -703,9 +689,7 @@ void entangle_camera_automata_set_delete_file(EntangleCameraAutomata *automata,
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata));
 
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
-
-    priv->deleteFile = value;
+    automata->deleteFile = value;
 }
 
 
@@ -713,9 +697,7 @@ gboolean entangle_camera_automata_get_delete_file(EntangleCameraAutomata *automa
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata), TRUE);
 
-    EntangleCameraAutomataPrivate *priv = entangle_camera_automata_get_instance_private(automata);
-
-    return priv->deleteFile;
+    return automata->deleteFile;
 }
 
 

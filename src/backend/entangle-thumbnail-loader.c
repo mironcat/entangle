@@ -31,12 +31,13 @@
 #include "entangle-thumbnail-loader.h"
 #include "entangle-colour-profile.h"
 
-struct _EntangleThumbnailLoaderPrivate {
+struct _EntangleThumbnailLoader {
+    EntanglePixbufLoader parent;
     guint width;
     guint height;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleThumbnailLoader, entangle_thumbnail_loader, ENTANGLE_TYPE_PIXBUF_LOADER);
+G_DEFINE_TYPE(EntangleThumbnailLoader, entangle_thumbnail_loader, ENTANGLE_TYPE_PIXBUF_LOADER);
 
 enum {
     PROP_0,
@@ -51,16 +52,15 @@ static void entangle_thumbnail_loader_get_property(GObject *object,
                                                    GParamSpec *pspec)
 {
     EntangleThumbnailLoader *loader = ENTANGLE_THUMBNAIL_LOADER(object);
-    EntangleThumbnailLoaderPrivate *priv = entangle_thumbnail_loader_get_instance_private(loader);
 
     switch (prop_id)
         {
         case PROP_WIDTH:
-            g_value_set_int(value, priv->width);
+            g_value_set_int(value, loader->width);
             break;
 
         case PROP_HEIGHT:
-            g_value_set_int(value, priv->height);
+            g_value_set_int(value, loader->height);
             break;
 
         default:
@@ -74,16 +74,15 @@ static void entangle_thumbnail_loader_set_property(GObject *object,
                                                    GParamSpec *pspec)
 {
     EntangleThumbnailLoader *loader = ENTANGLE_THUMBNAIL_LOADER(object);
-    EntangleThumbnailLoaderPrivate *priv = entangle_thumbnail_loader_get_instance_private(loader);
 
     switch (prop_id)
         {
         case PROP_WIDTH:
-            priv->width = g_value_get_int(value);
+            loader->width = g_value_get_int(value);
             break;
 
         case PROP_HEIGHT:
-            priv->height = g_value_get_int(value);
+            loader->height = g_value_get_int(value);
             break;
 
         default:
@@ -223,12 +222,11 @@ static GdkPixbuf *entangle_thumbnail_loader_generate(EntanglePixbufLoader *loade
 }
 
 
-static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *loader,
+static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *loaderbase,
                                                         EntangleImage *image,
                                                         GExiv2Metadata **metadata G_GNUC_UNUSED)
 {
-    EntangleThumbnailLoader *tloader = ENTANGLE_THUMBNAIL_LOADER(loader);
-    EntangleThumbnailLoaderPrivate *priv = entangle_thumbnail_loader_get_instance_private(tloader);
+    EntangleThumbnailLoader *loader = ENTANGLE_THUMBNAIL_LOADER(loaderbase);
     char *uri = entangle_thumbnail_loader_path_to_uri(entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     char *thumbname = entangle_thumbnail_loader_uri_to_thumb(uri);
     GdkPixbuf *result = NULL;
@@ -271,7 +269,7 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
         unlink(thumbname);
         ENTANGLE_DEBUG("Generate thumbnail %s for %s %ld",
                        thumbname, uri, sb.st_mtime);
-        thumb = entangle_thumbnail_loader_generate(loader,
+        thumb = entangle_thumbnail_loader_generate(loaderbase,
                                                    image,
                                                    uri, thumbname,
                                                    sb.st_mtime,
@@ -296,35 +294,35 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
         tw = gdk_pixbuf_get_width(thumb);
         th = gdk_pixbuf_get_height(thumb);
 
-        if (tw != priv->width ||
-            th != priv->height) {
+        if (tw != loader->width ||
+            th != loader->height) {
             double ta, ra;
             int rw, rh;
             double sw, sh;
 
             ta = (double)tw / (double)th;
-            ra = (double)priv->width / (double)priv->height;
+            ra = (double)loader->width / (double)loader->height;
 
             if (ta > ra) {
-                rw = priv->width;
-                rh = (int)((double)priv->width / ta);
+                rw = loader->width;
+                rh = (int)((double)loader->width / ta);
             } else {
-                rw = (int)((double)priv->height * ta);
-                rh = priv->height;
+                rw = (int)((double)loader->height * ta);
+                rh = loader->height;
             }
 
             sw = (double)rw / (double)tw;
             sh = (double)rh / (double)th;
             result = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-                                    priv->width, priv->height);
+                                    loader->width, loader->height);
             gdk_pixbuf_fill(result, 0x00000000);
 
             gdk_pixbuf_scale(thumb, result,
-                             (priv->width - rw) / 2,
-                             (priv->height - rh) / 2,
+                             (loader->width - rw) / 2,
+                             (loader->height - rh) / 2,
                              rw, rh,
-                             (priv->width - rw) / 2,
-                             (priv->height - rh) / 2,
+                             (loader->width - rw) / 2,
+                             (loader->height - rh) / 2,
                              sw, sh,
                              GDK_INTERP_BILINEAR);
             g_object_unref(thumb);
@@ -390,9 +388,7 @@ EntangleThumbnailLoader *entangle_thumbnail_loader_new(int width,
 
 static void entangle_thumbnail_loader_init(EntangleThumbnailLoader *loader)
 {
-    EntangleThumbnailLoaderPrivate *priv = entangle_thumbnail_loader_get_instance_private(loader);
-
-    priv->width = priv->height = 128;
+    loader->width = loader->height = 128;
 }
 
 

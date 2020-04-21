@@ -24,6 +24,7 @@
 #include "entangle-debug.h"
 #include "entangle-control.h"
 
+typedef struct _EntangleControlPrivate EntangleControlPrivate;
 struct _EntangleControlPrivate {
     char *path;
     int id;

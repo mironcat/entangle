@@ -31,29 +31,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CAMERA            (entangle_camera_get_type ())
-#define ENTANGLE_CAMERA(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CAMERA, EntangleCamera))
-#define ENTANGLE_CAMERA_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CAMERA, EntangleCameraClass))
-#define ENTANGLE_IS_CAMERA(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CAMERA))
-#define ENTANGLE_IS_CAMERA_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CAMERA))
-#define ENTANGLE_CAMERA_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CAMERA, EntangleCameraClass))
-
-
-typedef struct _EntangleCamera EntangleCamera;
-typedef struct _EntangleCameraPrivate EntangleCameraPrivate;
-typedef struct _EntangleCameraClass EntangleCameraClass;
-
-struct _EntangleCamera
-{
-    GObject parent;
-};
-
-struct _EntangleCameraClass
-{
-    GObjectClass parent_class;
-};
-
-
-GType entangle_camera_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleCamera, entangle_camera, ENTANGLE, CAMERA, GObject)
 
 EntangleCamera *entangle_camera_new(const char *model,
                                     const char *port,

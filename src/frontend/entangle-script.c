@@ -23,6 +23,7 @@
 #include "entangle-script.h"
 #include "entangle-debug.h"
 
+typedef struct _EntangleScriptPrivate EntangleScriptPrivate;
 struct _EntangleScriptPrivate
 {
     char *title;

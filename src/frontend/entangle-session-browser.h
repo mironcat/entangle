@@ -30,30 +30,9 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_SESSION_BROWSER            (entangle_session_browser_get_type ())
-#define ENTANGLE_SESSION_BROWSER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_SESSION_BROWSER, EntangleSessionBrowser))
-#define ENTANGLE_SESSION_BROWSER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_SESSION_BROWSER, EntangleSessionBrowserClass))
-#define ENTANGLE_IS_SESSION_BROWSER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_SESSION_BROWSER))
-#define ENTANGLE_IS_SESSION_BROWSER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_SESSION_BROWSER))
-#define ENTANGLE_SESSION_BROWSER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_SESSION_BROWSER, EntangleSessionBrowserClass))
+G_DECLARE_FINAL_TYPE(EntangleSessionBrowser, entangle_session_browser, ENTANGLE, SESSION_BROWSER, GtkDrawingArea)
 
-
-typedef struct _EntangleSessionBrowser EntangleSessionBrowser;
-typedef struct _EntangleSessionBrowserPrivate EntangleSessionBrowserPrivate;
-typedef struct _EntangleSessionBrowserClass EntangleSessionBrowserClass;
-
-struct _EntangleSessionBrowser
-{
-    GtkDrawingArea parent;
-};
-
-struct _EntangleSessionBrowserClass
-{
-    GtkDrawingAreaClass parent_class;
-};
-
-GType entangle_session_browser_get_type(void) G_GNUC_CONST;
-
-EntangleSessionBrowser* entangle_session_browser_new(void);
+EntangleSessionBrowser *entangle_session_browser_new(void);
 
 EntangleMedia *entangle_session_browser_get_selected_media(EntangleSessionBrowser *browser);
 

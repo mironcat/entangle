@@ -31,29 +31,11 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_MEDIA            (entangle_media_get_type ())
-#define ENTANGLE_MEDIA(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_MEDIA, EntangleMedia))
-#define ENTANGLE_MEDIA_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_MEDIA, EntangleMediaClass))
-#define ENTANGLE_IS_MEDIA(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_MEDIA))
-#define ENTANGLE_IS_MEDIA_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_MEDIA))
-#define ENTANGLE_MEDIA_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_MEDIA, EntangleMediaClass))
+G_DECLARE_DERIVABLE_TYPE(EntangleMedia, entangle_media, ENTANGLE, MEDIA, GObject)
 
-
-typedef struct _EntangleMedia EntangleMedia;
-typedef struct _EntangleMediaPrivate EntangleMediaPrivate;
-typedef struct _EntangleMediaClass EntangleMediaClass;
-
-struct _EntangleMedia
-{
-    GObject parent;
+struct _EntangleMediaClass {
+    GObjectClass parent;
 };
-
-struct _EntangleMediaClass
-{
-    GObjectClass parent_class;
-};
-
-
-GType entangle_media_get_type(void) G_GNUC_CONST;
 
 const char *entangle_media_get_filename(EntangleMedia *media);
 

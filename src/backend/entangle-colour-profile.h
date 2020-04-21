@@ -29,50 +29,10 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_COLOUR_PROFILE            (entangle_colour_profile_get_type ())
-#define ENTANGLE_COLOUR_PROFILE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_COLOUR_PROFILE, EntangleColourProfile))
-#define ENTANGLE_COLOUR_PROFILE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_COLOUR_PROFILE, EntangleColourProfileClass))
-#define ENTANGLE_IS_COLOUR_PROFILE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_COLOUR_PROFILE))
-#define ENTANGLE_IS_COLOUR_PROFILE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_COLOUR_PROFILE))
-#define ENTANGLE_COLOUR_PROFILE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_COLOUR_PROFILE, EntangleColourProfileClass))
+G_DECLARE_FINAL_TYPE(EntangleColourProfile, entangle_colour_profile, ENTANGLE, COLOUR_PROFILE, GObject)
 
 #define ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM            (entangle_colour_profile_transform_get_type ())
-#define ENTANGLE_COLOUR_PROFILE_TRANSFORM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM, EntangleColourProfileTransform))
-#define ENTANGLE_COLOUR_PROFILE_TRANSFORM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM, EntangleColourProfileTransformClass))
-#define ENTANGLE_IS_COLOUR_PROFILE_TRANSFORM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM))
-#define ENTANGLE_IS_COLOUR_PROFILE_TRANSFORM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM))
-#define ENTANGLE_COLOUR_PROFILE_TRANSFORM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM, EntangleColourProfileTransformClass))
-
-
-typedef struct _EntangleColourProfile EntangleColourProfile;
-typedef struct _EntangleColourProfilePrivate EntangleColourProfilePrivate;
-typedef struct _EntangleColourProfileClass EntangleColourProfileClass;
-
-typedef struct _EntangleColourProfileTransform EntangleColourProfileTransform;
-typedef struct _EntangleColourProfileTransformPrivate EntangleColourProfileTransformPrivate;
-typedef struct _EntangleColourProfileTransformClass EntangleColourProfileTransformClass;
-
-struct _EntangleColourProfile
-{
-    GObject parent;
-};
-
-struct _EntangleColourProfileClass
-{
-    GObjectClass parent_class;
-
-};
-
-struct _EntangleColourProfileTransform
-{
-    GObject parent;
-};
-
-struct _EntangleColourProfileTransformClass
-{
-    GObjectClass parent_class;
-
-};
-
+G_DECLARE_FINAL_TYPE(EntangleColourProfileTransform, entangle_colour_profile_transform, ENTANGLE, COLOUR_PROFILE_TRANSFORM, GObject)
 
 typedef enum {
     ENTANGLE_COLOUR_PROFILE_INTENT_PERCEPTUAL,
@@ -80,9 +40,6 @@ typedef enum {
     ENTANGLE_COLOUR_PROFILE_INTENT_SATURATION,
     ENTANGLE_COLOUR_PROFILE_INTENT_ABS_COLOURIMETRIC,
 } EntangleColourProfileIntent;
-
-GType entangle_colour_profile_get_type(void) G_GNUC_CONST;
-GType entangle_colour_profile_transform_get_type(void) G_GNUC_CONST;
 
 EntangleColourProfile *entangle_colour_profile_new_file(const char *filename);
 EntangleColourProfile *entangle_colour_profile_new_data(GByteArray *data);

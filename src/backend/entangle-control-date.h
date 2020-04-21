@@ -28,29 +28,8 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CONTROL_DATE            (entangle_control_date_get_type ())
-#define ENTANGLE_CONTROL_DATE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CONTROL_DATE, EntangleControlDate))
-#define ENTANGLE_CONTROL_DATE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CONTROL_DATE, EntangleControlDateClass))
-#define ENTANGLE_IS_CONTROL_DATE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CONTROL_DATE))
-#define ENTANGLE_IS_CONTROL_DATE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CONTROL_DATE))
-#define ENTANGLE_CONTROL_DATE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CONTROL_DATE, EntangleControlDateClass))
+G_DECLARE_FINAL_TYPE(EntangleControlDate, entangle_control_date, ENTANGLE, CONTROL_DATE, EntangleControl)
 
-
-typedef struct _EntangleControlDate EntangleControlDate;
-typedef struct _EntangleControlDatePrivate EntangleControlDatePrivate;
-typedef struct _EntangleControlDateClass EntangleControlDateClass;
-
-struct _EntangleControlDate
-{
-    EntangleControl parent;
-};
-
-struct _EntangleControlDateClass
-{
-    EntangleControlClass parent_class;
-};
-
-
-GType entangle_control_date_get_type(void) G_GNUC_CONST;
 EntangleControlDate* entangle_control_date_new(const char *path,
                                                int id,
                                                const char *label,

@@ -28,31 +28,9 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CONTROL_PANEL            (entangle_control_panel_get_type ())
-#define ENTANGLE_CONTROL_PANEL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CONTROL_PANEL, EntangleControlPanel))
-#define ENTANGLE_CONTROL_PANEL_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CONTROL_PANEL, EntangleControlPanelClass))
-#define ENTANGLE_IS_CONTROL_PANEL(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CONTROL_PANEL))
-#define ENTANGLE_IS_CONTROL_PANEL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CONTROL_PANEL))
-#define ENTANGLE_CONTROL_PANEL_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CONTROL_PANEL, EntangleControlPanelClass))
+G_DECLARE_FINAL_TYPE(EntangleControlPanel, entangle_control_panel, ENTANGLE, CONTROL_PANEL, GtkExpander)
 
-
-typedef struct _EntangleControlPanel EntangleControlPanel;
-typedef struct _EntangleControlPanelPrivate EntangleControlPanelPrivate;
-typedef struct _EntangleControlPanelClass EntangleControlPanelClass;
-
-struct _EntangleControlPanel
-{
-    GtkExpander parent;
-};
-
-struct _EntangleControlPanelClass
-{
-    GtkExpanderClass parent_class;
-
-};
-
-GType entangle_control_panel_get_type(void) G_GNUC_CONST;
-
-EntangleControlPanel* entangle_control_panel_new(EntangleCameraPreferences *prefs);
+EntangleControlPanel *entangle_control_panel_new(EntangleCameraPreferences *prefs);
 
 EntangleCameraPreferences *entangle_control_panel_get_camera_preferences(EntangleControlPanel *panel);
 

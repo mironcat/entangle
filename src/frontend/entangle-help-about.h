@@ -26,30 +26,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_HELP_ABOUT            (entangle_help_about_get_type ())
-#define ENTANGLE_HELP_ABOUT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_HELP_ABOUT, EntangleHelpAbout))
-#define ENTANGLE_HELP_ABOUT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_HELP_ABOUT, EntangleHelpAboutClass))
-#define ENTANGLE_IS_HELP_ABOUT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_HELP_ABOUT))
-#define ENTANGLE_IS_HELP_ABOUT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_HELP_ABOUT))
-#define ENTANGLE_HELP_ABOUT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_HELP_ABOUT, EntangleHelpAboutClass))
-
-
-typedef struct _EntangleHelpAbout EntangleHelpAbout;
-typedef struct _EntangleHelpAboutClass EntangleHelpAboutClass;
-
-struct _EntangleHelpAbout
-{
-    GtkAboutDialog parent;
-};
-
-struct _EntangleHelpAboutClass
-{
-    GtkAboutDialogClass parent_class;
-
-    void (*about_close)(EntangleHelpAbout *about);
-};
-
-
-GType entangle_help_about_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleHelpAbout, entangle_help_about, ENTANGLE, HELP_ABOUT, GtkAboutDialog)
 
 EntangleHelpAbout* entangle_help_about_new(void);
 

@@ -25,11 +25,12 @@
 #include "entangle-debug.h"
 #include "entangle-video.h"
 
-struct _EntangleVideoPrivate {
+struct _EntangleVideo {
+    EntangleMedia parent;
     GstBaseSrc *source;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleVideo, entangle_video, ENTANGLE_TYPE_MEDIA);
+G_DEFINE_TYPE(EntangleVideo, entangle_video, ENTANGLE_TYPE_MEDIA);
 
 enum {
     PROP_0,
@@ -42,12 +43,11 @@ static void entangle_video_get_property(GObject *object,
                                         GParamSpec *pspec)
 {
     EntangleVideo *video = ENTANGLE_VIDEO(object);
-    EntangleVideoPrivate *priv = entangle_video_get_instance_private(video);
 
     switch (prop_id)
         {
         case PROP_SOURCE:
-            g_value_set_object(value, priv->source);
+            g_value_set_object(value, video->source);
             break;
 
         default:
@@ -61,16 +61,15 @@ static void entangle_video_set_property(GObject *object,
                                         GParamSpec *pspec)
 {
     EntangleVideo *video = ENTANGLE_VIDEO(object);
-    EntangleVideoPrivate *priv = entangle_video_get_instance_private(video);
 
     switch (prop_id)
         {
         case PROP_SOURCE:
-            if (priv->source)
-                g_object_unref(priv->source);
-            priv->source = g_value_get_object(value);
-            if (priv->source)
-                g_object_ref(priv->source);
+            if (video->source)
+                g_object_unref(video->source);
+            video->source = g_value_get_object(value);
+            if (video->source)
+                g_object_ref(video->source);
             break;
 
         default:
@@ -82,12 +81,11 @@ static void entangle_video_set_property(GObject *object,
 static void entangle_video_finalize(GObject *object)
 {
     EntangleVideo *video = ENTANGLE_VIDEO(object);
-    EntangleVideoPrivate *priv = entangle_video_get_instance_private(video);
 
     ENTANGLE_DEBUG("Finalize video %p", object);
 
-    if (priv->source)
-        g_object_unref(priv->source);
+    if (video->source)
+        g_object_unref(video->source);
 
     G_OBJECT_CLASS(entangle_video_parent_class)->finalize(object);
 }
@@ -152,9 +150,7 @@ static void entangle_video_init(EntangleVideo *video G_GNUC_UNUSED)
  */
 GstBaseSrc *entangle_video_get_source(EntangleVideo *video)
 {
-    EntangleVideoPrivate *priv = entangle_video_get_instance_private(video);
-
-    return priv->source;
+    return video->source;
 }
 
 /**
@@ -167,12 +163,10 @@ GstBaseSrc *entangle_video_get_source(EntangleVideo *video)
 void entangle_video_set_source(EntangleVideo *video,
                                GstBaseSrc *source)
 {
-    EntangleVideoPrivate *priv = entangle_video_get_instance_private(video);
-
-    if (priv->source)
+    if (video->source)
         g_object_unref(source);
-    priv->source = source;
-    if (priv->source)
+    video->source = source;
+    if (video->source)
         g_object_ref(source);
 }
 

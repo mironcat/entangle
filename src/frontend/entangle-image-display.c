@@ -25,7 +25,9 @@
 #include "entangle-image-display.h"
 #include "entangle-image.h"
 
-struct _EntangleImageDisplayPrivate {
+struct _EntangleImageDisplay {
+    GtkDrawingArea parent;
+
     GList *images;
 
     cairo_surface_t *pixmap;
@@ -43,7 +45,7 @@ struct _EntangleImageDisplayPrivate {
     EntangleImageDisplayGrid gridDisplay;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleImageDisplay, entangle_image_display, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE(EntangleImageDisplay, entangle_image_display, GTK_TYPE_DRAWING_AREA);
 
 enum {
     PROP_O,
@@ -66,11 +68,10 @@ static void entangle_image_display_image_pixbuf_notify(GObject *image,
 
 static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     int width, height;
     GdkPixbuf *pixbuf = NULL;
-    GList *tmp = priv->images;
-    EntangleImage *image = ENTANGLE_IMAGE(priv->images->data);
+    GList *tmp = display->images;
+    EntangleImage *image = ENTANGLE_IMAGE(display->images->data);
 
     ENTANGLE_DEBUG("Setting up server pixmap for %p %s",
                    image, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
@@ -80,12 +81,12 @@ static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *displa
 
     width = gdk_pixbuf_get_width(pixbuf);
     height = gdk_pixbuf_get_height(pixbuf);
-    priv->pixmap = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+    display->pixmap = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
 
     /* Paint the stack of images - the first one
      * is completely opaque and determine the base
      * dimensions. Others are scaled layers on top. */
-    cairo_t *cr = cairo_create(priv->pixmap);
+    cairo_t *cr = cairo_create(display->pixmap);
     while (tmp) {
         int pw, ph;
 
@@ -105,7 +106,7 @@ static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *displa
             gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
         }
 
-        if (tmp == priv->images)
+        if (tmp == display->images)
             cairo_paint(cr);
         else if (tmp->next)
             cairo_paint_with_alpha(cr, 0.3);
@@ -115,11 +116,11 @@ static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *displa
         tmp = tmp->next;
     }
 
-    if (priv->overexposureHighlighting) {
+    if (display->overexposureHighlighting) {
         /* Check for blown highlights (overexposure), and set such pixels
            to red. */
-        cairo_surface_flush(priv->pixmap);
-        unsigned char *data = cairo_image_surface_get_data(priv->pixmap);
+        cairo_surface_flush(display->pixmap);
+        unsigned char *data = cairo_image_surface_get_data(display->pixmap);
         gboolean blown = FALSE;
         unsigned char *p = data;
         for (int i=0; i < height; i++) {
@@ -134,7 +135,7 @@ static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *displa
         }
 
         if (blown)
-            cairo_surface_mark_dirty(priv->pixmap);
+            cairo_surface_mark_dirty(display->pixmap);
     }
 
     cairo_destroy(cr);
@@ -143,9 +144,7 @@ static void do_entangle_image_display_render_pixmap(EntangleImageDisplay *displa
 
 static void entangle_image_display_try_render_pixmap(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    GList *tmp = priv->images;
+    GList *tmp = display->images;
     gboolean missing = FALSE;
 
     if (!gtk_widget_get_realized(GTK_WIDGET(display))) {
@@ -153,12 +152,12 @@ static void entangle_image_display_try_render_pixmap(EntangleImageDisplay *displ
         return;
     }
 
-    if (priv->pixmap) {
-        cairo_surface_destroy(priv->pixmap);
-        priv->pixmap = NULL;
+    if (display->pixmap) {
+        cairo_surface_destroy(display->pixmap);
+        display->pixmap = NULL;
     }
 
-    if (!priv->images)
+    if (!display->images)
         return;
 
     while (tmp) {
@@ -211,40 +210,39 @@ static void entangle_image_display_get_property(GObject *object,
                                                 GParamSpec *pspec)
 {
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(object);
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
 
     switch (prop_id)
         {
         case PROP_AUTOSCALE:
-            g_value_set_boolean(value, priv->autoscale);
+            g_value_set_boolean(value, display->autoscale);
             break;
 
         case PROP_SCALE:
-            g_value_set_float(value, priv->scale);
+            g_value_set_float(value, display->scale);
             break;
 
         case PROP_ASPECT_RATIO:
-            g_value_set_float(value, priv->aspectRatio);
+            g_value_set_float(value, display->aspectRatio);
             break;
 
         case PROP_MASK_OPACITY:
-            g_value_set_float(value, priv->maskOpacity);
+            g_value_set_float(value, display->maskOpacity);
             break;
 
         case PROP_MASK_ENABLED:
-            g_value_set_boolean(value, priv->maskEnabled);
+            g_value_set_boolean(value, display->maskEnabled);
             break;
 
         case PROP_FOCUS_POINT:
-            g_value_set_boolean(value, priv->focusPoint);
+            g_value_set_boolean(value, display->focusPoint);
             break;
 
         case PROP_GRID_DISPLAY:
-            g_value_set_enum(value, priv->gridDisplay);
+            g_value_set_enum(value, display->gridDisplay);
             break;
 
         case PROP_OVEREXPOSURE_HIGHLIGHTING:
-            g_value_set_boolean(value, priv->overexposureHighlighting);
+            g_value_set_boolean(value, display->overexposureHighlighting);
             break;
 
         default:
@@ -305,8 +303,7 @@ static void entangle_image_display_set_property(GObject *object,
 static void entangle_image_display_finalize(GObject *object)
 {
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(object);
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-    GList *tmp = priv->images;
+    GList *tmp = display->images;
 
     while (tmp) {
         EntangleImage *image = tmp->data;
@@ -316,10 +313,10 @@ static void entangle_image_display_finalize(GObject *object)
 
         tmp = tmp->next;
     }
-    g_list_free(priv->images);
+    g_list_free(display->images);
 
-    if (priv->pixmap)
-        cairo_surface_destroy(priv->pixmap);
+    if (display->pixmap)
+        cairo_surface_destroy(display->pixmap);
 
     G_OBJECT_CLASS(entangle_image_display_parent_class)->finalize(object);
 }
@@ -403,7 +400,6 @@ static void entangle_image_display_draw_grid_display(GtkWidget *widget, cairo_t 
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(widget));
 
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     gint ww = gdk_window_get_width(gtk_widget_get_window(widget));
     gint wh = gdk_window_get_height(gtk_widget_get_window(widget));
     gdouble cx = (ww - (mx * 2))/2.0;
@@ -414,7 +410,7 @@ static void entangle_image_display_draw_grid_display(GtkWidget *widget, cairo_t 
 
     cairo_set_source_rgba(cr, 0.7, 0, 0, 1);
 
-    if (priv->focusPoint) {
+    if (display->focusPoint) {
         /* Cut out the area where the focus point lives
          * to avoid lines going through it */
         cairo_rectangle(cr, mx, my, ww - (mx * 2), wh - (my * 2));
@@ -426,7 +422,7 @@ static void entangle_image_display_draw_grid_display(GtkWidget *widget, cairo_t 
         cairo_clip(cr);
     }
 
-    switch (priv->gridDisplay) {
+    switch (display->gridDisplay) {
     case ENTANGLE_IMAGE_DISPLAY_GRID_CENTER_LINES:
         count = 1;
         offx[0] = (ww - (mx * 2)) / 2;
@@ -502,7 +498,6 @@ static gboolean entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(widget), FALSE);
 
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     int ww, wh; /* Available drawing area extents */
     int pw = 0, ph = 0; /* Original image size */
     double iw, ih; /* Desired image size */
@@ -514,15 +509,15 @@ static gboolean entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     wh = gdk_window_get_height(gtk_widget_get_window(widget));
     aspectWin = (double)ww / (double)wh;
 
-    if (priv->pixmap) {
-        pw = cairo_image_surface_get_width(priv->pixmap);
-        ph = cairo_image_surface_get_height(priv->pixmap);
+    if (display->pixmap) {
+        pw = cairo_image_surface_get_width(display->pixmap);
+        ph = cairo_image_surface_get_height(display->pixmap);
         aspectImage = (double)pw / (double)ph;
     }
 
 
     /* Decide what size we're going to draw the image */
-    if (priv->autoscale) {
+    if (display->autoscale) {
         if (aspectWin > aspectImage) {
             /* Match drawn height to widget height, scale width preserving aspect */
             ih = (double)wh;
@@ -537,10 +532,10 @@ static gboolean entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
             ih = (double)wh;
         }
     } else {
-        if (priv->scale > 0) {
+        if (display->scale > 0) {
             /* Scale image larger */
-            iw = (double)pw * priv->scale;
-            ih = (double)ph * priv->scale;
+            iw = (double)pw * display->scale;
+            ih = (double)ph * display->scale;
         } else {
             /* Use native image size */
             iw = (double)pw;
@@ -557,12 +552,12 @@ static gboolean entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     sy = ih / ph;
 
     ENTANGLE_DEBUG("Got win %dx%d image %dx%d, autoscale=%d scale=%lf",
-                   ww, wh, pw, ph, priv->autoscale ? 1 : 0, priv->scale);
+                   ww, wh, pw, ph, display->autoscale ? 1 : 0, display->scale);
     ENTANGLE_DEBUG("Drawing image %lf,%lf at %lf %lf sclaed %lfx%lf", iw, ih, mx, my, sx, sy);
 
     /* We need to fill the background first */
     cairo_save(cr);
-    cairo_set_source_rgb(cr, priv->bkg.red, priv->bkg.green, priv->bkg.blue);
+    cairo_set_source_rgb(cr, display->bkg.red, display->bkg.green, display->bkg.blue);
     cairo_rectangle(cr, 0, 0, ww, wh);
 
     /* Next cut out the inner area where the pixmap
@@ -570,7 +565,7 @@ static gboolean entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
        not double-buffering. Note we're using the undocumented
        behaviour of drawing the rectangle from right to left
        to cut out the whole */
-    if (priv->pixmap)
+    if (display->pixmap)
         cairo_rectangle(cr,
                         mx + iw,
                         my,
@@ -580,32 +575,32 @@ static gboolean entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     cairo_restore(cr);
 
     /* Draw the actual image(s) */
-    if (priv->pixmap) {
+    if (display->pixmap) {
         cairo_matrix_t m;
         cairo_get_matrix(cr, &m);
         cairo_scale(cr, sx, sy);
 
         cairo_set_source_surface(cr,
-                                 priv->pixmap,
+                                 display->pixmap,
                                  mx/sx, my/sy);
         cairo_paint(cr);
         cairo_set_matrix(cr, &m);
     }
 
     /* Draw the focus point */
-    if (priv->focusPoint)
+    if (display->focusPoint)
         entangle_image_display_draw_focus_point(widget, cr);
 
     /* Draw the grid lines */
     entangle_image_display_draw_grid_display(widget, cr, mx, my);
 
     /* Finally a possible aspect ratio mask */
-    if (priv->pixmap && priv->maskEnabled &&
-        (fabs(priv->aspectRatio - aspectImage)  > 0.005)) {
-        cairo_set_source_rgba(cr, 0, 0, 0, priv->maskOpacity);
+    if (display->pixmap && display->maskEnabled &&
+        (fabs(display->aspectRatio - aspectImage)  > 0.005)) {
+        cairo_set_source_rgba(cr, 0, 0, 0, display->maskOpacity);
 
-        if (priv->aspectRatio > aspectImage) { /* mask top & bottom */
-            double ah = (ih - (iw / priv->aspectRatio)) / 2;
+        if (display->aspectRatio > aspectImage) { /* mask top & bottom */
+            double ah = (ih - (iw / display->aspectRatio)) / 2;
 
             cairo_rectangle(cr,
                             mx, my,
@@ -617,7 +612,7 @@ static gboolean entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
                             iw, ah);
             cairo_fill(cr);
         } else { /* mask left & right */
-            double aw = (iw - (ih * priv->aspectRatio)) / 2;
+            double aw = (iw - (ih * display->aspectRatio)) / 2;
 
             cairo_rectangle(cr,
                             mx, my,
@@ -642,7 +637,6 @@ static void entangle_image_display_get_preferred_width(GtkWidget *widget,
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(widget));
 
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     GdkPixbuf *pixbuf = NULL;
     EntangleImage *image = entangle_image_display_get_image(display);
 
@@ -655,7 +649,7 @@ static void entangle_image_display_get_preferred_width(GtkWidget *widget,
         return;
     }
 
-    if (priv->autoscale) {
+    if (display->autoscale) {
         /* For best fit mode, we'll say 100x100 is the smallest we're happy
          * to draw to. Whatever the container allocates us beyond that will
          * be used filled with the image */
@@ -663,9 +657,9 @@ static void entangle_image_display_get_preferred_width(GtkWidget *widget,
     } else {
         /* Start a 1-to-1 mode */
         *minwidth = *natwidth = gdk_pixbuf_get_width(pixbuf);
-        if (priv->scale > 0) {
+        if (display->scale > 0) {
             /* Scaling mode */
-            *minwidth = *natwidth = (int)((double)*minwidth * priv->scale);
+            *minwidth = *natwidth = (int)((double)*minwidth * display->scale);
         }
     }
 }
@@ -678,7 +672,6 @@ static void entangle_image_display_get_preferred_height(GtkWidget *widget,
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(widget));
 
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     GdkPixbuf *pixbuf = NULL;
     EntangleImage *image = entangle_image_display_get_image(display);
 
@@ -691,7 +684,7 @@ static void entangle_image_display_get_preferred_height(GtkWidget *widget,
         return;
     }
 
-    if (priv->autoscale) {
+    if (display->autoscale) {
         /* For best fit mode, we'll say 100x100 is the smallest we're happy
          * to draw to. Whatever the container allocates us beyond that will
          * be used filled with the image */
@@ -699,9 +692,9 @@ static void entangle_image_display_get_preferred_height(GtkWidget *widget,
     } else {
         /* Start a 1-to-1 mode */
         *minheight = *natheight = gdk_pixbuf_get_height(pixbuf);
-        if (priv->scale > 0) {
+        if (display->scale > 0) {
             /* Scaling mode */
-            *minheight = *natheight = (int)((double)*minheight * priv->scale);
+            *minheight = *natheight = (int)((double)*minheight * display->scale);
         }
     }
 }
@@ -835,13 +828,11 @@ EntangleImageDisplay *entangle_image_display_new(void)
 
 static void entangle_image_display_init(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    priv->autoscale = TRUE;
-    priv->maskOpacity = 0.9;
-    priv->aspectRatio = 1.33;
-    priv->maskEnabled = FALSE;
-    priv->overexposureHighlighting = TRUE;
+    display->autoscale = TRUE;
+    display->maskOpacity = 0.9;
+    display->aspectRatio = 1.33;
+    display->maskEnabled = FALSE;
+    display->overexposureHighlighting = TRUE;
 }
 
 
@@ -882,12 +873,10 @@ EntangleImage *entangle_image_display_get_image(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), NULL);
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    if (!priv->images)
+    if (!display->images)
         return NULL;
 
-    return ENTANGLE_IMAGE(priv->images->data);
+    return ENTANGLE_IMAGE(display->images->data);
 }
 
 
@@ -904,10 +893,9 @@ void entangle_image_display_set_image_list(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
     GList *tmp;
 
-    tmp = priv->images;
+    tmp = display->images;
     while (tmp) {
         EntangleImage *image = ENTANGLE_IMAGE(tmp->data);
 
@@ -916,9 +904,9 @@ void entangle_image_display_set_image_list(EntangleImageDisplay *display,
 
         tmp = tmp->next;
     }
-    g_list_free(priv->images);
+    g_list_free(display->images);
 
-    priv->images = NULL;
+    display->images = NULL;
 
     tmp = images;
     while (tmp) {
@@ -926,11 +914,11 @@ void entangle_image_display_set_image_list(EntangleImageDisplay *display,
 
         do_entangle_image_display_connect(display, image);
 
-        priv->images = g_list_append(priv->images, g_object_ref(image));
+        display->images = g_list_append(display->images, g_object_ref(image));
 
         tmp = tmp->next;
     }
-    priv->images = g_list_reverse(priv->images);
+    display->images = g_list_reverse(display->images);
 
     entangle_image_display_try_render_pixmap(display);
     gtk_widget_queue_resize(GTK_WIDGET(display));
@@ -950,11 +938,9 @@ GList *entangle_image_display_get_image_list(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
+    g_list_foreach(display->images, (GFunc)g_object_ref, NULL);
 
-    g_list_foreach(priv->images, (GFunc)g_object_ref, NULL);
-
-    return g_list_copy(priv->images);
+    return g_list_copy(display->images);
 }
 
 
@@ -963,9 +949,7 @@ void entangle_image_display_set_autoscale(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    priv->autoscale = autoscale;
+    display->autoscale = autoscale;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
         gtk_widget_queue_resize(GTK_WIDGET(display));
@@ -976,9 +960,7 @@ gboolean entangle_image_display_get_autoscale(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    return priv->autoscale;
+    return display->autoscale;
 }
 
 
@@ -987,9 +969,7 @@ void entangle_image_display_set_scale(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    priv->scale = scale;
+    display->scale = scale;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
         gtk_widget_queue_resize(GTK_WIDGET(display));
@@ -1000,9 +980,7 @@ gdouble entangle_image_display_get_scale(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), 1.0);
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    return priv->scale;
+    return display->scale;
 }
 
 
@@ -1011,9 +989,7 @@ void entangle_image_display_set_aspect_ratio(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    priv->aspectRatio = aspect;
+    display->aspectRatio = aspect;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
         gtk_widget_queue_draw(GTK_WIDGET(display));
@@ -1024,9 +1000,7 @@ gdouble entangle_image_display_get_aspect_ratio(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), 1.0);
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    return priv->aspectRatio;
+    return display->aspectRatio;
 }
 
 
@@ -1035,9 +1009,7 @@ void entangle_image_display_set_mask_opacity(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    priv->maskOpacity = opacity;
+    display->maskOpacity = opacity;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
         gtk_widget_queue_draw(GTK_WIDGET(display));
@@ -1048,9 +1020,7 @@ gdouble entangle_image_display_get_mask_opacity(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), 1.0);
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    return priv->maskOpacity;
+    return display->maskOpacity;
 }
 
 
@@ -1059,9 +1029,7 @@ void entangle_image_display_set_mask_enabled(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    priv->maskEnabled = enabled;
+    display->maskEnabled = enabled;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
         gtk_widget_queue_draw(GTK_WIDGET(display));
@@ -1072,9 +1040,7 @@ gboolean entangle_image_display_get_mask_enabled(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    return priv->maskEnabled;
+    return display->maskEnabled;
 }
 
 
@@ -1082,9 +1048,7 @@ gboolean entangle_image_display_get_mask_enabled(EntangleImageDisplay *display)
 void entangle_image_display_set_focus_point(EntangleImageDisplay *display,
                                             gboolean enabled)
 {
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    priv->focusPoint = enabled;
+    display->focusPoint = enabled;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
         gtk_widget_queue_draw(GTK_WIDGET(display));
@@ -1093,17 +1057,13 @@ void entangle_image_display_set_focus_point(EntangleImageDisplay *display,
 
 gboolean entangle_image_display_get_focus_point(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    return priv->focusPoint;
+    return display->focusPoint;
 }
 
 void entangle_image_display_set_grid_display(EntangleImageDisplay *display,
                                              EntangleImageDisplayGrid mode)
 {
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    priv->gridDisplay = mode;
+    display->gridDisplay = mode;
 
     if (gtk_widget_get_visible((GtkWidget*)display))
         gtk_widget_queue_draw(GTK_WIDGET(display));
@@ -1112,9 +1072,7 @@ void entangle_image_display_set_grid_display(EntangleImageDisplay *display,
 
 EntangleImageDisplayGrid entangle_image_display_get_grid_display(EntangleImageDisplay *display)
 {
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    return priv->gridDisplay;
+    return display->gridDisplay;
 }
 
 
@@ -1123,9 +1081,7 @@ void entangle_image_display_set_overexposure_highlighting(EntangleImageDisplay *
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    priv->overexposureHighlighting = enabled;
+    display->overexposureHighlighting = enabled;
 
     entangle_image_display_try_render_pixmap(display);
     if (gtk_widget_get_visible((GtkWidget*)display))
@@ -1137,9 +1093,7 @@ gboolean entangle_image_display_get_overexposure_highlighting(EntangleImageDispl
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    return priv->overexposureHighlighting;
+    return display->overexposureHighlighting;
 }
 
 
@@ -1160,9 +1114,7 @@ void entangle_image_display_set_background(EntangleImageDisplay *display,
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    gdk_rgba_parse(&priv->bkg, background);
+    gdk_rgba_parse(&display->bkg, background);
 
     if (gtk_widget_get_visible((GtkWidget*)display))
         gtk_widget_queue_draw(GTK_WIDGET(display));
@@ -1173,9 +1125,7 @@ gchar *entangle_image_display_get_background(EntangleImageDisplay *display)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
-    EntangleImageDisplayPrivate *priv = entangle_image_display_get_instance_private(display);
-
-    return gdk_rgba_to_string(&priv->bkg);
+    return gdk_rgba_to_string(&display->bkg);
 }
 
 /*

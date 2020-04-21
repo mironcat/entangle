@@ -24,11 +24,12 @@
 #include "entangle-debug.h"
 #include "entangle-control-text.h"
 
-struct _EntangleControlTextPrivate {
+struct _EntangleControlText {
+    EntangleControl parent;
     char *value;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlText, entangle_control_text, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlText, entangle_control_text, ENTANGLE_TYPE_CONTROL);
 
 enum {
     PROP_0,
@@ -41,12 +42,11 @@ static void entangle_control_get_property(GObject *object,
                                           GParamSpec *pspec)
 {
     EntangleControlText *control = ENTANGLE_CONTROL_TEXT(object);
-    EntangleControlTextPrivate *priv = entangle_control_text_get_instance_private(control);
 
     switch (prop_id)
         {
         case PROP_VALUE:
-            g_value_set_string(value, priv->value);
+            g_value_set_string(value, control->value);
             break;
 
         default:
@@ -60,7 +60,6 @@ static void entangle_control_set_property(GObject *object,
                                           GParamSpec *pspec)
 {
     EntangleControlText *control = ENTANGLE_CONTROL_TEXT(object);
-    EntangleControlTextPrivate *priv = entangle_control_text_get_instance_private(control);
     gchar *newvalue;
 
     switch (prop_id)
@@ -82,12 +81,12 @@ static void entangle_control_set_property(GObject *object,
                 if (match)
                     newvalue[len-25] = '\0';
             }
-            if ((newvalue && !priv->value) ||
-                (!newvalue && priv->value) ||
-                (newvalue && priv->value &&
-                 !g_str_equal(newvalue, priv->value))) {
-                g_free(priv->value);
-                priv->value = newvalue;
+            if ((newvalue && !control->value) ||
+                (!newvalue && control->value) ||
+                (newvalue && control->value &&
+                 !g_str_equal(newvalue, control->value))) {
+                g_free(control->value);
+                control->value = newvalue;
                 entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
             } else {
                 g_free(newvalue);
@@ -103,9 +102,8 @@ static void entangle_control_set_property(GObject *object,
 static void entangle_control_text_finalize(GObject *object)
 {
     EntangleControlText *control = ENTANGLE_CONTROL_TEXT(object);
-    EntangleControlTextPrivate *priv = entangle_control_text_get_instance_private(control);
 
-    g_free(priv->value);
+    g_free(control->value);
 
     G_OBJECT_CLASS(entangle_control_text_parent_class)->finalize(object);
 }

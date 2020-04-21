@@ -23,11 +23,12 @@
 #include "entangle-debug.h"
 #include "entangle-control-toggle.h"
 
-struct _EntangleControlTogglePrivate {
+struct _EntangleControlToggle {
+    EntangleControl parent;
     gboolean value;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlToggle, entangle_control_toggle, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlToggle, entangle_control_toggle, ENTANGLE_TYPE_CONTROL);
 
 enum {
     PROP_0,
@@ -40,12 +41,11 @@ static void entangle_control_get_property(GObject *object,
                                           GParamSpec *pspec)
 {
     EntangleControlToggle *control = ENTANGLE_CONTROL_TOGGLE(object);
-    EntangleControlTogglePrivate *priv = entangle_control_toggle_get_instance_private(control);
 
     switch (prop_id)
         {
         case PROP_VALUE:
-            g_value_set_boolean(value, priv->value);
+            g_value_set_boolean(value, control->value);
             break;
 
         default:
@@ -59,13 +59,12 @@ static void entangle_control_set_property(GObject *object,
                                           GParamSpec *pspec)
 {
     EntangleControlToggle *control = ENTANGLE_CONTROL_TOGGLE(object);
-    EntangleControlTogglePrivate *priv = entangle_control_toggle_get_instance_private(control);
 
     switch (prop_id)
         {
         case PROP_VALUE:
-            if (priv->value != g_value_get_boolean(value)) {
-                priv->value = g_value_get_boolean(value);
+            if (control->value != g_value_get_boolean(value)) {
+                control->value = g_value_get_boolean(value);
                 entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
             }
             break;

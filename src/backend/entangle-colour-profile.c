@@ -26,7 +26,8 @@
 
 #define DEBUG_CMS 0
 
-struct _EntangleColourProfilePrivate {
+struct _EntangleColourProfile {
+    GObject parent;
     GMutex lock;
     GByteArray *data;
     char *filename;
@@ -34,14 +35,15 @@ struct _EntangleColourProfilePrivate {
     gboolean dirty;
 };
 
-struct _EntangleColourProfileTransformPrivate {
+struct _EntangleColourProfileTransform {
+    GObject parent;
     EntangleColourProfile *srcProfile;
     EntangleColourProfile *dstProfile;
     EntangleColourProfileIntent renderIntent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleColourProfile, entangle_colour_profile, G_TYPE_OBJECT);
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleColourProfileTransform, entangle_colour_profile_transform, G_TYPE_OBJECT);
+G_DEFINE_TYPE(EntangleColourProfile, entangle_colour_profile, G_TYPE_OBJECT);
+G_DEFINE_TYPE(EntangleColourProfileTransform, entangle_colour_profile_transform, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -62,16 +64,15 @@ static void entangle_colour_profile_get_property(GObject *object,
                                                  GParamSpec *pspec)
 {
     EntangleColourProfile *profile = ENTANGLE_COLOUR_PROFILE(object);
-    EntangleColourProfilePrivate *priv = entangle_colour_profile_get_instance_private(profile);
 
     switch (prop_id)
         {
         case PROP_FILENAME:
-            g_value_set_string(value, priv->filename);
+            g_value_set_string(value, profile->filename);
             break;
 
         case PROP_DATA:
-            g_value_set_boxed(value, priv->data);
+            g_value_set_boxed(value, profile->data);
             break;
 
         default:
@@ -85,21 +86,20 @@ static void entangle_colour_profile_set_property(GObject *object,
                                                  GParamSpec *pspec)
 {
     EntangleColourProfile *profile = ENTANGLE_COLOUR_PROFILE(object);
-    EntangleColourProfilePrivate *priv = entangle_colour_profile_get_instance_private(profile);
 
     switch (prop_id)
         {
         case PROP_FILENAME:
-            g_free(priv->filename);
-            priv->filename = g_value_dup_string(value);
-            priv->dirty = TRUE;
+            g_free(profile->filename);
+            profile->filename = g_value_dup_string(value);
+            profile->dirty = TRUE;
             break;
 
         case PROP_DATA:
-            if (priv->data)
-                g_byte_array_unref(priv->data);
-            priv->data = g_value_dup_boxed(value);
-            priv->dirty = TRUE;
+            if (profile->data)
+                g_byte_array_unref(profile->data);
+            profile->data = g_value_dup_boxed(value);
+            profile->dirty = TRUE;
             break;
 
         default:
@@ -114,16 +114,15 @@ static void entangle_colour_profile_transform_get_property(GObject *object,
                                                            GParamSpec *pspec)
 {
     EntangleColourProfileTransform *transform = ENTANGLE_COLOUR_PROFILE_TRANSFORM(object);
-    EntangleColourProfileTransformPrivate *priv = entangle_colour_profile_transform_get_instance_private(transform);
 
     switch (prop_id)
         {
         case PROP_SRC_PROFILE:
-            g_value_set_object(value, priv->srcProfile);
+            g_value_set_object(value, transform->srcProfile);
             break;
 
         case PROP_DST_PROFILE:
-            g_value_set_object(value, priv->dstProfile);
+            g_value_set_object(value, transform->dstProfile);
             break;
 
         default:
@@ -137,28 +136,27 @@ static void entangle_colour_profile_transform_set_property(GObject *object,
                                                            GParamSpec *pspec)
 {
     EntangleColourProfileTransform *transform = ENTANGLE_COLOUR_PROFILE_TRANSFORM(object);
-    EntangleColourProfileTransformPrivate *priv = entangle_colour_profile_transform_get_instance_private(transform);
 
     switch (prop_id)
         {
         case PROP_SRC_PROFILE:
-            if (priv->srcProfile)
-                g_object_unref(priv->srcProfile);
-            priv->srcProfile = g_value_get_object(value);
-            if (priv->srcProfile)
-                g_object_ref(priv->srcProfile);
+            if (transform->srcProfile)
+                g_object_unref(transform->srcProfile);
+            transform->srcProfile = g_value_get_object(value);
+            if (transform->srcProfile)
+                g_object_ref(transform->srcProfile);
             break;
 
         case PROP_DST_PROFILE:
-            if (priv->dstProfile)
-                g_object_unref(priv->dstProfile);
-            priv->dstProfile = g_value_get_object(value);
-            if (priv->dstProfile)
-                g_object_ref(priv->dstProfile);
+            if (transform->dstProfile)
+                g_object_unref(transform->dstProfile);
+            transform->dstProfile = g_value_get_object(value);
+            if (transform->dstProfile)
+                g_object_ref(transform->dstProfile);
             break;
 
         case PROP_RENDERING_INTENT:
-            priv->renderIntent = g_value_get_enum(value);
+            transform->renderIntent = g_value_get_enum(value);
             break;
 
         default:
@@ -170,15 +168,15 @@ static void entangle_colour_profile_transform_set_property(GObject *object,
 static void entangle_colour_profile_finalize(GObject *object)
 {
     EntangleColourProfile *profile = ENTANGLE_COLOUR_PROFILE(object);
-    EntangleColourProfilePrivate *priv = entangle_colour_profile_get_instance_private(profile);
+
     ENTANGLE_DEBUG("Finalize profile");
 
-    if (priv->data)
-        g_byte_array_unref(priv->data);
-    g_free(priv->filename);
-    if (priv->profile)
-        cmsCloseProfile(priv->profile);
-    g_mutex_clear(&priv->lock);
+    if (profile->data)
+        g_byte_array_unref(profile->data);
+    g_free(profile->filename);
+    if (profile->profile)
+        cmsCloseProfile(profile->profile);
+    g_mutex_clear(&profile->lock);
 
     G_OBJECT_CLASS(entangle_colour_profile_parent_class)->finalize(object);
 }
@@ -187,13 +185,13 @@ static void entangle_colour_profile_finalize(GObject *object)
 static void entangle_colour_profile_transform_finalize(GObject *object)
 {
     EntangleColourProfileTransform *transform = ENTANGLE_COLOUR_PROFILE_TRANSFORM(object);
-    EntangleColourProfileTransformPrivate *priv = entangle_colour_profile_transform_get_instance_private(transform);
+
     ENTANGLE_DEBUG("Finalize profile transform");
 
-    if (priv->srcProfile)
-        g_object_unref(priv->srcProfile);
-    if (priv->dstProfile)
-        g_object_unref(priv->dstProfile);
+    if (transform->srcProfile)
+        g_object_unref(transform->srcProfile);
+    if (transform->dstProfile)
+        g_object_unref(transform->dstProfile);
 
     G_OBJECT_CLASS(entangle_colour_profile_transform_parent_class)->finalize(object);
 }
@@ -314,40 +312,37 @@ EntangleColourProfile *entangle_colour_profile_new_data(GByteArray *data)
 
 static gboolean entangle_colour_profile_load(EntangleColourProfile *profile)
 {
-    EntangleColourProfilePrivate *priv = entangle_colour_profile_get_instance_private(profile);
     gboolean ret;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&profile->lock);
 
-    if (!priv->dirty) {
+    if (!profile->dirty) {
         goto cleanup;
     }
 
-    if (priv->profile) {
-        cmsCloseProfile(priv->profile);
-        priv->profile = NULL;
+    if (profile->profile) {
+        cmsCloseProfile(profile->profile);
+        profile->profile = NULL;
     }
-    if (priv->filename) {
-        if (!(priv->profile = cmsOpenProfileFromFile(priv->filename, "r")))
-            ENTANGLE_DEBUG("Unable to load profile from %s", priv->filename);
-    } else if (priv->data) {
-        if (!(priv->profile = cmsOpenProfileFromMem(priv->data->data, priv->data->len)))
-            ENTANGLE_DEBUG("Unable to load profile from %p", priv->data);
+    if (profile->filename) {
+        if (!(profile->profile = cmsOpenProfileFromFile(profile->filename, "r")))
+            ENTANGLE_DEBUG("Unable to load profile from %s", profile->filename);
+    } else if (profile->data) {
+        if (!(profile->profile = cmsOpenProfileFromMem(profile->data->data, profile->data->len)))
+            ENTANGLE_DEBUG("Unable to load profile from %p", profile->data);
     }
 
-    priv->dirty = FALSE;
+    profile->dirty = FALSE;
 
  cleanup:
-    ret = priv->profile ? TRUE : FALSE;
-    g_mutex_unlock(&priv->lock);
+    ret = profile->profile ? TRUE : FALSE;
+    g_mutex_unlock(&profile->lock);
     return ret;
 }
 
 static void entangle_colour_profile_init(EntangleColourProfile *profile)
 {
-    EntangleColourProfilePrivate *priv = entangle_colour_profile_get_instance_private(profile);
-
-    g_mutex_init(&priv->lock);
+    g_mutex_init(&profile->lock);
 }
 
 static void entangle_colour_profile_transform_init(EntangleColourProfileTransform *transform G_GNUC_UNUSED)
@@ -367,8 +362,7 @@ const char *entangle_colour_profile_filename(EntangleColourProfile *profile)
 {
     g_return_val_if_fail(ENTANGLE_IS_COLOUR_PROFILE(profile), NULL);
 
-    EntangleColourProfilePrivate *priv = entangle_colour_profile_get_instance_private(profile);
-    return priv->filename;
+    return profile->filename;
 }
 
 
@@ -377,14 +371,13 @@ static char *entangle_colour_profile_get_string(EntangleColourProfile *profile,
 {
     g_return_val_if_fail(ENTANGLE_IS_COLOUR_PROFILE(profile), NULL);
 
-    EntangleColourProfilePrivate *priv = entangle_colour_profile_get_instance_private(profile);
     gchar *res;
     cmsUInt32Number len;
 
     if (!entangle_colour_profile_load(profile))
         return NULL;
 
-    if ((len = cmsGetProfileInfoASCII(priv->profile,
+    if ((len = cmsGetProfileInfoASCII(profile->profile,
                                       info,
                                       "en", "US",
                                       NULL, 0)) == 0)
@@ -392,7 +385,7 @@ static char *entangle_colour_profile_get_string(EntangleColourProfile *profile,
 
     res = g_new0(gchar, len + 1);
 
-    if (cmsGetProfileInfoASCII(priv->profile,
+    if (cmsGetProfileInfoASCII(profile->profile,
                                info,
                                "en", "US",
                                res, len) == 0) {
@@ -525,9 +518,6 @@ GdkPixbuf *entangle_colour_profile_transform_apply(EntangleColourProfileTransfor
     g_return_val_if_fail(ENTANGLE_IS_COLOUR_PROFILE_TRANSFORM(transform), NULL);
     g_return_val_if_fail(GDK_IS_PIXBUF(srcpixbuf), NULL);
 
-    EntangleColourProfileTransformPrivate *priv = entangle_colour_profile_transform_get_instance_private(transform);
-    EntangleColourProfilePrivate *srcpriv = entangle_colour_profile_get_instance_private(priv->srcProfile);
-    EntangleColourProfilePrivate *dstpriv = entangle_colour_profile_get_instance_private(priv->dstProfile);
     cmsHTRANSFORM cmstransform;
     GdkPixbuf *dstpixbuf;
     guchar *srcpixels;
@@ -538,21 +528,21 @@ GdkPixbuf *entangle_colour_profile_transform_apply(EntangleColourProfileTransfor
     int width = gdk_pixbuf_get_width(srcpixbuf);
     int intent = INTENT_PERCEPTUAL;
 
-    if (!priv->srcProfile ||
-        !priv->dstProfile) {
+    if (!transform->srcProfile ||
+        !transform->dstProfile) {
         g_object_ref(srcpixbuf);
         return srcpixbuf;
     }
 
-    if (!entangle_colour_profile_load(priv->srcProfile) ||
-        !entangle_colour_profile_load(priv->dstProfile)) {
+    if (!entangle_colour_profile_load(transform->srcProfile) ||
+        !entangle_colour_profile_load(transform->dstProfile)) {
         g_object_ref(srcpixbuf);
         return srcpixbuf;
     }
 
     dstpixbuf = gdk_pixbuf_copy(srcpixbuf);
 
-    switch (priv->renderIntent) {
+    switch (transform->renderIntent) {
     case ENTANGLE_COLOUR_PROFILE_INTENT_PERCEPTUAL:
         intent = INTENT_PERCEPTUAL;
         break;
@@ -570,16 +560,16 @@ GdkPixbuf *entangle_colour_profile_transform_apply(EntangleColourProfileTransfor
         break;
     }
 
-    g_mutex_lock(&srcpriv->lock);
-    g_mutex_lock(&dstpriv->lock);
-    cmstransform = cmsCreateTransform(srcpriv->profile,
+    g_mutex_lock(&transform->srcProfile->lock);
+    g_mutex_lock(&transform->dstProfile->lock);
+    cmstransform = cmsCreateTransform(transform->srcProfile->profile,
                                       type,
-                                      dstpriv->profile,
+                                      transform->dstProfile->profile,
                                       type,
                                       intent,
                                       0);
-    g_mutex_unlock(&srcpriv->lock);
-    g_mutex_unlock(&dstpriv->lock);
+    g_mutex_unlock(&transform->srcProfile->lock);
+    g_mutex_unlock(&transform->dstProfile->lock);
 
     srcpixels = gdk_pixbuf_get_pixels(srcpixbuf);
     dstpixels = gdk_pixbuf_get_pixels(dstpixbuf);

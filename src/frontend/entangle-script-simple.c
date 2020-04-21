@@ -22,6 +22,7 @@
 
 #include "entangle-script-simple.h"
 
+typedef struct _EntangleScriptSimplePrivate EntangleScriptSimplePrivate;
 struct _EntangleScriptSimplePrivate
 {
     gboolean unused;

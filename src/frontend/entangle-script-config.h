@@ -28,29 +28,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_SCRIPT_CONFIG            (entangle_script_config_get_type ())
-#define ENTANGLE_SCRIPT_CONFIG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_SCRIPT_CONFIG, EntangleScriptConfig))
-#define ENTANGLE_SCRIPT_CONFIG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_SCRIPT_CONFIG, EntangleScriptConfigClass))
-#define ENTANGLE_IS_SCRIPT_CONFIG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_SCRIPT_CONFIG))
-#define ENTANGLE_IS_SCRIPT_CONFIG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_SCRIPT_CONFIG))
-#define ENTANGLE_SCRIPT_CONFIG_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_SCRIPT_CONFIG, EntangleScriptConfigClass))
-
-
-typedef struct _EntangleScriptConfig EntangleScriptConfig;
-typedef struct _EntangleScriptConfigPrivate EntangleScriptConfigPrivate;
-typedef struct _EntangleScriptConfigClass EntangleScriptConfigClass;
-
-struct _EntangleScriptConfig
-{
-    GtkBox parent;
-};
-
-struct _EntangleScriptConfigClass
-{
-    GtkBoxClass parent_class;
-
-};
-
-GType entangle_script_config_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleScriptConfig, entangle_script_config, ENTANGLE, SCRIPT_CONFIG, GtkBox)
 
 EntangleScriptConfig* entangle_script_config_new(void);
 

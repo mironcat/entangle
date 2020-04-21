@@ -28,30 +28,9 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CAMERA_SUPPORT            (entangle_camera_support_get_type ())
-#define ENTANGLE_TYPE_CAMERA_SUPPORT_DATA       (entangle_camera_support_data_get_type())
-#define ENTANGLE_CAMERA_SUPPORT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CAMERA_SUPPORT, EntangleCameraSupport))
-#define ENTANGLE_CAMERA_SUPPORT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CAMERA_SUPPORT, EntangleCameraSupportClass))
-#define ENTANGLE_IS_CAMERA_SUPPORT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CAMERA_SUPPORT))
-#define ENTANGLE_IS_CAMERA_SUPPORT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CAMERA_SUPPORT))
-#define ENTANGLE_CAMERA_SUPPORT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CAMERA_SUPPORT, EntangleCameraSupportClass))
+G_DECLARE_FINAL_TYPE(EntangleCameraSupport, entangle_camera_support, ENTANGLE, CAMERA_SUPPORT, GtkDialog)
 
-
-typedef struct _EntangleCameraSupport EntangleCameraSupport;
-typedef struct _EntangleCameraSupportClass EntangleCameraSupportClass;
-
-struct _EntangleCameraSupport
-{
-    GtkDialog parent;
-};
-
-struct _EntangleCameraSupportClass
-{
-    GtkDialogClass parent_class;
-};
-
-GType entangle_camera_support_get_type(void) G_GNUC_CONST;
-
-EntangleCameraSupport* entangle_camera_support_new(void);
+EntangleCameraSupport *entangle_camera_support_new(void);
 
 void entangle_camera_support_set_camera_list(EntangleCameraSupport *support,
                                              EntangleCameraList *list);

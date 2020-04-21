@@ -26,29 +26,13 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CONTROL            (entangle_control_get_type ())
-#define ENTANGLE_CONTROL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CONTROL, EntangleControl))
-#define ENTANGLE_CONTROL_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CONTROL, EntangleControlClass))
-#define ENTANGLE_IS_CONTROL(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CONTROL))
-#define ENTANGLE_IS_CONTROL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CONTROL))
-#define ENTANGLE_CONTROL_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CONTROL, EntangleControlClass))
-
-
-typedef struct _EntangleControl EntangleControl;
-typedef struct _EntangleControlPrivate EntangleControlPrivate;
-typedef struct _EntangleControlClass EntangleControlClass;
-
-struct _EntangleControl
-{
-    GObject parent;
-};
+G_DECLARE_DERIVABLE_TYPE(EntangleControl, entangle_control, ENTANGLE, CONTROL, GObject)
 
 struct _EntangleControlClass
 {
     GObjectClass parent_class;
 };
 
-
-GType entangle_control_get_type(void) G_GNUC_CONST;
 EntangleControl* entangle_control_new(const gchar *path,
                                       gint id,
                                       const gchar *label,

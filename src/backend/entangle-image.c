@@ -25,11 +25,12 @@
 #include "entangle-debug.h"
 #include "entangle-image.h"
 
-struct _EntangleImagePrivate {
+struct _EntangleImage {
+    EntangleMedia parent;
     GdkPixbuf *pixbuf;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleImage, entangle_image, ENTANGLE_TYPE_MEDIA);
+G_DEFINE_TYPE(EntangleImage, entangle_image, ENTANGLE_TYPE_MEDIA);
 
 enum {
     PROP_0,
@@ -42,12 +43,11 @@ static void entangle_image_get_property(GObject *object,
                                         GParamSpec *pspec)
 {
     EntangleImage *image = ENTANGLE_IMAGE(object);
-    EntangleImagePrivate *priv = entangle_image_get_instance_private(image);
 
     switch (prop_id)
         {
         case PROP_PIXBUF:
-            g_value_set_object(value, priv->pixbuf);
+            g_value_set_object(value, image->pixbuf);
             break;
 
         default:
@@ -61,16 +61,15 @@ static void entangle_image_set_property(GObject *object,
                                         GParamSpec *pspec)
 {
     EntangleImage *image = ENTANGLE_IMAGE(object);
-    EntangleImagePrivate *priv = entangle_image_get_instance_private(image);
 
     switch (prop_id)
         {
         case PROP_PIXBUF:
-            if (priv->pixbuf)
-                g_object_unref(priv->pixbuf);
-            priv->pixbuf = g_value_get_object(value);
-            if (priv->pixbuf)
-                g_object_ref(priv->pixbuf);
+            if (image->pixbuf)
+                g_object_unref(image->pixbuf);
+            image->pixbuf = g_value_get_object(value);
+            if (image->pixbuf)
+                g_object_ref(image->pixbuf);
             break;
 
         default:
@@ -82,12 +81,11 @@ static void entangle_image_set_property(GObject *object,
 static void entangle_image_finalize(GObject *object)
 {
     EntangleImage *image = ENTANGLE_IMAGE(object);
-    EntangleImagePrivate *priv = entangle_image_get_instance_private(image);
 
     ENTANGLE_DEBUG("Finalize image %p", object);
 
-    if (priv->pixbuf)
-        g_object_unref(priv->pixbuf);
+    if (image->pixbuf)
+        g_object_unref(image->pixbuf);
 
     G_OBJECT_CLASS(entangle_image_parent_class)->finalize(object);
 }
@@ -165,8 +163,7 @@ GdkPixbuf *entangle_image_get_pixbuf(EntangleImage *image)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE(image), NULL);
 
-    EntangleImagePrivate *priv = entangle_image_get_instance_private(image);
-    return priv->pixbuf;
+    return image->pixbuf;
 }
 
 

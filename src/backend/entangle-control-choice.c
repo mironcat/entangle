@@ -24,13 +24,14 @@
 #include "entangle-debug.h"
 #include "entangle-control-choice.h"
 
-struct _EntangleControlChoicePrivate {
+struct _EntangleControlChoice {
+    EntangleControl parent;
     char *value;
     size_t nentries;
     char **entries;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlChoice, entangle_control_choice, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlChoice, entangle_control_choice, ENTANGLE_TYPE_CONTROL);
 
 enum {
     PROP_0,
@@ -43,12 +44,11 @@ static void entangle_control_get_property(GObject *object,
                                           GParamSpec *pspec)
 {
     EntangleControlChoice *control = ENTANGLE_CONTROL_CHOICE(object);
-    EntangleControlChoicePrivate *priv = entangle_control_choice_get_instance_private(control);
 
     switch (prop_id)
         {
         case PROP_VALUE:
-            g_value_set_string(value, priv->value);
+            g_value_set_string(value, control->value);
             break;
 
         default:
@@ -62,19 +62,18 @@ static void entangle_control_set_property(GObject *object,
                                           GParamSpec *pspec)
 {
     EntangleControlChoice *control = ENTANGLE_CONTROL_CHOICE(object);
-    EntangleControlChoicePrivate *priv = entangle_control_choice_get_instance_private(control);
     gchar *newvalue;
 
     switch (prop_id)
         {
         case PROP_VALUE:
             newvalue = g_value_dup_string(value);
-            if ((newvalue && !priv->value) ||
-                (!newvalue && priv->value) ||
-                (newvalue && priv->value &&
-                 !g_str_equal(newvalue, priv->value))) {
-                g_free(priv->value);
-                priv->value = newvalue;
+            if ((newvalue && !control->value) ||
+                (!newvalue && control->value) ||
+                (newvalue && control->value &&
+                 !g_str_equal(newvalue, control->value))) {
+                g_free(control->value);
+                control->value = newvalue;
                 entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
             } else {
                 g_free(newvalue);
@@ -90,11 +89,10 @@ static void entangle_control_set_property(GObject *object,
 static void entangle_control_choice_finalize(GObject *object)
 {
     EntangleControlChoice *control = ENTANGLE_CONTROL_CHOICE(object);
-    EntangleControlChoicePrivate *priv = entangle_control_choice_get_instance_private(control);
 
-    for (int i = 0; i < priv->nentries; i++)
-        g_free(priv->entries[i]);
-    g_free(priv->entries);
+    for (int i = 0; i < control->nentries; i++)
+        g_free(control->entries[i]);
+    g_free(control->entries);
 
     G_OBJECT_CLASS(entangle_control_choice_parent_class)->finalize(object);
 }
@@ -149,10 +147,8 @@ void entangle_control_choice_add_entry(EntangleControlChoice *control,
     g_return_if_fail(ENTANGLE_IS_CONTROL_CHOICE(control));
     g_return_if_fail(entry != NULL);
 
-    EntangleControlChoicePrivate *priv = entangle_control_choice_get_instance_private(control);
-
-    priv->entries = g_renew(char *, priv->entries, priv->nentries+1);
-    priv->entries[priv->nentries++] = g_strdup(entry);
+    control->entries = g_renew(char *, control->entries, control->nentries+1);
+    control->entries[control->nentries++] = g_strdup(entry);
 }
 
 
@@ -160,12 +156,11 @@ void entangle_control_choice_clear_entries(EntangleControlChoice *control)
 {
     g_return_if_fail(ENTANGLE_IS_CONTROL_CHOICE(control));
 
-    EntangleControlChoicePrivate *priv = entangle_control_choice_get_instance_private(control);
-    for (int i = 0; i < priv->nentries; i++)
-        g_free(priv->entries[i]);
-    g_free(priv->entries);
-    priv->entries = NULL;
-    priv->nentries = 0;
+    for (int i = 0; i < control->nentries; i++)
+        g_free(control->entries[i]);
+    g_free(control->entries);
+    control->entries = NULL;
+    control->nentries = 0;
 }
 
 
@@ -173,9 +168,7 @@ int entangle_control_choice_entry_count(EntangleControlChoice *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_CHOICE(control), 0);
 
-    EntangleControlChoicePrivate *priv = entangle_control_choice_get_instance_private(control);
-
-    return priv->nentries;
+    return control->nentries;
 }
 
 const char *entangle_control_choice_entry_get(EntangleControlChoice *control,
@@ -183,12 +176,10 @@ const char *entangle_control_choice_entry_get(EntangleControlChoice *control,
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_CHOICE(control), NULL);
 
-    EntangleControlChoicePrivate *priv = entangle_control_choice_get_instance_private(control);
-
-    if (idx < 0 || idx >= priv->nentries)
+    if (idx < 0 || idx >= control->nentries)
         return NULL;
 
-    return priv->entries[idx];
+    return control->entries[idx];
 }
 
 /*

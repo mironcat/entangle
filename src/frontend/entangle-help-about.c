@@ -27,6 +27,10 @@
 #include "entangle-help-about.h"
 
 
+struct _EntangleHelpAbout {
+    GtkAboutDialog parent;
+};
+
 gboolean do_about_delete(GtkWidget *src,
                          GdkEvent *ev,
                          gpointer data);

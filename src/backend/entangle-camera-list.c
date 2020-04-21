@@ -29,7 +29,8 @@
 #include "entangle-device-manager.h"
 
 
-struct _EntangleCameraListPrivate {
+struct _EntangleCameraList {
+    GObject parent;
     size_t ncamera;
     EntangleCamera **cameras;
 
@@ -41,7 +42,7 @@ struct _EntangleCameraListPrivate {
     GPPortInfoList *ports;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleCameraList, entangle_camera_list, G_TYPE_OBJECT);
+G_DEFINE_TYPE(EntangleCameraList, entangle_camera_list, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -68,15 +69,14 @@ static void entangle_camera_list_get_property(GObject *object,
                                               GParamSpec *pspec)
 {
     EntangleCameraList *list = ENTANGLE_CAMERA_LIST(object);
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     switch (prop_id) {
     case PROP_DEVMANAGER:
-        g_value_set_object(value, priv->devManager);
+        g_value_set_object(value, list->devManager);
         break;
 
     case PROP_ACTIVE:
-        g_value_set_boolean(value, priv->active);
+        g_value_set_boolean(value, list->active);
         break;
 
     default:
@@ -90,18 +90,17 @@ static void entangle_camera_list_set_property(GObject *object,
                                               GParamSpec *pspec)
 {
     EntangleCameraList *list = ENTANGLE_CAMERA_LIST(object);
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
 
     switch (prop_id) {
     case PROP_DEVMANAGER:
-        if (priv->devManager)
-            g_object_unref(priv->devManager);
-        priv->devManager = g_value_get_object(value);
-        g_object_ref(priv->devManager);
+        if (list->devManager)
+            g_object_unref(list->devManager);
+        list->devManager = g_value_get_object(value);
+        g_object_ref(list->devManager);
         break;
 
     case PROP_ACTIVE:
-        priv->active = g_value_get_boolean(value);
+        list->active = g_value_get_boolean(value);
         entangle_camera_list_refresh(list, NULL);
         break;
 
@@ -114,23 +113,22 @@ static void entangle_camera_list_set_property(GObject *object,
 static void entangle_camera_list_finalize(GObject *object)
 {
     EntangleCameraList *list = ENTANGLE_CAMERA_LIST(object);
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     ENTANGLE_DEBUG("Finalize list");
 
-    for (int i = 0; i < priv->ncamera; i++) {
-        ENTANGLE_DEBUG("Unref camera in list %p", priv->cameras[i]);
-        g_object_unref(priv->cameras[i]);
+    for (int i = 0; i < list->ncamera; i++) {
+        ENTANGLE_DEBUG("Unref camera in list %p", list->cameras[i]);
+        g_object_unref(list->cameras[i]);
     }
-    g_free(priv->cameras);
+    g_free(list->cameras);
 
-    if (priv->devManager)
-        g_object_unref(priv->devManager);
+    if (list->devManager)
+        g_object_unref(list->devManager);
 
-    if (priv->ports)
-        gp_port_info_list_free(priv->ports);
-    if (priv->caps)
-        gp_abilities_list_free(priv->caps);
-    gp_context_unref(priv->ctx);
+    if (list->ports)
+        gp_port_info_list_free(list->ports);
+    if (list->caps)
+        gp_abilities_list_free(list->caps);
+    gp_context_unref(list->ctx);
 
     G_OBJECT_CLASS(entangle_camera_list_parent_class)->finalize(object);
 }
@@ -230,19 +228,17 @@ EntangleCameraList* entangle_camera_list_new_supported(void)
 
 static void entangle_camera_list_init(EntangleCameraList *list)
 {
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
-
     if (entangle_debug_gphoto)
         gp_log_add_func(GP_LOG_DEBUG,
                         entangle_camera_list_gphoto_log,
                         NULL);
 
-    priv->ctx = gp_context_new();
+    list->ctx = gp_context_new();
 
-    if (gp_abilities_list_new(&priv->caps) != GP_OK)
+    if (gp_abilities_list_new(&list->caps) != GP_OK)
         g_error(_("Cannot initialize gphoto2 abilities"));
 
-    if (gp_abilities_list_load(priv->caps, priv->ctx) != GP_OK)
+    if (gp_abilities_list_load(list->caps, list->ctx) != GP_OK)
         g_error(_("Cannot load gphoto2 abilities"));
 }
 
@@ -253,17 +249,16 @@ entangle_camera_list_refresh_active(EntangleCameraList *list,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), FALSE);
 
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     CameraList *cams = NULL;
     GHashTable *toRemove;
     GHashTableIter iter;
     gpointer key, value;
 
-    if (priv->ports)
-        gp_port_info_list_free(priv->ports);
-    if (gp_port_info_list_new(&priv->ports) != GP_OK)
+    if (list->ports)
+        gp_port_info_list_free(list->ports);
+    if (gp_port_info_list_new(&list->ports) != GP_OK)
         return FALSE;
-    if (gp_port_info_list_load(priv->ports) != GP_OK)
+    if (gp_port_info_list_load(list->ports) != GP_OK)
         return FALSE;
 
     ENTANGLE_DEBUG("Detecting cameras");
@@ -271,7 +266,7 @@ entangle_camera_list_refresh_active(EntangleCameraList *list,
     if (gp_list_new(&cams) != GP_OK)
         return FALSE;
 
-    gp_abilities_list_detect(priv->caps, priv->ports, cams, priv->ctx);
+    gp_abilities_list_detect(list->caps, list->ports, cams, list->ctx);
 
     for (int i = 0; i < gp_list_count(cams); i++) {
         const char *model, *port;
@@ -288,8 +283,8 @@ entangle_camera_list_refresh_active(EntangleCameraList *list,
         if (cam)
             continue;
 
-        n = gp_abilities_list_lookup_model(priv->caps, model);
-        gp_abilities_list_get_abilities(priv->caps, n, &cap);
+        n = gp_abilities_list_lookup_model(list->caps, model);
+        gp_abilities_list_get_abilities(list->caps, n, &cap);
 
         /* For back compat, libgphoto2 always adds a default
          * USB camera called 'usb:'. We ignore that, since we
@@ -305,7 +300,7 @@ entangle_camera_list_refresh_active(EntangleCameraList *list,
             if (sep)
                 *sep = '/';
 
-            serial = entangle_device_manager_serial_id(priv->devManager, devpath);
+            serial = entangle_device_manager_serial_id(list->devManager, devpath);
             g_free(devpath);
         }
 
@@ -359,17 +354,16 @@ entangle_camera_list_refresh_supported(EntangleCameraList *list,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), FALSE);
 
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     int cnt;
     gsize i;
 
-    cnt = gp_abilities_list_count(priv->caps);
+    cnt = gp_abilities_list_count(list->caps);
 
     for (i = 0; i < cnt; i++) {
         CameraAbilities cap;
         EntangleCamera *cam;
 
-        gp_abilities_list_get_abilities(priv->caps, i, &cap);
+        gp_abilities_list_get_abilities(list->caps, i, &cap);
 
         cam = entangle_camera_new(cap.model, NULL, NULL,
                                   cap.operations & GP_OPERATION_CAPTURE_IMAGE ? TRUE : FALSE,
@@ -396,24 +390,22 @@ gboolean entangle_camera_list_refresh(EntangleCameraList *list,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), FALSE);
 
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
+    if (!list->devManager && list->active) {
+        list->devManager = entangle_device_manager_new();
 
-    if (!priv->devManager && priv->active) {
-        priv->devManager = entangle_device_manager_new();
-
-        if (gp_port_info_list_new(&priv->ports) != GP_OK)
+        if (gp_port_info_list_new(&list->ports) != GP_OK)
             g_error(_("Cannot initialize gphoto2 ports"));
 
-        if (gp_port_info_list_load(priv->ports) != GP_OK)
+        if (gp_port_info_list_load(list->ports) != GP_OK)
             g_error(_("Cannot load gphoto2 ports"));
 
-        g_signal_connect(priv->devManager, "device-added",
+        g_signal_connect(list->devManager, "device-added",
                          G_CALLBACK(entangle_camera_list_udev_event), list);
-        g_signal_connect(priv->devManager, "device-removed",
+        g_signal_connect(list->devManager, "device-removed",
                          G_CALLBACK(entangle_camera_list_udev_event), list);
     }
 
-    if (priv->active)
+    if (list->active)
         return entangle_camera_list_refresh_active(list, error);
     else
         return entangle_camera_list_refresh_supported(list, error);
@@ -432,9 +424,7 @@ int entangle_camera_list_count(EntangleCameraList *list)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), 0);
 
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
-
-    return priv->ncamera;
+    return list->ncamera;
 }
 
 
@@ -451,10 +441,8 @@ void entangle_camera_list_add(EntangleCameraList *list,
     g_return_if_fail(ENTANGLE_IS_CAMERA_LIST(list));
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
-
-    priv->cameras = g_renew(EntangleCamera *, priv->cameras, priv->ncamera+1);
-    priv->cameras[priv->ncamera++] = cam;
+    list->cameras = g_renew(EntangleCamera *, list->cameras, list->ncamera+1);
+    list->cameras[list->ncamera++] = cam;
     g_object_ref(cam);
 
     g_signal_emit_by_name(list, "camera-added", cam);
@@ -476,15 +464,13 @@ void entangle_camera_list_remove(EntangleCameraList *list,
     g_return_if_fail(ENTANGLE_IS_CAMERA_LIST(list));
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
-
-    for (int i = 0; i < priv->ncamera; i++) {
-        if (priv->cameras[i] == cam) {
-            if (i < (priv->ncamera-1))
-                memmove(priv->cameras + i,
-                        priv->cameras + i + 1,
-                        sizeof(*priv->cameras) * (priv->ncamera - i - 1));
-            priv->ncamera--;
+    for (int i = 0; i < list->ncamera; i++) {
+        if (list->cameras[i] == cam) {
+            if (i < (list->ncamera-1))
+                memmove(list->cameras + i,
+                        list->cameras + i + 1,
+                        sizeof(*list->cameras) * (list->ncamera - i - 1));
+            list->ncamera--;
         }
     }
 
@@ -509,12 +495,10 @@ EntangleCamera *entangle_camera_list_get(EntangleCameraList *list,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_LIST(list), NULL);
 
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
-
-    if (entry < 0 || entry >= priv->ncamera)
+    if (entry < 0 || entry >= list->ncamera)
         return NULL;
 
-    return priv->cameras[entry];
+    return list->cameras[entry];
 }
 
 
@@ -528,11 +512,10 @@ EntangleCamera *entangle_camera_list_get(EntangleCameraList *list,
  */
 GList *entangle_camera_list_get_cameras(EntangleCameraList *list)
 {
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     GList *cameras = NULL;
 
-    for (int i = (priv->ncamera - 1); i >= 0; i--) {
-        cameras = g_list_append(cameras, priv->cameras[i]);
+    for (int i = (list->ncamera - 1); i >= 0; i--) {
+        cameras = g_list_append(cameras, list->cameras[i]);
     }
     return cameras;
 }
@@ -550,16 +533,15 @@ GList *entangle_camera_list_get_cameras(EntangleCameraList *list)
 EntangleCamera *entangle_camera_list_find(EntangleCameraList *list,
                                           const char *port)
 {
-    EntangleCameraListPrivate *priv = entangle_camera_list_get_instance_private(list);
     int i;
 
-    for (i = 0; i < priv->ncamera; i++) {
-        const char *thisport = entangle_camera_get_port(priv->cameras[i]);
+    for (i = 0; i < list->ncamera; i++) {
+        const char *thisport = entangle_camera_get_port(list->cameras[i]);
 
         ENTANGLE_DEBUG("Compare '%s' '%s'", port, thisport);
 
         if (strcmp(thisport, port) == 0)
-            return priv->cameras[i];
+            return list->cameras[i];
     }
 
     return NULL;

@@ -28,19 +28,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_SCRIPT            (entangle_script_get_type ())
-#define ENTANGLE_SCRIPT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_SCRIPT, EntangleScript))
-#define ENTANGLE_SCRIPT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_SCRIPT, EntangleScriptClass))
-#define ENTANGLE_IS_SCRIPT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_SCRIPT))
-#define ENTANGLE_IS_SCRIPT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_SCRIPT))
-#define ENTANGLE_SCRIPT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_SCRIPT, EntangleScriptClass))
-
-typedef struct _EntangleScript EntangleScript;
-typedef struct _EntangleScriptPrivate EntangleScriptPrivate;
-typedef struct _EntangleScriptClass EntangleScriptClass;
-
-struct _EntangleScript {
-    GObject parent;
-};
+G_DECLARE_DERIVABLE_TYPE(EntangleScript, entangle_script, ENTANGLE, SCRIPT, GObject)
 
 struct _EntangleScriptClass
 {
@@ -56,9 +44,6 @@ struct _EntangleScriptClass
                                GAsyncResult *result,
                                GError **error);
 };
-
-
-GType entangle_script_get_type(void) G_GNUC_CONST;
 
 const gchar *entangle_script_get_title(EntangleScript *script);
 GtkWidget *entangle_script_get_config_widget(EntangleScript *script);

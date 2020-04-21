@@ -29,28 +29,8 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CAMERA_PICKER            (entangle_camera_picker_get_type ())
-#define ENTANGLE_CAMERA_PICKER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CAMERA_PICKER, EntangleCameraPicker))
-#define ENTANGLE_CAMERA_PICKER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CAMERA_PICKER, EntangleCameraPickerClass))
-#define ENTANGLE_IS_CAMERA_PICKER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CAMERA_PICKER))
-#define ENTANGLE_IS_CAMERA_PICKER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CAMERA_PICKER))
-#define ENTANGLE_CAMERA_PICKER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CAMERA_PICKER, EntangleCameraPickerClass))
+G_DECLARE_FINAL_TYPE(EntangleCameraPicker, entangle_camera_picker, ENTANGLE, CAMERA_PICKER, GtkDialog)
 
-
-typedef struct _EntangleCameraPicker EntangleCameraPicker;
-typedef struct _EntangleCameraPickerClass EntangleCameraPickerClass;
-
-struct _EntangleCameraPicker
-{
-    GtkDialog parent;
-};
-
-struct _EntangleCameraPickerClass
-{
-    GtkDialogClass parent_class;
-};
-
-
-GType entangle_camera_picker_get_type(void) G_GNUC_CONST;
 EntangleCameraPicker* entangle_camera_picker_new(void);
 
 void entangle_camera_picker_set_camera_list(EntangleCameraPicker *picker,

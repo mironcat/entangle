@@ -27,29 +27,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_VIDEO            (entangle_video_get_type ())
-#define ENTANGLE_VIDEO(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_VIDEO, EntangleVideo))
-#define ENTANGLE_VIDEO_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_VIDEO, EntangleVideoClass))
-#define ENTANGLE_IS_VIDEO(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_VIDEO))
-#define ENTANGLE_IS_VIDEO_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_VIDEO))
-#define ENTANGLE_VIDEO_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_VIDEO, EntangleVideoClass))
-
-
-typedef struct _EntangleVideo EntangleVideo;
-typedef struct _EntangleVideoPrivate EntangleVideoPrivate;
-typedef struct _EntangleVideoClass EntangleVideoClass;
-
-struct _EntangleVideo
-{
-    EntangleMedia parent;
-};
-
-struct _EntangleVideoClass
-{
-    EntangleMediaClass parent_class;
-};
-
-
-GType entangle_video_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleVideo, entangle_video, ENTANGLE, VIDEO, EntangleMedia)
 
 EntangleVideo *entangle_video_new_file(const char *filename);
 EntangleVideo *entangle_video_new_source(GstBaseSrc *source);

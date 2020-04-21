@@ -28,29 +28,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_IMAGE            (entangle_image_get_type ())
-#define ENTANGLE_IMAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_IMAGE, EntangleImage))
-#define ENTANGLE_IMAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_IMAGE, EntangleImageClass))
-#define ENTANGLE_IS_IMAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_IMAGE))
-#define ENTANGLE_IS_IMAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_IMAGE))
-#define ENTANGLE_IMAGE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_IMAGE, EntangleImageClass))
-
-
-typedef struct _EntangleImage EntangleImage;
-typedef struct _EntangleImagePrivate EntangleImagePrivate;
-typedef struct _EntangleImageClass EntangleImageClass;
-
-struct _EntangleImage
-{
-    EntangleMedia parent;
-};
-
-struct _EntangleImageClass
-{
-    EntangleMediaClass parent_class;
-};
-
-
-GType entangle_image_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleImage, entangle_image, ENTANGLE, IMAGE, EntangleMedia)
 
 EntangleImage *entangle_image_new_file(const char *filename);
 EntangleImage *entangle_image_new_pixbuf(GdkPixbuf *pixbuf);

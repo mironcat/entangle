@@ -28,29 +28,8 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CONTROL_BUTTON            (entangle_control_button_get_type ())
-#define ENTANGLE_CONTROL_BUTTON(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CONTROL_BUTTON, EntangleControlButton))
-#define ENTANGLE_CONTROL_BUTTON_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CONTROL_BUTTON, EntangleControlButtonClass))
-#define ENTANGLE_IS_CONTROL_BUTTON(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CONTROL_BUTTON))
-#define ENTANGLE_IS_CONTROL_BUTTON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CONTROL_BUTTON))
-#define ENTANGLE_CONTROL_BUTTON_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CONTROL_BUTTON, EntangleControlButtonClass))
+G_DECLARE_FINAL_TYPE(EntangleControlButton, entangle_control_button, ENTANGLE, CONTROL_BUTTON, EntangleControl)
 
-
-typedef struct _EntangleControlButton EntangleControlButton;
-typedef struct _EntangleControlButtonPrivate EntangleControlButtonPrivate;
-typedef struct _EntangleControlButtonClass EntangleControlButtonClass;
-
-struct _EntangleControlButton
-{
-    EntangleControl parent;
-};
-
-struct _EntangleControlButtonClass
-{
-    EntangleControlClass parent_class;
-};
-
-
-GType entangle_control_button_get_type(void) G_GNUC_CONST;
 EntangleControlButton* entangle_control_button_new(const char *path,
                                                    int id,
                                                    const char *label,

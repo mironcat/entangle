@@ -28,31 +28,9 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_IMAGE_HISTOGRAM            (entangle_image_histogram_get_type ())
-#define ENTANGLE_IMAGE_HISTOGRAM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_IMAGE_HISTOGRAM, EntangleImageHistogram))
-#define ENTANGLE_IMAGE_HISTOGRAM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_IMAGE_HISTOGRAM, EntangleImageHistogramClass))
-#define ENTANGLE_IS_IMAGE_HISTOGRAM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_IMAGE_HISTOGRAM))
-#define ENTANGLE_IS_IMAGE_HISTOGRAM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_IMAGE_HISTOGRAM))
-#define ENTANGLE_IMAGE_HISTOGRAM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_IMAGE_HISTOGRAM, EntangleImageHistogramClass))
+G_DECLARE_FINAL_TYPE(EntangleImageHistogram, entangle_image_histogram, ENTANGLE, IMAGE_HISTOGRAM, GtkDrawingArea)
 
-
-typedef struct _EntangleImageHistogram EntangleImageHistogram;
-typedef struct _EntangleImageHistogramPrivate EntangleImageHistogramPrivate;
-typedef struct _EntangleImageHistogramClass EntangleImageHistogramClass;
-
-struct _EntangleImageHistogram
-{
-    GtkDrawingArea parent;
-};
-
-struct _EntangleImageHistogramClass
-{
-    GtkDrawingAreaClass parent_class;
-
-};
-
-GType entangle_image_histogram_get_type(void) G_GNUC_CONST;
-
-EntangleImageHistogram* entangle_image_histogram_new(void);
+EntangleImageHistogram *entangle_image_histogram_new(void);
 
 void entangle_image_histogram_set_image(EntangleImageHistogram *histogram,
                                         EntangleImage *image);

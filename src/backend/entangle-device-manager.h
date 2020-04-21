@@ -26,29 +26,8 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_DEVICE_MANAGER            (entangle_device_manager_get_type ())
-#define ENTANGLE_DEVICE_MANAGER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_DEVICE_MANAGER, EntangleDeviceManager))
-#define ENTANGLE_DEVICE_MANAGER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_DEVICE_MANAGER, EntangleDeviceManagerClass))
-#define ENTANGLE_IS_DEVICE_MANAGER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_DEVICE_MANAGER))
-#define ENTANGLE_IS_DEVICE_MANAGER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_DEVICE_MANAGER))
-#define ENTANGLE_DEVICE_MANAGER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_DEVICE_MANAGER, EntangleDeviceManagerClass))
+G_DECLARE_FINAL_TYPE(EntangleDeviceManager, entangle_device_manager, ENTANGLE, DEVICE_MANAGER, GObject)
 
-
-typedef struct _EntangleDeviceManager EntangleDeviceManager;
-typedef struct _EntangleDeviceManagerPrivate EntangleDeviceManagerPrivate;
-typedef struct _EntangleDeviceManagerClass EntangleDeviceManagerClass;
-
-struct _EntangleDeviceManager
-{
-    GObject parent;
-};
-
-struct _EntangleDeviceManagerClass
-{
-    GObjectClass parent_class;
-};
-
-
-GType entangle_device_manager_get_type(void) G_GNUC_CONST;
 EntangleDeviceManager* entangle_device_manager_new(void);
 
 char *entangle_device_manager_serial_id(EntangleDeviceManager *manager,

@@ -22,11 +22,12 @@
 #include "entangle-pixbuf.h"
 #include "entangle-image-loader.h"
 
-struct _EntangleImageLoaderPrivate {
+struct _EntangleImageLoader {
+    EntanglePixbufLoader parent;
     gboolean embeddedPreview;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleImageLoader, entangle_image_loader, ENTANGLE_TYPE_PIXBUF_LOADER);
+G_DEFINE_TYPE(EntangleImageLoader, entangle_image_loader, ENTANGLE_TYPE_PIXBUF_LOADER);
 
 
 enum {
@@ -41,12 +42,11 @@ static void entangle_image_loader_get_property(GObject *object,
                                                GParamSpec *pspec)
 {
     EntangleImageLoader *loader = ENTANGLE_IMAGE_LOADER(object);
-    EntangleImageLoaderPrivate *priv = entangle_image_loader_get_instance_private(loader);
 
     switch (prop_id)
         {
         case PROP_EMBEDDED_PREVIEW:
-            g_value_set_boolean(value, priv->embeddedPreview);
+            g_value_set_boolean(value, loader->embeddedPreview);
             break;
 
         default:
@@ -74,13 +74,12 @@ static void entangle_image_loader_set_property(GObject *object,
 }
 
 
-static GdkPixbuf *entangle_image_loader_pixbuf_load(EntanglePixbufLoader *loader,
+static GdkPixbuf *entangle_image_loader_pixbuf_load(EntanglePixbufLoader *loaderbase,
                                                     EntangleImage *image,
                                                     GExiv2Metadata **metadata)
 {
-    EntangleImageLoader *iloader = ENTANGLE_IMAGE_LOADER(loader);
-    EntangleImageLoaderPrivate *priv = entangle_image_loader_get_instance_private(iloader);
-    if (priv->embeddedPreview)
+    EntangleImageLoader *loader = ENTANGLE_IMAGE_LOADER(loaderbase);
+    if (loader->embeddedPreview)
         return entangle_pixbuf_open_image(image,
                                           ENTANGLE_PIXBUF_IMAGE_SLOT_PREVIEW,
                                           TRUE,
@@ -127,22 +126,18 @@ EntangleImageLoader *entangle_image_loader_new(void)
 
 static void entangle_image_loader_init(EntangleImageLoader *loader)
 {
-    EntangleImageLoaderPrivate *priv = entangle_image_loader_get_instance_private(loader);
-
-    priv->embeddedPreview = TRUE;
+    loader->embeddedPreview = TRUE;
 }
 
 
 gboolean entangle_image_loader_get_embedded_preview(EntangleImageLoader *loader)
 {
-    EntangleImageLoaderPrivate *priv = entangle_image_loader_get_instance_private(loader);
-    return priv->embeddedPreview;
+    return loader->embeddedPreview;
 }
 
 void entangle_image_loader_set_embedded_preview(EntangleImageLoader *loader, gboolean enable)
 {
-    EntangleImageLoaderPrivate *priv = entangle_image_loader_get_instance_private(loader);
-    priv->embeddedPreview = enable;
+    loader->embeddedPreview = enable;
     entangle_pixbuf_loader_trigger_reload(ENTANGLE_PIXBUF_LOADER(loader));
 }
 

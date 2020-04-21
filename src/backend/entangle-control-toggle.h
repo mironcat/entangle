@@ -28,29 +28,8 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CONTROL_TOGGLE            (entangle_control_toggle_get_type ())
-#define ENTANGLE_CONTROL_TOGGLE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CONTROL_TOGGLE, EntangleControlToggle))
-#define ENTANGLE_CONTROL_TOGGLE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CONTROL_TOGGLE, EntangleControlToggleClass))
-#define ENTANGLE_IS_CONTROL_TOGGLE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CONTROL_TOGGLE))
-#define ENTANGLE_IS_CONTROL_TOGGLE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CONTROL_TOGGLE))
-#define ENTANGLE_CONTROL_TOGGLE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CONTROL_TOGGLE, EntangleControlToggleClass))
+G_DECLARE_FINAL_TYPE(EntangleControlToggle, entangle_control_toggle, ENTANGLE, CONTROL_TOGGLE, EntangleControl)
 
-
-typedef struct _EntangleControlToggle EntangleControlToggle;
-typedef struct _EntangleControlTogglePrivate EntangleControlTogglePrivate;
-typedef struct _EntangleControlToggleClass EntangleControlToggleClass;
-
-struct _EntangleControlToggle
-{
-    EntangleControl parent;
-};
-
-struct _EntangleControlToggleClass
-{
-    EntangleControlClass parent_class;
-};
-
-
-GType entangle_control_toggle_get_type(void) G_GNUC_CONST;
 EntangleControlToggle* entangle_control_toggle_new(const char *path,
                                                    int id,
                                                    const char *label,

@@ -38,7 +38,8 @@
 #include "entangle-control-text.h"
 #include "entangle-control-toggle.h"
 
-struct _EntangleCameraPrivate {
+struct _EntangleCamera {
+    GObject parent;
     GMutex lock;
     GCond jobCond;
     gboolean jobActive;
@@ -71,7 +72,7 @@ struct _EntangleCameraPrivate {
     gboolean hasViewfinder;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleCamera, entangle_camera, G_TYPE_OBJECT);
+G_DEFINE_TYPE(EntangleCamera, entangle_camera, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -145,28 +146,24 @@ static void entangle_camera_emit_deferred(EntangleCamera *cam,
 
 static void entangle_camera_begin_job(EntangleCamera *cam)
 {
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
-
     g_object_ref(cam);
 
-    while (priv->jobActive) {
-        g_cond_wait(&priv->jobCond, &priv->lock);
+    while (cam->jobActive) {
+        g_cond_wait(&cam->jobCond, &cam->lock);
     }
 
-    priv->jobActive = TRUE;
-    g_free(priv->lastError);
-    priv->lastError = NULL;
-    g_mutex_unlock(&priv->lock);
+    cam->jobActive = TRUE;
+    g_free(cam->lastError);
+    cam->lastError = NULL;
+    g_mutex_unlock(&cam->lock);
 }
 
 
 static void entangle_camera_end_job(EntangleCamera *cam)
 {
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
-
-    priv->jobActive = FALSE;
-    g_cond_broadcast(&priv->jobCond);
-    g_mutex_lock(&priv->lock);
+    cam->jobActive = FALSE;
+    g_cond_broadcast(&cam->jobCond);
+    g_mutex_lock(&cam->lock);
     g_object_unref(cam);
 }
 
@@ -177,52 +174,51 @@ static void entangle_camera_get_property(GObject *object,
                                          GParamSpec *pspec)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(object);
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     switch (prop_id)
         {
         case PROP_MODEL:
-            g_value_set_string(value, priv->model);
+            g_value_set_string(value, cam->model);
             break;
 
         case PROP_PORT:
-            g_value_set_string(value, priv->port);
+            g_value_set_string(value, cam->port);
             break;
 
         case PROP_SERIAL:
-            g_value_set_string(value, priv->serial);
+            g_value_set_string(value, cam->serial);
             break;
 
         case PROP_MANUAL:
-            g_value_set_string(value, priv->manual);
+            g_value_set_string(value, cam->manual);
             break;
 
         case PROP_SUMMARY:
-            g_value_set_string(value, priv->summary);
+            g_value_set_string(value, cam->summary);
             break;
 
         case PROP_DRIVER:
-            g_value_set_string(value, priv->driver);
+            g_value_set_string(value, cam->driver);
             break;
 
         case PROP_PROGRESS:
-            g_value_set_object(value, priv->progress);
+            g_value_set_object(value, cam->progress);
             break;
 
         case PROP_HAS_CAPTURE:
-            g_value_set_boolean(value, priv->hasCapture);
+            g_value_set_boolean(value, cam->hasCapture);
             break;
 
         case PROP_HAS_PREVIEW:
-            g_value_set_boolean(value, priv->hasPreview);
+            g_value_set_boolean(value, cam->hasPreview);
             break;
 
         case PROP_HAS_SETTINGS:
-            g_value_set_boolean(value, priv->hasSettings);
+            g_value_set_boolean(value, cam->hasSettings);
             break;
 
         case PROP_HAS_VIEWFINDER:
-            g_value_set_boolean(value, priv->hasViewfinder);
+            g_value_set_boolean(value, cam->hasViewfinder);
             break;
 
         default:
@@ -236,23 +232,22 @@ static void entangle_camera_set_property(GObject *object,
                                          GParamSpec *pspec)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(object);
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     switch (prop_id)
         {
         case PROP_MODEL:
-            g_free(priv->model);
-            priv->model = g_value_dup_string(value);
+            g_free(cam->model);
+            cam->model = g_value_dup_string(value);
             break;
 
         case PROP_PORT:
-            g_free(priv->port);
-            priv->port = g_value_dup_string(value);
+            g_free(cam->port);
+            cam->port = g_value_dup_string(value);
             break;
 
         case PROP_SERIAL:
-            g_free(priv->serial);
-            priv->serial = g_value_dup_string(value);
+            g_free(cam->serial);
+            cam->serial = g_value_dup_string(value);
             break;
 
         case PROP_PROGRESS:
@@ -260,23 +255,23 @@ static void entangle_camera_set_property(GObject *object,
             break;
 
         case PROP_HAS_CAPTURE:
-            priv->hasCapture = g_value_get_boolean(value);
-            ENTANGLE_DEBUG("Set has capture %d", priv->hasCapture);
+            cam->hasCapture = g_value_get_boolean(value);
+            ENTANGLE_DEBUG("Set has capture %d", cam->hasCapture);
             break;
 
         case PROP_HAS_PREVIEW:
-            priv->hasPreview = g_value_get_boolean(value);
-            ENTANGLE_DEBUG("Set has preview %d", priv->hasPreview);
+            cam->hasPreview = g_value_get_boolean(value);
+            ENTANGLE_DEBUG("Set has preview %d", cam->hasPreview);
             break;
 
         case PROP_HAS_SETTINGS:
-            priv->hasSettings = g_value_get_boolean(value);
-            ENTANGLE_DEBUG("Set has settings %d", priv->hasSettings);
+            cam->hasSettings = g_value_get_boolean(value);
+            ENTANGLE_DEBUG("Set has settings %d", cam->hasSettings);
             break;
 
         case PROP_HAS_VIEWFINDER:
-            priv->hasViewfinder = g_value_get_boolean(value);
-            ENTANGLE_DEBUG("Set has viewfinder %d", priv->hasViewfinder);
+            cam->hasViewfinder = g_value_get_boolean(value);
+            ENTANGLE_DEBUG("Set has viewfinder %d", cam->hasViewfinder);
             break;
 
         default:
@@ -288,36 +283,35 @@ static void entangle_camera_set_property(GObject *object,
 static void entangle_camera_finalize(GObject *object)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(object);
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     ENTANGLE_DEBUG("Finalize camera %p", object);
 
-    if (priv->progress)
-        g_object_unref(priv->progress);
-    if (priv->cam) {
-        gp_camera_exit(priv->cam, priv->ctx);
-        gp_camera_free(priv->cam);
+    if (cam->progress)
+        g_object_unref(cam->progress);
+    if (cam->cam) {
+        gp_camera_exit(cam->cam, cam->ctx);
+        gp_camera_free(cam->cam);
     }
-    if (priv->widgets)
-        gp_widget_unref(priv->widgets);
-    if (priv->controls)
-        g_object_unref(priv->controls);
-    if (priv->controlPaths)
-        g_hash_table_unref(priv->controlPaths);
-    if (priv->ports)
-        gp_port_info_list_free(priv->ports);
-    if (priv->caps)
-        gp_abilities_list_free(priv->caps);
-    gp_context_unref(priv->ctx);
-    g_free(priv->driver);
-    g_free(priv->summary);
-    g_free(priv->manual);
-    g_free(priv->serial);
-    g_free(priv->model);
-    g_free(priv->port);
-    g_free(priv->lastError);
-    g_mutex_clear(&priv->lock);
-    g_cond_clear(&priv->jobCond);
+    if (cam->widgets)
+        gp_widget_unref(cam->widgets);
+    if (cam->controls)
+        g_object_unref(cam->controls);
+    if (cam->controlPaths)
+        g_hash_table_unref(cam->controlPaths);
+    if (cam->ports)
+        gp_port_info_list_free(cam->ports);
+    if (cam->caps)
+        gp_abilities_list_free(cam->caps);
+    gp_context_unref(cam->ctx);
+    g_free(cam->driver);
+    g_free(cam->summary);
+    g_free(cam->manual);
+    g_free(cam->serial);
+    g_free(cam->model);
+    g_free(cam->port);
+    g_free(cam->lastError);
+    g_mutex_clear(&cam->lock);
+    g_cond_clear(&cam->jobCond);
 
     G_OBJECT_CLASS(entangle_camera_parent_class)->finalize(object);
 }
@@ -549,10 +543,8 @@ EntangleCamera *entangle_camera_new(const char *model,
 
 static void entangle_camera_init(EntangleCamera *cam)
 {
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
-
-    g_mutex_init(&priv->lock);
-    g_cond_init(&priv->jobCond);
+    g_mutex_init(&cam->lock);
+    g_cond_init(&cam->jobCond);
 }
 
 
@@ -568,8 +560,7 @@ const char *entangle_camera_get_model(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
-    return priv->model;
+    return cam->model;
 }
 
 
@@ -585,8 +576,7 @@ const char *entangle_camera_get_port(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
-    return priv->port;
+    return cam->port;
 }
 
 struct EntangleCameraProgressData {
@@ -603,23 +593,23 @@ struct EntangleCameraProgressData {
 static gboolean entangle_camera_progress_idle(gpointer opaque)
 {
     struct EntangleCameraProgressData *data = opaque;
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(data->cam);
+    EntangleCamera *cam = data->cam;
 
-    if (priv->progress) {
+    if (cam->progress) {
         switch (data->op) {
         case ENTANGLE_CAMERA_PROGRESS_START:
-            entangle_progress_start(priv->progress,
+            entangle_progress_start(cam->progress,
                                     data->value,
                                     data->msg);
             break;
 
         case ENTANGLE_CAMERA_PROGRESS_UPDATE:
-            entangle_progress_update(priv->progress,
+            entangle_progress_update(cam->progress,
                                      data->value);
             break;
 
         case ENTANGLE_CAMERA_PROGRESS_STOP:
-            entangle_progress_stop(priv->progress);
+            entangle_progress_stop(cam->progress);
             break;
 
         default:
@@ -686,11 +676,10 @@ static void do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
                                      void *data)
 {
     EntangleCamera *cam = data;
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
-    g_free(priv->lastError);
-    priv->lastError = g_strdup(msg);
-    ENTANGLE_DEBUG("Got error %s", priv->lastError);
+    g_free(cam->lastError);
+    cam->lastError = g_strdup(msg);
+    ENTANGLE_DEBUG("Got error %s", cam->lastError);
 }
 
 
@@ -711,7 +700,6 @@ gboolean entangle_camera_connect(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     int i;
     GPPortInfo port;
     CameraAbilities cap;
@@ -721,94 +709,94 @@ gboolean entangle_camera_connect(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Conencting to cam");
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (priv->cam != NULL) {
+    if (cam->cam != NULL) {
         ret = TRUE;
         goto cleanup;
     }
 
-    priv->ctx = gp_context_new();
+    cam->ctx = gp_context_new();
 
-    if (gp_abilities_list_new(&priv->caps) != GP_OK) {
+    if (gp_abilities_list_new(&cam->caps) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Cannot initialize gphoto2 abilities"));
         goto cleanup;
     }
 
-    if (gp_abilities_list_load(priv->caps, priv->ctx) != GP_OK) {
+    if (gp_abilities_list_load(cam->caps, cam->ctx) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Cannot load gphoto2 abilities"));
         goto cleanup;
     }
 
-    if (gp_port_info_list_new(&priv->ports) != GP_OK) {
+    if (gp_port_info_list_new(&cam->ports) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Cannot initialize gphoto2 ports"));
         goto cleanup;
     }
 
-    if (gp_port_info_list_load(priv->ports) != GP_OK) {
+    if (gp_port_info_list_load(cam->ports) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Cannot load gphoto2 ports"));
         goto cleanup;
     }
 
-    gp_context_set_error_func(priv->ctx,
+    gp_context_set_error_func(cam->ctx,
                               do_entangle_camera_error,
                               cam);
-    gp_context_set_progress_funcs(priv->ctx,
+    gp_context_set_progress_funcs(cam->ctx,
                                   do_entangle_camera_progress_start,
                                   do_entangle_camera_progress_update,
                                   do_entangle_camera_progress_stop,
                                   cam);
 
-    i = gp_port_info_list_lookup_path(priv->ports, priv->port);
-    gp_port_info_list_get_info(priv->ports, i, &port);
+    i = gp_port_info_list_lookup_path(cam->ports, cam->port);
+    gp_port_info_list_get_info(cam->ports, i, &port);
 
-    i = gp_abilities_list_lookup_model(priv->caps, priv->model);
-    gp_abilities_list_get_abilities(priv->caps, i, &cap);
+    i = gp_abilities_list_lookup_model(cam->caps, cam->model);
+    gp_abilities_list_get_abilities(cam->caps, i, &cap);
 
-    gp_camera_new(&priv->cam);
-    gp_camera_set_abilities(priv->cam, cap);
-    gp_camera_set_port_info(priv->cam, port);
+    gp_camera_new(&cam->cam);
+    gp_camera_set_abilities(cam->cam, cap);
+    gp_camera_set_port_info(cam->cam, port);
 
     entangle_camera_begin_job(cam);
-    err = gp_camera_init(priv->cam, priv->ctx);
+    err = gp_camera_init(cam->cam, cam->ctx);
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
-        gp_camera_unref(priv->cam);
-        priv->cam = NULL;
+        gp_camera_unref(cam->cam);
+        cam->cam = NULL;
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to initialize camera: %s"), priv->lastError);
+                    _("Unable to initialize camera: %s"), cam->lastError);
         goto cleanup;
     }
 
     /* Update capabilities as a sanity-check against orignal constructor */
-    priv->hasCapture = priv->hasPreview = priv->hasSettings = FALSE;
+    cam->hasCapture = cam->hasPreview = cam->hasSettings = FALSE;
     if (cap.operations & GP_OPERATION_CAPTURE_IMAGE)
-        priv->hasCapture = TRUE;
+        cam->hasCapture = TRUE;
     if (cap.operations & GP_OPERATION_CAPTURE_PREVIEW)
-        priv->hasPreview = TRUE;
+        cam->hasPreview = TRUE;
     if (cap.operations & GP_OPERATION_CONFIG)
-        priv->hasSettings = TRUE;
-    priv->hasViewfinder = FALSE;
+        cam->hasSettings = TRUE;
+    cam->hasViewfinder = FALSE;
 
-    gp_camera_get_summary(priv->cam, &txt, priv->ctx);
-    priv->summary = g_strdup(txt.text);
+    gp_camera_get_summary(cam->cam, &txt, cam->ctx);
+    cam->summary = g_strdup(txt.text);
 
-    gp_camera_get_manual(priv->cam, &txt, priv->ctx);
-    priv->manual = g_strdup(txt.text);
+    gp_camera_get_manual(cam->cam, &txt, cam->ctx);
+    cam->manual = g_strdup(txt.text);
 
-    gp_camera_get_about(priv->cam, &txt, priv->ctx);
-    priv->driver = g_strdup(txt.text);
+    gp_camera_get_about(cam->cam, &txt, cam->ctx);
+    cam->driver = g_strdup(txt.text);
 
     ENTANGLE_DEBUG("ok");
     ret = TRUE;
 
  cleanup:
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     if (ret)
         entangle_camera_emit_deferred(cam, "camera-connected", NULL);
     return ret;
@@ -892,58 +880,57 @@ gboolean entangle_camera_disconnect(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
 
     ENTANGLE_DEBUG("Disconnecting from cam");
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (priv->cam == NULL) {
+    if (cam->cam == NULL) {
         ret = TRUE;
         goto cleanup;
     }
 
     entangle_camera_begin_job(cam);
-    gp_camera_exit(priv->cam, priv->ctx);
+    gp_camera_exit(cam->cam, cam->ctx);
     entangle_camera_end_job(cam);
 
-    if (priv->widgets) {
-        gp_widget_unref(priv->widgets);
-        priv->widgets = NULL;
+    if (cam->widgets) {
+        gp_widget_unref(cam->widgets);
+        cam->widgets = NULL;
     }
-    if (priv->controls) {
-        g_object_unref(priv->controls);
-        priv->controls = NULL;
+    if (cam->controls) {
+        g_object_unref(cam->controls);
+        cam->controls = NULL;
     }
-    if (priv->controlPaths) {
-        g_hash_table_unref(priv->controlPaths);
-        priv->controlPaths = NULL;
+    if (cam->controlPaths) {
+        g_hash_table_unref(cam->controlPaths);
+        cam->controlPaths = NULL;
     }
 
-    g_free(priv->driver);
-    g_free(priv->manual);
-    g_free(priv->summary);
-    priv->driver = priv->manual = priv->summary = NULL;
+    g_free(cam->driver);
+    g_free(cam->manual);
+    g_free(cam->summary);
+    cam->driver = cam->manual = cam->summary = NULL;
 
-    if (priv->ports) {
-        gp_port_info_list_free(priv->ports);
-        priv->ports = NULL;
+    if (cam->ports) {
+        gp_port_info_list_free(cam->ports);
+        cam->ports = NULL;
     }
-    if (priv->caps) {
-        gp_abilities_list_free(priv->caps);
-        priv->caps = NULL;
+    if (cam->caps) {
+        gp_abilities_list_free(cam->caps);
+        cam->caps = NULL;
     }
-    gp_context_unref(priv->ctx);
-    priv->ctx = NULL;
+    gp_context_unref(cam->ctx);
+    cam->ctx = NULL;
 
-    gp_camera_unref(priv->cam);
-    priv->cam = NULL;
-    priv->hasViewfinder = FALSE;
+    gp_camera_unref(cam->cam);
+    cam->cam = NULL;
+    cam->hasViewfinder = FALSE;
 
     ret = TRUE;
  cleanup:
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     if (ret)
         entangle_camera_emit_deferred(cam, "camera-disconnected", NULL);
     return ret;
@@ -1022,12 +1009,11 @@ gboolean entangle_camera_get_connected(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(&priv->lock);
-    ret = priv->cam != NULL ? TRUE : FALSE;
-    g_mutex_unlock(&priv->lock);
+    g_mutex_lock(&cam->lock);
+    ret = cam->cam != NULL ? TRUE : FALSE;
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -1045,12 +1031,11 @@ char *entangle_camera_get_summary(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     char *ret;
 
-    g_mutex_lock(&priv->lock);
-    ret = g_strdup(priv->summary);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_lock(&cam->lock);
+    ret = g_strdup(cam->summary);
+    g_mutex_unlock(&cam->lock);
 
     return ret;
 }
@@ -1070,12 +1055,11 @@ char *entangle_camera_get_manual(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     char *ret;
 
-    g_mutex_lock(&priv->lock);
-    ret = g_strdup(priv->manual);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_lock(&cam->lock);
+    ret = g_strdup(cam->manual);
+    g_mutex_unlock(&cam->lock);
 
     return ret;
 }
@@ -1094,12 +1078,11 @@ char *entangle_camera_get_driver(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     char *ret;
 
-    g_mutex_lock(&priv->lock);
-    ret = g_strdup(priv->driver);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_lock(&cam->lock);
+    ret = g_strdup(cam->driver);
+    g_mutex_unlock(&cam->lock);
 
     return ret;
 }
@@ -1126,14 +1109,13 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraFilePath camerapath;
     EntangleCameraFile *file = NULL;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (!priv->cam) {
+    if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Cannot capture image while not connected"));
         goto cleanup;
@@ -1141,14 +1123,14 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Starting capture");
     entangle_camera_begin_job(cam);
-    err = gp_camera_capture(priv->cam,
+    err = gp_camera_capture(cam->cam,
                             GP_CAPTURE_IMAGE,
                             &camerapath,
-                            priv->ctx);
+                            cam->ctx);
     entangle_camera_end_job(cam);
     if (err!= GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to capture image: %s"), priv->lastError);
+                    _("Unable to capture image: %s"), cam->lastError);
         goto cleanup;
     }
 
@@ -1158,7 +1140,7 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
     entangle_camera_emit_deferred(cam, "camera-file-captured", G_OBJECT(file));
 
  cleanup:
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return file;
 }
 
@@ -1248,7 +1230,6 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     EntangleCameraFile *file = NULL;
     CameraFile *datafile = NULL;
     const char *mimetype = NULL;
@@ -1258,9 +1239,9 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
     const char *name;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (!priv->cam) {
+    if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Cannot preview image while not connected"));
         goto cleanup;
@@ -1270,27 +1251,27 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Starting preview");
     entangle_camera_begin_job(cam);
-    err = gp_camera_capture_preview(priv->cam,
+    err = gp_camera_capture_preview(cam->cam,
                                     datafile,
-                                    priv->ctx);
+                                    cam->ctx);
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to capture preview: %s"), priv->lastError);
+                    _("Unable to capture preview: %s"), cam->lastError);
         goto cleanup;
     }
 
 
     if (gp_file_get_data_and_size(datafile, &rawdata, &rawdatalen) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to get file data: %s"), priv->lastError);
+                    _("Unable to get file data: %s"), cam->lastError);
         goto cleanup;
     }
 
     if (gp_file_get_name(datafile, &name) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to get filename: %s"), priv->lastError);
+                    _("Unable to get filename: %s"), cam->lastError);
         goto cleanup;
     }
 
@@ -1310,7 +1291,7 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
  cleanup:
     if (datafile)
         gp_file_unref(datafile);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return file;
 }
 
@@ -1400,7 +1381,6 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraFile *datafile = NULL;
     const char *data;
     unsigned long int datalen;
@@ -1408,9 +1388,9 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     gboolean ret = FALSE;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (!priv->cam) {
+    if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Cannot download file while not connected"));
         goto cleanup;
@@ -1424,25 +1404,25 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Getting file data");
     entangle_camera_begin_job(cam);
-    err = gp_camera_file_get(priv->cam,
+    err = gp_camera_file_get(cam->cam,
                              entangle_camera_file_get_folder(file),
                              entangle_camera_file_get_name(file),
                              GP_FILE_TYPE_NORMAL,
                              datafile,
-                             priv->ctx);
+                             cam->ctx);
     g_usleep(1000*100);
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to get camera file: %s"), priv->lastError);
+                    _("Unable to get camera file: %s"), cam->lastError);
         goto cleanup;
     }
 
     ENTANGLE_DEBUG("Fetching data");
     if (gp_file_get_data_and_size(datafile, &data, &datalen) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to get file data: %s"), priv->lastError);
+                    _("Unable to get file data: %s"), cam->lastError);
         goto cleanup;
     }
 
@@ -1460,7 +1440,7 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     ENTANGLE_DEBUG("Error");
     if (datafile)
         gp_file_unref(datafile);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -1554,13 +1534,12 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (!priv->cam) {
+    if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Cannot delete file while not connected"));
         goto cleanup;
@@ -1571,16 +1550,16 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
                    entangle_camera_file_get_folder(file));
 
     entangle_camera_begin_job(cam);
-    err = gp_camera_file_delete(priv->cam,
+    err = gp_camera_file_delete(cam->cam,
                                 entangle_camera_file_get_folder(file),
                                 entangle_camera_file_get_name(file),
-                                priv->ctx);
+                                cam->ctx);
     g_usleep(1000*100);
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to delete file: %s"), priv->lastError);
+                    _("Unable to delete file: %s"), cam->lastError);
         goto cleanup;
     }
 
@@ -1589,7 +1568,7 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
     ret = TRUE;
 
  cleanup:
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -1684,16 +1663,15 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraEventType eventType = 0;
     void *eventData = NULL;
     guint64 startms, endms, donems;
     gboolean ret = FALSE;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (!priv->cam) {
+    if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Cannot wait for events while not connected"));
         goto cleanup;
@@ -1708,7 +1686,7 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
     donems = 0;
     do {
         entangle_camera_begin_job(cam);
-        err = gp_camera_wait_for_event(priv->cam, waitms - donems, &eventType, &eventData, priv->ctx);
+        err = gp_camera_wait_for_event(cam->cam, waitms - donems, &eventType, &eventData, cam->ctx);
         entangle_camera_end_job(cam);
 
         if (err != GP_OK) {
@@ -1720,7 +1698,7 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
                 goto cleanup;
             }
             g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                        _("Unable to wait for events: %s"), priv->lastError);
+                        _("Unable to wait for events: %s"), cam->lastError);
             goto cleanup;
         }
         ENTANGLE_DEBUG("Event type %d", eventType);
@@ -1788,7 +1766,7 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
 
  cleanup:
     free(eventData);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -1868,10 +1846,9 @@ static CameraWidget *
 entangle_camera_find_widget(EntangleCamera *cam,
                             const gchar *path)
 {
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gchar **names = g_strsplit(path, "/", 0);
     CameraWidget *ret = NULL;
-    CameraWidget *curr = priv->widgets;
+    CameraWidget *curr = cam->widgets;
     gsize i;
 
     for (i = 0; names[i] != NULL; i++) {
@@ -1902,7 +1879,6 @@ static EntangleControl *do_build_controls(EntangleCamera *cam,
                                           CameraWidget *widget,
                                           GError **error)
 {
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraWidgetType type;
     EntangleControl *ret = NULL;
     const char *name;
@@ -2038,7 +2014,7 @@ static EntangleControl *do_build_controls(EntangleCamera *cam,
         break;
     }
 
-    g_hash_table_insert(priv->controlPaths, g_strdup(fullpath), ret);
+    g_hash_table_insert(cam->controlPaths, g_strdup(fullpath), ret);
 
  error:
     g_free(fullpath);
@@ -2067,7 +2043,6 @@ static gboolean do_load_controls(EntangleCamera *cam,
                                  CameraWidget *widget,
                                  GError **error)
 {
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraWidgetType type;
     EntangleControl *ctrl = NULL;
     const char *name;
@@ -2090,7 +2065,7 @@ static gboolean do_load_controls(EntangleCamera *cam,
     gp_widget_get_readonly(widget, &ro);
 
     fullpath = g_strdup_printf("%s/%s", path, name);
-    ctrl = g_hash_table_lookup(priv->controlPaths, fullpath);
+    ctrl = g_hash_table_lookup(cam->controlPaths, fullpath);
     if (!ctrl) {
         ret = TRUE;
         goto cleanup;
@@ -2204,7 +2179,6 @@ static gboolean do_save_controls(EntangleCamera *cam,
                                  gboolean *dirty,
                                  GError **error)
 {
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     CameraWidgetType type;
     EntangleControl *ctrl = NULL;
     const char *name;
@@ -2224,7 +2198,7 @@ static gboolean do_save_controls(EntangleCamera *cam,
     }
 
     fullpath = g_strdup_printf("%s/%s", path, name);
-    ctrl = g_hash_table_lookup(priv->controlPaths, fullpath);
+    ctrl = g_hash_table_lookup(cam->controlPaths, fullpath);
     if (!ctrl) {
         ret = TRUE;
         goto cleanup;
@@ -2324,13 +2298,12 @@ gboolean entangle_camera_load_controls(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (priv->cam == NULL) {
+    if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to load controls, camera is not connected"));
         goto cleanup;
@@ -2338,39 +2311,39 @@ gboolean entangle_camera_load_controls(EntangleCamera *cam,
 
     entangle_camera_begin_job(cam);
     ENTANGLE_DEBUG("Loading control values");
-    err = gp_camera_get_config(priv->cam, &priv->widgets, priv->ctx);
+    err = gp_camera_get_config(cam->cam, &cam->widgets, cam->ctx);
     if (err != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to fetch camera control configuration: %s"), priv->lastError);
+                    _("Unable to fetch camera control configuration: %s"), cam->lastError);
         goto endjob;
     }
 
-    if (priv->controls == NULL) {
+    if (cam->controls == NULL) {
         ENTANGLE_DEBUG("Building controls");
-        priv->controlPaths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
-        if (!(priv->controls = ENTANGLE_CONTROL_GROUP(do_build_controls(cam, "", priv->widgets, error)))) {
-            g_hash_table_unref(priv->controlPaths);
-            priv->controlPaths = NULL;
+        cam->controlPaths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+        if (!(cam->controls = ENTANGLE_CONTROL_GROUP(do_build_controls(cam, "", cam->widgets, error)))) {
+            g_hash_table_unref(cam->controlPaths);
+            cam->controlPaths = NULL;
             goto endjob;
         }
 
         if (entangle_camera_find_widget(cam, "/main/actions/viewfinder") ||
             entangle_camera_find_widget(cam, "/main/actions/eosviewfinder")) {
             ENTANGLE_DEBUG("Found a viewfinder widget");
-            priv->hasViewfinder = TRUE;
+            cam->hasViewfinder = TRUE;
         } else {
             ENTANGLE_DEBUG("No viewfinder widget");
-            priv->hasViewfinder = FALSE;
+            cam->hasViewfinder = FALSE;
         }
     }
 
-    ret = do_load_controls(cam, "", priv->widgets, error);
+    ret = do_load_controls(cam, "", cam->widgets, error);
 
  endjob:
     entangle_camera_end_job(cam);
 
  cleanup:
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -2453,20 +2426,19 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     gboolean dirty = FALSE;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (priv->cam == NULL) {
+    if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save controls, camera is not connected"));
         goto cleanup;
     }
 
-    if (priv->controls == NULL) {
+    if (cam->controls == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save controls, camera is not configurable"));
         goto cleanup;
@@ -2476,7 +2448,7 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Saving controls for %p", cam);
 
-    if (!do_save_controls(cam, "", priv->widgets,
+    if (!do_save_controls(cam, "", cam->widgets,
                           &dirty, error))
         goto endjob;
 
@@ -2485,14 +2457,14 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
         goto done;
     }
 
-    if ((err = gp_camera_set_config(priv->cam, priv->widgets, priv->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
-                    priv->lastError);
+                    cam->lastError);
         goto endjob;
     }
 
-    if (!do_load_controls(cam, "", priv->widgets, error))
+    if (!do_load_controls(cam, "", cam->widgets, error))
         goto endjob;
 
  done:
@@ -2502,7 +2474,7 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
     entangle_camera_end_job(cam);
 
  cleanup:
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -2583,28 +2555,27 @@ EntangleControlGroup *entangle_camera_get_controls(EntangleCamera *cam, GError *
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     EntangleControlGroup *ret = NULL;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
 
-    if (priv->cam == NULL) {
+    if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available when camera is disconnected"));
         goto cleanup;
     }
 
-    if (priv->controls == NULL) {
+    if (cam->controls == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available for this camera"));
         goto cleanup;
     }
 
-    ret = priv->controls;
+    ret = cam->controls;
     g_object_ref(ret);
 
  cleanup:
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -2630,25 +2601,24 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
     int value;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting viewfinder state %d", enabled);
 
-    if (priv->cam == NULL) {
+    if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available when camera is disconnected"));
         goto cleanup;
     }
 
-    if (priv->widgets == NULL) {
+    if (cam->widgets == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available for this camera"));
         goto cleanup;
@@ -2700,12 +2670,12 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if ((err = gp_camera_set_config(priv->cam,
-                                    priv->widgets,
-                                    priv->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam,
+                                    cam->widgets,
+                                    cam->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
-                    priv->lastError);
+                    cam->lastError);
         goto cleanup;
     }
 
@@ -2713,7 +2683,7 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
 
  cleanup:
     entangle_camera_end_job(cam);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -2808,25 +2778,24 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
     int value;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting autofocus");
 
-    if (priv->cam == NULL) {
+    if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available when camera is disconnected"));
         goto cleanup;
     }
 
-    if (priv->widgets == NULL) {
+    if (cam->widgets == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available for this camera"));
         goto cleanup;
@@ -2869,12 +2838,12 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if ((err = gp_camera_set_config(priv->cam,
-                                    priv->widgets,
-                                    priv->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam,
+                                    cam->widgets,
+                                    cam->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
-                    priv->lastError);
+                    cam->lastError);
         goto cleanup;
     }
 
@@ -2882,7 +2851,7 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
 
  cleanup:
     entangle_camera_end_job(cam);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -2970,24 +2939,23 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting manualfocus %d", (int)step);
 
-    if (priv->cam == NULL) {
+    if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available when camera is disconnected"));
         goto cleanup;
     }
 
-    if (priv->widgets == NULL) {
+    if (cam->widgets == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available for this camera"));
         goto cleanup;
@@ -3060,12 +3028,12 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
         }
     }
 
-    if ((err = gp_camera_set_config(priv->cam,
-                                    priv->widgets,
-                                    priv->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam,
+                                    cam->widgets,
+                                    cam->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
-                    priv->lastError);
+                    cam->lastError);
         goto cleanup;
     }
 
@@ -3099,7 +3067,7 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
 
  cleanup:
     entangle_camera_end_job(cam);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -3193,25 +3161,24 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
     time_t value;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting clock to %lld", (long long)epochsecs);
 
-    if (priv->cam == NULL) {
+    if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available when camera is disconnected"));
         goto cleanup;
     }
 
-    if (priv->widgets == NULL) {
+    if (cam->widgets == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available for this camera"));
         goto cleanup;
@@ -3246,12 +3213,12 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if ((err = gp_camera_set_config(priv->cam,
-                                    priv->widgets,
-                                    priv->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam,
+                                    cam->widgets,
+                                    cam->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
-                    priv->lastError);
+                    cam->lastError);
         goto cleanup;
     }
 
@@ -3259,7 +3226,7 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
 
  cleanup:
     entangle_camera_end_job(cam);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -3357,7 +3324,6 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
@@ -3366,18 +3332,18 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
     GEnumClass *eclass = NULL;
     int err;
 
-    g_mutex_lock(&priv->lock);
+    g_mutex_lock(&cam->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting clock to %d", target);
 
-    if (priv->cam == NULL) {
+    if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available when camera is disconnected"));
         goto cleanup;
     }
 
-    if (priv->widgets == NULL) {
+    if (cam->widgets == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Controls not available for this camera"));
         goto cleanup;
@@ -3414,12 +3380,12 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if ((err = gp_camera_set_config(priv->cam,
-                                    priv->widgets,
-                                    priv->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam,
+                                    cam->widgets,
+                                    cam->ctx)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
-                    priv->lastError);
+                    cam->lastError);
         goto cleanup;
     }
 
@@ -3429,7 +3395,7 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
     if (eclass)
         g_type_class_unref(eclass);
     entangle_camera_end_job(cam);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
     return ret;
 }
 
@@ -3520,12 +3486,11 @@ gboolean entangle_camera_get_has_capture(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(&priv->lock);
-    ret = priv->hasCapture;
-    g_mutex_unlock(&priv->lock);
+    g_mutex_lock(&cam->lock);
+    ret = cam->hasCapture;
+    g_mutex_unlock(&cam->lock);
 
     return ret;
 }
@@ -3543,12 +3508,11 @@ gboolean entangle_camera_get_has_preview(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(&priv->lock);
-    ret = priv->hasPreview;
-    g_mutex_unlock(&priv->lock);
+    g_mutex_lock(&cam->lock);
+    ret = cam->hasPreview;
+    g_mutex_unlock(&cam->lock);
 
     return ret;
 }
@@ -3566,12 +3530,11 @@ gboolean entangle_camera_get_has_settings(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(&priv->lock);
-    ret = priv->hasSettings;
-    g_mutex_unlock(&priv->lock);
+    g_mutex_lock(&cam->lock);
+    ret = cam->hasSettings;
+    g_mutex_unlock(&cam->lock);
 
     return ret;
 }
@@ -3589,12 +3552,11 @@ gboolean entangle_camera_get_has_viewfinder(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(&priv->lock);
-    ret = priv->hasViewfinder;
-    g_mutex_unlock(&priv->lock);
+    g_mutex_lock(&cam->lock);
+    ret = cam->hasViewfinder;
+    g_mutex_unlock(&cam->lock);
 
     return ret;
 }
@@ -3612,15 +3574,14 @@ void entangle_camera_set_progress(EntangleCamera *cam, EntangleProgress *prog)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
-    g_mutex_lock(&priv->lock);
-    if (priv->progress)
-        g_object_unref(priv->progress);
-    priv->progress = prog;
-    if (priv->progress)
-        g_object_ref(priv->progress);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_lock(&cam->lock);
+    if (cam->progress)
+        g_object_unref(cam->progress);
+    cam->progress = prog;
+    if (cam->progress)
+        g_object_ref(cam->progress);
+    g_mutex_unlock(&cam->lock);
 }
 
 
@@ -3637,13 +3598,12 @@ EntangleProgress *entangle_camera_get_progress(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     EntangleProgress *ret;
 
-    g_mutex_unlock(&priv->lock);
-    ret = priv->progress;
+    g_mutex_unlock(&cam->lock);
+    ret = cam->progress;
     g_object_ref(ret);
-    g_mutex_unlock(&priv->lock);
+    g_mutex_unlock(&cam->lock);
 
     return ret;
 }
@@ -3652,7 +3612,6 @@ EntangleProgress *entangle_camera_get_progress(EntangleCamera *cam)
 static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
                                                   GVolumeMonitor *monitor)
 {
-    EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gchar *uri1;
     gchar *uri2;
     gchar *uri3 = NULL;
@@ -3661,14 +3620,14 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
     GMount *ret = NULL;
     gchar *host, *eschost;
 
-    g_mutex_lock(&priv->lock);
-    uri1 = g_strdup_printf("gphoto2://[%s]/", priv->port);
-    host = g_strdup_printf("[%s]", priv->port);
+    g_mutex_lock(&cam->lock);
+    uri1 = g_strdup_printf("gphoto2://[%s]/", cam->port);
+    host = g_strdup_printf("[%s]", cam->port);
     eschost = g_uri_escape_string(host, ",", TRUE);
     uri2 = g_strdup_printf("gphoto2://%s/", eschost);
-    if (priv->serial)
-        uri3 = g_strdup_printf("gphoto2://%s/", priv->serial);
-    g_mutex_unlock(&priv->lock);
+    if (cam->serial)
+        uri3 = g_strdup_printf("gphoto2://%s/", cam->serial);
+    g_mutex_unlock(&cam->lock);
 
     ENTANGLE_DEBUG("Look for URI 1 '%s'", uri1);
     ENTANGLE_DEBUG("Look for URI 2 '%s'", uri2);

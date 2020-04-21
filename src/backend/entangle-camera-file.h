@@ -26,28 +26,7 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CAMERA_FILE            (entangle_camera_file_get_type ())
-#define ENTANGLE_CAMERA_FILE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CAMERA_FILE, EntangleCameraFile))
-#define ENTANGLE_CAMERA_FILE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CAMERA_FILE, EntangleCameraFileClass))
-#define ENTANGLE_IS_CAMERA_FILE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CAMERA_FILE))
-#define ENTANGLE_IS_CAMERA_FILE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CAMERA_FILE))
-#define ENTANGLE_CAMERA_FILE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CAMERA_FILE, EntangleCameraFileClass))
-
-
-typedef struct _EntangleCameraFile EntangleCameraFile;
-typedef struct _EntangleCameraFilePrivate EntangleCameraFilePrivate;
-typedef struct _EntangleCameraFileClass EntangleCameraFileClass;
-
-struct _EntangleCameraFile
-{
-    GObject parent;
-};
-
-struct _EntangleCameraFileClass
-{
-    GObjectClass parent_class;
-};
-
-GType entangle_camera_file_get_type(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(EntangleCameraFile, entangle_camera_file, ENTANGLE, CAMERA_FILE, GObject)
 
 EntangleCameraFile *entangle_camera_file_new(const char *folder,
                                              const char *name);

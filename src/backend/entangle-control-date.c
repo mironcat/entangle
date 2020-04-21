@@ -23,11 +23,12 @@
 #include "entangle-debug.h"
 #include "entangle-control-date.h"
 
-struct _EntangleControlDatePrivate {
+struct _EntangleControlDate {
+    EntangleControl parent;
     int value;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlDate, entangle_control_date, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlDate, entangle_control_date, ENTANGLE_TYPE_CONTROL);
 
 enum {
     PROP_0,
@@ -40,12 +41,11 @@ static void entangle_control_get_property(GObject *object,
                                           GParamSpec *pspec)
 {
     EntangleControlDate *control = ENTANGLE_CONTROL_DATE(object);
-    EntangleControlDatePrivate *priv = entangle_control_date_get_instance_private(control);
 
     switch (prop_id)
         {
         case PROP_VALUE:
-            g_value_set_int(value, priv->value);
+            g_value_set_int(value, control->value);
             break;
 
         default:
@@ -59,13 +59,12 @@ static void entangle_control_set_property(GObject *object,
                                           GParamSpec *pspec)
 {
     EntangleControlDate *control = ENTANGLE_CONTROL_DATE(object);
-    EntangleControlDatePrivate *priv = entangle_control_date_get_instance_private(control);
 
     switch (prop_id)
         {
         case PROP_VALUE:
-            if (g_value_get_int(value) != priv->value) {
-                priv->value = g_value_get_int(value);
+            if (g_value_get_int(value) != control->value) {
+                control->value = g_value_get_int(value);
                 entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
             }
             break;

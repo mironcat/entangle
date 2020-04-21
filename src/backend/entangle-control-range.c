@@ -24,14 +24,15 @@
 #include "entangle-debug.h"
 #include "entangle-control-range.h"
 
-struct _EntangleControlRangePrivate {
+struct _EntangleControlRange {
+    EntangleControl parent;
     float value;
     float min;
     float max;
     float step;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlRange, entangle_control_range, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlRange, entangle_control_range, ENTANGLE_TYPE_CONTROL);
 
 enum {
     PROP_0,
@@ -47,24 +48,23 @@ static void entangle_control_range_get_property(GObject *object,
                                                 GParamSpec *pspec)
 {
     EntangleControlRange *control = ENTANGLE_CONTROL_RANGE(object);
-    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
 
     switch (prop_id)
         {
         case PROP_VALUE:
-            g_value_set_float(value, priv->value);
+            g_value_set_float(value, control->value);
             break;
 
         case PROP_RANGE_MIN:
-            g_value_set_float(value, priv->min);
+            g_value_set_float(value, control->min);
             break;
 
         case PROP_RANGE_MAX:
-            g_value_set_float(value, priv->max);
+            g_value_set_float(value, control->max);
             break;
 
         case PROP_RANGE_STEP:
-            g_value_set_float(value, priv->step);
+            g_value_set_float(value, control->step);
             break;
 
         default:
@@ -78,27 +78,26 @@ static void entangle_control_range_set_property(GObject *object,
                                                 GParamSpec *pspec)
 {
     EntangleControlRange *control = ENTANGLE_CONTROL_RANGE(object);
-    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
 
     switch (prop_id)
         {
         case PROP_VALUE:
-            if (fabs(priv->value - g_value_get_float(value)) > 0.00001) {
-                priv->value = g_value_get_float(value);
+            if (fabs(control->value - g_value_get_float(value)) > 0.00001) {
+                control->value = g_value_get_float(value);
                 entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
             }
             break;
 
         case PROP_RANGE_MIN:
-            priv->min = g_value_get_float(value);
+            control->min = g_value_get_float(value);
             break;
 
         case PROP_RANGE_MAX:
-            priv->max = g_value_get_float(value);
+            control->max = g_value_get_float(value);
             break;
 
         case PROP_RANGE_STEP:
-            priv->step = g_value_get_float(value);
+            control->step = g_value_get_float(value);
             break;
 
         default:
@@ -211,27 +210,21 @@ float entangle_control_range_get_min(EntangleControlRange *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(control), 0.0);
 
-    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
-
-    return priv->min;
+    return control->min;
 }
 
 float entangle_control_range_get_max(EntangleControlRange *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(control), 0.0);
 
-    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
-
-    return priv->max;
+    return control->max;
 }
 
 float entangle_control_range_get_step(EntangleControlRange *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(control), 0.0);
 
-    EntangleControlRangePrivate *priv = entangle_control_range_get_instance_private(control);
-
-    return priv->step;
+    return control->step;
 }
 
 /*

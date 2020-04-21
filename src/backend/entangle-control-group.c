@@ -23,23 +23,23 @@
 #include "entangle-debug.h"
 #include "entangle-control-group.h"
 
-struct _EntangleControlGroupPrivate {
+struct _EntangleControlGroup {
+    EntangleControl parent;
     size_t ncontrol;
     EntangleControl **controls;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleControlGroup, entangle_control_group, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlGroup, entangle_control_group, ENTANGLE_TYPE_CONTROL);
 
 
 static void entangle_control_group_finalize(GObject *object)
 {
     EntangleControlGroup *control = ENTANGLE_CONTROL_GROUP(object);
-    EntangleControlGroupPrivate *priv = entangle_control_group_get_instance_private(control);
 
-    for (int i = 0; i < priv->ncontrol; i++) {
-        g_object_unref(priv->controls[i]);
+    for (int i = 0; i < control->ncontrol; i++) {
+        g_object_unref(control->controls[i]);
     }
-    g_free(priv->controls);
+    g_free(control->controls);
 
     G_OBJECT_CLASS(entangle_control_group_parent_class)->finalize(object);
 }
@@ -89,10 +89,8 @@ void entangle_control_group_add(EntangleControlGroup *group,
     g_return_if_fail(ENTANGLE_IS_CONTROL_GROUP(group));
     g_return_if_fail(ENTANGLE_IS_CONTROL(control));
 
-    EntangleControlGroupPrivate *priv = entangle_control_group_get_instance_private(group);
-
-    priv->controls = g_renew(EntangleControl *, priv->controls, priv->ncontrol+1);
-    priv->controls[priv->ncontrol++] = control;
+    group->controls = g_renew(EntangleControl *, group->controls, group->ncontrol+1);
+    group->controls[group->ncontrol++] = control;
     g_object_ref(control);
 }
 
@@ -110,9 +108,7 @@ guint entangle_control_group_count(EntangleControlGroup *group)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_GROUP(group), 0);
 
-    EntangleControlGroupPrivate *priv = entangle_control_group_get_instance_private(group);
-
-    return priv->ncontrol;
+    return group->ncontrol;
 }
 
 
@@ -127,12 +123,10 @@ EntangleControl *entangle_control_group_get(EntangleControlGroup *group, gint id
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_GROUP(group), NULL);
 
-    EntangleControlGroupPrivate *priv = entangle_control_group_get_instance_private(group);
-
-    if (idx < 0 || idx >= priv->ncontrol)
+    if (idx < 0 || idx >= group->ncontrol)
         return NULL;
 
-    return priv->controls[idx];
+    return group->controls[idx];
 }
 
 
@@ -151,15 +145,14 @@ EntangleControl *entangle_control_group_get_by_path(EntangleControlGroup *group,
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_GROUP(group), NULL);
     g_return_val_if_fail(path != NULL, NULL);
 
-    EntangleControlGroupPrivate *priv = entangle_control_group_get_instance_private(group);
     size_t i;
 
-    for (i = 0; i < priv->ncontrol; i++) {
-        if (g_str_equal(path, entangle_control_get_path(priv->controls[i]))) {
-            return priv->controls[i];
-        } else if (ENTANGLE_IS_CONTROL_GROUP(priv->controls[i])) {
+    for (i = 0; i < group->ncontrol; i++) {
+        if (g_str_equal(path, entangle_control_get_path(group->controls[i]))) {
+            return group->controls[i];
+        } else if (ENTANGLE_IS_CONTROL_GROUP(group->controls[i])) {
             EntangleControl *control =
-                entangle_control_group_get_by_path(ENTANGLE_CONTROL_GROUP(priv->controls[i]),
+                entangle_control_group_get_by_path(ENTANGLE_CONTROL_GROUP(group->controls[i]),
                                                    path);
             if (control)
                 return control;

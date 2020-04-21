@@ -28,29 +28,8 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_CONTROL_GROUP            (entangle_control_group_get_type ())
-#define ENTANGLE_CONTROL_GROUP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_CONTROL_GROUP, EntangleControlGroup))
-#define ENTANGLE_CONTROL_GROUP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_CONTROL_GROUP, EntangleControlGroupClass))
-#define ENTANGLE_IS_CONTROL_GROUP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_CONTROL_GROUP))
-#define ENTANGLE_IS_CONTROL_GROUP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_CONTROL_GROUP))
-#define ENTANGLE_CONTROL_GROUP_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_CONTROL_GROUP, EntangleControlGroupClass))
+G_DECLARE_FINAL_TYPE(EntangleControlGroup, entangle_control_group, ENTANGLE, CONTROL_GROUP, EntangleControl)
 
-
-typedef struct _EntangleControlGroup EntangleControlGroup;
-typedef struct _EntangleControlGroupPrivate EntangleControlGroupPrivate;
-typedef struct _EntangleControlGroupClass EntangleControlGroupClass;
-
-struct _EntangleControlGroup
-{
-    EntangleControl parent;
-};
-
-struct _EntangleControlGroupClass
-{
-    EntangleControlClass parent_class;
-};
-
-
-GType entangle_control_group_get_type(void) G_GNUC_CONST;
 EntangleControlGroup* entangle_control_group_new(const gchar *path,
                                                  gint id,
                                                  const gchar *label,

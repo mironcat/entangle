@@ -30,31 +30,9 @@
 G_BEGIN_DECLS
 
 #define ENTANGLE_TYPE_IMAGE_DISPLAY            (entangle_image_display_get_type ())
-#define ENTANGLE_IMAGE_DISPLAY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), ENTANGLE_TYPE_IMAGE_DISPLAY, EntangleImageDisplay))
-#define ENTANGLE_IMAGE_DISPLAY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ENTANGLE_TYPE_IMAGE_DISPLAY, EntangleImageDisplayClass))
-#define ENTANGLE_IS_IMAGE_DISPLAY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), ENTANGLE_TYPE_IMAGE_DISPLAY))
-#define ENTANGLE_IS_IMAGE_DISPLAY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ENTANGLE_TYPE_IMAGE_DISPLAY))
-#define ENTANGLE_IMAGE_DISPLAY_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ENTANGLE_TYPE_IMAGE_DISPLAY, EntangleImageDisplayClass))
+G_DECLARE_FINAL_TYPE(EntangleImageDisplay, entangle_image_display, ENTANGLE, IMAGE_DISPLAY, GtkDrawingArea)
 
-
-typedef struct _EntangleImageDisplay EntangleImageDisplay;
-typedef struct _EntangleImageDisplayPrivate EntangleImageDisplayPrivate;
-typedef struct _EntangleImageDisplayClass EntangleImageDisplayClass;
-
-struct _EntangleImageDisplay
-{
-    GtkDrawingArea parent;
-};
-
-struct _EntangleImageDisplayClass
-{
-    GtkDrawingAreaClass parent_class;
-
-};
-
-GType entangle_image_display_get_type(void) G_GNUC_CONST;
-
-EntangleImageDisplay* entangle_image_display_new(void);
+EntangleImageDisplay *entangle_image_display_new(void);
 
 void entangle_image_display_set_image(EntangleImageDisplay *display,
                                       EntangleImage *image);
