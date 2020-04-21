@@ -24,11 +24,6 @@
 #include "entangle-debug.h"
 #include "entangle-pixbuf-loader.h"
 
-#if GLIB_CHECK_VERSION(2, 31, 0)
-#define g_mutex_new() g_new0(GMutex, 1)
-#define g_mutex_free(m) g_free(m)
-#endif
-
 typedef struct _EntanglePixbufLoaderEntry {
     int refs;
     EntangleImage *image;
@@ -50,7 +45,7 @@ struct _EntanglePixbufLoaderPrivate {
     GThreadPool *workers;
     EntangleColourProfileTransform *colourTransform;
 
-    GMutex *lock;
+    GMutex lock;
     GHashTable *pixbufs;
 
     gboolean withMetadata;
@@ -198,7 +193,7 @@ void entangle_pixbuf_loader_trigger_reload(EntanglePixbufLoader *loader)
 
     ENTANGLE_DEBUG("Triggering mass reload");
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     g_hash_table_iter_init(&iter, priv->pixbufs);
     while (g_hash_table_iter_next(&iter, &key, &value)) {
         EntanglePixbufLoaderEntry *entry = value;
@@ -206,7 +201,7 @@ void entangle_pixbuf_loader_trigger_reload(EntanglePixbufLoader *loader)
             !entry->processing)
             g_thread_pool_push(priv->workers, entry->image, NULL);
     }
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 }
 
 
@@ -219,10 +214,10 @@ static gboolean entangle_pixbuf_loader_result(gpointer data)
 
     ENTANGLE_DEBUG("result %p %p %p", loader, result->image, result->pixbuf);
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(result->image)));
     if (!entry) {
-        g_mutex_unlock(priv->lock);
+        g_mutex_unlock(&priv->lock);
         if (result->pixbuf)
             g_object_unref(result->pixbuf);
         g_object_unref(result->image);
@@ -241,12 +236,12 @@ static gboolean entangle_pixbuf_loader_result(gpointer data)
     entry->processing = FALSE;
 
     if (entry->refs) {
-        g_mutex_unlock(priv->lock);
+        g_mutex_unlock(&priv->lock);
         ENTANGLE_DEBUG("Emit loaded %p %p %p", result->image, result->pixbuf, result->metadata);
         do_idle_emit(loader, "pixbuf-loaded", result->image);
         if (result->metadata)
             do_idle_emit(loader, "metadata-loaded", result->image);
-        g_mutex_lock(priv->lock);
+        g_mutex_lock(&priv->lock);
     } else if (!entry->pending) {
         g_hash_table_remove(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(result->image)));
     }
@@ -254,7 +249,7 @@ static gboolean entangle_pixbuf_loader_result(gpointer data)
     g_object_unref(result->loader);
     g_object_unref(result->image);
     g_free(result);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     return FALSE;
 }
@@ -279,7 +274,7 @@ static void entangle_pixbuf_loader_worker(gpointer data,
     GdkPixbuf *pixbuf;
 
     ENTANGLE_DEBUG("worker process job %p %p", loader, image);
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
@@ -294,7 +289,7 @@ static void entangle_pixbuf_loader_worker(gpointer data,
     transform = priv->colourTransform;
     if (transform)
         g_object_ref(transform);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     pixbuf = entangle_pixbuf_load(loader, image,
                                   priv->withMetadata ?
@@ -316,12 +311,12 @@ static void entangle_pixbuf_loader_worker(gpointer data,
 
     g_idle_add(entangle_pixbuf_loader_result, result);
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     if (transform)
         g_object_unref(transform);
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 }
 
 
@@ -337,7 +332,7 @@ static void entangle_pixbuf_loader_finalize(GObject *object)
         g_object_unref(priv->colourTransform);
 
     g_hash_table_unref(priv->pixbufs);
-    g_mutex_free(priv->lock);
+    g_mutex_clear(&priv->lock);
 
     G_OBJECT_CLASS(entangle_pixbuf_loader_parent_class)->finalize(object);
 }
@@ -423,7 +418,7 @@ static void entangle_pixbuf_loader_init(EntanglePixbufLoader *loader)
 {
     EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
 
-    priv->lock = g_mutex_new();
+    g_mutex_init(&priv->lock);
     priv->pixbufs = g_hash_table_new_full(g_str_hash,
                                           g_str_equal,
                                           g_free,
@@ -459,14 +454,14 @@ gboolean entangle_pixbuf_loader_is_ready(EntanglePixbufLoader *loader,
     EntanglePixbufLoaderEntry *entry;
     gboolean ready = FALSE;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     ready = entry->ready;
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ready;
 }
 
@@ -492,14 +487,14 @@ GdkPixbuf *entangle_pixbuf_loader_get_pixbuf(EntanglePixbufLoader *loader,
     EntanglePixbufLoaderEntry *entry;
     GdkPixbuf *pixbuf = NULL;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     pixbuf = entry->pixbuf;
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return pixbuf;
 }
 
@@ -525,14 +520,14 @@ GExiv2Metadata *entangle_pixbuf_loader_get_metadata(EntanglePixbufLoader *loader
     EntanglePixbufLoaderEntry *entry;
     GExiv2Metadata *metadata = NULL;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     metadata = entry->metadata;
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return metadata;
 }
 
@@ -563,13 +558,13 @@ gboolean entangle_pixbuf_loader_load(EntanglePixbufLoader *loader,
     if (!entangle_media_get_filename(ENTANGLE_MEDIA(image)))
         return FALSE;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (entry) {
         gboolean hasPixbuf = entry->pixbuf != NULL;
         gboolean hasMetadata = entry->metadata != NULL;
         entry->refs++;
-        g_mutex_unlock(priv->lock);
+        g_mutex_unlock(&priv->lock);
         if (hasPixbuf && 0)
             do_idle_emit(loader, "pixbuf-loaded", image);
         if (hasMetadata && 0)
@@ -580,7 +575,7 @@ gboolean entangle_pixbuf_loader_load(EntanglePixbufLoader *loader,
     g_hash_table_insert(priv->pixbufs, g_strdup(entangle_media_get_filename(ENTANGLE_MEDIA(image))), entry);
     g_thread_pool_push(priv->workers, image, NULL);
 
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return TRUE;
 }
 
@@ -610,7 +605,7 @@ gboolean entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
         return FALSE;
 
     ENTANGLE_DEBUG("Unqueue load %p %p", loader, image);
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
@@ -629,7 +624,7 @@ gboolean entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
     }
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return TRUE;
 }
 
@@ -650,13 +645,13 @@ void entangle_pixbuf_loader_set_colour_transform(EntanglePixbufLoader *loader,
 
     EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     if (priv->colourTransform)
         g_object_unref(priv->colourTransform);
     priv->colourTransform = transform;
     if (priv->colourTransform)
         g_object_ref(priv->colourTransform);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     entangle_pixbuf_loader_trigger_reload(loader);
 }

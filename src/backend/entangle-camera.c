@@ -38,16 +38,9 @@
 #include "entangle-control-text.h"
 #include "entangle-control-toggle.h"
 
-#if GLIB_CHECK_VERSION(2, 31, 0)
-#define g_mutex_new() g_new0(GMutex, 1)
-#define g_mutex_free(m) g_free(m)
-#define g_cond_new() g_new0(GCond, 1)
-#define g_cond_free(c) g_free(c)
-#endif
-
 struct _EntangleCameraPrivate {
-    GMutex *lock;
-    GCond *jobCond;
+    GMutex lock;
+    GCond jobCond;
     gboolean jobActive;
 
     GPContext *ctx;
@@ -157,13 +150,13 @@ static void entangle_camera_begin_job(EntangleCamera *cam)
     g_object_ref(cam);
 
     while (priv->jobActive) {
-        g_cond_wait(priv->jobCond, priv->lock);
+        g_cond_wait(&priv->jobCond, &priv->lock);
     }
 
     priv->jobActive = TRUE;
     g_free(priv->lastError);
     priv->lastError = NULL;
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 }
 
 
@@ -172,8 +165,8 @@ static void entangle_camera_end_job(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
     priv->jobActive = FALSE;
-    g_cond_broadcast(priv->jobCond);
-    g_mutex_lock(priv->lock);
+    g_cond_broadcast(&priv->jobCond);
+    g_mutex_lock(&priv->lock);
     g_object_unref(cam);
 }
 
@@ -323,8 +316,8 @@ static void entangle_camera_finalize(GObject *object)
     g_free(priv->model);
     g_free(priv->port);
     g_free(priv->lastError);
-    g_mutex_free(priv->lock);
-    g_cond_free(priv->jobCond);
+    g_mutex_clear(&priv->lock);
+    g_cond_clear(&priv->jobCond);
 
     G_OBJECT_CLASS(entangle_camera_parent_class)->finalize(object);
 }
@@ -558,8 +551,8 @@ static void entangle_camera_init(EntangleCamera *cam)
 {
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
-    priv->lock = g_mutex_new();
-    priv->jobCond = g_cond_new();
+    g_mutex_init(&priv->lock);
+    g_cond_init(&priv->jobCond);
 }
 
 
@@ -728,7 +721,7 @@ gboolean entangle_camera_connect(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Conencting to cam");
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (priv->cam != NULL) {
         ret = TRUE;
@@ -815,7 +808,7 @@ gboolean entangle_camera_connect(EntangleCamera *cam,
     ret = TRUE;
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     if (ret)
         entangle_camera_emit_deferred(cam, "camera-connected", NULL);
     return ret;
@@ -904,7 +897,7 @@ gboolean entangle_camera_disconnect(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Disconnecting from cam");
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (priv->cam == NULL) {
         ret = TRUE;
@@ -950,7 +943,7 @@ gboolean entangle_camera_disconnect(EntangleCamera *cam,
 
     ret = TRUE;
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     if (ret)
         entangle_camera_emit_deferred(cam, "camera-disconnected", NULL);
     return ret;
@@ -1032,9 +1025,9 @@ gboolean entangle_camera_get_connected(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     ret = priv->cam != NULL ? TRUE : FALSE;
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -1055,9 +1048,9 @@ char *entangle_camera_get_summary(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     char *ret;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     ret = g_strdup(priv->summary);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     return ret;
 }
@@ -1080,9 +1073,9 @@ char *entangle_camera_get_manual(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     char *ret;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     ret = g_strdup(priv->manual);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     return ret;
 }
@@ -1104,9 +1097,9 @@ char *entangle_camera_get_driver(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     char *ret;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     ret = g_strdup(priv->driver);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     return ret;
 }
@@ -1138,7 +1131,7 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
     EntangleCameraFile *file = NULL;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (!priv->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
@@ -1165,7 +1158,7 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
     entangle_camera_emit_deferred(cam, "camera-file-captured", G_OBJECT(file));
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return file;
 }
 
@@ -1265,7 +1258,7 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
     const char *name;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (!priv->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
@@ -1317,7 +1310,7 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
  cleanup:
     if (datafile)
         gp_file_unref(datafile);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return file;
 }
 
@@ -1415,7 +1408,7 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     gboolean ret = FALSE;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (!priv->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
@@ -1467,7 +1460,7 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     ENTANGLE_DEBUG("Error");
     if (datafile)
         gp_file_unref(datafile);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -1565,7 +1558,7 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
     gboolean ret = FALSE;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (!priv->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
@@ -1596,7 +1589,7 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
     ret = TRUE;
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -1698,7 +1691,7 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
     gboolean ret = FALSE;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (!priv->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
@@ -1795,7 +1788,7 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
 
  cleanup:
     free(eventData);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -2335,7 +2328,7 @@ gboolean entangle_camera_load_controls(EntangleCamera *cam,
     gboolean ret = FALSE;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (priv->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
@@ -2377,7 +2370,7 @@ gboolean entangle_camera_load_controls(EntangleCamera *cam,
     entangle_camera_end_job(cam);
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -2465,7 +2458,7 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
     gboolean dirty = FALSE;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (priv->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
@@ -2509,7 +2502,7 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
     entangle_camera_end_job(cam);
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -2593,7 +2586,7 @@ EntangleControlGroup *entangle_camera_get_controls(EntangleCamera *cam, GError *
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     EntangleControlGroup *ret = NULL;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (priv->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
@@ -2611,7 +2604,7 @@ EntangleControlGroup *entangle_camera_get_controls(EntangleCamera *cam, GError *
     g_object_ref(ret);
 
  cleanup:
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -2644,7 +2637,7 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
     int value;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting viewfinder state %d", enabled);
@@ -2720,7 +2713,7 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
 
  cleanup:
     entangle_camera_end_job(cam);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -2822,7 +2815,7 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
     int value;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting autofocus");
@@ -2889,7 +2882,7 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
 
  cleanup:
     entangle_camera_end_job(cam);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -2983,7 +2976,7 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
     CameraWidgetType type;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting manualfocus %d", (int)step);
@@ -3106,7 +3099,7 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
 
  cleanup:
     entangle_camera_end_job(cam);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -3207,7 +3200,7 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
     time_t value;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting clock to %lld", (long long)epochsecs);
@@ -3266,7 +3259,7 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
 
  cleanup:
     entangle_camera_end_job(cam);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -3373,7 +3366,7 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
     GEnumClass *eclass = NULL;
     int err;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     entangle_camera_begin_job(cam);
 
     ENTANGLE_DEBUG("Setting clock to %d", target);
@@ -3436,7 +3429,7 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
     if (eclass)
         g_type_class_unref(eclass);
     entangle_camera_end_job(cam);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -3530,9 +3523,9 @@ gboolean entangle_camera_get_has_capture(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     ret = priv->hasCapture;
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     return ret;
 }
@@ -3553,9 +3546,9 @@ gboolean entangle_camera_get_has_preview(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     ret = priv->hasPreview;
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     return ret;
 }
@@ -3576,9 +3569,9 @@ gboolean entangle_camera_get_has_settings(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     ret = priv->hasSettings;
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     return ret;
 }
@@ -3599,9 +3592,9 @@ gboolean entangle_camera_get_has_viewfinder(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     gboolean ret;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     ret = priv->hasViewfinder;
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     return ret;
 }
@@ -3621,13 +3614,13 @@ void entangle_camera_set_progress(EntangleCamera *cam, EntangleProgress *prog)
 
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     if (priv->progress)
         g_object_unref(priv->progress);
     priv->progress = prog;
     if (priv->progress)
         g_object_ref(priv->progress);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 }
 
 
@@ -3647,10 +3640,10 @@ EntangleProgress *entangle_camera_get_progress(EntangleCamera *cam)
     EntangleCameraPrivate *priv = entangle_camera_get_instance_private(cam);
     EntangleProgress *ret;
 
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     ret = priv->progress;
     g_object_ref(ret);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     return ret;
 }
@@ -3668,14 +3661,14 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
     GMount *ret = NULL;
     gchar *host, *eschost;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
     uri1 = g_strdup_printf("gphoto2://[%s]/", priv->port);
     host = g_strdup_printf("[%s]", priv->port);
     eschost = g_uri_escape_string(host, ",", TRUE);
     uri2 = g_strdup_printf("gphoto2://%s/", eschost);
     if (priv->serial)
         uri3 = g_strdup_printf("gphoto2://%s/", priv->serial);
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
 
     ENTANGLE_DEBUG("Look for URI 1 '%s'", uri1);
     ENTANGLE_DEBUG("Look for URI 2 '%s'", uri2);

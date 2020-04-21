@@ -26,13 +26,8 @@
 
 #define DEBUG_CMS 0
 
-#if GLIB_CHECK_VERSION(2, 31, 0)
-#define g_mutex_new() g_new0(GMutex, 1)
-#define g_mutex_free(m) g_free(m)
-#endif
-
 struct _EntangleColourProfilePrivate {
-    GMutex *lock;
+    GMutex lock;
     GByteArray *data;
     char *filename;
     cmsHPROFILE *profile;
@@ -183,7 +178,7 @@ static void entangle_colour_profile_finalize(GObject *object)
     g_free(priv->filename);
     if (priv->profile)
         cmsCloseProfile(priv->profile);
-    g_mutex_free(priv->lock);
+    g_mutex_clear(&priv->lock);
 
     G_OBJECT_CLASS(entangle_colour_profile_parent_class)->finalize(object);
 }
@@ -322,7 +317,7 @@ static gboolean entangle_colour_profile_load(EntangleColourProfile *profile)
     EntangleColourProfilePrivate *priv = entangle_colour_profile_get_instance_private(profile);
     gboolean ret;
 
-    g_mutex_lock(priv->lock);
+    g_mutex_lock(&priv->lock);
 
     if (!priv->dirty) {
         goto cleanup;
@@ -344,7 +339,7 @@ static gboolean entangle_colour_profile_load(EntangleColourProfile *profile)
 
  cleanup:
     ret = priv->profile ? TRUE : FALSE;
-    g_mutex_unlock(priv->lock);
+    g_mutex_unlock(&priv->lock);
     return ret;
 }
 
@@ -352,7 +347,7 @@ static void entangle_colour_profile_init(EntangleColourProfile *profile)
 {
     EntangleColourProfilePrivate *priv = entangle_colour_profile_get_instance_private(profile);
 
-    priv->lock = g_mutex_new();
+    g_mutex_init(&priv->lock);
 }
 
 static void entangle_colour_profile_transform_init(EntangleColourProfileTransform *transform G_GNUC_UNUSED)
@@ -575,16 +570,16 @@ GdkPixbuf *entangle_colour_profile_transform_apply(EntangleColourProfileTransfor
         break;
     }
 
-    g_mutex_lock(srcpriv->lock);
-    g_mutex_lock(dstpriv->lock);
+    g_mutex_lock(&srcpriv->lock);
+    g_mutex_lock(&dstpriv->lock);
     cmstransform = cmsCreateTransform(srcpriv->profile,
                                       type,
                                       dstpriv->profile,
                                       type,
                                       intent,
                                       0);
-    g_mutex_unlock(srcpriv->lock);
-    g_mutex_unlock(dstpriv->lock);
+    g_mutex_unlock(&srcpriv->lock);
+    g_mutex_unlock(&dstpriv->lock);
 
     srcpixels = gdk_pixbuf_get_pixels(srcpixbuf);
     dstpixels = gdk_pixbuf_get_pixels(dstpixbuf);
