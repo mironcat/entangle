@@ -72,6 +72,7 @@ struct _EntanglePreferencesDisplay
     GtkImage *imgImage;
 
     GtkEntry *captureFilenamePattern;
+    GtkLabel *captureFilenamePatternWarning;
     GtkToggleButton *captureContinuousPreview;
     GtkToggleButton *captureElectronicShutter;
     GtkToggleButton *captureDeleteFile;
@@ -730,6 +731,9 @@ entangle_preferences_display_class_init(EntanglePreferencesDisplayClass *klass)
                                          captureFilenamePattern);
     gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
                                          EntanglePreferencesDisplay,
+                                         captureFilenamePatternWarning);
+    gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
+                                         EntanglePreferencesDisplay,
                                          captureContinuousPreview);
     gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
                                          EntanglePreferencesDisplay,
@@ -942,7 +946,14 @@ do_capture_filename_pattern_changed(GtkEntry *src,
 
     const char *text = gtk_entry_get_text(src);
 
-    entangle_preferences_capture_set_filename_pattern(preferences->prefs, text);
+    if (!strstr(text, "XXXXXX")) {
+        gtk_label_set_text(preferences->captureFilenamePatternWarning,
+                           _("Pattern must contain 'XXXXXX' placeholder"));
+    } else {
+        gtk_label_set_text(preferences->captureFilenamePatternWarning, "");
+        entangle_preferences_capture_set_filename_pattern(preferences->prefs,
+                                                          text);
+    }
 }
 
 void
