@@ -27,20 +27,23 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CONTROL_BUTTON            (entangle_control_button_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleControlButton, entangle_control_button, ENTANGLE, CONTROL_BUTTON, EntangleControl)
+#define ENTANGLE_TYPE_CONTROL_BUTTON (entangle_control_button_get_type())
+G_DECLARE_FINAL_TYPE(EntangleControlButton,
+                     entangle_control_button,
+                     ENTANGLE,
+                     CONTROL_BUTTON,
+                     EntangleControl)
 
-EntangleControlButton* entangle_control_button_new(const char *path,
-                                                   int id,
-                                                   const char *label,
-                                                   const char *info,
-                                                   gboolean readonly);
-
+EntangleControlButton *
+entangle_control_button_new(const char *path,
+                            int id,
+                            const char *label,
+                            const char *info,
+                            gboolean readonly);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CONTROL_BUTTON_H__ */
-
 
 /*
  * Local variables:

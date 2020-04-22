@@ -19,17 +19,19 @@
  */
 
 #include <string.h>
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
 #include <unistd.h>
 
-#include "entangle-debug.h"
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
+
 #include "entangle-camera-picker.h"
 
-gboolean do_picker_close(GtkButton *src,
-                         gpointer data);
-gboolean do_picker_delete(GtkWidget *src,
-                          GdkEvent *ev);
+#include "entangle-debug.h"
+
+gboolean
+do_picker_close(GtkButton *src, gpointer data);
+gboolean
+do_picker_delete(GtkWidget *src, GdkEvent *ev);
 
 struct _EntangleCameraPicker
 {
@@ -50,28 +52,30 @@ struct _EntangleCameraPicker
 
 G_DEFINE_TYPE(EntangleCameraPicker, entangle_camera_picker, GTK_TYPE_DIALOG);
 
-enum {
+enum
+{
     PROP_O,
     PROP_CAMERAS
 };
 
-void do_picker_refresh(GtkButton *src,
-                       EntangleCameraPicker *picker);
-void do_picker_activate(GtkTreeView *src,
-                        GtkTreePath *path,
-                        GtkTreeViewColumn *col,
-                        EntangleCameraPicker *picker);
-void do_picker_connect(GtkButton *src,
-                       EntangleCameraPicker *picker);
-void do_ip_address_changed(GtkEntry *entry,
-                           EntangleCameraPicker *picker);
+void
+do_picker_refresh(GtkButton *src, EntangleCameraPicker *picker);
+void
+do_picker_activate(GtkTreeView *src,
+                   GtkTreePath *path,
+                   GtkTreeViewColumn *col,
+                   EntangleCameraPicker *picker);
+void
+do_picker_connect(GtkButton *src, EntangleCameraPicker *picker);
+void
+do_ip_address_changed(GtkEntry *entry, EntangleCameraPicker *picker);
 
-
-static void entangle_camera_cell_data_model_func(GtkTreeViewColumn *col G_GNUC_UNUSED,
-                                                 GtkCellRenderer *cell,
-                                                 GtkTreeModel *model,
-                                                 GtkTreeIter *iter,
-                                                 gpointer data G_GNUC_UNUSED)
+static void
+entangle_camera_cell_data_model_func(GtkTreeViewColumn *col G_GNUC_UNUSED,
+                                     GtkCellRenderer *cell,
+                                     GtkTreeModel *model,
+                                     GtkTreeIter *iter,
+                                     gpointer data G_GNUC_UNUSED)
 {
     GValue val;
     EntangleCamera *cam;
@@ -87,12 +91,12 @@ static void entangle_camera_cell_data_model_func(GtkTreeViewColumn *col G_GNUC_U
     g_object_unref(cam);
 }
 
-
-static void entangle_camera_cell_data_port_func(GtkTreeViewColumn *col G_GNUC_UNUSED,
-                                                GtkCellRenderer *cell,
-                                                GtkTreeModel *model,
-                                                GtkTreeIter *iter,
-                                                gpointer data G_GNUC_UNUSED)
+static void
+entangle_camera_cell_data_port_func(GtkTreeViewColumn *col G_GNUC_UNUSED,
+                                    GtkCellRenderer *cell,
+                                    GtkTreeModel *model,
+                                    GtkTreeIter *iter,
+                                    gpointer data G_GNUC_UNUSED)
 {
     GValue val;
     EntangleCamera *cam;
@@ -108,12 +112,12 @@ static void entangle_camera_cell_data_port_func(GtkTreeViewColumn *col G_GNUC_UN
     g_object_unref(cam);
 }
 
-
-static void entangle_camera_cell_data_capture_func(GtkTreeViewColumn *col G_GNUC_UNUSED,
-                                                   GtkCellRenderer *cell,
-                                                   GtkTreeModel *model,
-                                                   GtkTreeIter *iter,
-                                                   gpointer data G_GNUC_UNUSED)
+static void
+entangle_camera_cell_data_capture_func(GtkTreeViewColumn *col G_GNUC_UNUSED,
+                                       GtkCellRenderer *cell,
+                                       GtkTreeModel *model,
+                                       GtkTreeIter *iter,
+                                       gpointer data G_GNUC_UNUSED)
 {
     GValue val;
     EntangleCamera *cam;
@@ -126,13 +130,15 @@ static void entangle_camera_cell_data_capture_func(GtkTreeViewColumn *col G_GNUC
 
     ENTANGLE_DEBUG("Has %d", entangle_camera_get_has_capture(cam));
 
-    g_object_set(cell, "text", entangle_camera_get_has_capture(cam) ? _("Yes") : _("No"), NULL);
+    g_object_set(cell, "text",
+                 entangle_camera_get_has_capture(cam) ? _("Yes") : _("No"),
+                 NULL);
 
     g_object_unref(cam);
 }
 
-
-static void do_model_sensitivity_update(EntangleCameraPicker *picker)
+static void
+do_model_sensitivity_update(EntangleCameraPicker *picker)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
 
@@ -151,8 +157,8 @@ static void do_model_sensitivity_update(EntangleCameraPicker *picker)
     }
 }
 
-
-static void do_model_refresh(EntangleCameraPicker *picker)
+static void
+do_model_refresh(EntangleCameraPicker *picker)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
 
@@ -172,35 +178,34 @@ static void do_model_refresh(EntangleCameraPicker *picker)
 
         gtk_list_store_set(picker->model, &iter, 0, cam, -1);
 
-        //g_object_unref(cam);
+        // g_object_unref(cam);
     }
 
     do_model_sensitivity_update(picker);
 }
 
-
-static void entangle_camera_picker_get_property(GObject *object,
-                                                guint prop_id,
-                                                GValue *value,
-                                                GParamSpec *pspec)
+static void
+entangle_camera_picker_get_property(GObject *object,
+                                    guint prop_id,
+                                    GValue *value,
+                                    GParamSpec *pspec)
 {
     EntangleCameraPicker *picker = ENTANGLE_CAMERA_PICKER(object);
 
-    switch (prop_id)
-        {
-        case PROP_CAMERAS:
-            g_value_set_object(value, picker->cameras);
-            break;
+    switch (prop_id) {
+    case PROP_CAMERAS:
+        g_value_set_object(value, picker->cameras);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void do_camera_list_add(EntangleCameraList *cameras G_GNUC_UNUSED,
-                               EntangleCamera *cam,
-                               EntangleCameraPicker *picker)
+static void
+do_camera_list_add(EntangleCameraList *cameras G_GNUC_UNUSED,
+                   EntangleCamera *cam,
+                   EntangleCameraPicker *picker)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
@@ -215,10 +220,10 @@ static void do_camera_list_add(EntangleCameraList *cameras G_GNUC_UNUSED,
     do_model_sensitivity_update(picker);
 }
 
-
-static void do_camera_list_remove(EntangleCameraList *cameras G_GNUC_UNUSED,
-                                  EntangleCamera *cam,
-                                  EntangleCameraPicker *picker)
+static void
+do_camera_list_remove(EntangleCameraList *cameras G_GNUC_UNUSED,
+                      EntangleCamera *cam,
+                      EntangleCameraPicker *picker)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
@@ -249,30 +254,29 @@ static void do_camera_list_remove(EntangleCameraList *cameras G_GNUC_UNUSED,
     do_model_sensitivity_update(picker);
 }
 
-
-static void entangle_camera_picker_set_property(GObject *object,
-                                                guint prop_id,
-                                                const GValue *value,
-                                                GParamSpec *pspec)
+static void
+entangle_camera_picker_set_property(GObject *object,
+                                    guint prop_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec)
 {
     EntangleCameraPicker *picker = ENTANGLE_CAMERA_PICKER(object);
 
     ENTANGLE_DEBUG("Set prop %d", prop_id);
 
-    switch (prop_id)
-        {
-        case PROP_CAMERAS:
-            entangle_camera_picker_set_camera_list(picker,
-                                                   ENTANGLE_CAMERA_LIST(g_value_get_object(value)));
-            break;
+    switch (prop_id) {
+    case PROP_CAMERAS:
+        entangle_camera_picker_set_camera_list(
+            picker, ENTANGLE_CAMERA_LIST(g_value_get_object(value)));
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_camera_picker_finalize(GObject *object)
+static void
+entangle_camera_picker_finalize(GObject *object)
 {
     EntangleCameraPicker *picker = ENTANGLE_CAMERA_PICKER(object);
 
@@ -286,8 +290,8 @@ static void entangle_camera_picker_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_camera_picker_parent_class)->finalize(object);
 }
 
-
-static void entangle_camera_picker_class_init(EntangleCameraPickerClass *klass)
+static void
+entangle_camera_picker_class_init(EntangleCameraPickerClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -295,38 +299,26 @@ static void entangle_camera_picker_class_init(EntangleCameraPickerClass *klass)
     object_class->get_property = entangle_camera_picker_get_property;
     object_class->set_property = entangle_camera_picker_set_property;
 
-    g_signal_new("picker-connect",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("picker-connect", G_TYPE_FROM_CLASS(klass), G_SIGNAL_RUN_FIRST,
+                 0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  G_TYPE_OBJECT);
-    g_signal_new("picker-refresh",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__VOID,
-                 G_TYPE_NONE,
-                 0);
+    g_signal_new("picker-refresh", G_TYPE_FROM_CLASS(klass), G_SIGNAL_RUN_FIRST,
+                 0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
-    g_object_class_install_property(object_class,
-                                    PROP_CAMERAS,
-                                    g_param_spec_object("cameras",
-                                                        "Camera List",
-                                                        "List of known camera objects",
-                                                        ENTANGLE_TYPE_CAMERA_LIST,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CAMERAS,
+        g_param_spec_object("cameras", "Camera List",
+                            "List of known camera objects",
+                            ENTANGLE_TYPE_CAMERA_LIST,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle_photo/Manager/frontend/entangle-camera-picker.ui");
+    gtk_widget_class_set_template_from_resource(
+        GTK_WIDGET_CLASS(klass),
+        "/org/entangle_photo/Manager/frontend/entangle-camera-picker.ui");
 
-    gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
-                                         EntangleCameraPicker, warningNoCameras);
+    gtk_widget_class_bind_template_child(
+        GTK_WIDGET_CLASS(klass), EntangleCameraPicker, warningNoCameras);
     gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
                                          EntangleCameraPicker, cameraList);
     gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
@@ -337,15 +329,15 @@ static void entangle_camera_picker_class_init(EntangleCameraPickerClass *klass)
                                          EntangleCameraPicker, pickerConnect);
 }
 
-
-EntangleCameraPicker *entangle_camera_picker_new(void)
+EntangleCameraPicker *
+entangle_camera_picker_new(void)
 {
-    return ENTANGLE_CAMERA_PICKER(g_object_new(ENTANGLE_TYPE_CAMERA_PICKER, NULL));
+    return ENTANGLE_CAMERA_PICKER(
+        g_object_new(ENTANGLE_TYPE_CAMERA_PICKER, NULL));
 }
 
-
-gboolean do_picker_close(GtkButton *src G_GNUC_UNUSED,
-                         gpointer data)
+gboolean
+do_picker_close(GtkButton *src G_GNUC_UNUSED, gpointer data)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_PICKER(data), FALSE);
 
@@ -356,8 +348,8 @@ gboolean do_picker_close(GtkButton *src G_GNUC_UNUSED,
     return TRUE;
 }
 
-gboolean do_picker_delete(GtkWidget *src,
-                          GdkEvent *ev G_GNUC_UNUSED)
+gboolean
+do_picker_delete(GtkWidget *src, GdkEvent *ev G_GNUC_UNUSED)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_PICKER(src), FALSE);
 
@@ -366,8 +358,8 @@ gboolean do_picker_delete(GtkWidget *src,
     return TRUE;
 }
 
-void do_picker_refresh(GtkButton *src G_GNUC_UNUSED,
-                       EntangleCameraPicker *picker)
+void
+do_picker_refresh(GtkButton *src G_GNUC_UNUSED, EntangleCameraPicker *picker)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
 
@@ -375,7 +367,8 @@ void do_picker_refresh(GtkButton *src G_GNUC_UNUSED,
     g_signal_emit_by_name(picker, "picker-refresh", NULL);
 }
 
-static EntangleCamera *entangle_picker_get_selected_camera(EntangleCameraPicker *picker)
+static EntangleCamera *
+entangle_picker_get_selected_camera(EntangleCameraPicker *picker)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker), NULL);
 
@@ -395,7 +388,8 @@ static EntangleCamera *entangle_picker_get_selected_camera(EntangleCameraPicker 
             return NULL;
 
         gchar *port = g_strdup_printf("ptpip:%s", addr);
-        EntangleCamera *cam = entangle_camera_new("PTP/IP Camera", port, NULL, FALSE, FALSE, FALSE);
+        EntangleCamera *cam = entangle_camera_new("PTP/IP Camera", port, NULL,
+                                                  FALSE, FALSE, FALSE);
         g_free(port);
 
         return cam;
@@ -407,11 +401,11 @@ static EntangleCamera *entangle_picker_get_selected_camera(EntangleCameraPicker 
     return g_value_get_object(&val);
 }
 
-
-void do_picker_activate(GtkTreeView *src G_GNUC_UNUSED,
-                        GtkTreePath *path G_GNUC_UNUSED,
-                        GtkTreeViewColumn *col G_GNUC_UNUSED,
-                        EntangleCameraPicker *picker)
+void
+do_picker_activate(GtkTreeView *src G_GNUC_UNUSED,
+                   GtkTreePath *path G_GNUC_UNUSED,
+                   GtkTreeViewColumn *col G_GNUC_UNUSED,
+                   EntangleCameraPicker *picker)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
 
@@ -424,16 +418,15 @@ void do_picker_activate(GtkTreeView *src G_GNUC_UNUSED,
         memset(&val, 0, sizeof val);
         g_value_init(&val, G_TYPE_OBJECT);
         g_value_set_object(&val, cam);
-        //g_signal_emit_by_name(picker, "picker-connect", &val);
+        // g_signal_emit_by_name(picker, "picker-connect", &val);
         g_signal_emit_by_name(picker, "picker-connect", cam);
         g_value_unset(&val);
         g_object_unref(cam);
     }
 }
 
-
-void do_picker_connect(GtkButton *src G_GNUC_UNUSED,
-                       EntangleCameraPicker *picker)
+void
+do_picker_connect(GtkButton *src G_GNUC_UNUSED, EntangleCameraPicker *picker)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
 
@@ -445,15 +438,15 @@ void do_picker_connect(GtkButton *src G_GNUC_UNUSED,
         memset(&val, 0, sizeof val);
         g_value_init(&val, G_TYPE_OBJECT);
         g_value_set_object(&val, cam);
-        //g_signal_emit_by_name(picker, "picker-connect", &val);
+        // g_signal_emit_by_name(picker, "picker-connect", &val);
         g_signal_emit_by_name(picker, "picker-connect", cam);
         g_value_unset(&val);
         g_object_unref(cam);
     }
 }
 
-
-static void do_camera_select(GtkTreeSelection *sel, EntangleCameraPicker *picker)
+static void
+do_camera_select(GtkTreeSelection *sel, EntangleCameraPicker *picker)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
 
@@ -472,8 +465,8 @@ static void do_camera_select(GtkTreeSelection *sel, EntangleCameraPicker *picker
     gtk_widget_set_sensitive(GTK_WIDGET(picker->pickerConnect), selected);
 }
 
-
-void do_ip_address_changed(GtkEntry *entry, EntangleCameraPicker *picker)
+void
+do_ip_address_changed(GtkEntry *entry, EntangleCameraPicker *picker)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
 
@@ -489,11 +482,12 @@ void do_ip_address_changed(GtkEntry *entry, EntangleCameraPicker *picker)
     if (!g_str_equal(addr, "") && selected)
         gtk_tree_selection_unselect_all(sel);
 
-    gtk_widget_set_sensitive(GTK_WIDGET(picker->pickerConnect), g_hostname_is_ip_address(addr));
+    gtk_widget_set_sensitive(GTK_WIDGET(picker->pickerConnect),
+                             g_hostname_is_ip_address(addr));
 }
 
-
-static void entangle_camera_picker_init(EntangleCameraPicker *picker)
+static void
+entangle_camera_picker_init(EntangleCameraPicker *picker)
 {
     GtkCellRenderer *model;
     GtkCellRenderer *port;
@@ -517,9 +511,11 @@ static void entangle_camera_picker_init(EntangleCameraPicker *picker)
     port = gtk_cell_renderer_text_new();
     capture = gtk_cell_renderer_text_new();
 
-    modelCol = gtk_tree_view_column_new_with_attributes(_("Model"), model, NULL);
+    modelCol =
+        gtk_tree_view_column_new_with_attributes(_("Model"), model, NULL);
     portCol = gtk_tree_view_column_new_with_attributes(_("Port"), port, NULL);
-    captureCol = gtk_tree_view_column_new_with_attributes(_("Capture"), capture, NULL);
+    captureCol =
+        gtk_tree_view_column_new_with_attributes(_("Capture"), capture, NULL);
 
     g_object_set(modelCol, "expand", TRUE, NULL);
     g_object_set(portCol, "expand", FALSE, NULL);
@@ -529,9 +525,13 @@ static void entangle_camera_picker_init(EntangleCameraPicker *picker)
     gtk_tree_view_append_column(picker->cameraList, portCol);
     gtk_tree_view_append_column(picker->cameraList, captureCol);
 
-    gtk_tree_view_column_set_cell_data_func(modelCol, model, entangle_camera_cell_data_model_func, NULL, NULL);
-    gtk_tree_view_column_set_cell_data_func(portCol, port, entangle_camera_cell_data_port_func, NULL, NULL);
-    gtk_tree_view_column_set_cell_data_func(captureCol, capture, entangle_camera_cell_data_capture_func, NULL, NULL);
+    gtk_tree_view_column_set_cell_data_func(
+        modelCol, model, entangle_camera_cell_data_model_func, NULL, NULL);
+    gtk_tree_view_column_set_cell_data_func(
+        portCol, port, entangle_camera_cell_data_port_func, NULL, NULL);
+    gtk_tree_view_column_set_cell_data_func(
+        captureCol, capture, entangle_camera_cell_data_capture_func, NULL,
+        NULL);
 
     gtk_tree_view_set_model(picker->cameraList, GTK_TREE_MODEL(picker->model));
 
@@ -544,9 +544,9 @@ static void entangle_camera_picker_init(EntangleCameraPicker *picker)
     do_model_sensitivity_update(picker);
 }
 
-
-void entangle_camera_picker_set_camera_list(EntangleCameraPicker *picker,
-                                            EntangleCameraList *cameras)
+void
+entangle_camera_picker_set_camera_list(EntangleCameraPicker *picker,
+                                       EntangleCameraList *cameras)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_PICKER(picker));
 
@@ -556,10 +556,12 @@ void entangle_camera_picker_set_camera_list(EntangleCameraPicker *picker,
         g_object_unref(picker->cameras);
     }
     picker->cameras = g_object_ref(cameras);
-    picker->addSignal = g_signal_connect(picker->cameras, "camera-added",
-                                       G_CALLBACK(do_camera_list_add), picker);
-    picker->removeSignal = g_signal_connect(picker->cameras, "camera-removed",
-                                          G_CALLBACK(do_camera_list_remove), picker);
+    picker->addSignal =
+        g_signal_connect(picker->cameras, "camera-added",
+                         G_CALLBACK(do_camera_list_add), picker);
+    picker->removeSignal =
+        g_signal_connect(picker->cameras, "camera-removed",
+                         G_CALLBACK(do_camera_list_remove), picker);
     do_model_refresh(picker);
 }
 

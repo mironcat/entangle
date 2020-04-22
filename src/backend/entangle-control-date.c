@@ -20,67 +20,73 @@
 
 #include <stdio.h>
 
-#include "entangle-debug.h"
 #include "entangle-control-date.h"
 
-struct _EntangleControlDate {
+#include "entangle-debug.h"
+
+struct _EntangleControlDate
+{
     EntangleControl parent;
     int value;
 };
 
-G_DEFINE_TYPE(EntangleControlDate, entangle_control_date, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlDate,
+              entangle_control_date,
+              ENTANGLE_TYPE_CONTROL);
 
-enum {
+enum
+{
     PROP_0,
     PROP_VALUE,
 };
 
-static void entangle_control_get_property(GObject *object,
-                                          guint prop_id,
-                                          GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_control_get_property(GObject *object,
+                              guint prop_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleControlDate *control = ENTANGLE_CONTROL_DATE(object);
 
-    switch (prop_id)
-        {
-        case PROP_VALUE:
-            g_value_set_int(value, control->value);
-            break;
+    switch (prop_id) {
+    case PROP_VALUE:
+        g_value_set_int(value, control->value);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_control_set_property(GObject *object,
-                                          guint prop_id,
-                                          const GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_control_set_property(GObject *object,
+                              guint prop_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleControlDate *control = ENTANGLE_CONTROL_DATE(object);
 
-    switch (prop_id)
-        {
-        case PROP_VALUE:
-            if (g_value_get_int(value) != control->value) {
-                control->value = g_value_get_int(value);
-                entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
-            }
-            break;
-
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    switch (prop_id) {
+    case PROP_VALUE:
+        if (g_value_get_int(value) != control->value) {
+            control->value = g_value_get_int(value);
+            entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
         }
+        break;
+
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_control_date_finalize(GObject *object)
+static void
+entangle_control_date_finalize(GObject *object)
 {
     G_OBJECT_CLASS(entangle_control_date_parent_class)->finalize(object);
 }
 
-static void entangle_control_date_class_init(EntangleControlDateClass *klass)
+static void
+entangle_control_date_class_init(EntangleControlDateClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -88,44 +94,32 @@ static void entangle_control_date_class_init(EntangleControlDateClass *klass)
     object_class->get_property = entangle_control_get_property;
     object_class->set_property = entangle_control_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_VALUE,
-                                    g_param_spec_int("value",
-                                                     "Control value",
-                                                     "Current value of the control",
-                                                     G_MININT,
-                                                     G_MAXINT,
-                                                     0,
-                                                     G_PARAM_READWRITE |
-                                                     G_PARAM_STATIC_NAME |
-                                                     G_PARAM_STATIC_NICK |
-                                                     G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_VALUE,
+        g_param_spec_int("value", "Control value",
+                         "Current value of the control", G_MININT, G_MAXINT, 0,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                             G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-EntangleControlDate *entangle_control_date_new(const char *path,
-                                               int id,
-                                               const char *label,
-                                               const char *info,
-                                               gboolean readonly)
+EntangleControlDate *
+entangle_control_date_new(const char *path,
+                          int id,
+                          const char *label,
+                          const char *info,
+                          gboolean readonly)
 {
     g_return_val_if_fail(path != NULL, NULL);
     g_return_val_if_fail(label != NULL, NULL);
 
-    return ENTANGLE_CONTROL_DATE(g_object_new(ENTANGLE_TYPE_CONTROL_DATE,
-                                              "path", path,
-                                              "id", id,
-                                              "label", label,
-                                              "info", info,
-                                              "readonly", readonly,
-                                              NULL));
+    return ENTANGLE_CONTROL_DATE(
+        g_object_new(ENTANGLE_TYPE_CONTROL_DATE, "path", path, "id", id,
+                     "label", label, "info", info, "readonly", readonly, NULL));
 }
 
-
-static void entangle_control_date_init(EntangleControlDate *control G_GNUC_UNUSED)
-{
-}
-
+static void
+entangle_control_date_init(EntangleControlDate *control G_GNUC_UNUSED)
+{}
 
 /*
  * Local variables:

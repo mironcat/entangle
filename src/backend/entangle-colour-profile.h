@@ -21,47 +21,65 @@
 #ifndef __ENTANGLE_COLOUR_PROFILE_H__
 #define __ENTANGLE_COLOUR_PROFILE_H__
 
-#include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <glib-object.h>
 
 #include "entangle-colour-profile-enums.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_COLOUR_PROFILE            (entangle_colour_profile_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleColourProfile, entangle_colour_profile, ENTANGLE, COLOUR_PROFILE, GObject)
+#define ENTANGLE_TYPE_COLOUR_PROFILE (entangle_colour_profile_get_type())
+G_DECLARE_FINAL_TYPE(EntangleColourProfile,
+                     entangle_colour_profile,
+                     ENTANGLE,
+                     COLOUR_PROFILE,
+                     GObject)
 
-#define ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM            (entangle_colour_profile_transform_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleColourProfileTransform, entangle_colour_profile_transform, ENTANGLE, COLOUR_PROFILE_TRANSFORM, GObject)
+#define ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM                                 \
+    (entangle_colour_profile_transform_get_type())
+G_DECLARE_FINAL_TYPE(EntangleColourProfileTransform,
+                     entangle_colour_profile_transform,
+                     ENTANGLE,
+                     COLOUR_PROFILE_TRANSFORM,
+                     GObject)
 
-typedef enum {
+typedef enum
+{
     ENTANGLE_COLOUR_PROFILE_INTENT_PERCEPTUAL,
     ENTANGLE_COLOUR_PROFILE_INTENT_REL_COLOURIMETRIC,
     ENTANGLE_COLOUR_PROFILE_INTENT_SATURATION,
     ENTANGLE_COLOUR_PROFILE_INTENT_ABS_COLOURIMETRIC,
 } EntangleColourProfileIntent;
 
-EntangleColourProfile *entangle_colour_profile_new_file(const char *filename);
-EntangleColourProfile *entangle_colour_profile_new_data(GByteArray *data);
+EntangleColourProfile *
+entangle_colour_profile_new_file(const char *filename);
+EntangleColourProfile *
+entangle_colour_profile_new_data(GByteArray *data);
 
-const char *entangle_colour_profile_filename(EntangleColourProfile *profile);
+const char *
+entangle_colour_profile_filename(EntangleColourProfile *profile);
 
-char *entangle_colour_profile_description(EntangleColourProfile *profile);
-char *entangle_colour_profile_manufacturer(EntangleColourProfile *profile);
-char *entangle_colour_profile_model(EntangleColourProfile *profile);
-char *entangle_colour_profile_copyright(EntangleColourProfile *profile);
+char *
+entangle_colour_profile_description(EntangleColourProfile *profile);
+char *
+entangle_colour_profile_manufacturer(EntangleColourProfile *profile);
+char *
+entangle_colour_profile_model(EntangleColourProfile *profile);
+char *
+entangle_colour_profile_copyright(EntangleColourProfile *profile);
 
-EntangleColourProfileTransform *entangle_colour_profile_transform_new(EntangleColourProfile *src,
-                                                                      EntangleColourProfile *dst,
-                                                                      EntangleColourProfileIntent intent);
+EntangleColourProfileTransform *
+entangle_colour_profile_transform_new(EntangleColourProfile *src,
+                                      EntangleColourProfile *dst,
+                                      EntangleColourProfileIntent intent);
 
-GdkPixbuf *entangle_colour_profile_transform_apply(EntangleColourProfileTransform *trans,
-                                                   GdkPixbuf *srcpixbuf);
+GdkPixbuf *
+entangle_colour_profile_transform_apply(EntangleColourProfileTransform *trans,
+                                        GdkPixbuf *srcpixbuf);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_COLOUR_PROFILE_H__ */
-
 
 /*
  * Local variables:

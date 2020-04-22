@@ -21,22 +21,31 @@
 #ifndef __ENTANGLE_IMAGE_LOADER_H__
 #define __ENTANGLE_IMAGE_LOADER_H__
 
-#include "entangle-pixbuf-loader.h"
 #include "entangle-image.h"
+#include "entangle-pixbuf-loader.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_IMAGE_LOADER            (entangle_image_loader_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleImageLoader, entangle_image_loader, ENTANGLE, IMAGE_LOADER, EntanglePixbufLoader)
+#define ENTANGLE_TYPE_IMAGE_LOADER (entangle_image_loader_get_type())
+G_DECLARE_FINAL_TYPE(EntangleImageLoader,
+                     entangle_image_loader,
+                     ENTANGLE,
+                     IMAGE_LOADER,
+                     EntanglePixbufLoader)
 
-EntangleImageLoader *entangle_image_loader_new(void);
+EntangleImageLoader *
+entangle_image_loader_new(void);
 
-void entangle_image_loader_add(EntangleImageLoader *loader, EntangleImage *image);
-void entangle_image_loader_remove(EntangleImageLoader *loader, EntangleImage *image);
+void
+entangle_image_loader_add(EntangleImageLoader *loader, EntangleImage *image);
+void
+entangle_image_loader_remove(EntangleImageLoader *loader, EntangleImage *image);
 
-gboolean entangle_image_loader_get_embedded_preview(EntangleImageLoader *loader);
-void entangle_image_loader_set_embedded_preview(EntangleImageLoader *loader, gboolean enable);
-
+gboolean
+entangle_image_loader_get_embedded_preview(EntangleImageLoader *loader);
+void
+entangle_image_loader_set_embedded_preview(EntangleImageLoader *loader,
+                                           gboolean enable);
 
 G_END_DECLS
 

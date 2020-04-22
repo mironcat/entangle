@@ -18,8 +18,8 @@
  *
  */
 
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
 #define G_UDEV_API_IS_SUBJECT_TO_CHANGE
 #ifdef G_UDEV_API_IS_SUBJECT_TO_CHANGE
@@ -29,15 +29,16 @@
 #include "entangle-debug.h"
 #include "entangle-device-manager.h"
 
-struct _EntangleDeviceManager {
+struct _EntangleDeviceManager
+{
     GObject parent;
     GUdevClient *ctx;
 };
 
 G_DEFINE_TYPE(EntangleDeviceManager, entangle_device_manager, G_TYPE_OBJECT);
 
-
-static void entangle_device_manager_finalize(GObject *object)
+static void
+entangle_device_manager_finalize(GObject *object)
 {
     EntangleDeviceManager *manager = ENTANGLE_DEVICE_MANAGER(object);
 
@@ -49,39 +50,27 @@ static void entangle_device_manager_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_device_manager_parent_class)->finalize(object);
 }
 
-
-static void entangle_device_manager_class_init(EntangleDeviceManagerClass *klass)
+static void
+entangle_device_manager_class_init(EntangleDeviceManagerClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
     object_class->finalize = entangle_device_manager_finalize;
 
-    g_signal_new("device-added",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__STRING,
-                 G_TYPE_NONE,
-                 1,
-                 G_TYPE_STRING,
-                 G_TYPE_STRING);
+    g_signal_new("device-added", G_TYPE_FROM_CLASS(klass), G_SIGNAL_RUN_FIRST,
+                 0, NULL, NULL, g_cclosure_marshal_VOID__STRING, G_TYPE_NONE, 1,
+                 G_TYPE_STRING, G_TYPE_STRING);
 
-    g_signal_new("device-removed",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__STRING,
-                 G_TYPE_NONE,
-                 1,
-                 G_TYPE_STRING,
-                 G_TYPE_STRING);
+    g_signal_new("device-removed", G_TYPE_FROM_CLASS(klass), G_SIGNAL_RUN_FIRST,
+                 0, NULL, NULL, g_cclosure_marshal_VOID__STRING, G_TYPE_NONE, 1,
+                 G_TYPE_STRING, G_TYPE_STRING);
 }
 
-
-static void do_udev_event(GUdevClient *client G_GNUC_UNUSED,
-                          const char *action,
-                          GUdevDevice *dev,
-                          gpointer opaque)
+static void
+do_udev_event(GUdevClient *client G_GNUC_UNUSED,
+              const char *action,
+              GUdevDevice *dev,
+              gpointer opaque)
 {
     EntangleDeviceManager *manager = opaque;
     const gchar *sysfs;
@@ -90,13 +79,11 @@ static void do_udev_event(GUdevClient *client G_GNUC_UNUSED,
     const gchar *serial;
     gchar *port;
 
-    if (strcmp(action, "add") != 0 &&
-        strcmp(action, "remove") != 0)
+    if (strcmp(action, "add") != 0 && strcmp(action, "remove") != 0)
         return;
 
     devtype = g_udev_device_get_devtype(dev);
-    if ((devtype == NULL) ||
-        strcmp(devtype, "usb_device") != 0)
+    if ((devtype == NULL) || strcmp(devtype, "usb_device") != 0)
         return;
 
     sysfs = g_udev_device_get_sysfs_path(dev);
@@ -105,9 +92,7 @@ static void do_udev_event(GUdevClient *client G_GNUC_UNUSED,
     usbdev = g_udev_device_get_property(dev, "DEVNUM");
     serial = g_udev_device_get_property(dev, "ID_SERIAL");
 
-    if (sysfs == NULL ||
-        usbbus == NULL ||
-        usbdev == NULL)
+    if (sysfs == NULL || usbbus == NULL || usbdev == NULL)
         return;
 
     port = g_strdup_printf("usb:%s,%s", usbbus, usbdev);
@@ -122,25 +107,28 @@ static void do_udev_event(GUdevClient *client G_GNUC_UNUSED,
     g_free(port);
 }
 
-
-EntangleDeviceManager *entangle_device_manager_new(void)
+EntangleDeviceManager *
+entangle_device_manager_new(void)
 {
-    return ENTANGLE_DEVICE_MANAGER(g_object_new(ENTANGLE_TYPE_DEVICE_MANAGER, NULL));
+    return ENTANGLE_DEVICE_MANAGER(
+        g_object_new(ENTANGLE_TYPE_DEVICE_MANAGER, NULL));
 }
 
-
-static void entangle_device_manager_init_devices(EntangleDeviceManager *manager)
+static void
+entangle_device_manager_init_devices(EntangleDeviceManager *manager)
 {
     GList *devs, *tmp;
     const gchar *const subsys[] = {
-        "usb/usb_device", NULL,
+        "usb/usb_device",
+        NULL,
     };
 
     ENTANGLE_DEBUG("Init udev");
 
     manager->ctx = g_udev_client_new(subsys);
 
-    g_signal_connect(manager->ctx, "uevent", G_CALLBACK(do_udev_event), manager);
+    g_signal_connect(manager->ctx, "uevent", G_CALLBACK(do_udev_event),
+                     manager);
 
     devs = g_udev_client_query_by_subsystem(manager->ctx, "usb");
 
@@ -157,15 +145,15 @@ static void entangle_device_manager_init_devices(EntangleDeviceManager *manager)
     g_list_free(devs);
 }
 
-
-static void entangle_device_manager_init(EntangleDeviceManager *manager)
+static void
+entangle_device_manager_init(EntangleDeviceManager *manager)
 {
     entangle_device_manager_init_devices(manager);
 }
 
-
-char *entangle_device_manager_serial_id(EntangleDeviceManager *manager,
-                                        const char *devpath)
+char *
+entangle_device_manager_serial_id(EntangleDeviceManager *manager,
+                                  const char *devpath)
 {
     GUdevDevice *dev;
     char *ret;

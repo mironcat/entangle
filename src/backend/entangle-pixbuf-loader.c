@@ -21,10 +21,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "entangle-debug.h"
 #include "entangle-pixbuf-loader.h"
 
-typedef struct _EntanglePixbufLoaderEntry {
+#include "entangle-debug.h"
+
+typedef struct _EntanglePixbufLoaderEntry
+{
     int refs;
     EntangleImage *image;
     gboolean pending;
@@ -34,7 +36,8 @@ typedef struct _EntanglePixbufLoaderEntry {
     GExiv2Metadata *metadata;
 } EntanglePixbufLoaderEntry;
 
-typedef struct _EntanglePixbufrLoaderResult {
+typedef struct _EntanglePixbufrLoaderResult
+{
     EntanglePixbufLoader *loader;
     EntangleImage *image;
     GdkPixbuf *pixbuf;
@@ -42,7 +45,8 @@ typedef struct _EntanglePixbufrLoaderResult {
 } EntanglePixbufLoaderResult;
 
 typedef struct _EntanglePixbufLoaderPrivate EntanglePixbufLoaderPrivate;
-struct _EntanglePixbufLoaderPrivate {
+struct _EntanglePixbufLoaderPrivate
+{
     GThreadPool *workers;
     EntangleColourProfileTransform *colourTransform;
 
@@ -52,23 +56,27 @@ struct _EntanglePixbufLoaderPrivate {
     gboolean withMetadata;
 };
 
-G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(EntanglePixbufLoader, entangle_pixbuf_loader, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(EntanglePixbufLoader,
+                                    entangle_pixbuf_loader,
+                                    G_TYPE_OBJECT);
 
-enum {
+enum
+{
     PROP_0,
     PROP_WORKERS,
     PROP_COLOUR_TRANSFORM,
     PROP_WITH_METADATA,
 };
 
-
-struct idle_emit_data {
+struct idle_emit_data
+{
     EntangleImage *image;
     EntanglePixbufLoader *loader;
     const char *name;
 };
 
-static gboolean do_idle_emit_func(gpointer opaque)
+static gboolean
+do_idle_emit_func(gpointer opaque)
 {
     struct idle_emit_data *data = opaque;
 
@@ -80,9 +88,10 @@ static gboolean do_idle_emit_func(gpointer opaque)
     return FALSE;
 }
 
-static void do_idle_emit(EntanglePixbufLoader *loader,
-                         const char *name,
-                         EntangleImage *image)
+static void
+do_idle_emit(EntanglePixbufLoader *loader,
+             const char *name,
+             EntangleImage *image)
 {
     struct idle_emit_data *data = g_new0(struct idle_emit_data, 1);
     data->loader = g_object_ref(loader);
@@ -91,64 +100,65 @@ static void do_idle_emit(EntanglePixbufLoader *loader,
     g_idle_add(do_idle_emit_func, data);
 }
 
-
-static void entangle_pixbuf_loader_get_property(GObject *object,
-                                                guint prop_id,
-                                                GValue *value,
-                                                GParamSpec *pspec)
+static void
+entangle_pixbuf_loader_get_property(GObject *object,
+                                    guint prop_id,
+                                    GValue *value,
+                                    GParamSpec *pspec)
 {
     EntanglePixbufLoader *loader = ENTANGLE_PIXBUF_LOADER(object);
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
 
-    switch (prop_id)
-        {
-        case PROP_WORKERS:
-            g_value_set_int(value, entangle_pixbuf_loader_get_workers(loader));
-            break;
+    switch (prop_id) {
+    case PROP_WORKERS:
+        g_value_set_int(value, entangle_pixbuf_loader_get_workers(loader));
+        break;
 
-        case PROP_COLOUR_TRANSFORM:
-            g_value_set_object(value, priv->colourTransform);
-            break;
+    case PROP_COLOUR_TRANSFORM:
+        g_value_set_object(value, priv->colourTransform);
+        break;
 
-        case PROP_WITH_METADATA:
-            g_value_set_boolean(value, priv->withMetadata);
-            break;
+    case PROP_WITH_METADATA:
+        g_value_set_boolean(value, priv->withMetadata);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_pixbuf_loader_set_property(GObject *object,
-                                                guint prop_id,
-                                                const GValue *value,
-                                                GParamSpec *pspec)
+static void
+entangle_pixbuf_loader_set_property(GObject *object,
+                                    guint prop_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec)
 {
     EntanglePixbufLoader *loader = ENTANGLE_PIXBUF_LOADER(object);
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
 
-    switch (prop_id)
-        {
-        case PROP_WORKERS:
-            entangle_pixbuf_loader_set_workers(loader, g_value_get_int(value));
-            break;
+    switch (prop_id) {
+    case PROP_WORKERS:
+        entangle_pixbuf_loader_set_workers(loader, g_value_get_int(value));
+        break;
 
-        case PROP_COLOUR_TRANSFORM:
-            entangle_pixbuf_loader_set_colour_transform(loader, g_value_get_object(value));
-            break;
+    case PROP_COLOUR_TRANSFORM:
+        entangle_pixbuf_loader_set_colour_transform(loader,
+                                                    g_value_get_object(value));
+        break;
 
-        case PROP_WITH_METADATA:
-            priv->withMetadata = g_value_get_boolean(value);
-            break;
+    case PROP_WITH_METADATA:
+        priv->withMetadata = g_value_get_boolean(value);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_pixbuf_loader_entry_free(gpointer opaque)
+static void
+entangle_pixbuf_loader_entry_free(gpointer opaque)
 {
     EntanglePixbufLoaderEntry *entry = opaque;
 
@@ -162,8 +172,8 @@ static void entangle_pixbuf_loader_entry_free(gpointer opaque)
     g_free(entry);
 }
 
-
-static EntanglePixbufLoaderEntry *entangle_pixbuf_loader_entry_new(EntangleImage *image)
+static EntanglePixbufLoaderEntry *
+entangle_pixbuf_loader_entry_new(EntangleImage *image)
 {
     EntanglePixbufLoaderEntry *entry;
 
@@ -178,7 +188,6 @@ static EntanglePixbufLoaderEntry *entangle_pixbuf_loader_entry_new(EntangleImage
     return entry;
 }
 
-
 /**
  * entangle_pixbuf_loader_trigger_reload:
  * @loader: the image loader
@@ -186,9 +195,11 @@ static EntanglePixbufLoaderEntry *entangle_pixbuf_loader_entry_new(EntangleImage
  * Request a mass reload of the data associated with all
  * images
  */
-void entangle_pixbuf_loader_trigger_reload(EntanglePixbufLoader *loader)
+void
+entangle_pixbuf_loader_trigger_reload(EntanglePixbufLoader *loader)
 {
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
     GHashTableIter iter;
     gpointer key, value;
 
@@ -198,25 +209,27 @@ void entangle_pixbuf_loader_trigger_reload(EntanglePixbufLoader *loader)
     g_hash_table_iter_init(&iter, priv->pixbufs);
     while (g_hash_table_iter_next(&iter, &key, &value)) {
         EntanglePixbufLoaderEntry *entry = value;
-        if (entry->refs &&
-            !entry->processing)
+        if (entry->refs && !entry->processing)
             g_thread_pool_push(priv->workers, entry->image, NULL);
     }
     g_mutex_unlock(&priv->lock);
 }
 
-
-static gboolean entangle_pixbuf_loader_result(gpointer data)
+static gboolean
+entangle_pixbuf_loader_result(gpointer data)
 {
     EntanglePixbufLoaderResult *result = data;
     EntanglePixbufLoader *loader = result->loader;
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
     EntanglePixbufLoaderEntry *entry;
 
     ENTANGLE_DEBUG("result %p %p %p", loader, result->image, result->pixbuf);
 
     g_mutex_lock(&priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(result->image)));
+    entry = g_hash_table_lookup(
+        priv->pixbufs,
+        entangle_media_get_filename(ENTANGLE_MEDIA(result->image)));
     if (!entry) {
         g_mutex_unlock(&priv->lock);
         if (result->pixbuf)
@@ -238,13 +251,15 @@ static gboolean entangle_pixbuf_loader_result(gpointer data)
 
     if (entry->refs) {
         g_mutex_unlock(&priv->lock);
-        ENTANGLE_DEBUG("Emit loaded %p %p %p", result->image, result->pixbuf, result->metadata);
+        ENTANGLE_DEBUG("Emit loaded %p %p %p", result->image, result->pixbuf,
+                       result->metadata);
         do_idle_emit(loader, "pixbuf-loaded", result->image);
         if (result->metadata)
             do_idle_emit(loader, "metadata-loaded", result->image);
         g_mutex_lock(&priv->lock);
     } else if (!entry->pending) {
-        g_hash_table_remove(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(result->image)));
+        g_hash_table_remove(priv->pixbufs, entangle_media_get_filename(
+                                               ENTANGLE_MEDIA(result->image)));
     }
 
     g_object_unref(result->loader);
@@ -255,19 +270,21 @@ static gboolean entangle_pixbuf_loader_result(gpointer data)
     return FALSE;
 }
 
-
-static GdkPixbuf *entangle_pixbuf_load(EntanglePixbufLoader *loader, EntangleImage *image,
-                                       GExiv2Metadata **metadata)
+static GdkPixbuf *
+entangle_pixbuf_load(EntanglePixbufLoader *loader,
+                     EntangleImage *image,
+                     GExiv2Metadata **metadata)
 {
-    return ENTANGLE_PIXBUF_LOADER_GET_CLASS(loader)->pixbuf_load(loader, image, metadata);
+    return ENTANGLE_PIXBUF_LOADER_GET_CLASS(loader)->pixbuf_load(loader, image,
+                                                                 metadata);
 }
 
-
-static void entangle_pixbuf_loader_worker(gpointer data,
-                                          gpointer opaque)
+static void
+entangle_pixbuf_loader_worker(gpointer data, gpointer opaque)
 {
     EntanglePixbufLoader *loader = opaque;
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
     EntangleImage *image = data;
     EntanglePixbufLoaderResult *result = g_new0(EntanglePixbufLoaderResult, 1);
     EntangleColourProfileTransform *transform;
@@ -276,12 +293,14 @@ static void entangle_pixbuf_loader_worker(gpointer data,
 
     ENTANGLE_DEBUG("worker process job %p %p", loader, image);
     g_mutex_lock(&priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    entry = g_hash_table_lookup(
+        priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     if (entry->refs == 0) {
         ENTANGLE_DEBUG("pixbuf already removed");
-        g_hash_table_remove(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+        g_hash_table_remove(priv->pixbufs,
+                            entangle_media_get_filename(ENTANGLE_MEDIA(image)));
         goto cleanup;
     }
     entry->pending = FALSE;
@@ -292,13 +311,12 @@ static void entangle_pixbuf_loader_worker(gpointer data,
         g_object_ref(transform);
     g_mutex_unlock(&priv->lock);
 
-    pixbuf = entangle_pixbuf_load(loader, image,
-                                  priv->withMetadata ?
-                                  &result->metadata : NULL);
+    pixbuf = entangle_pixbuf_load(
+        loader, image, priv->withMetadata ? &result->metadata : NULL);
     if (pixbuf) {
         if (transform) {
-            result->pixbuf = entangle_colour_profile_transform_apply(transform,
-                                                                     pixbuf);
+            result->pixbuf =
+                entangle_colour_profile_transform_apply(transform, pixbuf);
             g_object_unref(pixbuf);
         } else {
             result->pixbuf = pixbuf;
@@ -316,15 +334,16 @@ static void entangle_pixbuf_loader_worker(gpointer data,
     if (transform)
         g_object_unref(transform);
 
- cleanup:
+cleanup:
     g_mutex_unlock(&priv->lock);
 }
 
-
-static void entangle_pixbuf_loader_finalize(GObject *object)
+static void
+entangle_pixbuf_loader_finalize(GObject *object)
 {
     EntanglePixbufLoader *loader = ENTANGLE_PIXBUF_LOADER(object);
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
 
     ENTANGLE_DEBUG("Finalize pixbuf loader %p", object);
     g_thread_pool_free(priv->workers, TRUE, TRUE);
@@ -338,8 +357,8 @@ static void entangle_pixbuf_loader_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_pixbuf_loader_parent_class)->finalize(object);
 }
 
-
-static void entangle_pixbuf_loader_class_init(EntanglePixbufLoaderClass *klass)
+static void
+entangle_pixbuf_loader_class_init(EntanglePixbufLoaderClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -347,90 +366,56 @@ static void entangle_pixbuf_loader_class_init(EntanglePixbufLoaderClass *klass)
     object_class->get_property = entangle_pixbuf_loader_get_property;
     object_class->set_property = entangle_pixbuf_loader_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_WORKERS,
-                                    g_param_spec_int("workers",
-                                                     "Workers",
-                                                     "Number of worker threads to load pixbufs",
-                                                     1, 64, 1,
-                                                     G_PARAM_READWRITE |
-                                                     G_PARAM_CONSTRUCT_ONLY |
-                                                     G_PARAM_STATIC_NAME |
-                                                     G_PARAM_STATIC_NICK |
-                                                     G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_COLOUR_TRANSFORM,
-                                    g_param_spec_object("colour-transform",
-                                                        "Colour transform",
-                                                        "Colour profile transformation",
-                                                        ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_WITH_METADATA,
-                                    g_param_spec_boolean("with-metadata",
-                                                         "With metadata",
-                                                         "Load image metadata",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_CONSTRUCT_ONLY |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_WORKERS,
+        g_param_spec_int("workers", "Workers",
+                         "Number of worker threads to load pixbufs", 1, 64, 1,
+                         G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                             G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                             G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_COLOUR_TRANSFORM,
+        g_param_spec_object("colour-transform", "Colour transform",
+                            "Colour profile transformation",
+                            ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_WITH_METADATA,
+        g_param_spec_boolean(
+            "with-metadata", "With metadata", "Load image metadata", FALSE,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_signal_new("pixbuf-loaded",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("pixbuf-loaded", G_TYPE_FROM_CLASS(klass), G_SIGNAL_RUN_FIRST,
+                 0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_IMAGE);
-    g_signal_new("metadata-loaded",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("metadata-loaded", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_IMAGE);
-    g_signal_new("pixbuf-unloaded",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("pixbuf-unloaded", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_IMAGE);
-    g_signal_new("metadata-unloaded",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("metadata-unloaded", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_IMAGE);
 }
 
-
-static void entangle_pixbuf_loader_init(EntanglePixbufLoader *loader)
+static void
+entangle_pixbuf_loader_init(EntanglePixbufLoader *loader)
 {
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
 
     g_mutex_init(&priv->lock);
-    priv->pixbufs = g_hash_table_new_full(g_str_hash,
-                                          g_str_equal,
-                                          g_free,
+    priv->pixbufs = g_hash_table_new_full(g_str_hash, g_str_equal, g_free,
                                           entangle_pixbuf_loader_entry_free);
-    priv->workers = g_thread_pool_new(entangle_pixbuf_loader_worker,
-                                      loader,
-                                      1,
-                                      TRUE,
-                                      NULL);
+    priv->workers =
+        g_thread_pool_new(entangle_pixbuf_loader_worker, loader, 1, TRUE, NULL);
 }
-
 
 /**
  * entangle_pixbuf_loader_is_ready:
@@ -445,27 +430,29 @@ static void entangle_pixbuf_loader_init(EntanglePixbufLoader *loader)
  *
  * Returns: a true value if the image is currently loaded
  */
-gboolean entangle_pixbuf_loader_is_ready(EntanglePixbufLoader *loader,
-                                         EntangleImage *image)
+gboolean
+entangle_pixbuf_loader_is_ready(EntanglePixbufLoader *loader,
+                                EntangleImage *image)
 {
     g_return_val_if_fail(ENTANGLE_IS_PIXBUF_LOADER(loader), FALSE);
     g_return_val_if_fail(ENTANGLE_IS_IMAGE(image), FALSE);
 
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
     EntanglePixbufLoaderEntry *entry;
     gboolean ready = FALSE;
 
     g_mutex_lock(&priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    entry = g_hash_table_lookup(
+        priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     ready = entry->ready;
 
- cleanup:
+cleanup:
     g_mutex_unlock(&priv->lock);
     return ready;
 }
-
 
 /**
  * entangle_pixbuf_loader_get_pixbuf:
@@ -478,27 +465,29 @@ gboolean entangle_pixbuf_loader_is_ready(EntanglePixbufLoader *loader,
  *
  * Returns: (allow-none)(transfer none): the pixbuf
  */
-GdkPixbuf *entangle_pixbuf_loader_get_pixbuf(EntanglePixbufLoader *loader,
-                                             EntangleImage *image)
+GdkPixbuf *
+entangle_pixbuf_loader_get_pixbuf(EntanglePixbufLoader *loader,
+                                  EntangleImage *image)
 {
     g_return_val_if_fail(ENTANGLE_IS_PIXBUF_LOADER(loader), NULL);
     g_return_val_if_fail(ENTANGLE_IS_IMAGE(image), NULL);
 
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
     EntanglePixbufLoaderEntry *entry;
     GdkPixbuf *pixbuf = NULL;
 
     g_mutex_lock(&priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    entry = g_hash_table_lookup(
+        priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     pixbuf = entry->pixbuf;
 
- cleanup:
+cleanup:
     g_mutex_unlock(&priv->lock);
     return pixbuf;
 }
-
 
 /**
  * entangle_pixbuf_loader_get_metadata:
@@ -511,27 +500,29 @@ GdkPixbuf *entangle_pixbuf_loader_get_pixbuf(EntanglePixbufLoader *loader,
  *
  * Returns: (allow-none)(transfer none): the metadata
  */
-GExiv2Metadata *entangle_pixbuf_loader_get_metadata(EntanglePixbufLoader *loader,
-                                                    EntangleImage *image)
+GExiv2Metadata *
+entangle_pixbuf_loader_get_metadata(EntanglePixbufLoader *loader,
+                                    EntangleImage *image)
 {
     g_return_val_if_fail(ENTANGLE_IS_PIXBUF_LOADER(loader), NULL);
     g_return_val_if_fail(ENTANGLE_IS_IMAGE(image), NULL);
 
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
     EntanglePixbufLoaderEntry *entry;
     GExiv2Metadata *metadata = NULL;
 
     g_mutex_lock(&priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    entry = g_hash_table_lookup(
+        priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     metadata = entry->metadata;
 
- cleanup:
+cleanup:
     g_mutex_unlock(&priv->lock);
     return metadata;
 }
-
 
 /**
  * entangle_pixbuf_loader_load:
@@ -545,13 +536,14 @@ GExiv2Metadata *entangle_pixbuf_loader_get_metadata(EntanglePixbufLoader *loader
  *
  * Returns: a true value if the image was queued for loading
  */
-gboolean entangle_pixbuf_loader_load(EntanglePixbufLoader *loader,
-                                     EntangleImage *image)
+gboolean
+entangle_pixbuf_loader_load(EntanglePixbufLoader *loader, EntangleImage *image)
 {
     g_return_val_if_fail(ENTANGLE_IS_PIXBUF_LOADER(loader), FALSE);
     g_return_val_if_fail(ENTANGLE_IS_IMAGE(image), FALSE);
 
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
     EntanglePixbufLoaderEntry *entry;
 
     ENTANGLE_DEBUG("Queue load %p %p", loader, image);
@@ -560,7 +552,8 @@ gboolean entangle_pixbuf_loader_load(EntanglePixbufLoader *loader,
         return FALSE;
 
     g_mutex_lock(&priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    entry = g_hash_table_lookup(
+        priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (entry) {
         gboolean hasPixbuf = entry->pixbuf != NULL;
         gboolean hasMetadata = entry->metadata != NULL;
@@ -573,13 +566,14 @@ gboolean entangle_pixbuf_loader_load(EntanglePixbufLoader *loader,
         return TRUE;
     }
     entry = entangle_pixbuf_loader_entry_new(image);
-    g_hash_table_insert(priv->pixbufs, g_strdup(entangle_media_get_filename(ENTANGLE_MEDIA(image))), entry);
+    g_hash_table_insert(
+        priv->pixbufs,
+        g_strdup(entangle_media_get_filename(ENTANGLE_MEDIA(image))), entry);
     g_thread_pool_push(priv->workers, image, NULL);
 
     g_mutex_unlock(&priv->lock);
     return TRUE;
 }
-
 
 /**
  * entangle_pixbuf_loader_unload:
@@ -593,13 +587,15 @@ gboolean entangle_pixbuf_loader_load(EntanglePixbufLoader *loader,
  *
  * Returns: a true value if the image was unloaded
  */
-gboolean entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
-                                       EntangleImage *image)
+gboolean
+entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
+                              EntangleImage *image)
 {
     g_return_val_if_fail(ENTANGLE_IS_PIXBUF_LOADER(loader), FALSE);
     g_return_val_if_fail(ENTANGLE_IS_IMAGE(image), FALSE);
 
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
     EntanglePixbufLoaderEntry *entry;
 
     if (!entangle_media_get_filename(ENTANGLE_MEDIA(image)))
@@ -607,28 +603,27 @@ gboolean entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
 
     ENTANGLE_DEBUG("Unqueue load %p %p", loader, image);
     g_mutex_lock(&priv->lock);
-    entry = g_hash_table_lookup(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    entry = g_hash_table_lookup(
+        priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     if (!entry)
         goto cleanup;
     entry->refs--;
     ENTANGLE_DEBUG("Entry %d %d", entry->refs, entry->ready);
-    if (entry->refs == 0 &&
-        !entry->processing &&
-        !entry->pending) {
+    if (entry->refs == 0 && !entry->processing && !entry->pending) {
         gboolean hasPixbuf = entry->pixbuf != NULL;
         gboolean hasMetadata = entry->metadata != NULL;
         if (hasPixbuf)
             do_idle_emit(loader, "pixbuf-unloaded", image);
         if (hasMetadata)
             do_idle_emit(loader, "metadata-unloaded", image);
-        g_hash_table_remove(priv->pixbufs, entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+        g_hash_table_remove(priv->pixbufs,
+                            entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     }
 
- cleanup:
+cleanup:
     g_mutex_unlock(&priv->lock);
     return TRUE;
 }
-
 
 /**
  * entangle_pixbuf_loader_set_colour_transform:
@@ -639,12 +634,15 @@ gboolean entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
  * loading images. This will trigger a mass-reload of all
  * existing images to update their colour profile
  */
-void entangle_pixbuf_loader_set_colour_transform(EntanglePixbufLoader *loader,
-                                                 EntangleColourProfileTransform *transform)
+void
+entangle_pixbuf_loader_set_colour_transform(
+    EntanglePixbufLoader *loader,
+    EntangleColourProfileTransform *transform)
 {
     g_return_if_fail(ENTANGLE_IS_PIXBUF_LOADER(loader));
 
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
 
     g_mutex_lock(&priv->lock);
     if (priv->colourTransform)
@@ -657,7 +655,6 @@ void entangle_pixbuf_loader_set_colour_transform(EntanglePixbufLoader *loader,
     entangle_pixbuf_loader_trigger_reload(loader);
 }
 
-
 /**
  * entangle_pixbuf_loader_get_colour_transform:
  * @loader: the pixbuf loader
@@ -667,15 +664,16 @@ void entangle_pixbuf_loader_set_colour_transform(EntanglePixbufLoader *loader,
  *
  * Returns: (allow-none)(transfer none): the colour profile transform
  */
-EntangleColourProfileTransform *entangle_pixbuf_loader_get_colour_transform(EntanglePixbufLoader *loader)
+EntangleColourProfileTransform *
+entangle_pixbuf_loader_get_colour_transform(EntanglePixbufLoader *loader)
 {
     g_return_val_if_fail(ENTANGLE_IS_PIXBUF_LOADER(loader), NULL);
 
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
 
     return priv->colourTransform;
 }
-
 
 /**
  * entangle_pixbuf_loader_set_workers:
@@ -684,16 +682,16 @@ EntangleColourProfileTransform *entangle_pixbuf_loader_get_colour_transform(Enta
  *
  * Set the maximum number of worker threads for the pixbuf loader
  */
-void entangle_pixbuf_loader_set_workers(EntanglePixbufLoader *loader,
-                                        int count)
+void
+entangle_pixbuf_loader_set_workers(EntanglePixbufLoader *loader, int count)
 {
     g_return_if_fail(ENTANGLE_IS_PIXBUF_LOADER(loader));
 
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
 
     g_thread_pool_set_max_threads(priv->workers, count, NULL);
 }
-
 
 /**
  * entangle_pixbuf_loader_get_workers:
@@ -703,15 +701,16 @@ void entangle_pixbuf_loader_set_workers(EntanglePixbufLoader *loader,
  *
  * Returns: the maximum number of worker threads
  */
-int entangle_pixbuf_loader_get_workers(EntanglePixbufLoader *loader)
+int
+entangle_pixbuf_loader_get_workers(EntanglePixbufLoader *loader)
 {
     g_return_val_if_fail(ENTANGLE_IS_PIXBUF_LOADER(loader), 0);
 
-    EntanglePixbufLoaderPrivate *priv = entangle_pixbuf_loader_get_instance_private(loader);
+    EntanglePixbufLoaderPrivate *priv =
+        entangle_pixbuf_loader_get_instance_private(loader);
 
     return g_thread_pool_get_max_threads(priv->workers);
 }
-
 
 /*
  * Local variables:

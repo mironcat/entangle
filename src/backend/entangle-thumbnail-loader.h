@@ -22,15 +22,20 @@
 #define __ENTANGLE_THUMBNAIL_LOADER_H__
 
 #include <glib-object.h>
+
 #include "entangle-pixbuf-loader.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_THUMBNAIL_LOADER            (entangle_thumbnail_loader_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleThumbnailLoader, entangle_thumbnail_loader, ENTANGLE, THUMBNAIL_LOADER, EntanglePixbufLoader)
+#define ENTANGLE_TYPE_THUMBNAIL_LOADER (entangle_thumbnail_loader_get_type())
+G_DECLARE_FINAL_TYPE(EntangleThumbnailLoader,
+                     entangle_thumbnail_loader,
+                     ENTANGLE,
+                     THUMBNAIL_LOADER,
+                     EntanglePixbufLoader)
 
-EntangleThumbnailLoader *entangle_thumbnail_loader_new(int width,
-                                                       int height);
+EntangleThumbnailLoader *
+entangle_thumbnail_loader_new(int width, int height);
 
 G_END_DECLS
 

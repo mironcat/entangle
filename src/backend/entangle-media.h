@@ -21,32 +21,43 @@
 #ifndef __ENTANGLE_MEDIA_H__
 #define __ENTANGLE_MEDIA_H__
 
-#include <glib-object.h>
-#include <gexiv2/gexiv2.h>
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+
+#include <gexiv2/gexiv2.h>
+#include <glib-object.h>
 
 #include "entangle-control-group.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_MEDIA            (entangle_media_get_type ())
-G_DECLARE_DERIVABLE_TYPE(EntangleMedia, entangle_media, ENTANGLE, MEDIA, GObject)
+#define ENTANGLE_TYPE_MEDIA (entangle_media_get_type())
+G_DECLARE_DERIVABLE_TYPE(EntangleMedia,
+                         entangle_media,
+                         ENTANGLE,
+                         MEDIA,
+                         GObject)
 
-struct _EntangleMediaClass {
+struct _EntangleMediaClass
+{
     GObjectClass parent;
 };
 
-const char *entangle_media_get_filename(EntangleMedia *media);
+const char *
+entangle_media_get_filename(EntangleMedia *media);
 
-time_t entangle_media_get_last_modified(EntangleMedia *media);
-off_t entangle_media_get_file_size(EntangleMedia *media);
+time_t
+entangle_media_get_last_modified(EntangleMedia *media);
+off_t
+entangle_media_get_file_size(EntangleMedia *media);
 
-gboolean entangle_media_delete(EntangleMedia *media, GError **error);
+gboolean
+entangle_media_delete(EntangleMedia *media, GError **error);
 
-GExiv2Metadata *entangle_media_get_metadata(EntangleMedia *media);
-void entangle_media_set_metadata(EntangleMedia *media,
-                                 GExiv2Metadata *metadata);
+GExiv2Metadata *
+entangle_media_get_metadata(EntangleMedia *media);
+void
+entangle_media_set_metadata(EntangleMedia *media, GExiv2Metadata *metadata);
 
 G_END_DECLS
 

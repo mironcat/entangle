@@ -20,11 +20,13 @@
 
 #include <string.h>
 #include <unistd.h>
-#include <gtk/gtk.h>
+
 #include <glib/gi18n.h>
+#include <gtk/gtk.h>
+
+#include "entangle-camera-support.h"
 
 #include "entangle-debug.h"
-#include "entangle-camera-support.h"
 
 struct _EntangleCameraSupport
 {
@@ -35,60 +37,60 @@ struct _EntangleCameraSupport
     GtkLabel *infoText;
 };
 
-gboolean do_support_close(GtkButton *src,
-                          gpointer data);
-gboolean do_support_delete(GtkWidget *src,
-                           GdkEvent *ev);
+gboolean
+do_support_close(GtkButton *src, gpointer data);
+gboolean
+do_support_delete(GtkWidget *src, GdkEvent *ev);
 
 G_DEFINE_TYPE(EntangleCameraSupport, entangle_camera_support, GTK_TYPE_DIALOG);
 
-enum {
+enum
+{
     PROP_O,
     PROP_CAMERA_LIST,
 };
 
-
-static void entangle_camera_support_get_property(GObject *object,
-                                                 guint prop_id,
-                                                 GValue *value,
-                                                 GParamSpec *pspec)
+static void
+entangle_camera_support_get_property(GObject *object,
+                                     guint prop_id,
+                                     GValue *value,
+                                     GParamSpec *pspec)
 {
     EntangleCameraSupport *support = ENTANGLE_CAMERA_SUPPORT(object);
 
-    switch (prop_id)
-        {
-        case PROP_CAMERA_LIST:
-            g_value_set_object(value, support->cameraList);
-            break;
+    switch (prop_id) {
+    case PROP_CAMERA_LIST:
+        g_value_set_object(value, support->cameraList);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_camera_support_set_property(GObject *object,
-                                                 guint prop_id,
-                                                 const GValue *value,
-                                                 GParamSpec *pspec)
+static void
+entangle_camera_support_set_property(GObject *object,
+                                     guint prop_id,
+                                     const GValue *value,
+                                     GParamSpec *pspec)
 {
     EntangleCameraSupport *support = ENTANGLE_CAMERA_SUPPORT(object);
 
     ENTANGLE_DEBUG("Set prop %d", prop_id);
 
-    switch (prop_id)
-        {
-        case PROP_CAMERA_LIST:
-            entangle_camera_support_set_camera_list(support, g_value_get_object(value));
-            break;
+    switch (prop_id) {
+    case PROP_CAMERA_LIST:
+        entangle_camera_support_set_camera_list(support,
+                                                g_value_get_object(value));
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_camera_support_finalize(GObject *object)
+static void
+entangle_camera_support_finalize(GObject *object)
 {
     EntangleCameraSupport *support = ENTANGLE_CAMERA_SUPPORT(object);
 
@@ -98,8 +100,8 @@ static void entangle_camera_support_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_camera_support_parent_class)->finalize(object);
 }
 
-
-static void entangle_camera_support_class_init(EntangleCameraSupportClass *klass)
+static void
+entangle_camera_support_class_init(EntangleCameraSupportClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -107,33 +109,30 @@ static void entangle_camera_support_class_init(EntangleCameraSupportClass *klass
     object_class->get_property = entangle_camera_support_get_property;
     object_class->set_property = entangle_camera_support_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_CAMERA_LIST,
-                                    g_param_spec_object("camera-list",
-                                                        "Camera List",
-                                                        "Camera list to query",
-                                                        ENTANGLE_TYPE_CAMERA_LIST,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CAMERA_LIST,
+        g_param_spec_object("camera-list", "Camera List",
+                            "Camera list to query", ENTANGLE_TYPE_CAMERA_LIST,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle_photo/Manager/frontend/entangle-camera-support.ui");
+    gtk_widget_class_set_template_from_resource(
+        GTK_WIDGET_CLASS(klass),
+        "/org/entangle_photo/Manager/frontend/entangle-camera-support.ui");
 
     gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
                                          EntangleCameraSupport, infoText);
 }
 
-
-EntangleCameraSupport *entangle_camera_support_new(void)
+EntangleCameraSupport *
+entangle_camera_support_new(void)
 {
-    return ENTANGLE_CAMERA_SUPPORT(g_object_new(ENTANGLE_TYPE_CAMERA_SUPPORT, NULL));
+    return ENTANGLE_CAMERA_SUPPORT(
+        g_object_new(ENTANGLE_TYPE_CAMERA_SUPPORT, NULL));
 }
 
-
-gboolean do_support_close(GtkButton *src G_GNUC_UNUSED,
-                          gpointer data)
+gboolean
+do_support_close(GtkButton *src G_GNUC_UNUSED, gpointer data)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_SUPPORT(data), FALSE);
 
@@ -145,8 +144,8 @@ gboolean do_support_close(GtkButton *src G_GNUC_UNUSED,
     return FALSE;
 }
 
-gboolean do_support_delete(GtkWidget *src,
-                           GdkEvent *ev G_GNUC_UNUSED)
+gboolean
+do_support_delete(GtkWidget *src, GdkEvent *ev G_GNUC_UNUSED)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_SUPPORT(src), FALSE);
 
@@ -156,14 +155,14 @@ gboolean do_support_delete(GtkWidget *src,
     return FALSE;
 }
 
-
-static void entangle_camera_support_init(EntangleCameraSupport *support)
+static void
+entangle_camera_support_init(EntangleCameraSupport *support)
 {
     gtk_widget_init_template(GTK_WIDGET(support));
 }
 
-
-static void do_support_refresh(EntangleCameraSupport *support)
+static void
+do_support_refresh(EntangleCameraSupport *support)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_SUPPORT(support));
 
@@ -209,7 +208,6 @@ static void do_support_refresh(EntangleCameraSupport *support)
     }
 }
 
-
 /**
  * entangle_camera_support_set_camera_list:
  * @support: the camera support widget
@@ -217,8 +215,9 @@ static void do_support_refresh(EntangleCameraSupport *support)
  *
  * Set the camera list for the widget
  */
-void entangle_camera_support_set_camera_list(EntangleCameraSupport *support,
-                                             EntangleCameraList *list)
+void
+entangle_camera_support_set_camera_list(EntangleCameraSupport *support,
+                                        EntangleCameraList *list)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_SUPPORT(support));
     g_return_if_fail(ENTANGLE_IS_CAMERA_LIST(list));
@@ -232,7 +231,6 @@ void entangle_camera_support_set_camera_list(EntangleCameraSupport *support,
     do_support_refresh(support);
 }
 
-
 /**
  * entangle_camera_support_get_camera_list:
  * @support: the camera support widget
@@ -241,13 +239,13 @@ void entangle_camera_support_set_camera_list(EntangleCameraSupport *support,
  *
  * Returns: (transfer none): the camera list or NULL
  */
-EntangleCameraList *entangle_camera_support_get_camera_list(EntangleCameraSupport *support)
+EntangleCameraList *
+entangle_camera_support_get_camera_list(EntangleCameraSupport *support)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_SUPPORT(support), NULL);
 
     return support->cameraList;
 }
-
 
 /*
  * Local variables:

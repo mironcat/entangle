@@ -27,19 +27,23 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CONTROL_TEXT            (entangle_control_text_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleControlText, entangle_control_text, ENTANGLE, CONTROL_TEXT, EntangleControl)
+#define ENTANGLE_TYPE_CONTROL_TEXT (entangle_control_text_get_type())
+G_DECLARE_FINAL_TYPE(EntangleControlText,
+                     entangle_control_text,
+                     ENTANGLE,
+                     CONTROL_TEXT,
+                     EntangleControl)
 
-EntangleControlText* entangle_control_text_new(const char *path,
-                                               int id,
-                                               const char *label,
-                                               const char *info,
-                                               gboolean readonly);
+EntangleControlText *
+entangle_control_text_new(const char *path,
+                          int id,
+                          const char *label,
+                          const char *info,
+                          gboolean readonly);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CONTROL_TEXT_H__ */
-
 
 /*
  * Local variables:

@@ -23,76 +23,165 @@
 
 #include <glib-object.h>
 
-#include "entangle-control-group.h"
 #include "entangle-colour-profile.h"
+#include "entangle-control-group.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_PREFERENCES            (entangle_preferences_get_type ())
-G_DECLARE_FINAL_TYPE(EntanglePreferences, entangle_preferences, ENTANGLE, PREFERENCES, GObject)
+#define ENTANGLE_TYPE_PREFERENCES (entangle_preferences_get_type())
+G_DECLARE_FINAL_TYPE(EntanglePreferences,
+                     entangle_preferences,
+                     ENTANGLE,
+                     PREFERENCES,
+                     GObject)
 
-EntanglePreferences *entangle_preferences_new(void);
+EntanglePreferences *
+entangle_preferences_new(void);
 
-gboolean entangle_preferences_interface_get_auto_connect(EntanglePreferences *prefs);
-void entangle_preferences_interface_set_auto_connect(EntanglePreferences *prefs, gboolean autoconn);
-gboolean entangle_preferences_interface_get_screen_blank(EntanglePreferences *prefs);
-void entangle_preferences_interface_set_screen_blank(EntanglePreferences *prefs, gboolean blank);
-gchar **entangle_preferences_interface_get_plugins(EntanglePreferences *prefs);
-void entangle_preferences_interface_add_plugin(EntanglePreferences *prefs, const char *name);
-void entangle_preferences_interface_remove_plugin(EntanglePreferences *prefs, const char *name);
-gboolean entangle_preferences_interface_get_histogram_linear(EntanglePreferences *prefs);
-void entangle_preferences_interface_set_histogram_linear(EntanglePreferences *prefs, gboolean enabled);
+gboolean
+entangle_preferences_interface_get_auto_connect(EntanglePreferences *prefs);
+void
+entangle_preferences_interface_set_auto_connect(EntanglePreferences *prefs,
+                                                gboolean autoconn);
+gboolean
+entangle_preferences_interface_get_screen_blank(EntanglePreferences *prefs);
+void
+entangle_preferences_interface_set_screen_blank(EntanglePreferences *prefs,
+                                                gboolean blank);
+gchar **
+entangle_preferences_interface_get_plugins(EntanglePreferences *prefs);
+void
+entangle_preferences_interface_add_plugin(EntanglePreferences *prefs,
+                                          const char *name);
+void
+entangle_preferences_interface_remove_plugin(EntanglePreferences *prefs,
+                                             const char *name);
+gboolean
+entangle_preferences_interface_get_histogram_linear(EntanglePreferences *prefs);
+void
+entangle_preferences_interface_set_histogram_linear(EntanglePreferences *prefs,
+                                                    gboolean enabled);
 
-char *entangle_preferences_capture_get_last_session(EntanglePreferences *prefs);
-void entangle_preferences_capture_set_last_session(EntanglePreferences *prefs, const gchar *dir);
-char *entangle_preferences_capture_get_filename_pattern(EntanglePreferences *prefs);
-void entangle_preferences_capture_set_filename_pattern(EntanglePreferences *prefs, const gchar *pattern);
-gboolean entangle_preferences_capture_get_continuous_preview(EntanglePreferences *prefs);
-void entangle_preferences_capture_set_continuous_preview(EntanglePreferences *prefs, gboolean enabled);
-gboolean entangle_preferences_capture_get_electronic_shutter(EntanglePreferences *prefs);
-void entangle_preferences_capture_set_electronic_shutter(EntanglePreferences *prefs, gboolean enabled);
-gboolean entangle_preferences_capture_get_delete_file(EntanglePreferences *prefs);
-void entangle_preferences_capture_set_delete_file(EntanglePreferences *prefs, gboolean enabled);
-gboolean entangle_preferences_capture_get_sync_clock(EntanglePreferences *prefs);
-void entangle_preferences_capture_set_sync_clock(EntanglePreferences *prefs, gboolean enabled);
+char *
+entangle_preferences_capture_get_last_session(EntanglePreferences *prefs);
+void
+entangle_preferences_capture_set_last_session(EntanglePreferences *prefs,
+                                              const gchar *dir);
+char *
+entangle_preferences_capture_get_filename_pattern(EntanglePreferences *prefs);
+void
+entangle_preferences_capture_set_filename_pattern(EntanglePreferences *prefs,
+                                                  const gchar *pattern);
+gboolean
+entangle_preferences_capture_get_continuous_preview(EntanglePreferences *prefs);
+void
+entangle_preferences_capture_set_continuous_preview(EntanglePreferences *prefs,
+                                                    gboolean enabled);
+gboolean
+entangle_preferences_capture_get_electronic_shutter(EntanglePreferences *prefs);
+void
+entangle_preferences_capture_set_electronic_shutter(EntanglePreferences *prefs,
+                                                    gboolean enabled);
+gboolean
+entangle_preferences_capture_get_delete_file(EntanglePreferences *prefs);
+void
+entangle_preferences_capture_set_delete_file(EntanglePreferences *prefs,
+                                             gboolean enabled);
+gboolean
+entangle_preferences_capture_get_sync_clock(EntanglePreferences *prefs);
+void
+entangle_preferences_capture_set_sync_clock(EntanglePreferences *prefs,
+                                            gboolean enabled);
 
-gboolean entangle_preferences_cms_get_enabled(EntanglePreferences *prefs);
-void entangle_preferences_cms_set_enabled(EntanglePreferences *prefs, gboolean enabled);
-EntangleColourProfile *entangle_preferences_cms_get_rgb_profile(EntanglePreferences *prefs);
-void entangle_preferences_cms_set_rgb_profile(EntanglePreferences *prefs, EntangleColourProfile *prof);
-EntangleColourProfile *entangle_preferences_cms_get_monitor_profile(EntanglePreferences *prefs);
-void entangle_preferences_cms_set_monitor_profile(EntanglePreferences *prefs, EntangleColourProfile *prof);
-gboolean entangle_preferences_cms_get_detect_system_profile(EntanglePreferences *prefs);
-void entangle_preferences_cms_set_detect_system_profile(EntanglePreferences *prefs, gboolean enabled);
-EntangleColourProfileIntent entangle_preferences_cms_get_rendering_intent(EntanglePreferences *prefs);
-void entangle_preferences_cms_set_rendering_intent(EntanglePreferences *prefs, EntangleColourProfileIntent intent);
+gboolean
+entangle_preferences_cms_get_enabled(EntanglePreferences *prefs);
+void
+entangle_preferences_cms_set_enabled(EntanglePreferences *prefs,
+                                     gboolean enabled);
+EntangleColourProfile *
+entangle_preferences_cms_get_rgb_profile(EntanglePreferences *prefs);
+void
+entangle_preferences_cms_set_rgb_profile(EntanglePreferences *prefs,
+                                         EntangleColourProfile *prof);
+EntangleColourProfile *
+entangle_preferences_cms_get_monitor_profile(EntanglePreferences *prefs);
+void
+entangle_preferences_cms_set_monitor_profile(EntanglePreferences *prefs,
+                                             EntangleColourProfile *prof);
+gboolean
+entangle_preferences_cms_get_detect_system_profile(EntanglePreferences *prefs);
+void
+entangle_preferences_cms_set_detect_system_profile(EntanglePreferences *prefs,
+                                                   gboolean enabled);
+EntangleColourProfileIntent
+entangle_preferences_cms_get_rendering_intent(EntanglePreferences *prefs);
+void
+entangle_preferences_cms_set_rendering_intent(
+    EntanglePreferences *prefs,
+    EntangleColourProfileIntent intent);
 
+gchar *
+entangle_preferences_img_get_aspect_ratio(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_aspect_ratio(EntanglePreferences *prefs,
+                                          const gchar *aspect);
+gint
+entangle_preferences_img_get_mask_opacity(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_mask_opacity(EntanglePreferences *prefs,
+                                          gint opacity);
+gboolean
+entangle_preferences_img_get_mask_enabled(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_mask_enabled(EntanglePreferences *prefs,
+                                          gboolean enabled);
+gboolean
+entangle_preferences_img_get_overexposure_highlighting(
+    EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_overexposure_highlighting(
+    EntanglePreferences *prefs,
+    gboolean enabled);
+gboolean
+entangle_preferences_img_get_focus_point(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_focus_point(EntanglePreferences *prefs,
+                                         gboolean enabled);
+gint
+entangle_preferences_img_get_grid_lines(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_grid_lines(EntanglePreferences *prefs,
+                                        gint gridLines);
+gboolean
+entangle_preferences_img_get_embedded_preview(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_embedded_preview(EntanglePreferences *prefs,
+                                              gboolean enabled);
+gboolean
+entangle_preferences_img_get_onion_skin(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_onion_skin(EntanglePreferences *prefs,
+                                        gboolean enabled);
+gint
+entangle_preferences_img_get_onion_layers(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_onion_layers(EntanglePreferences *prefs,
+                                          gint layers);
+gchar *
+entangle_preferences_img_get_background(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_background(EntanglePreferences *prefs,
+                                        const gchar *bkg);
+gchar *
+entangle_preferences_img_get_highlight(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_highlight(EntanglePreferences *prefs,
+                                       const gchar *bkg);
 
-gchar *entangle_preferences_img_get_aspect_ratio(EntanglePreferences *prefs);
-void entangle_preferences_img_set_aspect_ratio(EntanglePreferences *prefs, const gchar *aspect);
-gint entangle_preferences_img_get_mask_opacity(EntanglePreferences *prefs);
-void entangle_preferences_img_set_mask_opacity(EntanglePreferences *prefs, gint opacity);
-gboolean entangle_preferences_img_get_mask_enabled(EntanglePreferences *prefs);
-void entangle_preferences_img_set_mask_enabled(EntanglePreferences *prefs, gboolean enabled);
-gboolean entangle_preferences_img_get_overexposure_highlighting(EntanglePreferences *prefs);
-void entangle_preferences_img_set_overexposure_highlighting(EntanglePreferences *prefs, gboolean enabled);
-gboolean entangle_preferences_img_get_focus_point(EntanglePreferences *prefs);
-void entangle_preferences_img_set_focus_point(EntanglePreferences *prefs, gboolean enabled);
-gint entangle_preferences_img_get_grid_lines(EntanglePreferences *prefs);
-void entangle_preferences_img_set_grid_lines(EntanglePreferences *prefs, gint gridLines);
-gboolean entangle_preferences_img_get_embedded_preview(EntanglePreferences *prefs);
-void entangle_preferences_img_set_embedded_preview(EntanglePreferences *prefs, gboolean enabled);
-gboolean entangle_preferences_img_get_onion_skin(EntanglePreferences *prefs);
-void entangle_preferences_img_set_onion_skin(EntanglePreferences *prefs, gboolean enabled);
-gint entangle_preferences_img_get_onion_layers(EntanglePreferences *prefs);
-void entangle_preferences_img_set_onion_layers(EntanglePreferences *prefs, gint layers);
-gchar *entangle_preferences_img_get_background(EntanglePreferences *prefs);
-void entangle_preferences_img_set_background(EntanglePreferences *prefs, const gchar *bkg);
-gchar *entangle_preferences_img_get_highlight(EntanglePreferences *prefs);
-void entangle_preferences_img_set_highlight(EntanglePreferences *prefs, const gchar *bkg);
-
-void entangle_preferences_ensure_gsettings_dir(void);
-void entangle_preferences_ensure_girepository_dir(void);
+void
+entangle_preferences_ensure_gsettings_dir(void);
+void
+entangle_preferences_ensure_girepository_dir(void);
 
 G_END_DECLS
 

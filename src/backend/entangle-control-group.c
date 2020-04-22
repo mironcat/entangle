@@ -20,19 +20,23 @@
 
 #include <stdio.h>
 
-#include "entangle-debug.h"
 #include "entangle-control-group.h"
 
-struct _EntangleControlGroup {
+#include "entangle-debug.h"
+
+struct _EntangleControlGroup
+{
     EntangleControl parent;
     size_t ncontrol;
     EntangleControl **controls;
 };
 
-G_DEFINE_TYPE(EntangleControlGroup, entangle_control_group, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlGroup,
+              entangle_control_group,
+              ENTANGLE_TYPE_CONTROL);
 
-
-static void entangle_control_group_finalize(GObject *object)
+static void
+entangle_control_group_finalize(GObject *object)
 {
     EntangleControlGroup *control = ENTANGLE_CONTROL_GROUP(object);
 
@@ -44,37 +48,32 @@ static void entangle_control_group_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_control_group_parent_class)->finalize(object);
 }
 
-static void entangle_control_group_class_init(EntangleControlGroupClass *klass)
+static void
+entangle_control_group_class_init(EntangleControlGroupClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
     object_class->finalize = entangle_control_group_finalize;
 }
 
-
-EntangleControlGroup *entangle_control_group_new(const gchar *path,
-                                                 gint id,
-                                                 const gchar *label,
-                                                 const gchar *info,
-                                                 gboolean readonly)
+EntangleControlGroup *
+entangle_control_group_new(const gchar *path,
+                           gint id,
+                           const gchar *label,
+                           const gchar *info,
+                           gboolean readonly)
 {
     g_return_val_if_fail(path != NULL, NULL);
     g_return_val_if_fail(label != NULL, NULL);
 
-    return ENTANGLE_CONTROL_GROUP(g_object_new(ENTANGLE_TYPE_CONTROL_GROUP,
-                                               "path", path,
-                                               "id", id,
-                                               "label", label,
-                                               "info", info,
-                                               "readonly", readonly,
-                                               NULL));
+    return ENTANGLE_CONTROL_GROUP(
+        g_object_new(ENTANGLE_TYPE_CONTROL_GROUP, "path", path, "id", id,
+                     "label", label, "info", info, "readonly", readonly, NULL));
 }
 
-
-static void entangle_control_group_init(EntangleControlGroup *control G_GNUC_UNUSED)
-{
-}
-
+static void
+entangle_control_group_init(EntangleControlGroup *control G_GNUC_UNUSED)
+{}
 
 /**
  * entangle_control_group_add:
@@ -83,17 +82,18 @@ static void entangle_control_group_init(EntangleControlGroup *control G_GNUC_UNU
  *
  * Adds the @control to @group
  */
-void entangle_control_group_add(EntangleControlGroup *group,
-                                EntangleControl *control)
+void
+entangle_control_group_add(EntangleControlGroup *group,
+                           EntangleControl *control)
 {
     g_return_if_fail(ENTANGLE_IS_CONTROL_GROUP(group));
     g_return_if_fail(ENTANGLE_IS_CONTROL(control));
 
-    group->controls = g_renew(EntangleControl *, group->controls, group->ncontrol+1);
+    group->controls =
+        g_renew(EntangleControl *, group->controls, group->ncontrol + 1);
     group->controls[group->ncontrol++] = control;
     g_object_ref(control);
 }
-
 
 /**
  * entangle_control_group_count:
@@ -104,13 +104,13 @@ void entangle_control_group_add(EntangleControlGroup *group,
  *
  * Returns: the number of child controls
  */
-guint entangle_control_group_count(EntangleControlGroup *group)
+guint
+entangle_control_group_count(EntangleControlGroup *group)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_GROUP(group), 0);
 
     return group->ncontrol;
 }
-
 
 /**
  * entangle_control_group_get:
@@ -119,7 +119,8 @@ guint entangle_control_group_count(EntangleControlGroup *group)
  *
  * Returns: (transfer none): the control at index @idx, or NULL
  */
-EntangleControl *entangle_control_group_get(EntangleControlGroup *group, gint idx)
+EntangleControl *
+entangle_control_group_get(EntangleControlGroup *group, gint idx)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_GROUP(group), NULL);
 
@@ -128,7 +129,6 @@ EntangleControl *entangle_control_group_get(EntangleControlGroup *group, gint id
 
     return group->controls[idx];
 }
-
 
 /**
  * entangle_control_group_get_by_path:
@@ -139,8 +139,9 @@ EntangleControl *entangle_control_group_get(EntangleControlGroup *group, gint id
  *
  * Returns: (transfer none): the control with path @path, or NULL
  */
-EntangleControl *entangle_control_group_get_by_path(EntangleControlGroup *group,
-                                                    const gchar *path)
+EntangleControl *
+entangle_control_group_get_by_path(EntangleControlGroup *group,
+                                   const gchar *path)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_GROUP(group), NULL);
     g_return_val_if_fail(path != NULL, NULL);
@@ -151,9 +152,8 @@ EntangleControl *entangle_control_group_get_by_path(EntangleControlGroup *group,
         if (g_str_equal(path, entangle_control_get_path(group->controls[i]))) {
             return group->controls[i];
         } else if (ENTANGLE_IS_CONTROL_GROUP(group->controls[i])) {
-            EntangleControl *control =
-                entangle_control_group_get_by_path(ENTANGLE_CONTROL_GROUP(group->controls[i]),
-                                                   path);
+            EntangleControl *control = entangle_control_group_get_by_path(
+                ENTANGLE_CONTROL_GROUP(group->controls[i]), path);
             if (control)
                 return control;
         }
@@ -161,7 +161,6 @@ EntangleControl *entangle_control_group_get_by_path(EntangleControlGroup *group,
 
     return NULL;
 }
-
 
 /*
  * Local variables:

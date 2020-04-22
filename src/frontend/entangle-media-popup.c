@@ -18,22 +18,23 @@
  *
  */
 
-#include <unistd.h>
 #include <string.h>
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
+#include <unistd.h>
 
 #include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
+
+#include "entangle-media-popup.h"
 
 #include "entangle-debug.h"
-#include "entangle-media-popup.h"
 #include "entangle-image-display.h"
 
-gboolean do_popup_delete(GtkWidget *src,
-                         GdkEvent *ev,
-                         gpointer data);
+gboolean
+do_popup_delete(GtkWidget *src, GdkEvent *ev, gpointer data);
 
-struct _EntangleMediaPopup {
+struct _EntangleMediaPopup
+{
     GtkWindow parent;
 
     EntangleMedia *media;
@@ -42,58 +43,60 @@ struct _EntangleMediaPopup {
 
 G_DEFINE_TYPE(EntangleMediaPopup, entangle_media_popup, GTK_TYPE_WINDOW);
 
-enum {
+enum
+{
     PROP_0,
     PROP_MEDIA,
 };
 
-static void entangle_media_popup_get_property(GObject *object,
-                                              guint prop_id,
-                                              GValue *value,
-                                              GParamSpec *pspec)
+static void
+entangle_media_popup_get_property(GObject *object,
+                                  guint prop_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
 {
     EntangleMediaPopup *popup = ENTANGLE_MEDIA_POPUP(object);
 
-    switch (prop_id)
-        {
-        case PROP_MEDIA:
-            g_value_set_object(value, popup->media);
-            break;
+    switch (prop_id) {
+    case PROP_MEDIA:
+        g_value_set_object(value, popup->media);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_media_popup_set_property(GObject *object,
-                                              guint prop_id,
-                                              const GValue *value,
-                                              GParamSpec *pspec)
+static void
+entangle_media_popup_set_property(GObject *object,
+                                  guint prop_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
 {
     EntangleMediaPopup *popup = ENTANGLE_MEDIA_POPUP(object);
 
     ENTANGLE_DEBUG("Set prop on media popup %d", prop_id);
 
-    switch (prop_id)
-        {
-        case PROP_MEDIA: {
-            if (popup->media)
-                g_object_unref(popup->media);
-            popup->media = g_value_dup_object(value);
+    switch (prop_id) {
+    case PROP_MEDIA: {
+        if (popup->media)
+            g_object_unref(popup->media);
+        popup->media = g_value_dup_object(value);
 
-            if (popup->media && ENTANGLE_IS_IMAGE(popup->media))
-                entangle_image_display_set_image(popup->imageDisplay, ENTANGLE_IMAGE(popup->media));
-            else
-                entangle_image_display_set_image(popup->imageDisplay, NULL);
-        } break;
+        if (popup->media && ENTANGLE_IS_IMAGE(popup->media))
+            entangle_image_display_set_image(popup->imageDisplay,
+                                             ENTANGLE_IMAGE(popup->media));
+        else
+            entangle_image_display_set_image(popup->imageDisplay, NULL);
+    } break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_media_popup_finalize(GObject *object)
+static void
+entangle_media_popup_finalize(GObject *object)
 {
     EntangleMediaPopup *popup = ENTANGLE_MEDIA_POPUP(object);
 
@@ -105,10 +108,10 @@ static void entangle_media_popup_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_media_popup_parent_class)->finalize(object);
 }
 
-
-static gboolean entangle_media_popup_button_press(GtkWidget *widget,
-                                                  GdkEventButton *ev,
-                                                  gpointer data G_GNUC_UNUSED)
+static gboolean
+entangle_media_popup_button_press(GtkWidget *widget,
+                                  GdkEventButton *ev,
+                                  gpointer data G_GNUC_UNUSED)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA_POPUP(widget), FALSE);
 
@@ -118,21 +121,23 @@ static gboolean entangle_media_popup_button_press(GtkWidget *widget,
     gtk_window_get_size(GTK_WINDOW(popup), &w, &h);
 
     if (ev->button == 1) {
-        gtk_window_begin_move_drag(GTK_WINDOW(popup), ev->button, ev->x_root, ev->y_root, ev->time);
+        gtk_window_begin_move_drag(GTK_WINDOW(popup), ev->button, ev->x_root,
+                                   ev->y_root, ev->time);
     } else if (ev->button == 2 || ev->button == 3) {
         GdkWindowEdge edge;
-        if (ev->x > (w/2)) {
-            if (ev->y > (h/2))
+        if (ev->x > (w / 2)) {
+            if (ev->y > (h / 2))
                 edge = GDK_WINDOW_EDGE_SOUTH_EAST;
             else
                 edge = GDK_WINDOW_EDGE_NORTH_EAST;
         } else {
-            if (ev->y > (h/2))
+            if (ev->y > (h / 2))
                 edge = GDK_WINDOW_EDGE_SOUTH_WEST;
             else
                 edge = GDK_WINDOW_EDGE_NORTH_WEST;
         }
-        gtk_window_begin_resize_drag(GTK_WINDOW(popup), edge, ev->button, ev->x_root, ev->y_root, ev->time);
+        gtk_window_begin_resize_drag(GTK_WINDOW(popup), edge, ev->button,
+                                     ev->x_root, ev->y_root, ev->time);
     } else {
         return FALSE;
     }
@@ -140,14 +145,14 @@ static gboolean entangle_media_popup_button_press(GtkWidget *widget,
     return TRUE;
 }
 
-static gboolean entangle_media_popup_key_release(GtkWidget *widget,
-                                                 GdkEventKey *ev,
-                                                 gpointer data G_GNUC_UNUSED)
+static gboolean
+entangle_media_popup_key_release(GtkWidget *widget,
+                                 GdkEventKey *ev,
+                                 gpointer data G_GNUC_UNUSED)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA_POPUP(widget), FALSE);
 
-    if (ev->keyval == GDK_KEY_Escape ||
-        ev->keyval == GDK_KEY_KP_Enter ||
+    if (ev->keyval == GDK_KEY_Escape || ev->keyval == GDK_KEY_KP_Enter ||
         ev->keyval == GDK_KEY_Return) {
         g_signal_emit_by_name(widget, "popup-close", NULL);
         gtk_widget_hide(widget);
@@ -157,7 +162,8 @@ static gboolean entangle_media_popup_key_release(GtkWidget *widget,
     return FALSE;
 }
 
-static void entangle_media_popup_class_init(EntangleMediaPopupClass *klass)
+static void
+entangle_media_popup_class_init(EntangleMediaPopupClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -165,38 +171,31 @@ static void entangle_media_popup_class_init(EntangleMediaPopupClass *klass)
     object_class->get_property = entangle_media_popup_get_property;
     object_class->set_property = entangle_media_popup_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_MEDIA,
-                                    g_param_spec_object("media",
-                                                        "Media",
-                                                        "Media to be displayed",
-                                                        ENTANGLE_TYPE_MEDIA,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_MEDIA,
+        g_param_spec_object("media", "Media", "Media to be displayed",
+                            ENTANGLE_TYPE_MEDIA,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_signal_new("popup-close",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__VOID,
-                 G_TYPE_NONE,
-                 0);
+    g_signal_new("popup-close", G_TYPE_FROM_CLASS(klass), G_SIGNAL_RUN_FIRST, 0,
+                 NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
-    gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle_photo/Manager/frontend/entangle-media-popup.ui");
+    gtk_widget_class_set_template_from_resource(
+        GTK_WIDGET_CLASS(klass),
+        "/org/entangle_photo/Manager/frontend/entangle-media-popup.ui");
 }
 
-
-EntangleMediaPopup *entangle_media_popup_new(void)
+EntangleMediaPopup *
+entangle_media_popup_new(void)
 {
     return ENTANGLE_MEDIA_POPUP(g_object_new(ENTANGLE_TYPE_MEDIA_POPUP, NULL));
 }
 
-gboolean do_popup_delete(GtkWidget *src,
-                         GdkEvent *ev G_GNUC_UNUSED,
-                         gpointer data G_GNUC_UNUSED)
+gboolean
+do_popup_delete(GtkWidget *src,
+                GdkEvent *ev G_GNUC_UNUSED,
+                gpointer data G_GNUC_UNUSED)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA_POPUP(src), FALSE);
 
@@ -207,8 +206,8 @@ gboolean do_popup_delete(GtkWidget *src,
     return TRUE;
 }
 
-
-static void entangle_media_popup_init(EntangleMediaPopup *popup)
+static void
+entangle_media_popup_init(EntangleMediaPopup *popup)
 {
     gtk_widget_init_template(GTK_WIDGET(popup));
 
@@ -223,10 +222,11 @@ static void entangle_media_popup_init(EntangleMediaPopup *popup)
     g_signal_connect(popup, "delete-event", G_CALLBACK(do_popup_delete), NULL);
 }
 
-
-void entangle_media_popup_show(EntangleMediaPopup *popup,
-                               GtkWindow *parent,
-                               int x, int y)
+void
+entangle_media_popup_show(EntangleMediaPopup *popup,
+                          GtkWindow *parent,
+                          int x,
+                          int y)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup));
     g_return_if_fail(GTK_IS_WINDOW(parent));
@@ -241,8 +241,8 @@ void entangle_media_popup_show(EntangleMediaPopup *popup,
     gtk_window_present(GTK_WINDOW(popup));
 }
 
-
-void entangle_media_popup_move_to_monitor(EntangleMediaPopup *popup, gint monitorIdx)
+void
+entangle_media_popup_move_to_monitor(EntangleMediaPopup *popup, gint monitorIdx)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup));
 
@@ -259,13 +259,13 @@ void entangle_media_popup_move_to_monitor(EntangleMediaPopup *popup, gint monito
     gtk_window_fullscreen(GTK_WINDOW(popup));
 }
 
-
-void entangle_media_popup_show_on_monitor(EntangleMediaPopup *popup, gint monitor)
+void
+entangle_media_popup_show_on_monitor(EntangleMediaPopup *popup, gint monitor)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup));
 
-    GdkCursor *null_cursor = gdk_cursor_new_for_display(gdk_display_get_default(),
-                                                        GDK_BLANK_CURSOR);
+    GdkCursor *null_cursor =
+        gdk_cursor_new_for_display(gdk_display_get_default(), GDK_BLANK_CURSOR);
 
     gtk_widget_realize(GTK_WIDGET(popup));
 
@@ -280,7 +280,6 @@ void entangle_media_popup_show_on_monitor(EntangleMediaPopup *popup, gint monito
     gtk_window_present(GTK_WINDOW(popup));
 }
 
-
 /**
  * entangle_media_popup_set_media:
  * @popup: (transfer none): the popup widget
@@ -288,14 +287,14 @@ void entangle_media_popup_show_on_monitor(EntangleMediaPopup *popup, gint monito
  *
  * Set the media to be displayed by the popup
  */
-void entangle_media_popup_set_media(EntangleMediaPopup *popup, EntangleMedia *media)
+void
+entangle_media_popup_set_media(EntangleMediaPopup *popup, EntangleMedia *media)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup));
     g_return_if_fail(!media || ENTANGLE_IS_MEDIA(media));
 
     g_object_set(popup, "media", media, NULL);
 }
-
 
 /**
  * entangle_media_popup_get_media:
@@ -305,30 +304,30 @@ void entangle_media_popup_set_media(EntangleMediaPopup *popup, EntangleMedia *me
  *
  * Returns: (transfer none): the media displayed
  */
-EntangleMedia *entangle_media_popup_get_media(EntangleMediaPopup *popup)
+EntangleMedia *
+entangle_media_popup_get_media(EntangleMediaPopup *popup)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup), NULL);
 
     return popup->media;
 }
 
-
-void entangle_media_popup_set_background(EntangleMediaPopup *popup,
-                                         const gchar *background)
+void
+entangle_media_popup_set_background(EntangleMediaPopup *popup,
+                                    const gchar *background)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup));
 
     entangle_image_display_set_background(popup->imageDisplay, background);
 }
 
-gchar *entangle_media_popup_get_background(EntangleMediaPopup *popup)
+gchar *
+entangle_media_popup_get_background(EntangleMediaPopup *popup)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA_POPUP(popup), NULL);
 
     return entangle_image_display_get_background(popup->imageDisplay);
 }
-
-
 
 /*
  * Local variables:

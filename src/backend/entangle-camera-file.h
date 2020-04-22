@@ -25,27 +25,40 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CAMERA_FILE            (entangle_camera_file_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleCameraFile, entangle_camera_file, ENTANGLE, CAMERA_FILE, GObject)
+#define ENTANGLE_TYPE_CAMERA_FILE (entangle_camera_file_get_type())
+G_DECLARE_FINAL_TYPE(EntangleCameraFile,
+                     entangle_camera_file,
+                     ENTANGLE,
+                     CAMERA_FILE,
+                     GObject)
 
-EntangleCameraFile *entangle_camera_file_new(const char *folder,
-                                             const char *name);
+EntangleCameraFile *
+entangle_camera_file_new(const char *folder, const char *name);
 
-const char *entangle_camera_file_get_folder(EntangleCameraFile *file);
-const char *entangle_camera_file_get_name(EntangleCameraFile *file);
+const char *
+entangle_camera_file_get_folder(EntangleCameraFile *file);
+const char *
+entangle_camera_file_get_name(EntangleCameraFile *file);
 
-gboolean entangle_camera_file_save_path(EntangleCameraFile *file,
-                                        const char *localpath,
-                                        GError **err);
-gboolean entangle_camera_file_save_uri(EntangleCameraFile *file,
-                                       const char *uri,
-                                       GError **err);
+gboolean
+entangle_camera_file_save_path(EntangleCameraFile *file,
+                               const char *localpath,
+                               GError **err);
+gboolean
+entangle_camera_file_save_uri(EntangleCameraFile *file,
+                              const char *uri,
+                              GError **err);
 
-GByteArray *entangle_camera_file_get_data(EntangleCameraFile *file);
-void entangle_camera_file_set_data(EntangleCameraFile *file, GByteArray *data);
+GByteArray *
+entangle_camera_file_get_data(EntangleCameraFile *file);
+void
+entangle_camera_file_set_data(EntangleCameraFile *file, GByteArray *data);
 
-const gchar *entangle_camera_file_get_mimetype(EntangleCameraFile *file);
-void entangle_camera_file_set_mimetype(EntangleCameraFile *file, const gchar *mimetype);
+const gchar *
+entangle_camera_file_get_mimetype(EntangleCameraFile *file);
+void
+entangle_camera_file_set_mimetype(EntangleCameraFile *file,
+                                  const gchar *mimetype);
 
 G_END_DECLS
 

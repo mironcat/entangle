@@ -18,24 +18,28 @@
  *
  */
 
-#include "entangle-debug.h"
 #include "entangle-progress.h"
 
-void entangle_progress_start(EntangleProgress *prog, float target, const char *msg)
+#include "entangle-debug.h"
+
+void
+entangle_progress_start(EntangleProgress *prog, float target, const char *msg)
 {
     g_return_if_fail(ENTANGLE_IS_PROGRESS(prog));
 
     ENTANGLE_PROGRESS_GET_IFACE(prog)->start(prog, target, msg);
 }
 
-void entangle_progress_update(EntangleProgress *prog, float current)
+void
+entangle_progress_update(EntangleProgress *prog, float current)
 {
     g_return_if_fail(ENTANGLE_IS_PROGRESS(prog));
 
     ENTANGLE_PROGRESS_GET_IFACE(prog)->update(prog, current);
 }
 
-void entangle_progress_stop(EntangleProgress *prog)
+void
+entangle_progress_stop(EntangleProgress *prog)
 {
     g_return_if_fail(ENTANGLE_IS_PROGRESS(prog));
 
@@ -48,10 +52,9 @@ entangle_progress_get_type(void)
     static GType progress_type = 0;
 
     if (!progress_type) {
-        progress_type =
-            g_type_register_static_simple(G_TYPE_INTERFACE, "EntangleProgress",
-                                          sizeof(EntangleProgressInterface),
-                                          NULL, 0, NULL, 0);
+        progress_type = g_type_register_static_simple(
+            G_TYPE_INTERFACE, "EntangleProgress",
+            sizeof(EntangleProgressInterface), NULL, 0, NULL, 0);
 
         g_type_interface_add_prerequisite(progress_type, G_TYPE_OBJECT);
     }

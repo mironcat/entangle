@@ -20,67 +20,73 @@
 
 #include <stdio.h>
 
-#include "entangle-debug.h"
 #include "entangle-control-toggle.h"
 
-struct _EntangleControlToggle {
+#include "entangle-debug.h"
+
+struct _EntangleControlToggle
+{
     EntangleControl parent;
     gboolean value;
 };
 
-G_DEFINE_TYPE(EntangleControlToggle, entangle_control_toggle, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlToggle,
+              entangle_control_toggle,
+              ENTANGLE_TYPE_CONTROL);
 
-enum {
+enum
+{
     PROP_0,
     PROP_VALUE,
 };
 
-static void entangle_control_get_property(GObject *object,
-                                          guint prop_id,
-                                          GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_control_get_property(GObject *object,
+                              guint prop_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleControlToggle *control = ENTANGLE_CONTROL_TOGGLE(object);
 
-    switch (prop_id)
-        {
-        case PROP_VALUE:
-            g_value_set_boolean(value, control->value);
-            break;
+    switch (prop_id) {
+    case PROP_VALUE:
+        g_value_set_boolean(value, control->value);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_control_set_property(GObject *object,
-                                          guint prop_id,
-                                          const GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_control_set_property(GObject *object,
+                              guint prop_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleControlToggle *control = ENTANGLE_CONTROL_TOGGLE(object);
 
-    switch (prop_id)
-        {
-        case PROP_VALUE:
-            if (control->value != g_value_get_boolean(value)) {
-                control->value = g_value_get_boolean(value);
-                entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
-            }
-            break;
-
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    switch (prop_id) {
+    case PROP_VALUE:
+        if (control->value != g_value_get_boolean(value)) {
+            control->value = g_value_get_boolean(value);
+            entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
         }
+        break;
+
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_control_toggle_finalize(GObject *object)
+static void
+entangle_control_toggle_finalize(GObject *object)
 {
     G_OBJECT_CLASS(entangle_control_toggle_parent_class)->finalize(object);
 }
 
-static void entangle_control_toggle_class_init(EntangleControlToggleClass *klass)
+static void
+entangle_control_toggle_class_init(EntangleControlToggleClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -88,41 +94,32 @@ static void entangle_control_toggle_class_init(EntangleControlToggleClass *klass
     object_class->get_property = entangle_control_get_property;
     object_class->set_property = entangle_control_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_VALUE,
-                                    g_param_spec_boolean("value",
-                                                         "Control value",
-                                                         "Current value of the control",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_VALUE,
+        g_param_spec_boolean("value", "Control value",
+                             "Current value of the control", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-EntangleControlToggle *entangle_control_toggle_new(const char *path,
-                                                   int id,
-                                                   const char *label,
-                                                   const char *info,
-                                                   gboolean readonly)
+EntangleControlToggle *
+entangle_control_toggle_new(const char *path,
+                            int id,
+                            const char *label,
+                            const char *info,
+                            gboolean readonly)
 {
     g_return_val_if_fail(path != NULL, NULL);
     g_return_val_if_fail(label != NULL, NULL);
 
-    return ENTANGLE_CONTROL_TOGGLE(g_object_new(ENTANGLE_TYPE_CONTROL_TOGGLE,
-                                                "path", path,
-                                                "id", id,
-                                                "label", label,
-                                                "info", info,
-                                                "readonly", readonly,
-                                                NULL));
+    return ENTANGLE_CONTROL_TOGGLE(
+        g_object_new(ENTANGLE_TYPE_CONTROL_TOGGLE, "path", path, "id", id,
+                     "label", label, "info", info, "readonly", readonly, NULL));
 }
 
-
-static void entangle_control_toggle_init(EntangleControlToggle *control G_GNUC_UNUSED)
-{
-}
+static void
+entangle_control_toggle_init(EntangleControlToggle *control G_GNUC_UNUSED)
+{}
 
 /*
  * Local variables:

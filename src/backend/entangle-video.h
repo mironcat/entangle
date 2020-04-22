@@ -21,20 +21,28 @@
 #ifndef __ENTANGLE_VIDEO_H__
 #define __ENTANGLE_VIDEO_H__
 
-#include "entangle-media.h"
 #include <gst/base/base.h>
+
+#include "entangle-media.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_VIDEO            (entangle_video_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleVideo, entangle_video, ENTANGLE, VIDEO, EntangleMedia)
+#define ENTANGLE_TYPE_VIDEO (entangle_video_get_type())
+G_DECLARE_FINAL_TYPE(EntangleVideo,
+                     entangle_video,
+                     ENTANGLE,
+                     VIDEO,
+                     EntangleMedia)
 
-EntangleVideo *entangle_video_new_file(const char *filename);
-EntangleVideo *entangle_video_new_source(GstBaseSrc *source);
+EntangleVideo *
+entangle_video_new_file(const char *filename);
+EntangleVideo *
+entangle_video_new_source(GstBaseSrc *source);
 
-GstBaseSrc *entangle_video_get_source(EntangleVideo *video);
-void entangle_video_set_source(EntangleVideo *video,
-                               GstBaseSrc *source);
+GstBaseSrc *
+entangle_video_get_source(EntangleVideo *video);
+void
+entangle_video_set_source(EntangleVideo *video, GstBaseSrc *source);
 
 G_END_DECLS
 

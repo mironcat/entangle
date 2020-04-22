@@ -25,38 +25,47 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CONTROL            (entangle_control_get_type ())
-G_DECLARE_DERIVABLE_TYPE(EntangleControl, entangle_control, ENTANGLE, CONTROL, GObject)
+#define ENTANGLE_TYPE_CONTROL (entangle_control_get_type())
+G_DECLARE_DERIVABLE_TYPE(EntangleControl,
+                         entangle_control,
+                         ENTANGLE,
+                         CONTROL,
+                         GObject)
 
 struct _EntangleControlClass
 {
     GObjectClass parent_class;
 };
 
-EntangleControl* entangle_control_new(const gchar *path,
-                                      gint id,
-                                      const gchar *label,
-                                      const gchar *info,
-                                      gboolean readonly);
+EntangleControl *
+entangle_control_new(const gchar *path,
+                     gint id,
+                     const gchar *label,
+                     const gchar *info,
+                     gboolean readonly);
 
+gint
+entangle_control_get_id(EntangleControl *control);
+const gchar *
+entangle_control_get_path(EntangleControl *control);
+const gchar *
+entangle_control_get_label(EntangleControl *control);
+const gchar *
+entangle_control_get_info(EntangleControl *control);
 
-gint entangle_control_get_id(EntangleControl *control);
-const gchar *entangle_control_get_path(EntangleControl *control);
-const gchar *entangle_control_get_label(EntangleControl *control);
-const gchar *entangle_control_get_info(EntangleControl *control);
+gboolean
+entangle_control_get_dirty(EntangleControl *control);
+void
+entangle_control_set_dirty(EntangleControl *control, gboolean dirty);
 
-gboolean entangle_control_get_dirty(EntangleControl *control);
-void entangle_control_set_dirty(EntangleControl *control,
-                                gboolean dirty);
-
-gboolean entangle_control_get_readonly(EntangleControl *control);
-void entangle_control_set_readonly(EntangleControl *control,
-                                   gboolean ro);
+gboolean
+entangle_control_get_readonly(EntangleControl *control);
+void
+entangle_control_set_readonly(EntangleControl *control, gboolean ro);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CONTROL_H__ */
-
 
 /*
  * Local variables:

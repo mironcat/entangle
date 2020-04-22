@@ -23,8 +23,8 @@
 
 #include <glib.h>
 
-gboolean entangle_dpms_set_blanking(gboolean enabled,
-                                    GError **error);
+gboolean
+entangle_dpms_set_blanking(gboolean enabled, GError **error);
 
 #endif /* __ENTANGLE_DPMS_H__ */
 

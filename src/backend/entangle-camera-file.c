@@ -18,15 +18,18 @@
  *
  */
 
-#include <glib.h>
-#include <gio/gio.h>
 #include <stdio.h>
 #include <unistd.h>
 
-#include "entangle-debug.h"
+#include <gio/gio.h>
+#include <glib.h>
+
 #include "entangle-camera-file.h"
 
-struct _EntangleCameraFile {
+#include "entangle-debug.h"
+
+struct _EntangleCameraFile
+{
     GObject parent;
     char *folder;
     char *name;
@@ -37,7 +40,8 @@ struct _EntangleCameraFile {
 
 G_DEFINE_TYPE(EntangleCameraFile, entangle_camera_file, G_TYPE_OBJECT);
 
-enum {
+enum
+{
     PROP_0,
     PROP_FOLDER,
     PROP_NAME,
@@ -45,74 +49,73 @@ enum {
     PROP_DATA,
 };
 
-
-static void entangle_camera_file_get_property(GObject *object,
-                                          guint prop_id,
-                                          GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_camera_file_get_property(GObject *object,
+                                  guint prop_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
 {
     EntangleCameraFile *file = ENTANGLE_CAMERA_FILE(object);
 
-    switch (prop_id)
-        {
-        case PROP_FOLDER:
-            g_value_set_string(value, file->folder);
-            break;
+    switch (prop_id) {
+    case PROP_FOLDER:
+        g_value_set_string(value, file->folder);
+        break;
 
-        case PROP_NAME:
-            g_value_set_string(value, file->name);
-            break;
+    case PROP_NAME:
+        g_value_set_string(value, file->name);
+        break;
 
-        case PROP_MIMETYPE:
-           g_value_set_string(value, file->mimetype);
-            break;
+    case PROP_MIMETYPE:
+        g_value_set_string(value, file->mimetype);
+        break;
 
-        case PROP_DATA:
-            g_value_set_boxed(value, file->data);
-            break;
+    case PROP_DATA:
+        g_value_set_boxed(value, file->data);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_camera_file_set_property(GObject *object,
-                                          guint prop_id,
-                                          const GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_camera_file_set_property(GObject *object,
+                                  guint prop_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
 {
     EntangleCameraFile *file = ENTANGLE_CAMERA_FILE(object);
 
-    switch (prop_id)
-        {
-        case PROP_FOLDER:
-            g_free(file->folder);
-            file->folder = g_value_dup_string(value);
-            break;
+    switch (prop_id) {
+    case PROP_FOLDER:
+        g_free(file->folder);
+        file->folder = g_value_dup_string(value);
+        break;
 
-        case PROP_NAME:
-            g_free(file->name);
-            file->name = g_value_dup_string(value);
-            break;
+    case PROP_NAME:
+        g_free(file->name);
+        file->name = g_value_dup_string(value);
+        break;
 
-        case PROP_MIMETYPE:
-            g_free(file->mimetype);
-            file->mimetype = g_value_dup_string(value);
-            break;
+    case PROP_MIMETYPE:
+        g_free(file->mimetype);
+        file->mimetype = g_value_dup_string(value);
+        break;
 
-        case PROP_DATA:
-            if (file->data)
-                g_byte_array_unref(file->data);
-            file->data = g_value_dup_boxed(value);
-            break;
+    case PROP_DATA:
+        if (file->data)
+            g_byte_array_unref(file->data);
+        file->data = g_value_dup_boxed(value);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_camera_file_finalize(GObject *object)
+static void
+entangle_camera_file_finalize(GObject *object)
 {
     EntangleCameraFile *file = ENTANGLE_CAMERA_FILE(object);
 
@@ -128,8 +131,8 @@ static void entangle_camera_file_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_camera_file_parent_class)->finalize(object);
 }
 
-
-static void entangle_camera_file_class_init(EntangleCameraFileClass *klass)
+static void
+entangle_camera_file_class_init(EntangleCameraFileClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -137,69 +140,45 @@ static void entangle_camera_file_class_init(EntangleCameraFileClass *klass)
     object_class->get_property = entangle_camera_file_get_property;
     object_class->set_property = entangle_camera_file_set_property;
 
+    g_object_class_install_property(
+        object_class, PROP_FOLDER,
+        g_param_spec_string(
+            "folder", "Camera file folder", "Folder name on the camera", NULL,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_NAME,
+        g_param_spec_string(
+            "name", "Camera file name", "File name on the camera", NULL,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_MIMETYPE,
+        g_param_spec_string("mimetype", "Camera file mimetype",
+                            "File mimetype on the camera", NULL,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_FOLDER,
-                                    g_param_spec_string("folder",
-                                                        "Camera file folder",
-                                                        "Folder name on the camera",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_NAME,
-                                    g_param_spec_string("name",
-                                                        "Camera file name",
-                                                        "File name on the camera",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_MIMETYPE,
-                                    g_param_spec_string("mimetype",
-                                                        "Camera file mimetype",
-                                                        "File mimetype on the camera",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-
-    g_object_class_install_property(object_class,
-                                    PROP_DATA,
-                                    g_param_spec_boxed("data",
-                                                       "Profile data",
-                                                       "Raw data for the file",
-                                                       G_TYPE_BYTE_ARRAY,
-                                                       G_PARAM_READWRITE |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_DATA,
+        g_param_spec_boxed("data", "Profile data", "Raw data for the file",
+                           G_TYPE_BYTE_ARRAY,
+                           G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                               G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
     ENTANGLE_DEBUG("install prog done");
 }
 
-
-EntangleCameraFile *entangle_camera_file_new(const char *folder,
-                                     const char *name)
+EntangleCameraFile *
+entangle_camera_file_new(const char *folder, const char *name)
 {
-    return ENTANGLE_CAMERA_FILE(g_object_new(ENTANGLE_TYPE_CAMERA_FILE,
-                                         "folder", folder,
-                                         "name", name,
-                                         NULL));
+    return ENTANGLE_CAMERA_FILE(g_object_new(
+        ENTANGLE_TYPE_CAMERA_FILE, "folder", folder, "name", name, NULL));
 }
 
-
-static void entangle_camera_file_init(EntangleCameraFile *file G_GNUC_UNUSED)
-{
-}
-
+static void
+entangle_camera_file_init(EntangleCameraFile *file G_GNUC_UNUSED)
+{}
 
 /**
  * entangle_camera_file_get_folder:
@@ -209,13 +188,13 @@ static void entangle_camera_file_init(EntangleCameraFile *file G_GNUC_UNUSED)
  *
  * Returns: (transfer none): the folder path
  */
-const char *entangle_camera_file_get_folder(EntangleCameraFile *file)
+const char *
+entangle_camera_file_get_folder(EntangleCameraFile *file)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), NULL);
 
     return file->folder;
 }
-
 
 /**
  * entangle_camera_file_get_name:
@@ -225,13 +204,13 @@ const char *entangle_camera_file_get_folder(EntangleCameraFile *file)
  *
  * Returns: (transfer none): the file name
  */
-const char *entangle_camera_file_get_name(EntangleCameraFile *file)
+const char *
+entangle_camera_file_get_name(EntangleCameraFile *file)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), NULL);
 
     return file->name;
 }
-
 
 /**
  * entangle_camera_file_save_path:
@@ -243,9 +222,10 @@ const char *entangle_camera_file_get_name(EntangleCameraFile *file)
  *
  * Returns: TRUE if the file was saved, FALSE on error
  */
-gboolean entangle_camera_file_save_path(EntangleCameraFile *file,
-                                        const char *localpath,
-                                        GError **err)
+gboolean
+entangle_camera_file_save_path(EntangleCameraFile *file,
+                               const char *localpath,
+                               GError **err)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), FALSE);
     g_return_val_if_fail(localpath != NULL, FALSE);
@@ -269,27 +249,23 @@ gboolean entangle_camera_file_save_path(EntangleCameraFile *file,
         goto cleanup;
     }
 
-    if (!g_output_stream_write_all(G_OUTPUT_STREAM(gos),
-                                   file->data->data,
-                                   file->data->len,
-                                   &written,
-                                   NULL,
-                                   err)) {
-        ENTANGLE_DEBUG("Failed write data %p %d", file->data->data, file->data->len);
+    if (!g_output_stream_write_all(G_OUTPUT_STREAM(gos), file->data->data,
+                                   file->data->len, &written, NULL, err)) {
+        ENTANGLE_DEBUG("Failed write data %p %d", file->data->data,
+                       file->data->len);
         goto cleanup;
     }
 
-    if (!g_output_stream_close(G_OUTPUT_STREAM(gos),
-                               NULL,
-                               err)) {
+    if (!g_output_stream_close(G_OUTPUT_STREAM(gos), NULL, err)) {
         ENTANGLE_DEBUG("Failed close stream");
         goto cleanup;
     }
 
     ret = TRUE;
-    ENTANGLE_DEBUG("Wrote %d of %p %d\n", (int)written, file->data, file->data->len);
+    ENTANGLE_DEBUG("Wrote %d of %p %d\n", (int)written, file->data,
+                   file->data->len);
 
- cleanup:
+cleanup:
     if (gos) {
         if (!ret)
             g_file_delete(gf, NULL, NULL);
@@ -298,7 +274,6 @@ gboolean entangle_camera_file_save_path(EntangleCameraFile *file,
     g_object_unref(gf);
     return ret;
 }
-
 
 /**
  * entangle_camera_file_save_uri:
@@ -311,9 +286,10 @@ gboolean entangle_camera_file_save_path(EntangleCameraFile *file,
  *
  * Returns: TRUE if the file was saved, FALSE on error
  */
-gboolean entangle_camera_file_save_uri(EntangleCameraFile *file,
-                                       const char *uri,
-                                       GError **err)
+gboolean
+entangle_camera_file_save_uri(EntangleCameraFile *file,
+                              const char *uri,
+                              GError **err)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), FALSE);
 
@@ -336,26 +312,22 @@ gboolean entangle_camera_file_save_uri(EntangleCameraFile *file,
         goto cleanup;
     }
 
-    if (!g_output_stream_write_all(G_OUTPUT_STREAM(gos),
-                                   file->data->data,
-                                   file->data->len,
-                                   &written,
-                                   NULL,
-                                   err)) {
-        ENTANGLE_DEBUG("Failed write data %p %d", file->data->data, file->data->len);
+    if (!g_output_stream_write_all(G_OUTPUT_STREAM(gos), file->data->data,
+                                   file->data->len, &written, NULL, err)) {
+        ENTANGLE_DEBUG("Failed write data %p %d", file->data->data,
+                       file->data->len);
         goto cleanup;
     }
 
-    if (!g_output_stream_close(G_OUTPUT_STREAM(gos),
-                               NULL,
-                               err)) {
+    if (!g_output_stream_close(G_OUTPUT_STREAM(gos), NULL, err)) {
         ENTANGLE_DEBUG("Failed close stream");
         goto cleanup;
     }
 
     ret = TRUE;
-    ENTANGLE_DEBUG("Wrote %d of %p %d\n", (int)written, file->data, file->data->len);
- cleanup:
+    ENTANGLE_DEBUG("Wrote %d of %p %d\n", (int)written, file->data,
+                   file->data->len);
+cleanup:
     if (gos) {
         if (!ret)
             g_file_delete(gf, NULL, NULL);
@@ -365,7 +337,6 @@ gboolean entangle_camera_file_save_uri(EntangleCameraFile *file,
     return ret;
 }
 
-
 /**
  * entangle_camera_file_get_data:
  * @file: (transfer none): the camera file instance
@@ -374,13 +345,13 @@ gboolean entangle_camera_file_save_uri(EntangleCameraFile *file,
  *
  * Returns: (transfer none): the camera data
  */
-GByteArray *entangle_camera_file_get_data(EntangleCameraFile *file)
+GByteArray *
+entangle_camera_file_get_data(EntangleCameraFile *file)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), NULL);
 
     return file->data;
 }
-
 
 /**
  * entangle_camera_file_set_data:
@@ -393,7 +364,8 @@ GByteArray *entangle_camera_file_get_data(EntangleCameraFile *file)
  * reference will be acquired. Thus any further changes to @data by the
  * caller will affect this object
  */
-void entangle_camera_file_set_data(EntangleCameraFile *file, GByteArray *data)
+void
+entangle_camera_file_set_data(EntangleCameraFile *file, GByteArray *data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_FILE(file));
 
@@ -404,7 +376,6 @@ void entangle_camera_file_set_data(EntangleCameraFile *file, GByteArray *data)
         g_byte_array_ref(file->data);
 }
 
-
 /**
  * entangle_camera_file_get_mimetype:
  * @file: (transfer none): the camera file instance
@@ -413,13 +384,13 @@ void entangle_camera_file_set_data(EntangleCameraFile *file, GByteArray *data)
  *
  * Returns: (transfer none): the mime type or NULL
  */
-const gchar *entangle_camera_file_get_mimetype(EntangleCameraFile *file)
+const gchar *
+entangle_camera_file_get_mimetype(EntangleCameraFile *file)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), NULL);
 
     return file->mimetype;
 }
-
 
 /**
  * entangle_camera_file_set_mimetype:
@@ -430,7 +401,9 @@ const gchar *entangle_camera_file_get_mimetype(EntangleCameraFile *file)
  * This replaces any previously set mime type. Passing in
  * NULL for @mimetype will clear the mime type information.
  */
-void entangle_camera_file_set_mimetype(EntangleCameraFile *file, const gchar *mimetype)
+void
+entangle_camera_file_set_mimetype(EntangleCameraFile *file,
+                                  const gchar *mimetype)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_FILE(file));
 

@@ -23,23 +23,28 @@
 
 #include <gtk/gtk.h>
 
-#include "entangle-camera.h"
 #include "entangle-camera-list.h"
+#include "entangle-camera.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CAMERA_PICKER            (entangle_camera_picker_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleCameraPicker, entangle_camera_picker, ENTANGLE, CAMERA_PICKER, GtkDialog)
+#define ENTANGLE_TYPE_CAMERA_PICKER (entangle_camera_picker_get_type())
+G_DECLARE_FINAL_TYPE(EntangleCameraPicker,
+                     entangle_camera_picker,
+                     ENTANGLE,
+                     CAMERA_PICKER,
+                     GtkDialog)
 
-EntangleCameraPicker* entangle_camera_picker_new(void);
+EntangleCameraPicker *
+entangle_camera_picker_new(void);
 
-void entangle_camera_picker_set_camera_list(EntangleCameraPicker *picker,
-                                            EntangleCameraList *cameras);
+void
+entangle_camera_picker_set_camera_list(EntangleCameraPicker *picker,
+                                       EntangleCameraList *cameras);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CAMERA_PICKER_H__ */
-
 
 /*
  * Local variables:

@@ -18,45 +18,51 @@
  *
  */
 
-
 #ifndef __ENTANGLE_CAMERA_LIST_H__
 #define __ENTANGLE_CAMERA_LIST_H__
 
-#include "entangle-camera.h"
-
 #include <glib-object.h>
+
+#include "entangle-camera.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CAMERA_LIST            (entangle_camera_list_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleCameraList, entangle_camera_list, ENTANGLE, CAMERA_LIST, GObject)
+#define ENTANGLE_TYPE_CAMERA_LIST (entangle_camera_list_get_type())
+G_DECLARE_FINAL_TYPE(EntangleCameraList,
+                     entangle_camera_list,
+                     ENTANGLE,
+                     CAMERA_LIST,
+                     GObject)
 
-EntangleCameraList *entangle_camera_list_new_active(void);
-EntangleCameraList *entangle_camera_list_new_supported(void);
+EntangleCameraList *
+entangle_camera_list_new_active(void);
+EntangleCameraList *
+entangle_camera_list_new_supported(void);
 
-gboolean entangle_camera_list_refresh(EntangleCameraList *list,
-                                      GError **error);
+gboolean
+entangle_camera_list_refresh(EntangleCameraList *list, GError **error);
 
-int entangle_camera_list_count(EntangleCameraList *list);
+int
+entangle_camera_list_count(EntangleCameraList *list);
 
-void entangle_camera_list_add(EntangleCameraList *list,
-                              EntangleCamera *cam);
+void
+entangle_camera_list_add(EntangleCameraList *list, EntangleCamera *cam);
 
-void entangle_camera_list_remove(EntangleCameraList *list,
-                                 EntangleCamera *cam);
+void
+entangle_camera_list_remove(EntangleCameraList *list, EntangleCamera *cam);
 
-EntangleCamera *entangle_camera_list_get(EntangleCameraList *list,
-                                         int entry);
+EntangleCamera *
+entangle_camera_list_get(EntangleCameraList *list, int entry);
 
-GList *entangle_camera_list_get_cameras(EntangleCameraList *list);
+GList *
+entangle_camera_list_get_cameras(EntangleCameraList *list);
 
-EntangleCamera *entangle_camera_list_find(EntangleCameraList *list,
-                                          const char *port);
+EntangleCamera *
+entangle_camera_list_find(EntangleCameraList *list, const char *port);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CAMERA_LIST_H__ */
-
 
 /*
  * Local variables:

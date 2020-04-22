@@ -18,20 +18,23 @@
  *
  */
 
-#include <glib.h>
-#include <gio/gio.h>
+#include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <errno.h>
-#include <stdlib.h>
+
+#include <gio/gio.h>
+#include <glib.h>
+
+#include "entangle-session.h"
 
 #include "entangle-debug.h"
-#include "entangle-session.h"
 #include "entangle-image.h"
 #include "entangle-video.h"
 
-struct _EntangleSession {
+struct _EntangleSession
+{
     GObject parent;
     char *directory;
     char *filenamePattern;
@@ -46,16 +49,18 @@ struct _EntangleSession {
 
 G_DEFINE_TYPE(EntangleSession, entangle_session, G_TYPE_OBJECT);
 
-enum {
+enum
+{
     PROP_0,
     PROP_DIRECTORY,
     PROP_FILENAME_PATTERN,
 };
 
-static void entangle_session_get_property(GObject *object,
-                                          guint prop_id,
-                                          GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_session_get_property(GObject *object,
+                              guint prop_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleSession *session = ENTANGLE_SESSION(object);
 
@@ -73,10 +78,11 @@ static void entangle_session_get_property(GObject *object,
     }
 }
 
-static void entangle_session_set_property(GObject *object,
-                                          guint prop_id,
-                                          const GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_session_set_property(GObject *object,
+                              guint prop_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleSession *session = ENTANGLE_SESSION(object);
 
@@ -98,16 +104,16 @@ static void entangle_session_set_property(GObject *object,
     }
 }
 
-
-static void do_media_unref(gpointer object,
-                           gpointer opaque G_GNUC_UNUSED)
+static void
+do_media_unref(gpointer object, gpointer opaque G_GNUC_UNUSED)
 {
     EntangleMedia *media = object;
 
     g_object_unref(media);
 }
 
-static void entangle_session_finalize(GObject *object)
+static void
+entangle_session_finalize(GObject *object)
 {
     EntangleSession *session = ENTANGLE_SESSION(object);
 
@@ -126,8 +132,8 @@ static void entangle_session_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_session_parent_class)->finalize(object);
 }
 
-
-static void entangle_session_class_init(EntangleSessionClass *klass)
+static void
+entangle_session_class_init(EntangleSessionClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -135,49 +141,31 @@ static void entangle_session_class_init(EntangleSessionClass *klass)
     object_class->get_property = entangle_session_get_property;
     object_class->set_property = entangle_session_set_property;
 
-    g_signal_new("session-media-added",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("session-media-added", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_MEDIA);
 
-    g_signal_new("session-media-removed",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("session-media-removed", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_MEDIA);
 
-    g_object_class_install_property(object_class,
-                                    PROP_DIRECTORY,
-                                    g_param_spec_string("directory",
-                                                        "Session directory",
-                                                        "Full path to session file",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_DIRECTORY,
+        g_param_spec_string(
+            "directory", "Session directory", "Full path to session file", NULL,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_FILENAME_PATTERN,
-                                    g_param_spec_string("filename-pattern",
-                                                        "Filename patern",
-                                                        "Pattern for creating new filenames",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_FILENAME_PATTERN,
+        g_param_spec_string("filename-pattern", "Filename patern",
+                            "Pattern for creating new filenames", NULL,
+                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                                G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                                G_PARAM_STATIC_BLURB));
 }
-
 
 /**
  * entangle_session_new:
@@ -190,21 +178,19 @@ static void entangle_session_class_init(EntangleSessionClass *klass)
  *
  * Returns: (transfer full): the new session
  */
-EntangleSession *entangle_session_new(const char *directory,
-                                      const char *filenamePattern)
+EntangleSession *
+entangle_session_new(const char *directory, const char *filenamePattern)
 {
-    return ENTANGLE_SESSION(g_object_new(ENTANGLE_TYPE_SESSION,
-                                         "directory", directory,
-                                         "filename-pattern", filenamePattern,
-                                         NULL));
+    return ENTANGLE_SESSION(g_object_new(ENTANGLE_TYPE_SESSION, "directory",
+                                         directory, "filename-pattern",
+                                         filenamePattern, NULL));
 }
 
-
-static void entangle_session_init(EntangleSession *session)
+static void
+entangle_session_init(EntangleSession *session)
 {
     session->recalculateDigit = TRUE;
 }
-
 
 /**
  * entangle_session_directory:
@@ -214,13 +200,13 @@ static void entangle_session_init(EntangleSession *session)
  *
  * Returns: (transfer none): the session directory
  */
-const char *entangle_session_directory(EntangleSession *session)
+const char *
+entangle_session_directory(EntangleSession *session)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), NULL);
 
     return session->directory;
 }
-
 
 /**
  * entangle_session_filename_pattern:
@@ -230,20 +216,22 @@ const char *entangle_session_directory(EntangleSession *session)
  *
  * Returns: (transfer none): the filename pattern
  */
-const char *entangle_session_filename_pattern(EntangleSession *session)
+const char *
+entangle_session_filename_pattern(EntangleSession *session)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), NULL);
 
     return session->filenamePattern;
 }
 
-
-static gint entangle_session_next_digit(EntangleSession *session)
+static gint
+entangle_session_next_digit(EntangleSession *session)
 {
     gint maxDigit = -1;
     GList *files = session->files;
     const gchar *template = strchr(session->filenamePattern, 'X');
-    gchar *prefix = g_strndup(session->filenamePattern, (template - session->filenamePattern));
+    gchar *prefix = g_strndup(session->filenamePattern,
+                              (template - session->filenamePattern));
     gint prefixlen = strlen(prefix);
     gsize templatelen = 0;
     const gchar *postfix;
@@ -251,14 +239,15 @@ static gint entangle_session_next_digit(EntangleSession *session)
 
     while (*template == 'X') {
         templatelen++;
-        template++;
+        template ++;
     }
 
     postfix = template;
     postfixlen = strlen(postfix);
 
-    ENTANGLE_DEBUG("Template '%s' with prefixlen %d, %zu digits and postfix %zu",
-                   session->filenamePattern, prefixlen, templatelen, postfixlen);
+    ENTANGLE_DEBUG(
+        "Template '%s' with prefixlen %d, %zu digits and postfix %zu",
+        session->filenamePattern, prefixlen, templatelen, postfixlen);
 
     while (files) {
         EntangleMedia *media = files->data;
@@ -328,8 +317,8 @@ static gint entangle_session_next_digit(EntangleSession *session)
     return maxDigit + 1;
 }
 
-
-static char *entangle_session_next_file_prefix(EntangleSession *session)
+static char *
+entangle_session_next_file_prefix(EntangleSession *session)
 {
     const char *template = strchr(session->filenamePattern, 'X');
     const char *postfix;
@@ -359,13 +348,12 @@ static char *entangle_session_next_file_prefix(EntangleSession *session)
 
     format = g_strdup_printf("%%s%%0%dd%%s", ndigits);
 
-    ENTANGLE_DEBUG("Format '%s' prefix='%s' postfix='%s' ndigits=%d nextDigits=%d",
-                   format, prefix, postfix, ndigits, session->nextFilenameDigit);
+    ENTANGLE_DEBUG(
+        "Format '%s' prefix='%s' postfix='%s' ndigits=%d nextDigits=%d", format,
+        prefix, postfix, ndigits, session->nextFilenameDigit);
 
-    filename = g_strdup_printf(format,
-                               prefix,
-                               session->nextFilenameDigit,
-                               postfix);
+    filename =
+        g_strdup_printf(format, prefix, session->nextFilenameDigit, postfix);
 
     session->nextFilenameDigit++;
 
@@ -374,7 +362,6 @@ static char *entangle_session_next_file_prefix(EntangleSession *session)
 
     return filename;
 }
-
 
 /**
  * entangle_session_next_filename:
@@ -387,8 +374,9 @@ static char *entangle_session_next_file_prefix(EntangleSession *session)
  *
  * Returns: (transfer full): the new filename
  */
-char *entangle_session_next_filename(EntangleSession *session,
-                                     EntangleCameraFile *file)
+char *
+entangle_session_next_filename(EntangleSession *session,
+                               EntangleCameraFile *file)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), NULL);
 
@@ -397,10 +385,10 @@ char *entangle_session_next_filename(EntangleSession *session,
     char *ext = NULL;
     char *srcprefix = NULL;
 
-    ENTANGLE_DEBUG("Next filename %s against (%s, %s)",
-                   srcname,
+    ENTANGLE_DEBUG("Next filename %s against (%s, %s)", srcname,
                    session->lastFilePrefixSrc ? session->lastFilePrefixSrc : "",
-                   session->lastFilePrefixDst ? session->lastFilePrefixDst : "");
+                   session->lastFilePrefixDst ? session->lastFilePrefixDst
+                                              : "");
 
     if (srcname) {
         const char *offset = strrchr(srcname, '.');
@@ -412,9 +400,7 @@ char *entangle_session_next_filename(EntangleSession *session,
         }
     }
 
-    if (srcprefix &&
-        session->lastFilePrefixSrc &&
-        session->lastFilePrefixDst &&
+    if (srcprefix && session->lastFilePrefixSrc && session->lastFilePrefixDst &&
         g_str_equal(session->lastFilePrefixSrc, srcprefix)) {
     } else {
         g_free(session->lastFilePrefixSrc);
@@ -424,10 +410,9 @@ char *entangle_session_next_filename(EntangleSession *session,
     }
 
     if (session->lastFilePrefixDst)
-        dstname = g_strdup_printf("%s/%s.%s",
-                                  session->directory,
-                                  session->lastFilePrefixDst,
-                                  ext ? ext : "jpeg");
+        dstname =
+            g_strdup_printf("%s/%s.%s", session->directory,
+                            session->lastFilePrefixDst, ext ? ext : "jpeg");
     g_free(ext);
 
     ENTANGLE_DEBUG("Built '%s'", dstname);
@@ -441,15 +426,14 @@ char *entangle_session_next_filename(EntangleSession *session,
     return dstname;
 }
 
-
-static gint entangle_session_compare_media(gconstpointer a,
-                                           gconstpointer b)
+static gint
+entangle_session_compare_media(gconstpointer a, gconstpointer b)
 {
     EntangleMedia *mediaa = (EntangleMedia *)a;
     EntangleMedia *mediab = (EntangleMedia *)b;
 
     return entangle_media_get_last_modified(mediaa) -
-        entangle_media_get_last_modified(mediab);
+           entangle_media_get_last_modified(mediab);
 }
 
 /**
@@ -459,20 +443,19 @@ static gint entangle_session_compare_media(gconstpointer a,
  *
  * Add @media to the @session
  */
-void entangle_session_add_media(EntangleSession *session, EntangleMedia *media)
+void
+entangle_session_add_media(EntangleSession *session, EntangleMedia *media)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION(session));
     g_return_if_fail(ENTANGLE_IS_MEDIA(media));
 
     g_object_ref(media);
 
-    session->files = g_list_insert_sorted(session->files,
-                                        media,
-                                        entangle_session_compare_media);
+    session->files = g_list_insert_sorted(session->files, media,
+                                          entangle_session_compare_media);
 
     g_signal_emit_by_name(session, "session-media-added", media);
 }
-
 
 /**
  * entangle_session_remove_media:
@@ -481,7 +464,8 @@ void entangle_session_add_media(EntangleSession *session, EntangleMedia *media)
  *
  * Remove @media from the @session
  */
-void entangle_session_remove_media(EntangleSession *session, EntangleMedia *media)
+void
+entangle_session_remove_media(EntangleSession *session, EntangleMedia *media)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION(session));
     g_return_if_fail(ENTANGLE_IS_MEDIA(media));
@@ -497,7 +481,6 @@ void entangle_session_remove_media(EntangleSession *session, EntangleMedia *medi
     g_object_unref(media);
 }
 
-
 /**
  * entangle_session_load:
  * @session: (transfer none): the session instance
@@ -507,19 +490,19 @@ void entangle_session_remove_media(EntangleSession *session, EntangleMedia *medi
  *
  * Returns: TRUE if the session was loaded
  */
-gboolean entangle_session_load(EntangleSession *session)
+gboolean
+entangle_session_load(EntangleSession *session)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), FALSE);
 
     GFile *dir = g_file_new_for_path(session->directory);
     GList *tmp;
-    GFileEnumerator *children = g_file_enumerate_children(dir,
-                                                          "standard::name,standard::type",
-                                                          G_FILE_QUERY_INFO_NONE,
-                                                          NULL,
-                                                          NULL);
+    GFileEnumerator *children =
+        g_file_enumerate_children(dir, "standard::name,standard::type",
+                                  G_FILE_QUERY_INFO_NONE, NULL, NULL);
     GFileInfo *childinfo;
-    while ((childinfo = g_file_enumerator_next_file(children, NULL, NULL)) != NULL) {
+    while ((childinfo = g_file_enumerator_next_file(children, NULL, NULL)) !=
+           NULL) {
         const gchar *thisname = g_file_info_get_name(childinfo);
         GFile *child = g_file_get_child(dir, thisname);
         if (g_file_info_get_file_type(childinfo) == G_FILE_TYPE_REGULAR ||
@@ -529,8 +512,7 @@ gboolean entangle_session_load(EntangleSession *session)
             EntangleMedia *media = NULL;
             char *filename = g_file_get_path(child);
 
-            if (!(ctype = g_content_type_guess(filename,
-                                               NULL, 0, NULL))) {
+            if (!(ctype = g_content_type_guess(filename, NULL, 0, NULL))) {
                 ENTANGLE_DEBUG("No content type for %s", filename);
                 g_free(filename);
                 continue;
@@ -550,8 +532,8 @@ gboolean entangle_session_load(EntangleSession *session)
             } else if (g_str_has_prefix(mimetype, "video/")) {
                 media = ENTANGLE_MEDIA(entangle_video_new_file(filename));
             } else {
-                ENTANGLE_DEBUG("Mime type %s for file %s not wanted",
-                               mimetype, filename);
+                ENTANGLE_DEBUG("Mime type %s for file %s not wanted", mimetype,
+                               filename);
             }
             g_free(mimetype);
             if (media) {
@@ -566,8 +548,8 @@ gboolean entangle_session_load(EntangleSession *session)
 
     g_object_unref(children);
 
-    session->files = g_list_sort(session->files,
-                               entangle_session_compare_media);
+    session->files =
+        g_list_sort(session->files, entangle_session_compare_media);
 
     tmp = session->files;
     while (tmp) {
@@ -583,7 +565,6 @@ gboolean entangle_session_load(EntangleSession *session)
     return TRUE;
 }
 
-
 /**
  * entangle_session_get_media_count:
  * @session: (transfer none): the session instance
@@ -592,13 +573,13 @@ gboolean entangle_session_load(EntangleSession *session)
  *
  * Returns: the file count
  */
-int entangle_session_get_media_count(EntangleSession *session)
+int
+entangle_session_get_media_count(EntangleSession *session)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), 0);
 
     return g_list_length(session->files);
 }
-
 
 /**
  * entangle_session_get_media:
@@ -609,7 +590,8 @@ int entangle_session_get_media_count(EntangleSession *session)
  *
  * Returns: (transfer none): the media file
  */
-EntangleMedia *entangle_session_get_media(EntangleSession *session, int idx)
+EntangleMedia *
+entangle_session_get_media(EntangleSession *session, int idx)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION(session), NULL);
 

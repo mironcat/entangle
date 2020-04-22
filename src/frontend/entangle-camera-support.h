@@ -27,20 +27,26 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CAMERA_SUPPORT            (entangle_camera_support_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleCameraSupport, entangle_camera_support, ENTANGLE, CAMERA_SUPPORT, GtkDialog)
+#define ENTANGLE_TYPE_CAMERA_SUPPORT (entangle_camera_support_get_type())
+G_DECLARE_FINAL_TYPE(EntangleCameraSupport,
+                     entangle_camera_support,
+                     ENTANGLE,
+                     CAMERA_SUPPORT,
+                     GtkDialog)
 
-EntangleCameraSupport *entangle_camera_support_new(void);
+EntangleCameraSupport *
+entangle_camera_support_new(void);
 
-void entangle_camera_support_set_camera_list(EntangleCameraSupport *support,
-                                             EntangleCameraList *list);
+void
+entangle_camera_support_set_camera_list(EntangleCameraSupport *support,
+                                        EntangleCameraList *list);
 
-EntangleCameraList *entangle_camera_support_get_camera_list(EntangleCameraSupport *support);
+EntangleCameraList *
+entangle_camera_support_get_camera_list(EntangleCameraSupport *support);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CAMERA_SUPPORT_H__ */
-
 
 /*
  * Local variables:

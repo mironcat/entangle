@@ -18,29 +18,29 @@
  *
  */
 
-#include "entangle-dpms.h"
-#include "entangle-debug.h"
-
-#include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <gtk/gtk.h>
+
+#include "entangle-dpms.h"
+
+#include "entangle-debug.h"
 
 #if defined(GDK_WINDOWING_X11)
 #include <X11/Xlib.h>
 #include <X11/extensions/dpms.h>
-
 #include <gdk/gdkx.h>
 #endif
 
-#define ENTANGLE_DPMS_ERROR entangle_dpms_error_quark ()
+#define ENTANGLE_DPMS_ERROR entangle_dpms_error_quark()
 
-static GQuark entangle_dpms_error_quark(void)
+static GQuark
+entangle_dpms_error_quark(void)
 {
     return g_quark_from_static_string("entangle-dpms");
 }
 
-
-gboolean entangle_dpms_set_blanking(gboolean enabled,
-                                    GError **error)
+gboolean
+entangle_dpms_set_blanking(gboolean enabled, GError **error)
 {
     GdkDisplay *dpy = gdk_display_get_default();
 

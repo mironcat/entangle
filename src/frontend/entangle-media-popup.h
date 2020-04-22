@@ -27,29 +27,40 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_MEDIA_POPUP            (entangle_media_popup_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleMediaPopup, entangle_media_popup, ENTANGLE, MEDIA_POPUP, GtkWindow)
+#define ENTANGLE_TYPE_MEDIA_POPUP (entangle_media_popup_get_type())
+G_DECLARE_FINAL_TYPE(EntangleMediaPopup,
+                     entangle_media_popup,
+                     ENTANGLE,
+                     MEDIA_POPUP,
+                     GtkWindow)
 
-EntangleMediaPopup *entangle_media_popup_new(void);
+EntangleMediaPopup *
+entangle_media_popup_new(void);
 
-void entangle_media_popup_show(EntangleMediaPopup *popup,
-                               GtkWindow *parent,
-                               int x, int y);
-void entangle_media_popup_move_to_monitor(EntangleMediaPopup *popup, gint monitor);
-void entangle_media_popup_show_on_monitor(EntangleMediaPopup *popup, gint monitor);
+void
+entangle_media_popup_show(EntangleMediaPopup *popup,
+                          GtkWindow *parent,
+                          int x,
+                          int y);
+void
+entangle_media_popup_move_to_monitor(EntangleMediaPopup *popup, gint monitor);
+void
+entangle_media_popup_show_on_monitor(EntangleMediaPopup *popup, gint monitor);
 
-void entangle_media_popup_set_media(EntangleMediaPopup *popup, EntangleMedia *media);
-EntangleMedia *entangle_media_popup_get_media(EntangleMediaPopup *popup);
+void
+entangle_media_popup_set_media(EntangleMediaPopup *popup, EntangleMedia *media);
+EntangleMedia *
+entangle_media_popup_get_media(EntangleMediaPopup *popup);
 
-void entangle_media_popup_set_background(EntangleMediaPopup *popup,
-                                         const gchar *background);
-gchar *entangle_media_popup_get_background(EntangleMediaPopup *popup);
-
+void
+entangle_media_popup_set_background(EntangleMediaPopup *popup,
+                                    const gchar *background);
+gchar *
+entangle_media_popup_get_background(EntangleMediaPopup *popup);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_MEDIA_POPUP_H__ */
-
 
 /*
  * Local variables:

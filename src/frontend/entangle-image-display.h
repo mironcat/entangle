@@ -23,61 +23,87 @@
 
 #include <gtk/gtk.h>
 
-#include "entangle-image-loader.h"
-
 #include "entangle-image-display-enums.h"
+#include "entangle-image-loader.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_IMAGE_DISPLAY            (entangle_image_display_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleImageDisplay, entangle_image_display, ENTANGLE, IMAGE_DISPLAY, GtkDrawingArea)
+#define ENTANGLE_TYPE_IMAGE_DISPLAY (entangle_image_display_get_type())
+G_DECLARE_FINAL_TYPE(EntangleImageDisplay,
+                     entangle_image_display,
+                     ENTANGLE,
+                     IMAGE_DISPLAY,
+                     GtkDrawingArea)
 
-EntangleImageDisplay *entangle_image_display_new(void);
+EntangleImageDisplay *
+entangle_image_display_new(void);
 
-void entangle_image_display_set_image(EntangleImageDisplay *display,
-                                      EntangleImage *image);
-EntangleImage *entangle_image_display_get_image(EntangleImageDisplay *display);
+void
+entangle_image_display_set_image(EntangleImageDisplay *display,
+                                 EntangleImage *image);
+EntangleImage *
+entangle_image_display_get_image(EntangleImageDisplay *display);
 
-void entangle_image_display_set_background(EntangleImageDisplay *display,
-                                           const gchar *background);
-gchar *entangle_image_display_get_background(EntangleImageDisplay *display);
+void
+entangle_image_display_set_background(EntangleImageDisplay *display,
+                                      const gchar *background);
+gchar *
+entangle_image_display_get_background(EntangleImageDisplay *display);
 
-void entangle_image_display_set_image_list(EntangleImageDisplay *display,
-                                           GList *images);
-GList *entangle_image_display_get_image_list(EntangleImageDisplay *display);
+void
+entangle_image_display_set_image_list(EntangleImageDisplay *display,
+                                      GList *images);
+GList *
+entangle_image_display_get_image_list(EntangleImageDisplay *display);
 
-void entangle_image_display_set_autoscale(EntangleImageDisplay *displsy,
-                                          gboolean autoscale);
-gboolean entangle_image_display_get_autoscale(EntangleImageDisplay *display);
+void
+entangle_image_display_set_autoscale(EntangleImageDisplay *displsy,
+                                     gboolean autoscale);
+gboolean
+entangle_image_display_get_autoscale(EntangleImageDisplay *display);
 
+void
+entangle_image_display_set_scale(EntangleImageDisplay *display, gdouble scale);
+gdouble
+entangle_image_display_get_scale(EntangleImageDisplay *display);
 
-void entangle_image_display_set_scale(EntangleImageDisplay *display,
-                                      gdouble scale);
-gdouble entangle_image_display_get_scale(EntangleImageDisplay *display);
+void
+entangle_image_display_set_aspect_ratio(EntangleImageDisplay *display,
+                                        gdouble aspect);
+gdouble
+entangle_image_display_get_aspect_ratio(EntangleImageDisplay *display);
 
-void entangle_image_display_set_aspect_ratio(EntangleImageDisplay *display,
-                                             gdouble aspect);
-gdouble entangle_image_display_get_aspect_ratio(EntangleImageDisplay *display);
+void
+entangle_image_display_set_mask_opacity(EntangleImageDisplay *display,
+                                        gdouble opacity);
+gdouble
+entangle_image_display_get_mask_opacity(EntangleImageDisplay *display);
 
-void entangle_image_display_set_mask_opacity(EntangleImageDisplay *display,
-                                             gdouble opacity);
-gdouble entangle_image_display_get_mask_opacity(EntangleImageDisplay *display);
+void
+entangle_image_display_set_mask_enabled(EntangleImageDisplay *display,
+                                        gboolean enabled);
+gboolean
+entangle_image_display_get_mask_enabled(EntangleImageDisplay *display);
 
-void entangle_image_display_set_mask_enabled(EntangleImageDisplay *display,
-                                             gboolean enabled);
-gboolean entangle_image_display_get_mask_enabled(EntangleImageDisplay *display);
+void
+entangle_image_display_set_focus_point(EntangleImageDisplay *display,
+                                       gboolean enabled);
+gboolean
+entangle_image_display_get_focus_point(EntangleImageDisplay *display);
 
-void entangle_image_display_set_focus_point(EntangleImageDisplay *display,
-                                            gboolean enabled);
-gboolean entangle_image_display_get_focus_point(EntangleImageDisplay *display);
+void
+entangle_image_display_set_overexposure_highlighting(
+    EntangleImageDisplay *display,
+    gboolean enabled);
+gboolean
+entangle_image_display_get_overexposure_highlighting(
+    EntangleImageDisplay *display);
 
-void entangle_image_display_set_overexposure_highlighting(EntangleImageDisplay *display,
-                                                          gboolean enabled);
-gboolean entangle_image_display_get_overexposure_highlighting(EntangleImageDisplay *display);
+gboolean
+entangle_image_display_get_loaded(EntangleImageDisplay *display);
 
-gboolean entangle_image_display_get_loaded(EntangleImageDisplay *display);
-
-typedef enum {
+typedef enum
+{
     ENTANGLE_IMAGE_DISPLAY_GRID_NONE,
     ENTANGLE_IMAGE_DISPLAY_GRID_CENTER_LINES,
     ENTANGLE_IMAGE_DISPLAY_GRID_RULE_OF_3RDS,
@@ -86,14 +112,15 @@ typedef enum {
     ENTANGLE_IMAGE_DISPLAY_GRID_GOLDEN_SECTIONS,
 } EntangleImageDisplayGrid;
 
-void entangle_image_display_set_grid_display(EntangleImageDisplay *display,
-                                             EntangleImageDisplayGrid mode);
-EntangleImageDisplayGrid entangle_image_display_get_grid_display(EntangleImageDisplay *display);
+void
+entangle_image_display_set_grid_display(EntangleImageDisplay *display,
+                                        EntangleImageDisplayGrid mode);
+EntangleImageDisplayGrid
+entangle_image_display_get_grid_display(EntangleImageDisplay *display);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_IMAGE_DISPLAY_H__ */
-
 
 /*
  * Local variables:

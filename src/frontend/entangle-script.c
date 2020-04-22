@@ -21,6 +21,7 @@
 #include <glib/gi18n.h>
 
 #include "entangle-script.h"
+
 #include "entangle-debug.h"
 
 typedef struct _EntangleScriptPrivate EntangleScriptPrivate;
@@ -29,80 +30,76 @@ struct _EntangleScriptPrivate
     char *title;
 };
 
-G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(EntangleScript, entangle_script, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(EntangleScript,
+                                    entangle_script,
+                                    G_TYPE_OBJECT);
 
-enum {
+enum
+{
     PROP_O,
     PROP_TITLE,
 };
 
-static void entangle_script_get_property(GObject *object,
-                                         guint prop_id,
-                                         GValue *value,
-                                         GParamSpec *pspec)
+static void
+entangle_script_get_property(GObject *object,
+                             guint prop_id,
+                             GValue *value,
+                             GParamSpec *pspec)
 {
     EntangleScript *script = ENTANGLE_SCRIPT(object);
     EntangleScriptPrivate *priv = entangle_script_get_instance_private(script);
 
-    switch (prop_id)
-        {
-        case PROP_TITLE:
-            g_value_set_string(value, priv->title);
-            break;
+    switch (prop_id) {
+    case PROP_TITLE:
+        g_value_set_string(value, priv->title);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_script_set_property(GObject *object,
-                                         guint prop_id,
-                                         const GValue *value,
-                                         GParamSpec *pspec)
+static void
+entangle_script_set_property(GObject *object,
+                             guint prop_id,
+                             const GValue *value,
+                             GParamSpec *pspec)
 {
     EntangleScript *script = ENTANGLE_SCRIPT(object);
     EntangleScriptPrivate *priv = entangle_script_get_instance_private(script);
 
     ENTANGLE_DEBUG("Set prop on image script %d", prop_id);
 
-    switch (prop_id)
-        {
-        case PROP_TITLE:
-            g_free(priv->title);
-            priv->title = g_value_dup_string(value);
-            break;
+    switch (prop_id) {
+    case PROP_TITLE:
+        g_free(priv->title);
+        priv->title = g_value_dup_string(value);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_script_class_init(EntangleScriptClass *klass)
+static void
+entangle_script_class_init(EntangleScriptClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
     object_class->get_property = entangle_script_get_property;
     object_class->set_property = entangle_script_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_TITLE,
-                                    g_param_spec_string("title",
-                                                        "Title",
-                                                        "Script title",
-                                                        _("Untitled script"),
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_TITLE,
+        g_param_spec_string("title", "Title", "Script title",
+                            _("Untitled script"),
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-static void entangle_script_init(EntangleScript *script G_GNUC_UNUSED)
-{
-}
-
+static void
+entangle_script_init(EntangleScript *script G_GNUC_UNUSED)
+{}
 
 /**
  * entangle_script_get_title:
@@ -112,7 +109,8 @@ static void entangle_script_init(EntangleScript *script G_GNUC_UNUSED)
  *
  * Returns: (transfer none): the title of the script
  */
-const gchar *entangle_script_get_title(EntangleScript *script)
+const gchar *
+entangle_script_get_title(EntangleScript *script)
 {
     g_return_val_if_fail(ENTANGLE_IS_SCRIPT(script), NULL);
 
@@ -120,7 +118,6 @@ const gchar *entangle_script_get_title(EntangleScript *script)
 
     return priv->title;
 }
-
 
 /**
  * entangle_script_get_config_widget:
@@ -130,39 +127,38 @@ const gchar *entangle_script_get_title(EntangleScript *script)
  *
  * Returns: (transfer full): the config widget
  */
-GtkWidget *entangle_script_get_config_widget(EntangleScript *script)
+GtkWidget *
+entangle_script_get_config_widget(EntangleScript *script)
 {
     g_return_val_if_fail(ENTANGLE_IS_SCRIPT(script), NULL);
-    g_return_val_if_fail(ENTANGLE_SCRIPT_GET_CLASS(script)->get_config_widget != NULL, NULL);
+    g_return_val_if_fail(
+        ENTANGLE_SCRIPT_GET_CLASS(script)->get_config_widget != NULL, NULL);
 
     return ENTANGLE_SCRIPT_GET_CLASS(script)->get_config_widget(script);
 }
-
 
 /**
  * entangle_script_execute_async:
  * @script: (transfer none): the script object
  * @automata: (transfer none): the camera automata
  * @cancel: (transfer none)(allow-none): cancellation handler
- * @callback: (scope async): a #GAsyncReadyCallback to call when the script has finished
+ * @callback: (scope async): a #GAsyncReadyCallback to call when the script has
+ * finished
  * @data: (closure): the data to pass to the callback function
  */
-void entangle_script_execute_async(EntangleScript *script,
-                                   EntangleCameraAutomata *automata,
-                                   GCancellable *cancel,
-                                   GAsyncReadyCallback callback,
-                                   gpointer data)
+void
+entangle_script_execute_async(EntangleScript *script,
+                              EntangleCameraAutomata *automata,
+                              GCancellable *cancel,
+                              GAsyncReadyCallback callback,
+                              gpointer data)
 {
     g_return_if_fail(ENTANGLE_IS_SCRIPT(script));
     g_return_if_fail(ENTANGLE_SCRIPT_GET_CLASS(script)->execute_async != NULL);
 
-    ENTANGLE_SCRIPT_GET_CLASS(script)->execute_async(script,
-                                                     automata,
-                                                     cancel,
-                                                     callback,
-                                                     data);
+    ENTANGLE_SCRIPT_GET_CLASS(script)->execute_async(script, automata, cancel,
+                                                     callback, data);
 }
-
 
 /**
  * entangle_script_execute_finish:
@@ -172,15 +168,16 @@ void entangle_script_execute_async(EntangleScript *script,
  *
  * Returns: TRUE on success, false otherwise
  */
-gboolean entangle_script_execute_finish(EntangleScript *script,
-                                        GAsyncResult *result,
-                                        GError **error)
+gboolean
+entangle_script_execute_finish(EntangleScript *script,
+                               GAsyncResult *result,
+                               GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_SCRIPT(script), FALSE);
-    g_return_val_if_fail(ENTANGLE_SCRIPT_GET_CLASS(script)->execute_finish != NULL, FALSE);
+    g_return_val_if_fail(
+        ENTANGLE_SCRIPT_GET_CLASS(script)->execute_finish != NULL, FALSE);
 
-    return ENTANGLE_SCRIPT_GET_CLASS(script)->execute_finish(script,
-                                                             result,
+    return ENTANGLE_SCRIPT_GET_CLASS(script)->execute_finish(script, result,
                                                              error);
 }
 

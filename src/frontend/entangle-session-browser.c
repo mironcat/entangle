@@ -20,11 +20,13 @@
 
 #include <string.h>
 
-#include "entangle-debug.h"
 #include "entangle-session-browser.h"
+
+#include "entangle-debug.h"
 #include "entangle-video.h"
 
-struct _EntangleSessionBrowser {
+struct _EntangleSessionBrowser
+{
     GtkDrawingArea parent;
 
     EntangleSession *session;
@@ -60,7 +62,6 @@ struct _EntangleSessionBrowser {
     gint dnd_start_y;
 };
 
-
 static void
 entangle_session_browser_adjustment_changed(GtkAdjustment *adjustment,
                                             EntangleSessionBrowser *browser);
@@ -73,21 +74,25 @@ entangle_session_browser_set_vadjustment(EntangleSessionBrowser *browser,
                                          GtkAdjustment *adjustment);
 
 static void
-entangle_session_browser_set_hadjustment_values(EntangleSessionBrowser *browser);
+entangle_session_browser_set_hadjustment_values(
+    EntangleSessionBrowser *browser);
 static void
-entangle_session_browser_set_vadjustment_values(EntangleSessionBrowser *browser);
+entangle_session_browser_set_vadjustment_values(
+    EntangleSessionBrowser *browser);
 
 static gboolean
-entangle_session_browser_draw(GtkWidget *widget,
-                              cairo_t *cr);
+entangle_session_browser_draw(GtkWidget *widget, cairo_t *cr);
 
 static void
 entangle_session_browser_scroll_to_selected(EntangleSessionBrowser *browser);
 
-G_DEFINE_TYPE_WITH_CODE(EntangleSessionBrowser, entangle_session_browser, GTK_TYPE_DRAWING_AREA,
+G_DEFINE_TYPE_WITH_CODE(EntangleSessionBrowser,
+                        entangle_session_browser,
+                        GTK_TYPE_DRAWING_AREA,
                         G_IMPLEMENT_INTERFACE(GTK_TYPE_SCROLLABLE, NULL))
 
-enum {
+enum
+{
     PROP_O,
     PROP_SESSION,
     PROP_LOADER,
@@ -97,14 +102,14 @@ enum {
     PROP_VSCROLL_POLICY,
 };
 
-enum {
+enum
+{
     SIGNAL_SELECTION_CHANGED,
 
     SIGNAL_LAST,
 };
 
 static guint browser_signals[SIGNAL_LAST] = { 0 };
-
 
 static void
 entangle_session_browser_scroll_to_selected(EntangleSessionBrowser *browser)
@@ -128,20 +133,19 @@ entangle_session_browser_scroll_to_selected(EntangleSessionBrowser *browser)
     gtk_widget_get_allocation(GTK_WIDGET(browser), &allocation);
 
     if ((x + minx) < 0) {
-        gtk_adjustment_set_value(browser->hadjustment,
-                                 gtk_adjustment_get_value(browser->hadjustment) +
-                                 x + minx);
+        gtk_adjustment_set_value(
+            browser->hadjustment,
+            gtk_adjustment_get_value(browser->hadjustment) + x + minx);
     } else if ((x + maxx) > allocation.width) {
-        gtk_adjustment_set_value(browser->hadjustment,
-                                 gtk_adjustment_get_value(browser->hadjustment) +
-                                 x + maxx - allocation.width);
+        gtk_adjustment_set_value(
+            browser->hadjustment,
+            gtk_adjustment_get_value(browser->hadjustment) + x + maxx -
+                allocation.width);
     }
 }
 
-
 static gboolean
-entangle_session_browser_select_media(EntangleSessionBrowser *browser,
-                                      int idx)
+entangle_session_browser_select_media(EntangleSessionBrowser *browser, int idx)
 {
     EntangleMedia *media;
 
@@ -153,8 +157,7 @@ entangle_session_browser_select_media(EntangleSessionBrowser *browser,
             idx = -1;
         }
     }
-    if (idx != browser->selectedIndex ||
-        media != browser->selectedMedia) {
+    if (idx != browser->selectedIndex || media != browser->selectedMedia) {
         if (browser->selectedMedia) {
             g_object_unref(browser->selectedMedia);
         }
@@ -171,58 +174,61 @@ entangle_session_browser_select_media(EntangleSessionBrowser *browser,
     return browser->selectedIndex != -1;
 }
 
-
-static void do_thumb_loaded(EntanglePixbufLoader *loader G_GNUC_UNUSED,
-                            EntangleImage *image G_GNUC_UNUSED,
-                            gpointer data)
+static void
+do_thumb_loaded(EntanglePixbufLoader *loader G_GNUC_UNUSED,
+                EntangleImage *image G_GNUC_UNUSED,
+                gpointer data)
 {
     EntangleSessionBrowser *browser = data;
 
     gtk_widget_queue_draw(GTK_WIDGET(browser));
 }
 
-
-static void do_media_added(EntangleSession *session G_GNUC_UNUSED,
-                           EntangleMedia *media,
-                           gpointer data)
+static void
+do_media_added(EntangleSession *session G_GNUC_UNUSED,
+               EntangleMedia *media,
+               gpointer data)
 {
     EntangleSessionBrowser *browser = data;
 
-    ENTANGLE_DEBUG("Request image %s for new image", entangle_media_get_filename(media));
+    ENTANGLE_DEBUG("Request image %s for new image",
+                   entangle_media_get_filename(media));
     if (ENTANGLE_IS_IMAGE(media))
         entangle_pixbuf_loader_load(ENTANGLE_PIXBUF_LOADER(browser->loader),
                                     ENTANGLE_IMAGE(media));
 
-    entangle_session_browser_select_media(browser,
-                                          entangle_session_get_media_count(browser->session) - 1);
+    entangle_session_browser_select_media(
+        browser, entangle_session_get_media_count(browser->session) - 1);
     gtk_widget_queue_resize(GTK_WIDGET(browser));
 }
 
-
-
-static void do_media_removed(EntangleSession *session G_GNUC_UNUSED,
-                             EntangleMedia *media,
-                             gpointer data)
+static void
+do_media_removed(EntangleSession *session G_GNUC_UNUSED,
+                 EntangleMedia *media,
+                 gpointer data)
 {
     EntangleSessionBrowser *browser = data;
 
-    ENTANGLE_DEBUG("Unrequest image %s for new image", entangle_media_get_filename(media));
+    ENTANGLE_DEBUG("Unrequest image %s for new image",
+                   entangle_media_get_filename(media));
     if (ENTANGLE_IS_IMAGE(media))
         entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(browser->loader),
                                       ENTANGLE_IMAGE(media));
 
     if (browser->selectedIndex >= 0) {
-        media = entangle_session_get_media(browser->session, browser->selectedIndex);
+        media = entangle_session_get_media(browser->session,
+                                           browser->selectedIndex);
         if (media != browser->selectedMedia) {
-            entangle_session_browser_select_media(browser, browser->selectedIndex - 1);
+            entangle_session_browser_select_media(browser,
+                                                  browser->selectedIndex - 1);
         }
     }
 
     gtk_widget_queue_resize(GTK_WIDGET(browser));
 }
 
-
-static void do_model_unload(EntangleSessionBrowser *browser)
+static void
+do_model_unload(EntangleSessionBrowser *browser)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
@@ -230,19 +236,16 @@ static void do_model_unload(EntangleSessionBrowser *browser)
 
     ENTANGLE_DEBUG("Unload model");
 
-    g_signal_handler_disconnect(browser->session,
-                                browser->sigMediaAdded);
-    g_signal_handler_disconnect(browser->session,
-                                browser->sigMediaRemoved);
-    g_signal_handler_disconnect(browser->loader,
-                                browser->sigThumbReady);
+    g_signal_handler_disconnect(browser->session, browser->sigMediaAdded);
+    g_signal_handler_disconnect(browser->session, browser->sigMediaRemoved);
+    g_signal_handler_disconnect(browser->loader, browser->sigThumbReady);
 
     count = entangle_session_get_media_count(browser->session);
     for (int i = 0; i < count; i++) {
         EntangleMedia *media = entangle_session_get_media(browser->session, i);
         if (ENTANGLE_IS_IMAGE(media))
-            entangle_pixbuf_loader_unload(ENTANGLE_PIXBUF_LOADER(browser->loader),
-                                          ENTANGLE_IMAGE(media));
+            entangle_pixbuf_loader_unload(
+                ENTANGLE_PIXBUF_LOADER(browser->loader), ENTANGLE_IMAGE(media));
     }
     browser->selectedIndex = -1;
     if (browser->selectedMedia)
@@ -250,7 +253,8 @@ static void do_model_unload(EntangleSessionBrowser *browser)
     browser->selectedMedia = NULL;
 }
 
-static void do_model_load(EntangleSessionBrowser *browser)
+static void
+do_model_load(EntangleSessionBrowser *browser)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
@@ -258,12 +262,14 @@ static void do_model_load(EntangleSessionBrowser *browser)
 
     ENTANGLE_DEBUG("Load model");
 
-    browser->sigMediaAdded = g_signal_connect(browser->session, "session-media-added",
-                                           G_CALLBACK(do_media_added), browser);
-    browser->sigMediaRemoved = g_signal_connect(browser->session, "session-media-removed",
-                                             G_CALLBACK(do_media_removed), browser);
-    browser->sigThumbReady = g_signal_connect(browser->loader, "pixbuf-loaded",
-                                           G_CALLBACK(do_thumb_loaded), browser);
+    browser->sigMediaAdded =
+        g_signal_connect(browser->session, "session-media-added",
+                         G_CALLBACK(do_media_added), browser);
+    browser->sigMediaRemoved =
+        g_signal_connect(browser->session, "session-media-removed",
+                         G_CALLBACK(do_media_removed), browser);
+    browser->sigThumbReady = g_signal_connect(
+        browser->loader, "pixbuf-loaded", G_CALLBACK(do_thumb_loaded), browser);
 
     count = entangle_session_get_media_count(browser->session);
     for (int i = 0; i < count; i++) {
@@ -279,11 +285,11 @@ static void do_model_load(EntangleSessionBrowser *browser)
     }
 }
 
-
-static void entangle_session_browser_get_property(GObject *object,
-                                                  guint prop_id,
-                                                  GValue *value,
-                                                  GParamSpec *pspec)
+static void
+entangle_session_browser_get_property(GObject *object,
+                                      guint prop_id,
+                                      GValue *value,
+                                      GParamSpec *pspec)
 {
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(object);
 
@@ -317,11 +323,11 @@ static void entangle_session_browser_get_property(GObject *object,
     }
 }
 
-
-static void entangle_session_browser_set_property(GObject *object,
-                                                  guint prop_id,
-                                                  const GValue *value,
-                                                  GParamSpec *pspec)
+static void
+entangle_session_browser_set_property(GObject *object,
+                                      guint prop_id,
+                                      const GValue *value,
+                                      GParamSpec *pspec)
 {
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(object);
 
@@ -329,19 +335,23 @@ static void entangle_session_browser_set_property(GObject *object,
 
     switch (prop_id) {
     case PROP_SESSION:
-        entangle_session_browser_set_session(browser, g_value_get_object(value));
+        entangle_session_browser_set_session(browser,
+                                             g_value_get_object(value));
         break;
 
     case PROP_LOADER:
-        entangle_session_browser_set_thumbnail_loader(browser, g_value_get_object(value));
+        entangle_session_browser_set_thumbnail_loader(
+            browser, g_value_get_object(value));
         break;
 
     case PROP_HADJUSTMENT:
-        entangle_session_browser_set_hadjustment(browser, g_value_get_object(value));
+        entangle_session_browser_set_hadjustment(browser,
+                                                 g_value_get_object(value));
         break;
 
     case PROP_VADJUSTMENT:
-        entangle_session_browser_set_vadjustment(browser, g_value_get_object(value));
+        entangle_session_browser_set_vadjustment(browser,
+                                                 g_value_get_object(value));
         break;
 
     case PROP_HSCROLL_POLICY:
@@ -358,7 +368,6 @@ static void entangle_session_browser_set_property(GObject *object,
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
     }
 }
-
 
 static void
 entangle_session_browser_realize(GtkWidget *widget)
@@ -378,8 +387,9 @@ entangle_session_browser_realize(GtkWidget *widget)
     browser->itemsize = allocation.height - (browser->margin * 2);
 
     if (browser->session) {
-        browser->binwidth = (browser->itemsize + browser->margin) *
-            entangle_session_get_media_count(browser->session) +
+        browser->binwidth =
+            (browser->itemsize + browser->margin) *
+                entangle_session_get_media_count(browser->session) +
             browser->margin;
     } else {
         browser->binwidth = allocation.width;
@@ -397,8 +407,8 @@ entangle_session_browser_realize(GtkWidget *widget)
 
     attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 
-    window = gdk_window_new(gtk_widget_get_parent_window(widget),
-                            &attributes, attributes_mask);
+    window = gdk_window_new(gtk_widget_get_parent_window(widget), &attributes,
+                            attributes_mask);
     gtk_widget_set_window(widget, window);
     gdk_window_set_user_data(window, widget);
 
@@ -409,22 +419,17 @@ entangle_session_browser_realize(GtkWidget *widget)
     attributes.y = 0;
     attributes.width = browser->binwidth;
     attributes.height = browser->itemsize;
-    attributes.event_mask = (GDK_EXPOSURE_MASK |
-                             GDK_SCROLL_MASK |
-                             GDK_POINTER_MOTION_MASK |
-                             GDK_BUTTON_PRESS_MASK |
-                             GDK_BUTTON_RELEASE_MASK |
-                             GDK_KEY_PRESS_MASK |
-                             GDK_KEY_RELEASE_MASK) |
+    attributes.event_mask =
+        (GDK_EXPOSURE_MASK | GDK_SCROLL_MASK | GDK_POINTER_MOTION_MASK |
+         GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_KEY_PRESS_MASK |
+         GDK_KEY_RELEASE_MASK) |
         gtk_widget_get_events(widget);
 
-    browser->bin_window = gdk_window_new(window,
-                                      &attributes, attributes_mask);
+    browser->bin_window = gdk_window_new(window, &attributes, attributes_mask);
     gdk_window_set_user_data(browser->bin_window, widget);
 
     gdk_window_show(browser->bin_window);
 }
-
 
 static void
 entangle_session_browser_unrealize(GtkWidget *widget)
@@ -440,9 +445,10 @@ entangle_session_browser_unrealize(GtkWidget *widget)
     GTK_WIDGET_CLASS(entangle_session_browser_parent_class)->unrealize(widget);
 }
 
-
-static int entangle_session_browser_get_index_at_coords(EntangleSessionBrowser *browser,
-                                                        gint x, gint y)
+static int
+entangle_session_browser_get_index_at_coords(EntangleSessionBrowser *browser,
+                                             gint x,
+                                             gint y)
 {
     int idx;
     int itemx;
@@ -455,12 +461,12 @@ static int entangle_session_browser_get_index_at_coords(EntangleSessionBrowser *
         return -1;
 
     itemx = (idx * (browser->itemsize + browser->margin)) + browser->margin;
-    if (x < itemx || y < browser->margin || y > (browser->itemsize + browser->margin))
+    if (x < itemx || y < browser->margin ||
+        y > (browser->itemsize + browser->margin))
         return -1;
 
     return idx;
 }
-
 
 /**
  * entangle_session_browser_get_media_at_coords:
@@ -472,8 +478,10 @@ static int entangle_session_browser_get_index_at_coords(EntangleSessionBrowser *
  *
  * Returns: (transfer none): the media, or NULL
  */
-EntangleMedia *entangle_session_browser_get_media_at_coords(EntangleSessionBrowser *browser,
-                                                            gint x, gint y)
+EntangleMedia *
+entangle_session_browser_get_media_at_coords(EntangleSessionBrowser *browser,
+                                             gint x,
+                                             gint y)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
@@ -485,10 +493,8 @@ EntangleMedia *entangle_session_browser_get_media_at_coords(EntangleSessionBrows
         return NULL;
 }
 
-
 static gboolean
-entangle_session_browser_button_press(GtkWidget *widget,
-                                      GdkEventButton *event)
+entangle_session_browser_button_press(GtkWidget *widget, GdkEventButton *event)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
@@ -505,12 +511,10 @@ entangle_session_browser_button_press(GtkWidget *widget,
         gtk_widget_grab_focus(widget);
 
     if (event->button == 1 && event->type == GDK_BUTTON_PRESS) {
-        idx = entangle_session_browser_get_index_at_coords(browser,
-                                                           event->x,
+        idx = entangle_session_browser_get_index_at_coords(browser, event->x,
                                                            event->y);
 
-        if (idx >= 0 &&
-            entangle_session_browser_select_media(browser, idx)) {
+        if (idx >= 0 && entangle_session_browser_select_media(browser, idx)) {
             browser->dnd_start_x = event->x;
             browser->dnd_start_y = event->y;
         }
@@ -518,7 +522,6 @@ entangle_session_browser_button_press(GtkWidget *widget,
 
     return event->button == 1;
 }
-
 
 static gboolean
 entangle_session_browser_button_release(GtkWidget *widget,
@@ -536,13 +539,13 @@ entangle_session_browser_button_release(GtkWidget *widget,
     return event->button == 1;
 }
 
-
 static void
-entangle_session_browser_convert_widget_to_bin_window_coords(EntangleSessionBrowser *browser,
-                                                             gint wx,
-                                                             gint wy,
-                                                             gint *bx,
-                                                             gint *by)
+entangle_session_browser_convert_widget_to_bin_window_coords(
+    EntangleSessionBrowser *browser,
+    gint wx,
+    gint wy,
+    gint *bx,
+    gint *by)
 {
     gint x, y;
 
@@ -558,7 +561,6 @@ entangle_session_browser_convert_widget_to_bin_window_coords(EntangleSessionBrow
     if (by)
         *by = wy - y;
 }
-
 
 static gboolean
 entangle_session_browser_query_tooltip(GtkWidget *widget,
@@ -577,12 +579,10 @@ entangle_session_browser_query_tooltip(GtkWidget *widget,
     EntangleMedia *media;
     const gchar *filename;
 
-    entangle_session_browser_convert_widget_to_bin_window_coords(browser,
-                                                                 x, y,
+    entangle_session_browser_convert_widget_to_bin_window_coords(browser, x, y,
                                                                  &bx, &by);
 
-    media = entangle_session_browser_get_media_at_coords(browser,
-                                                       bx, by);
+    media = entangle_session_browser_get_media_at_coords(browser, bx, by);
 
     if (media == NULL) {
         return FALSE;
@@ -603,10 +603,8 @@ entangle_session_browser_query_tooltip(GtkWidget *widget,
     return FALSE;
 }
 
-
 static gboolean
-entangle_session_browser_scroll(GtkWidget *widget,
-                                GdkEventScroll *event)
+entangle_session_browser_scroll(GtkWidget *widget, GdkEventScroll *event)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
@@ -615,15 +613,17 @@ entangle_session_browser_scroll(GtkWidget *widget,
     switch (event->direction) {
     case GDK_SCROLL_UP:
     case GDK_SCROLL_LEFT:
-        gtk_adjustment_set_value(browser->hadjustment,
-                                 gtk_adjustment_get_value(browser->hadjustment) -
-                                 gtk_adjustment_get_step_increment(browser->hadjustment));
+        gtk_adjustment_set_value(
+            browser->hadjustment,
+            gtk_adjustment_get_value(browser->hadjustment) -
+                gtk_adjustment_get_step_increment(browser->hadjustment));
         break;
     case GDK_SCROLL_DOWN:
     case GDK_SCROLL_RIGHT:
-        gtk_adjustment_set_value(browser->hadjustment,
-                                 gtk_adjustment_get_value(browser->hadjustment) +
-                                 gtk_adjustment_get_step_increment(browser->hadjustment));
+        gtk_adjustment_set_value(
+            browser->hadjustment,
+            gtk_adjustment_get_value(browser->hadjustment) +
+                gtk_adjustment_get_step_increment(browser->hadjustment));
         break;
 
     case GDK_SCROLL_SMOOTH:
@@ -634,19 +634,19 @@ entangle_session_browser_scroll(GtkWidget *widget,
     return TRUE;
 }
 
-
 static gboolean
-entangle_session_browser_motion_notify(GtkWidget *widget,
-                                       GdkEventMotion *event)
+entangle_session_browser_motion_notify(GtkWidget *widget, GdkEventMotion *event)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(widget);
     GdkPixbuf *pixbuf = NULL;
     gchar *demo = g_strdup("demo");
-    GtkTargetEntry tentry[] = {
-        { demo, GTK_TARGET_SAME_APP, 0,}
-    };
+    GtkTargetEntry tentry[] = { {
+        demo,
+        GTK_TARGET_SAME_APP,
+        0,
+    } };
     GtkTargetList *tlist;
     GdkDragContext *ctx;
     EntangleMedia *media;
@@ -655,17 +655,14 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
     if (browser->dnd_start_y == -1 || browser->dnd_start_x == -1)
         goto cleanup;
 
-    if (!gtk_drag_check_threshold(widget,
-                                  browser->dnd_start_x,
-                                  browser->dnd_start_y,
-                                  event->x, event->y)) {
+    if (!gtk_drag_check_threshold(widget, browser->dnd_start_x,
+                                  browser->dnd_start_y, event->x, event->y)) {
         ret = TRUE;
         goto cleanup;
     }
 
-    media = entangle_session_browser_get_media_at_coords(browser,
-                                                         browser->dnd_start_x,
-                                                         browser->dnd_start_y);
+    media = entangle_session_browser_get_media_at_coords(
+        browser, browser->dnd_start_x, browser->dnd_start_y);
 
     if (!media) {
         browser->dnd_start_x = browser->dnd_start_y = -1;
@@ -673,8 +670,8 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
     }
 
     if (ENTANGLE_IS_IMAGE(media)) {
-        pixbuf = entangle_pixbuf_loader_get_pixbuf(ENTANGLE_PIXBUF_LOADER(browser->loader),
-                                                   ENTANGLE_IMAGE(media));
+        pixbuf = entangle_pixbuf_loader_get_pixbuf(
+            ENTANGLE_PIXBUF_LOADER(browser->loader), ENTANGLE_IMAGE(media));
 
         if (!pixbuf) {
             browser->dnd_start_x = browser->dnd_start_y = -1;
@@ -684,12 +681,8 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
 
     tlist = gtk_target_list_new(tentry, G_N_ELEMENTS(tentry));
 
-    ctx = gtk_drag_begin_with_coordinates(widget,
-                                          tlist,
-                                          GDK_ACTION_PRIVATE,
-                                          1,
-                                          (GdkEvent*)event,
-                                          -1, -1);
+    ctx = gtk_drag_begin_with_coordinates(widget, tlist, GDK_ACTION_PRIVATE, 1,
+                                          (GdkEvent *)event, -1, -1);
 
     browser->dnd_start_x = browser->dnd_start_y = -1;
     if (pixbuf)
@@ -698,14 +691,13 @@ entangle_session_browser_motion_notify(GtkWidget *widget,
     gtk_target_list_unref(tlist);
 
     ret = TRUE;
-  cleanup:
+cleanup:
     g_free(demo);
     return ret;
 }
 
 static gboolean
-entangle_session_browser_key_press(GtkWidget *widget,
-                                   GdkEventKey *event)
+entangle_session_browser_key_press(GtkWidget *widget, GdkEventKey *event)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
@@ -714,22 +706,25 @@ entangle_session_browser_key_press(GtkWidget *widget,
     switch (event->keyval) {
     case GDK_KEY_Right:
         if (browser->selectedIndex != -1 &&
-            ((browser->selectedIndex + 1) < entangle_session_get_media_count(browser->session))) {
-            entangle_session_browser_select_media(browser, browser->selectedIndex + 1);
+            ((browser->selectedIndex + 1) <
+             entangle_session_get_media_count(browser->session))) {
+            entangle_session_browser_select_media(browser,
+                                                  browser->selectedIndex + 1);
         }
         return TRUE;
 
     case GDK_KEY_Left:
         if (browser->selectedIndex > 0) {
-            entangle_session_browser_select_media(browser, browser->selectedIndex - 1);
+            entangle_session_browser_select_media(browser,
+                                                  browser->selectedIndex - 1);
         }
         return TRUE;
 
     default:
-        return GTK_WIDGET_CLASS(entangle_session_browser_parent_class)->key_press_event(widget, event);
+        return GTK_WIDGET_CLASS(entangle_session_browser_parent_class)
+            ->key_press_event(widget, event);
     }
 }
-
 
 static void
 entangle_session_browser_size_allocate(GtkWidget *widget,
@@ -744,18 +739,20 @@ entangle_session_browser_size_allocate(GtkWidget *widget,
     browser->itemsize = allocation->height - (browser->margin * 2);
 
     if (browser->session) {
-        browser->binwidth = (browser->itemsize + browser->margin) *
-            entangle_session_get_media_count(browser->session) +
+        browser->binwidth =
+            (browser->itemsize + browser->margin) *
+                entangle_session_get_media_count(browser->session) +
             browser->margin;
     } else {
         browser->binwidth = allocation->width;
     }
 
     if (gtk_widget_get_realized(widget)) {
-        gdk_window_move_resize(gtk_widget_get_window(widget),
-                               allocation->x, allocation->y,
-                               allocation->width, allocation->height);
-        gdk_window_resize(browser->bin_window, browser->binwidth, allocation->height);
+        gdk_window_move_resize(gtk_widget_get_window(widget), allocation->x,
+                               allocation->y, allocation->width,
+                               allocation->height);
+        gdk_window_resize(browser->bin_window, browser->binwidth,
+                          allocation->height);
     }
 
     /* Delay signal emission */
@@ -774,8 +771,8 @@ entangle_session_browser_size_allocate(GtkWidget *widget,
     g_object_thaw_notify(G_OBJECT(browser->vadjustment));
 }
 
-
-static void entangle_session_browser_destroy(GtkWidget *widget)
+static void
+entangle_session_browser_destroy(GtkWidget *widget)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget));
 
@@ -794,8 +791,8 @@ static void entangle_session_browser_destroy(GtkWidget *widget)
     GTK_WIDGET_CLASS(entangle_session_browser_parent_class)->destroy(widget);
 }
 
-
-static void entangle_session_browser_finalize(GObject *object)
+static void
+entangle_session_browser_finalize(GObject *object)
 {
     EntangleSessionBrowser *browser = ENTANGLE_SESSION_BROWSER(object);
 
@@ -814,8 +811,8 @@ static void entangle_session_browser_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_session_browser_parent_class)->finalize(object);
 }
 
-
-static void entangle_session_browser_class_init(EntangleSessionBrowserClass *klass)
+static void
+entangle_session_browser_class_init(EntangleSessionBrowserClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
@@ -829,86 +826,73 @@ static void entangle_session_browser_class_init(EntangleSessionBrowserClass *kla
     widget_class->unrealize = entangle_session_browser_unrealize;
     widget_class->draw = entangle_session_browser_draw;
     widget_class->button_press_event = entangle_session_browser_button_press;
-    widget_class->button_release_event = entangle_session_browser_button_release;
+    widget_class->button_release_event =
+        entangle_session_browser_button_release;
     widget_class->scroll_event = entangle_session_browser_scroll;
     widget_class->motion_notify_event = entangle_session_browser_motion_notify;
     widget_class->key_press_event = entangle_session_browser_key_press;
     widget_class->size_allocate = entangle_session_browser_size_allocate;
 
-    g_object_class_install_property(object_class,
-                                    PROP_SESSION,
-                                    g_param_spec_object("session",
-                                                        "Session",
-                                                        "Session to be displayed",
-                                                        ENTANGLE_TYPE_SESSION,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_SESSION,
+        g_param_spec_object("session", "Session", "Session to be displayed",
+                            ENTANGLE_TYPE_SESSION,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_LOADER,
-                                    g_param_spec_object("thumbnail-loader",
-                                                        "Thumbnail loader",
-                                                        "Thumbnail loader",
-                                                        ENTANGLE_TYPE_THUMBNAIL_LOADER,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_LOADER,
+        g_param_spec_object("thumbnail-loader", "Thumbnail loader",
+                            "Thumbnail loader", ENTANGLE_TYPE_THUMBNAIL_LOADER,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
     /* Scrollable interface properties */
-    g_object_class_override_property(object_class, PROP_HADJUSTMENT,    "hadjustment");
-    g_object_class_override_property(object_class, PROP_VADJUSTMENT,    "vadjustment");
-    g_object_class_override_property(object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
-    g_object_class_override_property(object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
+    g_object_class_override_property(object_class, PROP_HADJUSTMENT,
+                                     "hadjustment");
+    g_object_class_override_property(object_class, PROP_VADJUSTMENT,
+                                     "vadjustment");
+    g_object_class_override_property(object_class, PROP_HSCROLL_POLICY,
+                                     "hscroll-policy");
+    g_object_class_override_property(object_class, PROP_VSCROLL_POLICY,
+                                     "vscroll-policy");
 
     browser_signals[SIGNAL_SELECTION_CHANGED] =
-        g_signal_new("selection-changed",
-                     G_TYPE_FROM_CLASS(object_class),
-                     G_SIGNAL_RUN_FIRST,
-                     0, NULL, NULL,
-                     g_cclosure_marshal_VOID__VOID,
-                     G_TYPE_NONE, 0);
+        g_signal_new("selection-changed", G_TYPE_FROM_CLASS(object_class),
+                     G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                     g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 }
 
-
-EntangleSessionBrowser *entangle_session_browser_new(void)
+EntangleSessionBrowser *
+entangle_session_browser_new(void)
 {
-    return ENTANGLE_SESSION_BROWSER(g_object_new(ENTANGLE_TYPE_SESSION_BROWSER, NULL));
+    return ENTANGLE_SESSION_BROWSER(
+        g_object_new(ENTANGLE_TYPE_SESSION_BROWSER, NULL));
 }
 
-
-static void entangle_session_browser_load_icons(EntangleSessionBrowser *browser)
+static void
+entangle_session_browser_load_icons(EntangleSessionBrowser *browser)
 {
     GtkIconTheme *theme;
 
     theme = gtk_icon_theme_get_default();
     if (browser->imageIcon)
         g_object_unref(browser->imageIcon);
-    browser->imageIcon = gtk_icon_theme_load_icon(theme,
-                                               "camera-photo-symbolic",
-                                               256,
-                                               0,
-                                               NULL);
+    browser->imageIcon =
+        gtk_icon_theme_load_icon(theme, "camera-photo-symbolic", 256, 0, NULL);
     if (browser->videoIcon)
         g_object_unref(browser->videoIcon);
-    browser->videoIcon = gtk_icon_theme_load_icon(theme,
-                                               "camera-video-symbolic",
-                                               256,
-                                               0,
-                                               NULL);
+    browser->videoIcon =
+        gtk_icon_theme_load_icon(theme, "camera-video-symbolic", 256, 0, NULL);
 }
 
-
-static void entangle_session_browser_init(EntangleSessionBrowser *browser)
+static void
+entangle_session_browser_init(EntangleSessionBrowser *browser)
 {
     gtk_widget_set_has_tooltip(GTK_WIDGET(browser), TRUE);
 
-    g_signal_connect(GTK_WIDGET(browser),
-                     "query-tooltip",
-                     G_CALLBACK(entangle_session_browser_query_tooltip),
-                     NULL);
+    g_signal_connect(GTK_WIDGET(browser), "query-tooltip",
+                     G_CALLBACK(entangle_session_browser_query_tooltip), NULL);
 
     gtk_widget_queue_resize(GTK_WIDGET(browser));
 
@@ -919,12 +903,9 @@ static void entangle_session_browser_init(EntangleSessionBrowser *browser)
     browser->dnd_start_x = browser->dnd_start_y = -1;
 
     entangle_session_browser_load_icons(browser);
-    g_signal_connect(GTK_WIDGET(browser),
-                     "style-updated",
-                     G_CALLBACK(entangle_session_browser_load_icons),
-                     NULL);
+    g_signal_connect(GTK_WIDGET(browser), "style-updated",
+                     G_CALLBACK(entangle_session_browser_load_icons), NULL);
 }
-
 
 /**
  * entangle_session_browser_get_selected_media:
@@ -932,7 +913,8 @@ static void entangle_session_browser_init(EntangleSessionBrowser *browser)
  *
  * Returns: (transfer full): the selected media or NULL
  */
-EntangleMedia *entangle_session_browser_get_selected_media(EntangleSessionBrowser *browser)
+EntangleMedia *
+entangle_session_browser_get_selected_media(EntangleSessionBrowser *browser)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
@@ -942,7 +924,6 @@ EntangleMedia *entangle_session_browser_get_selected_media(EntangleSessionBrowse
     g_object_ref(browser->selectedMedia);
     return browser->selectedMedia;
 }
-
 
 /**
  * entangle_session_browser_get_earlier_images:
@@ -956,9 +937,10 @@ EntangleMedia *entangle_session_browser_get_selected_media(EntangleSessionBrowse
  *
  * Returns: (transfer full)(element-type EntangleImage): the list of images
  */
-GList *entangle_session_browser_get_earlier_images(EntangleSessionBrowser *browser,
-                                                   gboolean include_selected,
-                                                   gsize count)
+GList *
+entangle_session_browser_get_earlier_images(EntangleSessionBrowser *browser,
+                                            gboolean include_selected,
+                                            gsize count)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
@@ -973,7 +955,8 @@ GList *entangle_session_browser_get_earlier_images(EntangleSessionBrowser *brows
         idx--;
 
     while (idx >= 0 && count > 0) {
-        EntangleMedia *media = entangle_session_get_media(browser->session, idx);
+        EntangleMedia *media =
+            entangle_session_get_media(browser->session, idx);
         if (ENTANGLE_IS_IMAGE(media)) {
             g_object_ref(media);
             images = g_list_append(images, media);
@@ -984,7 +967,6 @@ GList *entangle_session_browser_get_earlier_images(EntangleSessionBrowser *brows
     return images;
 }
 
-
 /**
  * entangle_session_browser_set_thumbnail_loader:
  * @browser: (transfer none): the session browser
@@ -993,8 +975,9 @@ GList *entangle_session_browser_get_earlier_images(EntangleSessionBrowser *brows
  * Set the thumbnail loader to use for generating image
  * thumbnails
  */
-void entangle_session_browser_set_thumbnail_loader(EntangleSessionBrowser *browser,
-                                                   EntangleThumbnailLoader *loader)
+void
+entangle_session_browser_set_thumbnail_loader(EntangleSessionBrowser *browser,
+                                              EntangleThumbnailLoader *loader)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
@@ -1013,7 +996,6 @@ void entangle_session_browser_set_thumbnail_loader(EntangleSessionBrowser *brows
     }
 }
 
-
 /**
  * entangle_session_browser_get_thumbnail_loader:
  * @browser: the session browser
@@ -1022,13 +1004,13 @@ void entangle_session_browser_set_thumbnail_loader(EntangleSessionBrowser *brows
  *
  * Returns: (transfer none): the session browser
  */
-EntangleThumbnailLoader *entangle_session_browser_get_thumbnail_loader(EntangleSessionBrowser *browser)
+EntangleThumbnailLoader *
+entangle_session_browser_get_thumbnail_loader(EntangleSessionBrowser *browser)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
     return browser->loader;
 }
-
 
 /**
  * entangle_session_browser_set_session:
@@ -1037,8 +1019,9 @@ EntangleThumbnailLoader *entangle_session_browser_get_thumbnail_loader(EntangleS
  *
  * Set the session to be displayed
  */
-void entangle_session_browser_set_session(EntangleSessionBrowser *browser,
-                                          EntangleSession *session)
+void
+entangle_session_browser_set_session(EntangleSessionBrowser *browser,
+                                     EntangleSession *session)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
@@ -1056,7 +1039,6 @@ void entangle_session_browser_set_session(EntangleSessionBrowser *browser,
     }
 }
 
-
 /**
  * entangle_session_browser_get_session:
  * @browser: (transfer none): the session browser
@@ -1065,15 +1047,17 @@ void entangle_session_browser_set_session(EntangleSessionBrowser *browser,
  *
  * Returns: (transfer none): the session
  */
-EntangleSession *entangle_session_browser_get_session(EntangleSessionBrowser *browser)
+EntangleSession *
+entangle_session_browser_get_session(EntangleSessionBrowser *browser)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
     return browser->session;
 }
 
-void entangle_session_browser_set_background(EntangleSessionBrowser *browser,
-                                             const gchar *background)
+void
+entangle_session_browser_set_background(EntangleSessionBrowser *browser,
+                                        const gchar *background)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
@@ -1083,15 +1067,17 @@ void entangle_session_browser_set_background(EntangleSessionBrowser *browser,
     gtk_widget_queue_draw(widget);
 }
 
-gchar *entangle_session_browser_get_background(EntangleSessionBrowser *browser)
+gchar *
+entangle_session_browser_get_background(EntangleSessionBrowser *browser)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
     return gdk_rgba_to_string(&browser->background);
 }
 
-void entangle_session_browser_set_highlight(EntangleSessionBrowser *browser,
-                                            const gchar *highlight)
+void
+entangle_session_browser_set_highlight(EntangleSessionBrowser *browser,
+                                       const gchar *highlight)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
@@ -1101,17 +1087,16 @@ void entangle_session_browser_set_highlight(EntangleSessionBrowser *browser,
     gtk_widget_queue_draw(widget);
 }
 
-gchar *entangle_session_browser_get_highlight(EntangleSessionBrowser *browser)
+gchar *
+entangle_session_browser_get_highlight(EntangleSessionBrowser *browser)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser), NULL);
 
     return gdk_rgba_to_string(&browser->highlight);
 }
 
-
 static gboolean
-entangle_session_browser_draw(GtkWidget *widget,
-                              cairo_t *cr)
+entangle_session_browser_draw(GtkWidget *widget, cairo_t *cr)
 {
     g_return_val_if_fail(ENTANGLE_IS_SESSION_BROWSER(widget), FALSE);
 
@@ -1122,7 +1107,8 @@ entangle_session_browser_draw(GtkWidget *widget,
     ww = gdk_window_get_width(gtk_widget_get_window(widget));
     wh = gdk_window_get_height(gtk_widget_get_window(widget));
 
-    cairo_set_source_rgb(cr, browser->background.red, browser->background.green, browser->background.blue);
+    cairo_set_source_rgb(cr, browser->background.red, browser->background.green,
+                         browser->background.blue);
     cairo_rectangle(cr, 0, 0, ww, wh);
     cairo_fill(cr);
 
@@ -1142,21 +1128,26 @@ entangle_session_browser_draw(GtkWidget *widget,
         EntangleMedia *media = entangle_session_get_media(browser->session, i);
         GdkRectangle paint_area;
 
-        paint_area.x = (browser->itemsize + browser->margin) * i + browser->margin;
+        paint_area.x =
+            (browser->itemsize + browser->margin) * i + browser->margin;
         paint_area.y = browser->margin;
-        paint_area.width  = browser->itemsize;
+        paint_area.width = browser->itemsize;
         paint_area.height = browser->itemsize;
 
         if (media == browser->selectedMedia) {
             cairo_save(cr);
-            cairo_set_source_rgba(cr, browser->highlight.red, browser->highlight.green, browser->highlight.blue, 1);
-            cairo_rectangle(cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
+            cairo_set_source_rgba(cr, browser->highlight.red,
+                                  browser->highlight.green,
+                                  browser->highlight.blue, 1);
+            cairo_rectangle(cr, paint_area.x, paint_area.y, paint_area.width,
+                            paint_area.height);
             cairo_fill(cr);
             cairo_restore(cr);
         }
 
         cairo_save(cr);
-        cairo_rectangle(cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
+        cairo_rectangle(cr, paint_area.x, paint_area.y, paint_area.width,
+                        paint_area.height);
         cairo_clip(cr);
 
         if (gdk_cairo_get_clip_rectangle(cr, NULL)) {
@@ -1164,8 +1155,9 @@ entangle_session_browser_draw(GtkWidget *widget,
             gint itemsize = browser->itemsize;
             gdouble offset = 0;
             if (ENTANGLE_IS_IMAGE(media)) {
-                pixbuf = entangle_pixbuf_loader_get_pixbuf(ENTANGLE_PIXBUF_LOADER(browser->loader),
-                                                           ENTANGLE_IMAGE(media));
+                pixbuf = entangle_pixbuf_loader_get_pixbuf(
+                    ENTANGLE_PIXBUF_LOADER(browser->loader),
+                    ENTANGLE_IMAGE(media));
                 if (!pixbuf) {
                     pixbuf = browser->imageIcon;
                     itemsize /= 2;
@@ -1186,14 +1178,19 @@ entangle_session_browser_draw(GtkWidget *widget,
                 double sy = itemsize / (double)ph;
 
                 cairo_scale(cr, sx, sy);
-                gdk_cairo_set_source_pixbuf(cr, pixbuf, (paint_area.x + offset) / sx, (paint_area.y + offset) / sy);
+                gdk_cairo_set_source_pixbuf(cr, pixbuf,
+                                            (paint_area.x + offset) / sx,
+                                            (paint_area.y + offset) / sy);
                 cairo_rectangle(cr, paint_area.x / sx, paint_area.y / sy,
                                 paint_area.width / sx, paint_area.height / sy);
                 cairo_fill(cr);
             } else {
                 cairo_save(cr);
-                cairo_set_source_rgba(cr, browser->highlight.red, browser->highlight.green, browser->highlight.blue, 0.2);
-                cairo_rectangle(cr, paint_area.x, paint_area.y, paint_area.width, paint_area.height);
+                cairo_set_source_rgba(cr, browser->highlight.red,
+                                      browser->highlight.green,
+                                      browser->highlight.blue, 0.2);
+                cairo_rectangle(cr, paint_area.x, paint_area.y,
+                                paint_area.width, paint_area.height);
                 cairo_fill(cr);
             }
         }
@@ -1206,8 +1203,6 @@ entangle_session_browser_draw(GtkWidget *widget,
     return TRUE;
 }
 
-
-
 static void
 entangle_session_browser_set_hadjustment_values(EntangleSessionBrowser *browser)
 {
@@ -1218,15 +1213,10 @@ entangle_session_browser_set_hadjustment_values(EntangleSessionBrowser *browser)
 
     gtk_widget_get_allocation(GTK_WIDGET(browser), &allocation);
 
-    gtk_adjustment_configure(adj,
-                             gtk_adjustment_get_value(adj),
-                             0.0,
-                             browser->binwidth,
-                             allocation.width * 0.1,
-                             allocation.width * 0.9,
-                             allocation.width);
+    gtk_adjustment_configure(adj, gtk_adjustment_get_value(adj), 0.0,
+                             browser->binwidth, allocation.width * 0.1,
+                             allocation.width * 0.9, allocation.width);
 }
-
 
 static void
 entangle_session_browser_set_vadjustment_values(EntangleSessionBrowser *browser)
@@ -1238,15 +1228,10 @@ entangle_session_browser_set_vadjustment_values(EntangleSessionBrowser *browser)
 
     gtk_widget_get_allocation(GTK_WIDGET(browser), &allocation);
 
-    gtk_adjustment_configure(adj,
-                             gtk_adjustment_get_value(adj),
-                             0.0,
-                             allocation.height,
-                             allocation.height * 0.1,
-                             allocation.height * 0.9,
-                             allocation.height);
+    gtk_adjustment_configure(adj, gtk_adjustment_get_value(adj), 0.0,
+                             allocation.height, allocation.height * 0.1,
+                             allocation.height * 0.9, allocation.height);
 }
-
 
 static void
 entangle_session_browser_set_hadjustment(EntangleSessionBrowser *browser,
@@ -1259,23 +1244,22 @@ entangle_session_browser_set_hadjustment(EntangleSessionBrowser *browser,
 
     if (browser->hadjustment != NULL) {
         g_signal_handlers_disconnect_matched(browser->hadjustment,
-                                             G_SIGNAL_MATCH_DATA,
-                                             0, 0, NULL, NULL, browser);
+                                             G_SIGNAL_MATCH_DATA, 0, 0, NULL,
+                                             NULL, browser);
         g_object_unref(browser->hadjustment);
     }
 
     if (!adjustment)
-        adjustment = gtk_adjustment_new(0.0, 0.0, 0.0,
-                                        0.0, 0.0, 0.0);
+        adjustment = gtk_adjustment_new(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
     g_signal_connect(adjustment, "value-changed",
-                     G_CALLBACK(entangle_session_browser_adjustment_changed), browser);
+                     G_CALLBACK(entangle_session_browser_adjustment_changed),
+                     browser);
     browser->hadjustment = g_object_ref_sink(adjustment);
     entangle_session_browser_set_hadjustment_values(browser);
 
     g_object_notify(G_OBJECT(browser), "hadjustment");
 }
-
 
 static void
 entangle_session_browser_set_vadjustment(EntangleSessionBrowser *browser,
@@ -1288,37 +1272,36 @@ entangle_session_browser_set_vadjustment(EntangleSessionBrowser *browser,
 
     if (browser->vadjustment != NULL) {
         g_signal_handlers_disconnect_matched(browser->vadjustment,
-                                             G_SIGNAL_MATCH_DATA,
-                                             0, 0, NULL, NULL, browser);
+                                             G_SIGNAL_MATCH_DATA, 0, 0, NULL,
+                                             NULL, browser);
         g_object_unref(browser->vadjustment);
     }
 
     if (!adjustment)
-        adjustment = gtk_adjustment_new(0.0, 0.0, 0.0,
-                                        0.0, 0.0, 0.0);
+        adjustment = gtk_adjustment_new(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
     g_signal_connect(adjustment, "value-changed",
-                     G_CALLBACK(entangle_session_browser_adjustment_changed), browser);
+                     G_CALLBACK(entangle_session_browser_adjustment_changed),
+                     browser);
     browser->vadjustment = g_object_ref_sink(adjustment);
     entangle_session_browser_set_vadjustment_values(browser);
 
     g_object_notify(G_OBJECT(browser), "vadjustment");
 }
 
-
 static void
-entangle_session_browser_adjustment_changed(GtkAdjustment *adjustment G_GNUC_UNUSED,
+entangle_session_browser_adjustment_changed(GtkAdjustment *adjustment
+                                                G_GNUC_UNUSED,
                                             EntangleSessionBrowser *browser)
 {
     g_return_if_fail(ENTANGLE_IS_SESSION_BROWSER(browser));
 
     if (gtk_widget_get_realized(GTK_WIDGET(browser))) {
         gdk_window_move(browser->bin_window,
-                        - gtk_adjustment_get_value(browser->hadjustment),
-                        - gtk_adjustment_get_value(browser->vadjustment));
+                        -gtk_adjustment_get_value(browser->hadjustment),
+                        -gtk_adjustment_get_value(browser->vadjustment));
     }
 }
-
 
 /*
  * Local variables:

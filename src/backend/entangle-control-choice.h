@@ -27,27 +27,34 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CONTROL_CHOICE            (entangle_control_choice_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleControlChoice, entangle_control_choice, ENTANGLE, CONTROL_CHOICE, EntangleControl)
+#define ENTANGLE_TYPE_CONTROL_CHOICE (entangle_control_choice_get_type())
+G_DECLARE_FINAL_TYPE(EntangleControlChoice,
+                     entangle_control_choice,
+                     ENTANGLE,
+                     CONTROL_CHOICE,
+                     EntangleControl)
 
-EntangleControlChoice* entangle_control_choice_new(const char *path,
-                                                   int id,
-                                                   const char *label,
-                                                   const char *info,
-                                                   gboolean readonly);
+EntangleControlChoice *
+entangle_control_choice_new(const char *path,
+                            int id,
+                            const char *label,
+                            const char *info,
+                            gboolean readonly);
 
-void entangle_control_choice_add_entry(EntangleControlChoice *choice,
-                                   const char *entry);
+void
+entangle_control_choice_add_entry(EntangleControlChoice *choice,
+                                  const char *entry);
 
-void entangle_control_choice_clear_entries(EntangleControlChoice *choice);
-int entangle_control_choice_entry_count(EntangleControlChoice *choice);
-const char *entangle_control_choice_entry_get(EntangleControlChoice *choice,
-                                          int idx);
+void
+entangle_control_choice_clear_entries(EntangleControlChoice *choice);
+int
+entangle_control_choice_entry_count(EntangleControlChoice *choice);
+const char *
+entangle_control_choice_entry_get(EntangleControlChoice *choice, int idx);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CONTROL_CHOICE_H__ */
-
 
 /*
  * Local variables:

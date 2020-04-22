@@ -18,13 +18,15 @@
  *
  */
 
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
-#include "entangle-debug.h"
 #include "entangle-control-range.h"
 
-struct _EntangleControlRange {
+#include "entangle-debug.h"
+
+struct _EntangleControlRange
+{
     EntangleControl parent;
     float value;
     float min;
@@ -32,9 +34,12 @@ struct _EntangleControlRange {
     float step;
 };
 
-G_DEFINE_TYPE(EntangleControlRange, entangle_control_range, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlRange,
+              entangle_control_range,
+              ENTANGLE_TYPE_CONTROL);
 
-enum {
+enum
+{
     PROP_0,
     PROP_VALUE,
     PROP_RANGE_MIN,
@@ -42,76 +47,77 @@ enum {
     PROP_RANGE_STEP
 };
 
-static void entangle_control_range_get_property(GObject *object,
-                                                guint prop_id,
-                                                GValue *value,
-                                                GParamSpec *pspec)
+static void
+entangle_control_range_get_property(GObject *object,
+                                    guint prop_id,
+                                    GValue *value,
+                                    GParamSpec *pspec)
 {
     EntangleControlRange *control = ENTANGLE_CONTROL_RANGE(object);
 
-    switch (prop_id)
-        {
-        case PROP_VALUE:
-            g_value_set_float(value, control->value);
-            break;
+    switch (prop_id) {
+    case PROP_VALUE:
+        g_value_set_float(value, control->value);
+        break;
 
-        case PROP_RANGE_MIN:
-            g_value_set_float(value, control->min);
-            break;
+    case PROP_RANGE_MIN:
+        g_value_set_float(value, control->min);
+        break;
 
-        case PROP_RANGE_MAX:
-            g_value_set_float(value, control->max);
-            break;
+    case PROP_RANGE_MAX:
+        g_value_set_float(value, control->max);
+        break;
 
-        case PROP_RANGE_STEP:
-            g_value_set_float(value, control->step);
-            break;
+    case PROP_RANGE_STEP:
+        g_value_set_float(value, control->step);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_control_range_set_property(GObject *object,
-                                                guint prop_id,
-                                                const GValue *value,
-                                                GParamSpec *pspec)
+static void
+entangle_control_range_set_property(GObject *object,
+                                    guint prop_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec)
 {
     EntangleControlRange *control = ENTANGLE_CONTROL_RANGE(object);
 
-    switch (prop_id)
-        {
-        case PROP_VALUE:
-            if (fabs(control->value - g_value_get_float(value)) > 0.00001) {
-                control->value = g_value_get_float(value);
-                entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
-            }
-            break;
-
-        case PROP_RANGE_MIN:
-            control->min = g_value_get_float(value);
-            break;
-
-        case PROP_RANGE_MAX:
-            control->max = g_value_get_float(value);
-            break;
-
-        case PROP_RANGE_STEP:
-            control->step = g_value_get_float(value);
-            break;
-
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    switch (prop_id) {
+    case PROP_VALUE:
+        if (fabs(control->value - g_value_get_float(value)) > 0.00001) {
+            control->value = g_value_get_float(value);
+            entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
         }
+        break;
+
+    case PROP_RANGE_MIN:
+        control->min = g_value_get_float(value);
+        break;
+
+    case PROP_RANGE_MAX:
+        control->max = g_value_get_float(value);
+        break;
+
+    case PROP_RANGE_STEP:
+        control->step = g_value_get_float(value);
+        break;
+
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_control_range_finalize(GObject *object)
+static void
+entangle_control_range_finalize(GObject *object)
 {
     G_OBJECT_CLASS(entangle_control_range_parent_class)->finalize(object);
 }
 
-static void entangle_control_range_class_init(EntangleControlRangeClass *klass)
+static void
+entangle_control_range_class_init(EntangleControlRangeClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -119,108 +125,79 @@ static void entangle_control_range_class_init(EntangleControlRangeClass *klass)
     object_class->get_property = entangle_control_range_get_property;
     object_class->set_property = entangle_control_range_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_VALUE,
-                                    g_param_spec_float("value",
-                                                       "Control value",
-                                                       "Current control value",
-                                                       -10000000.0,
-                                                       10000000.0,
-                                                       0.0,
-                                                       G_PARAM_READWRITE |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_VALUE,
+        g_param_spec_float("value", "Control value", "Current control value",
+                           -10000000.0, 10000000.0, 0.0,
+                           G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                               G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_RANGE_MIN,
-                                    g_param_spec_float("range-min",
-                                                       "Range minimum",
-                                                       "Minimum range value",
-                                                       -10000000.0,
-                                                       10000000.0,
-                                                       0.0,
-                                                       G_PARAM_READWRITE |
-                                                       G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_RANGE_MIN,
+        g_param_spec_float("range-min", "Range minimum", "Minimum range value",
+                           -10000000.0, 10000000.0, 0.0,
+                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                               G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                               G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_RANGE_MAX,
-                                    g_param_spec_float("range-max",
-                                                       "Range maximum",
-                                                       "Maximum range value",
-                                                       -10000000.0,
-                                                       10000000.0,
-                                                       0.0,
-                                                       G_PARAM_READWRITE |
-                                                       G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_RANGE_MAX,
+        g_param_spec_float("range-max", "Range maximum", "Maximum range value",
+                           -10000000.0, 10000000.0, 0.0,
+                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                               G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                               G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_RANGE_STEP,
-                                    g_param_spec_float("range-step",
-                                                       "Range step",
-                                                       "Increment for range steps",
-                                                       -10000000.0,
-                                                       10000000.0,
-                                                       0.0,
-                                                       G_PARAM_READWRITE |
-                                                       G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_RANGE_STEP,
+        g_param_spec_float(
+            "range-step", "Range step", "Increment for range steps",
+            -10000000.0, 10000000.0, 0.0,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-EntangleControlRange *entangle_control_range_new(const char *path,
-                                                 int id,
-                                                 const char *label,
-                                                 const char *info,
-                                                 gboolean readonly,
-                                                 float min,
-                                                 float max,
-                                                 float step)
+EntangleControlRange *
+entangle_control_range_new(const char *path,
+                           int id,
+                           const char *label,
+                           const char *info,
+                           gboolean readonly,
+                           float min,
+                           float max,
+                           float step)
 {
     g_return_val_if_fail(path != NULL, NULL);
     g_return_val_if_fail(label != NULL, NULL);
 
-    return ENTANGLE_CONTROL_RANGE(g_object_new(ENTANGLE_TYPE_CONTROL_RANGE,
-                                               "path", path,
-                                               "id", id,
-                                               "label", label,
-                                               "info", info,
-                                               "readonly", readonly,
-                                               "range-min", (double)min,
-                                               "range-max", (double)max,
-                                               "range-step", (double)step,
-                                               NULL));
+    return ENTANGLE_CONTROL_RANGE(g_object_new(
+        ENTANGLE_TYPE_CONTROL_RANGE, "path", path, "id", id, "label", label,
+        "info", info, "readonly", readonly, "range-min", (double)min,
+        "range-max", (double)max, "range-step", (double)step, NULL));
 }
 
+static void
+entangle_control_range_init(EntangleControlRange *control G_GNUC_UNUSED)
+{}
 
-static void entangle_control_range_init(EntangleControlRange *control G_GNUC_UNUSED)
-{
-}
-
-
-float entangle_control_range_get_min(EntangleControlRange *control)
+float
+entangle_control_range_get_min(EntangleControlRange *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(control), 0.0);
 
     return control->min;
 }
 
-float entangle_control_range_get_max(EntangleControlRange *control)
+float
+entangle_control_range_get_max(EntangleControlRange *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(control), 0.0);
 
     return control->max;
 }
 
-float entangle_control_range_get_step(EntangleControlRange *control)
+float
+entangle_control_range_get_step(EntangleControlRange *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL_RANGE(control), 0.0);
 

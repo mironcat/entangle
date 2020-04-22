@@ -25,8 +25,12 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_SCRIPT_SIMPLE            (entangle_script_simple_get_type ())
-G_DECLARE_DERIVABLE_TYPE(EntangleScriptSimple, entangle_script_simple, ENTANGLE, SCRIPT_SIMPLE, EntangleScript)
+#define ENTANGLE_TYPE_SCRIPT_SIMPLE (entangle_script_simple_get_type())
+G_DECLARE_DERIVABLE_TYPE(EntangleScriptSimple,
+                         entangle_script_simple,
+                         ENTANGLE,
+                         SCRIPT_SIMPLE,
+                         EntangleScript)
 
 struct _EntangleScriptSimpleClass
 {
@@ -40,13 +44,16 @@ struct _EntangleScriptSimpleClass
     GObject *(*init_task_data)(EntangleScriptSimple *script);
 };
 
-void entangle_script_simple_return_task_error(EntangleScriptSimple *script,
-                                              GTask *result,
-                                              const gchar *message);
+void
+entangle_script_simple_return_task_error(EntangleScriptSimple *script,
+                                         GTask *result,
+                                         const gchar *message);
 
-GObject *entangle_script_simple_init_task_data(EntangleScriptSimple *script);
-GObject *entangle_script_simple_get_task_data(EntangleScriptSimple *script,
-                                              GTask *result);
+GObject *
+entangle_script_simple_init_task_data(EntangleScriptSimple *script);
+GObject *
+entangle_script_simple_get_task_data(EntangleScriptSimple *script,
+                                     GTask *result);
 
 G_END_DECLS
 

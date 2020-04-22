@@ -25,15 +25,19 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_HELP_ABOUT            (entangle_help_about_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleHelpAbout, entangle_help_about, ENTANGLE, HELP_ABOUT, GtkAboutDialog)
+#define ENTANGLE_TYPE_HELP_ABOUT (entangle_help_about_get_type())
+G_DECLARE_FINAL_TYPE(EntangleHelpAbout,
+                     entangle_help_about,
+                     ENTANGLE,
+                     HELP_ABOUT,
+                     GtkAboutDialog)
 
-EntangleHelpAbout* entangle_help_about_new(void);
+EntangleHelpAbout *
+entangle_help_about_new(void);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_HELP_ABOUT_H__ */
-
 
 /*
  * Local variables:

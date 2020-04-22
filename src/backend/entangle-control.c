@@ -21,11 +21,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "entangle-debug.h"
 #include "entangle-control.h"
 
+#include "entangle-debug.h"
+
 typedef struct _EntangleControlPrivate EntangleControlPrivate;
-struct _EntangleControlPrivate {
+struct _EntangleControlPrivate
+{
     char *path;
     int id;
     char *label;
@@ -34,9 +36,12 @@ struct _EntangleControlPrivate {
     gboolean dirty;
 };
 
-G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(EntangleControl, entangle_control, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(EntangleControl,
+                                    entangle_control,
+                                    G_TYPE_OBJECT);
 
-enum {
+enum
+{
     PROP_0,
     PROP_PATH,
     PROP_ID,
@@ -46,100 +51,104 @@ enum {
     PROP_DIRTY
 };
 
-static void entangle_control_get_property(GObject *object,
-                                          guint prop_id,
-                                          GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_control_get_property(GObject *object,
+                              guint prop_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleControl *control = ENTANGLE_CONTROL(object);
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
 
-    switch (prop_id)
-        {
-        case PROP_PATH:
-            g_value_set_string(value, priv->path);
-            break;
+    switch (prop_id) {
+    case PROP_PATH:
+        g_value_set_string(value, priv->path);
+        break;
 
-        case PROP_ID:
-            g_value_set_int(value, priv->id);
-            break;
+    case PROP_ID:
+        g_value_set_int(value, priv->id);
+        break;
 
-        case PROP_LABEL:
-            g_value_set_string(value, priv->label);
-            break;
+    case PROP_LABEL:
+        g_value_set_string(value, priv->label);
+        break;
 
-        case PROP_INFO:
-            g_value_set_string(value, priv->info);
-            break;
+    case PROP_INFO:
+        g_value_set_string(value, priv->info);
+        break;
 
-        case PROP_READONLY:
-            g_value_set_boolean(value, priv->readonly);
-            break;
+    case PROP_READONLY:
+        g_value_set_boolean(value, priv->readonly);
+        break;
 
-        case PROP_DIRTY:
-            g_value_set_boolean(value, priv->dirty);
-            break;
+    case PROP_DIRTY:
+        g_value_set_boolean(value, priv->dirty);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_control_set_property(GObject *object,
-                                          guint prop_id,
-                                          const GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_control_set_property(GObject *object,
+                              guint prop_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleControl *control = ENTANGLE_CONTROL(object);
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
     gsize len;
 
-    switch (prop_id)
-        {
-        case PROP_PATH:
-            g_free(priv->path);
-            priv->path = g_value_dup_string(value);
-            break;
+    switch (prop_id) {
+    case PROP_PATH:
+        g_free(priv->path);
+        priv->path = g_value_dup_string(value);
+        break;
 
-        case PROP_ID:
-            priv->id = g_value_get_int(value);
-            break;
+    case PROP_ID:
+        priv->id = g_value_get_int(value);
+        break;
 
-        case PROP_LABEL:
-            g_free(priv->label);
-            priv->label = g_value_dup_string(value);
-            len = strlen(priv->label);
-            /* gphoto sticks a '2' onto the end of some labels
-             * when it has more than one control for the same
-             * setting. Lets just kill those since they are
-             * very ugly
-             */
-            if (priv->label[len - 1] == '2')
-                priv->label[len - 1] = '\0';
-            break;
+    case PROP_LABEL:
+        g_free(priv->label);
+        priv->label = g_value_dup_string(value);
+        len = strlen(priv->label);
+        /* gphoto sticks a '2' onto the end of some labels
+         * when it has more than one control for the same
+         * setting. Lets just kill those since they are
+         * very ugly
+         */
+        if (priv->label[len - 1] == '2')
+            priv->label[len - 1] = '\0';
+        break;
 
-        case PROP_INFO:
-            g_free(priv->info);
-            priv->info = g_value_dup_string(value);
-            break;
+    case PROP_INFO:
+        g_free(priv->info);
+        priv->info = g_value_dup_string(value);
+        break;
 
-        case PROP_READONLY:
-            priv->readonly = g_value_get_boolean(value);
-            break;
+    case PROP_READONLY:
+        priv->readonly = g_value_get_boolean(value);
+        break;
 
-        case PROP_DIRTY:
-            priv->dirty = g_value_get_boolean(value);
-            break;
+    case PROP_DIRTY:
+        priv->dirty = g_value_get_boolean(value);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_control_finalize(GObject *object)
+static void
+entangle_control_finalize(GObject *object)
 {
     EntangleControl *control = ENTANGLE_CONTROL(object);
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
 
     g_free(priv->path);
     g_free(priv->label);
@@ -148,7 +157,8 @@ static void entangle_control_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_control_parent_class)->finalize(object);
 }
 
-static void entangle_control_class_init(EntangleControlClass *klass)
+static void
+entangle_control_class_init(EntangleControlClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -156,155 +166,128 @@ static void entangle_control_class_init(EntangleControlClass *klass)
     object_class->get_property = entangle_control_get_property;
     object_class->set_property = entangle_control_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_PATH,
-                                    g_param_spec_string("path",
-                                                        "Control path",
-                                                        "Path of the control",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_PATH,
+        g_param_spec_string("path", "Control path", "Path of the control", NULL,
+                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                                G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                                G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_ID,
-                                    g_param_spec_int("id",
-                                                     "Control id",
-                                                     "Id of the control",
-                                                     0,
-                                                     G_MAXINT,
-                                                     0,
-                                                     G_PARAM_READWRITE |
-                                                     G_PARAM_CONSTRUCT_ONLY |
-                                                     G_PARAM_STATIC_NAME |
-                                                     G_PARAM_STATIC_NICK |
-                                                     G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_ID,
+        g_param_spec_int(
+            "id", "Control id", "Id of the control", 0, G_MAXINT, 0,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_LABEL,
-                                    g_param_spec_string("label",
-                                                        "Control label",
-                                                        "Label of the control",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_LABEL,
+        g_param_spec_string(
+            "label", "Control label", "Label of the control", NULL,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_INFO,
-                                    g_param_spec_string("info",
-                                                        "Control info",
-                                                        "Info of the control",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_READONLY,
-                                    g_param_spec_boolean("readonly",
-                                                         "Control state",
-                                                         "State of the control",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_CONSTRUCT_ONLY |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_DIRTY,
-                                    g_param_spec_boolean("dirty",
-                                                         "Dirty",
-                                                         "Dirty if value has been changed",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_CONSTRUCT_ONLY |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_INFO,
+        g_param_spec_string("info", "Control info", "Info of the control", NULL,
+                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                                G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                                G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_READONLY,
+        g_param_spec_boolean(
+            "readonly", "Control state", "State of the control", FALSE,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_DIRTY,
+        g_param_spec_boolean(
+            "dirty", "Dirty", "Dirty if value has been changed", FALSE,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-EntangleControl *entangle_control_new(const gchar *path,
-                                      gint id,
-                                      const gchar *label,
-                                      const gchar *info,
-                                      gboolean readonly)
+EntangleControl *
+entangle_control_new(const gchar *path,
+                     gint id,
+                     const gchar *label,
+                     const gchar *info,
+                     gboolean readonly)
 {
     g_return_val_if_fail(path != NULL, NULL);
     g_return_val_if_fail(label != NULL, NULL);
 
-    return ENTANGLE_CONTROL(g_object_new(ENTANGLE_TYPE_CONTROL,
-                                         "path", path,
-                                         "id", id,
-                                         "label", label,
-                                         "info", info,
-                                         "readonly", readonly,
-                                         NULL));
+    return ENTANGLE_CONTROL(g_object_new(ENTANGLE_TYPE_CONTROL, "path", path,
+                                         "id", id, "label", label, "info", info,
+                                         "readonly", readonly, NULL));
 }
 
+static void
+entangle_control_init(EntangleControl *control G_GNUC_UNUSED)
+{}
 
-static void entangle_control_init(EntangleControl *control G_GNUC_UNUSED)
-{
-}
-
-
-gint entangle_control_get_id(EntangleControl *control)
+gint
+entangle_control_get_id(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), 0);
 
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
 
     return priv->id;
 }
 
-const gchar *entangle_control_get_path(EntangleControl *control)
+const gchar *
+entangle_control_get_path(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), NULL);
 
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
 
     return priv->path;
 }
 
-const gchar *entangle_control_get_label(EntangleControl *control)
+const gchar *
+entangle_control_get_label(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), NULL);
 
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
 
     return priv->label;
 }
 
-const gchar *entangle_control_get_info(EntangleControl *control)
+const gchar *
+entangle_control_get_info(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), NULL);
 
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
 
     return priv->info;
 }
 
-gboolean entangle_control_get_dirty(EntangleControl *control)
+gboolean
+entangle_control_get_dirty(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), FALSE);
 
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
 
     return priv->dirty;
 }
 
-void entangle_control_set_dirty(EntangleControl *control,
-                                gboolean dirty)
+void
+entangle_control_set_dirty(EntangleControl *control, gboolean dirty)
 {
     g_return_if_fail(ENTANGLE_IS_CONTROL(control));
 
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
     gboolean changed = priv->dirty != dirty;
 
     priv->dirty = dirty;
@@ -312,21 +295,24 @@ void entangle_control_set_dirty(EntangleControl *control,
         g_object_notify(G_OBJECT(control), "dirty");
 }
 
-gboolean entangle_control_get_readonly(EntangleControl *control)
+gboolean
+entangle_control_get_readonly(EntangleControl *control)
 {
     g_return_val_if_fail(ENTANGLE_IS_CONTROL(control), TRUE);
 
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
 
     return priv->readonly;
 }
 
-void entangle_control_set_readonly(EntangleControl *control,
-                                   gboolean ro)
+void
+entangle_control_set_readonly(EntangleControl *control, gboolean ro)
 {
     g_return_if_fail(ENTANGLE_IS_CONTROL(control));
 
-    EntangleControlPrivate *priv = entangle_control_get_instance_private(control);
+    EntangleControlPrivate *priv =
+        entangle_control_get_instance_private(control);
     gboolean changed = priv->readonly != ro;
 
     priv->readonly = ro;

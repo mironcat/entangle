@@ -27,23 +27,32 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_IMAGE_HISTOGRAM            (entangle_image_histogram_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleImageHistogram, entangle_image_histogram, ENTANGLE, IMAGE_HISTOGRAM, GtkDrawingArea)
+#define ENTANGLE_TYPE_IMAGE_HISTOGRAM (entangle_image_histogram_get_type())
+G_DECLARE_FINAL_TYPE(EntangleImageHistogram,
+                     entangle_image_histogram,
+                     ENTANGLE,
+                     IMAGE_HISTOGRAM,
+                     GtkDrawingArea)
 
-EntangleImageHistogram *entangle_image_histogram_new(void);
+EntangleImageHistogram *
+entangle_image_histogram_new(void);
 
-void entangle_image_histogram_set_image(EntangleImageHistogram *histogram,
-                                        EntangleImage *image);
-EntangleImage *entangle_image_histogram_get_image(EntangleImageHistogram *histogram);
+void
+entangle_image_histogram_set_image(EntangleImageHistogram *histogram,
+                                   EntangleImage *image);
+EntangleImage *
+entangle_image_histogram_get_image(EntangleImageHistogram *histogram);
 
-void entangle_image_histogram_set_histogram_linear(EntangleImageHistogram *histogram,
-                                                   gboolean linear);
-gboolean entangle_image_histogram_get_histogram_linear(EntangleImageHistogram *histogram);
+void
+entangle_image_histogram_set_histogram_linear(EntangleImageHistogram *histogram,
+                                              gboolean linear);
+gboolean
+entangle_image_histogram_get_histogram_linear(
+    EntangleImageHistogram *histogram);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_IMAGE_HISTOGRAM_H__ */
-
 
 /*
  * Local variables:

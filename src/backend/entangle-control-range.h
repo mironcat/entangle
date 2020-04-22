@@ -27,27 +27,33 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CONTROL_RANGE            (entangle_control_range_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleControlRange, entangle_control_range, ENTANGLE, CONTROL_RANGE, EntangleControl)
+#define ENTANGLE_TYPE_CONTROL_RANGE (entangle_control_range_get_type())
+G_DECLARE_FINAL_TYPE(EntangleControlRange,
+                     entangle_control_range,
+                     ENTANGLE,
+                     CONTROL_RANGE,
+                     EntangleControl)
 
-EntangleControlRange* entangle_control_range_new(const char *path,
-                                                 int id,
-                                                 const char *label,
-                                                 const char *info,
-                                                 gboolean readonly,
-                                                 float min,
-                                                 float max,
-                                                 float step);
+EntangleControlRange *
+entangle_control_range_new(const char *path,
+                           int id,
+                           const char *label,
+                           const char *info,
+                           gboolean readonly,
+                           float min,
+                           float max,
+                           float step);
 
-
-float entangle_control_range_get_min(EntangleControlRange *range);
-float entangle_control_range_get_max(EntangleControlRange *range);
-float entangle_control_range_get_step(EntangleControlRange *range);
+float
+entangle_control_range_get_min(EntangleControlRange *range);
+float
+entangle_control_range_get_max(EntangleControlRange *range);
+float
+entangle_control_range_get_step(EntangleControlRange *range);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CONTROL_RANGE_H__ */
-
 
 /*
  * Local variables:

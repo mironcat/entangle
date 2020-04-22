@@ -27,14 +27,18 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_SCRIPT            (entangle_script_get_type ())
-G_DECLARE_DERIVABLE_TYPE(EntangleScript, entangle_script, ENTANGLE, SCRIPT, GObject)
+#define ENTANGLE_TYPE_SCRIPT (entangle_script_get_type())
+G_DECLARE_DERIVABLE_TYPE(EntangleScript,
+                         entangle_script,
+                         ENTANGLE,
+                         SCRIPT,
+                         GObject)
 
 struct _EntangleScriptClass
 {
     GObjectClass parent_class;
 
-    GtkWidget * (*get_config_widget)(EntangleScript *script);
+    GtkWidget *(*get_config_widget)(EntangleScript *script);
     void (*execute_async)(EntangleScript *script,
                           EntangleCameraAutomata *automata,
                           GCancellable *cancel,
@@ -45,16 +49,20 @@ struct _EntangleScriptClass
                                GError **error);
 };
 
-const gchar *entangle_script_get_title(EntangleScript *script);
-GtkWidget *entangle_script_get_config_widget(EntangleScript *script);
-void entangle_script_execute_async(EntangleScript *script,
-                                   EntangleCameraAutomata *automata,
-                                   GCancellable *cancel,
-                                   GAsyncReadyCallback callback,
-                                   gpointer data);
-gboolean entangle_script_execute_finish(EntangleScript *script,
-                                        GAsyncResult *result,
-                                        GError **error);
+const gchar *
+entangle_script_get_title(EntangleScript *script);
+GtkWidget *
+entangle_script_get_config_widget(EntangleScript *script);
+void
+entangle_script_execute_async(EntangleScript *script,
+                              EntangleCameraAutomata *automata,
+                              GCancellable *cancel,
+                              GAsyncReadyCallback callback,
+                              gpointer data);
+gboolean
+entangle_script_execute_finish(EntangleScript *script,
+                               GAsyncResult *result,
+                               GError **error);
 
 G_END_DECLS
 

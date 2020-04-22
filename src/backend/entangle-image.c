@@ -18,67 +18,71 @@
  *
  */
 
-#include <glib.h>
 #include <stdio.h>
 #include <string.h>
 
-#include "entangle-debug.h"
+#include <glib.h>
+
 #include "entangle-image.h"
 
-struct _EntangleImage {
+#include "entangle-debug.h"
+
+struct _EntangleImage
+{
     EntangleMedia parent;
     GdkPixbuf *pixbuf;
 };
 
 G_DEFINE_TYPE(EntangleImage, entangle_image, ENTANGLE_TYPE_MEDIA);
 
-enum {
+enum
+{
     PROP_0,
     PROP_PIXBUF,
 };
 
-static void entangle_image_get_property(GObject *object,
-                                        guint prop_id,
-                                        GValue *value,
-                                        GParamSpec *pspec)
+static void
+entangle_image_get_property(GObject *object,
+                            guint prop_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
     EntangleImage *image = ENTANGLE_IMAGE(object);
 
-    switch (prop_id)
-        {
-        case PROP_PIXBUF:
-            g_value_set_object(value, image->pixbuf);
-            break;
+    switch (prop_id) {
+    case PROP_PIXBUF:
+        g_value_set_object(value, image->pixbuf);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_image_set_property(GObject *object,
-                                        guint prop_id,
-                                        const GValue *value,
-                                        GParamSpec *pspec)
+static void
+entangle_image_set_property(GObject *object,
+                            guint prop_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
     EntangleImage *image = ENTANGLE_IMAGE(object);
 
-    switch (prop_id)
-        {
-        case PROP_PIXBUF:
-            if (image->pixbuf)
-                g_object_unref(image->pixbuf);
-            image->pixbuf = g_value_get_object(value);
-            if (image->pixbuf)
-                g_object_ref(image->pixbuf);
-            break;
+    switch (prop_id) {
+    case PROP_PIXBUF:
+        if (image->pixbuf)
+            g_object_unref(image->pixbuf);
+        image->pixbuf = g_value_get_object(value);
+        if (image->pixbuf)
+            g_object_ref(image->pixbuf);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_image_finalize(GObject *object)
+static void
+entangle_image_finalize(GObject *object)
 {
     EntangleImage *image = ENTANGLE_IMAGE(object);
 
@@ -90,8 +94,8 @@ static void entangle_image_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_image_parent_class)->finalize(object);
 }
 
-
-static void entangle_image_class_init(EntangleImageClass *klass)
+static void
+entangle_image_class_init(EntangleImageClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -99,18 +103,13 @@ static void entangle_image_class_init(EntangleImageClass *klass)
     object_class->get_property = entangle_image_get_property;
     object_class->set_property = entangle_image_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_PIXBUF,
-                                    g_param_spec_object("pixbuf",
-                                                        "Image pixbuf",
-                                                        "Image pixbuf",
-                                                        GDK_TYPE_PIXBUF,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_PIXBUF,
+        g_param_spec_object("pixbuf", "Image pixbuf", "Image pixbuf",
+                            GDK_TYPE_PIXBUF,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
-
 
 /**
  * entangle_image_new_file:
@@ -121,13 +120,12 @@ static void entangle_image_class_init(EntangleImageClass *klass)
  *
  * Returns: (transfer full): the new image
  */
-EntangleImage *entangle_image_new_file(const char *filename)
+EntangleImage *
+entangle_image_new_file(const char *filename)
 {
-    return ENTANGLE_IMAGE(g_object_new(ENTANGLE_TYPE_IMAGE,
-                                       "filename", filename,
-                                       NULL));
+    return ENTANGLE_IMAGE(
+        g_object_new(ENTANGLE_TYPE_IMAGE, "filename", filename, NULL));
 }
-
 
 /**
  * entangle_image_new_pixbuf:
@@ -138,18 +136,16 @@ EntangleImage *entangle_image_new_file(const char *filename)
  *
  * Returns: (transfer full): the new image
  */
-EntangleImage *entangle_image_new_pixbuf(GdkPixbuf *pixbuf)
+EntangleImage *
+entangle_image_new_pixbuf(GdkPixbuf *pixbuf)
 {
-    return ENTANGLE_IMAGE(g_object_new(ENTANGLE_TYPE_IMAGE,
-                                       "pixbuf", pixbuf,
-                                       NULL));
+    return ENTANGLE_IMAGE(
+        g_object_new(ENTANGLE_TYPE_IMAGE, "pixbuf", pixbuf, NULL));
 }
 
-
-static void entangle_image_init(EntangleImage *image G_GNUC_UNUSED)
-{
-}
-
+static void
+entangle_image_init(EntangleImage *image G_GNUC_UNUSED)
+{}
 
 /**
  * entangle_image_get_pixbuf:
@@ -159,13 +155,13 @@ static void entangle_image_init(EntangleImage *image G_GNUC_UNUSED)
  *
  * Returns: (transfer none): the image pixbuf or NULL
  */
-GdkPixbuf *entangle_image_get_pixbuf(EntangleImage *image)
+GdkPixbuf *
+entangle_image_get_pixbuf(EntangleImage *image)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE(image), NULL);
 
     return image->pixbuf;
 }
-
 
 /**
  * entangle_image_set_pixbuf:
@@ -174,14 +170,13 @@ GdkPixbuf *entangle_image_get_pixbuf(EntangleImage *image)
  *
  * Set the pixbuf associated with the image
  */
-void entangle_image_set_pixbuf(EntangleImage *image,
-                               GdkPixbuf *pixbuf)
+void
+entangle_image_set_pixbuf(EntangleImage *image, GdkPixbuf *pixbuf)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE(image));
 
     g_object_set(image, "pixbuf", pixbuf, NULL);
 }
-
 
 /*
  * Local variables:

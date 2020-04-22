@@ -21,51 +21,64 @@
 #ifndef __ENTANGLE_PIXBUF_LOADER_H__
 #define __ENTANGLE_PIXBUF_LOADER_H__
 
-#include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gexiv2/gexiv2.h>
+#include <glib-object.h>
 
 #include "entangle-colour-profile.h"
 #include "entangle-image.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_PIXBUF_LOADER            (entangle_pixbuf_loader_get_type ())
-G_DECLARE_DERIVABLE_TYPE(EntanglePixbufLoader, entangle_pixbuf_loader, ENTANGLE, PIXBUF_LOADER, GObject)
+#define ENTANGLE_TYPE_PIXBUF_LOADER (entangle_pixbuf_loader_get_type())
+G_DECLARE_DERIVABLE_TYPE(EntanglePixbufLoader,
+                         entangle_pixbuf_loader,
+                         ENTANGLE,
+                         PIXBUF_LOADER,
+                         GObject)
 
 struct _EntanglePixbufLoaderClass
 {
     GObjectClass parent_class;
 
-    GdkPixbuf *(*pixbuf_load)(EntanglePixbufLoader *loader, EntangleImage *image,
+    GdkPixbuf *(*pixbuf_load)(EntanglePixbufLoader *loader,
+                              EntangleImage *image,
                               GExiv2Metadata **metadata);
 };
 
+gboolean
+entangle_pixbuf_loader_is_ready(EntanglePixbufLoader *loader,
+                                EntangleImage *image);
+GdkPixbuf *
+entangle_pixbuf_loader_get_pixbuf(EntanglePixbufLoader *loader,
+                                  EntangleImage *image);
+GExiv2Metadata *
+entangle_pixbuf_loader_get_metadata(EntanglePixbufLoader *loader,
+                                    EntangleImage *image);
 
-gboolean entangle_pixbuf_loader_is_ready(EntanglePixbufLoader *loader,
-                                         EntangleImage *image);
-GdkPixbuf *entangle_pixbuf_loader_get_pixbuf(EntanglePixbufLoader *loader,
-                                             EntangleImage *image);
-GExiv2Metadata *entangle_pixbuf_loader_get_metadata(EntanglePixbufLoader *loader,
-                                                    EntangleImage *image);
+gboolean
+entangle_pixbuf_loader_load(EntanglePixbufLoader *loader, EntangleImage *image);
 
-gboolean entangle_pixbuf_loader_load(EntanglePixbufLoader *loader,
-                                     EntangleImage *image);
+gboolean
+entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
+                              EntangleImage *image);
 
-gboolean entangle_pixbuf_loader_unload(EntanglePixbufLoader *loader,
-                                       EntangleImage *image);
+void
+entangle_pixbuf_loader_trigger_reload(EntanglePixbufLoader *loader);
 
-void entangle_pixbuf_loader_trigger_reload(EntanglePixbufLoader *loader);
+void
+entangle_pixbuf_loader_set_colour_transform(
+    EntanglePixbufLoader *loader,
+    EntangleColourProfileTransform *transform);
 
-void entangle_pixbuf_loader_set_colour_transform(EntanglePixbufLoader *loader,
-                                                 EntangleColourProfileTransform *transform);
+EntangleColourProfileTransform *
+entangle_pixbuf_loader_get_colour_transform(EntanglePixbufLoader *loader);
 
-EntangleColourProfileTransform *entangle_pixbuf_loader_get_colour_transform(EntanglePixbufLoader *loader);
+void
+entangle_pixbuf_loader_set_workers(EntanglePixbufLoader *loader, int count);
 
-void entangle_pixbuf_loader_set_workers(EntanglePixbufLoader *loader,
-                                        int count);
-
-int entangle_pixbuf_loader_get_workers(EntanglePixbufLoader *loader);
+int
+entangle_pixbuf_loader_get_workers(EntanglePixbufLoader *loader);
 
 G_END_DECLS
 

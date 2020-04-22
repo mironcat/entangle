@@ -24,23 +24,24 @@ gboolean entangle_debug_app = FALSE;
 gboolean entangle_debug_gphoto = FALSE;
 gint64 entangle_debug_startms = 0;
 
-static void entangle_log_handler(const gchar *log_domain G_GNUC_UNUSED,
-                                 GLogLevelFlags log_level G_GNUC_UNUSED,
-                                 const gchar *message,
-                                 gpointer user_data G_GNUC_UNUSED)
+static void
+entangle_log_handler(const gchar *log_domain G_GNUC_UNUSED,
+                     GLogLevelFlags log_level G_GNUC_UNUSED,
+                     const gchar *message,
+                     gpointer user_data G_GNUC_UNUSED)
 {
     g_printerr("%s\n", message);
 }
 
-void entangle_debug_setup(gboolean debug_app,
-                          gboolean debug_gphoto)
+void
+entangle_debug_setup(gboolean debug_app, gboolean debug_gphoto)
 {
     entangle_debug_app = debug_app;
     entangle_debug_gphoto = debug_gphoto;
 
     if (debug_app || debug_gphoto) {
-        g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                          entangle_log_handler, NULL);
+        g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, entangle_log_handler,
+                          NULL);
     }
 }
 

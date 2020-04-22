@@ -20,51 +20,51 @@
 
 #include <stdio.h>
 
-#include "entangle-debug.h"
 #include "entangle-control-button.h"
 
-struct _EntangleControlButton {
+#include "entangle-debug.h"
+
+struct _EntangleControlButton
+{
     EntangleControl parent;
 };
 
-G_DEFINE_TYPE(EntangleControlButton, entangle_control_button, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlButton,
+              entangle_control_button,
+              ENTANGLE_TYPE_CONTROL);
 
-
-static void entangle_control_button_finalize(GObject *object)
+static void
+entangle_control_button_finalize(GObject *object)
 {
     G_OBJECT_CLASS(entangle_control_button_parent_class)->finalize(object);
 }
 
-static void entangle_control_button_class_init(EntangleControlButtonClass *klass)
+static void
+entangle_control_button_class_init(EntangleControlButtonClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
     object_class->finalize = entangle_control_button_finalize;
 }
 
-
-EntangleControlButton *entangle_control_button_new(const char *path,
-                                                   int id,
-                                                   const char *label,
-                                                   const char *info,
-                                                   gboolean readonly)
+EntangleControlButton *
+entangle_control_button_new(const char *path,
+                            int id,
+                            const char *label,
+                            const char *info,
+                            gboolean readonly)
 {
     g_return_val_if_fail(path != NULL, NULL);
     g_return_val_if_fail(label != NULL, NULL);
 
-    return ENTANGLE_CONTROL_BUTTON(g_object_new(ENTANGLE_TYPE_CONTROL_BUTTON,
-                                                "path", path,
-                                                "id", id,
-                                                "label", label,
-                                                "info", info,
-                                                "readonly", readonly,
-                                                NULL));
+    return ENTANGLE_CONTROL_BUTTON(
+        g_object_new(ENTANGLE_TYPE_CONTROL_BUTTON, "path", path, "id", id,
+                     "label", label, "info", info, "readonly", readonly, NULL));
 }
 
-
-static void entangle_control_button_init(EntangleControlButton *control G_GNUC_UNUSED)
-{
-}
+static void
+entangle_control_button_init(EntangleControlButton *control G_GNUC_UNUSED)
+{}
 
 /*
  * Local variables:

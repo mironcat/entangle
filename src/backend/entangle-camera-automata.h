@@ -24,46 +24,61 @@
 #include <glib-object.h>
 
 #include "entangle-camera.h"
-#include "entangle-session.h"
 #include "entangle-image.h"
+#include "entangle-session.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CAMERA_AUTOMATA            (entangle_camera_automata_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleCameraAutomata, entangle_camera_automata, ENTANGLE, CAMERA_AUTOMATA, GObject)
+#define ENTANGLE_TYPE_CAMERA_AUTOMATA (entangle_camera_automata_get_type())
+G_DECLARE_FINAL_TYPE(EntangleCameraAutomata,
+                     entangle_camera_automata,
+                     ENTANGLE,
+                     CAMERA_AUTOMATA,
+                     GObject)
 
-EntangleCameraAutomata *entangle_camera_automata_new(void);
+EntangleCameraAutomata *
+entangle_camera_automata_new(void);
 
-void entangle_camera_automata_capture_async(EntangleCameraAutomata *automata,
-                                            GCancellable *cancel,
-                                            GAsyncReadyCallback callback,
-                                            gpointer user_data);
+void
+entangle_camera_automata_capture_async(EntangleCameraAutomata *automata,
+                                       GCancellable *cancel,
+                                       GAsyncReadyCallback callback,
+                                       gpointer user_data);
 
-gboolean entangle_camera_automata_capture_finish(EntangleCameraAutomata *automata,
-                                                 GAsyncResult *res,
-                                                 GError **error);
+gboolean
+entangle_camera_automata_capture_finish(EntangleCameraAutomata *automata,
+                                        GAsyncResult *res,
+                                        GError **error);
 
-void entangle_camera_automata_preview_async(EntangleCameraAutomata *automata,
-                                            GCancellable *cancel,
-                                            GCancellable *confirm,
-                                            GAsyncReadyCallback callback,
-                                            gpointer user_data);
+void
+entangle_camera_automata_preview_async(EntangleCameraAutomata *automata,
+                                       GCancellable *cancel,
+                                       GCancellable *confirm,
+                                       GAsyncReadyCallback callback,
+                                       gpointer user_data);
 
-gboolean entangle_camera_automata_preview_finish(EntangleCameraAutomata *automata,
-                                                 GAsyncResult *res,
-                                                 GError **error);
+gboolean
+entangle_camera_automata_preview_finish(EntangleCameraAutomata *automata,
+                                        GAsyncResult *res,
+                                        GError **error);
 
-void entangle_camera_automata_set_camera(EntangleCameraAutomata *automata,
-                                         EntangleCamera *camera);
-EntangleCamera *entangle_camera_automata_get_camera(EntangleCameraAutomata *automata);
+void
+entangle_camera_automata_set_camera(EntangleCameraAutomata *automata,
+                                    EntangleCamera *camera);
+EntangleCamera *
+entangle_camera_automata_get_camera(EntangleCameraAutomata *automata);
 
-void entangle_camera_automata_set_session(EntangleCameraAutomata *automata,
-                                          EntangleSession *session);
-EntangleSession *entangle_camera_automata_get_session(EntangleCameraAutomata *automata);
+void
+entangle_camera_automata_set_session(EntangleCameraAutomata *automata,
+                                     EntangleSession *session);
+EntangleSession *
+entangle_camera_automata_get_session(EntangleCameraAutomata *automata);
 
-void entangle_camera_automata_set_delete_file(EntangleCameraAutomata *automata,
-                                                gboolean value);
-gboolean entangle_camera_automata_get_delete_file(EntangleCameraAutomata *automata);
+void
+entangle_camera_automata_set_delete_file(EntangleCameraAutomata *automata,
+                                         gboolean value);
+gboolean
+entangle_camera_automata_get_delete_file(EntangleCameraAutomata *automata);
 
 G_END_DECLS
 

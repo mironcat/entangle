@@ -24,20 +24,29 @@
 #include <gtk/gtk.h>
 #include <libpeas/peas.h>
 
-#include "entangle-preferences.h"
 #include "entangle-camera-list.h"
+#include "entangle-preferences.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_APPLICATION            (entangle_application_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleApplication, entangle_application, ENTANGLE, APPLICATION, GtkApplication)
+#define ENTANGLE_TYPE_APPLICATION (entangle_application_get_type())
+G_DECLARE_FINAL_TYPE(EntangleApplication,
+                     entangle_application,
+                     ENTANGLE,
+                     APPLICATION,
+                     GtkApplication)
 
-EntangleApplication *entangle_application_new(void);
+EntangleApplication *
+entangle_application_new(void);
 
-EntangleCameraList *entangle_application_get_active_cameras(EntangleApplication *application);
-EntangleCameraList *entangle_application_get_supported_cameras(EntangleApplication *application);
-EntanglePreferences *entangle_application_get_preferences(EntangleApplication *application);
-PeasEngine *entangle_application_get_plugin_engine(EntangleApplication *application);
+EntangleCameraList *
+entangle_application_get_active_cameras(EntangleApplication *application);
+EntangleCameraList *
+entangle_application_get_supported_cameras(EntangleApplication *application);
+EntanglePreferences *
+entangle_application_get_preferences(EntangleApplication *application);
+PeasEngine *
+entangle_application_get_plugin_engine(EntangleApplication *application);
 
 G_END_DECLS
 

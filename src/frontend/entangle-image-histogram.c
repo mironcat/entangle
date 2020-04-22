@@ -18,14 +18,16 @@
  *
  */
 
-#include <string.h>
 #include <math.h>
+#include <string.h>
+
+#include "entangle-image-histogram.h"
 
 #include "entangle-debug.h"
-#include "entangle-image-histogram.h"
 #include "entangle-image.h"
 
-struct _EntangleImageHistogram {
+struct _EntangleImageHistogram
+{
     GtkDrawingArea parent;
 
     double freq_red[256];
@@ -37,17 +39,20 @@ struct _EntangleImageHistogram {
     EntangleImage *image;
 };
 
-G_DEFINE_TYPE(EntangleImageHistogram, entangle_image_histogram, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE(EntangleImageHistogram,
+              entangle_image_histogram,
+              GTK_TYPE_DRAWING_AREA);
 
-enum {
+enum
+{
     PROP_O,
     PROP_IMAGE,
 };
 
-#define DOUBLE_EQUAL(a, b)                      \
-    (fabs((a) - (b)) < 0.005)
+#define DOUBLE_EQUAL(a, b) (fabs((a) - (b)) < 0.005)
 
-static void do_entangle_pixmap_setup(EntangleImageHistogram *histogram)
+static void
+do_entangle_pixmap_setup(EntangleImageHistogram *histogram)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram));
 
@@ -82,7 +87,7 @@ static void do_entangle_pixmap_setup(EntangleImageHistogram *histogram)
             histogram->freq_green[level_green]++;
             histogram->freq_blue[level_blue]++;
 
-            pixel+=3;
+            pixel += 3;
         }
 
         pixels += stride;
@@ -91,48 +96,47 @@ static void do_entangle_pixmap_setup(EntangleImageHistogram *histogram)
     histogram->hasFreq = TRUE;
 }
 
-
-static void entangle_image_histogram_get_property(GObject *object,
-                                                  guint prop_id,
-                                                  GValue *value,
-                                                  GParamSpec *pspec)
+static void
+entangle_image_histogram_get_property(GObject *object,
+                                      guint prop_id,
+                                      GValue *value,
+                                      GParamSpec *pspec)
 {
     EntangleImageHistogram *histogram = ENTANGLE_IMAGE_HISTOGRAM(object);
 
-    switch (prop_id)
-        {
-        case PROP_IMAGE:
-            g_value_set_object(value, histogram->image);
-            break;
+    switch (prop_id) {
+    case PROP_IMAGE:
+        g_value_set_object(value, histogram->image);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_image_histogram_set_property(GObject *object,
-                                                  guint prop_id,
-                                                  const GValue *value,
-                                                  GParamSpec *pspec)
+static void
+entangle_image_histogram_set_property(GObject *object,
+                                      guint prop_id,
+                                      const GValue *value,
+                                      GParamSpec *pspec)
 {
     EntangleImageHistogram *histogram = ENTANGLE_IMAGE_HISTOGRAM(object);
 
     ENTANGLE_DEBUG("Set prop on image histogram %d", prop_id);
 
-    switch (prop_id)
-        {
-        case PROP_IMAGE:
-            entangle_image_histogram_set_image(histogram, g_value_get_object(value));
-            break;
+    switch (prop_id) {
+    case PROP_IMAGE:
+        entangle_image_histogram_set_image(histogram,
+                                           g_value_get_object(value));
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_image_histogram_finalize(GObject *object)
+static void
+entangle_image_histogram_finalize(GObject *object)
 {
     EntangleImageHistogram *histogram = ENTANGLE_IMAGE_HISTOGRAM(object);
 
@@ -144,26 +148,34 @@ static void entangle_image_histogram_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_image_histogram_parent_class)->finalize(object);
 }
 
-
-static void entangle_image_histogram_draw_line(cairo_t *cr, float from_x, float from_y, float to_x, float to_y)
+static void
+entangle_image_histogram_draw_line(cairo_t *cr,
+                                   float from_x,
+                                   float from_y,
+                                   float to_x,
+                                   float to_y)
 {
     cairo_move_to(cr, from_x, from_y);
-    cairo_line_to(cr, to_x,  to_y);
+    cairo_line_to(cr, to_x, to_y);
 }
 
-
-static void entangle_image_histogram_draw_grid(cairo_t *cr, const float width, const float height)
+static void
+entangle_image_histogram_draw_grid(cairo_t *cr,
+                                   const float width,
+                                   const float height)
 {
     for (int k = 1; k < 4; k++) {
-        entangle_image_histogram_draw_line(cr, k/(float)4 * width, 0, k/(float)4 * width, height);
+        entangle_image_histogram_draw_line(cr, k / (float)4 * width, 0,
+                                           k / (float)4 * width, height);
         cairo_stroke(cr);
-        entangle_image_histogram_draw_line(cr, 0, k/(float)4 * height, width, k/(float)4 * height);
+        entangle_image_histogram_draw_line(cr, 0, k / (float)4 * height, width,
+                                           k / (float)4 * height);
         cairo_stroke(cr);
     }
 }
 
-
-static double entangle_image_histogram_calculate_value(double d, gboolean l)
+static double
+entangle_image_histogram_calculate_value(double d, gboolean l)
 {
     if (!l) {
         return DOUBLE_EQUAL(d, 0.0) ? 0.0 : log(d);
@@ -172,8 +184,8 @@ static double entangle_image_histogram_calculate_value(double d, gboolean l)
     return d;
 }
 
-
-static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
+static gboolean
+entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(widget), FALSE);
 
@@ -201,9 +213,12 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
 
     if (histogram->hasFreq) {
         for (idx = 0; idx <= 255; idx++) {
-            double rv = entangle_image_histogram_calculate_value(histogram->freq_red[idx], histogram->linear);
-            double gv = entangle_image_histogram_calculate_value(histogram->freq_green[idx], histogram->linear);
-            double bv = entangle_image_histogram_calculate_value(histogram->freq_blue[idx], histogram->linear);
+            double rv = entangle_image_histogram_calculate_value(
+                histogram->freq_red[idx], histogram->linear);
+            double gv = entangle_image_histogram_calculate_value(
+                histogram->freq_green[idx], histogram->linear);
+            double bv = entangle_image_histogram_calculate_value(
+                histogram->freq_blue[idx], histogram->linear);
 
             if (rv > peak)
                 peak = rv;
@@ -223,7 +238,8 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
         cairo_move_to(cr, 0, wh);
 
         for (idx = 0; idx <= 255; idx++) {
-            double rv = entangle_image_histogram_calculate_value(histogram->freq_red[idx], histogram->linear);
+            double rv = entangle_image_histogram_calculate_value(
+                histogram->freq_red[idx], histogram->linear);
             double x = (double)ww * (double)idx / 255.0;
             double y = (double)(wh - 2) * (double)rv / peak;
 
@@ -240,7 +256,8 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
         cairo_move_to(cr, 0, wh);
 
         for (idx = 0; idx <= 255; idx++) {
-            double gv = entangle_image_histogram_calculate_value(histogram->freq_green[idx], histogram->linear);
+            double gv = entangle_image_histogram_calculate_value(
+                histogram->freq_green[idx], histogram->linear);
             double x = (double)ww * (double)idx / 255.0;
             double y = (double)(wh - 2) * (double)gv / peak;
 
@@ -257,7 +274,8 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
         cairo_move_to(cr, 0, wh);
 
         for (idx = 0; idx <= 255; idx++) {
-            double bv = entangle_image_histogram_calculate_value(histogram->freq_blue[idx], histogram->linear);
+            double bv = entangle_image_histogram_calculate_value(
+                histogram->freq_blue[idx], histogram->linear);
             double x = (double)ww * (double)idx / 255.0;
             double y = (double)(wh - 2) * (double)bv / peak;
 
@@ -274,10 +292,10 @@ static gboolean entangle_image_histogram_draw(GtkWidget *widget, cairo_t *cr)
     return TRUE;
 }
 
-
-static void entangle_image_histogram_get_preferred_width(GtkWidget *widget,
-                                                         gint *minwidth,
-                                                         gint *natwidth)
+static void
+entangle_image_histogram_get_preferred_width(GtkWidget *widget,
+                                             gint *minwidth,
+                                             gint *natwidth)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(widget));
 
@@ -285,10 +303,10 @@ static void entangle_image_histogram_get_preferred_width(GtkWidget *widget,
     *natwidth = 250;
 }
 
-
-static void entangle_image_histogram_get_preferred_height(GtkWidget *widget,
-                                                          gint *minheight,
-                                                          gint *natheight)
+static void
+entangle_image_histogram_get_preferred_height(GtkWidget *widget,
+                                              gint *minheight,
+                                              gint *natheight)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(widget));
 
@@ -296,8 +314,8 @@ static void entangle_image_histogram_get_preferred_height(GtkWidget *widget,
     *natheight = 170;
 }
 
-
-static void entangle_image_histogram_class_init(EntangleImageHistogramClass *klass)
+static void
+entangle_image_histogram_class_init(EntangleImageHistogramClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
@@ -307,36 +325,34 @@ static void entangle_image_histogram_class_init(EntangleImageHistogramClass *kla
     object_class->set_property = entangle_image_histogram_set_property;
 
     widget_class->draw = entangle_image_histogram_draw;
-    widget_class->get_preferred_width = entangle_image_histogram_get_preferred_width;
-    widget_class->get_preferred_height = entangle_image_histogram_get_preferred_height;
+    widget_class->get_preferred_width =
+        entangle_image_histogram_get_preferred_width;
+    widget_class->get_preferred_height =
+        entangle_image_histogram_get_preferred_height;
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMAGE,
-                                    g_param_spec_object("image",
-                                                        "Image",
-                                                        "Image to be histogramed",
-                                                        ENTANGLE_TYPE_IMAGE,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMAGE,
+        g_param_spec_object("image", "Image", "Image to be histogramed",
+                            ENTANGLE_TYPE_IMAGE,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-EntangleImageHistogram *entangle_image_histogram_new(void)
+EntangleImageHistogram *
+entangle_image_histogram_new(void)
 {
-    return ENTANGLE_IMAGE_HISTOGRAM(g_object_new(ENTANGLE_TYPE_IMAGE_HISTOGRAM, NULL));
+    return ENTANGLE_IMAGE_HISTOGRAM(
+        g_object_new(ENTANGLE_TYPE_IMAGE_HISTOGRAM, NULL));
 }
 
+static void
+entangle_image_histogram_init(EntangleImageHistogram *histogram G_GNUC_UNUSED)
+{}
 
-static void entangle_image_histogram_init(EntangleImageHistogram *histogram G_GNUC_UNUSED)
-{
-}
-
-
-static void entangle_image_histogram_image_pixbuf_notify(GObject *image G_GNUC_UNUSED,
-                                                         GParamSpec *pspec G_GNUC_UNUSED,
-                                                         gpointer data)
+static void
+entangle_image_histogram_image_pixbuf_notify(GObject *image G_GNUC_UNUSED,
+                                             GParamSpec *pspec G_GNUC_UNUSED,
+                                             gpointer data)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(data));
 
@@ -346,16 +362,17 @@ static void entangle_image_histogram_image_pixbuf_notify(GObject *image G_GNUC_U
     gtk_widget_queue_draw(GTK_WIDGET(histogram));
 }
 
-
 /**
  * entangle_image_histogram_set_image:
  * @histogram: (transfer none): the histogram widget
- * @image: (transfer none)(allow-none): the image to display histogram for, or NULL
+ * @image: (transfer none)(allow-none): the image to display histogram for, or
+ * NULL
  *
  * Set the image to display the histogram for
  */
-void entangle_image_histogram_set_image(EntangleImageHistogram *histogram,
-                                        EntangleImage *image)
+void
+entangle_image_histogram_set_image(EntangleImageHistogram *histogram,
+                                   EntangleImage *image)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram));
     g_return_if_fail(!image || ENTANGLE_IS_IMAGE(image));
@@ -367,18 +384,17 @@ void entangle_image_histogram_set_image(EntangleImageHistogram *histogram,
     histogram->image = image;
     if (histogram->image) {
         g_object_ref(histogram->image);
-        histogram->imageNotifyID = g_signal_connect(histogram->image,
-                                               "notify::pixbuf",
-                                               G_CALLBACK(entangle_image_histogram_image_pixbuf_notify),
-                                               histogram);
+        histogram->imageNotifyID = g_signal_connect(
+            histogram->image, "notify::pixbuf",
+            G_CALLBACK(entangle_image_histogram_image_pixbuf_notify),
+            histogram);
     }
 
     do_entangle_pixmap_setup(histogram);
 
-    if (gtk_widget_get_visible((GtkWidget*)histogram))
+    if (gtk_widget_get_visible((GtkWidget *)histogram))
         gtk_widget_queue_draw(GTK_WIDGET(histogram));
 }
-
 
 /**
  * entangle_image_histogram_get_image:
@@ -388,15 +404,17 @@ void entangle_image_histogram_set_image(EntangleImageHistogram *histogram,
  *
  * Returns: (transfer none): the image displayed
  */
-EntangleImage *entangle_image_histogram_get_image(EntangleImageHistogram *histogram)
+EntangleImage *
+entangle_image_histogram_get_image(EntangleImageHistogram *histogram)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram), NULL);
 
     return histogram->image;
 }
 
-
-void entangle_image_histogram_set_histogram_linear(EntangleImageHistogram *histogram, gboolean linear)
+void
+entangle_image_histogram_set_histogram_linear(EntangleImageHistogram *histogram,
+                                              gboolean linear)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram));
 
@@ -405,8 +423,8 @@ void entangle_image_histogram_set_histogram_linear(EntangleImageHistogram *histo
     gtk_widget_queue_draw(GTK_WIDGET(histogram));
 }
 
-
-gboolean entangle_image_histogram_get_histogram_linear(EntangleImageHistogram *histogram)
+gboolean
+entangle_image_histogram_get_histogram_linear(EntangleImageHistogram *histogram)
 {
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_HISTOGRAM(histogram), FALSE);
 

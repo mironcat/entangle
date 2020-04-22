@@ -23,34 +23,45 @@
 
 #include <gtk/gtk.h>
 
-#include "entangle-camera.h"
 #include "entangle-application.h"
+#include "entangle-camera.h"
 #include "entangle-script.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CAMERA_MANAGER            (entangle_camera_manager_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleCameraManager, entangle_camera_manager, ENTANGLE, CAMERA_MANAGER, GtkApplicationWindow)
+#define ENTANGLE_TYPE_CAMERA_MANAGER (entangle_camera_manager_get_type())
+G_DECLARE_FINAL_TYPE(EntangleCameraManager,
+                     entangle_camera_manager,
+                     ENTANGLE,
+                     CAMERA_MANAGER,
+                     GtkApplicationWindow)
 
-EntangleCameraManager *entangle_camera_manager_new(EntangleApplication *app);
+EntangleCameraManager *
+entangle_camera_manager_new(EntangleApplication *app);
 
-void entangle_camera_manager_add_script(EntangleCameraManager *manager,
-                                        EntangleScript *script);
-void entangle_camera_manager_remove_script(EntangleCameraManager *manager,
-                                           EntangleScript *script);
+void
+entangle_camera_manager_add_script(EntangleCameraManager *manager,
+                                   EntangleScript *script);
+void
+entangle_camera_manager_remove_script(EntangleCameraManager *manager,
+                                      EntangleScript *script);
 
-void entangle_camera_manager_capture(EntangleCameraManager *manager);
-void entangle_camera_manager_preview_begin(EntangleCameraManager *manager);
-void entangle_camera_manager_preview_cancel(EntangleCameraManager *manager);
+void
+entangle_camera_manager_capture(EntangleCameraManager *manager);
+void
+entangle_camera_manager_preview_begin(EntangleCameraManager *manager);
+void
+entangle_camera_manager_preview_cancel(EntangleCameraManager *manager);
 
-void entangle_camera_manager_set_camera(EntangleCameraManager *manager,
-                                        EntangleCamera *cam);
-EntangleCamera *entangle_camera_manager_get_camera(EntangleCameraManager *manager);
+void
+entangle_camera_manager_set_camera(EntangleCameraManager *manager,
+                                   EntangleCamera *cam);
+EntangleCamera *
+entangle_camera_manager_get_camera(EntangleCameraManager *manager);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CAMERA_MANAGER_H__ */
-
 
 /*
  * Local variables:

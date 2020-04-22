@@ -18,19 +18,21 @@
  *
  */
 
-#include <glib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
 #include <errno.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#include <glib.h>
+
+#include "entangle-preferences.h"
 
 #include "entangle-debug.h"
-#include "entangle-preferences.h"
 #include "entangle-progress.h"
 
-
-struct _EntanglePreferences {
+struct _EntanglePreferences
+{
     GObject parent;
 
     GSettings *interfaceSettings;
@@ -41,72 +43,86 @@ struct _EntanglePreferences {
 
 G_DEFINE_TYPE(EntanglePreferences, entangle_preferences, G_TYPE_OBJECT);
 
-#define SETTING_INTERFACE                  "interface"
-#define SETTING_CAPTURE                    "capture"
-#define SETTING_CMS                        "cms"
-#define SETTING_IMG                        "img"
+#define SETTING_INTERFACE "interface"
+#define SETTING_CAPTURE "capture"
+#define SETTING_CMS "cms"
+#define SETTING_IMG "img"
 
-#define SETTING_INTERFACE_AUTO_CONNECT     "auto-connect"
-#define SETTING_INTERFACE_SCREEN_BLANK     "screen-blank"
-#define SETTING_INTERFACE_PLUGINS          "plugins"
+#define SETTING_INTERFACE_AUTO_CONNECT "auto-connect"
+#define SETTING_INTERFACE_SCREEN_BLANK "screen-blank"
+#define SETTING_INTERFACE_PLUGINS "plugins"
 #define SETTING_INTERFACE_HISTOGRAM_LINEAR "histogram-linear"
 
-#define SETTING_CAPTURE_FILENAME_PATTERN   "filename-pattern"
-#define SETTING_CAPTURE_LAST_SESSION       "last-session"
+#define SETTING_CAPTURE_FILENAME_PATTERN "filename-pattern"
+#define SETTING_CAPTURE_LAST_SESSION "last-session"
 #define SETTING_CAPTURE_CONTINUOUS_PREVIEW "continuous-preview"
 #define SETTING_CAPTURE_ELECTRONIC_SHUTTER "electronic-shutter"
-#define SETTING_CAPTURE_DELETE_FILE        "delete-file"
-#define SETTING_CAPTURE_SYNC_CLOCK         "sync-clock"
+#define SETTING_CAPTURE_DELETE_FILE "delete-file"
+#define SETTING_CAPTURE_SYNC_CLOCK "sync-clock"
 
-#define SETTING_CMS_ENABLED                "enabled"
-#define SETTING_CMS_DETECT_SYSTEM_PROFILE  "detect-system-profile"
-#define SETTING_CMS_RGB_PROFILE            "rgb-profile"
-#define SETTING_CMS_MONITOR_PROFILE        "monitor-profile"
-#define SETTING_CMS_RENDERING_INTENT       "rendering-intent"
+#define SETTING_CMS_ENABLED "enabled"
+#define SETTING_CMS_DETECT_SYSTEM_PROFILE "detect-system-profile"
+#define SETTING_CMS_RGB_PROFILE "rgb-profile"
+#define SETTING_CMS_MONITOR_PROFILE "monitor-profile"
+#define SETTING_CMS_RENDERING_INTENT "rendering-intent"
 
-#define SETTING_IMG_ASPECT_RATIO           "aspect-ratio"
-#define SETTING_IMG_MASK_OPACITY           "mask-opacity"
-#define SETTING_IMG_MASK_ENABLED           "mask-enabled"
+#define SETTING_IMG_ASPECT_RATIO "aspect-ratio"
+#define SETTING_IMG_MASK_OPACITY "mask-opacity"
+#define SETTING_IMG_MASK_ENABLED "mask-enabled"
 #define SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING "overexposure-highlighting"
-#define SETTING_IMG_FOCUS_POINT            "focus-point"
-#define SETTING_IMG_GRID_LINES             "grid-lines"
-#define SETTING_IMG_EMBEDDED_PREVIEW       "embedded-preview"
-#define SETTING_IMG_ONION_SKIN             "onion-skin"
-#define SETTING_IMG_ONION_LAYERS           "onion-layers"
-#define SETTING_IMG_BACKGROUND             "background"
-#define SETTING_IMG_HIGHLIGHT              "highlight"
+#define SETTING_IMG_FOCUS_POINT "focus-point"
+#define SETTING_IMG_GRID_LINES "grid-lines"
+#define SETTING_IMG_EMBEDDED_PREVIEW "embedded-preview"
+#define SETTING_IMG_ONION_SKIN "onion-skin"
+#define SETTING_IMG_ONION_LAYERS "onion-layers"
+#define SETTING_IMG_BACKGROUND "background"
+#define SETTING_IMG_HIGHLIGHT "highlight"
 
+#define PROP_NAME_INTERFACE_AUTO_CONNECT                                       \
+    SETTING_INTERFACE "-" SETTING_INTERFACE_AUTO_CONNECT
+#define PROP_NAME_INTERFACE_SCREEN_BLANK                                       \
+    SETTING_INTERFACE "-" SETTING_INTERFACE_SCREEN_BLANK
+#define PROP_NAME_INTERFACE_HISTOGRAM_LINEAR                                   \
+    SETTING_INTERFACE "-" SETTING_INTERFACE_HISTOGRAM_LINEAR
 
-#define PROP_NAME_INTERFACE_AUTO_CONNECT     SETTING_INTERFACE "-" SETTING_INTERFACE_AUTO_CONNECT
-#define PROP_NAME_INTERFACE_SCREEN_BLANK     SETTING_INTERFACE "-" SETTING_INTERFACE_SCREEN_BLANK
-#define PROP_NAME_INTERFACE_HISTOGRAM_LINEAR SETTING_INTERFACE "-" SETTING_INTERFACE_HISTOGRAM_LINEAR
+#define PROP_NAME_CAPTURE_FILENAME_PATTERN                                     \
+    SETTING_CAPTURE "-" SETTING_CAPTURE_FILENAME_PATTERN
+#define PROP_NAME_CAPTURE_LAST_SESSION                                         \
+    SETTING_CAPTURE "-" SETTING_CAPTURE_LAST_SESSION
+#define PROP_NAME_CAPTURE_CONTINUOUS_PREVIEW                                   \
+    SETTING_CAPTURE "-" SETTING_CAPTURE_CONTINUOUS_PREVIEW
+#define PROP_NAME_CAPTURE_ELECTRONIC_SHUTTER                                   \
+    SETTING_CAPTURE "-" SETTING_CAPTURE_ELECTRONIC_SHUTTER
+#define PROP_NAME_CAPTURE_DELETE_FILE                                          \
+    SETTING_CAPTURE "-" SETTING_CAPTURE_DELETE_FILE
+#define PROP_NAME_CAPTURE_SYNC_CLOCK                                           \
+    SETTING_CAPTURE "-" SETTING_CAPTURE_SYNC_CLOCK
 
-#define PROP_NAME_CAPTURE_FILENAME_PATTERN   SETTING_CAPTURE "-" SETTING_CAPTURE_FILENAME_PATTERN
-#define PROP_NAME_CAPTURE_LAST_SESSION       SETTING_CAPTURE "-" SETTING_CAPTURE_LAST_SESSION
-#define PROP_NAME_CAPTURE_CONTINUOUS_PREVIEW SETTING_CAPTURE "-" SETTING_CAPTURE_CONTINUOUS_PREVIEW
-#define PROP_NAME_CAPTURE_ELECTRONIC_SHUTTER SETTING_CAPTURE "-" SETTING_CAPTURE_ELECTRONIC_SHUTTER
-#define PROP_NAME_CAPTURE_DELETE_FILE        SETTING_CAPTURE "-" SETTING_CAPTURE_DELETE_FILE
-#define PROP_NAME_CAPTURE_SYNC_CLOCK         SETTING_CAPTURE "-" SETTING_CAPTURE_SYNC_CLOCK
+#define PROP_NAME_CMS_ENABLED SETTING_CMS "-" SETTING_CMS_ENABLED
+#define PROP_NAME_CMS_DETECT_SYSTEM_PROFILE                                    \
+    SETTING_CMS "-" SETTING_CMS_DETECT_SYSTEM_PROFILE
+#define PROP_NAME_CMS_RGB_PROFILE SETTING_CMS "-" SETTING_CMS_RGB_PROFILE
+#define PROP_NAME_CMS_MONITOR_PROFILE                                          \
+    SETTING_CMS "-" SETTING_CMS_MONITOR_PROFILE
+#define PROP_NAME_CMS_RENDERING_INTENT                                         \
+    SETTING_CMS "-" SETTING_CMS_RENDERING_INTENT
 
-#define PROP_NAME_CMS_ENABLED                SETTING_CMS "-" SETTING_CMS_ENABLED
-#define PROP_NAME_CMS_DETECT_SYSTEM_PROFILE  SETTING_CMS "-" SETTING_CMS_DETECT_SYSTEM_PROFILE
-#define PROP_NAME_CMS_RGB_PROFILE            SETTING_CMS "-" SETTING_CMS_RGB_PROFILE
-#define PROP_NAME_CMS_MONITOR_PROFILE        SETTING_CMS "-" SETTING_CMS_MONITOR_PROFILE
-#define PROP_NAME_CMS_RENDERING_INTENT       SETTING_CMS "-" SETTING_CMS_RENDERING_INTENT
+#define PROP_NAME_IMG_ASPECT_RATIO SETTING_IMG "-" SETTING_IMG_ASPECT_RATIO
+#define PROP_NAME_IMG_MASK_OPACITY SETTING_IMG "-" SETTING_IMG_MASK_OPACITY
+#define PROP_NAME_IMG_MASK_ENABLED SETTING_IMG "-" SETTING_IMG_MASK_ENABLED
+#define PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING                                \
+    SETTING_IMG "-" SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING
+#define PROP_NAME_IMG_FOCUS_POINT SETTING_IMG "-" SETTING_IMG_FOCUS_POINT
+#define PROP_NAME_IMG_GRID_LINES SETTING_IMG "-" SETTING_IMG_GRID_LINES
+#define PROP_NAME_IMG_EMBEDDED_PREVIEW                                         \
+    SETTING_IMG "-" SETTING_IMG_EMBEDDED_PREVIEW
+#define PROP_NAME_IMG_ONION_LAYERS SETTING_IMG "-" SETTING_IMG_ONION_LAYERS
+#define PROP_NAME_IMG_ONION_SKIN SETTING_IMG "-" SETTING_IMG_ONION_SKIN
+#define PROP_NAME_IMG_BACKGROUND SETTING_IMG "-" SETTING_IMG_BACKGROUND
+#define PROP_NAME_IMG_HIGHLIGHT SETTING_IMG "-" SETTING_IMG_HIGHLIGHT
 
-#define PROP_NAME_IMG_ASPECT_RATIO           SETTING_IMG "-" SETTING_IMG_ASPECT_RATIO
-#define PROP_NAME_IMG_MASK_OPACITY           SETTING_IMG "-" SETTING_IMG_MASK_OPACITY
-#define PROP_NAME_IMG_MASK_ENABLED           SETTING_IMG "-" SETTING_IMG_MASK_ENABLED
-#define PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING SETTING_IMG "-" SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING
-#define PROP_NAME_IMG_FOCUS_POINT            SETTING_IMG "-" SETTING_IMG_FOCUS_POINT
-#define PROP_NAME_IMG_GRID_LINES             SETTING_IMG "-" SETTING_IMG_GRID_LINES
-#define PROP_NAME_IMG_EMBEDDED_PREVIEW       SETTING_IMG "-" SETTING_IMG_EMBEDDED_PREVIEW
-#define PROP_NAME_IMG_ONION_LAYERS           SETTING_IMG "-" SETTING_IMG_ONION_LAYERS
-#define PROP_NAME_IMG_ONION_SKIN             SETTING_IMG "-" SETTING_IMG_ONION_SKIN
-#define PROP_NAME_IMG_BACKGROUND             SETTING_IMG "-" SETTING_IMG_BACKGROUND
-#define PROP_NAME_IMG_HIGHLIGHT              SETTING_IMG "-" SETTING_IMG_HIGHLIGHT
-
-enum {
+enum
+{
     PROP_0,
 
     PROP_INTERFACE_AUTO_CONNECT,
@@ -139,8 +155,8 @@ enum {
     PROP_IMG_HIGHLIGHT,
 };
 
-
-static char *entangle_find_picture_dir(void)
+static char *
+entangle_find_picture_dir(void)
 {
     const gchar *baseDir = g_get_user_special_dir(G_USER_DIRECTORY_PICTURES);
     gchar *ret;
@@ -153,8 +169,8 @@ static char *entangle_find_picture_dir(void)
     return ret;
 }
 
-
-static char *entangle_find_srgb_profile(void)
+static char *
+entangle_find_srgb_profile(void)
 {
     gchar *filename;
     if (access("meson.build", R_OK) == 0) {
@@ -166,10 +182,11 @@ static char *entangle_find_srgb_profile(void)
     return filename;
 }
 
-static void entangle_preferences_get_property(GObject *object,
-                                              guint prop_id,
-                                              GValue *value,
-                                              GParamSpec *pspec)
+static void
+entangle_preferences_get_property(GObject *object,
+                                  guint prop_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
 {
     EntanglePreferences *prefs = ENTANGLE_PREFERENCES(object);
     EntangleColourProfile *prof;
@@ -177,360 +194,338 @@ static void entangle_preferences_get_property(GObject *object,
     gchar *file;
     gchar *val;
 
-    switch (prop_id)
-        {
-        case PROP_INTERFACE_AUTO_CONNECT:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->interfaceSettings,
-                                                       SETTING_INTERFACE_AUTO_CONNECT));
-            break;
+    switch (prop_id) {
+    case PROP_INTERFACE_AUTO_CONNECT:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->interfaceSettings,
+                                          SETTING_INTERFACE_AUTO_CONNECT));
+        break;
 
-        case PROP_INTERFACE_SCREEN_BLANK:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->interfaceSettings,
-                                                       SETTING_INTERFACE_SCREEN_BLANK));
-            break;
+    case PROP_INTERFACE_SCREEN_BLANK:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->interfaceSettings,
+                                          SETTING_INTERFACE_SCREEN_BLANK));
+        break;
 
-        case PROP_INTERFACE_HISTOGRAM_LINEAR:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->interfaceSettings,
-                                                       SETTING_INTERFACE_HISTOGRAM_LINEAR));
-            break;
+    case PROP_INTERFACE_HISTOGRAM_LINEAR:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->interfaceSettings,
+                                          SETTING_INTERFACE_HISTOGRAM_LINEAR));
+        break;
 
-        case PROP_CAPTURE_LAST_SESSION:
-            dir = g_settings_get_string(prefs->captureSettings,
-                                        SETTING_CAPTURE_LAST_SESSION);
-            if (!dir)
-                dir = entangle_find_picture_dir();
-            g_value_set_string(value, dir);
-            g_free(dir);
-            break;
+    case PROP_CAPTURE_LAST_SESSION:
+        dir = g_settings_get_string(prefs->captureSettings,
+                                    SETTING_CAPTURE_LAST_SESSION);
+        if (!dir)
+            dir = entangle_find_picture_dir();
+        g_value_set_string(value, dir);
+        g_free(dir);
+        break;
 
-        case PROP_CAPTURE_FILENAME_PATTERN:
-            file = g_settings_get_string(prefs->captureSettings,
-                                         SETTING_CAPTURE_FILENAME_PATTERN);
-            g_value_set_string(value, file);
-            g_free(file);
-            break;
+    case PROP_CAPTURE_FILENAME_PATTERN:
+        file = g_settings_get_string(prefs->captureSettings,
+                                     SETTING_CAPTURE_FILENAME_PATTERN);
+        g_value_set_string(value, file);
+        g_free(file);
+        break;
 
-        case PROP_CAPTURE_CONTINUOUS_PREVIEW:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->captureSettings,
-                                                       SETTING_CAPTURE_CONTINUOUS_PREVIEW));
-            break;
+    case PROP_CAPTURE_CONTINUOUS_PREVIEW:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->captureSettings,
+                                          SETTING_CAPTURE_CONTINUOUS_PREVIEW));
+        break;
 
-        case PROP_CAPTURE_ELECTRONIC_SHUTTER:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->captureSettings,
-                                                       SETTING_CAPTURE_ELECTRONIC_SHUTTER));
-            break;
+    case PROP_CAPTURE_ELECTRONIC_SHUTTER:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->captureSettings,
+                                          SETTING_CAPTURE_ELECTRONIC_SHUTTER));
+        break;
 
-        case PROP_CAPTURE_DELETE_FILE:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->captureSettings,
-                                                       SETTING_CAPTURE_DELETE_FILE));
-            break;
+    case PROP_CAPTURE_DELETE_FILE:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->captureSettings,
+                                          SETTING_CAPTURE_DELETE_FILE));
+        break;
 
-        case PROP_CAPTURE_SYNC_CLOCK:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->captureSettings,
-                                                       SETTING_CAPTURE_SYNC_CLOCK));
-            break;
+    case PROP_CAPTURE_SYNC_CLOCK:
+        g_value_set_boolean(value,
+                            g_settings_get_boolean(prefs->captureSettings,
+                                                   SETTING_CAPTURE_SYNC_CLOCK));
+        break;
 
-        case PROP_CMS_ENABLED:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->cmsSettings,
-                                                       SETTING_CMS_ENABLED));
-            break;
+    case PROP_CMS_ENABLED:
+        g_value_set_boolean(value, g_settings_get_boolean(prefs->cmsSettings,
+                                                          SETTING_CMS_ENABLED));
+        break;
 
-        case PROP_CMS_RGB_PROFILE:
-            file = g_settings_get_string(prefs->cmsSettings,
-                                         SETTING_CMS_RGB_PROFILE);
-            if (!file)
-                file = entangle_find_srgb_profile();
+    case PROP_CMS_RGB_PROFILE:
+        file =
+            g_settings_get_string(prefs->cmsSettings, SETTING_CMS_RGB_PROFILE);
+        if (!file)
+            file = entangle_find_srgb_profile();
+        prof = entangle_colour_profile_new_file(file);
+        g_value_set_object(value, prof);
+        g_object_unref(prof);
+        g_free(file);
+        break;
+
+    case PROP_CMS_MONITOR_PROFILE:
+        file = g_settings_get_string(prefs->cmsSettings,
+                                     SETTING_CMS_MONITOR_PROFILE);
+        if (file)
             prof = entangle_colour_profile_new_file(file);
-            g_value_set_object(value, prof);
-            g_object_unref(prof);
-            g_free(file);
-            break;
+        else
+            prof = NULL;
+        g_value_set_object(value, prof);
+        g_object_unref(prof);
+        g_free(file);
+        break;
 
-        case PROP_CMS_MONITOR_PROFILE:
-            file = g_settings_get_string(prefs->cmsSettings,
-                                         SETTING_CMS_MONITOR_PROFILE);
-            if (file)
-                prof = entangle_colour_profile_new_file(file);
-            else
-                prof = NULL;
-            g_value_set_object(value, prof);
-            g_object_unref(prof);
-            g_free(file);
-            break;
+    case PROP_CMS_DETECT_SYSTEM_PROFILE:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->cmsSettings,
+                                          SETTING_CMS_DETECT_SYSTEM_PROFILE));
+        break;
 
-        case PROP_CMS_DETECT_SYSTEM_PROFILE:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->cmsSettings,
-                                                       SETTING_CMS_DETECT_SYSTEM_PROFILE));
-            break;
+    case PROP_CMS_RENDERING_INTENT:
+        g_value_set_enum(value,
+                         g_settings_get_enum(prefs->cmsSettings,
+                                             SETTING_CMS_RENDERING_INTENT));
+        break;
 
-        case PROP_CMS_RENDERING_INTENT:
-            g_value_set_enum(value,
-                             g_settings_get_enum(prefs->cmsSettings,
-                                                 SETTING_CMS_RENDERING_INTENT));
-            break;
+    case PROP_IMG_MASK_ENABLED:
+        g_value_set_boolean(value,
+                            g_settings_get_boolean(prefs->imgSettings,
+                                                   SETTING_IMG_MASK_ENABLED));
+        break;
 
-        case PROP_IMG_MASK_ENABLED:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->imgSettings,
-                                                       SETTING_IMG_MASK_ENABLED));
-            break;
+    case PROP_IMG_OVEREXPOSURE_HIGHLIGHTING:
+        g_value_set_boolean(value, g_settings_get_boolean(
+                                       prefs->imgSettings,
+                                       SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING));
+        break;
 
-        case PROP_IMG_OVEREXPOSURE_HIGHLIGHTING:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->imgSettings,
-                                                       SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING));
-            break;
+    case PROP_IMG_ASPECT_RATIO:
+        val =
+            g_settings_get_string(prefs->imgSettings, SETTING_IMG_ASPECT_RATIO);
+        g_value_set_string(value, val);
+        g_free(val);
+        break;
 
-        case PROP_IMG_ASPECT_RATIO:
-            val = g_settings_get_string(prefs->imgSettings,
-                                        SETTING_IMG_ASPECT_RATIO);
-            g_value_set_string(value, val);
-            g_free(val);
-            break;
+    case PROP_IMG_MASK_OPACITY:
+        g_value_set_int(value, g_settings_get_int(prefs->imgSettings,
+                                                  SETTING_IMG_MASK_OPACITY));
+        break;
 
-        case PROP_IMG_MASK_OPACITY:
-            g_value_set_int(value,
-                            g_settings_get_int(prefs->imgSettings,
-                                               SETTING_IMG_MASK_OPACITY));
-            break;
+    case PROP_IMG_FOCUS_POINT:
+        g_value_set_boolean(value,
+                            g_settings_get_boolean(prefs->imgSettings,
+                                                   SETTING_IMG_FOCUS_POINT));
+        break;
 
-        case PROP_IMG_FOCUS_POINT:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->imgSettings,
-                                                       SETTING_IMG_FOCUS_POINT));
-            break;
+    case PROP_IMG_GRID_LINES:
+        g_value_set_int(value, g_settings_get_enum(prefs->imgSettings,
+                                                   SETTING_IMG_GRID_LINES));
+        break;
 
-        case PROP_IMG_GRID_LINES:
-            g_value_set_int(value,
-                            g_settings_get_enum(prefs->imgSettings,
-                                                SETTING_IMG_GRID_LINES));
-            break;
+    case PROP_IMG_EMBEDDED_PREVIEW:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->imgSettings,
+                                          SETTING_IMG_EMBEDDED_PREVIEW));
+        break;
 
-        case PROP_IMG_EMBEDDED_PREVIEW:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->imgSettings,
-                                                       SETTING_IMG_EMBEDDED_PREVIEW));
-            break;
+    case PROP_IMG_ONION_SKIN:
+        g_value_set_boolean(
+            value,
+            g_settings_get_boolean(prefs->imgSettings, SETTING_IMG_ONION_SKIN));
+        break;
 
-        case PROP_IMG_ONION_SKIN:
-            g_value_set_boolean(value,
-                                g_settings_get_boolean(prefs->imgSettings,
-                                                       SETTING_IMG_ONION_SKIN));
-            break;
+    case PROP_IMG_ONION_LAYERS:
+        g_value_set_int(value, g_settings_get_int(prefs->imgSettings,
+                                                  SETTING_IMG_ONION_LAYERS));
+        break;
 
-        case PROP_IMG_ONION_LAYERS:
-            g_value_set_int(value,
-                            g_settings_get_int(prefs->imgSettings,
-                                               SETTING_IMG_ONION_LAYERS));
-            break;
+    case PROP_IMG_BACKGROUND:
+        val = g_settings_get_string(prefs->imgSettings, SETTING_IMG_BACKGROUND);
+        g_value_set_string(value, val);
+        g_free(val);
+        break;
 
-        case PROP_IMG_BACKGROUND:
-            val = g_settings_get_string(prefs->imgSettings,
-                                        SETTING_IMG_BACKGROUND);
-            g_value_set_string(value, val);
-            g_free(val);
-            break;
+    case PROP_IMG_HIGHLIGHT:
+        val = g_settings_get_string(prefs->imgSettings, SETTING_IMG_HIGHLIGHT);
+        g_value_set_string(value, val);
+        g_free(val);
+        break;
 
-        case PROP_IMG_HIGHLIGHT:
-            val = g_settings_get_string(prefs->imgSettings,
-                                        SETTING_IMG_HIGHLIGHT);
-            g_value_set_string(value, val);
-            g_free(val);
-            break;
-
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_preferences_set_property(GObject *object,
-                                              guint prop_id,
-                                              const GValue *value,
-                                              GParamSpec *pspec)
+static void
+entangle_preferences_set_property(GObject *object,
+                                  guint prop_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
 {
     EntanglePreferences *prefs = ENTANGLE_PREFERENCES(object);
     EntangleColourProfile *prof;
 
-    switch (prop_id)
-        {
-        case PROP_INTERFACE_AUTO_CONNECT:
-            g_settings_set_boolean(prefs->interfaceSettings,
-                                   SETTING_INTERFACE_AUTO_CONNECT,
-                                   g_value_get_boolean(value));
-            break;
+    switch (prop_id) {
+    case PROP_INTERFACE_AUTO_CONNECT:
+        g_settings_set_boolean(prefs->interfaceSettings,
+                               SETTING_INTERFACE_AUTO_CONNECT,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_INTERFACE_SCREEN_BLANK:
-            g_settings_set_boolean(prefs->interfaceSettings,
-                                   SETTING_INTERFACE_SCREEN_BLANK,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_INTERFACE_SCREEN_BLANK:
+        g_settings_set_boolean(prefs->interfaceSettings,
+                               SETTING_INTERFACE_SCREEN_BLANK,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_INTERFACE_HISTOGRAM_LINEAR:
-            g_settings_set_boolean(prefs->interfaceSettings,
-                                   SETTING_INTERFACE_HISTOGRAM_LINEAR,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_INTERFACE_HISTOGRAM_LINEAR:
+        g_settings_set_boolean(prefs->interfaceSettings,
+                               SETTING_INTERFACE_HISTOGRAM_LINEAR,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_CAPTURE_LAST_SESSION:
-            g_settings_set_string(prefs->captureSettings,
-                                  SETTING_CAPTURE_LAST_SESSION,
-                                  g_value_get_string(value));
-            break;
+    case PROP_CAPTURE_LAST_SESSION:
+        g_settings_set_string(prefs->captureSettings,
+                              SETTING_CAPTURE_LAST_SESSION,
+                              g_value_get_string(value));
+        break;
 
-        case PROP_CAPTURE_FILENAME_PATTERN:
-            g_settings_set_string(prefs->captureSettings,
-                                  SETTING_CAPTURE_FILENAME_PATTERN,
-                                  g_value_get_string(value));
-            break;
+    case PROP_CAPTURE_FILENAME_PATTERN:
+        g_settings_set_string(prefs->captureSettings,
+                              SETTING_CAPTURE_FILENAME_PATTERN,
+                              g_value_get_string(value));
+        break;
 
-        case PROP_CAPTURE_CONTINUOUS_PREVIEW:
-            g_settings_set_boolean(prefs->captureSettings,
-                                   SETTING_CAPTURE_CONTINUOUS_PREVIEW,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_CAPTURE_CONTINUOUS_PREVIEW:
+        g_settings_set_boolean(prefs->captureSettings,
+                               SETTING_CAPTURE_CONTINUOUS_PREVIEW,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_CAPTURE_ELECTRONIC_SHUTTER:
-            g_settings_set_boolean(prefs->captureSettings,
-                                   SETTING_CAPTURE_ELECTRONIC_SHUTTER,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_CAPTURE_ELECTRONIC_SHUTTER:
+        g_settings_set_boolean(prefs->captureSettings,
+                               SETTING_CAPTURE_ELECTRONIC_SHUTTER,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_CAPTURE_DELETE_FILE:
-            g_settings_set_boolean(prefs->captureSettings,
-                                   SETTING_CAPTURE_DELETE_FILE,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_CAPTURE_DELETE_FILE:
+        g_settings_set_boolean(prefs->captureSettings,
+                               SETTING_CAPTURE_DELETE_FILE,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_CAPTURE_SYNC_CLOCK:
-            g_settings_set_boolean(prefs->captureSettings,
-                                   SETTING_CAPTURE_SYNC_CLOCK,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_CAPTURE_SYNC_CLOCK:
+        g_settings_set_boolean(prefs->captureSettings,
+                               SETTING_CAPTURE_SYNC_CLOCK,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_CMS_ENABLED:
-            g_settings_set_boolean(prefs->cmsSettings,
-                                   SETTING_CMS_ENABLED,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_CMS_ENABLED:
+        g_settings_set_boolean(prefs->cmsSettings, SETTING_CMS_ENABLED,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_CMS_RGB_PROFILE:
-            prof = g_value_get_object(value);
-            if (prof)
-                g_settings_set_string(prefs->cmsSettings,
-                                      SETTING_CMS_RGB_PROFILE,
-                                      entangle_colour_profile_filename(prof));
-            else
-                g_settings_set_string(prefs->cmsSettings,
-                                      SETTING_CMS_RGB_PROFILE,
-                                      NULL);
-            break;
+    case PROP_CMS_RGB_PROFILE:
+        prof = g_value_get_object(value);
+        if (prof)
+            g_settings_set_string(prefs->cmsSettings, SETTING_CMS_RGB_PROFILE,
+                                  entangle_colour_profile_filename(prof));
+        else
+            g_settings_set_string(prefs->cmsSettings, SETTING_CMS_RGB_PROFILE,
+                                  NULL);
+        break;
 
-        case PROP_CMS_MONITOR_PROFILE:
-            prof = g_value_get_object(value);
-            if (prof)
-                g_settings_set_string(prefs->cmsSettings,
-                                      SETTING_CMS_MONITOR_PROFILE,
-                                      entangle_colour_profile_filename(prof));
-            else
-                g_settings_set_string(prefs->cmsSettings,
-                                      SETTING_CMS_MONITOR_PROFILE,
-                                      NULL);
-            break;
+    case PROP_CMS_MONITOR_PROFILE:
+        prof = g_value_get_object(value);
+        if (prof)
+            g_settings_set_string(prefs->cmsSettings,
+                                  SETTING_CMS_MONITOR_PROFILE,
+                                  entangle_colour_profile_filename(prof));
+        else
+            g_settings_set_string(prefs->cmsSettings,
+                                  SETTING_CMS_MONITOR_PROFILE, NULL);
+        break;
 
-        case PROP_CMS_DETECT_SYSTEM_PROFILE:
-            g_settings_set_boolean(prefs->cmsSettings,
-                                   SETTING_CMS_DETECT_SYSTEM_PROFILE,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_CMS_DETECT_SYSTEM_PROFILE:
+        g_settings_set_boolean(prefs->cmsSettings,
+                               SETTING_CMS_DETECT_SYSTEM_PROFILE,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_CMS_RENDERING_INTENT:
-            g_settings_set_enum(prefs->cmsSettings,
-                                SETTING_CMS_RENDERING_INTENT,
-                                g_value_get_enum(value));
-            break;
+    case PROP_CMS_RENDERING_INTENT:
+        g_settings_set_enum(prefs->cmsSettings, SETTING_CMS_RENDERING_INTENT,
+                            g_value_get_enum(value));
+        break;
 
-        case PROP_IMG_MASK_ENABLED:
-            g_settings_set_boolean(prefs->imgSettings,
-                                   SETTING_IMG_MASK_ENABLED,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_IMG_MASK_ENABLED:
+        g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_MASK_ENABLED,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_IMG_OVEREXPOSURE_HIGHLIGHTING:
-            g_settings_set_boolean(prefs->imgSettings,
-                                   SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_IMG_OVEREXPOSURE_HIGHLIGHTING:
+        g_settings_set_boolean(prefs->imgSettings,
+                               SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_IMG_ASPECT_RATIO:
-            g_settings_set_string(prefs->imgSettings,
-                                  SETTING_IMG_ASPECT_RATIO,
-                                  g_value_get_string(value));
-            break;
+    case PROP_IMG_ASPECT_RATIO:
+        g_settings_set_string(prefs->imgSettings, SETTING_IMG_ASPECT_RATIO,
+                              g_value_get_string(value));
+        break;
 
-        case PROP_IMG_MASK_OPACITY:
-            g_settings_set_int(prefs->imgSettings,
-                               SETTING_IMG_MASK_OPACITY,
-                               g_value_get_int(value));
-            break;
+    case PROP_IMG_MASK_OPACITY:
+        g_settings_set_int(prefs->imgSettings, SETTING_IMG_MASK_OPACITY,
+                           g_value_get_int(value));
+        break;
 
-        case PROP_IMG_FOCUS_POINT:
-            g_settings_set_boolean(prefs->imgSettings,
-                                   SETTING_IMG_FOCUS_POINT,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_IMG_FOCUS_POINT:
+        g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_FOCUS_POINT,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_IMG_GRID_LINES:
-            g_settings_set_enum(prefs->imgSettings,
-                                SETTING_IMG_GRID_LINES,
-                                g_value_get_int(value));
-            break;
+    case PROP_IMG_GRID_LINES:
+        g_settings_set_enum(prefs->imgSettings, SETTING_IMG_GRID_LINES,
+                            g_value_get_int(value));
+        break;
 
-        case PROP_IMG_EMBEDDED_PREVIEW:
-            g_settings_set_boolean(prefs->imgSettings,
-                                   SETTING_IMG_EMBEDDED_PREVIEW,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_IMG_EMBEDDED_PREVIEW:
+        g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_EMBEDDED_PREVIEW,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_IMG_ONION_SKIN:
-            g_settings_set_boolean(prefs->imgSettings,
-                                   SETTING_IMG_ONION_SKIN,
-                                   g_value_get_boolean(value));
-            break;
+    case PROP_IMG_ONION_SKIN:
+        g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_ONION_SKIN,
+                               g_value_get_boolean(value));
+        break;
 
-        case PROP_IMG_ONION_LAYERS:
-            g_settings_set_int(prefs->imgSettings,
-                               SETTING_IMG_ONION_LAYERS,
-                               g_value_get_int(value));
-            break;
+    case PROP_IMG_ONION_LAYERS:
+        g_settings_set_int(prefs->imgSettings, SETTING_IMG_ONION_LAYERS,
+                           g_value_get_int(value));
+        break;
 
-        case PROP_IMG_BACKGROUND:
-            g_settings_set_string(prefs->imgSettings,
-                                  SETTING_IMG_BACKGROUND,
-                                  g_value_get_string(value));
-            break;
+    case PROP_IMG_BACKGROUND:
+        g_settings_set_string(prefs->imgSettings, SETTING_IMG_BACKGROUND,
+                              g_value_get_string(value));
+        break;
 
-        case PROP_IMG_HIGHLIGHT:
-            g_settings_set_string(prefs->imgSettings,
-                                  SETTING_IMG_HIGHLIGHT,
-                                  g_value_get_string(value));
-            break;
+    case PROP_IMG_HIGHLIGHT:
+        g_settings_set_string(prefs->imgSettings, SETTING_IMG_HIGHLIGHT,
+                              g_value_get_string(value));
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_preferences_finalize(GObject *object)
+static void
+entangle_preferences_finalize(GObject *object)
 {
     EntanglePreferences *prefs = ENTANGLE_PREFERENCES(object);
 
@@ -544,8 +539,8 @@ static void entangle_preferences_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_preferences_parent_class)->finalize(object);
 }
 
-
-static void entangle_preferences_class_init(EntanglePreferencesClass *klass)
+static void
+entangle_preferences_class_init(EntanglePreferencesClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -553,296 +548,202 @@ static void entangle_preferences_class_init(EntanglePreferencesClass *klass)
     object_class->get_property = entangle_preferences_get_property;
     object_class->set_property = entangle_preferences_set_property;
 
+    g_object_class_install_property(
+        object_class, PROP_INTERFACE_AUTO_CONNECT,
+        g_param_spec_boolean(PROP_NAME_INTERFACE_AUTO_CONNECT, "Auto connect",
+                             "Automatically connect to cameras at startup",
+                             TRUE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_INTERFACE_AUTO_CONNECT,
-                                    g_param_spec_boolean(PROP_NAME_INTERFACE_AUTO_CONNECT,
-                                                         "Auto connect",
-                                                         "Automatically connect to cameras at startup",
-                                                         TRUE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_INTERFACE_SCREEN_BLANK,
+        g_param_spec_boolean(PROP_NAME_INTERFACE_SCREEN_BLANK, "Screen blank",
+                             "Blank screen while capturing images", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_INTERFACE_SCREEN_BLANK,
-                                    g_param_spec_boolean(PROP_NAME_INTERFACE_SCREEN_BLANK,
-                                                         "Screen blank",
-                                                         "Blank screen while capturing images",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_INTERFACE_HISTOGRAM_LINEAR,
+        g_param_spec_boolean(PROP_NAME_INTERFACE_HISTOGRAM_LINEAR,
+                             "Linear histogram", "Use linear histogram", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_INTERFACE_HISTOGRAM_LINEAR,
-                                    g_param_spec_boolean(PROP_NAME_INTERFACE_HISTOGRAM_LINEAR,
-                                                         "Linear histogram",
-                                                         "Use linear histogram",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CAPTURE_LAST_SESSION,
+        g_param_spec_string(PROP_NAME_CAPTURE_LAST_SESSION,
+                            "Pictures directory",
+                            "Directory to store pictures in", NULL,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CAPTURE_LAST_SESSION,
-                                    g_param_spec_string(PROP_NAME_CAPTURE_LAST_SESSION,
-                                                        "Pictures directory",
-                                                        "Directory to store pictures in",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CAPTURE_FILENAME_PATTERN,
+        g_param_spec_string(PROP_NAME_CAPTURE_FILENAME_PATTERN,
+                            "Filename pattern",
+                            "Pattern for creating new filenames", NULL,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CAPTURE_FILENAME_PATTERN,
-                                    g_param_spec_string(PROP_NAME_CAPTURE_FILENAME_PATTERN,
-                                                        "Filename pattern",
-                                                        "Pattern for creating new filenames",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CAPTURE_DELETE_FILE,
+        g_param_spec_boolean(PROP_NAME_CAPTURE_DELETE_FILE, "Delete file",
+                             "Delete file after capturing", TRUE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CAPTURE_DELETE_FILE,
-                                    g_param_spec_boolean(PROP_NAME_CAPTURE_DELETE_FILE,
-                                                         "Delete file",
-                                                         "Delete file after capturing",
-                                                         TRUE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CAPTURE_SYNC_CLOCK,
+        g_param_spec_boolean(PROP_NAME_CAPTURE_SYNC_CLOCK, "Sync clock",
+                             "Synchronize clock automatically", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CAPTURE_SYNC_CLOCK,
-                                    g_param_spec_boolean(PROP_NAME_CAPTURE_SYNC_CLOCK,
-                                                         "Sync clock",
-                                                         "Synchronize clock automatically",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CAPTURE_CONTINUOUS_PREVIEW,
+        g_param_spec_boolean(PROP_NAME_CAPTURE_CONTINUOUS_PREVIEW,
+                             "Continuous preview",
+                             "Continue preview after capturing", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CAPTURE_CONTINUOUS_PREVIEW,
-                                    g_param_spec_boolean(PROP_NAME_CAPTURE_CONTINUOUS_PREVIEW,
-                                                         "Continuous preview",
-                                                         "Continue preview after capturing",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CAPTURE_ELECTRONIC_SHUTTER,
+        g_param_spec_boolean(PROP_NAME_CAPTURE_ELECTRONIC_SHUTTER,
+                             "Electronic shutter",
+                             "Use preview output as capture image", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CAPTURE_ELECTRONIC_SHUTTER,
-                                    g_param_spec_boolean(PROP_NAME_CAPTURE_ELECTRONIC_SHUTTER,
-                                                         "Electronic shutter",
-                                                         "Use preview output as capture image",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CMS_ENABLED,
+        g_param_spec_boolean(PROP_NAME_CMS_ENABLED, "Colour managed display",
+                             "Whether to enable colour management on display",
+                             FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CMS_ENABLED,
-                                    g_param_spec_boolean(PROP_NAME_CMS_ENABLED,
-                                                         "Colour managed display",
-                                                         "Whether to enable colour management on display",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CMS_RGB_PROFILE,
+        g_param_spec_object(PROP_NAME_CMS_RGB_PROFILE, "RGB Profile",
+                            "Colour profile for workspace",
+                            ENTANGLE_TYPE_COLOUR_PROFILE,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CMS_RGB_PROFILE,
-                                    g_param_spec_object(PROP_NAME_CMS_RGB_PROFILE,
-                                                        "RGB Profile",
-                                                        "Colour profile for workspace",
-                                                        ENTANGLE_TYPE_COLOUR_PROFILE,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CMS_MONITOR_PROFILE,
+        g_param_spec_object(PROP_NAME_CMS_MONITOR_PROFILE, "Monitor profile",
+                            "Colour profile for monitor",
+                            ENTANGLE_TYPE_COLOUR_PROFILE,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CMS_MONITOR_PROFILE,
-                                    g_param_spec_object(PROP_NAME_CMS_MONITOR_PROFILE,
-                                                        "Monitor profile",
-                                                        "Colour profile for monitor",
-                                                        ENTANGLE_TYPE_COLOUR_PROFILE,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CMS_DETECT_SYSTEM_PROFILE,
+        g_param_spec_boolean(PROP_NAME_CMS_DETECT_SYSTEM_PROFILE,
+                             "Detect system profile",
+                             "Detect the monitor colour profile", TRUE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CMS_DETECT_SYSTEM_PROFILE,
-                                    g_param_spec_boolean(PROP_NAME_CMS_DETECT_SYSTEM_PROFILE,
-                                                         "Detect system profile",
-                                                         "Detect the monitor colour profile",
-                                                         TRUE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_CMS_RENDERING_INTENT,
+        g_param_spec_enum(
+            PROP_NAME_CMS_RENDERING_INTENT, "Profile rendering intent",
+            "Rendering intent for images", ENTANGLE_TYPE_COLOUR_PROFILE_INTENT,
+            ENTANGLE_COLOUR_PROFILE_INTENT_PERCEPTUAL,
+            G_PARAM_READWRITE | G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_CMS_RENDERING_INTENT,
-                                    g_param_spec_enum(PROP_NAME_CMS_RENDERING_INTENT,
-                                                      "Profile rendering intent",
-                                                      "Rendering intent for images",
-                                                      ENTANGLE_TYPE_COLOUR_PROFILE_INTENT,
-                                                      ENTANGLE_COLOUR_PROFILE_INTENT_PERCEPTUAL,
-                                                      G_PARAM_READWRITE |
-                                                      G_PARAM_STATIC_NAME |
-                                                      G_PARAM_STATIC_NICK |
-                                                      G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_ASPECT_RATIO,
+        g_param_spec_string(PROP_NAME_IMG_ASPECT_RATIO, "Aspect ratio",
+                            "Image mask aspect ratio", "1.33",
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_ASPECT_RATIO,
-                                    g_param_spec_string(PROP_NAME_IMG_ASPECT_RATIO,
-                                                        "Aspect ratio",
-                                                        "Image mask aspect ratio",
-                                                        "1.33",
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_MASK_OPACITY,
+        g_param_spec_int(PROP_NAME_IMG_MASK_OPACITY, "Mask opacity",
+                         "Image mask border opacity", 0, 100, 90,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                             G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_MASK_OPACITY,
-                                    g_param_spec_int(PROP_NAME_IMG_MASK_OPACITY,
-                                                     "Mask opacity",
-                                                     "Image mask border opacity",
-                                                     0,
-                                                     100,
-                                                     90,
-                                                     G_PARAM_READWRITE |
-                                                     G_PARAM_STATIC_NAME |
-                                                     G_PARAM_STATIC_NICK |
-                                                     G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_MASK_ENABLED,
+        g_param_spec_boolean(PROP_NAME_IMG_MASK_ENABLED, "Mask enabled",
+                             "Enable aspect ratio image mask", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_MASK_ENABLED,
-                                    g_param_spec_boolean(PROP_NAME_IMG_MASK_ENABLED,
-                                                         "Mask enabled",
-                                                         "Enable aspect ratio image mask",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_OVEREXPOSURE_HIGHLIGHTING,
+        g_param_spec_boolean(PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING,
+                             "Overexposure highlighting",
+                             "Highlight areas of overexposure", TRUE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_OVEREXPOSURE_HIGHLIGHTING,
-                                    g_param_spec_boolean(PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING,
-                                                         "Overexposure highlighting",
-                                                         "Highlight areas of overexposure",
-                                                         TRUE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_FOCUS_POINT,
+        g_param_spec_boolean(PROP_NAME_IMG_FOCUS_POINT, "Focus point",
+                             "Focus point during preview", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_FOCUS_POINT,
-                                    g_param_spec_boolean(PROP_NAME_IMG_FOCUS_POINT,
-                                                         "Focus point",
-                                                         "Focus point during preview",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_GRID_LINES,
+        g_param_spec_int(PROP_NAME_IMG_GRID_LINES, "Grid lines",
+                         "Grid lines during preview", 0, 4, 4,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                             G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_GRID_LINES,
-                                    g_param_spec_int(PROP_NAME_IMG_GRID_LINES,
-                                                     "Grid lines",
-                                                     "Grid lines during preview",
-                                                     0, 4, 4,
-                                                     G_PARAM_READWRITE |
-                                                     G_PARAM_STATIC_NAME |
-                                                     G_PARAM_STATIC_NICK |
-                                                     G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_EMBEDDED_PREVIEW,
+        g_param_spec_boolean(PROP_NAME_IMG_EMBEDDED_PREVIEW, "Embedded preview",
+                             "Embedded preview for raw files", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_EMBEDDED_PREVIEW,
-                                    g_param_spec_boolean(PROP_NAME_IMG_EMBEDDED_PREVIEW,
-                                                         "Embedded preview",
-                                                         "Embedded preview for raw files",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_ONION_LAYERS,
+        g_param_spec_int(PROP_NAME_IMG_ONION_LAYERS, "Onion layer count",
+                         "Overlay layers in image display", 1, 5, 3,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                             G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_ONION_LAYERS,
-                                    g_param_spec_int(PROP_NAME_IMG_ONION_LAYERS,
-                                                     "Onion layer count",
-                                                     "Overlay layers in image display",
-                                                     1,
-                                                     5,
-                                                     3,
-                                                     G_PARAM_READWRITE |
-                                                     G_PARAM_STATIC_NAME |
-                                                     G_PARAM_STATIC_NICK |
-                                                     G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_ONION_SKIN,
+        g_param_spec_boolean(PROP_NAME_IMG_ONION_SKIN, "Onion skin",
+                             "Enable image overlay display", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_ONION_SKIN,
-                                    g_param_spec_boolean(PROP_NAME_IMG_ONION_SKIN,
-                                                         "Onion skin",
-                                                         "Enable image overlay display",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_BACKGROUND,
+        g_param_spec_string(PROP_NAME_IMG_BACKGROUND, "Image background color",
+                            "Image background color", "#000000",
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_BACKGROUND,
-                                    g_param_spec_string(PROP_NAME_IMG_BACKGROUND,
-                                                        "Image background color",
-                                                        "Image background color",
-                                                        "#000000",
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-
-    g_object_class_install_property(object_class,
-                                    PROP_IMG_HIGHLIGHT,
-                                    g_param_spec_string(PROP_NAME_IMG_HIGHLIGHT,
-                                                        "Image highlight color",
-                                                        "Image highlight color",
-                                                        "#FFFFFF",
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_IMG_HIGHLIGHT,
+        g_param_spec_string(PROP_NAME_IMG_HIGHLIGHT, "Image highlight color",
+                            "Image highlight color", "#FFFFFF",
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-EntanglePreferences *entangle_preferences_new(void)
+EntanglePreferences *
+entangle_preferences_new(void)
 {
     return ENTANGLE_PREFERENCES(g_object_new(ENTANGLE_TYPE_PREFERENCES, NULL));
 }
 
-
-void entangle_preferences_ensure_gsettings_dir(void)
+void
+entangle_preferences_ensure_gsettings_dir(void)
 {
     const char *const *dirs;
     const char *dir;
@@ -860,12 +761,13 @@ void entangle_preferences_ensure_gsettings_dir(void)
         return;
     }
 
-    ENTANGLE_DEBUG("Setting %s in GSETTINGS_SCHEMA_DIR", DATADIR "/glib-2.0/schemas");
+    ENTANGLE_DEBUG("Setting %s in GSETTINGS_SCHEMA_DIR",
+                   DATADIR "/glib-2.0/schemas");
     setenv("GSETTINGS_SCHEMA_DIR", DATADIR "/glib-2.0/schemas", 1);
 }
 
-
-void entangle_preferences_ensure_girepository_dir(void)
+void
+entangle_preferences_ensure_girepository_dir(void)
 {
 #define GI_DIR LIBDIR "/girepository-1.0"
     const char *path;
@@ -875,13 +777,13 @@ void entangle_preferences_ensure_girepository_dir(void)
         return;
     }
 
-    if ((path = getenv("GI_TYPELIB_PATH")) &&
-        strstr(path, GI_DIR)) {
+    if ((path = getenv("GI_TYPELIB_PATH")) && strstr(path, GI_DIR)) {
         ENTANGLE_DEBUG("Found dir " GI_DIR " in GI_TYPELIB_PATH");
         return;
     }
 
-    ENTANGLE_DEBUG("Setting %s in GSETTINGS_SCHEMA_DIR", DATADIR "/glib-2.0/schemas");
+    ENTANGLE_DEBUG("Setting %s in GSETTINGS_SCHEMA_DIR",
+                   DATADIR "/glib-2.0/schemas");
     if (path) {
         char *dir = g_strdup_printf("%s:%s", path, GI_DIR);
         setenv("GI_TYPELIB_PATH", dir, 1);
@@ -891,20 +793,17 @@ void entangle_preferences_ensure_girepository_dir(void)
     }
 }
 
-static void entangle_preferences_init(EntanglePreferences *prefs)
+static void
+entangle_preferences_init(EntanglePreferences *prefs)
 {
     GSettings *settings = g_settings_new("org.entangle-photo.manager");
-    prefs->interfaceSettings = g_settings_get_child(settings,
-                                                   SETTING_INTERFACE);
-    prefs->captureSettings = g_settings_get_child(settings,
-                                                SETTING_CAPTURE);
-    prefs->cmsSettings = g_settings_get_child(settings,
-                                             SETTING_CMS);
-    prefs->imgSettings = g_settings_get_child(settings,
-                                             SETTING_IMG);
+    prefs->interfaceSettings =
+        g_settings_get_child(settings, SETTING_INTERFACE);
+    prefs->captureSettings = g_settings_get_child(settings, SETTING_CAPTURE);
+    prefs->cmsSettings = g_settings_get_child(settings, SETTING_CMS);
+    prefs->imgSettings = g_settings_get_child(settings, SETTING_IMG);
     g_object_unref(settings);
 }
-
 
 /**
  * entangle_preferences_interface_get_auto_connect:
@@ -915,14 +814,14 @@ static void entangle_preferences_init(EntanglePreferences *prefs)
  *
  * Returns: TRUE if cameras will be automatically connected, FALSE otherwise
  */
-gboolean entangle_preferences_interface_get_auto_connect(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_interface_get_auto_connect(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->interfaceSettings,
                                   SETTING_INTERFACE_AUTO_CONNECT);
 }
-
 
 /**
  * entangle_preferences_set_auto_connect:
@@ -932,7 +831,9 @@ gboolean entangle_preferences_interface_get_auto_connect(EntanglePreferences *pr
  * If @autoconn is set to TRUE, the application will
  * attempt to automatically connect to cameras at startup
  */
-void entangle_preferences_interface_set_auto_connect(EntanglePreferences *prefs, gboolean autoconn)
+void
+entangle_preferences_interface_set_auto_connect(EntanglePreferences *prefs,
+                                                gboolean autoconn)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -940,7 +841,6 @@ void entangle_preferences_interface_set_auto_connect(EntanglePreferences *prefs,
                            SETTING_INTERFACE_AUTO_CONNECT, autoconn);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_INTERFACE_AUTO_CONNECT);
 }
-
 
 /**
  * entangle_preferences_interface_get_screen_blank:
@@ -951,14 +851,14 @@ void entangle_preferences_interface_set_auto_connect(EntanglePreferences *prefs,
  *
  * Returns: TRUE if the screen will blank at time of capture
  */
-gboolean entangle_preferences_interface_get_screen_blank(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_interface_get_screen_blank(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->interfaceSettings,
                                   SETTING_INTERFACE_SCREEN_BLANK);
 }
-
 
 /**
  * entangle_preferences_interface_set_screen_blank:
@@ -969,7 +869,9 @@ gboolean entangle_preferences_interface_get_screen_blank(EntanglePreferences *pr
  * during capture to avoid light from the screen influencing
  * the scene being shot.
  */
-void entangle_preferences_interface_set_screen_blank(EntanglePreferences *prefs, gboolean blank)
+void
+entangle_preferences_interface_set_screen_blank(EntanglePreferences *prefs,
+                                                gboolean blank)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -977,7 +879,6 @@ void entangle_preferences_interface_set_screen_blank(EntanglePreferences *prefs,
                            SETTING_INTERFACE_SCREEN_BLANK, blank);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_INTERFACE_SCREEN_BLANK);
 }
-
 
 /**
  * entangle_preferences_interface_get_histogram_linear:
@@ -988,14 +889,14 @@ void entangle_preferences_interface_set_screen_blank(EntanglePreferences *prefs,
  *
  * Returns: TRUE if the histogram is linear, FALSE for logarithmic
  */
-gboolean entangle_preferences_interface_get_histogram_linear(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_interface_get_histogram_linear(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->interfaceSettings,
                                   SETTING_INTERFACE_HISTOGRAM_LINEAR);
 }
-
 
 /**
  * entangle_preferences_interface_set_histogram_linear:
@@ -1005,7 +906,9 @@ gboolean entangle_preferences_interface_get_histogram_linear(EntanglePreferences
  * If @enabled is TRUE then the histogram will be displayed in
  * linear mode, otherwise logarithmic mode will be used
  */
-void entangle_preferences_interface_set_histogram_linear(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_interface_set_histogram_linear(EntanglePreferences *prefs,
+                                                    gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -1014,7 +917,6 @@ void entangle_preferences_interface_set_histogram_linear(EntanglePreferences *pr
     g_object_notify(G_OBJECT(prefs), PROP_NAME_INTERFACE_HISTOGRAM_LINEAR);
 }
 
-
 /**
  * entangle_preferences_interface_get_plugins:
  * @prefs: (transfer none): the preferences store
@@ -1022,16 +924,17 @@ void entangle_preferences_interface_set_histogram_linear(EntanglePreferences *pr
  * Get the names of the plugins that are enabled for the
  * application
  *
- * Returns: (transfer full)(array zero-terminated=1): the list of plugin names, NULL terminated
+ * Returns: (transfer full)(array zero-terminated=1): the list of plugin names,
+ * NULL terminated
  */
-gchar **entangle_preferences_interface_get_plugins(EntanglePreferences *prefs)
+gchar **
+entangle_preferences_interface_get_plugins(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), NULL);
 
     return g_settings_get_strv(prefs->interfaceSettings,
                                SETTING_INTERFACE_PLUGINS);
 }
-
 
 /**
  * entangle_preferences_interface_add_plugin:
@@ -1040,7 +943,9 @@ gchar **entangle_preferences_interface_get_plugins(EntanglePreferences *prefs)
  *
  * Add the plugin called @name to the active list
  */
-void entangle_preferences_interface_add_plugin(EntanglePreferences *prefs, const char *name)
+void
+entangle_preferences_interface_add_plugin(EntanglePreferences *prefs,
+                                          const char *name)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -1055,16 +960,14 @@ void entangle_preferences_interface_add_plugin(EntanglePreferences *prefs, const
 
     plugins = g_renew(gchar *, plugins, len + 2);
     len++;
-    plugins[len-1] = g_strdup(name);
+    plugins[len - 1] = g_strdup(name);
     plugins[len] = NULL;
-    g_settings_set_strv(prefs->interfaceSettings,
-                        SETTING_INTERFACE_PLUGINS,
-                        (const gchar *const*)plugins);
+    g_settings_set_strv(prefs->interfaceSettings, SETTING_INTERFACE_PLUGINS,
+                        (const gchar *const *)plugins);
 
- cleanup:
+cleanup:
     g_strfreev(plugins);
 }
-
 
 /**
  * entangle_preferences_interface_remove_plugin:
@@ -1073,7 +976,9 @@ void entangle_preferences_interface_add_plugin(EntanglePreferences *prefs, const
  *
  * Remove the plugin called @name from the active list
  */
-void entangle_preferences_interface_remove_plugin(EntanglePreferences *prefs, const char *name)
+void
+entangle_preferences_interface_remove_plugin(EntanglePreferences *prefs,
+                                             const char *name)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -1091,13 +996,11 @@ void entangle_preferences_interface_remove_plugin(EntanglePreferences *prefs, co
         plugins[i] = NULL;
     }
     newplugins[j] = NULL;
-    g_settings_set_strv(prefs->interfaceSettings,
-                        SETTING_INTERFACE_PLUGINS,
-                        (const gchar *const*)newplugins);
+    g_settings_set_strv(prefs->interfaceSettings, SETTING_INTERFACE_PLUGINS,
+                        (const gchar *const *)newplugins);
     g_strfreev(newplugins);
     g_strfreev(plugins);
 }
-
 
 /**
  * entangle_preferences_capture_get_last_session:
@@ -1108,7 +1011,8 @@ void entangle_preferences_interface_remove_plugin(EntanglePreferences *prefs, co
  *
  * Returns: (transfer full): the session directory
  */
-char *entangle_preferences_capture_get_last_session(EntanglePreferences *prefs)
+char *
+entangle_preferences_capture_get_last_session(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), NULL);
 
@@ -1123,7 +1027,6 @@ char *entangle_preferences_capture_get_last_session(EntanglePreferences *prefs)
     return dir;
 }
 
-
 /**
  * entangle_preferences_capture_set_last_session:
  * @prefs: (transfer none): the preferences store
@@ -1132,15 +1035,16 @@ char *entangle_preferences_capture_get_last_session(EntanglePreferences *prefs)
  * Record @dir as being the most recently used session
  * directory
  */
-void entangle_preferences_capture_set_last_session(EntanglePreferences *prefs, const gchar *dir)
+void
+entangle_preferences_capture_set_last_session(EntanglePreferences *prefs,
+                                              const gchar *dir)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_string(prefs->captureSettings,
-                          SETTING_CAPTURE_LAST_SESSION, dir);
+    g_settings_set_string(prefs->captureSettings, SETTING_CAPTURE_LAST_SESSION,
+                          dir);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CAPTURE_LAST_SESSION);
 }
-
 
 /**
  * entangle_preferences_capture_get_filename_pattern:
@@ -1153,14 +1057,14 @@ void entangle_preferences_capture_set_last_session(EntanglePreferences *prefs, c
  *
  * Returns: (transfer full): the filename pattern.
  */
-char *entangle_preferences_capture_get_filename_pattern(EntanglePreferences *prefs)
+char *
+entangle_preferences_capture_get_filename_pattern(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), NULL);
 
     return g_settings_get_string(prefs->captureSettings,
                                  SETTING_CAPTURE_FILENAME_PATTERN);
 }
-
 
 /**
  * entangle_preferences_capture_set_filename_pattern:
@@ -1170,7 +1074,9 @@ char *entangle_preferences_capture_get_filename_pattern(EntanglePreferences *pre
  * Set the pattern to use for naming images that are
  * saved after download.
  */
-void entangle_preferences_capture_set_filename_pattern(EntanglePreferences *prefs, const gchar *pattern)
+void
+entangle_preferences_capture_set_filename_pattern(EntanglePreferences *prefs,
+                                                  const gchar *pattern)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -1178,7 +1084,6 @@ void entangle_preferences_capture_set_filename_pattern(EntanglePreferences *pref
                           SETTING_CAPTURE_FILENAME_PATTERN, pattern);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CAPTURE_FILENAME_PATTERN);
 }
-
 
 /**
  * entangle_preferences_capture_get_continuous_preview:
@@ -1189,14 +1094,14 @@ void entangle_preferences_capture_set_filename_pattern(EntanglePreferences *pref
  *
  * Returns: TRUE if preview mode will continue after capture, FALSE otherwise
  */
-gboolean entangle_preferences_capture_get_continuous_preview(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_capture_get_continuous_preview(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->captureSettings,
                                   SETTING_CAPTURE_CONTINUOUS_PREVIEW);
 }
-
 
 /**
  * entangle_preferences_capture_set_continuous_preview:
@@ -1206,7 +1111,9 @@ gboolean entangle_preferences_capture_get_continuous_preview(EntanglePreferences
  * If @enabled is set to TRUE, then the preview mode will
  * continue to run after each image is captured
  */
-void entangle_preferences_capture_set_continuous_preview(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_capture_set_continuous_preview(EntanglePreferences *prefs,
+                                                    gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -1214,7 +1121,6 @@ void entangle_preferences_capture_set_continuous_preview(EntanglePreferences *pr
                            SETTING_CAPTURE_CONTINUOUS_PREVIEW, enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CAPTURE_CONTINUOUS_PREVIEW);
 }
-
 
 /**
  * entangle_preferences_capture_get_electronic_shutter:
@@ -1224,16 +1130,17 @@ void entangle_preferences_capture_set_continuous_preview(EntanglePreferences *pr
  * capture image, instead of triggering a normal capture, with shutter
  * mechanically moving.
  *
- * Returns: TRUE if no mechanical shutter action occurs on a capture, FALSE otherwise
+ * Returns: TRUE if no mechanical shutter action occurs on a capture, FALSE
+ * otherwise
  */
-gboolean entangle_preferences_capture_get_electronic_shutter(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_capture_get_electronic_shutter(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->captureSettings,
                                   SETTING_CAPTURE_ELECTRONIC_SHUTTER);
 }
-
 
 /**
  * entangle_preferences_capture_set_electronic_shutter:
@@ -1243,7 +1150,9 @@ gboolean entangle_preferences_capture_get_electronic_shutter(EntanglePreferences
  * If @enabled is TRUE, then the camera shutter will not be activated
  * when capturing an image.
  */
-void entangle_preferences_capture_set_electronic_shutter(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_capture_set_electronic_shutter(EntanglePreferences *prefs,
+                                                    gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -1251,7 +1160,6 @@ void entangle_preferences_capture_set_electronic_shutter(EntanglePreferences *pr
                            SETTING_CAPTURE_ELECTRONIC_SHUTTER, enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CAPTURE_ELECTRONIC_SHUTTER);
 }
-
 
 /**
  * entangle_preferences_capture_get_delete_file:
@@ -1262,14 +1170,14 @@ void entangle_preferences_capture_set_electronic_shutter(EntanglePreferences *pr
  *
  * Returns: TRUE if the files will be deleted after download
  */
-gboolean entangle_preferences_capture_get_delete_file(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_capture_get_delete_file(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->captureSettings,
                                   SETTING_CAPTURE_DELETE_FILE);
 }
-
 
 /**
  * entangle_preferences_capture_set_delete_file:
@@ -1279,15 +1187,16 @@ gboolean entangle_preferences_capture_get_delete_file(EntanglePreferences *prefs
  * If @enabled is set to TRUE, then files will be deleted from the
  * camera after they are downloaded.
  */
-void entangle_preferences_capture_set_delete_file(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_capture_set_delete_file(EntanglePreferences *prefs,
+                                             gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_boolean(prefs->captureSettings,
-                           SETTING_CAPTURE_DELETE_FILE, enabled);
+    g_settings_set_boolean(prefs->captureSettings, SETTING_CAPTURE_DELETE_FILE,
+                           enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CAPTURE_DELETE_FILE);
 }
-
 
 /**
  * entangle_preferences_capture_get_sync_clock:
@@ -1298,14 +1207,14 @@ void entangle_preferences_capture_set_delete_file(EntanglePreferences *prefs, gb
  *
  * Returns: TRUE if the clock will synchronized, FALSE otherwise
  */
-gboolean entangle_preferences_capture_get_sync_clock(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_capture_get_sync_clock(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->captureSettings,
                                   SETTING_CAPTURE_SYNC_CLOCK);
 }
-
 
 /**
  * entangle_preferences_capture_set_sync_clock:
@@ -1315,15 +1224,16 @@ gboolean entangle_preferences_capture_get_sync_clock(EntanglePreferences *prefs)
  * If @enabled is TRUE, then the camera clock will be synchronized to
  * the host computer clock when first connecting
  */
-void entangle_preferences_capture_set_sync_clock(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_capture_set_sync_clock(EntanglePreferences *prefs,
+                                            gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_boolean(prefs->captureSettings,
-                           SETTING_CAPTURE_SYNC_CLOCK, enabled);
+    g_settings_set_boolean(prefs->captureSettings, SETTING_CAPTURE_SYNC_CLOCK,
+                           enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CAPTURE_SYNC_CLOCK);
 }
-
 
 /**
  * entangle_preferences_cms_get_rgb_profile:
@@ -1333,19 +1243,19 @@ void entangle_preferences_capture_set_sync_clock(EntanglePreferences *prefs, gbo
  *
  * Returns: (transfer full): the colour space
  */
-EntangleColourProfile *entangle_preferences_cms_get_rgb_profile(EntanglePreferences *prefs)
+EntangleColourProfile *
+entangle_preferences_cms_get_rgb_profile(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), NULL);
 
     EntangleColourProfile *prof;
-    gchar *val = g_settings_get_string(prefs->cmsSettings,
-                                       SETTING_CMS_RGB_PROFILE);
+    gchar *val =
+        g_settings_get_string(prefs->cmsSettings, SETTING_CMS_RGB_PROFILE);
     prof = entangle_colour_profile_new_file(val);
     g_free(val);
 
     return prof;
 }
-
 
 /**
  * entangle_preferences_cms_set_rgb_profile:
@@ -1354,17 +1264,16 @@ EntangleColourProfile *entangle_preferences_cms_get_rgb_profile(EntanglePreferen
  *
  * Set the colour profile that represents the RGB working space
  */
-void entangle_preferences_cms_set_rgb_profile(EntanglePreferences *prefs,
-                                              EntangleColourProfile *prof)
+void
+entangle_preferences_cms_set_rgb_profile(EntanglePreferences *prefs,
+                                         EntangleColourProfile *prof)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_string(prefs->cmsSettings,
-                          SETTING_CMS_RGB_PROFILE,
+    g_settings_set_string(prefs->cmsSettings, SETTING_CMS_RGB_PROFILE,
                           prof ? entangle_colour_profile_filename(prof) : NULL);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CMS_RGB_PROFILE);
 }
-
 
 /**
  * entangle_preferences_cms_get_monitor_profile:
@@ -1374,18 +1283,18 @@ void entangle_preferences_cms_set_rgb_profile(EntanglePreferences *prefs,
  *
  * Returns: (transfer full): the colour profile
  */
-EntangleColourProfile *entangle_preferences_cms_get_monitor_profile(EntanglePreferences *prefs)
+EntangleColourProfile *
+entangle_preferences_cms_get_monitor_profile(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), NULL);
 
     EntangleColourProfile *prof;
-    gchar *val = g_settings_get_string(prefs->cmsSettings,
-                                       SETTING_CMS_MONITOR_PROFILE);
+    gchar *val =
+        g_settings_get_string(prefs->cmsSettings, SETTING_CMS_MONITOR_PROFILE);
     prof = entangle_colour_profile_new_file(val);
     g_free(val);
     return prof;
 }
-
 
 /**
  * entangle_preferences_cms_set_monitor_profile:
@@ -1396,17 +1305,16 @@ EntangleColourProfile *entangle_preferences_cms_get_monitor_profile(EntanglePref
  * profile. This is only honoured if automatic detection of
  * the monitor profile is disabled.
  */
-void entangle_preferences_cms_set_monitor_profile(EntanglePreferences *prefs,
-                                                  EntangleColourProfile *prof)
+void
+entangle_preferences_cms_set_monitor_profile(EntanglePreferences *prefs,
+                                             EntangleColourProfile *prof)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_string(prefs->cmsSettings,
-                          SETTING_CMS_MONITOR_PROFILE,
+    g_settings_set_string(prefs->cmsSettings, SETTING_CMS_MONITOR_PROFILE,
                           prof ? entangle_colour_profile_filename(prof) : NULL);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CMS_MONITOR_PROFILE);
 }
-
 
 /**
  * entangle_preferences_cms_get_enabled:
@@ -1417,14 +1325,13 @@ void entangle_preferences_cms_set_monitor_profile(EntanglePreferences *prefs,
  *
  * Returns: TRUE if colour management is active
  */
-gboolean entangle_preferences_cms_get_enabled(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_cms_get_enabled(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
-    return g_settings_get_boolean(prefs->cmsSettings,
-                                  SETTING_CMS_ENABLED);
+    return g_settings_get_boolean(prefs->cmsSettings, SETTING_CMS_ENABLED);
 }
-
 
 /**
  * entangle_preferences_cms_set_enabled:
@@ -1434,16 +1341,15 @@ gboolean entangle_preferences_cms_get_enabled(EntanglePreferences *prefs)
  * If @enabled is TRUE, colour management will be applied when
  * displaying images
  */
-void entangle_preferences_cms_set_enabled(EntanglePreferences *prefs,
-                                          gboolean enabled)
+void
+entangle_preferences_cms_set_enabled(EntanglePreferences *prefs,
+                                     gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_boolean(prefs->cmsSettings,
-                           SETTING_CMS_ENABLED, enabled);
+    g_settings_set_boolean(prefs->cmsSettings, SETTING_CMS_ENABLED, enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CMS_ENABLED);
 }
-
 
 /**
  * entangle_preferences_cms_get_detect_system_profile:
@@ -1453,14 +1359,14 @@ void entangle_preferences_cms_set_enabled(EntanglePreferences *prefs,
  * detected, which is usually preferrable since
  * it copes with multiple monitor scenarios
  */
-gboolean entangle_preferences_cms_get_detect_system_profile(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_cms_get_detect_system_profile(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->cmsSettings,
                                   SETTING_CMS_DETECT_SYSTEM_PROFILE);
 }
-
 
 /**
  * entangle_preferences_cms_set_detect_system_profile:
@@ -1470,8 +1376,9 @@ gboolean entangle_preferences_cms_get_detect_system_profile(EntanglePreferences 
  * If @enabled is TRUE then the monitor profile will be
  * automatically detected
  */
-void entangle_preferences_cms_set_detect_system_profile(EntanglePreferences *prefs,
-                                                        gboolean enabled)
+void
+entangle_preferences_cms_set_detect_system_profile(EntanglePreferences *prefs,
+                                                   gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -1479,7 +1386,6 @@ void entangle_preferences_cms_set_detect_system_profile(EntanglePreferences *pre
                            SETTING_CMS_DETECT_SYSTEM_PROFILE, enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CMS_DETECT_SYSTEM_PROFILE);
 }
-
 
 /**
  * entangle_preferences_cms_get_rendering_intent:
@@ -1489,14 +1395,14 @@ void entangle_preferences_cms_set_detect_system_profile(EntanglePreferences *pre
  *
  * Returns: the image rendering intent
  */
-EntangleColourProfileIntent entangle_preferences_cms_get_rendering_intent(EntanglePreferences *prefs)
+EntangleColourProfileIntent
+entangle_preferences_cms_get_rendering_intent(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), 0);
 
     return g_settings_get_enum(prefs->cmsSettings,
                                SETTING_CMS_RENDERING_INTENT);
 }
-
 
 /**
  * entangle_preferences_cms_set_rendering_intent:
@@ -1505,16 +1411,17 @@ EntangleColourProfileIntent entangle_preferences_cms_get_rendering_intent(Entang
  *
  * Set the rendering intent for displaying images
  */
-void entangle_preferences_cms_set_rendering_intent(EntanglePreferences *prefs,
-                                                   EntangleColourProfileIntent intent)
+void
+entangle_preferences_cms_set_rendering_intent(
+    EntanglePreferences *prefs,
+    EntangleColourProfileIntent intent)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_enum(prefs->cmsSettings,
-                        SETTING_CMS_RENDERING_INTENT, intent);
+    g_settings_set_enum(prefs->cmsSettings, SETTING_CMS_RENDERING_INTENT,
+                        intent);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_CMS_RENDERING_INTENT);
 }
-
 
 /**
  * entangle_preferences_img_get_aspect_ratio:
@@ -1524,14 +1431,13 @@ void entangle_preferences_cms_set_rendering_intent(EntanglePreferences *prefs,
  *
  * Returns: (transfer full): the aspect ratio for the mask
  */
-gchar *entangle_preferences_img_get_aspect_ratio(EntanglePreferences *prefs)
+gchar *
+entangle_preferences_img_get_aspect_ratio(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), NULL);
 
-    return g_settings_get_string(prefs->imgSettings,
-                                 SETTING_IMG_ASPECT_RATIO);
+    return g_settings_get_string(prefs->imgSettings, SETTING_IMG_ASPECT_RATIO);
 }
-
 
 /**
  * entangle_preferences_img_set_aspect_ratio:
@@ -1540,16 +1446,15 @@ gchar *entangle_preferences_img_get_aspect_ratio(EntanglePreferences *prefs)
  *
  * Set the aspect ratio for any mask to apply to the image
  */
-void entangle_preferences_img_set_aspect_ratio(EntanglePreferences *prefs,
-                                               const gchar *aspect)
+void
+entangle_preferences_img_set_aspect_ratio(EntanglePreferences *prefs,
+                                          const gchar *aspect)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_string(prefs->imgSettings,
-                          SETTING_IMG_ASPECT_RATIO, aspect);
+    g_settings_set_string(prefs->imgSettings, SETTING_IMG_ASPECT_RATIO, aspect);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_ASPECT_RATIO);
 }
-
 
 /**
  * entangle_preferences_img_get_mask_opacity:
@@ -1559,14 +1464,13 @@ void entangle_preferences_img_set_aspect_ratio(EntanglePreferences *prefs,
  *
  * Returns: the opacity between 0 and 100
  */
-gint entangle_preferences_img_get_mask_opacity(EntanglePreferences *prefs)
+gint
+entangle_preferences_img_get_mask_opacity(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), 0);
 
-    return g_settings_get_int(prefs->imgSettings,
-                              SETTING_IMG_MASK_OPACITY);
+    return g_settings_get_int(prefs->imgSettings, SETTING_IMG_MASK_OPACITY);
 }
-
 
 /**
  * entangle_preferences_img_set_mask_opacity:
@@ -1575,16 +1479,15 @@ gint entangle_preferences_img_get_mask_opacity(EntanglePreferences *prefs)
  *
  * Set the opacity to use when rendering the image mask
  */
-void entangle_preferences_img_set_mask_opacity(EntanglePreferences *prefs,
-                                               gint opacity)
+void
+entangle_preferences_img_set_mask_opacity(EntanglePreferences *prefs,
+                                          gint opacity)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_int(prefs->imgSettings,
-                       SETTING_IMG_MASK_OPACITY, opacity);
+    g_settings_set_int(prefs->imgSettings, SETTING_IMG_MASK_OPACITY, opacity);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_MASK_OPACITY);
 }
-
 
 /**
  * entangle_preferences_img_get_mask_enabled:
@@ -1595,14 +1498,13 @@ void entangle_preferences_img_set_mask_opacity(EntanglePreferences *prefs,
  *
  * Returns: TRUE if an aspect ratio mask should be applied
  */
-gboolean entangle_preferences_img_get_mask_enabled(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_img_get_mask_enabled(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
-    return g_settings_get_boolean(prefs->imgSettings,
-                                  SETTING_IMG_MASK_ENABLED);
+    return g_settings_get_boolean(prefs->imgSettings, SETTING_IMG_MASK_ENABLED);
 }
-
 
 /**
  * entangle_preferences_img_set_mask_enabled:
@@ -1612,15 +1514,16 @@ gboolean entangle_preferences_img_get_mask_enabled(EntanglePreferences *prefs)
  * If @enabled is TRUE an aspect ratio mask will be applied
  * to the image display
  */
-void entangle_preferences_img_set_mask_enabled(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_img_set_mask_enabled(EntanglePreferences *prefs,
+                                          gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_boolean(prefs->imgSettings,
-                           SETTING_IMG_MASK_ENABLED, enabled);
+    g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_MASK_ENABLED,
+                           enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_MASK_ENABLED);
 }
-
 
 /**
  * entangle_preferences_img_get_overexposure_highlighting:
@@ -1631,14 +1534,15 @@ void entangle_preferences_img_set_mask_enabled(EntanglePreferences *prefs, gbool
  *
  * Returns: TRUE if overexposure should be highlighted
  */
-gboolean entangle_preferences_img_get_overexposure_highlighting(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_img_get_overexposure_highlighting(
+    EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->imgSettings,
                                   SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING);
 }
-
 
 /**
  * entangle_preferences_img_set_overexposure_highlighting:
@@ -1648,7 +1552,10 @@ gboolean entangle_preferences_img_get_overexposure_highlighting(EntanglePreferen
  * If @enabled is TRUE areas of overexposure will be highlighted on
  * the image display
  */
-void entangle_preferences_img_set_overexposure_highlighting(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_img_set_overexposure_highlighting(
+    EntanglePreferences *prefs,
+    gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
@@ -1656,7 +1563,6 @@ void entangle_preferences_img_set_overexposure_highlighting(EntanglePreferences 
                            SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING, enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING);
 }
-
 
 /**
  * entangle_preferences_img_get_focus_point:
@@ -1667,14 +1573,13 @@ void entangle_preferences_img_set_overexposure_highlighting(EntanglePreferences 
  *
  * Returns: TRUE if a focus point is to be rendered
  */
-gboolean entangle_preferences_img_get_focus_point(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_img_get_focus_point(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
-    return g_settings_get_boolean(prefs->imgSettings,
-                                  SETTING_IMG_FOCUS_POINT);
+    return g_settings_get_boolean(prefs->imgSettings, SETTING_IMG_FOCUS_POINT);
 }
-
 
 /**
  * entangle_preferences_img_set_focus_point:
@@ -1684,15 +1589,16 @@ gboolean entangle_preferences_img_get_focus_point(EntanglePreferences *prefs)
  * If @enabled is TRUE then a focus point will be display in
  * preview mode.
  */
-void entangle_preferences_img_set_focus_point(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_img_set_focus_point(EntanglePreferences *prefs,
+                                         gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_boolean(prefs->imgSettings,
-                           SETTING_IMG_FOCUS_POINT, enabled);
+    g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_FOCUS_POINT,
+                           enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_FOCUS_POINT);
 }
-
 
 /**
  * entangle_preferences_img_get_grid_lines:
@@ -1702,14 +1608,13 @@ void entangle_preferences_img_set_focus_point(EntanglePreferences *prefs, gboole
  *
  * Returns: the grid lines to display
  */
-gint entangle_preferences_img_get_grid_lines(EntanglePreferences *prefs)
+gint
+entangle_preferences_img_get_grid_lines(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), 0);
 
-    return g_settings_get_enum(prefs->imgSettings,
-                               SETTING_IMG_GRID_LINES);
+    return g_settings_get_enum(prefs->imgSettings, SETTING_IMG_GRID_LINES);
 }
-
 
 /**
  * entangle_preferences_img_set_grid_lines:
@@ -1718,15 +1623,15 @@ gint entangle_preferences_img_get_grid_lines(EntanglePreferences *prefs)
  *
  * Set the grid lines to display when in image preview mode
  */
-void entangle_preferences_img_set_grid_lines(EntanglePreferences *prefs, gint gridLines)
+void
+entangle_preferences_img_set_grid_lines(EntanglePreferences *prefs,
+                                        gint gridLines)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_enum(prefs->imgSettings,
-                        SETTING_IMG_GRID_LINES, gridLines);
+    g_settings_set_enum(prefs->imgSettings, SETTING_IMG_GRID_LINES, gridLines);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_GRID_LINES);
 }
-
 
 /**
  * entangle_preferences_img_get_embedded_preview:
@@ -1737,14 +1642,14 @@ void entangle_preferences_img_set_grid_lines(EntanglePreferences *prefs, gint gr
  *
  * Returns: TRUE if embedded preview should be used
  */
-gboolean entangle_preferences_img_get_embedded_preview(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_img_get_embedded_preview(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
     return g_settings_get_boolean(prefs->imgSettings,
                                   SETTING_IMG_EMBEDDED_PREVIEW);
 }
-
 
 /**
  * entangle_preferences_img_set_embedded_preview:
@@ -1755,15 +1660,16 @@ gboolean entangle_preferences_img_get_embedded_preview(EntanglePreferences *pref
  * when generating thumbnails rather than loading the full
  * resolution image
  */
-void entangle_preferences_img_set_embedded_preview(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_img_set_embedded_preview(EntanglePreferences *prefs,
+                                              gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_boolean(prefs->imgSettings,
-                           SETTING_IMG_EMBEDDED_PREVIEW, enabled);
+    g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_EMBEDDED_PREVIEW,
+                           enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_EMBEDDED_PREVIEW);
 }
-
 
 /**
  * entangle_preferences_img_get_onion_layers:
@@ -1773,14 +1679,13 @@ void entangle_preferences_img_set_embedded_preview(EntanglePreferences *prefs, g
  *
  * Returns: the number of image overlays
  */
-gint entangle_preferences_img_get_onion_layers(EntanglePreferences *prefs)
+gint
+entangle_preferences_img_get_onion_layers(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), 0);
 
-    return g_settings_get_int(prefs->imgSettings,
-                              SETTING_IMG_ONION_LAYERS);
+    return g_settings_get_int(prefs->imgSettings, SETTING_IMG_ONION_LAYERS);
 }
-
 
 /**
  * entangle_preferences_img_set_onion_layers:
@@ -1790,16 +1695,15 @@ gint entangle_preferences_img_get_onion_layers(EntanglePreferences *prefs)
  * Set the number of images to overlay when in onion skinning
  * mode
  */
-void entangle_preferences_img_set_onion_layers(EntanglePreferences *prefs,
-                                               gint layers)
+void
+entangle_preferences_img_set_onion_layers(EntanglePreferences *prefs,
+                                          gint layers)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_int(prefs->imgSettings,
-                       SETTING_IMG_ONION_LAYERS, layers);
+    g_settings_set_int(prefs->imgSettings, SETTING_IMG_ONION_LAYERS, layers);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_ONION_LAYERS);
 }
-
 
 /**
  * entangle_preferences_img_get_onion_skin:
@@ -1810,14 +1714,13 @@ void entangle_preferences_img_set_onion_layers(EntanglePreferences *prefs,
  *
  * Returns: TRUE if onion skinning is enabled
  */
-gboolean entangle_preferences_img_get_onion_skin(EntanglePreferences *prefs)
+gboolean
+entangle_preferences_img_get_onion_skin(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
 
-    return g_settings_get_boolean(prefs->imgSettings,
-                                  SETTING_IMG_ONION_SKIN);
+    return g_settings_get_boolean(prefs->imgSettings, SETTING_IMG_ONION_SKIN);
 }
-
 
 /**
  * entangle_preferences_img_set_onion_skin:
@@ -1827,15 +1730,15 @@ gboolean entangle_preferences_img_get_onion_skin(EntanglePreferences *prefs)
  * If @enabled is TRUE then onion skinning will be enabled
  * when displaying images
  */
-void entangle_preferences_img_set_onion_skin(EntanglePreferences *prefs, gboolean enabled)
+void
+entangle_preferences_img_set_onion_skin(EntanglePreferences *prefs,
+                                        gboolean enabled)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_boolean(prefs->imgSettings,
-                           SETTING_IMG_ONION_SKIN, enabled);
+    g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_ONION_SKIN, enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_ONION_SKIN);
 }
-
 
 /**
  * entangle_preferences_img_get_background:
@@ -1845,14 +1748,13 @@ void entangle_preferences_img_set_onion_skin(EntanglePreferences *prefs, gboolea
  *
  * Returns: (transfer full): the background colour
  */
-gchar *entangle_preferences_img_get_background(EntanglePreferences *prefs)
+gchar *
+entangle_preferences_img_get_background(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), NULL);
 
-    return g_settings_get_string(prefs->imgSettings,
-                                 SETTING_IMG_BACKGROUND);
+    return g_settings_get_string(prefs->imgSettings, SETTING_IMG_BACKGROUND);
 }
-
 
 /**
  * entangle_preferences_img_set_background:
@@ -1861,15 +1763,15 @@ gchar *entangle_preferences_img_get_background(EntanglePreferences *prefs)
  *
  * Set the colour used as the background when displaying images
  */
-void entangle_preferences_img_set_background(EntanglePreferences *prefs, const gchar *bkg)
+void
+entangle_preferences_img_set_background(EntanglePreferences *prefs,
+                                        const gchar *bkg)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_string(prefs->imgSettings,
-                          SETTING_IMG_BACKGROUND, bkg);
+    g_settings_set_string(prefs->imgSettings, SETTING_IMG_BACKGROUND, bkg);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_BACKGROUND);
 }
-
 
 /**
  * entangle_preferences_img_get_highlight:
@@ -1879,14 +1781,13 @@ void entangle_preferences_img_set_background(EntanglePreferences *prefs, const g
  *
  * Returns: (transfer full): the highlight colour
  */
-gchar *entangle_preferences_img_get_highlight(EntanglePreferences *prefs)
+gchar *
+entangle_preferences_img_get_highlight(EntanglePreferences *prefs)
 {
     g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), NULL);
 
-    return g_settings_get_string(prefs->imgSettings,
-                                 SETTING_IMG_HIGHLIGHT);
+    return g_settings_get_string(prefs->imgSettings, SETTING_IMG_HIGHLIGHT);
 }
-
 
 /**
  * entangle_preferences_img_set_highlight:
@@ -1895,15 +1796,15 @@ gchar *entangle_preferences_img_get_highlight(EntanglePreferences *prefs)
  *
  * Set the colour to use when highlighting images
  */
-void entangle_preferences_img_set_highlight(EntanglePreferences *prefs, const gchar *bkg)
+void
+entangle_preferences_img_set_highlight(EntanglePreferences *prefs,
+                                       const gchar *bkg)
 {
     g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
 
-    g_settings_set_string(prefs->imgSettings,
-                          SETTING_IMG_HIGHLIGHT, bkg);
+    g_settings_set_string(prefs->imgSettings, SETTING_IMG_HIGHLIGHT, bkg);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_HIGHLIGHT);
 }
-
 
 /*
  * Local variables:

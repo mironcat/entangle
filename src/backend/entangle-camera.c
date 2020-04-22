@@ -18,17 +18,18 @@
  *
  */
 
-#include <glib.h>
-#include <glib/gi18n.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <gphoto2.h>
 #include <string.h>
-#include <math.h>
+#include <unistd.h>
 
-#include "entangle-debug.h"
+#include <glib.h>
+#include <glib/gi18n.h>
+#include <gphoto2.h>
+
 #include "entangle-camera.h"
+
 #include "entangle-camera-enums.h"
 #include "entangle-control-button.h"
 #include "entangle-control-choice.h"
@@ -37,8 +38,10 @@
 #include "entangle-control-range.h"
 #include "entangle-control-text.h"
 #include "entangle-control-toggle.h"
+#include "entangle-debug.h"
 
-struct _EntangleCamera {
+struct _EntangleCamera
+{
     GObject parent;
     GMutex lock;
     GCond jobCond;
@@ -48,7 +51,6 @@ struct _EntangleCamera {
     CameraAbilitiesList *caps;
     GPPortInfoList *ports;
     Camera *cam;
-
 
     CameraWidget *widgets;
     EntangleControlGroup *controls;
@@ -74,7 +76,8 @@ struct _EntangleCamera {
 
 G_DEFINE_TYPE(EntangleCamera, entangle_camera, G_TYPE_OBJECT);
 
-enum {
+enum
+{
     PROP_0,
     PROP_MODEL,
     PROP_PORT,
@@ -89,31 +92,34 @@ enum {
     PROP_HAS_VIEWFINDER,
 };
 
-#define ENTANGLE_CAMERA_ERROR entangle_camera_error_quark ()
+#define ENTANGLE_CAMERA_ERROR entangle_camera_error_quark()
 
-static GQuark entangle_camera_error_quark(void)
+static GQuark
+entangle_camera_error_quark(void)
 {
     return g_quark_from_static_string("entangle-camera-error");
 }
 
+static EntangleControl *
+do_build_controls(EntangleCamera *cam,
+                  const char *path,
+                  CameraWidget *widget,
+                  GError **error);
+static gboolean
+do_load_controls(EntangleCamera *cam,
+                 const char *path,
+                 CameraWidget *widget,
+                 GError **error);
 
-static EntangleControl *do_build_controls(EntangleCamera *cam,
-                                          const char *path,
-                                          CameraWidget *widget,
-                                          GError **error);
-static gboolean do_load_controls(EntangleCamera *cam,
-                                 const char *path,
-                                 CameraWidget *widget,
-                                 GError **error);
-
-struct EntangleCameraEventData {
+struct EntangleCameraEventData
+{
     EntangleCamera *cam;
     GObject *arg;
     char *signame;
 };
 
-
-static gboolean entangle_camera_emit_idle(gpointer opaque)
+static gboolean
+entangle_camera_emit_idle(gpointer opaque)
 {
     struct EntangleCameraEventData *data = opaque;
 
@@ -127,12 +133,13 @@ static gboolean entangle_camera_emit_idle(gpointer opaque)
     return FALSE;
 }
 
-
-static void entangle_camera_emit_deferred(EntangleCamera *cam,
-                                          const char *signame,
-                                          GObject *arg)
+static void
+entangle_camera_emit_deferred(EntangleCamera *cam,
+                              const char *signame,
+                              GObject *arg)
 {
-    struct EntangleCameraEventData *data = g_new0(struct EntangleCameraEventData, 1);
+    struct EntangleCameraEventData *data =
+        g_new0(struct EntangleCameraEventData, 1);
     data->cam = cam;
     data->arg = arg;
     data->signame = g_strdup(signame);
@@ -143,8 +150,8 @@ static void entangle_camera_emit_deferred(EntangleCamera *cam,
     g_idle_add(entangle_camera_emit_idle, data);
 }
 
-
-static void entangle_camera_begin_job(EntangleCamera *cam)
+static void
+entangle_camera_begin_job(EntangleCamera *cam)
 {
     g_object_ref(cam);
 
@@ -158,8 +165,8 @@ static void entangle_camera_begin_job(EntangleCamera *cam)
     g_mutex_unlock(&cam->lock);
 }
 
-
-static void entangle_camera_end_job(EntangleCamera *cam)
+static void
+entangle_camera_end_job(EntangleCamera *cam)
 {
     cam->jobActive = FALSE;
     g_cond_broadcast(&cam->jobCond);
@@ -167,120 +174,119 @@ static void entangle_camera_end_job(EntangleCamera *cam)
     g_object_unref(cam);
 }
 
-
-static void entangle_camera_get_property(GObject *object,
-                                         guint prop_id,
-                                         GValue *value,
-                                         GParamSpec *pspec)
+static void
+entangle_camera_get_property(GObject *object,
+                             guint prop_id,
+                             GValue *value,
+                             GParamSpec *pspec)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(object);
 
-    switch (prop_id)
-        {
-        case PROP_MODEL:
-            g_value_set_string(value, cam->model);
-            break;
+    switch (prop_id) {
+    case PROP_MODEL:
+        g_value_set_string(value, cam->model);
+        break;
 
-        case PROP_PORT:
-            g_value_set_string(value, cam->port);
-            break;
+    case PROP_PORT:
+        g_value_set_string(value, cam->port);
+        break;
 
-        case PROP_SERIAL:
-            g_value_set_string(value, cam->serial);
-            break;
+    case PROP_SERIAL:
+        g_value_set_string(value, cam->serial);
+        break;
 
-        case PROP_MANUAL:
-            g_value_set_string(value, cam->manual);
-            break;
+    case PROP_MANUAL:
+        g_value_set_string(value, cam->manual);
+        break;
 
-        case PROP_SUMMARY:
-            g_value_set_string(value, cam->summary);
-            break;
+    case PROP_SUMMARY:
+        g_value_set_string(value, cam->summary);
+        break;
 
-        case PROP_DRIVER:
-            g_value_set_string(value, cam->driver);
-            break;
+    case PROP_DRIVER:
+        g_value_set_string(value, cam->driver);
+        break;
 
-        case PROP_PROGRESS:
-            g_value_set_object(value, cam->progress);
-            break;
+    case PROP_PROGRESS:
+        g_value_set_object(value, cam->progress);
+        break;
 
-        case PROP_HAS_CAPTURE:
-            g_value_set_boolean(value, cam->hasCapture);
-            break;
+    case PROP_HAS_CAPTURE:
+        g_value_set_boolean(value, cam->hasCapture);
+        break;
 
-        case PROP_HAS_PREVIEW:
-            g_value_set_boolean(value, cam->hasPreview);
-            break;
+    case PROP_HAS_PREVIEW:
+        g_value_set_boolean(value, cam->hasPreview);
+        break;
 
-        case PROP_HAS_SETTINGS:
-            g_value_set_boolean(value, cam->hasSettings);
-            break;
+    case PROP_HAS_SETTINGS:
+        g_value_set_boolean(value, cam->hasSettings);
+        break;
 
-        case PROP_HAS_VIEWFINDER:
-            g_value_set_boolean(value, cam->hasViewfinder);
-            break;
+    case PROP_HAS_VIEWFINDER:
+        g_value_set_boolean(value, cam->hasViewfinder);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_camera_set_property(GObject *object,
-                                         guint prop_id,
-                                         const GValue *value,
-                                         GParamSpec *pspec)
+static void
+entangle_camera_set_property(GObject *object,
+                             guint prop_id,
+                             const GValue *value,
+                             GParamSpec *pspec)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(object);
 
-    switch (prop_id)
-        {
-        case PROP_MODEL:
-            g_free(cam->model);
-            cam->model = g_value_dup_string(value);
-            break;
+    switch (prop_id) {
+    case PROP_MODEL:
+        g_free(cam->model);
+        cam->model = g_value_dup_string(value);
+        break;
 
-        case PROP_PORT:
-            g_free(cam->port);
-            cam->port = g_value_dup_string(value);
-            break;
+    case PROP_PORT:
+        g_free(cam->port);
+        cam->port = g_value_dup_string(value);
+        break;
 
-        case PROP_SERIAL:
-            g_free(cam->serial);
-            cam->serial = g_value_dup_string(value);
-            break;
+    case PROP_SERIAL:
+        g_free(cam->serial);
+        cam->serial = g_value_dup_string(value);
+        break;
 
-        case PROP_PROGRESS:
-            entangle_camera_set_progress(cam, g_value_get_object(value));
-            break;
+    case PROP_PROGRESS:
+        entangle_camera_set_progress(cam, g_value_get_object(value));
+        break;
 
-        case PROP_HAS_CAPTURE:
-            cam->hasCapture = g_value_get_boolean(value);
-            ENTANGLE_DEBUG("Set has capture %d", cam->hasCapture);
-            break;
+    case PROP_HAS_CAPTURE:
+        cam->hasCapture = g_value_get_boolean(value);
+        ENTANGLE_DEBUG("Set has capture %d", cam->hasCapture);
+        break;
 
-        case PROP_HAS_PREVIEW:
-            cam->hasPreview = g_value_get_boolean(value);
-            ENTANGLE_DEBUG("Set has preview %d", cam->hasPreview);
-            break;
+    case PROP_HAS_PREVIEW:
+        cam->hasPreview = g_value_get_boolean(value);
+        ENTANGLE_DEBUG("Set has preview %d", cam->hasPreview);
+        break;
 
-        case PROP_HAS_SETTINGS:
-            cam->hasSettings = g_value_get_boolean(value);
-            ENTANGLE_DEBUG("Set has settings %d", cam->hasSettings);
-            break;
+    case PROP_HAS_SETTINGS:
+        cam->hasSettings = g_value_get_boolean(value);
+        ENTANGLE_DEBUG("Set has settings %d", cam->hasSettings);
+        break;
 
-        case PROP_HAS_VIEWFINDER:
-            cam->hasViewfinder = g_value_get_boolean(value);
-            ENTANGLE_DEBUG("Set has viewfinder %d", cam->hasViewfinder);
-            break;
+    case PROP_HAS_VIEWFINDER:
+        cam->hasViewfinder = g_value_get_boolean(value);
+        ENTANGLE_DEBUG("Set has viewfinder %d", cam->hasViewfinder);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_camera_finalize(GObject *object)
+static void
+entangle_camera_finalize(GObject *object)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(object);
 
@@ -316,8 +322,8 @@ static void entangle_camera_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_camera_parent_class)->finalize(object);
 }
 
-
-static void entangle_camera_class_init(EntangleCameraClass *klass)
+static void
+entangle_camera_class_init(EntangleCameraClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -325,228 +331,141 @@ static void entangle_camera_class_init(EntangleCameraClass *klass)
     object_class->get_property = entangle_camera_get_property;
     object_class->set_property = entangle_camera_set_property;
 
-
-    g_signal_new("camera-file-added",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("camera-file-added", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_CAMERA_FILE);
 
-    g_signal_new("camera-file-captured",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("camera-file-captured", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_CAMERA_FILE);
 
-    g_signal_new("camera-file-previewed",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("camera-file-previewed", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_CAMERA_FILE);
 
-    g_signal_new("camera-file-downloaded",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("camera-file-downloaded", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_CAMERA_FILE);
 
-    g_signal_new("camera-file-deleted",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__OBJECT,
-                 G_TYPE_NONE,
-                 1,
+    g_signal_new("camera-file-deleted", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_CAMERA_FILE);
 
-    g_signal_new("camera-connected",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__VOID,
-                 G_TYPE_NONE,
-                 0);
+    g_signal_new("camera-connected", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
-    g_signal_new("camera-disconnected",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__VOID,
-                 G_TYPE_NONE,
-                 0);
+    g_signal_new("camera-disconnected", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
-    g_signal_new("camera-controls-changed",
-                 G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST,
-                 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__VOID,
-                 G_TYPE_NONE,
-                 0);
+    g_signal_new("camera-controls-changed", G_TYPE_FROM_CLASS(klass),
+                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                 g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
+    g_object_class_install_property(
+        object_class, PROP_MODEL,
+        g_param_spec_string(
+            "model", "Camera model", "Model name of the camera", NULL,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_PORT,
+        g_param_spec_string(
+            "port", "Camera port", "Device port of the camera", NULL,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_MODEL,
-                                    g_param_spec_string("model",
-                                                        "Camera model",
-                                                        "Model name of the camera",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_PORT,
-                                    g_param_spec_string("port",
-                                                        "Camera port",
-                                                        "Device port of the camera",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_SERIAL,
+        g_param_spec_string(
+            "serial", "Camera serial", "Device serial of the camera", NULL,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_SERIAL,
-                                    g_param_spec_string("serial",
-                                                        "Camera serial",
-                                                        "Device serial of the camera",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_SUMMARY,
+        g_param_spec_string("summary", "Camera summary", "Camera summary", NULL,
+                            G_PARAM_READABLE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_SUMMARY,
-                                    g_param_spec_string("summary",
-                                                        "Camera summary",
-                                                        "Camera summary",
-                                                        NULL,
-                                                        G_PARAM_READABLE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_MANUAL,
+        g_param_spec_string("manual", "Camera manual", "Camera manual", NULL,
+                            G_PARAM_READABLE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_MANUAL,
-                                    g_param_spec_string("manual",
-                                                        "Camera manual",
-                                                        "Camera manual",
-                                                        NULL,
-                                                        G_PARAM_READABLE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_DRIVER,
+        g_param_spec_string("driver", "Camera driver info",
+                            "Camera driver information", NULL,
+                            G_PARAM_READABLE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_DRIVER,
-                                    g_param_spec_string("driver",
-                                                        "Camera driver info",
-                                                        "Camera driver information",
-                                                        NULL,
-                                                        G_PARAM_READABLE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_PROGRESS,
+        g_param_spec_object("progress", "Progress updater",
+                            "Operation progress updater",
+                            ENTANGLE_TYPE_PROGRESS,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_PROGRESS,
-                                    g_param_spec_object("progress",
-                                                        "Progress updater",
-                                                        "Operation progress updater",
-                                                        ENTANGLE_TYPE_PROGRESS,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-
-    g_object_class_install_property(object_class,
-                                    PROP_HAS_CAPTURE,
-                                    g_param_spec_boolean("has-capture",
-                                                         "Capture supported",
-                                                         "Whether image capture is supported",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_CONSTRUCT_ONLY |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_HAS_PREVIEW,
-                                    g_param_spec_boolean("has-preview",
-                                                         "Preview supported",
-                                                         "Whether image preview is supported",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_CONSTRUCT_ONLY |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_HAS_SETTINGS,
-                                    g_param_spec_boolean("has-settings",
-                                                         "Settings supported",
-                                                         "Whether camera settings configuration is supported",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_CONSTRUCT_ONLY |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_HAS_VIEWFINDER,
-                                    g_param_spec_boolean("has-viewfinder",
-                                                         "Viewfinder supported",
-                                                         "Whether camera viewfinder configuration is supported",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_CONSTRUCT_ONLY |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_HAS_CAPTURE,
+        g_param_spec_boolean("has-capture", "Capture supported",
+                             "Whether image capture is supported", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                                 G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_HAS_PREVIEW,
+        g_param_spec_boolean("has-preview", "Preview supported",
+                             "Whether image preview is supported", FALSE,
+                             G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                                 G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_HAS_SETTINGS,
+        g_param_spec_boolean(
+            "has-settings", "Settings supported",
+            "Whether camera settings configuration is supported", FALSE,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_HAS_VIEWFINDER,
+        g_param_spec_boolean(
+            "has-viewfinder", "Viewfinder supported",
+            "Whether camera viewfinder configuration is supported", FALSE,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
     ENTANGLE_DEBUG("install prog done");
 }
 
-
-EntangleCamera *entangle_camera_new(const char *model,
-                                    const char *port,
-                                    const char *serial,
-                                    gboolean hasCapture,
-                                    gboolean hasPreview,
-                                    gboolean hasSettings)
+EntangleCamera *
+entangle_camera_new(const char *model,
+                    const char *port,
+                    const char *serial,
+                    gboolean hasCapture,
+                    gboolean hasPreview,
+                    gboolean hasSettings)
 {
-    return ENTANGLE_CAMERA(g_object_new(ENTANGLE_TYPE_CAMERA,
-                                        "model", model,
-                                        "port", port,
-                                        "serial", serial,
-                                        "has-capture", hasCapture,
-                                        "has-preview", hasPreview,
-                                        "has-settings", hasSettings,
-                                        NULL));
+    return ENTANGLE_CAMERA(
+        g_object_new(ENTANGLE_TYPE_CAMERA, "model", model, "port", port,
+                     "serial", serial, "has-capture", hasCapture, "has-preview",
+                     hasPreview, "has-settings", hasSettings, NULL));
 }
 
-
-static void entangle_camera_init(EntangleCamera *cam)
+static void
+entangle_camera_init(EntangleCamera *cam)
 {
     g_mutex_init(&cam->lock);
     g_cond_init(&cam->jobCond);
 }
-
 
 /**
  * entangle_camera_get_model:
@@ -556,13 +475,13 @@ static void entangle_camera_init(EntangleCamera *cam)
  *
  * Returns: (transfer none): the model name
  */
-const char *entangle_camera_get_model(EntangleCamera *cam)
+const char *
+entangle_camera_get_model(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
     return cam->model;
 }
-
 
 /**
  * entangle_camera_get_port:
@@ -572,16 +491,19 @@ const char *entangle_camera_get_model(EntangleCamera *cam)
  *
  * Returns: (transfer none): the port name
  */
-const char *entangle_camera_get_port(EntangleCamera *cam)
+const char *
+entangle_camera_get_port(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
     return cam->port;
 }
 
-struct EntangleCameraProgressData {
+struct EntangleCameraProgressData
+{
     EntangleCamera *cam;
-    enum {
+    enum
+    {
         ENTANGLE_CAMERA_PROGRESS_START,
         ENTANGLE_CAMERA_PROGRESS_UPDATE,
         ENTANGLE_CAMERA_PROGRESS_STOP
@@ -590,7 +512,8 @@ struct EntangleCameraProgressData {
     char *msg;
 };
 
-static gboolean entangle_camera_progress_idle(gpointer opaque)
+static gboolean
+entangle_camera_progress_idle(gpointer opaque)
 {
     struct EntangleCameraProgressData *data = opaque;
     EntangleCamera *cam = data->cam;
@@ -598,14 +521,11 @@ static gboolean entangle_camera_progress_idle(gpointer opaque)
     if (cam->progress) {
         switch (data->op) {
         case ENTANGLE_CAMERA_PROGRESS_START:
-            entangle_progress_start(cam->progress,
-                                    data->value,
-                                    data->msg);
+            entangle_progress_start(cam->progress, data->value, data->msg);
             break;
 
         case ENTANGLE_CAMERA_PROGRESS_UPDATE:
-            entangle_progress_update(cam->progress,
-                                     data->value);
+            entangle_progress_update(cam->progress, data->value);
             break;
 
         case ENTANGLE_CAMERA_PROGRESS_STOP:
@@ -625,13 +545,15 @@ static gboolean entangle_camera_progress_idle(gpointer opaque)
     return FALSE;
 }
 
-static unsigned int do_entangle_camera_progress_start(GPContext *ctx G_GNUC_UNUSED,
-                                                      float target,
-                                                      const char *msg,
-                                                      void *opaque)
+static unsigned int
+do_entangle_camera_progress_start(GPContext *ctx G_GNUC_UNUSED,
+                                  float target,
+                                  const char *msg,
+                                  void *opaque)
 {
     EntangleCamera *cam = opaque;
-    struct EntangleCameraProgressData *data = g_new0(struct EntangleCameraProgressData, 1);
+    struct EntangleCameraProgressData *data =
+        g_new0(struct EntangleCameraProgressData, 1);
 
     data->cam = g_object_ref(cam);
     data->op = ENTANGLE_CAMERA_PROGRESS_START;
@@ -643,13 +565,15 @@ static unsigned int do_entangle_camera_progress_start(GPContext *ctx G_GNUC_UNUS
     return 0; /* XXX what is this actually useful for ? */
 }
 
-static void do_entangle_camera_progress_update(GPContext *ctx G_GNUC_UNUSED,
-                                               unsigned int id G_GNUC_UNUSED,
-                                               float current,
-                                               void *opaque)
+static void
+do_entangle_camera_progress_update(GPContext *ctx G_GNUC_UNUSED,
+                                   unsigned int id G_GNUC_UNUSED,
+                                   float current,
+                                   void *opaque)
 {
     EntangleCamera *cam = opaque;
-    struct EntangleCameraProgressData *data = g_new0(struct EntangleCameraProgressData, 1);
+    struct EntangleCameraProgressData *data =
+        g_new0(struct EntangleCameraProgressData, 1);
 
     data->cam = g_object_ref(cam);
     data->op = ENTANGLE_CAMERA_PROGRESS_UPDATE;
@@ -658,12 +582,14 @@ static void do_entangle_camera_progress_update(GPContext *ctx G_GNUC_UNUSED,
     g_idle_add(entangle_camera_progress_idle, data);
 }
 
-static void do_entangle_camera_progress_stop(GPContext *ctx G_GNUC_UNUSED,
-                                             unsigned int id G_GNUC_UNUSED,
-                                             void *opaque)
+static void
+do_entangle_camera_progress_stop(GPContext *ctx G_GNUC_UNUSED,
+                                 unsigned int id G_GNUC_UNUSED,
+                                 void *opaque)
 {
     EntangleCamera *cam = opaque;
-    struct EntangleCameraProgressData *data = g_new0(struct EntangleCameraProgressData, 1);
+    struct EntangleCameraProgressData *data =
+        g_new0(struct EntangleCameraProgressData, 1);
 
     data->cam = g_object_ref(cam);
     data->op = ENTANGLE_CAMERA_PROGRESS_STOP;
@@ -671,9 +597,10 @@ static void do_entangle_camera_progress_stop(GPContext *ctx G_GNUC_UNUSED,
     g_idle_add(entangle_camera_progress_idle, data);
 }
 
-static void do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
-                                     const char *msg,
-                                     void *data)
+static void
+do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
+                         const char *msg,
+                         void *data)
 {
     EntangleCamera *cam = data;
 
@@ -681,7 +608,6 @@ static void do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
     cam->lastError = g_strdup(msg);
     ENTANGLE_DEBUG("Got error %s", cam->lastError);
 }
-
 
 /**
  * entangle_camera_connect:
@@ -695,8 +621,8 @@ static void do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
  *
  * Returns: TRUE if the camera is connected, FALSE on error
  */
-gboolean entangle_camera_connect(EntangleCamera *cam,
-                                 GError **error)
+gboolean
+entangle_camera_connect(EntangleCamera *cam, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -742,14 +668,10 @@ gboolean entangle_camera_connect(EntangleCamera *cam,
         goto cleanup;
     }
 
-    gp_context_set_error_func(cam->ctx,
-                              do_entangle_camera_error,
-                              cam);
-    gp_context_set_progress_funcs(cam->ctx,
-                                  do_entangle_camera_progress_start,
+    gp_context_set_error_func(cam->ctx, do_entangle_camera_error, cam);
+    gp_context_set_progress_funcs(cam->ctx, do_entangle_camera_progress_start,
                                   do_entangle_camera_progress_update,
-                                  do_entangle_camera_progress_stop,
-                                  cam);
+                                  do_entangle_camera_progress_stop, cam);
 
     i = gp_port_info_list_lookup_path(cam->ports, cam->port);
     gp_port_info_list_get_info(cam->ports, i, &port);
@@ -795,18 +717,18 @@ gboolean entangle_camera_connect(EntangleCamera *cam,
     ENTANGLE_DEBUG("ok");
     ret = TRUE;
 
- cleanup:
+cleanup:
     g_mutex_unlock(&cam->lock);
     if (ret)
         entangle_camera_emit_deferred(cam, "camera-connected", NULL);
     return ret;
 }
 
-
-static void entangle_camera_connect_helper(GTask *task,
-                                           gpointer object,
-                                           gpointer task_data G_GNUC_UNUSED,
-                                           GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_connect_helper(GTask *task,
+                               gpointer object,
+                               gpointer task_data G_GNUC_UNUSED,
+                               GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
@@ -816,7 +738,6 @@ static void entangle_camera_connect_helper(GTask *task,
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_connect_async:
@@ -830,20 +751,19 @@ static void entangle_camera_connect_helper(GTask *task,
  * when complete, whereupon entangle_camera_connect_finish
  * can be used to check the status
  */
-void entangle_camera_connect_async(EntangleCamera *cam,
-                                   GCancellable *cancellable,
-                                   GAsyncReadyCallback callback,
-                                   gpointer user_data)
+void
+entangle_camera_connect_async(EntangleCamera *cam,
+                              GCancellable *cancellable,
+                              GAsyncReadyCallback callback,
+                              gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_connect_helper);
+    g_task_run_in_thread(task, entangle_camera_connect_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_connect_finish:
@@ -854,15 +774,15 @@ void entangle_camera_connect_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the camera is connected, FALSE on error
  */
-gboolean entangle_camera_connect_finish(EntangleCamera *cam,
-                                        GAsyncResult *result,
-                                        GError **error)
+gboolean
+entangle_camera_connect_finish(EntangleCamera *cam,
+                               GAsyncResult *result,
+                               GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_disconnect:
@@ -875,8 +795,8 @@ gboolean entangle_camera_connect_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if the camera is disconnected, FALSE on error
  */
-gboolean entangle_camera_disconnect(EntangleCamera *cam,
-                                    GError **error G_GNUC_UNUSED)
+gboolean
+entangle_camera_disconnect(EntangleCamera *cam, GError **error G_GNUC_UNUSED)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -929,18 +849,18 @@ gboolean entangle_camera_disconnect(EntangleCamera *cam,
     cam->hasViewfinder = FALSE;
 
     ret = TRUE;
- cleanup:
+cleanup:
     g_mutex_unlock(&cam->lock);
     if (ret)
         entangle_camera_emit_deferred(cam, "camera-disconnected", NULL);
     return ret;
 }
 
-
-static void entangle_camera_disconnect_helper(GTask *task,
-                                              gpointer object,
-                                              gpointer task_data G_GNUC_UNUSED,
-                                              GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_disconnect_helper(GTask *task,
+                                  gpointer object,
+                                  gpointer task_data G_GNUC_UNUSED,
+                                  GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
@@ -950,7 +870,6 @@ static void entangle_camera_disconnect_helper(GTask *task,
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_disconnect_async:
@@ -963,20 +882,19 @@ static void entangle_camera_disconnect_helper(GTask *task,
  * when complete, whereupon entangle_camera_connect_async
  * can be used to check the status
  */
-void entangle_camera_disconnect_async(EntangleCamera *cam,
-                                      GCancellable *cancellable,
-                                      GAsyncReadyCallback callback,
-                                      gpointer user_data)
+void
+entangle_camera_disconnect_async(EntangleCamera *cam,
+                                 GCancellable *cancellable,
+                                 GAsyncReadyCallback callback,
+                                 gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_disconnect_helper);
+    g_task_run_in_thread(task, entangle_camera_disconnect_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_disconnect_finish:
@@ -987,15 +905,15 @@ void entangle_camera_disconnect_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the camera is disconnected, FALSE on error
  */
-gboolean entangle_camera_disconnect_finish(EntangleCamera *cam,
-                                           GAsyncResult *result,
-                                           GError **error)
+gboolean
+entangle_camera_disconnect_finish(EntangleCamera *cam,
+                                  GAsyncResult *result,
+                                  GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_get_connected:
@@ -1005,7 +923,8 @@ gboolean entangle_camera_disconnect_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if the camera is connected, FALSE otherwise
  */
-gboolean entangle_camera_get_connected(EntangleCamera *cam)
+gboolean
+entangle_camera_get_connected(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -1017,7 +936,6 @@ gboolean entangle_camera_get_connected(EntangleCamera *cam)
     return ret;
 }
 
-
 /**
  * entangle_camera_get_summary:
  * @cam: (transfer none): the camera
@@ -1027,7 +945,8 @@ gboolean entangle_camera_get_connected(EntangleCamera *cam)
  *
  * Returns: (transfer full): the camera summary
  */
-char *entangle_camera_get_summary(EntangleCamera *cam)
+char *
+entangle_camera_get_summary(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
@@ -1040,8 +959,6 @@ char *entangle_camera_get_summary(EntangleCamera *cam)
     return ret;
 }
 
-
-
 /**
  * entangle_camera_get_manual:
  * @cam: (transfer none): the camera
@@ -1051,7 +968,8 @@ char *entangle_camera_get_summary(EntangleCamera *cam)
  *
  * Returns: (transfer full): the camera manual
  */
-char *entangle_camera_get_manual(EntangleCamera *cam)
+char *
+entangle_camera_get_manual(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
@@ -1064,7 +982,6 @@ char *entangle_camera_get_manual(EntangleCamera *cam)
     return ret;
 }
 
-
 /**
  * entangle_camera_get_driver:
  * @cam: (transfer none): the camera
@@ -1074,7 +991,8 @@ char *entangle_camera_get_manual(EntangleCamera *cam)
  *
  * Returns: (transfer full): the camera driver information
  */
-char *entangle_camera_get_driver(EntangleCamera *cam)
+char *
+entangle_camera_get_driver(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
@@ -1086,7 +1004,6 @@ char *entangle_camera_get_driver(EntangleCamera *cam)
 
     return ret;
 }
-
 
 /**
  * entangle_camera_capture_image:
@@ -1104,8 +1021,8 @@ char *entangle_camera_get_driver(EntangleCamera *cam)
  *
  * Returns: (transfer full): the captured image or NULL
  */
-EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
-                                                  GError **error)
+EntangleCameraFile *
+entangle_camera_capture_image(EntangleCamera *cam, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
@@ -1123,43 +1040,39 @@ EntangleCameraFile *entangle_camera_capture_image(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Starting capture");
     entangle_camera_begin_job(cam);
-    err = gp_camera_capture(cam->cam,
-                            GP_CAPTURE_IMAGE,
-                            &camerapath,
-                            cam->ctx);
+    err = gp_camera_capture(cam->cam, GP_CAPTURE_IMAGE, &camerapath, cam->ctx);
     entangle_camera_end_job(cam);
-    if (err!= GP_OK) {
+    if (err != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to capture image: %s"), cam->lastError);
         goto cleanup;
     }
 
-    file = entangle_camera_file_new(camerapath.folder,
-                                    camerapath.name);
+    file = entangle_camera_file_new(camerapath.folder, camerapath.name);
 
     entangle_camera_emit_deferred(cam, "camera-file-captured", G_OBJECT(file));
 
- cleanup:
+cleanup:
     g_mutex_unlock(&cam->lock);
     return file;
 }
 
-
-static void entangle_camera_capture_image_helper(GTask *task,
-                                                 gpointer object,
-                                                 gpointer task_data G_GNUC_UNUSED,
-                                                 GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_capture_image_helper(GTask *task,
+                                     gpointer object,
+                                     gpointer task_data G_GNUC_UNUSED,
+                                     GCancellable *cancellable G_GNUC_UNUSED)
 {
     EntangleCameraFile *file;
     GError *error = NULL;
 
-    if (!(file = entangle_camera_capture_image(ENTANGLE_CAMERA(object), &error))) {
+    if (!(file =
+              entangle_camera_capture_image(ENTANGLE_CAMERA(object), &error))) {
         g_task_return_error(task, error);
     } else {
         g_task_return_pointer(task, file, g_object_unref);
     }
 }
-
 
 /**
  * entangle_camera_capture_image_async:
@@ -1177,20 +1090,19 @@ static void entangle_camera_capture_image_helper(GTask *task,
  * when complete, whereupon entangle_camera_capture_image_finish
  * can be used to check the status
  */
-void entangle_camera_capture_image_async(EntangleCamera *cam,
-                                         GCancellable *cancellable,
-                                         GAsyncReadyCallback callback,
-                                         gpointer user_data)
+void
+entangle_camera_capture_image_async(EntangleCamera *cam,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_capture_image_helper);
+    g_task_run_in_thread(task, entangle_camera_capture_image_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_capture_image_finish:
@@ -1201,15 +1113,15 @@ void entangle_camera_capture_image_async(EntangleCamera *cam,
  *
  * Returns: (transfer full): the captured image or NULL
  */
-EntangleCameraFile *entangle_camera_capture_image_finish(EntangleCamera *cam,
-                                                         GAsyncResult *result,
-                                                         GError **error)
+EntangleCameraFile *
+entangle_camera_capture_image_finish(EntangleCamera *cam,
+                                     GAsyncResult *result,
+                                     GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
     return g_task_propagate_pointer(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_preview_image:
@@ -1225,8 +1137,8 @@ EntangleCameraFile *entangle_camera_capture_image_finish(EntangleCamera *cam,
  *
  * Returns: (transfer full): the captured image or NULL
  */
-EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
-                                                  GError **error)
+EntangleCameraFile *
+entangle_camera_preview_image(EntangleCamera *cam, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
@@ -1251,9 +1163,7 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Starting preview");
     entangle_camera_begin_job(cam);
-    err = gp_camera_capture_preview(cam->cam,
-                                    datafile,
-                                    cam->ctx);
+    err = gp_camera_capture_preview(cam->cam, datafile, cam->ctx);
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
@@ -1261,7 +1171,6 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
                     _("Unable to capture preview: %s"), cam->lastError);
         goto cleanup;
     }
-
 
     if (gp_file_get_data_and_size(datafile, &rawdata, &rawdatalen) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
@@ -1288,29 +1197,29 @@ EntangleCameraFile *entangle_camera_preview_image(EntangleCamera *cam,
 
     entangle_camera_emit_deferred(cam, "camera-file-previewed", G_OBJECT(file));
 
- cleanup:
+cleanup:
     if (datafile)
         gp_file_unref(datafile);
     g_mutex_unlock(&cam->lock);
     return file;
 }
 
-
-static void entangle_camera_preview_image_helper(GTask *task,
-                                                 gpointer object,
-                                                 gpointer task_data G_GNUC_UNUSED,
-                                                 GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_preview_image_helper(GTask *task,
+                                     gpointer object,
+                                     gpointer task_data G_GNUC_UNUSED,
+                                     GCancellable *cancellable G_GNUC_UNUSED)
 {
     EntangleCameraFile *file;
     GError *error = NULL;
 
-    if (!(file = entangle_camera_preview_image(ENTANGLE_CAMERA(object), &error))) {
+    if (!(file =
+              entangle_camera_preview_image(ENTANGLE_CAMERA(object), &error))) {
         g_task_return_error(task, error);
     } else {
         g_task_return_pointer(task, file, g_object_unref);
     }
 }
-
 
 /**
  * entangle_camera_preview_image_async:
@@ -1326,20 +1235,19 @@ static void entangle_camera_preview_image_helper(GTask *task,
  * when complete, whereupon entangle_camera_preview_image_finish
  * can be used to check the status
  */
-void entangle_camera_preview_image_async(EntangleCamera *cam,
-                                         GCancellable *cancellable,
-                                         GAsyncReadyCallback callback,
-                                         gpointer user_data)
+void
+entangle_camera_preview_image_async(EntangleCamera *cam,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_preview_image_helper);
+    g_task_run_in_thread(task, entangle_camera_preview_image_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_preview_image_finish:
@@ -1350,15 +1258,15 @@ void entangle_camera_preview_image_async(EntangleCamera *cam,
  *
  * Returns: (transfer full): the captured image or NULL
  */
-EntangleCameraFile *entangle_camera_preview_image_finish(EntangleCamera *cam,
-                                                         GAsyncResult *result,
-                                                         GError **error)
+EntangleCameraFile *
+entangle_camera_preview_image_finish(EntangleCamera *cam,
+                                     GAsyncResult *result,
+                                     GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
     return g_task_propagate_pointer(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_download_file:
@@ -1374,9 +1282,10 @@ EntangleCameraFile *entangle_camera_preview_image_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if the file was downloaded, FALSE on error
  */
-gboolean entangle_camera_download_file(EntangleCamera *cam,
-                                       EntangleCameraFile *file,
-                                       GError **error)
+gboolean
+entangle_camera_download_file(EntangleCamera *cam,
+                              EntangleCameraFile *file,
+                              GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), FALSE);
@@ -1404,13 +1313,10 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Getting file data");
     entangle_camera_begin_job(cam);
-    err = gp_camera_file_get(cam->cam,
-                             entangle_camera_file_get_folder(file),
+    err = gp_camera_file_get(cam->cam, entangle_camera_file_get_folder(file),
                              entangle_camera_file_get_name(file),
-                             GP_FILE_TYPE_NORMAL,
-                             datafile,
-                             cam->ctx);
-    g_usleep(1000*100);
+                             GP_FILE_TYPE_NORMAL, datafile, cam->ctx);
+    g_usleep(1000 * 100);
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
@@ -1427,16 +1333,17 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     }
 
     filedata = g_byte_array_new();
-    g_byte_array_append(filedata, (const guint8*)data, datalen);
+    g_byte_array_append(filedata, (const guint8 *)data, datalen);
 
     entangle_camera_file_set_data(file, filedata);
     g_byte_array_unref(filedata);
 
-    entangle_camera_emit_deferred(cam, "camera-file-downloaded", G_OBJECT(file));
+    entangle_camera_emit_deferred(cam, "camera-file-downloaded",
+                                  G_OBJECT(file));
 
     ret = TRUE;
 
- cleanup:
+cleanup:
     ENTANGLE_DEBUG("Error");
     if (datafile)
         gp_file_unref(datafile);
@@ -1444,11 +1351,11 @@ gboolean entangle_camera_download_file(EntangleCamera *cam,
     return ret;
 }
 
-
-static void entangle_camera_download_file_helper(GTask *task,
-                                                 gpointer object,
-                                                 gpointer task_data,
-                                                 GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_download_file_helper(GTask *task,
+                                     gpointer object,
+                                     gpointer task_data,
+                                     GCancellable *cancellable G_GNUC_UNUSED)
 {
     EntangleCameraFile *file = ENTANGLE_CAMERA_FILE(task_data);
     GError *error = NULL;
@@ -1459,7 +1366,6 @@ static void entangle_camera_download_file_helper(GTask *task,
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_download_file_async:
@@ -1475,11 +1381,12 @@ static void entangle_camera_download_file_helper(GTask *task,
  * when complete, whereupon entangle_camera_download_file_finish
  * can be used to check the status
  */
-void entangle_camera_download_file_async(EntangleCamera *cam,
-                                         EntangleCameraFile *file,
-                                         GCancellable *cancellable,
-                                         GAsyncReadyCallback callback,
-                                         gpointer user_data)
+void
+entangle_camera_download_file_async(EntangleCamera *cam,
+                                    EntangleCameraFile *file,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
     g_return_if_fail(ENTANGLE_IS_CAMERA_FILE(file));
@@ -1489,10 +1396,8 @@ void entangle_camera_download_file_async(EntangleCamera *cam,
     g_object_ref(file);
     g_task_set_task_data(task, file, g_object_unref);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_download_file_helper);
+    g_task_run_in_thread(task, entangle_camera_download_file_helper);
     g_object_unref(task);
-
 }
 
 /**
@@ -1504,15 +1409,15 @@ void entangle_camera_download_file_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the file was downloaded, FALSE on error
  */
-gboolean entangle_camera_download_file_finish(EntangleCamera *cam,
-                                              GAsyncResult *result,
-                                              GError **error)
+gboolean
+entangle_camera_download_file_finish(EntangleCamera *cam,
+                                     GAsyncResult *result,
+                                     GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_delete_file:
@@ -1527,9 +1432,10 @@ gboolean entangle_camera_download_file_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if the file was deleted, FALSE on error
  */
-gboolean entangle_camera_delete_file(EntangleCamera *cam,
-                                     EntangleCameraFile *file,
-                                     GError **error)
+gboolean
+entangle_camera_delete_file(EntangleCamera *cam,
+                            EntangleCameraFile *file,
+                            GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_FILE(file), FALSE);
@@ -1550,11 +1456,9 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
                    entangle_camera_file_get_folder(file));
 
     entangle_camera_begin_job(cam);
-    err = gp_camera_file_delete(cam->cam,
-                                entangle_camera_file_get_folder(file),
-                                entangle_camera_file_get_name(file),
-                                cam->ctx);
-    g_usleep(1000*100);
+    err = gp_camera_file_delete(cam->cam, entangle_camera_file_get_folder(file),
+                                entangle_camera_file_get_name(file), cam->ctx);
+    g_usleep(1000 * 100);
     entangle_camera_end_job(cam);
 
     if (err != GP_OK) {
@@ -1567,16 +1471,16 @@ gboolean entangle_camera_delete_file(EntangleCamera *cam,
 
     ret = TRUE;
 
- cleanup:
+cleanup:
     g_mutex_unlock(&cam->lock);
     return ret;
 }
 
-
-static void entangle_camera_delete_file_helper(GTask *task,
-                                               gpointer object,
-                                               gpointer task_data,
-                                               GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_delete_file_helper(GTask *task,
+                                   gpointer object,
+                                   gpointer task_data,
+                                   GCancellable *cancellable G_GNUC_UNUSED)
 {
     EntangleCameraFile *file = ENTANGLE_CAMERA_FILE(task_data);
     GError *error = NULL;
@@ -1587,7 +1491,6 @@ static void entangle_camera_delete_file_helper(GTask *task,
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_delete_file_async:
@@ -1602,11 +1505,12 @@ static void entangle_camera_delete_file_helper(GTask *task,
  * when complete, whereupon entangle_camera_delete_file_finish
  * can be used to check the status
  */
-void entangle_camera_delete_file_async(EntangleCamera *cam,
-                                       EntangleCameraFile *file,
-                                       GCancellable *cancellable,
-                                       GAsyncReadyCallback callback,
-                                       gpointer user_data)
+void
+entangle_camera_delete_file_async(EntangleCamera *cam,
+                                  EntangleCameraFile *file,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
+                                  gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
     g_return_if_fail(ENTANGLE_IS_CAMERA_FILE(file));
@@ -1616,11 +1520,9 @@ void entangle_camera_delete_file_async(EntangleCamera *cam,
     g_object_ref(file);
     g_task_set_task_data(task, file, g_object_unref);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_delete_file_helper);
+    g_task_run_in_thread(task, entangle_camera_delete_file_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_delete_file_finish:
@@ -1631,15 +1533,15 @@ void entangle_camera_delete_file_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the file was deleted, FALSE on error
  */
-gboolean entangle_camera_delete_file_finish(EntangleCamera *cam,
-                                            GAsyncResult *result,
-                                            GError **error)
+gboolean
+entangle_camera_delete_file_finish(EntangleCamera *cam,
+                                   GAsyncResult *result,
+                                   GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_process_events:
@@ -1657,9 +1559,10 @@ gboolean entangle_camera_delete_file_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if the file was deleted, FALSE on error
  */
-gboolean entangle_camera_process_events(EntangleCamera *cam,
-                                        guint64 waitms,
-                                        GError **error)
+gboolean
+entangle_camera_process_events(EntangleCamera *cam,
+                               guint64 waitms,
+                               GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -1680,20 +1583,21 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
     startms = g_get_real_time() / 1000;
 
     ENTANGLE_DEBUG("Waiting for events start %llu duration %llu",
-                   (unsigned long long)startms,
-                   (unsigned long long)waitms);
+                   (unsigned long long)startms, (unsigned long long)waitms);
 
     donems = 0;
     do {
         entangle_camera_begin_job(cam);
-        err = gp_camera_wait_for_event(cam->cam, waitms - donems, &eventType, &eventData, cam->ctx);
+        err = gp_camera_wait_for_event(cam->cam, waitms - donems, &eventType,
+                                       &eventData, cam->ctx);
         entangle_camera_end_job(cam);
 
         if (err != GP_OK) {
-            /* Some drivers (eg canon native) can't do events, so just do a sleep */
+            /* Some drivers (eg canon native) can't do events, so just do a
+             * sleep */
             if (err == GP_ERROR_NOT_SUPPORTED) {
                 ENTANGLE_DEBUG("Event wait not supported, using usleep");
-                g_usleep((waitms-donems)*1000ll);
+                g_usleep((waitms - donems) * 1000ll);
                 ret = TRUE;
                 goto cleanup;
             }
@@ -1704,16 +1608,16 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
         ENTANGLE_DEBUG("Event type %d", eventType);
         switch (eventType) {
         case GP_EVENT_UNKNOWN:
-            if (eventData &&
-                strstr((char*)eventData, "PTP Property") &&
-                strstr((char*)eventData, "changed")) {
+            if (eventData && strstr((char *)eventData, "PTP Property") &&
+                strstr((char *)eventData, "changed")) {
                 ENTANGLE_DEBUG("Config changed '%s'", (char *)eventData);
                 /* For some reason, every time we request the camera config
                  * with gp_camera_get_config, it will be followed by an
                  * event with key 'd10d'. So we must ignore that event
                  */
                 if (strstr(eventData, "d10d") == NULL)
-                    entangle_camera_emit_deferred(cam, "camera-controls-changed", NULL);
+                    entangle_camera_emit_deferred(
+                        cam, "camera-controls-changed", NULL);
             } else {
                 ENTANGLE_DEBUG("Unknown event '%s'", (char *)eventData);
             }
@@ -1727,21 +1631,24 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
             CameraFilePath *camerapath = eventData;
             EntangleCameraFile *file;
 
-            ENTANGLE_DEBUG("File added '%s' in '%s'", camerapath->name, camerapath->folder);
+            ENTANGLE_DEBUG("File added '%s' in '%s'", camerapath->name,
+                           camerapath->folder);
 
-            file = entangle_camera_file_new(camerapath->folder,
-                                            camerapath->name);
+            file =
+                entangle_camera_file_new(camerapath->folder, camerapath->name);
 
-            entangle_camera_emit_deferred(cam, "camera-file-added", G_OBJECT(file));
+            entangle_camera_emit_deferred(cam, "camera-file-added",
+                                          G_OBJECT(file));
 
             g_object_unref(file);
-        }   break;
+        } break;
 
         case GP_EVENT_FOLDER_ADDED: {
             CameraFilePath *camerapath = eventData;
 
-            ENTANGLE_DEBUG("Folder added '%s' in '%s'", camerapath->name, camerapath->folder);
-        }   break;
+            ENTANGLE_DEBUG("Folder added '%s' in '%s'", camerapath->name,
+                           camerapath->folder);
+        } break;
 
         case GP_EVENT_CAPTURE_COMPLETE:
             ENTANGLE_DEBUG("Capture is complete");
@@ -1756,36 +1663,34 @@ gboolean entangle_camera_process_events(EntangleCamera *cam,
         eventData = NULL;
         endms = g_get_real_time() / 1000;
         donems = endms - startms;
-    } while (eventType != GP_EVENT_TIMEOUT &&
-             donems < waitms);
+    } while (eventType != GP_EVENT_TIMEOUT && donems < waitms);
 
-    ENTANGLE_DEBUG("Done waiting for events %llu",
-                   (unsigned long long)donems);
+    ENTANGLE_DEBUG("Done waiting for events %llu", (unsigned long long)donems);
 
     ret = TRUE;
 
- cleanup:
+cleanup:
     free(eventData);
     g_mutex_unlock(&cam->lock);
     return ret;
 }
 
-
-static void entangle_camera_process_events_helper(GTask *task,
-                                                  gpointer object,
-                                                  gpointer task_data,
-                                                  GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_process_events_helper(GTask *task,
+                                      gpointer object,
+                                      gpointer task_data,
+                                      GCancellable *cancellable G_GNUC_UNUSED)
 {
     guint64 *waitptr = task_data;
     GError *error = NULL;
 
-    if (!entangle_camera_process_events(ENTANGLE_CAMERA(object), *waitptr, &error)) {
+    if (!entangle_camera_process_events(ENTANGLE_CAMERA(object), *waitptr,
+                                        &error)) {
         g_task_return_error(task, error);
     } else {
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_process_events_async:
@@ -1803,11 +1708,12 @@ static void entangle_camera_process_events_helper(GTask *task,
  * when complete, whereupon entangle_camera_process_events_finish
  * can be used to check the status
  */
-void entangle_camera_process_events_async(EntangleCamera *cam,
-                                          guint64 waitms,
-                                          GCancellable *cancellable,
-                                          GAsyncReadyCallback callback,
-                                          gpointer user_data)
+void
+entangle_camera_process_events_async(EntangleCamera *cam,
+                                     guint64 waitms,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
@@ -1817,11 +1723,9 @@ void entangle_camera_process_events_async(EntangleCamera *cam,
     *waitptr = waitms;
     g_task_set_task_data(task, waitptr, g_free);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_process_events_helper);
+    g_task_run_in_thread(task, entangle_camera_process_events_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_process_events_finish:
@@ -1832,19 +1736,18 @@ void entangle_camera_process_events_async(EntangleCamera *cam,
  *
  * Returns: TRUE if events were processed, FALSE on error
  */
-gboolean entangle_camera_process_events_finish(EntangleCamera *cam,
-                                               GAsyncResult *result,
-                                               GError **error)
+gboolean
+entangle_camera_process_events_finish(EntangleCamera *cam,
+                                      GAsyncResult *result,
+                                      GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
 
-
 static CameraWidget *
-entangle_camera_find_widget(EntangleCamera *cam,
-                            const gchar *path)
+entangle_camera_find_widget(EntangleCamera *cam, const gchar *path)
 {
     gchar **names = g_strsplit(path, "/", 0);
     CameraWidget *ret = NULL;
@@ -1854,13 +1757,10 @@ entangle_camera_find_widget(EntangleCamera *cam,
     for (i = 0; names[i] != NULL; i++) {
         CameraWidget *tmp;
 
-        if (g_str_equal(names[i], "") ||
-            g_str_equal(names[i], "main"))
+        if (g_str_equal(names[i], "") || g_str_equal(names[i], "main"))
             continue;
 
-        if (gp_widget_get_child_by_name(curr,
-                                        names[i],
-                                        &tmp) != GP_OK)
+        if (gp_widget_get_child_by_name(curr, names[i], &tmp) != GP_OK)
             goto cleanup;
 
         curr = tmp;
@@ -1868,16 +1768,16 @@ entangle_camera_find_widget(EntangleCamera *cam,
 
     ret = curr;
 
- cleanup:
+cleanup:
     g_strfreev(names);
     return ret;
 }
 
-
-static EntangleControl *do_build_controls(EntangleCamera *cam,
-                                          const char *path,
-                                          CameraWidget *widget,
-                                          GError **error)
+static EntangleControl *
+do_build_controls(EntangleCamera *cam,
+                  const char *path,
+                  CameraWidget *widget,
+                  GError **error)
 {
     CameraWidgetType type;
     EntangleControl *ret = NULL;
@@ -1911,103 +1811,100 @@ static EntangleControl *do_build_controls(EntangleCamera *cam,
 
     switch (type) {
         /* We treat both window and section as just groups */
-    case GP_WIDGET_WINDOW:
-        {
-            EntangleControlGroup *grp;
-            ENTANGLE_DEBUG("Add group %s %d %s", fullpath, id, label);
-            grp = entangle_control_group_new(fullpath, id, label, info, ro);
-            for (int i = 0; i < gp_widget_count_children(widget); i++) {
-                CameraWidget *child;
-                EntangleControl *subctl;
-                const char *childname;
-                if (gp_widget_get_child(widget, i, &child) != GP_OK ||
-                    gp_widget_get_name(child, &childname) != GP_OK) {
-                    g_object_unref(grp);
-                    goto error;
-                }
-
-                /* Actions are exposed as normal APIs
-                 * And "Other ptp properties" 90% dups
-                 */
-                if (g_str_equal(childname, "actions") ||
-                    g_str_equal(childname, "other"))
-                    continue;
-
-                if (!(subctl = do_build_controls(cam, fullpath, child, error))) {
-                    g_object_unref(grp);
-                    goto error;
-                }
-
-                entangle_control_group_add(grp, subctl);
+    case GP_WIDGET_WINDOW: {
+        EntangleControlGroup *grp;
+        ENTANGLE_DEBUG("Add group %s %d %s", fullpath, id, label);
+        grp = entangle_control_group_new(fullpath, id, label, info, ro);
+        for (int i = 0; i < gp_widget_count_children(widget); i++) {
+            CameraWidget *child;
+            EntangleControl *subctl;
+            const char *childname;
+            if (gp_widget_get_child(widget, i, &child) != GP_OK ||
+                gp_widget_get_name(child, &childname) != GP_OK) {
+                g_object_unref(grp);
+                goto error;
             }
 
-            ret = ENTANGLE_CONTROL(grp);
-        } break;
+            /* Actions are exposed as normal APIs
+             * And "Other ptp properties" 90% dups
+             */
+            if (g_str_equal(childname, "actions") ||
+                g_str_equal(childname, "other"))
+                continue;
 
-    case GP_WIDGET_SECTION:
-        {
-            EntangleControlGroup *grp;
-            ENTANGLE_DEBUG("Add group %s %d %s", fullpath, id, label);
-            grp = entangle_control_group_new(fullpath, id, label, info, ro);
-            for (int i = 0; i < gp_widget_count_children(widget); i++) {
-                CameraWidget *child;
-                EntangleControl *subctl;
-                if (gp_widget_get_child(widget, i, &child) != GP_OK) {
-                    g_object_unref(grp);
-                    goto error;
-                }
-                if (!(subctl = do_build_controls(cam, fullpath, child, error))) {
-                    g_object_unref(grp);
-                    goto error;
-                }
-
-                entangle_control_group_add(grp, subctl);
+            if (!(subctl = do_build_controls(cam, fullpath, child, error))) {
+                g_object_unref(grp);
+                goto error;
             }
 
-            ret = ENTANGLE_CONTROL(grp);
-        } break;
+            entangle_control_group_add(grp, subctl);
+        }
 
-    case GP_WIDGET_BUTTON:
-        {
-            ENTANGLE_DEBUG("Add button %s %d %s", fullpath, id, label);
-            ret = ENTANGLE_CONTROL(entangle_control_button_new(fullpath, id, label, info, ro));
-        } break;
+        ret = ENTANGLE_CONTROL(grp);
+    } break;
+
+    case GP_WIDGET_SECTION: {
+        EntangleControlGroup *grp;
+        ENTANGLE_DEBUG("Add group %s %d %s", fullpath, id, label);
+        grp = entangle_control_group_new(fullpath, id, label, info, ro);
+        for (int i = 0; i < gp_widget_count_children(widget); i++) {
+            CameraWidget *child;
+            EntangleControl *subctl;
+            if (gp_widget_get_child(widget, i, &child) != GP_OK) {
+                g_object_unref(grp);
+                goto error;
+            }
+            if (!(subctl = do_build_controls(cam, fullpath, child, error))) {
+                g_object_unref(grp);
+                goto error;
+            }
+
+            entangle_control_group_add(grp, subctl);
+        }
+
+        ret = ENTANGLE_CONTROL(grp);
+    } break;
+
+    case GP_WIDGET_BUTTON: {
+        ENTANGLE_DEBUG("Add button %s %d %s", fullpath, id, label);
+        ret = ENTANGLE_CONTROL(
+            entangle_control_button_new(fullpath, id, label, info, ro));
+    } break;
 
         /* Unclear why these two are the same in libgphoto */
     case GP_WIDGET_RADIO:
-    case GP_WIDGET_MENU:
-        {
-            ENTANGLE_DEBUG("Add menu %s %d %s", fullpath, id, label);
-            ret = ENTANGLE_CONTROL(entangle_control_choice_new(fullpath, id, label, info, ro));
-        } break;
+    case GP_WIDGET_MENU: {
+        ENTANGLE_DEBUG("Add menu %s %d %s", fullpath, id, label);
+        ret = ENTANGLE_CONTROL(
+            entangle_control_choice_new(fullpath, id, label, info, ro));
+    } break;
 
-    case GP_WIDGET_DATE:
-        {
-            ENTANGLE_DEBUG("Add date %s %d %s", fullpath, id, label);
-            ret = ENTANGLE_CONTROL(entangle_control_date_new(fullpath, id, label, info, ro));
-        } break;
+    case GP_WIDGET_DATE: {
+        ENTANGLE_DEBUG("Add date %s %d %s", fullpath, id, label);
+        ret = ENTANGLE_CONTROL(
+            entangle_control_date_new(fullpath, id, label, info, ro));
+    } break;
 
-    case GP_WIDGET_RANGE:
-        {
-            float min, max, step;
-            gp_widget_get_range(widget, &min, &max, &step);
-            ENTANGLE_DEBUG("Add range %s %d %s %f %f %f", fullpath, id, label,
-                           (double)min, (double)max, (double)step);
-            ret = ENTANGLE_CONTROL(entangle_control_range_new(fullpath, id, label, info, ro,
-                                                              min, max, step));
-        } break;
+    case GP_WIDGET_RANGE: {
+        float min, max, step;
+        gp_widget_get_range(widget, &min, &max, &step);
+        ENTANGLE_DEBUG("Add range %s %d %s %f %f %f", fullpath, id, label,
+                       (double)min, (double)max, (double)step);
+        ret = ENTANGLE_CONTROL(entangle_control_range_new(
+            fullpath, id, label, info, ro, min, max, step));
+    } break;
 
-    case GP_WIDGET_TEXT:
-        {
-            ENTANGLE_DEBUG("Add date %s %d %s", fullpath, id, label);
-            ret = ENTANGLE_CONTROL(entangle_control_text_new(fullpath, id, label, info, ro));
-        } break;
+    case GP_WIDGET_TEXT: {
+        ENTANGLE_DEBUG("Add date %s %d %s", fullpath, id, label);
+        ret = ENTANGLE_CONTROL(
+            entangle_control_text_new(fullpath, id, label, info, ro));
+    } break;
 
-    case GP_WIDGET_TOGGLE:
-        {
-            ENTANGLE_DEBUG("Add date %s %d %s", fullpath, id, label);
-            ret = ENTANGLE_CONTROL(entangle_control_toggle_new(fullpath, id, label, info, ro));
-        } break;
+    case GP_WIDGET_TOGGLE: {
+        ENTANGLE_DEBUG("Add date %s %d %s", fullpath, id, label);
+        ret = ENTANGLE_CONTROL(
+            entangle_control_toggle_new(fullpath, id, label, info, ro));
+    } break;
 
     default:
         g_warn_if_reached();
@@ -2016,13 +1913,13 @@ static EntangleControl *do_build_controls(EntangleCamera *cam,
 
     g_hash_table_insert(cam->controlPaths, g_strdup(fullpath), ret);
 
- error:
+error:
     g_free(fullpath);
     return ret;
 }
 
-
-static gboolean entangle_str_equal_null(gchar *a, gchar *b)
+static gboolean
+entangle_str_equal_null(gchar *a, gchar *b)
 {
     if (!a && !b)
         return TRUE;
@@ -2031,17 +1928,17 @@ static gboolean entangle_str_equal_null(gchar *a, gchar *b)
     return g_str_equal(a, b);
 }
 
-
 /*
  * XXX this method causes signals to be emitted from controls
  * in non-main threads, if triggered via an _async() method.
  * Investigate if we can fix this to always run in main thread
  * to simplify thread safety for GTK frontend
  */
-static gboolean do_load_controls(EntangleCamera *cam,
-                                 const char *path,
-                                 CameraWidget *widget,
-                                 GError **error)
+static gboolean
+do_load_controls(EntangleCamera *cam,
+                 const char *path,
+                 CameraWidget *widget,
+                 GError **error)
 {
     CameraWidgetType type;
     EntangleControl *ctrl = NULL;
@@ -2085,7 +1982,7 @@ static gboolean do_load_controls(EntangleCamera *cam,
         break;
 
     case GP_WIDGET_BUTTON: {
-    }   break;
+    } break;
 
         /* Unclear why these two are the same in libgphoto */
     case GP_WIDGET_RADIO:
@@ -2095,26 +1992,28 @@ static gboolean do_load_controls(EntangleCamera *cam,
         g_object_get(ctrl, "value", &oldValue, NULL);
         gp_widget_get_value(widget, &newValue);
         if (!entangle_str_equal_null(newValue, oldValue)) {
-            ENTANGLE_DEBUG("Updating value of menu '%s' ('%s') old='%s' new='%s'",
-                           entangle_control_get_path(ctrl),
-                           entangle_control_get_label(ctrl),
-                           oldValue, newValue);
-            entangle_control_choice_clear_entries(ENTANGLE_CONTROL_CHOICE(ctrl));
+            ENTANGLE_DEBUG(
+                "Updating value of menu '%s' ('%s') old='%s' new='%s'",
+                entangle_control_get_path(ctrl),
+                entangle_control_get_label(ctrl), oldValue, newValue);
+            entangle_control_choice_clear_entries(
+                ENTANGLE_CONTROL_CHOICE(ctrl));
             for (int i = 0; i < gp_widget_count_choices(widget); i++) {
                 const char *choice;
                 gp_widget_get_choice(widget, i, &choice);
                 ENTANGLE_DEBUG("Add choice '%s'", choice);
-                entangle_control_choice_add_entry(ENTANGLE_CONTROL_CHOICE(ctrl), choice);
+                entangle_control_choice_add_entry(ENTANGLE_CONTROL_CHOICE(ctrl),
+                                                  choice);
             }
             g_object_set(ctrl, "value", newValue, NULL);
         }
         g_free(oldValue);
-    }   break;
+    } break;
 
     case GP_WIDGET_DATE: {
         int value = 0;
         g_object_set(ctrl, "value", value, NULL);
-    }   break;
+    } break;
 
     case GP_WIDGET_RANGE: {
         float newValue = 0.0;
@@ -2122,13 +2021,14 @@ static gboolean do_load_controls(EntangleCamera *cam,
         g_object_get(ctrl, "value", &oldValue, NULL);
         gp_widget_get_value(widget, &newValue);
         if (fabs(newValue - oldValue) > 0.0001) {
-            ENTANGLE_DEBUG("Updating value of range '%s' ('%s') old='%f' new='%f'",
-                           entangle_control_get_path(ctrl),
-                           entangle_control_get_label(ctrl),
-                           (double)oldValue, (double)newValue);
+            ENTANGLE_DEBUG(
+                "Updating value of range '%s' ('%s') old='%f' new='%f'",
+                entangle_control_get_path(ctrl),
+                entangle_control_get_label(ctrl), (double)oldValue,
+                (double)newValue);
             g_object_set(ctrl, "value", (double)newValue, NULL);
         }
-    }   break;
+    } break;
 
     case GP_WIDGET_TEXT: {
         gchar *newValue = NULL;
@@ -2136,14 +2036,14 @@ static gboolean do_load_controls(EntangleCamera *cam,
         g_object_get(ctrl, "value", &oldValue, NULL);
         gp_widget_get_value(widget, &newValue);
         if (!entangle_str_equal_null(newValue, oldValue)) {
-            ENTANGLE_DEBUG("Updating value of text '%s' ('%s') old='%s' new='%s'",
-                           entangle_control_get_path(ctrl),
-                           entangle_control_get_label(ctrl),
-                           oldValue, newValue);
+            ENTANGLE_DEBUG(
+                "Updating value of text '%s' ('%s') old='%s' new='%s'",
+                entangle_control_get_path(ctrl),
+                entangle_control_get_label(ctrl), oldValue, newValue);
             g_object_set(ctrl, "value", newValue, NULL);
         }
         g_free(oldValue);
-    }   break;
+    } break;
 
     case GP_WIDGET_TOGGLE: {
         int i;
@@ -2153,13 +2053,13 @@ static gboolean do_load_controls(EntangleCamera *cam,
         gp_widget_get_value(widget, &i);
         newValue = i ? TRUE : FALSE;
         if (newValue != oldValue) {
-            ENTANGLE_DEBUG("Updating value of toggle '%s' ('%s') old='%d' new='%d'",
-                           entangle_control_get_path(ctrl),
-                           entangle_control_get_label(ctrl),
-                           oldValue, newValue);
+            ENTANGLE_DEBUG(
+                "Updating value of toggle '%s' ('%s') old='%d' new='%d'",
+                entangle_control_get_path(ctrl),
+                entangle_control_get_label(ctrl), oldValue, newValue);
             g_object_set(ctrl, "value", newValue, NULL);
         }
-    }   break;
+    } break;
 
     default:
         g_warn_if_reached();
@@ -2168,16 +2068,17 @@ static gboolean do_load_controls(EntangleCamera *cam,
 
     entangle_control_set_dirty(ctrl, FALSE);
     ret = TRUE;
- cleanup:
+cleanup:
     g_free(fullpath);
     return ret;
 }
 
-static gboolean do_save_controls(EntangleCamera *cam,
-                                 const char *path,
-                                 CameraWidget *widget,
-                                 gboolean *dirty,
-                                 GError **error)
+static gboolean
+do_save_controls(EntangleCamera *cam,
+                 const char *path,
+                 CameraWidget *widget,
+                 gboolean *dirty,
+                 GError **error)
 {
     CameraWidgetType type;
     EntangleControl *ctrl = NULL;
@@ -2217,7 +2118,7 @@ static gboolean do_save_controls(EntangleCamera *cam,
         break;
 
     case GP_WIDGET_BUTTON: {
-    }   break;
+    } break;
 
         /* Unclear why these two are the same in libgphoto */
     case GP_WIDGET_RADIO:
@@ -2275,11 +2176,10 @@ static gboolean do_save_controls(EntangleCamera *cam,
     }
 
     ret = TRUE;
- cleanup:
+cleanup:
     g_free(fullpath);
     return ret;
 }
-
 
 /**
  * entangle_camera_load_controls:
@@ -2293,8 +2193,8 @@ static gboolean do_save_controls(EntangleCamera *cam,
  *
  * Returns: TRUE if the controls were loaded, FALSE on error
  */
-gboolean entangle_camera_load_controls(EntangleCamera *cam,
-                                       GError **error)
+gboolean
+entangle_camera_load_controls(EntangleCamera *cam, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -2314,14 +2214,17 @@ gboolean entangle_camera_load_controls(EntangleCamera *cam,
     err = gp_camera_get_config(cam->cam, &cam->widgets, cam->ctx);
     if (err != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to fetch camera control configuration: %s"), cam->lastError);
+                    _("Unable to fetch camera control configuration: %s"),
+                    cam->lastError);
         goto endjob;
     }
 
     if (cam->controls == NULL) {
         ENTANGLE_DEBUG("Building controls");
-        cam->controlPaths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
-        if (!(cam->controls = ENTANGLE_CONTROL_GROUP(do_build_controls(cam, "", cam->widgets, error)))) {
+        cam->controlPaths =
+            g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+        if (!(cam->controls = ENTANGLE_CONTROL_GROUP(
+                  do_build_controls(cam, "", cam->widgets, error)))) {
             g_hash_table_unref(cam->controlPaths);
             cam->controlPaths = NULL;
             goto endjob;
@@ -2339,19 +2242,19 @@ gboolean entangle_camera_load_controls(EntangleCamera *cam,
 
     ret = do_load_controls(cam, "", cam->widgets, error);
 
- endjob:
+endjob:
     entangle_camera_end_job(cam);
 
- cleanup:
+cleanup:
     g_mutex_unlock(&cam->lock);
     return ret;
 }
 
-
-static void entangle_camera_load_controls_helper(GTask *task,
-                                                 gpointer object,
-                                                 gpointer task_data G_GNUC_UNUSED,
-                                                 GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_load_controls_helper(GTask *task,
+                                     gpointer object,
+                                     gpointer task_data G_GNUC_UNUSED,
+                                     GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
@@ -2361,7 +2264,6 @@ static void entangle_camera_load_controls_helper(GTask *task,
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_load_controls_async:
@@ -2375,20 +2277,19 @@ static void entangle_camera_load_controls_helper(GTask *task,
  * when complete, whereupon entangle_camera_load_controls_finish
  * can be used to check the status
  */
-void entangle_camera_load_controls_async(EntangleCamera *cam,
-                                         GCancellable *cancellable,
-                                         GAsyncReadyCallback callback,
-                                         gpointer user_data)
+void
+entangle_camera_load_controls_async(EntangleCamera *cam,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_load_controls_helper);
+    g_task_run_in_thread(task, entangle_camera_load_controls_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_load_controls_finish:
@@ -2399,15 +2300,15 @@ void entangle_camera_load_controls_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the controls were loaded, FALSE on error
  */
-gboolean entangle_camera_load_controls_finish(EntangleCamera *cam,
-                                              GAsyncResult *result,
-                                              GError **error)
+gboolean
+entangle_camera_load_controls_finish(EntangleCamera *cam,
+                                     GAsyncResult *result,
+                                     GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_save_controls:
@@ -2421,8 +2322,8 @@ gboolean entangle_camera_load_controls_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if the controls were saved, FALSE on error
  */
-gboolean entangle_camera_save_controls(EntangleCamera *cam,
-                                       GError **error)
+gboolean
+entangle_camera_save_controls(EntangleCamera *cam, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -2448,8 +2349,7 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
 
     ENTANGLE_DEBUG("Saving controls for %p", cam);
 
-    if (!do_save_controls(cam, "", cam->widgets,
-                          &dirty, error))
+    if (!do_save_controls(cam, "", cam->widgets, &dirty, error))
         goto endjob;
 
     if (!dirty) {
@@ -2457,7 +2357,8 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
         goto done;
     }
 
-    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+        GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
                     cam->lastError);
@@ -2467,23 +2368,22 @@ gboolean entangle_camera_save_controls(EntangleCamera *cam,
     if (!do_load_controls(cam, "", cam->widgets, error))
         goto endjob;
 
- done:
+done:
     ret = TRUE;
 
- endjob:
+endjob:
     entangle_camera_end_job(cam);
 
- cleanup:
+cleanup:
     g_mutex_unlock(&cam->lock);
     return ret;
 }
 
-
-
-static void entangle_camera_save_controls_helper(GTask *task,
-                                                 gpointer object,
-                                                 gpointer task_data G_GNUC_UNUSED,
-                                                 GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_save_controls_helper(GTask *task,
+                                     gpointer object,
+                                     gpointer task_data G_GNUC_UNUSED,
+                                     GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
@@ -2493,7 +2393,6 @@ static void entangle_camera_save_controls_helper(GTask *task,
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_save_controls_async:
@@ -2507,20 +2406,19 @@ static void entangle_camera_save_controls_helper(GTask *task,
  * when complete, whereupon entangle_camera_save_controls_finish
  * can be used to check the status
  */
-void entangle_camera_save_controls_async(EntangleCamera *cam,
-                                         GCancellable *cancellable,
-                                         GAsyncReadyCallback callback,
-                                         gpointer user_data)
+void
+entangle_camera_save_controls_async(EntangleCamera *cam,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_save_controls_helper);
+    g_task_run_in_thread(task, entangle_camera_save_controls_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_save_controls_finish:
@@ -2531,15 +2429,15 @@ void entangle_camera_save_controls_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the controls were saved, FALSE on error
  */
-gboolean entangle_camera_save_controls_finish(EntangleCamera *cam,
-                                              GAsyncResult *result,
-                                              GError **error)
+gboolean
+entangle_camera_save_controls_finish(EntangleCamera *cam,
+                                     GAsyncResult *result,
+                                     GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_get_controls:
@@ -2551,7 +2449,8 @@ gboolean entangle_camera_save_controls_finish(EntangleCamera *cam,
  *
  * Returns: (transfer full): the controls, or NULL
  */
-EntangleControlGroup *entangle_camera_get_controls(EntangleCamera *cam, GError **error)
+EntangleControlGroup *
+entangle_camera_get_controls(EntangleCamera *cam, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
@@ -2574,11 +2473,10 @@ EntangleControlGroup *entangle_camera_get_controls(EntangleCamera *cam, GError *
     ret = cam->controls;
     g_object_ref(ret);
 
- cleanup:
+cleanup:
     g_mutex_unlock(&cam->lock);
     return ret;
 }
-
 
 /**
  * entangle_camera_set_viewfinder:
@@ -2595,9 +2493,10 @@ EntangleControlGroup *entangle_camera_get_controls(EntangleCamera *cam, GError *
  *
  * Returns: TRUE if the viewer finder state was changed, FALSE on error
  */
-gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
-                                        gboolean enabled,
-                                        GError **error)
+gboolean
+entangle_camera_set_viewfinder(EntangleCamera *cam,
+                               gboolean enabled,
+                               GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -2624,19 +2523,17 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
         goto cleanup;
     }
 
-    widget = entangle_camera_find_widget(cam,
-                                         "/main/actions/viewfinder");
+    widget = entangle_camera_find_widget(cam, "/main/actions/viewfinder");
     if (!widget)
-        widget = entangle_camera_find_widget(cam,
-                                             "/main/actions/eosviewfinder");
+        widget =
+            entangle_camera_find_widget(cam, "/main/actions/eosviewfinder");
     if (!widget) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Viewfinder control not available with this camera"));
         goto cleanup;
     }
 
-    if ((err = gp_widget_get_type(widget,
-                                  &type)) != GP_OK) {
+    if ((err = gp_widget_get_type(widget, &type)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to fetch widget type"));
         goto cleanup;
@@ -2670,9 +2567,8 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if ((err = gp_camera_set_config(cam->cam,
-                                    cam->widgets,
-                                    cam->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+        GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
                     cam->lastError);
@@ -2681,32 +2577,30 @@ gboolean entangle_camera_set_viewfinder(EntangleCamera *cam,
 
     ret = TRUE;
 
- cleanup:
+cleanup:
     entangle_camera_end_job(cam);
     g_mutex_unlock(&cam->lock);
     return ret;
 }
 
-
-static void entangle_camera_set_viewfinder_helper(GTask *task,
-                                                  gpointer object,
-                                                  gpointer task_data,
-                                                  GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_set_viewfinder_helper(GTask *task,
+                                      gpointer object,
+                                      gpointer task_data,
+                                      GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
     gboolean enabled;
 
     enabled = GPOINTER_TO_INT(task_data) == 1 ? TRUE : FALSE;
 
-    if (!entangle_camera_set_viewfinder(ENTANGLE_CAMERA(object),
-                                        enabled,
+    if (!entangle_camera_set_viewfinder(ENTANGLE_CAMERA(object), enabled,
                                         &error)) {
         g_task_return_error(task, error);
     } else {
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_set_viewfinder_async:
@@ -2723,11 +2617,12 @@ static void entangle_camera_set_viewfinder_helper(GTask *task,
  * when complete, whereupon entangle_camera_set_viewfinder_finish
  * can be used to check the status
  */
-void entangle_camera_set_viewfinder_async(EntangleCamera *cam,
-                                          gboolean enabled,
-                                          GCancellable *cancellable,
-                                          GAsyncReadyCallback callback,
-                                          gpointer user_data)
+void
+entangle_camera_set_viewfinder_async(EntangleCamera *cam,
+                                     gboolean enabled,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
@@ -2735,11 +2630,9 @@ void entangle_camera_set_viewfinder_async(EntangleCamera *cam,
 
     g_task_set_task_data(task, GINT_TO_POINTER(enabled ? 1 : 0), NULL);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_set_viewfinder_helper);
+    g_task_run_in_thread(task, entangle_camera_set_viewfinder_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_set_viewfinder_finish:
@@ -2750,15 +2643,15 @@ void entangle_camera_set_viewfinder_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the viewfinder state was changed, FALSE on error
  */
-gboolean entangle_camera_set_viewfinder_finish(EntangleCamera *cam,
-                                               GAsyncResult *result,
-                                               GError **error)
+gboolean
+entangle_camera_set_viewfinder_finish(EntangleCamera *cam,
+                                      GAsyncResult *result,
+                                      GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_autofocus:
@@ -2773,8 +2666,8 @@ gboolean entangle_camera_set_viewfinder_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if autofocus was achieved, FALSE on error
  */
-gboolean entangle_camera_autofocus(EntangleCamera *cam,
-                                   GError **error)
+gboolean
+entangle_camera_autofocus(EntangleCamera *cam, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -2801,16 +2694,14 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
         goto cleanup;
     }
 
-    widget = entangle_camera_find_widget(cam,
-                                         "/main/actions/autofocusdrive");
+    widget = entangle_camera_find_widget(cam, "/main/actions/autofocusdrive");
     if (!widget) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Autofocus control not available with this camera"));
         goto cleanup;
     }
 
-    if ((err = gp_widget_get_type(widget,
-                                  &type)) != GP_OK) {
+    if ((err = gp_widget_get_type(widget, &type)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to fetch widget type"));
         goto cleanup;
@@ -2838,9 +2729,8 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if ((err = gp_camera_set_config(cam->cam,
-                                    cam->widgets,
-                                    cam->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+        GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
                     cam->lastError);
@@ -2849,28 +2739,26 @@ gboolean entangle_camera_autofocus(EntangleCamera *cam,
 
     ret = TRUE;
 
- cleanup:
+cleanup:
     entangle_camera_end_job(cam);
     g_mutex_unlock(&cam->lock);
     return ret;
 }
 
-
-static void entangle_camera_autofocus_helper(GTask *task,
-                                             gpointer object,
-                                             gpointer task_data G_GNUC_UNUSED,
-                                             GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_autofocus_helper(GTask *task,
+                                 gpointer object,
+                                 gpointer task_data G_GNUC_UNUSED,
+                                 GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
-    if (!entangle_camera_autofocus(ENTANGLE_CAMERA(object),
-                                   &error)) {
+    if (!entangle_camera_autofocus(ENTANGLE_CAMERA(object), &error)) {
         g_task_return_error(task, error);
     } else {
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_autofocus_async:
@@ -2885,20 +2773,19 @@ static void entangle_camera_autofocus_helper(GTask *task,
  * when complete, whereupon entangle_camera_autofocus_finish
  * can be used to check the status
  */
-void entangle_camera_autofocus_async(EntangleCamera *cam,
-                                     GCancellable *cancellable,
-                                     GAsyncReadyCallback callback,
-                                     gpointer user_data)
+void
+entangle_camera_autofocus_async(EntangleCamera *cam,
+                                GCancellable *cancellable,
+                                GAsyncReadyCallback callback,
+                                gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_autofocus_helper);
+    g_task_run_in_thread(task, entangle_camera_autofocus_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_autofocus_finish:
@@ -2909,15 +2796,15 @@ void entangle_camera_autofocus_async(EntangleCamera *cam,
  *
  * Returns: TRUE if autofocus was performed, FALSE on error
  */
-gboolean entangle_camera_autofocus_finish(EntangleCamera *cam,
-                                          GAsyncResult *result,
-                                          GError **error)
+gboolean
+entangle_camera_autofocus_finish(EntangleCamera *cam,
+                                 GAsyncResult *result,
+                                 GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_manualfocus:
@@ -2933,9 +2820,10 @@ gboolean entangle_camera_autofocus_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if autofocus was achieved, FALSE on error
  */
-gboolean entangle_camera_manualfocus(EntangleCamera *cam,
-                                     EntangleCameraManualFocusStep step,
-                                     GError **error)
+gboolean
+entangle_camera_manualfocus(EntangleCamera *cam,
+                            EntangleCameraManualFocusStep step,
+                            GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -2961,23 +2849,20 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
         goto cleanup;
     }
 
-    widget = entangle_camera_find_widget(cam,
-                                         "/main/actions/manualfocusdrive");
+    widget = entangle_camera_find_widget(cam, "/main/actions/manualfocusdrive");
     if (!widget) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Manual focus control not available with this camera"));
         goto cleanup;
     }
 
-    if ((err = gp_widget_get_type(widget,
-                                  &type)) != GP_OK) {
+    if ((err = gp_widget_get_type(widget, &type)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to fetch widget type"));
         goto cleanup;
     }
 
-    if (type != GP_WIDGET_RANGE &&
-        type != GP_WIDGET_RADIO) {
+    if (type != GP_WIDGET_RANGE && type != GP_WIDGET_RADIO) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Manual focus control was not a range or radio widget"));
         goto cleanup;
@@ -3015,8 +2900,8 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
         const gchar *value;
         if ((err = gp_widget_get_choice(widget, idx[step], &value)) != GP_OK) {
             g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                        _("Failed to read manual focus choice %d: %s %d"),
-                        step, gp_port_result_as_string(err), err);
+                        _("Failed to read manual focus choice %d: %s %d"), step,
+                        gp_port_result_as_string(err), err);
             goto cleanup;
         }
         ENTANGLE_DEBUG("Setting manualfocus radio %s", value);
@@ -3028,9 +2913,8 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
         }
     }
 
-    if ((err = gp_camera_set_config(cam->cam,
-                                    cam->widgets,
-                                    cam->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+        GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
                     cam->lastError);
@@ -3050,8 +2934,8 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
         /* Reset drive to "None" == 3 */
         if ((err = gp_widget_get_choice(widget, 3, &value)) != GP_OK) {
             g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                        _("Failed to read manual focus choice %d: %s %d"),
-                        step, gp_port_result_as_string(err), err);
+                        _("Failed to read manual focus choice %d: %s %d"), step,
+                        gp_port_result_as_string(err), err);
             goto cleanup;
         }
         ENTANGLE_DEBUG("Setting manualfocus radio %s", value);
@@ -3065,29 +2949,27 @@ gboolean entangle_camera_manualfocus(EntangleCamera *cam,
 
     ret = TRUE;
 
- cleanup:
+cleanup:
     entangle_camera_end_job(cam);
     g_mutex_unlock(&cam->lock);
     return ret;
 }
 
-
-static void entangle_camera_manualfocus_helper(GTask *task,
-                                               gpointer object,
-                                               gpointer task_data,
-                                               GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_manualfocus_helper(GTask *task,
+                                   gpointer object,
+                                   gpointer task_data,
+                                   GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
     if (!entangle_camera_manualfocus(ENTANGLE_CAMERA(object),
-                                     GPOINTER_TO_INT(task_data),
-                                     &error)) {
+                                     GPOINTER_TO_INT(task_data), &error)) {
         g_task_return_error(task, error);
     } else {
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_manualfocus_async:
@@ -3103,11 +2985,12 @@ static void entangle_camera_manualfocus_helper(GTask *task,
  * when complete, whereupon entangle_camera_manualfocus_finish
  * can be used to check the status
  */
-void entangle_camera_manualfocus_async(EntangleCamera *cam,
-                                       EntangleCameraManualFocusStep step,
-                                       GCancellable *cancellable,
-                                       GAsyncReadyCallback callback,
-                                       gpointer user_data)
+void
+entangle_camera_manualfocus_async(EntangleCamera *cam,
+                                  EntangleCameraManualFocusStep step,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
+                                  gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
@@ -3115,11 +2998,9 @@ void entangle_camera_manualfocus_async(EntangleCamera *cam,
 
     g_task_set_task_data(task, GINT_TO_POINTER(step), NULL);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_manualfocus_helper);
+    g_task_run_in_thread(task, entangle_camera_manualfocus_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_manualfocus_finish:
@@ -3130,16 +3011,15 @@ void entangle_camera_manualfocus_async(EntangleCamera *cam,
  *
  * Returns: TRUE if manual focus was performed, FALSE on error
  */
-gboolean entangle_camera_manualfocus_finish(EntangleCamera *cam,
-                                            GAsyncResult *result,
-                                            GError **error)
+gboolean
+entangle_camera_manualfocus_finish(EntangleCamera *cam,
+                                   GAsyncResult *result,
+                                   GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
-
 
 /**
  * entangle_camera_set_clock:
@@ -3155,9 +3035,8 @@ gboolean entangle_camera_manualfocus_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if the clock was changed, FALSE on error
  */
-gboolean entangle_camera_set_clock(EntangleCamera *cam,
-                                   gint64 epochsecs,
-                                   GError **error)
+gboolean
+entangle_camera_set_clock(EntangleCamera *cam, gint64 epochsecs, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -3184,16 +3063,14 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
         goto cleanup;
     }
 
-    widget = entangle_camera_find_widget(cam,
-                                         "/main/settings/datetime");
+    widget = entangle_camera_find_widget(cam, "/main/settings/datetime");
     if (!widget) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Time setting not available with this camera"));
         goto cleanup;
     }
 
-    if ((err = gp_widget_get_type(widget,
-                                  &type)) != GP_OK) {
+    if ((err = gp_widget_get_type(widget, &type)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to fetch widget type"));
         goto cleanup;
@@ -3213,9 +3090,8 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if ((err = gp_camera_set_config(cam->cam,
-                                    cam->widgets,
-                                    cam->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+        GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
                     cam->lastError);
@@ -3224,30 +3100,28 @@ gboolean entangle_camera_set_clock(EntangleCamera *cam,
 
     ret = TRUE;
 
- cleanup:
+cleanup:
     entangle_camera_end_job(cam);
     g_mutex_unlock(&cam->lock);
     return ret;
 }
 
-
-static void entangle_camera_set_clock_helper(GTask *task,
-                                             gpointer object,
-                                             gpointer task_data,
-                                             GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_set_clock_helper(GTask *task,
+                                 gpointer object,
+                                 gpointer task_data,
+                                 GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
     guint64 *epochsecsptr = task_data;
 
-    if (!entangle_camera_set_clock(ENTANGLE_CAMERA(object),
-                                   *epochsecsptr,
+    if (!entangle_camera_set_clock(ENTANGLE_CAMERA(object), *epochsecsptr,
                                    &error)) {
         g_task_return_error(task, error);
     } else {
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_set_clock_async:
@@ -3263,11 +3137,12 @@ static void entangle_camera_set_clock_helper(GTask *task,
  * when complete, whereupon entangle_camera_set_clock_finish
  * can be used to check the status
  */
-void entangle_camera_set_clock_async(EntangleCamera *cam,
-                                     gint64 epochsecs,
-                                     GCancellable *cancellable,
-                                     GAsyncReadyCallback callback,
-                                     gpointer user_data)
+void
+entangle_camera_set_clock_async(EntangleCamera *cam,
+                                gint64 epochsecs,
+                                GCancellable *cancellable,
+                                GAsyncReadyCallback callback,
+                                gpointer user_data)
 {
     guint64 *epochsecsptr;
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
@@ -3279,11 +3154,9 @@ void entangle_camera_set_clock_async(EntangleCamera *cam,
 
     g_task_set_task_data(task, epochsecsptr, g_free);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_set_clock_helper);
+    g_task_run_in_thread(task, entangle_camera_set_clock_helper);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_set_clock_finish:
@@ -3294,15 +3167,15 @@ void entangle_camera_set_clock_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the clock was changed, FALSE on error
  */
-gboolean entangle_camera_set_clock_finish(EntangleCamera *cam,
-                                          GAsyncResult *result,
-                                          GError **error)
+gboolean
+entangle_camera_set_clock_finish(EntangleCamera *cam,
+                                 GAsyncResult *result,
+                                 GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_set_capture_target:
@@ -3318,9 +3191,10 @@ gboolean entangle_camera_set_clock_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if the capture target was changed, FALSE on error
  */
-gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
-                                            EntangleCameraCaptureTarget target,
-                                            GError **error)
+gboolean
+entangle_camera_set_capture_target(EntangleCamera *cam,
+                                   EntangleCameraCaptureTarget target,
+                                   GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -3349,16 +3223,14 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
         goto cleanup;
     }
 
-    widget = entangle_camera_find_widget(cam,
-                                         "/main/settings/capturetarget");
+    widget = entangle_camera_find_widget(cam, "/main/settings/capturetarget");
     if (!widget) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Capture target setting not available with this camera"));
         goto cleanup;
     }
 
-    if ((err = gp_widget_get_type(widget,
-                                  &type)) != GP_OK) {
+    if ((err = gp_widget_get_type(widget, &type)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to fetch widget type"));
         goto cleanup;
@@ -3380,9 +3252,8 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if ((err = gp_camera_set_config(cam->cam,
-                                    cam->widgets,
-                                    cam->ctx)) != GP_OK) {
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+        GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
                     cam->lastError);
@@ -3391,7 +3262,7 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
 
     ret = TRUE;
 
- cleanup:
+cleanup:
     if (eclass)
         g_type_class_unref(eclass);
     entangle_camera_end_job(cam);
@@ -3399,24 +3270,23 @@ gboolean entangle_camera_set_capture_target(EntangleCamera *cam,
     return ret;
 }
 
-
-static void entangle_camera_set_capture_target_helper(GTask *task,
-                                                      gpointer object,
-                                                      gpointer task_data,
-                                                      GCancellable *cancellable G_GNUC_UNUSED)
+static void
+entangle_camera_set_capture_target_helper(GTask *task,
+                                          gpointer object,
+                                          gpointer task_data,
+                                          GCancellable *cancellable
+                                              G_GNUC_UNUSED)
 {
     GError *error = NULL;
     EntangleCameraCaptureTarget *targetptr = task_data;
 
-    if (!entangle_camera_set_capture_target(ENTANGLE_CAMERA(object),
-                                            *targetptr,
+    if (!entangle_camera_set_capture_target(ENTANGLE_CAMERA(object), *targetptr,
                                             &error)) {
         g_task_return_error(task, error);
     } else {
         g_task_return_boolean(task, TRUE);
     }
 }
-
 
 /**
  * entangle_camera_set_capture_target_async:
@@ -3432,11 +3302,12 @@ static void entangle_camera_set_capture_target_helper(GTask *task,
  * when complete, whereupon entangle_camera_set_clock_finish
  * can be used to check the status
  */
-void entangle_camera_set_capture_target_async(EntangleCamera *cam,
-                                              EntangleCameraCaptureTarget target,
-                                              GCancellable *cancellable,
-                                              GAsyncReadyCallback callback,
-                                              gpointer user_data)
+void
+entangle_camera_set_capture_target_async(EntangleCamera *cam,
+                                         EntangleCameraCaptureTarget target,
+                                         GCancellable *cancellable,
+                                         GAsyncReadyCallback callback,
+                                         gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
@@ -3448,12 +3319,9 @@ void entangle_camera_set_capture_target_async(EntangleCamera *cam,
 
     g_task_set_task_data(task, targetptr, g_free);
 
-    g_task_run_in_thread(task,
-                         entangle_camera_set_capture_target_helper);
+    g_task_run_in_thread(task, entangle_camera_set_capture_target_helper);
     g_object_unref(task);
 }
-
-
 
 /**
  * entangle_camera_capture_target_finish:
@@ -3464,15 +3332,15 @@ void entangle_camera_set_capture_target_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the capture target was changed, FALSE on error
  */
-gboolean entangle_camera_set_capture_target_finish(EntangleCamera *cam,
-                                                   GAsyncResult *result,
-                                                   GError **error)
+gboolean
+entangle_camera_set_capture_target_finish(EntangleCamera *cam,
+                                          GAsyncResult *result,
+                                          GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
 }
-
 
 /**
  * entangle_camera_get_has_capture:
@@ -3482,7 +3350,8 @@ gboolean entangle_camera_set_capture_target_finish(EntangleCamera *cam,
  *
  * Returns: TRUE if the camera supports image capture, FALSE otherwise
  */
-gboolean entangle_camera_get_has_capture(EntangleCamera *cam)
+gboolean
+entangle_camera_get_has_capture(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -3495,7 +3364,6 @@ gboolean entangle_camera_get_has_capture(EntangleCamera *cam)
     return ret;
 }
 
-
 /**
  * entangle_camera_get_has_preview:
  * @cam: (transfer none): the camera
@@ -3504,7 +3372,8 @@ gboolean entangle_camera_get_has_capture(EntangleCamera *cam)
  *
  * Returns: TRUE if the camera supports image preview, FALSE otherwise
  */
-gboolean entangle_camera_get_has_preview(EntangleCamera *cam)
+gboolean
+entangle_camera_get_has_preview(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -3517,7 +3386,6 @@ gboolean entangle_camera_get_has_preview(EntangleCamera *cam)
     return ret;
 }
 
-
 /**
  * entangle_camera_get_has_settings:
  * @cam: (transfer none): the camera
@@ -3526,7 +3394,8 @@ gboolean entangle_camera_get_has_preview(EntangleCamera *cam)
  *
  * Returns: TRUE if the camera supports configuration settings, FALSE otherwise
  */
-gboolean entangle_camera_get_has_settings(EntangleCamera *cam)
+gboolean
+entangle_camera_get_has_settings(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -3539,7 +3408,6 @@ gboolean entangle_camera_get_has_settings(EntangleCamera *cam)
     return ret;
 }
 
-
 /**
  * entangle_camera_get_has_viewfinder:
  * @cam: (transfer none): the camera
@@ -3548,7 +3416,8 @@ gboolean entangle_camera_get_has_settings(EntangleCamera *cam)
  *
  * Returns: TRUE if the camera supports view finder control, FALSE otherwise
  */
-gboolean entangle_camera_get_has_viewfinder(EntangleCamera *cam)
+gboolean
+entangle_camera_get_has_viewfinder(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -3561,7 +3430,6 @@ gboolean entangle_camera_get_has_viewfinder(EntangleCamera *cam)
     return ret;
 }
 
-
 /**
  * entangle_camera_set_progress:
  * @cam: (transfer none): the camera
@@ -3570,10 +3438,10 @@ gboolean entangle_camera_get_has_viewfinder(EntangleCamera *cam)
  * Set the object instance to receive operation progress
  * notifications
  */
-void entangle_camera_set_progress(EntangleCamera *cam, EntangleProgress *prog)
+void
+entangle_camera_set_progress(EntangleCamera *cam, EntangleProgress *prog)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
-
 
     g_mutex_lock(&cam->lock);
     if (cam->progress)
@@ -3584,7 +3452,6 @@ void entangle_camera_set_progress(EntangleCamera *cam, EntangleProgress *prog)
     g_mutex_unlock(&cam->lock);
 }
 
-
 /**
  * entangle_camera_get_progress:
  * @cam: (transfer none): the camera
@@ -3594,7 +3461,8 @@ void entangle_camera_set_progress(EntangleCamera *cam, EntangleProgress *prog)
  *
  * Returns: (transfer full): the progress object
  */
-EntangleProgress *entangle_camera_get_progress(EntangleCamera *cam)
+EntangleProgress *
+entangle_camera_get_progress(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), NULL);
 
@@ -3608,9 +3476,8 @@ EntangleProgress *entangle_camera_get_progress(EntangleCamera *cam)
     return ret;
 }
 
-
-static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
-                                                  GVolumeMonitor *monitor)
+static GMount *
+entangle_device_manager_find_mount(EntangleCamera *cam, GVolumeMonitor *monitor)
 {
     gchar *uri1;
     gchar *uri2;
@@ -3641,8 +3508,7 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
         gchar *thisuri = g_file_get_uri(root);
 
         ENTANGLE_DEBUG("Check against URI '%s'", thisuri);
-        if (g_str_equal(uri1, thisuri) ||
-            g_str_equal(uri2, thisuri) ||
+        if (g_str_equal(uri1, thisuri) || g_str_equal(uri2, thisuri) ||
             (uri3 && g_str_equal(uri3, thisuri)))
             ret = mount;
         else
@@ -3663,8 +3529,6 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
     return ret;
 }
 
-
-
 /**
  * entangle_camera_is_mounted:
  * @cam: (transfer none): the camera
@@ -3674,7 +3538,8 @@ static GMount *entangle_device_manager_find_mount(EntangleCamera *cam,
  *
  * Returns: TRUE if the camera is mounted, FALSE otherwise
  */
-gboolean entangle_camera_is_mounted(EntangleCamera *cam)
+gboolean
+entangle_camera_is_mounted(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
     /*
@@ -3700,16 +3565,18 @@ gboolean entangle_camera_is_mounted(EntangleCamera *cam)
     return ret;
 }
 
-struct UnmountData {
+struct UnmountData
+{
     GVolumeMonitor *monitor;
     GMount *mount;
     GAsyncReadyCallback callback;
     gpointer user_data;
 };
 
-static void entangle_camera_unmount_cleanup(GObject *object,
-                                            GAsyncResult *result,
-                                            gpointer user_data)
+static void
+entangle_camera_unmount_cleanup(GObject *object,
+                                GAsyncResult *result,
+                                gpointer user_data)
 {
     struct UnmountData *data = user_data;
 
@@ -3721,17 +3588,16 @@ static void entangle_camera_unmount_cleanup(GObject *object,
     g_free(data);
 }
 
-static void entangle_camera_unmount_complete(GObject *object,
-                                             GAsyncResult *result,
-                                             gpointer user_data)
+static void
+entangle_camera_unmount_complete(GObject *object,
+                                 GAsyncResult *result,
+                                 gpointer user_data)
 {
     GTask *task = G_TASK(user_data);
     GError *err = NULL;
     GMount *mount = G_MOUNT(object);
 
-    g_mount_unmount_with_operation_finish(mount,
-                                          result,
-                                          &err);
+    g_mount_unmount_with_operation_finish(mount, result, &err);
 
     if (err)
         g_task_return_error(task, err);
@@ -3739,7 +3605,6 @@ static void entangle_camera_unmount_complete(GObject *object,
         g_task_return_boolean(task, TRUE);
     g_object_unref(task);
 }
-
 
 /**
  * entangle_camera_unmount_async:
@@ -3752,10 +3617,11 @@ static void entangle_camera_unmount_complete(GObject *object,
  * when complete, whereupon entangle_camera_unmount_finish
  * can be used to check the status
  */
-void entangle_camera_unmount_async(EntangleCamera *cam,
-                                   GCancellable *cancellable,
-                                   GAsyncReadyCallback callback,
-                                   gpointer user_data)
+void
+entangle_camera_unmount_async(EntangleCamera *cam,
+                              GCancellable *cancellable,
+                              GAsyncReadyCallback callback,
+                              gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
@@ -3766,22 +3632,17 @@ void entangle_camera_unmount_async(EntangleCamera *cam,
     data->callback = callback;
     data->user_data = user_data;
 
-    GTask *task = g_task_new(cam, cancellable,
-                             entangle_camera_unmount_cleanup,
-                             data);
+    GTask *task =
+        g_task_new(cam, cancellable, entangle_camera_unmount_cleanup, data);
 
     if (data->mount) {
-        g_mount_unmount_with_operation(data->mount,
-                                       0, NULL,
-                                       cancellable,
-                                       entangle_camera_unmount_complete,
-                                       task);
+        g_mount_unmount_with_operation(data->mount, 0, NULL, cancellable,
+                                       entangle_camera_unmount_complete, task);
     } else {
         g_task_return_boolean(task, TRUE);
         g_object_unref(task);
     }
 }
-
 
 /**
  * entangle_camera_unmount_finish:
@@ -3792,9 +3653,10 @@ void entangle_camera_unmount_async(EntangleCamera *cam,
  *
  * Returns: TRUE if the camera was unmounted, FALSE on error
  */
-gboolean entangle_camera_unmount_finish(EntangleCamera *cam,
-                                        GAsyncResult *result,
-                                        GError **error)
+gboolean
+entangle_camera_unmount_finish(EntangleCamera *cam,
+                               GAsyncResult *result,
+                               GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 

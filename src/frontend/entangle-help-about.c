@@ -18,43 +18,44 @@
  *
  */
 
-#include <unistd.h>
 #include <string.h>
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
+#include <unistd.h>
 
-#include "entangle-debug.h"
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
+
 #include "entangle-help-about.h"
 
+#include "entangle-debug.h"
 
-struct _EntangleHelpAbout {
+struct _EntangleHelpAbout
+{
     GtkAboutDialog parent;
 };
 
-gboolean do_about_delete(GtkWidget *src,
-                         GdkEvent *ev,
-                         gpointer data);
-
+gboolean
+do_about_delete(GtkWidget *src, GdkEvent *ev, gpointer data);
 
 G_DEFINE_TYPE(EntangleHelpAbout, entangle_help_about, GTK_TYPE_ABOUT_DIALOG);
 
-
-static void entangle_help_about_class_init(EntangleHelpAboutClass *klass)
+static void
+entangle_help_about_class_init(EntangleHelpAboutClass *klass)
 {
-    gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(klass),
-                                                "/org/entangle_photo/Manager/frontend/entangle-help-about.ui");
+    gtk_widget_class_set_template_from_resource(
+        GTK_WIDGET_CLASS(klass),
+        "/org/entangle_photo/Manager/frontend/entangle-help-about.ui");
 }
 
-
-EntangleHelpAbout *entangle_help_about_new(void)
+EntangleHelpAbout *
+entangle_help_about_new(void)
 {
     return ENTANGLE_HELP_ABOUT(g_object_new(ENTANGLE_TYPE_HELP_ABOUT, NULL));
 }
 
-
-static void do_about_response(GtkDialog *dialog,
-                              gint response G_GNUC_UNUSED,
-                              gpointer data G_GNUC_UNUSED)
+static void
+do_about_response(GtkDialog *dialog,
+                  gint response G_GNUC_UNUSED,
+                  gpointer data G_GNUC_UNUSED)
 {
     g_return_if_fail(ENTANGLE_IS_HELP_ABOUT(dialog));
 
@@ -63,10 +64,10 @@ static void do_about_response(GtkDialog *dialog,
     gtk_widget_hide(GTK_WIDGET(dialog));
 }
 
-
-gboolean do_about_delete(GtkWidget *src,
-                         GdkEvent *ev G_GNUC_UNUSED,
-                         gpointer data G_GNUC_UNUSED)
+gboolean
+do_about_delete(GtkWidget *src,
+                GdkEvent *ev G_GNUC_UNUSED,
+                gpointer data G_GNUC_UNUSED)
 {
     g_return_val_if_fail(ENTANGLE_IS_HELP_ABOUT(src), FALSE);
 
@@ -76,7 +77,8 @@ gboolean do_about_delete(GtkWidget *src,
     return TRUE;
 }
 
-static void entangle_help_about_init(EntangleHelpAbout *about)
+static void
+entangle_help_about_init(EntangleHelpAbout *about)
 {
     gtk_widget_init_template(GTK_WIDGET(about));
 
@@ -84,7 +86,6 @@ static void entangle_help_about_init(EntangleHelpAbout *about)
 
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about), VERSION);
 }
-
 
 /*
  * Local variables:

@@ -18,100 +18,104 @@
  *
  */
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
+
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+#include "entangle-thumbnail-loader.h"
+
+#include "entangle-colour-profile.h"
 #include "entangle-debug.h"
 #include "entangle-pixbuf.h"
-#include "entangle-thumbnail-loader.h"
-#include "entangle-colour-profile.h"
 
-struct _EntangleThumbnailLoader {
+struct _EntangleThumbnailLoader
+{
     EntanglePixbufLoader parent;
     guint width;
     guint height;
 };
 
-G_DEFINE_TYPE(EntangleThumbnailLoader, entangle_thumbnail_loader, ENTANGLE_TYPE_PIXBUF_LOADER);
+G_DEFINE_TYPE(EntangleThumbnailLoader,
+              entangle_thumbnail_loader,
+              ENTANGLE_TYPE_PIXBUF_LOADER);
 
-enum {
+enum
+{
     PROP_0,
     PROP_WIDTH,
     PROP_HEIGHT,
 };
 
-
-static void entangle_thumbnail_loader_get_property(GObject *object,
-                                                   guint prop_id,
-                                                   GValue *value,
-                                                   GParamSpec *pspec)
+static void
+entangle_thumbnail_loader_get_property(GObject *object,
+                                       guint prop_id,
+                                       GValue *value,
+                                       GParamSpec *pspec)
 {
     EntangleThumbnailLoader *loader = ENTANGLE_THUMBNAIL_LOADER(object);
 
-    switch (prop_id)
-        {
-        case PROP_WIDTH:
-            g_value_set_int(value, loader->width);
-            break;
+    switch (prop_id) {
+    case PROP_WIDTH:
+        g_value_set_int(value, loader->width);
+        break;
 
-        case PROP_HEIGHT:
-            g_value_set_int(value, loader->height);
-            break;
+    case PROP_HEIGHT:
+        g_value_set_int(value, loader->height);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_thumbnail_loader_set_property(GObject *object,
-                                                   guint prop_id,
-                                                   const GValue *value,
-                                                   GParamSpec *pspec)
+static void
+entangle_thumbnail_loader_set_property(GObject *object,
+                                       guint prop_id,
+                                       const GValue *value,
+                                       GParamSpec *pspec)
 {
     EntangleThumbnailLoader *loader = ENTANGLE_THUMBNAIL_LOADER(object);
 
-    switch (prop_id)
-        {
-        case PROP_WIDTH:
-            loader->width = g_value_get_int(value);
-            break;
+    switch (prop_id) {
+    case PROP_WIDTH:
+        loader->width = g_value_get_int(value);
+        break;
 
-        case PROP_HEIGHT:
-            loader->height = g_value_get_int(value);
-            break;
+    case PROP_HEIGHT:
+        loader->height = g_value_get_int(value);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static char *entangle_thumbnail_loader_path_to_uri(const char *filename)
+static char *
+entangle_thumbnail_loader_path_to_uri(const char *filename)
 {
     char *ret;
-    char *path = g_uri_escape_string(filename,
-                                     G_URI_RESERVED_CHARS_ALLOWED_IN_PATH,
-                                     TRUE);
+    char *path = g_uri_escape_string(
+        filename, G_URI_RESERVED_CHARS_ALLOWED_IN_PATH, TRUE);
 
     ret = g_strdup_printf("file://%s", path);
     g_free(path);
     return ret;
 }
 
-
-static char *entangle_thumbnail_loader_uri_to_md5(const char *uri)
+static char *
+entangle_thumbnail_loader_uri_to_md5(const char *uri)
 {
-    return g_compute_checksum_for_data(G_CHECKSUM_MD5,
-                                       (const guchar *)uri,
+    return g_compute_checksum_for_data(G_CHECKSUM_MD5, (const guchar *)uri,
                                        strlen(uri));
 }
 
-static char *entangle_thumbnail_loader_uri_to_thumb(const char *uri)
+static char *
+entangle_thumbnail_loader_uri_to_thumb(const char *uri)
 {
     char *md5 = entangle_thumbnail_loader_uri_to_md5(uri);
     char *thumb;
@@ -123,13 +127,12 @@ static char *entangle_thumbnail_loader_uri_to_thumb(const char *uri)
     return thumb;
 }
 
-
-static void entangle_thumbnail_ensure_thumbnail_dir(void)
+static void
+entangle_thumbnail_ensure_thumbnail_dir(void)
 {
     char *dir;
 
-    dir = g_strdup_printf("%s/thumbnails/large/",
-                          g_get_user_cache_dir());
+    dir = g_strdup_printf("%s/thumbnails/large/", g_get_user_cache_dir());
 
     g_mkdir_with_parents(dir, 0700);
 
@@ -137,12 +140,13 @@ static void entangle_thumbnail_ensure_thumbnail_dir(void)
 }
 
 /* Loads the master image and downsizes it to produce a thumbnail */
-static GdkPixbuf *entangle_thumbnail_loader_generate(EntanglePixbufLoader *loader G_GNUC_UNUSED,
-                                                     EntangleImage *image,
-                                                     const char *uri,
-                                                     const char *thumbname,
-                                                     time_t mtime,
-                                                     GExiv2Metadata **metadata)
+static GdkPixbuf *
+entangle_thumbnail_loader_generate(EntanglePixbufLoader *loader G_GNUC_UNUSED,
+                                   EntangleImage *image,
+                                   const char *uri,
+                                   const char *thumbname,
+                                   time_t mtime,
+                                   GExiv2Metadata **metadata)
 {
     GdkPixbuf *master;
     GdkPixbuf *thumb = NULL;
@@ -157,10 +161,8 @@ static GdkPixbuf *entangle_thumbnail_loader_generate(EntanglePixbufLoader *loade
     char *thumbnametmp;
     const char *orientationstr;
 
-    master = entangle_pixbuf_open_image(image,
-                                        ENTANGLE_PIXBUF_IMAGE_SLOT_THUMBNAIL,
-                                        FALSE,
-                                        metadata);
+    master = entangle_pixbuf_open_image(
+        image, ENTANGLE_PIXBUF_IMAGE_SLOT_THUMBNAIL, FALSE, metadata);
 
     if (!master)
         return NULL;
@@ -194,15 +196,12 @@ static GdkPixbuf *entangle_thumbnail_loader_generate(EntanglePixbufLoader *loade
 
     entangle_thumbnail_ensure_thumbnail_dir();
 
-    if (gdk_pixbuf_save(thumb, thumbnametmp,
-                        "png", NULL,
-                        "tEXt::Thumb::Image::Width", widthStr,
-                        "tEXt::Thumb::Image::Height", heightStr,
-                        "tEXt::Thumb::URI", uri,
-                        "tEXt::Thumb::MTime", mtimeStr,
-                        "tEXt::Software", "Entangle",
-                        "tEXt::Entangle::Orientation", orientationstr ? orientationstr : "0",
-                        NULL)) {
+    if (gdk_pixbuf_save(
+            thumb, thumbnametmp, "png", NULL, "tEXt::Thumb::Image::Width",
+            widthStr, "tEXt::Thumb::Image::Height", heightStr,
+            "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mtimeStr,
+            "tEXt::Software", "Entangle", "tEXt::Entangle::Orientation",
+            orientationstr ? orientationstr : "0", NULL)) {
         chmod(thumbnametmp, 0600);
         if (rename(thumbnametmp, thumbname) < 0)
             unlink(thumbnametmp);
@@ -211,8 +210,7 @@ static GdkPixbuf *entangle_thumbnail_loader_generate(EntanglePixbufLoader *loade
 
     /* gdk_pixbuf_save doesn't update internal options and there
        is no set_option method, so abuse gobject data slots :-( */
-    g_object_set_data_full(G_OBJECT(thumb),
-                           "tEXt::Entangle::Orientation",
+    g_object_set_data_full(G_OBJECT(thumb), "tEXt::Entangle::Orientation",
                            g_strdup(orientationstr ? orientationstr : "0"),
                            g_free);
 
@@ -221,13 +219,14 @@ static GdkPixbuf *entangle_thumbnail_loader_generate(EntanglePixbufLoader *loade
     return thumb;
 }
 
-
-static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *loaderbase,
-                                                        EntangleImage *image,
-                                                        GExiv2Metadata **metadata G_GNUC_UNUSED)
+static GdkPixbuf *
+entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *loaderbase,
+                                      EntangleImage *image,
+                                      GExiv2Metadata **metadata G_GNUC_UNUSED)
 {
     EntangleThumbnailLoader *loader = ENTANGLE_THUMBNAIL_LOADER(loaderbase);
-    char *uri = entangle_thumbnail_loader_path_to_uri(entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+    char *uri = entangle_thumbnail_loader_path_to_uri(
+        entangle_media_get_filename(ENTANGLE_MEDIA(image)));
     char *thumbname = entangle_thumbnail_loader_uri_to_thumb(uri);
     GdkPixbuf *result = NULL;
     GdkPixbuf *thumb = NULL;
@@ -236,7 +235,8 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
 
     /* Sanity check that the base image still exists */
     if (stat(entangle_media_get_filename(ENTANGLE_MEDIA(image)), &sb) < 0) {
-        ENTANGLE_DEBUG("File %s does not exist", entangle_media_get_filename(ENTANGLE_MEDIA(image)));
+        ENTANGLE_DEBUG("File %s does not exist",
+                       entangle_media_get_filename(ENTANGLE_MEDIA(image)));
         goto cleanup;
     }
 
@@ -246,34 +246,30 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
     thumb = gdk_pixbuf_new_from_file(thumbname, NULL);
     if (thumb) {
         const char *thisuri = gdk_pixbuf_get_option(thumb, "tEXt::Thumb::URI");
-        const char *thismtimeStr = gdk_pixbuf_get_option(thumb, "tEXt::Thumb::MTime");
+        const char *thismtimeStr =
+            gdk_pixbuf_get_option(thumb, "tEXt::Thumb::MTime");
         time_t thismtime;
 
         thismtime = thismtimeStr ? atol(thismtimeStr) : 0;
 
-        ENTANGLE_DEBUG("Check thumbnail %s for %s %s",
-                       thumbname, thisuri, thismtimeStr);
+        ENTANGLE_DEBUG("Check thumbnail %s for %s %s", thumbname, thisuri,
+                       thismtimeStr);
 
         /* Check that the thumbnail is still valid */
-        if (!thisuri || !thismtimeStr ||
-            strcmp(uri, thisuri) != 0 ||
+        if (!thisuri || !thismtimeStr || strcmp(uri, thisuri) != 0 ||
             thismtime != sb.st_mtime) {
             g_object_unref(thumb);
             thumb = NULL;
         }
     }
 
-
     /* No thumbnail, so lets generate one */
     if (!thumb) {
         unlink(thumbname);
-        ENTANGLE_DEBUG("Generate thumbnail %s for %s %ld",
-                       thumbname, uri, sb.st_mtime);
-        thumb = entangle_thumbnail_loader_generate(loaderbase,
-                                                   image,
-                                                   uri, thumbname,
-                                                   sb.st_mtime,
-                                                   &themetadata);
+        ENTANGLE_DEBUG("Generate thumbnail %s for %s %ld", thumbname, uri,
+                       sb.st_mtime);
+        thumb = entangle_thumbnail_loader_generate(
+            loaderbase, image, uri, thumbname, sb.st_mtime, &themetadata);
     }
 
     /* Apply any rotation hints so it is "normal" for the viewer */
@@ -294,8 +290,7 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
         tw = gdk_pixbuf_get_width(thumb);
         th = gdk_pixbuf_get_height(thumb);
 
-        if (tw != loader->width ||
-            th != loader->height) {
+        if (tw != loader->width || th != loader->height) {
             double ta, ra;
             int rw, rh;
             double sw, sh;
@@ -313,25 +308,21 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
 
             sw = (double)rw / (double)tw;
             sh = (double)rh / (double)th;
-            result = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-                                    loader->width, loader->height);
+            result = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, loader->width,
+                                    loader->height);
             gdk_pixbuf_fill(result, 0x00000000);
 
-            gdk_pixbuf_scale(thumb, result,
-                             (loader->width - rw) / 2,
-                             (loader->height - rh) / 2,
-                             rw, rh,
-                             (loader->width - rw) / 2,
-                             (loader->height - rh) / 2,
-                             sw, sh,
-                             GDK_INTERP_BILINEAR);
+            gdk_pixbuf_scale(
+                thumb, result, (loader->width - rw) / 2,
+                (loader->height - rh) / 2, rw, rh, (loader->width - rw) / 2,
+                (loader->height - rh) / 2, sw, sh, GDK_INTERP_BILINEAR);
             g_object_unref(thumb);
         } else {
             result = thumb;
         }
     }
 
- cleanup:
+cleanup:
     if (themetadata)
         g_object_unref(themetadata);
     g_free(uri);
@@ -340,57 +331,45 @@ static GdkPixbuf *entangle_thumbnail_loader_pixbuf_load(EntanglePixbufLoader *lo
     return result;
 }
 
-
-static void entangle_thumbnail_loader_class_init(EntangleThumbnailLoaderClass *klass)
+static void
+entangle_thumbnail_loader_class_init(EntangleThumbnailLoaderClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
-    EntanglePixbufLoaderClass *loader_class = ENTANGLE_PIXBUF_LOADER_CLASS(klass);
+    EntanglePixbufLoaderClass *loader_class =
+        ENTANGLE_PIXBUF_LOADER_CLASS(klass);
 
     object_class->get_property = entangle_thumbnail_loader_get_property;
     object_class->set_property = entangle_thumbnail_loader_set_property;
 
     loader_class->pixbuf_load = entangle_thumbnail_loader_pixbuf_load;
 
-    g_object_class_install_property(object_class,
-                                    PROP_WIDTH,
-                                    g_param_spec_int("width",
-                                                     "Width",
-                                                     "Maximum thumbnail width",
-                                                     1, 400, 128,
-                                                     G_PARAM_READWRITE |
-                                                     G_PARAM_CONSTRUCT_ONLY |
-                                                     G_PARAM_STATIC_NAME |
-                                                     G_PARAM_STATIC_NICK |
-                                                     G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_HEIGHT,
-                                    g_param_spec_int("height",
-                                                     "Height",
-                                                     "Maximum thumbnail height",
-                                                     1, 400, 128,
-                                                     G_PARAM_READWRITE |
-                                                     G_PARAM_CONSTRUCT_ONLY |
-                                                     G_PARAM_STATIC_NAME |
-                                                     G_PARAM_STATIC_NICK |
-                                                     G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_WIDTH,
+        g_param_spec_int(
+            "width", "Width", "Maximum thumbnail width", 1, 400, 128,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_HEIGHT,
+        g_param_spec_int(
+            "height", "Height", "Maximum thumbnail height", 1, 400, 128,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-EntangleThumbnailLoader *entangle_thumbnail_loader_new(int width,
-                                                       int height)
+EntangleThumbnailLoader *
+entangle_thumbnail_loader_new(int width, int height)
 {
-    return ENTANGLE_THUMBNAIL_LOADER(g_object_new(ENTANGLE_TYPE_THUMBNAIL_LOADER,
-                                                  "width", width,
-                                                  "height", height,
-                                                  NULL));
+    return ENTANGLE_THUMBNAIL_LOADER(
+        g_object_new(ENTANGLE_TYPE_THUMBNAIL_LOADER, "width", width, "height",
+                     height, NULL));
 }
 
-
-static void entangle_thumbnail_loader_init(EntangleThumbnailLoader *loader)
+static void
+entangle_thumbnail_loader_init(EntangleThumbnailLoader *loader)
 {
     loader->width = loader->height = 128;
 }
-
 
 /*
  * Local variables:

@@ -27,20 +27,23 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CONTROL_DATE            (entangle_control_date_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleControlDate, entangle_control_date, ENTANGLE, CONTROL_DATE, EntangleControl)
+#define ENTANGLE_TYPE_CONTROL_DATE (entangle_control_date_get_type())
+G_DECLARE_FINAL_TYPE(EntangleControlDate,
+                     entangle_control_date,
+                     ENTANGLE,
+                     CONTROL_DATE,
+                     EntangleControl)
 
-EntangleControlDate* entangle_control_date_new(const char *path,
-                                               int id,
-                                               const char *label,
-                                               const char *info,
-                                               gboolean readonly);
-
+EntangleControlDate *
+entangle_control_date_new(const char *path,
+                          int id,
+                          const char *label,
+                          const char *info,
+                          gboolean readonly);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CONTROL_DATE_H__ */
-
 
 /*
  * Local variables:

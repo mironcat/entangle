@@ -27,15 +27,22 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_IMAGE            (entangle_image_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleImage, entangle_image, ENTANGLE, IMAGE, EntangleMedia)
+#define ENTANGLE_TYPE_IMAGE (entangle_image_get_type())
+G_DECLARE_FINAL_TYPE(EntangleImage,
+                     entangle_image,
+                     ENTANGLE,
+                     IMAGE,
+                     EntangleMedia)
 
-EntangleImage *entangle_image_new_file(const char *filename);
-EntangleImage *entangle_image_new_pixbuf(GdkPixbuf *pixbuf);
+EntangleImage *
+entangle_image_new_file(const char *filename);
+EntangleImage *
+entangle_image_new_pixbuf(GdkPixbuf *pixbuf);
 
-GdkPixbuf *entangle_image_get_pixbuf(EntangleImage *image);
-void entangle_image_set_pixbuf(EntangleImage *image,
-                               GdkPixbuf *pixbuf);
+GdkPixbuf *
+entangle_image_get_pixbuf(EntangleImage *image);
+void
+entangle_image_set_pixbuf(EntangleImage *image, GdkPixbuf *pixbuf);
 
 G_END_DECLS
 

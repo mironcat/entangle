@@ -18,21 +18,21 @@
  *
  */
 
-#include <stdio.h>
 #include <locale.h>
+#include <stdio.h>
 
-#include <gst/gst.h>
-#include <gtk/gtk.h>
 #include <girepository.h>
 #include <glib/gi18n.h>
+#include <gst/gst.h>
+#include <gtk/gtk.h>
 
-#include "entangle-debug.h"
 #include "entangle-application.h"
 #include "entangle-camera-manager.h"
+#include "entangle-debug.h"
 #include "entangle-preferences.h"
 
-
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
     GOptionGroup *group;
     GOptionContext *optContext;
@@ -42,12 +42,16 @@ int main(int argc, char **argv)
     gboolean debug_gphoto = FALSE;
     gchar *ins = NULL;
     const GOptionEntry entries[] = {
-        { "debug-entangle", 'd', 0, G_OPTION_ARG_NONE, &debug_app, "Enable debugging of application code", NULL },
-        { "debug-gphoto", 'g', 0, G_OPTION_ARG_NONE, &debug_gphoto, "Enable debugging of gphoto library", NULL },
-        { "introspect-dump", 'i', 0, G_OPTION_ARG_STRING, &ins, "Dump introspection data", NULL },
+        { "debug-entangle", 'd', 0, G_OPTION_ARG_NONE, &debug_app,
+          "Enable debugging of application code", NULL },
+        { "debug-gphoto", 'g', 0, G_OPTION_ARG_NONE, &debug_gphoto,
+          "Enable debugging of gphoto library", NULL },
+        { "introspect-dump", 'i', 0, G_OPTION_ARG_STRING, &ins,
+          "Dump introspection data", NULL },
         { NULL, 0, 0, 0, NULL, NULL, NULL },
     };
-    static const char *help_msg = "Run 'entangle --help' to see full list of options";
+    static const char *help_msg =
+        "Run 'entangle --help' to see full list of options";
     GtkIconTheme *theme;
 
     setlocale(LC_ALL, "");
@@ -57,10 +61,8 @@ int main(int argc, char **argv)
 
     g_set_application_name("Entangle");
 
-    group = g_option_group_new("entangle",
-                               "Entangle application options",
-                               "Show Entangle options",
-                               NULL, NULL);
+    group = g_option_group_new("entangle", "Entangle application options",
+                               "Show Entangle options", NULL, NULL);
 
     g_option_group_add_entries(group, entries);
 

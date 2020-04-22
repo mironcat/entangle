@@ -27,19 +27,25 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_MEDIA_STATUSBAR            (entangle_media_statusbar_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleMediaStatusbar, entangle_media_statusbar, ENTANGLE, MEDIA_STATUSBAR, GtkBox)
+#define ENTANGLE_TYPE_MEDIA_STATUSBAR (entangle_media_statusbar_get_type())
+G_DECLARE_FINAL_TYPE(EntangleMediaStatusbar,
+                     entangle_media_statusbar,
+                     ENTANGLE,
+                     MEDIA_STATUSBAR,
+                     GtkBox)
 
-EntangleMediaStatusbar *entangle_media_statusbar_new(void);
+EntangleMediaStatusbar *
+entangle_media_statusbar_new(void);
 
-void entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
-                                        EntangleMedia *media);
-EntangleMedia *entangle_media_statusbar_get_media(EntangleMediaStatusbar *statusbar);
+void
+entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
+                                   EntangleMedia *media);
+EntangleMedia *
+entangle_media_statusbar_get_media(EntangleMediaStatusbar *statusbar);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_MEDIA_STATUSBAR_H__ */
-
 
 /*
  * Local variables:

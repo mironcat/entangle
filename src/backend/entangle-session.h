@@ -23,31 +23,43 @@
 
 #include <glib-object.h>
 
-#include "entangle-media.h"
 #include "entangle-camera-file.h"
+#include "entangle-media.h"
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_SESSION            (entangle_session_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleSession, entangle_session, ENTANGLE, SESSION, GObject)
+#define ENTANGLE_TYPE_SESSION (entangle_session_get_type())
+G_DECLARE_FINAL_TYPE(EntangleSession,
+                     entangle_session,
+                     ENTANGLE,
+                     SESSION,
+                     GObject)
 
-EntangleSession *entangle_session_new(const char *directory,
-                                      const char *filenamePattern);
+EntangleSession *
+entangle_session_new(const char *directory, const char *filenamePattern);
 
-const char *entangle_session_directory(EntangleSession *session);
-const char *entangle_session_filename_pattern(EntangleSession *session);
+const char *
+entangle_session_directory(EntangleSession *session);
+const char *
+entangle_session_filename_pattern(EntangleSession *session);
 
-char *entangle_session_next_filename(EntangleSession *session,
-                                     EntangleCameraFile *file);
+char *
+entangle_session_next_filename(EntangleSession *session,
+                               EntangleCameraFile *file);
 
-gboolean entangle_session_load(EntangleSession *session);
+gboolean
+entangle_session_load(EntangleSession *session);
 
-void entangle_session_add_media(EntangleSession *session, EntangleMedia *media);
-void entangle_session_remove_media(EntangleSession *session, EntangleMedia *media);
+void
+entangle_session_add_media(EntangleSession *session, EntangleMedia *media);
+void
+entangle_session_remove_media(EntangleSession *session, EntangleMedia *media);
 
-int entangle_session_get_media_count(EntangleSession *session);
+int
+entangle_session_get_media_count(EntangleSession *session);
 
-EntangleMedia *entangle_session_get_media(EntangleSession *session, int idx);
+EntangleMedia *
+entangle_session_get_media(EntangleSession *session, int idx);
 
 G_END_DECLS
 

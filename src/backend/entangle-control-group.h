@@ -27,28 +27,35 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CONTROL_GROUP            (entangle_control_group_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleControlGroup, entangle_control_group, ENTANGLE, CONTROL_GROUP, EntangleControl)
+#define ENTANGLE_TYPE_CONTROL_GROUP (entangle_control_group_get_type())
+G_DECLARE_FINAL_TYPE(EntangleControlGroup,
+                     entangle_control_group,
+                     ENTANGLE,
+                     CONTROL_GROUP,
+                     EntangleControl)
 
-EntangleControlGroup* entangle_control_group_new(const gchar *path,
-                                                 gint id,
-                                                 const gchar *label,
-                                                 const gchar *info,
-                                                 gboolean readonly);
+EntangleControlGroup *
+entangle_control_group_new(const gchar *path,
+                           gint id,
+                           const gchar *label,
+                           const gchar *info,
+                           gboolean readonly);
 
-void entangle_control_group_add(EntangleControlGroup *group,
-                            EntangleControl *control);
+void
+entangle_control_group_add(EntangleControlGroup *group,
+                           EntangleControl *control);
 
-guint entangle_control_group_count(EntangleControlGroup *group);
-EntangleControl *entangle_control_group_get(EntangleControlGroup *group, int idx);
-EntangleControl *entangle_control_group_get_by_path(EntangleControlGroup *group,
-                                                    const gchar *path);
-
+guint
+entangle_control_group_count(EntangleControlGroup *group);
+EntangleControl *
+entangle_control_group_get(EntangleControlGroup *group, int idx);
+EntangleControl *
+entangle_control_group_get_by_path(EntangleControlGroup *group,
+                                   const gchar *path);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CONTROL_GROUP_H__ */
-
 
 /*
  * Local variables:

@@ -25,18 +25,23 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_DEVICE_MANAGER            (entangle_device_manager_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleDeviceManager, entangle_device_manager, ENTANGLE, DEVICE_MANAGER, GObject)
+#define ENTANGLE_TYPE_DEVICE_MANAGER (entangle_device_manager_get_type())
+G_DECLARE_FINAL_TYPE(EntangleDeviceManager,
+                     entangle_device_manager,
+                     ENTANGLE,
+                     DEVICE_MANAGER,
+                     GObject)
 
-EntangleDeviceManager* entangle_device_manager_new(void);
+EntangleDeviceManager *
+entangle_device_manager_new(void);
 
-char *entangle_device_manager_serial_id(EntangleDeviceManager *manager,
-                                        const char *devpath);
+char *
+entangle_device_manager_serial_id(EntangleDeviceManager *manager,
+                                  const char *devpath);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_DEVICE_MANAGER_H__ */
-
 
 /*
  * Local variables:

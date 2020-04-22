@@ -25,18 +25,22 @@
 
 #include "entangle-application.h"
 
-
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_PREFERENCES_DISPLAY            (entangle_preferences_display_get_type ())
-G_DECLARE_FINAL_TYPE(EntanglePreferencesDisplay, entangle_preferences_display, ENTANGLE, PREFERENCES_DISPLAY, GtkDialog)
+#define ENTANGLE_TYPE_PREFERENCES_DISPLAY                                      \
+    (entangle_preferences_display_get_type())
+G_DECLARE_FINAL_TYPE(EntanglePreferencesDisplay,
+                     entangle_preferences_display,
+                     ENTANGLE,
+                     PREFERENCES_DISPLAY,
+                     GtkDialog)
 
-EntanglePreferencesDisplay *entangle_preferences_display_new(void);
+EntanglePreferencesDisplay *
+entangle_preferences_display_new(void);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_PREFERENCES_DISPLAY_H__ */
-
 
 /*
  * Local variables:

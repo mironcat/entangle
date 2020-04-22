@@ -18,15 +18,18 @@
  *
  */
 
-#include <lcms2.h>
 #include <string.h>
 
-#include "entangle-debug.h"
+#include <lcms2.h>
+
 #include "entangle-colour-profile.h"
+
+#include "entangle-debug.h"
 
 #define DEBUG_CMS 0
 
-struct _EntangleColourProfile {
+struct _EntangleColourProfile
+{
     GObject parent;
     GMutex lock;
     GByteArray *data;
@@ -35,7 +38,8 @@ struct _EntangleColourProfile {
     gboolean dirty;
 };
 
-struct _EntangleColourProfileTransform {
+struct _EntangleColourProfileTransform
+{
     GObject parent;
     EntangleColourProfile *srcProfile;
     EntangleColourProfile *dstProfile;
@@ -43,129 +47,134 @@ struct _EntangleColourProfileTransform {
 };
 
 G_DEFINE_TYPE(EntangleColourProfile, entangle_colour_profile, G_TYPE_OBJECT);
-G_DEFINE_TYPE(EntangleColourProfileTransform, entangle_colour_profile_transform, G_TYPE_OBJECT);
+G_DEFINE_TYPE(EntangleColourProfileTransform,
+              entangle_colour_profile_transform,
+              G_TYPE_OBJECT);
 
-enum {
+enum
+{
     PROP_0,
     PROP_FILENAME,
     PROP_DATA,
 };
 
-enum {
+enum
+{
     PROP_00,
     PROP_SRC_PROFILE,
     PROP_DST_PROFILE,
     PROP_RENDERING_INTENT,
 };
 
-static void entangle_colour_profile_get_property(GObject *object,
-                                                 guint prop_id,
-                                                 GValue *value,
-                                                 GParamSpec *pspec)
+static void
+entangle_colour_profile_get_property(GObject *object,
+                                     guint prop_id,
+                                     GValue *value,
+                                     GParamSpec *pspec)
 {
     EntangleColourProfile *profile = ENTANGLE_COLOUR_PROFILE(object);
 
-    switch (prop_id)
-        {
-        case PROP_FILENAME:
-            g_value_set_string(value, profile->filename);
-            break;
+    switch (prop_id) {
+    case PROP_FILENAME:
+        g_value_set_string(value, profile->filename);
+        break;
 
-        case PROP_DATA:
-            g_value_set_boxed(value, profile->data);
-            break;
+    case PROP_DATA:
+        g_value_set_boxed(value, profile->data);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_colour_profile_set_property(GObject *object,
-                                                 guint prop_id,
-                                                 const GValue *value,
-                                                 GParamSpec *pspec)
+static void
+entangle_colour_profile_set_property(GObject *object,
+                                     guint prop_id,
+                                     const GValue *value,
+                                     GParamSpec *pspec)
 {
     EntangleColourProfile *profile = ENTANGLE_COLOUR_PROFILE(object);
 
-    switch (prop_id)
-        {
-        case PROP_FILENAME:
-            g_free(profile->filename);
-            profile->filename = g_value_dup_string(value);
-            profile->dirty = TRUE;
-            break;
+    switch (prop_id) {
+    case PROP_FILENAME:
+        g_free(profile->filename);
+        profile->filename = g_value_dup_string(value);
+        profile->dirty = TRUE;
+        break;
 
-        case PROP_DATA:
-            if (profile->data)
-                g_byte_array_unref(profile->data);
-            profile->data = g_value_dup_boxed(value);
-            profile->dirty = TRUE;
-            break;
+    case PROP_DATA:
+        if (profile->data)
+            g_byte_array_unref(profile->data);
+        profile->data = g_value_dup_boxed(value);
+        profile->dirty = TRUE;
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_colour_profile_transform_get_property(GObject *object,
-                                                           guint prop_id,
-                                                           GValue *value,
-                                                           GParamSpec *pspec)
+static void
+entangle_colour_profile_transform_get_property(GObject *object,
+                                               guint prop_id,
+                                               GValue *value,
+                                               GParamSpec *pspec)
 {
-    EntangleColourProfileTransform *transform = ENTANGLE_COLOUR_PROFILE_TRANSFORM(object);
+    EntangleColourProfileTransform *transform =
+        ENTANGLE_COLOUR_PROFILE_TRANSFORM(object);
 
-    switch (prop_id)
-        {
-        case PROP_SRC_PROFILE:
-            g_value_set_object(value, transform->srcProfile);
-            break;
+    switch (prop_id) {
+    case PROP_SRC_PROFILE:
+        g_value_set_object(value, transform->srcProfile);
+        break;
 
-        case PROP_DST_PROFILE:
-            g_value_set_object(value, transform->dstProfile);
-            break;
+    case PROP_DST_PROFILE:
+        g_value_set_object(value, transform->dstProfile);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_colour_profile_transform_set_property(GObject *object,
-                                                           guint prop_id,
-                                                           const GValue *value,
-                                                           GParamSpec *pspec)
+static void
+entangle_colour_profile_transform_set_property(GObject *object,
+                                               guint prop_id,
+                                               const GValue *value,
+                                               GParamSpec *pspec)
 {
-    EntangleColourProfileTransform *transform = ENTANGLE_COLOUR_PROFILE_TRANSFORM(object);
+    EntangleColourProfileTransform *transform =
+        ENTANGLE_COLOUR_PROFILE_TRANSFORM(object);
 
-    switch (prop_id)
-        {
-        case PROP_SRC_PROFILE:
-            if (transform->srcProfile)
-                g_object_unref(transform->srcProfile);
-            transform->srcProfile = g_value_get_object(value);
-            if (transform->srcProfile)
-                g_object_ref(transform->srcProfile);
-            break;
+    switch (prop_id) {
+    case PROP_SRC_PROFILE:
+        if (transform->srcProfile)
+            g_object_unref(transform->srcProfile);
+        transform->srcProfile = g_value_get_object(value);
+        if (transform->srcProfile)
+            g_object_ref(transform->srcProfile);
+        break;
 
-        case PROP_DST_PROFILE:
-            if (transform->dstProfile)
-                g_object_unref(transform->dstProfile);
-            transform->dstProfile = g_value_get_object(value);
-            if (transform->dstProfile)
-                g_object_ref(transform->dstProfile);
-            break;
+    case PROP_DST_PROFILE:
+        if (transform->dstProfile)
+            g_object_unref(transform->dstProfile);
+        transform->dstProfile = g_value_get_object(value);
+        if (transform->dstProfile)
+            g_object_ref(transform->dstProfile);
+        break;
 
-        case PROP_RENDERING_INTENT:
-            transform->renderIntent = g_value_get_enum(value);
-            break;
+    case PROP_RENDERING_INTENT:
+        transform->renderIntent = g_value_get_enum(value);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_colour_profile_finalize(GObject *object)
+static void
+entangle_colour_profile_finalize(GObject *object)
 {
     EntangleColourProfile *profile = ENTANGLE_COLOUR_PROFILE(object);
 
@@ -181,10 +190,11 @@ static void entangle_colour_profile_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_colour_profile_parent_class)->finalize(object);
 }
 
-
-static void entangle_colour_profile_transform_finalize(GObject *object)
+static void
+entangle_colour_profile_transform_finalize(GObject *object)
 {
-    EntangleColourProfileTransform *transform = ENTANGLE_COLOUR_PROFILE_TRANSFORM(object);
+    EntangleColourProfileTransform *transform =
+        ENTANGLE_COLOUR_PROFILE_TRANSFORM(object);
 
     ENTANGLE_DEBUG("Finalize profile transform");
 
@@ -193,11 +203,12 @@ static void entangle_colour_profile_transform_finalize(GObject *object)
     if (transform->dstProfile)
         g_object_unref(transform->dstProfile);
 
-    G_OBJECT_CLASS(entangle_colour_profile_transform_parent_class)->finalize(object);
+    G_OBJECT_CLASS(entangle_colour_profile_transform_parent_class)
+        ->finalize(object);
 }
 
-
-static void entangle_colour_profile_class_init(EntangleColourProfileClass *klass)
+static void
+entangle_colour_profile_class_init(EntangleColourProfileClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -205,31 +216,24 @@ static void entangle_colour_profile_class_init(EntangleColourProfileClass *klass
     object_class->get_property = entangle_colour_profile_get_property;
     object_class->set_property = entangle_colour_profile_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_FILENAME,
-                                    g_param_spec_string("filename",
-                                                        "Profile filename",
-                                                        "Filename of the profile",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_DATA,
-                                    g_param_spec_boxed("data",
-                                                       "Profile data",
-                                                       "Raw data for the profile",
-                                                       G_TYPE_BYTE_ARRAY,
-                                                       G_PARAM_READWRITE |
-                                                       G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_FILENAME,
+        g_param_spec_string(
+            "filename", "Profile filename", "Filename of the profile", NULL,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_DATA,
+        g_param_spec_boxed("data", "Profile data", "Raw data for the profile",
+                           G_TYPE_BYTE_ARRAY,
+                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                               G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                               G_PARAM_STATIC_BLURB));
 }
 
-static void entangle_colour_profile_transform_class_init(EntangleColourProfileTransformClass *klass)
+static void
+entangle_colour_profile_transform_class_init(
+    EntangleColourProfileTransformClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -237,43 +241,30 @@ static void entangle_colour_profile_transform_class_init(EntangleColourProfileTr
     object_class->get_property = entangle_colour_profile_transform_get_property;
     object_class->set_property = entangle_colour_profile_transform_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_SRC_PROFILE,
-                                    g_param_spec_object("src-profile",
-                                                        "Source profile",
-                                                        "Source profile",
-                                                        ENTANGLE_TYPE_COLOUR_PROFILE,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
-    g_object_class_install_property(object_class,
-                                    PROP_DST_PROFILE,
-                                    g_param_spec_object("dst-profile",
-                                                        "Destination Profile",
-                                                        "Destination Profile",
-                                                        ENTANGLE_TYPE_COLOUR_PROFILE,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_SRC_PROFILE,
+        g_param_spec_object("src-profile", "Source profile", "Source profile",
+                            ENTANGLE_TYPE_COLOUR_PROFILE,
+                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                                G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                                G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_DST_PROFILE,
+        g_param_spec_object("dst-profile", "Destination Profile",
+                            "Destination Profile", ENTANGLE_TYPE_COLOUR_PROFILE,
+                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                                G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK |
+                                G_PARAM_STATIC_BLURB));
 
-    g_object_class_install_property(object_class,
-                                    PROP_RENDERING_INTENT,
-                                    g_param_spec_enum("rendering-intent",
-                                                      "Rendering intent",
-                                                      "Profile rendering intent",
-                                                      ENTANGLE_TYPE_COLOUR_PROFILE_INTENT,
-                                                      ENTANGLE_COLOUR_PROFILE_INTENT_PERCEPTUAL,
-                                                      G_PARAM_READWRITE |
-                                                      G_PARAM_CONSTRUCT_ONLY |
-                                                      G_PARAM_STATIC_NAME |
-                                                      G_PARAM_STATIC_NICK |
-                                                      G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_RENDERING_INTENT,
+        g_param_spec_enum(
+            "rendering-intent", "Rendering intent", "Profile rendering intent",
+            ENTANGLE_TYPE_COLOUR_PROFILE_INTENT,
+            ENTANGLE_COLOUR_PROFILE_INTENT_PERCEPTUAL,
+            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_NAME |
+                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
-
 
 /**
  * entangle_colour_profile_new_file:
@@ -284,13 +275,12 @@ static void entangle_colour_profile_transform_class_init(EntangleColourProfileTr
  *
  * Returns: (transfer full): the colour profile
  */
-EntangleColourProfile *entangle_colour_profile_new_file(const char *filename)
+EntangleColourProfile *
+entangle_colour_profile_new_file(const char *filename)
 {
-    return ENTANGLE_COLOUR_PROFILE(g_object_new(ENTANGLE_TYPE_COLOUR_PROFILE,
-                                            "filename", filename,
-                                            NULL));
+    return ENTANGLE_COLOUR_PROFILE(
+        g_object_new(ENTANGLE_TYPE_COLOUR_PROFILE, "filename", filename, NULL));
 }
-
 
 /**
  * entangle_colour_profile_new_data:
@@ -302,15 +292,15 @@ EntangleColourProfile *entangle_colour_profile_new_file(const char *filename)
  *
  * Returns: (transfer full): the colour profile
  */
-EntangleColourProfile *entangle_colour_profile_new_data(GByteArray *data)
+EntangleColourProfile *
+entangle_colour_profile_new_data(GByteArray *data)
 {
-    return ENTANGLE_COLOUR_PROFILE(g_object_new(ENTANGLE_TYPE_COLOUR_PROFILE,
-                                            "data", data,
-                                            NULL));
+    return ENTANGLE_COLOUR_PROFILE(
+        g_object_new(ENTANGLE_TYPE_COLOUR_PROFILE, "data", data, NULL));
 }
 
-
-static gboolean entangle_colour_profile_load(EntangleColourProfile *profile)
+static gboolean
+entangle_colour_profile_load(EntangleColourProfile *profile)
 {
     gboolean ret;
 
@@ -325,30 +315,33 @@ static gboolean entangle_colour_profile_load(EntangleColourProfile *profile)
         profile->profile = NULL;
     }
     if (profile->filename) {
-        if (!(profile->profile = cmsOpenProfileFromFile(profile->filename, "r")))
+        if (!(profile->profile =
+                  cmsOpenProfileFromFile(profile->filename, "r")))
             ENTANGLE_DEBUG("Unable to load profile from %s", profile->filename);
     } else if (profile->data) {
-        if (!(profile->profile = cmsOpenProfileFromMem(profile->data->data, profile->data->len)))
+        if (!(profile->profile = cmsOpenProfileFromMem(profile->data->data,
+                                                       profile->data->len)))
             ENTANGLE_DEBUG("Unable to load profile from %p", profile->data);
     }
 
     profile->dirty = FALSE;
 
- cleanup:
+cleanup:
     ret = profile->profile ? TRUE : FALSE;
     g_mutex_unlock(&profile->lock);
     return ret;
 }
 
-static void entangle_colour_profile_init(EntangleColourProfile *profile)
+static void
+entangle_colour_profile_init(EntangleColourProfile *profile)
 {
     g_mutex_init(&profile->lock);
 }
 
-static void entangle_colour_profile_transform_init(EntangleColourProfileTransform *transform G_GNUC_UNUSED)
-{
-}
-
+static void
+entangle_colour_profile_transform_init(
+    EntangleColourProfileTransform *transform G_GNUC_UNUSED)
+{}
 
 /**
  * entangle_colour_profile_filename:
@@ -358,16 +351,17 @@ static void entangle_colour_profile_transform_init(EntangleColourProfileTransfor
  *
  * Returns: (transfer none): the filename, or NULL
  */
-const char *entangle_colour_profile_filename(EntangleColourProfile *profile)
+const char *
+entangle_colour_profile_filename(EntangleColourProfile *profile)
 {
     g_return_val_if_fail(ENTANGLE_IS_COLOUR_PROFILE(profile), NULL);
 
     return profile->filename;
 }
 
-
-static char *entangle_colour_profile_get_string(EntangleColourProfile *profile,
-                                                cmsInfoType info)
+static char *
+entangle_colour_profile_get_string(EntangleColourProfile *profile,
+                                   cmsInfoType info)
 {
     g_return_val_if_fail(ENTANGLE_IS_COLOUR_PROFILE(profile), NULL);
 
@@ -377,25 +371,20 @@ static char *entangle_colour_profile_get_string(EntangleColourProfile *profile,
     if (!entangle_colour_profile_load(profile))
         return NULL;
 
-    if ((len = cmsGetProfileInfoASCII(profile->profile,
-                                      info,
-                                      "en", "US",
-                                      NULL, 0)) == 0)
+    if ((len = cmsGetProfileInfoASCII(profile->profile, info, "en", "US", NULL,
+                                      0)) == 0)
         return NULL;
 
     res = g_new0(gchar, len + 1);
 
-    if (cmsGetProfileInfoASCII(profile->profile,
-                               info,
-                               "en", "US",
-                               res, len) == 0) {
+    if (cmsGetProfileInfoASCII(profile->profile, info, "en", "US", res, len) ==
+        0) {
         g_free(res);
         return NULL;
     }
 
     return res;
 }
-
 
 /**
  * entangle_colour_profile_description:
@@ -405,12 +394,11 @@ static char *entangle_colour_profile_get_string(EntangleColourProfile *profile,
  *
  * Returns: (transfer full): the profile description
  */
-char *entangle_colour_profile_description(EntangleColourProfile *profile)
+char *
+entangle_colour_profile_description(EntangleColourProfile *profile)
 {
-    return entangle_colour_profile_get_string(profile,
-                                              cmsInfoDescription);
+    return entangle_colour_profile_get_string(profile, cmsInfoDescription);
 }
-
 
 /**
  * entangle_colour_profile_manufacturer:
@@ -420,12 +408,11 @@ char *entangle_colour_profile_description(EntangleColourProfile *profile)
  *
  * Returns: (transfer full): the profile manufacturer
  */
-char *entangle_colour_profile_manufacturer(EntangleColourProfile *profile)
+char *
+entangle_colour_profile_manufacturer(EntangleColourProfile *profile)
 {
-    return entangle_colour_profile_get_string(profile,
-                                              cmsInfoManufacturer);
+    return entangle_colour_profile_get_string(profile, cmsInfoManufacturer);
 }
-
 
 /**
  * entangle_colour_profile_model:
@@ -435,12 +422,11 @@ char *entangle_colour_profile_manufacturer(EntangleColourProfile *profile)
  *
  * Returns: (transfer full): the profile model
  */
-char *entangle_colour_profile_model(EntangleColourProfile *profile)
+char *
+entangle_colour_profile_model(EntangleColourProfile *profile)
 {
-    return entangle_colour_profile_get_string(profile,
-                                              cmsInfoModel);
+    return entangle_colour_profile_get_string(profile, cmsInfoModel);
 }
-
 
 /**
  * entangle_colour_profile_copyright:
@@ -450,12 +436,11 @@ char *entangle_colour_profile_model(EntangleColourProfile *profile)
  *
  * Returns: (transfer full): the profile copyright
  */
-char *entangle_colour_profile_copyright(EntangleColourProfile *profile)
+char *
+entangle_colour_profile_copyright(EntangleColourProfile *profile)
 {
-    return entangle_colour_profile_get_string(profile,
-                                              cmsInfoCopyright);
+    return entangle_colour_profile_get_string(profile, cmsInfoCopyright);
 }
-
 
 static int
 entangle_colour_profile_pixel_type(GdkPixbuf *pixbuf)
@@ -463,7 +448,7 @@ entangle_colour_profile_pixel_type(GdkPixbuf *pixbuf)
     int type = COLORSPACE_SH(PT_RGB); /* GdkPixbuf only supports RGB for now */
 
     if (gdk_pixbuf_get_has_alpha(pixbuf)) {
-        type |= CHANNELS_SH(gdk_pixbuf_get_n_channels(pixbuf)-1);
+        type |= CHANNELS_SH(gdk_pixbuf_get_n_channels(pixbuf) - 1);
         type |= EXTRA_SH(1);
     } else {
         type |= CHANNELS_SH(gdk_pixbuf_get_n_channels(pixbuf));
@@ -472,7 +457,6 @@ entangle_colour_profile_pixel_type(GdkPixbuf *pixbuf)
 
     return type;
 }
-
 
 /**
  * entangle_colour_profile_transform_new:
@@ -485,20 +469,18 @@ entangle_colour_profile_pixel_type(GdkPixbuf *pixbuf)
  *
  * Returns: (transfer full): the colour profile transformation
  */
-EntangleColourProfileTransform *entangle_colour_profile_transform_new(EntangleColourProfile *src,
-                                                                      EntangleColourProfile *dst,
-                                                                      EntangleColourProfileIntent intent)
+EntangleColourProfileTransform *
+entangle_colour_profile_transform_new(EntangleColourProfile *src,
+                                      EntangleColourProfile *dst,
+                                      EntangleColourProfileIntent intent)
 {
     g_return_val_if_fail(ENTANGLE_IS_COLOUR_PROFILE(src), NULL);
     g_return_val_if_fail(ENTANGLE_IS_COLOUR_PROFILE(dst), NULL);
 
-    return ENTANGLE_COLOUR_PROFILE_TRANSFORM(g_object_new(ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM,
-                                                          "src-profile", src,
-                                                          "dst-profile", dst,
-                                                          "rendering-intent", intent,
-                                                          NULL));
+    return ENTANGLE_COLOUR_PROFILE_TRANSFORM(
+        g_object_new(ENTANGLE_TYPE_COLOUR_PROFILE_TRANSFORM, "src-profile", src,
+                     "dst-profile", dst, "rendering-intent", intent, NULL));
 }
-
 
 /**
  * entangle_colour_profile_transform_apply:
@@ -512,8 +494,10 @@ EntangleColourProfileTransform *entangle_colour_profile_transform_new(EntangleCo
  *
  * Returns: (transfer full): the transformed pixbuf
  */
-GdkPixbuf *entangle_colour_profile_transform_apply(EntangleColourProfileTransform *transform,
-                                                   GdkPixbuf *srcpixbuf)
+GdkPixbuf *
+entangle_colour_profile_transform_apply(
+    EntangleColourProfileTransform *transform,
+    GdkPixbuf *srcpixbuf)
 {
     g_return_val_if_fail(ENTANGLE_IS_COLOUR_PROFILE_TRANSFORM(transform), NULL);
     g_return_val_if_fail(GDK_IS_PIXBUF(srcpixbuf), NULL);
@@ -528,8 +512,7 @@ GdkPixbuf *entangle_colour_profile_transform_apply(EntangleColourProfileTransfor
     int width = gdk_pixbuf_get_width(srcpixbuf);
     int intent = INTENT_PERCEPTUAL;
 
-    if (!transform->srcProfile ||
-        !transform->dstProfile) {
+    if (!transform->srcProfile || !transform->dstProfile) {
         g_object_ref(srcpixbuf);
         return srcpixbuf;
     }
@@ -562,12 +545,9 @@ GdkPixbuf *entangle_colour_profile_transform_apply(EntangleColourProfileTransfor
 
     g_mutex_lock(&transform->srcProfile->lock);
     g_mutex_lock(&transform->dstProfile->lock);
-    cmstransform = cmsCreateTransform(transform->srcProfile->profile,
-                                      type,
-                                      transform->dstProfile->profile,
-                                      type,
-                                      intent,
-                                      0);
+    cmstransform =
+        cmsCreateTransform(transform->srcProfile->profile, type,
+                           transform->dstProfile->profile, type, intent, 0);
     g_mutex_unlock(&transform->srcProfile->lock);
     g_mutex_unlock(&transform->dstProfile->lock);
 
@@ -577,21 +557,20 @@ GdkPixbuf *entangle_colour_profile_transform_apply(EntangleColourProfileTransfor
     /* We do it row-wise, since lcms can't cope with a
      * rowstride that isn't equal to width */
     for (int row = 0; row < height; row++)
-        cmsDoTransform(cmstransform,
-                       srcpixels + (row * stride),
-                       dstpixels + (row * stride),
+        cmsDoTransform(
+            cmstransform, srcpixels + (row * stride),
+            dstpixels + (row * stride),
 #if DEBUG_CMS
-                       /* A crude hack which causes the colour transform
-                        * to be applied to only half the image in a diagonal */
-                       (int)((double)width * (1.0-(double)row/(double)height)));
+            /* A crude hack which causes the colour transform
+             * to be applied to only half the image in a diagonal */
+            (int)((double)width * (1.0 - (double)row / (double)height)));
 #else
-                       width);
+            width);
 #endif
 
     cmsDeleteTransform(cmstransform);
     return dstpixbuf;
 }
-
 
 /*
  * Local variables:

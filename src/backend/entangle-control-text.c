@@ -21,85 +21,89 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "entangle-debug.h"
 #include "entangle-control-text.h"
 
-struct _EntangleControlText {
+#include "entangle-debug.h"
+
+struct _EntangleControlText
+{
     EntangleControl parent;
     char *value;
 };
 
-G_DEFINE_TYPE(EntangleControlText, entangle_control_text, ENTANGLE_TYPE_CONTROL);
+G_DEFINE_TYPE(EntangleControlText,
+              entangle_control_text,
+              ENTANGLE_TYPE_CONTROL);
 
-enum {
+enum
+{
     PROP_0,
     PROP_VALUE,
 };
 
-static void entangle_control_get_property(GObject *object,
-                                          guint prop_id,
-                                          GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_control_get_property(GObject *object,
+                              guint prop_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleControlText *control = ENTANGLE_CONTROL_TEXT(object);
 
-    switch (prop_id)
-        {
-        case PROP_VALUE:
-            g_value_set_string(value, control->value);
-            break;
+    switch (prop_id) {
+    case PROP_VALUE:
+        g_value_set_string(value, control->value);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_control_set_property(GObject *object,
-                                          guint prop_id,
-                                          const GValue *value,
-                                          GParamSpec *pspec)
+static void
+entangle_control_set_property(GObject *object,
+                              guint prop_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
     EntangleControlText *control = ENTANGLE_CONTROL_TEXT(object);
     gchar *newvalue;
 
-    switch (prop_id)
-        {
-        case PROP_VALUE:
-            newvalue = g_value_dup_string(value);
-            /* Hack, at least one Nikon D5100 appends 25 zeros
-             * on the end of the serial number, so we strip them
-             * here.
-             */
-            if (g_str_equal(entangle_control_get_path(ENTANGLE_CONTROL(object)),
-                            "/main/status/serialnumber")) {
-                size_t len = strlen(newvalue);
-                gboolean match = TRUE;
-                for (size_t i = 0; i < 25 && ((i+1) < len); i++) {
-                    if (newvalue[len-(1+i)] != '0')
-                        match = FALSE;
-                }
-                if (match)
-                    newvalue[len-25] = '\0';
+    switch (prop_id) {
+    case PROP_VALUE:
+        newvalue = g_value_dup_string(value);
+        /* Hack, at least one Nikon D5100 appends 25 zeros
+         * on the end of the serial number, so we strip them
+         * here.
+         */
+        if (g_str_equal(entangle_control_get_path(ENTANGLE_CONTROL(object)),
+                        "/main/status/serialnumber")) {
+            size_t len = strlen(newvalue);
+            gboolean match = TRUE;
+            for (size_t i = 0; i < 25 && ((i + 1) < len); i++) {
+                if (newvalue[len - (1 + i)] != '0')
+                    match = FALSE;
             }
-            if ((newvalue && !control->value) ||
-                (!newvalue && control->value) ||
-                (newvalue && control->value &&
-                 !g_str_equal(newvalue, control->value))) {
-                g_free(control->value);
-                control->value = newvalue;
-                entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
-            } else {
-                g_free(newvalue);
-            }
-            break;
-
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            if (match)
+                newvalue[len - 25] = '\0';
         }
+        if ((newvalue && !control->value) || (!newvalue && control->value) ||
+            (newvalue && control->value &&
+             !g_str_equal(newvalue, control->value))) {
+            g_free(control->value);
+            control->value = newvalue;
+            entangle_control_set_dirty(ENTANGLE_CONTROL(object), TRUE);
+        } else {
+            g_free(newvalue);
+        }
+        break;
+
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_control_text_finalize(GObject *object)
+static void
+entangle_control_text_finalize(GObject *object)
 {
     EntangleControlText *control = ENTANGLE_CONTROL_TEXT(object);
 
@@ -108,7 +112,8 @@ static void entangle_control_text_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_control_text_parent_class)->finalize(object);
 }
 
-static void entangle_control_text_class_init(EntangleControlTextClass *klass)
+static void
+entangle_control_text_class_init(EntangleControlTextClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -116,41 +121,32 @@ static void entangle_control_text_class_init(EntangleControlTextClass *klass)
     object_class->get_property = entangle_control_get_property;
     object_class->set_property = entangle_control_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_VALUE,
-                                    g_param_spec_string("value",
-                                                        "Control value",
-                                                        "Current value of the control",
-                                                        NULL,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_VALUE,
+        g_param_spec_string("value", "Control value",
+                            "Current value of the control", NULL,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-EntangleControlText *entangle_control_text_new(const char *path,
-                                               int id,
-                                               const char *label,
-                                               const char *info,
-                                               gboolean readonly)
+EntangleControlText *
+entangle_control_text_new(const char *path,
+                          int id,
+                          const char *label,
+                          const char *info,
+                          gboolean readonly)
 {
     g_return_val_if_fail(path != NULL, NULL);
     g_return_val_if_fail(label != NULL, NULL);
 
-    return ENTANGLE_CONTROL_TEXT(g_object_new(ENTANGLE_TYPE_CONTROL_TEXT,
-                                              "path", path,
-                                              "id", id,
-                                              "label", label,
-                                              "info", info,
-                                              "readonly", readonly,
-                                              NULL));
+    return ENTANGLE_CONTROL_TEXT(
+        g_object_new(ENTANGLE_TYPE_CONTROL_TEXT, "path", path, "id", id,
+                     "label", label, "info", info, "readonly", readonly, NULL));
 }
 
-
-static void entangle_control_text_init(EntangleControlText *control G_GNUC_UNUSED)
-{
-}
+static void
+entangle_control_text_init(EntangleControlText *control G_GNUC_UNUSED)
+{}
 
 /*
  * Local variables:

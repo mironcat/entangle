@@ -20,11 +20,13 @@
 
 #include <string.h>
 
-#include "entangle-debug.h"
 #include "entangle-media-statusbar.h"
+
+#include "entangle-debug.h"
 #include "entangle-media.h"
 
-struct _EntangleMediaStatusbar {
+struct _EntangleMediaStatusbar
+{
     GtkBox parent;
 
     gulong mediaNotifyID;
@@ -41,53 +43,53 @@ struct _EntangleMediaStatusbar {
 
 G_DEFINE_TYPE(EntangleMediaStatusbar, entangle_media_statusbar, GTK_TYPE_BOX);
 
-enum {
+enum
+{
     PROP_O,
     PROP_MEDIA,
 };
 
-
-static void entangle_media_statusbar_get_property(GObject *object,
-                                                  guint prop_id,
-                                                  GValue *value,
-                                                  GParamSpec *pspec)
+static void
+entangle_media_statusbar_get_property(GObject *object,
+                                      guint prop_id,
+                                      GValue *value,
+                                      GParamSpec *pspec)
 {
     EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
 
-    switch (prop_id)
-        {
-        case PROP_MEDIA:
-            g_value_set_object(value, statusbar->media);
-            break;
+    switch (prop_id) {
+    case PROP_MEDIA:
+        g_value_set_object(value, statusbar->media);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_media_statusbar_set_property(GObject *object,
-                                                  guint prop_id,
-                                                  const GValue *value,
-                                                  GParamSpec *pspec)
+static void
+entangle_media_statusbar_set_property(GObject *object,
+                                      guint prop_id,
+                                      const GValue *value,
+                                      GParamSpec *pspec)
 {
     EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
 
     ENTANGLE_DEBUG("Set prop on media statusbar %d", prop_id);
 
-    switch (prop_id)
-        {
-        case PROP_MEDIA:
-            entangle_media_statusbar_set_media(statusbar, g_value_get_object(value));
-            break;
+    switch (prop_id) {
+    case PROP_MEDIA:
+        entangle_media_statusbar_set_media(statusbar,
+                                           g_value_get_object(value));
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_media_statusbar_finalize(GObject *object)
+static void
+entangle_media_statusbar_finalize(GObject *object)
 {
     EntangleMediaStatusbar *statusbar = ENTANGLE_MEDIA_STATUSBAR(object);
 
@@ -99,9 +101,8 @@ static void entangle_media_statusbar_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_media_statusbar_parent_class)->finalize(object);
 }
 
-
-static gboolean entangle_media_statusbar_draw(GtkWidget *widget,
-                                              cairo_t *cr)
+static gboolean
+entangle_media_statusbar_draw(GtkWidget *widget, cairo_t *cr)
 {
     int ww, wh;
     ww = gdk_window_get_width(gtk_widget_get_window(widget));
@@ -118,8 +119,8 @@ static gboolean entangle_media_statusbar_draw(GtkWidget *widget,
     return TRUE;
 }
 
-
-static void entangle_media_statusbar_class_init(EntangleMediaStatusbarClass *klass)
+static void
+entangle_media_statusbar_class_init(EntangleMediaStatusbarClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
@@ -130,26 +131,22 @@ static void entangle_media_statusbar_class_init(EntangleMediaStatusbarClass *kla
 
     widget_class->draw = entangle_media_statusbar_draw;
 
-    g_object_class_install_property(object_class,
-                                    PROP_MEDIA,
-                                    g_param_spec_object("media",
-                                                        "Media",
-                                                        "Media",
-                                                        ENTANGLE_TYPE_MEDIA,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_MEDIA,
+        g_param_spec_object("media", "Media", "Media", ENTANGLE_TYPE_MEDIA,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
-
-EntangleMediaStatusbar *entangle_media_statusbar_new(void)
+EntangleMediaStatusbar *
+entangle_media_statusbar_new(void)
 {
-    return ENTANGLE_MEDIA_STATUSBAR(g_object_new(ENTANGLE_TYPE_MEDIA_STATUSBAR, NULL));
+    return ENTANGLE_MEDIA_STATUSBAR(
+        g_object_new(ENTANGLE_TYPE_MEDIA_STATUSBAR, NULL));
 }
 
-
-static void entangle_media_statusbar_init(EntangleMediaStatusbar *statusbar)
+static void
+entangle_media_statusbar_init(EntangleMediaStatusbar *statusbar)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
 
@@ -165,23 +162,31 @@ static void entangle_media_statusbar_init(EntangleMediaStatusbar *statusbar)
     statusbar->metaIso = gtk_label_new("");
     statusbar->metaDimensions = gtk_label_new("");
 
-    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaAperture, TRUE, TRUE, 6);
-    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaShutter, TRUE, TRUE, 6);
-    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaFocal, TRUE, TRUE, 6);
-    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaIso, TRUE, TRUE, 6);
-    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaDimensions, TRUE, TRUE, 6);
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaAperture,
+                       TRUE, TRUE, 6);
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaShutter,
+                       TRUE, TRUE, 6);
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaFocal, TRUE,
+                       TRUE, 6);
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaIso, TRUE,
+                       TRUE, 6);
+    gtk_box_pack_start(GTK_BOX(statusbar->metaBox), statusbar->metaDimensions,
+                       TRUE, TRUE, 6);
 
     gtk_container_add(GTK_CONTAINER(statusbar), statusbar->metaBox);
 
     gtk_widget_show_all(GTK_WIDGET(statusbar));
 }
 
-
-static void entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statusbar)
+static void
+entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statusbar)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
 
-    GExiv2Metadata *metadata = statusbar->media ? entangle_media_get_metadata(ENTANGLE_MEDIA(statusbar->media)) : NULL;
+    GExiv2Metadata *metadata =
+        statusbar->media
+            ? entangle_media_get_metadata(ENTANGLE_MEDIA(statusbar->media))
+            : NULL;
     gchar *shutter = NULL;
     gchar *aperture = NULL;
     gchar *focal = NULL;
@@ -196,20 +201,23 @@ static void entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statu
         gdouble focalnum;
 
         if (gexiv2_metadata_has_tag(metadata, "Exif.Photo.ExposureTime")) {
-            gexiv2_metadata_get_exif_tag_rational(metadata, "Exif.Photo.ExposureTime", &nom, &den);
+            gexiv2_metadata_get_exif_tag_rational(
+                metadata, "Exif.Photo.ExposureTime", &nom, &den);
             if (den == 10)
-                shutter = g_strdup_printf("%0.1lf secs", (double)nom/10.0);
+                shutter = g_strdup_printf("%0.1lf secs", (double)nom / 10.0);
             else if (nom == 10)
-                shutter = g_strdup_printf("1/%0.0lf secs", (double)den/10.0);
+                shutter = g_strdup_printf("1/%0.0lf secs", (double)den / 10.0);
             else
                 shutter = g_strdup_printf("%d/%d secs", nom, den);
         }
 
         if ((gexiv2_metadata_has_tag(metadata, "Exif.Photo.FNumber") &&
-             gexiv2_metadata_get_exif_tag_rational(metadata, "Exif.Photo.FNumber", &fnumn, &fnumd)) ||
+             gexiv2_metadata_get_exif_tag_rational(
+                 metadata, "Exif.Photo.FNumber", &fnumn, &fnumd)) ||
             (gexiv2_metadata_has_tag(metadata, "Exif.Photo.Aperture") &&
-             gexiv2_metadata_get_exif_tag_rational(metadata, "Exif.Photo.Aperture", &fnumn, &fnumd))) {
-            fnum = (double)fnumn/(double)fnumd;
+             gexiv2_metadata_get_exif_tag_rational(
+                 metadata, "Exif.Photo.Aperture", &fnumn, &fnumd))) {
+            fnum = (double)fnumn / (double)fnumd;
             if (fnum < 10.0)
                 aperture = g_strdup_printf("f/%1.1f", fnum);
             else
@@ -222,23 +230,27 @@ static void entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statu
         }
 
         if (gexiv2_metadata_has_tag(metadata, "Exif.Photo.FocalLength")) {
-            gexiv2_metadata_get_exif_tag_rational(metadata, "Exif.Photo.FocalLength", &nom, &den);
+            gexiv2_metadata_get_exif_tag_rational(
+                metadata, "Exif.Photo.FocalLength", &nom, &den);
             if (den > 0.0001) {
                 focalnum = (nom / den);
                 focal = g_strdup_printf("%0.0lf mm", focalnum);
             }
         }
 
-        dimensions = g_strdup_printf("%d x %d",
-                                     gexiv2_metadata_get_pixel_width(metadata),
-                                     gexiv2_metadata_get_pixel_height(metadata));
+        dimensions = g_strdup_printf(
+            "%d x %d", gexiv2_metadata_get_pixel_width(metadata),
+            gexiv2_metadata_get_pixel_height(metadata));
     }
 
-    gtk_label_set_text(GTK_LABEL(statusbar->metaShutter), shutter ? shutter : "");
-    gtk_label_set_text(GTK_LABEL(statusbar->metaAperture), aperture ? aperture : "");
+    gtk_label_set_text(GTK_LABEL(statusbar->metaShutter),
+                       shutter ? shutter : "");
+    gtk_label_set_text(GTK_LABEL(statusbar->metaAperture),
+                       aperture ? aperture : "");
     gtk_label_set_text(GTK_LABEL(statusbar->metaFocal), focal ? focal : "");
     gtk_label_set_text(GTK_LABEL(statusbar->metaIso), iso ? iso : "");
-    gtk_label_set_text(GTK_LABEL(statusbar->metaDimensions), dimensions ? dimensions : "");
+    gtk_label_set_text(GTK_LABEL(statusbar->metaDimensions),
+                       dimensions ? dimensions : "");
 
     g_free(shutter);
     g_free(aperture);
@@ -247,10 +259,10 @@ static void entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statu
     g_free(dimensions);
 }
 
-
-static void entangle_media_statusbar_media_metadata_notify(GObject *media G_GNUC_UNUSED,
-                                                           GParamSpec *pspec G_GNUC_UNUSED,
-                                                           gpointer data)
+static void
+entangle_media_statusbar_media_metadata_notify(GObject *media G_GNUC_UNUSED,
+                                               GParamSpec *pspec G_GNUC_UNUSED,
+                                               gpointer data)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(data));
 
@@ -259,7 +271,6 @@ static void entangle_media_statusbar_media_metadata_notify(GObject *media G_GNUC
     entangle_media_statusbar_update_labels(statusbar);
 }
 
-
 /**
  * entangle_media_statusbar_set_media:
  * @statusbar: (transfer none): the status bar widget
@@ -267,8 +278,9 @@ static void entangle_media_statusbar_media_metadata_notify(GObject *media G_GNUC
  *
  * Set the media to display status information for
  */
-void entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
-                                        EntangleMedia *media)
+void
+entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
+                                   EntangleMedia *media)
 {
     g_return_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar));
     g_return_if_fail(!media || ENTANGLE_IS_MEDIA(media));
@@ -280,16 +292,15 @@ void entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
     statusbar->media = media;
     if (statusbar->media) {
         g_object_ref(statusbar->media);
-        statusbar->mediaNotifyID = g_signal_connect(statusbar->media,
-                                               "notify::metadata",
-                                               G_CALLBACK(entangle_media_statusbar_media_metadata_notify),
-                                               statusbar);
+        statusbar->mediaNotifyID = g_signal_connect(
+            statusbar->media, "notify::metadata",
+            G_CALLBACK(entangle_media_statusbar_media_metadata_notify),
+            statusbar);
     }
 
     entangle_media_statusbar_update_labels(statusbar);
     gtk_widget_queue_draw(GTK_WIDGET(statusbar));
 }
-
 
 /**
  * entangle_media_statusbar_get_media:
@@ -299,7 +310,8 @@ void entangle_media_statusbar_set_media(EntangleMediaStatusbar *statusbar,
  *
  * Returns: (transfer none): the media displayed
  */
-EntangleMedia *entangle_media_statusbar_get_media(EntangleMediaStatusbar *statusbar)
+EntangleMedia *
+entangle_media_statusbar_get_media(EntangleMediaStatusbar *statusbar)
 {
     g_return_val_if_fail(ENTANGLE_IS_MEDIA_STATUSBAR(statusbar), NULL);
 

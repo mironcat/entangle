@@ -27,24 +27,32 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_SCRIPT_CONFIG            (entangle_script_config_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleScriptConfig, entangle_script_config, ENTANGLE, SCRIPT_CONFIG, GtkBox)
+#define ENTANGLE_TYPE_SCRIPT_CONFIG (entangle_script_config_get_type())
+G_DECLARE_FINAL_TYPE(EntangleScriptConfig,
+                     entangle_script_config,
+                     ENTANGLE,
+                     SCRIPT_CONFIG,
+                     GtkBox)
 
-EntangleScriptConfig* entangle_script_config_new(void);
+EntangleScriptConfig *
+entangle_script_config_new(void);
 
-void entangle_script_config_add_script(EntangleScriptConfig *config,
-                                       EntangleScript *script);
-void entangle_script_config_remove_script(EntangleScriptConfig *config,
-                                          EntangleScript *script);
+void
+entangle_script_config_add_script(EntangleScriptConfig *config,
+                                  EntangleScript *script);
+void
+entangle_script_config_remove_script(EntangleScriptConfig *config,
+                                     EntangleScript *script);
 
-gboolean entangle_script_config_has_scripts(EntangleScriptConfig *config);
+gboolean
+entangle_script_config_has_scripts(EntangleScriptConfig *config);
 
-EntangleScript *entangle_script_config_get_selected(EntangleScriptConfig *config);
+EntangleScript *
+entangle_script_config_get_selected(EntangleScriptConfig *config);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_SCRIPT_CONFIG_H__ */
-
 
 /*
  * Local variables:

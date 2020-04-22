@@ -28,55 +28,58 @@ struct _EntangleScriptSimplePrivate
     gboolean unused;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(EntangleScriptSimple, entangle_script_simple, ENTANGLE_TYPE_SCRIPT);
+G_DEFINE_TYPE_WITH_PRIVATE(EntangleScriptSimple,
+                           entangle_script_simple,
+                           ENTANGLE_TYPE_SCRIPT);
 
-static void entangle_script_simple_finalize(GObject *object)
+static void
+entangle_script_simple_finalize(GObject *object)
 {
     G_OBJECT_CLASS(entangle_script_simple_parent_class)->finalize(object);
 }
 
-
-static void entangle_script_simple_execute_async(EntangleScript *script,
-                                                 EntangleCameraAutomata *automata,
-                                                 GCancellable *cancel,
-                                                 GAsyncReadyCallback callback,
-                                                 gpointer user_data)
+static void
+entangle_script_simple_execute_async(EntangleScript *script,
+                                     EntangleCameraAutomata *automata,
+                                     GCancellable *cancel,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data)
 {
-    EntangleScriptSimpleClass *klass =
-        ENTANGLE_SCRIPT_SIMPLE_GET_CLASS(script);
-    GTask *result = g_task_new(script,
-                               cancel, callback, user_data);
-    GObject *data = entangle_script_simple_init_task_data(ENTANGLE_SCRIPT_SIMPLE(script));
+    EntangleScriptSimpleClass *klass = ENTANGLE_SCRIPT_SIMPLE_GET_CLASS(script);
+    GTask *result = g_task_new(script, cancel, callback, user_data);
+    GObject *data =
+        entangle_script_simple_init_task_data(ENTANGLE_SCRIPT_SIMPLE(script));
     if (data)
         g_task_set_task_data(result, data, g_object_unref);
 
     if (klass->execute) {
-        klass->execute(ENTANGLE_SCRIPT_SIMPLE(script),
-                       automata,
-                       cancel,
+        klass->execute(ENTANGLE_SCRIPT_SIMPLE(script), automata, cancel,
                        result);
     } else {
-        g_task_return_new_error(result,
-                                g_quark_from_string("entangle-script-simple"), 0,
-                                "%s", _("Missing 'execute' method implementation"));
+        g_task_return_new_error(
+            result, g_quark_from_string("entangle-script-simple"), 0, "%s",
+            _("Missing 'execute' method implementation"));
     }
 }
 
-
-static gboolean entangle_script_simple_execute_finish(EntangleScript *script G_GNUC_UNUSED,
-                                                      GAsyncResult *result,
-                                                      GError **error)
+static gboolean
+entangle_script_simple_execute_finish(EntangleScript *script G_GNUC_UNUSED,
+                                      GAsyncResult *result,
+                                      GError **error)
 {
     GTask *task = G_TASK(result);
 
     return g_task_propagate_boolean(task, error);
 }
 
-void entangle_script_simple_return_task_error(EntangleScriptSimple *script G_GNUC_UNUSED,
-                                              GTask *result,
-                                              const gchar *message)
+void
+entangle_script_simple_return_task_error(EntangleScriptSimple *script
+                                             G_GNUC_UNUSED,
+                                         GTask *result,
+                                         const gchar *message)
 {
-    g_task_return_new_error(result, g_quark_from_string("entangle-script-simple"), 0,
+    g_task_return_new_error(result,
+                            g_quark_from_string("entangle-script-simple"), 0,
                             "%s", message);
 }
 
@@ -86,10 +89,10 @@ void entangle_script_simple_return_task_error(EntangleScriptSimple *script G_GNU
  *
  * Returns: (transfer full): the data
  */
-GObject *entangle_script_simple_init_task_data(EntangleScriptSimple *script)
+GObject *
+entangle_script_simple_init_task_data(EntangleScriptSimple *script)
 {
-    EntangleScriptSimpleClass *klass =
-        ENTANGLE_SCRIPT_SIMPLE_GET_CLASS(script);
+    EntangleScriptSimpleClass *klass = ENTANGLE_SCRIPT_SIMPLE_GET_CLASS(script);
 
     if (klass->init_task_data) {
         return klass->init_task_data(ENTANGLE_SCRIPT_SIMPLE(script));
@@ -103,8 +106,9 @@ GObject *entangle_script_simple_init_task_data(EntangleScriptSimple *script)
  *
  * Returns: (transfer full): the data
  */
-GObject *entangle_script_simple_get_task_data(EntangleScriptSimple *script G_GNUC_UNUSED,
-                                              GTask *result)
+GObject *
+entangle_script_simple_get_task_data(EntangleScriptSimple *script G_GNUC_UNUSED,
+                                     GTask *result)
 {
     GObject *obj = g_task_get_task_data(result);
     if (obj)
@@ -112,8 +116,8 @@ GObject *entangle_script_simple_get_task_data(EntangleScriptSimple *script G_GNU
     return obj;
 }
 
-
-static void entangle_script_simple_class_init(EntangleScriptSimpleClass *klass)
+static void
+entangle_script_simple_class_init(EntangleScriptSimpleClass *klass)
 {
     GObjectClass *object_klass = G_OBJECT_CLASS(klass);
     EntangleScriptClass *script_klass = ENTANGLE_SCRIPT_CLASS(klass);
@@ -123,9 +127,9 @@ static void entangle_script_simple_class_init(EntangleScriptSimpleClass *klass)
     script_klass->execute_finish = entangle_script_simple_execute_finish;
 }
 
-static void entangle_script_simple_init(EntangleScriptSimple *script G_GNUC_UNUSED)
-{
-}
+static void
+entangle_script_simple_init(EntangleScriptSimple *script G_GNUC_UNUSED)
+{}
 
 /*
  * Local variables:

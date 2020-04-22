@@ -27,19 +27,25 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CONTROL_PANEL            (entangle_control_panel_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleControlPanel, entangle_control_panel, ENTANGLE, CONTROL_PANEL, GtkExpander)
+#define ENTANGLE_TYPE_CONTROL_PANEL (entangle_control_panel_get_type())
+G_DECLARE_FINAL_TYPE(EntangleControlPanel,
+                     entangle_control_panel,
+                     ENTANGLE,
+                     CONTROL_PANEL,
+                     GtkExpander)
 
-EntangleControlPanel *entangle_control_panel_new(EntangleCameraPreferences *prefs);
+EntangleControlPanel *
+entangle_control_panel_new(EntangleCameraPreferences *prefs);
 
-EntangleCameraPreferences *entangle_control_panel_get_camera_preferences(EntangleControlPanel *panel);
+EntangleCameraPreferences *
+entangle_control_panel_get_camera_preferences(EntangleControlPanel *panel);
 
-gboolean entangle_control_panel_get_has_controls(EntangleControlPanel *panel);
+gboolean
+entangle_control_panel_get_has_controls(EntangleControlPanel *panel);
 
 G_END_DECLS
 
 #endif /* __ENTANGLE_CONTROL_PANEL_H__ */
-
 
 /*
  * Local variables:

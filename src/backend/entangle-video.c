@@ -18,67 +18,71 @@
  *
  */
 
-#include <glib.h>
 #include <stdio.h>
 #include <string.h>
 
-#include "entangle-debug.h"
+#include <glib.h>
+
 #include "entangle-video.h"
 
-struct _EntangleVideo {
+#include "entangle-debug.h"
+
+struct _EntangleVideo
+{
     EntangleMedia parent;
     GstBaseSrc *source;
 };
 
 G_DEFINE_TYPE(EntangleVideo, entangle_video, ENTANGLE_TYPE_MEDIA);
 
-enum {
+enum
+{
     PROP_0,
     PROP_SOURCE,
 };
 
-static void entangle_video_get_property(GObject *object,
-                                        guint prop_id,
-                                        GValue *value,
-                                        GParamSpec *pspec)
+static void
+entangle_video_get_property(GObject *object,
+                            guint prop_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
     EntangleVideo *video = ENTANGLE_VIDEO(object);
 
-    switch (prop_id)
-        {
-        case PROP_SOURCE:
-            g_value_set_object(value, video->source);
-            break;
+    switch (prop_id) {
+    case PROP_SOURCE:
+        g_value_set_object(value, video->source);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-static void entangle_video_set_property(GObject *object,
-                                        guint prop_id,
-                                        const GValue *value,
-                                        GParamSpec *pspec)
+static void
+entangle_video_set_property(GObject *object,
+                            guint prop_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
     EntangleVideo *video = ENTANGLE_VIDEO(object);
 
-    switch (prop_id)
-        {
-        case PROP_SOURCE:
-            if (video->source)
-                g_object_unref(video->source);
-            video->source = g_value_get_object(value);
-            if (video->source)
-                g_object_ref(video->source);
-            break;
+    switch (prop_id) {
+    case PROP_SOURCE:
+        if (video->source)
+            g_object_unref(video->source);
+        video->source = g_value_get_object(value);
+        if (video->source)
+            g_object_ref(video->source);
+        break;
 
-        default:
-            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
-        }
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+    }
 }
 
-
-static void entangle_video_finalize(GObject *object)
+static void
+entangle_video_finalize(GObject *object)
 {
     EntangleVideo *video = ENTANGLE_VIDEO(object);
 
@@ -90,8 +94,8 @@ static void entangle_video_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_video_parent_class)->finalize(object);
 }
 
-
-static void entangle_video_class_init(EntangleVideoClass *klass)
+static void
+entangle_video_class_init(EntangleVideoClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
@@ -99,18 +103,13 @@ static void entangle_video_class_init(EntangleVideoClass *klass)
     object_class->get_property = entangle_video_get_property;
     object_class->set_property = entangle_video_set_property;
 
-    g_object_class_install_property(object_class,
-                                    PROP_SOURCE,
-                                    g_param_spec_object("source",
-                                                        "Video source",
-                                                        "Video source",
-                                                        GST_TYPE_BASE_SRC,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+    g_object_class_install_property(
+        object_class, PROP_SOURCE,
+        g_param_spec_object("source", "Video source", "Video source",
+                            GST_TYPE_BASE_SRC,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
-
 
 /**
  * entangle_video_new_file:
@@ -121,24 +120,23 @@ static void entangle_video_class_init(EntangleVideoClass *klass)
  *
  * Returns: (transfer full): the new video
  */
-EntangleVideo *entangle_video_new_file(const char *filename)
+EntangleVideo *
+entangle_video_new_file(const char *filename)
 {
-    return ENTANGLE_VIDEO(g_object_new(ENTANGLE_TYPE_VIDEO,
-                                       "filename", filename,
-                                       NULL));
+    return ENTANGLE_VIDEO(
+        g_object_new(ENTANGLE_TYPE_VIDEO, "filename", filename, NULL));
 }
 
-EntangleVideo *entangle_video_new_source(GstBaseSrc *source)
+EntangleVideo *
+entangle_video_new_source(GstBaseSrc *source)
 {
-    return ENTANGLE_VIDEO(g_object_new(ENTANGLE_TYPE_VIDEO,
-                                       "source", source,
-                                       NULL));
+    return ENTANGLE_VIDEO(
+        g_object_new(ENTANGLE_TYPE_VIDEO, "source", source, NULL));
 }
 
-static void entangle_video_init(EntangleVideo *video G_GNUC_UNUSED)
-{
-}
-
+static void
+entangle_video_init(EntangleVideo *video G_GNUC_UNUSED)
+{}
 
 /**
  * entangle_video_get_source:
@@ -148,7 +146,8 @@ static void entangle_video_init(EntangleVideo *video G_GNUC_UNUSED)
  *
  * Returns: (transfer none): the video source
  */
-GstBaseSrc *entangle_video_get_source(EntangleVideo *video)
+GstBaseSrc *
+entangle_video_get_source(EntangleVideo *video)
 {
     return video->source;
 }
@@ -160,8 +159,8 @@ GstBaseSrc *entangle_video_get_source(EntangleVideo *video)
  *
  * Set the live video source element
  */
-void entangle_video_set_source(EntangleVideo *video,
-                               GstBaseSrc *source)
+void
+entangle_video_set_source(EntangleVideo *video, GstBaseSrc *source)
 {
     if (video->source)
         g_object_unref(source);

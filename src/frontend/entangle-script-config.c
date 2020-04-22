@@ -20,10 +20,12 @@
 
 #include <glib/gi18n.h>
 
-#include "entangle-debug.h"
 #include "entangle-script-config.h"
 
-struct _EntangleScriptConfig {
+#include "entangle-debug.h"
+
+struct _EntangleScriptConfig
+{
     GtkBox parent;
     GtkWidget *scriptBox;
     GtkListStore *scriptModel;
@@ -32,8 +34,8 @@ struct _EntangleScriptConfig {
 
 G_DEFINE_TYPE(EntangleScriptConfig, entangle_script_config, GTK_TYPE_BOX);
 
-
-static void entangle_script_config_finalize(GObject *object)
+static void
+entangle_script_config_finalize(GObject *object)
 {
     EntangleScriptConfig *config = ENTANGLE_SCRIPT_CONFIG(object);
 
@@ -42,20 +44,20 @@ static void entangle_script_config_finalize(GObject *object)
     G_OBJECT_CLASS(entangle_script_config_parent_class)->finalize(object);
 }
 
-
-static void entangle_script_config_class_init(EntangleScriptConfigClass *klass)
+static void
+entangle_script_config_class_init(EntangleScriptConfigClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
     object_class->finalize = entangle_script_config_finalize;
 }
 
-
-EntangleScriptConfig *entangle_script_config_new(void)
+EntangleScriptConfig *
+entangle_script_config_new(void)
 {
-    return ENTANGLE_SCRIPT_CONFIG(g_object_new(ENTANGLE_TYPE_SCRIPT_CONFIG, NULL));
+    return ENTANGLE_SCRIPT_CONFIG(
+        g_object_new(ENTANGLE_TYPE_SCRIPT_CONFIG, NULL));
 }
-
 
 static void
 entangle_script_config_data_func(GtkCellLayout *layout G_GNUC_UNUSED,
@@ -74,10 +76,8 @@ entangle_script_config_data_func(GtkCellLayout *layout G_GNUC_UNUSED,
         g_object_set(cell, "text", _("No script"), NULL);
 }
 
-
 static void
-entangle_script_config_changed(GtkWidget *src G_GNUC_UNUSED,
-                               gpointer data)
+entangle_script_config_changed(GtkWidget *src G_GNUC_UNUSED, gpointer data)
 {
     g_return_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(data));
 
@@ -87,46 +87,54 @@ entangle_script_config_changed(GtkWidget *src G_GNUC_UNUSED,
     GtkWidget *widget;
     gint page;
 
-    if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(config->scriptBox), &iter)) {
+    if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(config->scriptBox),
+                                       &iter)) {
         gtk_widget_hide(config->scriptConfig);
     } else {
-        gtk_tree_model_get(GTK_TREE_MODEL(config->scriptModel), &iter, 0, &script, 1, &widget, -1);
+        gtk_tree_model_get(GTK_TREE_MODEL(config->scriptModel), &iter, 0,
+                           &script, 1, &widget, -1);
 
-        page = gtk_notebook_page_num(GTK_NOTEBOOK(config->scriptConfig), widget);
+        page =
+            gtk_notebook_page_num(GTK_NOTEBOOK(config->scriptConfig), widget);
         if (page == -1) {
             gtk_widget_hide(config->scriptConfig);
         } else {
-            gtk_notebook_set_current_page(GTK_NOTEBOOK(config->scriptConfig), page);
+            gtk_notebook_set_current_page(GTK_NOTEBOOK(config->scriptConfig),
+                                          page);
             gtk_widget_show(config->scriptConfig);
         }
     }
 }
 
-static void entangle_script_config_init(EntangleScriptConfig *config)
+static void
+entangle_script_config_init(EntangleScriptConfig *config)
 {
     GtkCellRenderer *cell;
     GtkTreeIter iter;
 
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(config), GTK_ORIENTATION_VERTICAL);
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(config),
+                                   GTK_ORIENTATION_VERTICAL);
 
-    config->scriptModel = gtk_list_store_new(2, ENTANGLE_TYPE_SCRIPT, GTK_TYPE_WIDGET);
-    config->scriptBox = gtk_combo_box_new_with_model(GTK_TREE_MODEL(config->scriptModel));
+    config->scriptModel =
+        gtk_list_store_new(2, ENTANGLE_TYPE_SCRIPT, GTK_TYPE_WIDGET);
+    config->scriptBox =
+        gtk_combo_box_new_with_model(GTK_TREE_MODEL(config->scriptModel));
     config->scriptConfig = gtk_notebook_new();
 
     g_signal_connect(config->scriptBox, "changed",
                      G_CALLBACK(entangle_script_config_changed), config);
 
-    g_object_set(config->scriptConfig, "show-border", FALSE, "show-tabs", FALSE, NULL);
+    g_object_set(config->scriptConfig, "show-border", FALSE, "show-tabs", FALSE,
+                 NULL);
 
     cell = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(config->scriptBox), cell, TRUE);
     gtk_cell_layout_set_cell_data_func(GTK_CELL_LAYOUT(config->scriptBox), cell,
-                                       entangle_script_config_data_func,
-                                       NULL, NULL);
+                                       entangle_script_config_data_func, NULL,
+                                       NULL);
 
     gtk_list_store_append(config->scriptModel, &iter);
-    gtk_list_store_set(config->scriptModel, &iter,
-                       0, NULL, 1, NULL, -1);
+    gtk_list_store_set(config->scriptModel, &iter, 0, NULL, 1, NULL, -1);
     gtk_combo_box_set_active_iter(GTK_COMBO_BOX(config->scriptBox), &iter);
 
     gtk_container_add(GTK_CONTAINER(config), config->scriptBox);
@@ -136,9 +144,9 @@ static void entangle_script_config_init(EntangleScriptConfig *config)
     g_object_set(config, "spacing", 6, NULL);
 }
 
-
-void entangle_script_config_add_script(EntangleScriptConfig *config,
-                                       EntangleScript *script)
+void
+entangle_script_config_add_script(EntangleScriptConfig *config,
+                                  EntangleScript *script)
 {
     g_return_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(config));
     g_return_if_fail(ENTANGLE_IS_SCRIPT(script));
@@ -153,27 +161,27 @@ void entangle_script_config_add_script(EntangleScriptConfig *config,
     gtk_widget_show(widget);
 
     gtk_list_store_append(config->scriptModel, &iter);
-    gtk_list_store_set(config->scriptModel, &iter,
-                       0, script, 1, widget, -1);
+    gtk_list_store_set(config->scriptModel, &iter, 0, script, 1, widget, -1);
 }
 
-
-void entangle_script_config_remove_script(EntangleScriptConfig *config,
-                                          EntangleScript *script)
+void
+entangle_script_config_remove_script(EntangleScriptConfig *config,
+                                     EntangleScript *script)
 {
     g_return_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(config));
     g_return_if_fail(ENTANGLE_IS_SCRIPT(script));
 
     GtkTreeIter iter;
 
-    if (!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(config->scriptModel), &iter))
+    if (!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(config->scriptModel),
+                                       &iter))
         return;
 
     do {
         EntangleScript *val;
         GtkWidget *widget;
-        gtk_tree_model_get(GTK_TREE_MODEL(config->scriptModel), &iter,
-                           0, &val, 1, &widget ,-1);
+        gtk_tree_model_get(GTK_TREE_MODEL(config->scriptModel), &iter, 0, &val,
+                           1, &widget, -1);
 
         if (val == script) {
             gtk_container_remove(GTK_CONTAINER(config->scriptConfig), widget);
@@ -181,20 +189,25 @@ void entangle_script_config_remove_script(EntangleScriptConfig *config,
             gtk_list_store_remove(config->scriptModel, &iter);
             break;
         }
-    } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(config->scriptModel), &iter));
+    } while (
+        gtk_tree_model_iter_next(GTK_TREE_MODEL(config->scriptModel), &iter));
 
-    if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(config->scriptBox), &iter)) {
-        if (!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(config->scriptModel), &iter))
+    if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(config->scriptBox),
+                                       &iter)) {
+        if (!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(config->scriptModel),
+                                           &iter))
             return;
         gtk_combo_box_set_active_iter(GTK_COMBO_BOX(config->scriptBox), &iter);
     }
 }
 
-gboolean entangle_script_config_has_scripts(EntangleScriptConfig *config)
+gboolean
+entangle_script_config_has_scripts(EntangleScriptConfig *config)
 {
     g_return_val_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(config), FALSE);
 
-    return gtk_tree_model_iter_n_children(GTK_TREE_MODEL(config->scriptModel), NULL) > 1;
+    return gtk_tree_model_iter_n_children(GTK_TREE_MODEL(config->scriptModel),
+                                          NULL) > 1;
 }
 
 /**
@@ -205,7 +218,8 @@ gboolean entangle_script_config_has_scripts(EntangleScriptConfig *config)
  *
  * Returns: (transfer none): the script displayed
  */
-EntangleScript *entangle_script_config_get_selected(EntangleScriptConfig *config)
+EntangleScript *
+entangle_script_config_get_selected(EntangleScriptConfig *config)
 {
     g_return_val_if_fail(ENTANGLE_IS_SCRIPT_CONFIG(config), NULL);
 
@@ -215,8 +229,8 @@ EntangleScript *entangle_script_config_get_selected(EntangleScriptConfig *config
     if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(config->scriptBox), &iter))
         return NULL;
 
-    gtk_tree_model_get(GTK_TREE_MODEL(config->scriptModel), &iter,
-                       0, &script, -1);
+    gtk_tree_model_get(GTK_TREE_MODEL(config->scriptModel), &iter, 0, &script,
+                       -1);
 
     return script;
 }

@@ -27,19 +27,28 @@
 
 G_BEGIN_DECLS
 
-#define ENTANGLE_TYPE_CAMERA_PREFERENCES            (entangle_camera_preferences_get_type ())
-G_DECLARE_FINAL_TYPE(EntangleCameraPreferences, entangle_camera_preferences, ENTANGLE, CAMERA_PREFERENCES, GObject)
+#define ENTANGLE_TYPE_CAMERA_PREFERENCES                                       \
+    (entangle_camera_preferences_get_type())
+G_DECLARE_FINAL_TYPE(EntangleCameraPreferences,
+                     entangle_camera_preferences,
+                     ENTANGLE,
+                     CAMERA_PREFERENCES,
+                     GObject)
 
-EntangleCameraPreferences *entangle_camera_preferences_new(void);
+EntangleCameraPreferences *
+entangle_camera_preferences_new(void);
 
-void entangle_camera_preferences_set_camera(EntangleCameraPreferences *preferences,
-                                            EntangleCamera *camera);
-EntangleCamera *entangle_camera_preferences_get_camera(EntangleCameraPreferences *preferences);
+void
+entangle_camera_preferences_set_camera(EntangleCameraPreferences *preferences,
+                                       EntangleCamera *camera);
+EntangleCamera *
+entangle_camera_preferences_get_camera(EntangleCameraPreferences *preferences);
 
-
-gchar **entangle_camera_preferences_get_controls(EntangleCameraPreferences *prefs);
-void entangle_camera_preferences_set_controls(EntangleCameraPreferences *prefs,
-                                              const gchar *const *controls);
+gchar **
+entangle_camera_preferences_get_controls(EntangleCameraPreferences *prefs);
+void
+entangle_camera_preferences_set_controls(EntangleCameraPreferences *prefs,
+                                         const gchar *const *controls);
 
 G_END_DECLS
 
