@@ -78,6 +78,20 @@ entangle_session_get_property(GObject *object,
     }
 }
 
+static char *
+entangle_session_sanitize_pattern(const char *pattern)
+{
+    if (!pattern) {
+        ENTANGLE_DEBUG("Filename pattern is NULL");
+        pattern = "captureXXXXXX";
+    } else if (!strstr(pattern, "XXXXXX")) {
+        ENTANGLE_DEBUG("Filename pattern '%s' lacks placeholders", pattern);
+        pattern = "captureXXXXXX";
+    }
+
+    return g_strdup(pattern);
+}
+
 static void
 entangle_session_set_property(GObject *object,
                               guint prop_id,
@@ -95,7 +109,8 @@ entangle_session_set_property(GObject *object,
 
     case PROP_FILENAME_PATTERN:
         g_free(session->filenamePattern);
-        session->filenamePattern = g_value_dup_string(value);
+        session->filenamePattern =
+            entangle_session_sanitize_pattern(g_value_get_string(value));
         session->recalculateDigit = TRUE;
         break;
 
