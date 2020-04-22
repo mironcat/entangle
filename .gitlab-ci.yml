@@ -1,16 +1,52 @@
-jobfedora29:
-  image: quay.io/entangle/cibuild-fedora29
-  script:
-    - meson --prefix="`pwd`/vroot" -Denable-gtk-doc=true build
-    - ninja -C build install
-    - make syntax-check
-    - build-aux/make-dist
-    - rpmbuild --nodeps --define "_sourcedir `pwd`" -ta --clean entangle*.tar.xz
+stages:
+  - container
+  - style
+  - build
 
-jobubuntu1804:
-  image: quay.io/entangle/cibuild-ubuntu1804
+.container-job-template: &container-job-definition
+  image: docker:stable
+  stage: container
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+    - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - export TAG="${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG}"
+  script:
+    - docker pull ${TAG} || true
+    - docker build --tag ${TAG} --cache-from ${TAG} -f ci/${NAME}.docker ci
+    - docker push ${TAG}
+  after_script:
+    - docker logout
+
+.build-job-template: &build-job-definition
+  stage: build
   script:
     - meson --prefix="`pwd`/vroot" -Denable-gtk-doc=true build
     - ninja -C build install
-    - make syntax-check
     - build-aux/make-dist
+    - if [ test -f /usr/bin/rpmbuild ]; then rpmbuild --nodeps --define "_sourcedir `pwd`" -ta --clean entangle*.tar.xz ; fi
+
+container-build-fedora31:
+  <<: *container-job-definition
+  variables:
+    NAME: build-fedora31
+
+container-build-ubuntu1804:
+  <<: *container-job-definition
+  variables:
+    NAME: build-ubuntu1804
+
+build-fedora31:
+  <<: *build-job-definition
+  image: ${CI_REGISTRY_IMAGE}/build-fedora31:${CI_COMMIT_REF_SLUG}
+
+build-ubuntu1804:
+  <<: *build-job-definition
+  image: ${CI_REGISTRY_IMAGE}/build-ubuntu1804:${CI_COMMIT_REF_SLUG}
+
+syntax-check:
+  stage: style
+  image: ${CI_REGISTRY_IMAGE}/build-fedora31:${CI_COMMIT_REF_SLUG}
+  script:
+    - make syntax-check
