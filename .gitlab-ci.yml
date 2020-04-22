@@ -50,3 +50,16 @@ syntax-check:
   image: ${CI_REGISTRY_IMAGE}/build-fedora31:${CI_COMMIT_REF_SLUG}
   script:
     - make syntax-check
+
+clang-format:
+  stage: style
+  image: ${CI_REGISTRY_IMAGE}/build-fedora31:${CI_COMMIT_REF_SLUG}
+  script:
+    - meson build
+    - ninja -C build clang-format
+    - if git diff --patch --exit-code > clang-format.patch; then echo "Clang format changed nothing"; else echo "Clang format found changes to make!"; false; fi
+  artifacts:
+    paths:
+      - clang-format.patch
+    expire_in: 1 week
+    when: on_failure
