@@ -935,7 +935,8 @@ do_camera_file_preview(EntangleCamera *cam G_GNUC_UNUSED,
             char *localpath =
                 entangle_session_next_filename(manager->session, file);
 
-            if (!entangle_camera_file_save_path(file, localpath, NULL)) {
+            if (!localpath ||
+                !entangle_camera_file_save_path(file, localpath, NULL)) {
                 ENTANGLE_DEBUG("Failed save path");
             } else {
                 ENTANGLE_DEBUG("Saved to %s", localpath);

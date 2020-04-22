@@ -216,7 +216,7 @@ do_entangle_camera_file_download(EntangleCamera *cam G_GNUC_UNUSED,
 
     localpath = entangle_session_next_filename(automata->session, file);
 
-    if (!entangle_camera_file_save_path(file, localpath, NULL)) {
+    if (!localpath || !entangle_camera_file_save_path(file, localpath, NULL)) {
         ENTANGLE_DEBUG("Failed save path");
         goto cleanup;
     }
