@@ -86,9 +86,9 @@ fi
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/plugins
 
-%{_datadir}/icons/hicolor/*/apps/entangle.png
+%{_datadir}/icons/hicolor/*/apps/org.entangle_photo.Manager.png
 %{_datadir}/icons/hicolor/*/apps/entangle-*.png
-%{_datadir}/icons/hicolor/scalable/apps/entangle.svg
+%{_datadir}/icons/hicolor/scalable/apps/org.entangle_photo.Manager.svg
 
 %dir %{_datadir}/help/C/entangle/
 %{_datadir}/help/C/entangle/*.page

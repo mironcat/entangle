@@ -24,7 +24,7 @@ misc_icon_names = [
 
 foreach icon_size: logo_icon_sizes
   install_data(
-    join_paths(icon_size, 'entangle.png'),
+    join_paths(icon_size, 'org.entangle_photo.Manager.png'),
     install_dir: join_paths(entangle_datadir, 'icons', 'hicolor', icon_size, 'apps')
   )
 endforeach
@@ -39,6 +39,6 @@ foreach icon_size: misc_icon_sizes
 endforeach
 
 install_data(
-  join_paths('scalable', 'entangle.svg'),
+  join_paths('scalable', 'org.entangle_photo.Manager.svg'),
   install_dir: join_paths(entangle_datadir, 'icons', 'hicolor', 'scalable', 'apps')
 )

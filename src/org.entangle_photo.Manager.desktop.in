@@ -2,7 +2,7 @@
 Version=1.0
 Name=Entangle
 Comment=Tethered Camera Control & Capture
-Icon=entangle
+Icon=org.entangle_photo.Manager
 Exec=entangle
 Type=Application
 Terminal=false
