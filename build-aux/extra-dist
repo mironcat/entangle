@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+SOURCE_ROOT=$1
+BUILD_ROOT=$2
+
+VERSION=`grep 'version:' $SOURCE_ROOT/meson.build  | head -1 | awk '{print $2}' | sed -e "s/'//g" -e "s/,//"`
+
+$SOURCE_ROOT/build-aux/gitlog-to-changelog > $MESON_DIST_ROOT/ChangeLog
+$SOURCE_ROOT/build-aux/metainfo-to-news > $MESON_DIST_ROOT/NEWS
+
+out="`git log --pretty=format:'   %aN <%aE>' | sort -u`"
+perl -p -e "s/#authorslist#// and print '$out'" < $SOURCE_ROOT/AUTHORS.in > $MESON_DIST_ROOT/AUTHORS
+
+perl -p -e "s/#VERSION#/$VERSION/" $SOURCE_ROOT/entangle.spec.in > $MESON_DIST_ROOT/entangle.spec

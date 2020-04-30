@@ -5,5 +5,5 @@ RUN dnf install -y clang glib2-devel libgphoto2-devel \
      gtk3-devel gobject-introspection-devel dbus-glib-devel \
      intltool libX11-devel libXext-devel LibRaw-devel \
      gstreamer1-devel gstreamer1-plugins-base-devel meson gtk-doc \
-     make git rpm-build fedora-rpm-macros && \
+     make git rpm-build fedora-rpm-macros appstream && \
   dnf clean all

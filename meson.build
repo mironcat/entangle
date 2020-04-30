@@ -7,7 +7,7 @@ project(
     'c_std=gnu99',
     'warning_level=1',
   ],
-  meson_version: '>= 0.41.0'
+  meson_version: '>= 0.49.0'
 )
 
 pod2man = find_program('pod2man')
@@ -224,3 +224,4 @@ test(
 
 
 meson.add_install_script('meson_post_install.py')
+meson.add_dist_script('build-aux/extra-dist', meson.source_root(), meson.build_root())
