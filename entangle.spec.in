@@ -72,7 +72,7 @@ fi
 
 %files -f %{name}.lang
 %defattr(-, root, root)
-%doc README COPYING AUTHORS NEWS ChangeLog
+%doc README.rst COPYING AUTHORS NEWS ChangeLog
 %{_bindir}/entangle
 %{_mandir}/man1/entangle.1*
 
