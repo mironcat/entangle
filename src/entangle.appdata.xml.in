@@ -25,7 +25,7 @@
       cameras from other manufacturers.
     </p>
   </description>
-  <launchable type="desktop-id">entangle.desktop</launchable>
+  <launchable type="desktop-id">org.entangle_photo.Manager.desktop</launchable>
   <keywords>
     <keyword>Capture</keyword>
     <keyword>Camera</keyword>

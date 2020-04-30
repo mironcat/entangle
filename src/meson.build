@@ -41,7 +41,7 @@ entangle = executable(
   install_dir: entangle_bindir
 )
 
-desktop = 'entangle.desktop'
+desktop = 'org.entangle_photo.Manager.desktop'
 
 i18n.merge_file (
   desktop,
