@@ -7,9 +7,8 @@ rm -rf build vroot
 
 meson --prefix="`pwd`/vroot" -Denable-gtk-doc=true build
 
+ninja -C build test
 ninja -C build install
-
-make syntax-check
 
 build-aux/make-dist
 

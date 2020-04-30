@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cd $MESON_SOURCE_ROOT
+
+test -d $MESON_SOURCE_ROOT/.git || exit 0
+
+make syntax-check
