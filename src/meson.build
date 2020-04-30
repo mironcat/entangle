@@ -53,14 +53,14 @@ i18n.merge_file (
   install_dir: join_paths(entangle_datadir, 'applications')
 )
 
-appdata = 'entangle.appdata.xml'
+metainfo = 'org.entangle_photo.Manager.metainfo.xml'
 
 i18n.merge_file(
-  appdata,
-  input: appdata + '.in',
-  output: appdata,
+  metainfo,
+  input: metainfo + '.in',
+  output: metainfo,
   install: true,
-  install_dir: join_paths(entangle_datadir, 'appdata'),
+  install_dir: join_paths(entangle_datadir, 'metainfo'),
   po_dir: po_dir,
 )
 

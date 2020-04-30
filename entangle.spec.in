@@ -122,8 +122,8 @@ fi
 
 %{_datadir}/%{name}/sRGB.icc
 %{_datadir}/gtk-doc/html/%{name}
-%{_datadir}/applications/org.entangle_photo.Entangle.desktop
-%{_datadir}/appdata/%{name}.appdata.xml
+%{_datadir}/applications/org.entangle_photo.Manager.desktop
+%{_datadir}/metainfo/org.entangle_photo.Manager.metainfo.xml
 %{_datadir}/glib-2.0/schemas/org.entangle-photo.manager.gschema.xml
 %{_datadir}/gir-1.0/Entangle-0.1.gir
 %{_libdir}/girepository-1.0/Entangle-0.1.typelib
