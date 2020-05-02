@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-03 22:10+0000\n"
-"PO-Revision-Date: 2020-04-25 10:25+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-04-27 10:40+0000\n"
+"Last-Translator: Michele Falappi <nittalope@gmail.com>\n"
 "Language-Team: Italian <https://translate.fedoraproject.org/projects/"
 "entangle/master/it/>\n"
 "Language: it\n"
@@ -252,7 +252,7 @@ msgstr "Impostazione del target di cattura fallita: %s %d"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_New window"
-msgstr "_Nuova finestra"
+msgstr "Nuova _finestra"
 
 #: src/frontend/entangle-camera-manager-menus.ui:10
 msgid "_Preferences…"
@@ -260,7 +260,7 @@ msgstr "_Preferenze…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Select session…"
-msgstr "_Seleziona sessione…"
+msgstr "_Scegli sessione…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Connect…"
@@ -276,11 +276,11 @@ msgstr "_Aiuto"
 
 #: src/frontend/entangle-camera-manager-menus.ui:34
 msgid "_Supported cameras"
-msgstr "_Fotocamere supportate"
+msgstr "Fo_tocamere supportate"
 
 #: src/frontend/entangle-camera-manager-menus.ui:38
 msgid "_Keyboard shortcuts"
-msgstr "Scorciatoie da tastiera"
+msgstr "Scorciatoie da _tastiera"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
@@ -288,19 +288,19 @@ msgstr "_Manuale"
 
 #: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
-msgstr "Informazioni su _Entangle"
+msgstr "Informa_zioni su Entangle"
 
 #: src/frontend/entangle-camera-manager-menus.ui:53
 msgid "_Quit"
-msgstr "_Chiudi Entangle"
+msgstr "Termina _Entangle"
 
 #: src/frontend/entangle-camera-manager-menus.ui:62
 msgid "_Fullscreen"
-msgstr "_Tutto schermo"
+msgstr "Tutto sc_hermo"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "_Presentation"
-msgstr "_Apri in una presentazione"
+msgstr "_Visualizza in una presentazione"
 
 #: src/frontend/entangle-camera-manager-menus.ui:72
 msgid "_Settings"
@@ -308,7 +308,7 @@ msgstr "_Impostazioni"
 
 #: src/frontend/entangle-camera-manager-menus.ui:78
 msgid "_Synchronize capture"
-msgstr "_Sincronizza cattura"
+msgstr "Sincr_onizza cattura"
 
 #: src/frontend/entangle-camera-manager-menus.ui:87
 msgid "Best Fit"
@@ -316,7 +316,7 @@ msgstr "Adattamento migliore"
 
 #: src/frontend/entangle-camera-manager-menus.ui:91
 msgid "_Normal Size"
-msgstr "_Dimensioni normali"
+msgstr "Dimensioni norma_li"
 
 #: src/frontend/entangle-camera-manager-menus.ui:97
 msgid "Zoom _In"
@@ -324,7 +324,7 @@ msgstr "In_grandisci"
 
 #: src/frontend/entangle-camera-manager-menus.ui:101
 msgid "Zoom _Out"
-msgstr "_Riduci"
+msgstr "Rid_uci"
 
 #: src/frontend/entangle-camera-manager.c:569
 #: src/frontend/entangle-camera-manager.c:573
@@ -442,11 +442,11 @@ msgstr "Selezione cartella"
 
 #: src/frontend/entangle-camera-manager.c:1486
 msgid "_Cancel"
-msgstr ""
+msgstr "A_nnulla"
 
 #: src/frontend/entangle-camera-manager.c:1488
 msgid "_Open"
-msgstr ""
+msgstr "Ap_ri"
 
 #: src/frontend/entangle-camera-manager.c:1639
 #: src/frontend/entangle-camera-picker.c:531
@@ -457,7 +457,7 @@ msgstr "Cattura"
 
 #: src/frontend/entangle-camera-manager.c:1660
 msgid "Script"
-msgstr ""
+msgstr "Script"
 
 #: src/frontend/entangle-camera-manager.c:1727
 msgid "Preview"
@@ -465,7 +465,7 @@ msgstr "Anteprima"
 
 #: src/frontend/entangle-camera-manager.c:1841
 msgid "Set clock"
-msgstr ""
+msgstr "Imposta ora"
 
 #: src/frontend/entangle-camera-manager.c:1886
 msgid "Autofocus failed"
@@ -490,7 +490,7 @@ msgstr "Elimina"
 
 #: src/frontend/entangle-camera-manager.c:2530
 msgid "Open"
-msgstr ""
+msgstr "Aprire"
 
 #: src/frontend/entangle-camera-manager.c:2534
 msgid "Open with"
@@ -502,11 +502,11 @@ msgstr "Selezionare un'applicazione..."
 
 #: src/frontend/entangle-camera-manager.c:2896
 msgid "Image histogram"
-msgstr ""
+msgstr "Istogramma dell'immagine"
 
 #: src/frontend/entangle-camera-manager.c:2898
 msgid "Automation"
-msgstr ""
+msgstr "Automazione"
 
 #: src/frontend/entangle-camera-picker.c:529
 msgid "Model"
@@ -537,26 +537,36 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"Nessuna fotocamera è stata trovata, controlla che\n"
+"\n"
+"  - i <b>cavi</b> sono connessi\n"
+"  - la fotocamera è <b>accesa</b>\n"
+"  - la fotocamera è nella <b>modalità corretta</b>\n"
+"  - la camera è un modello <b>supportato</b>\n"
+"\n"
+"fotocamere USB sono riconosciute automaticamente\n"
+"quando connesse, per altri tipi di fotocamera cercare di\n"
+"fare un refresh o inserire l'indirizzo IP della fotocamera"
 
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
-msgstr ""
+msgstr "Indirizzo IP:"
 
 #: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
-msgstr ""
+msgstr "Fotocamera di rete"
 
 #: src/frontend/entangle-camera-support.c:188
 msgid "capture"
-msgstr ""
+msgstr "catturare"
 
 #: src/frontend/entangle-camera-support.c:194
 msgid "preview"
-msgstr ""
+msgstr "anteprima"
 
 #: src/frontend/entangle-camera-support.c:200
 msgid "settings"
-msgstr ""
+msgstr "impostazioni"
 
 #: src/frontend/entangle-camera-support.ui:65
 msgid "label"
@@ -580,7 +590,7 @@ msgstr "Inattivo"
 
 #: src/frontend/entangle-control-panel.c:782
 msgid "Reset controls"
-msgstr ""
+msgstr "Resetta i controlli"
 
 #: src/frontend/entangle-control-panel.c:857
 msgid "No controls available"
@@ -606,122 +616,122 @@ msgstr "Controllo e cattura dalla fotocamera via cavo"
 #: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "Verificando l'applicazione"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "Aprire una nuova finestra per la fotocamera"
 
 #: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "Chiudere tutte le finestre e uscire"
 
 #: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "Visualizzare il manuale d'aiuto"
 
 #: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "Visualizzazione dell'immagine"
 
 #: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Ingrandisci"
 
 #: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Riduci"
 
 #: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "Dimensioni normali"
 
 #: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
-msgstr ""
+msgstr "Dimensioni ottimali"
 
 #: src/frontend/entangle-help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle image mask"
-msgstr ""
+msgstr "Attiva maschera immagine"
 
 #: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "Attiva notifica di sovraesposizione"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
-msgstr ""
+msgstr "Attiva indice dell'istogramma"
 
 #: src/frontend/entangle-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "Finestra di display"
 
 #: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "Tuttoschermo"
 
 #: src/frontend/entangle-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "Presentazione"
 
 #: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr ""
+msgstr "Controlli otturatore"
 
 #: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "Cattura una singola immagine"
 
 #: src/frontend/entangle-help-overlay.ui:126
 msgctxt "shortcut window"
 msgid "Toggle live preview"
-msgstr ""
+msgstr "Attiva anteprima live"
 
 #: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr ""
+msgstr "Controlli di focus (durante anteprima live)"
 
 #: src/frontend/entangle-help-overlay.ui:139
 msgctxt "shortcut window"
 msgid "Autofocus"
-msgstr ""
+msgstr "Autofocus"
 
 #: src/frontend/entangle-help-overlay.ui:146
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "Focus in (piccoli step)"
 
 #: src/frontend/entangle-help-overlay.ui:153
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "Focus out (piccoli step)"
 
 #: src/frontend/entangle-help-overlay.ui:160
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "Focus in (grandi step)"
 
 #: src/frontend/entangle-help-overlay.ui:167
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "Focus out (grandi step)"
 
 #: src/frontend/entangle-preferences-display.c:1070
 #: src/frontend/entangle-preferences-display.ui:645
@@ -893,7 +903,7 @@ msgstr "Continua la modalità anteprima dopo la cattura"
 
 #: src/frontend/entangle-preferences-display.ui:179
 msgid "Use preview output as capture image"
-msgstr ""
+msgstr "Usa l'immagine di anteprima come immagine di cattura"
 
 #: src/frontend/entangle-preferences-display.ui:195
 msgid "Delete file from camera after downloading"
@@ -901,7 +911,7 @@ msgstr "Elimina il file dalla fotocamera dopo lo scaricamento"
 
 #: src/frontend/entangle-preferences-display.ui:211
 msgid "Automatically synchronize camera clock"
-msgstr ""
+msgstr "Sincronizza automaticamente l'orologio della fotocamera"
 
 #: src/frontend/entangle-preferences-display.ui:263
 msgid "<b>Colour management</b>"
@@ -969,7 +979,7 @@ msgstr "Opacità maschera:"
 
 #: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
@@ -993,19 +1003,19 @@ msgstr "Livelli di sovrapposizione:"
 
 #: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
-msgstr ""
+msgstr "Sfondo:"
 
 #: src/frontend/entangle-preferences-display.ui:913
 msgid "Highlight:"
-msgstr ""
+msgstr "Evidenzia:"
 
 #: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "Evidenzia aree di sovraesposizione"
 
 #: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
@@ -1025,19 +1035,19 @@ msgstr "Colorimetrico assoluto"
 
 #: src/frontend/entangle-script.c:96
 msgid "Untitled script"
-msgstr ""
+msgstr "Script senza titolo"
 
 #: src/frontend/entangle-script-config.c:77
 msgid "No script"
-msgstr ""
+msgstr "Nessuno script"
 
 #: src/frontend/entangle-script-config.c:159
 msgid "No config options"
-msgstr ""
+msgstr "Nessuna opzione di configurazione"
 
 #: src/frontend/entangle-script-simple.c:63
 msgid "Missing 'execute' method implementation"
-msgstr ""
+msgstr "Manca l'implementazione del metodo \"esecuzione\""
 
 #: src/entangle.appdata.xml.in:7 src/entangle.desktop.in:4
 msgid "Entangle"
@@ -1045,13 +1055,15 @@ msgstr "Entangle"
 
 #: src/entangle.appdata.xml.in:8
 msgid "Tethered Camera Control &amp; Capture"
-msgstr ""
+msgstr "Controllo e cattura per la fotocamera connessa"
 
 #: src/entangle.appdata.xml.in:10
 msgid ""
 "Entangle is a program used to control digital cameras that are connected to "
 "the computer via USB."
 msgstr ""
+"Entangle è un programma usato per controllare fotocamere digitali che sono "
+"connesse al computer via USB."
 
 #: src/entangle.appdata.xml.in:14
 msgid ""
@@ -1061,6 +1073,11 @@ msgid ""
 "are captured by the camera. Entangle also allows the settings of the camera "
 "to be changed from the computer."
 msgstr ""
+"Entangle può far scattare la fotocamera per fare fotografie. Quando è "
+"supportato dalla fotocamera, un'anteprima live della scena inquadrata può "
+"essere mostrata prima della cattura. Fotografie saranno scaricate e mostrare "
+"come sono catturate dalla fotocamera. Entangle permette di cambiare le "
+"impostazioni della fotocamera direttamente dal computer."
 
 #: src/entangle.appdata.xml.in:22
 msgid ""
@@ -1068,103 +1085,110 @@ msgid ""
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
 msgstr ""
+"Entangle è compatibile con molte fotocamereDSLR di Nikon e Canon, con alcune "
+"dei loro modelli compact, e una varietà di fotocamere di altri produttori."
 
 #: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Il progetto Fotografico Entangle"
 
 #: src/entangle.appdata.xml.in:46
 msgid "Require gobject introspection &gt;= 1.54"
-msgstr ""
+msgstr "Necessita di gobject introspection &gt;=1.54"
 
 #: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
-msgstr ""
+msgstr "Necessita GTK3 &gt;=3.22"
 
 #: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
-msgstr ""
+msgstr "Correggi le dipendenze in libraw"
 
 #: src/entangle.appdata.xml.in:49
 msgid "Fix variable name in photobox plugin"
-msgstr ""
+msgstr "Correggi il nome della variabile nel plugin photobox"
 
 #: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
-msgstr ""
+msgstr "Documenta alcune scorciatoie di tastiera mancanti"
 
 #: src/entangle.appdata.xml.in:51
 msgid "Fix upper bound in histogram to display clipped pixel"
 msgstr ""
+"Correggi il limite superiore nel istogramma per mostrare i pixel troncati"
 
 #: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
-msgstr ""
+msgstr "Aggiorna traduzioni"
 
 #: src/entangle.appdata.xml.in:53
 msgid "Option to highlight over exposed pixels in red"
-msgstr ""
+msgstr "Opzione per evidenziare in rosso i pixel sovraesposti"
 
 #: src/entangle.appdata.xml.in:54
 msgid "Disable noisy compiler warning"
-msgstr ""
+msgstr "Disabilita l'allarme per il noisy compiler"
 
 #: src/entangle.appdata.xml.in:55
 msgid "Remove use of deprecated application menu concept"
-msgstr ""
+msgstr "Rimuovi l'uso di concept del menu applicazione non più in uso"
 
 #: src/entangle.appdata.xml.in:56
 msgid "Fix image redraw when changing some settings"
-msgstr ""
+msgstr "Correggi l'aggiornamento dell'immagine quando cambi alcuni settaggi"
 
 #: src/entangle.appdata.xml.in:57
 msgid "Update mailing list address in appdaat"
-msgstr ""
+msgstr "Aggiorna l'indirizzo della lista di distribuzione in appaat"
 
 #: src/entangle.appdata.xml.in:58
 msgid "Add more fields to appdata content"
-msgstr ""
+msgstr "Aggiungi più campi ai contenuti in appdata"
 
 #: src/entangle.appdata.xml.in:59
 msgid "Fix reference counting during window close"
-msgstr ""
+msgstr "Correggi il reference counting durante la chiusura della finestra"
 
 #: src/entangle.appdata.xml.in:60
 msgid "Use correct API for destroying top level windows"
-msgstr ""
+msgstr "Usa la API corretta per terminare le finestre di alto livello"
 
 #: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
 msgstr ""
+"Correggi la disconnessione di fotocamere con nuovi schemi di nomenclatura "
+"gvfs URI"
 
 #: src/entangle.appdata.xml.in:62
 msgid "Avoid out of bounds read of property values"
-msgstr ""
+msgstr "Evita la lettura out of bound dei valori di proprietà"
 
 #: src/entangle.appdata.xml.in:63
 msgid "Fix many memory leaks"
-msgstr ""
+msgstr "Aggiusta numerosi memory leaks"
 
 #: src/entangle.appdata.xml.in:64
 msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr ""
+msgstr "Workaround per quando i combo box non vengono mostrati in Wayland"
 
 #: src/entangle.appdata.xml.in:65
 msgid "Fix race condition in building enums"
-msgstr ""
+msgstr "Correggi la race condition durante la costruzione di enums"
 
 #: src/entangle.appdata.xml.in:66
 msgid "Fix setting of gschema directory during startup"
-msgstr ""
+msgstr "Correggi il settaggio della directory gschema durante l'avvio"
 
 #: src/entangle.appdata.xml.in:67
 msgid "Set env to ensure plugins can find introspection typelib"
 msgstr ""
+"Setta env per fare in modo che i plugins possono trovare la introspection "
+"typelib"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
-msgstr ""
+msgstr "entangle"
 
 #: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr ""
+msgstr "Cattura;Fotocamera;Connessa;Foto;"
