@@ -8,13 +8,14 @@
 # Guido Grazioli <guido.grazioli@gmail.com>, 2013
 # Fabio Tavano <tavano.fabio@gmail.com>, 2013
 # Michele Falappi <nittalope@gmail.com>, 2020.
+# Anonymous <noreply@weblate.org>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-03 22:10+0000\n"
 "PO-Revision-Date: 2020-04-25 10:25+0000\n"
-"Last-Translator: Michele Falappi <nittalope@gmail.com>\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Italian <https://translate.fedoraproject.org/projects/"
 "entangle/master/it/>\n"
 "Language: it\n"
@@ -279,7 +280,7 @@ msgstr "_Fotocamere supportate"
 
 #: src/frontend/entangle-camera-manager-menus.ui:38
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "Scorciatoie da tastiera"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
