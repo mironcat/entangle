@@ -1,27 +1,28 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # cri <cri.penta@gmail.com>, 2013
 # Gianluca Sforna <giallu@gmail.com>, 2013
 # Guido Grazioli <guido.grazioli@gmail.com>, 2013
 # Fabio Tavano <tavano.fabio@gmail.com>, 2013
+# Michele Falappi <nittalope@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-03 22:10+0000\n"
-"PO-Revision-Date: 2014-12-22 02:36+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Italian (http://www.transifex.com/projects/p/entangle/"
-"language/it/)\n"
+"PO-Revision-Date: 2020-04-25 10:25+0000\n"
+"Last-Translator: Michele Falappi <nittalope@gmail.com>\n"
+"Language-Team: Italian <https://translate.fedoraproject.org/projects/"
+"entangle/master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.0.1\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -46,7 +47,7 @@ msgstr "Impossibile caricare le porte di gphoto2"
 #: src/backend/entangle-camera.c:792
 #, c-format
 msgid "Unable to initialize camera: %s"
-msgstr ""
+msgstr "Impossibile inizializzare la fotocamera %s"
 
 #: src/backend/entangle-camera.c:1146
 #, c-format
@@ -133,6 +134,7 @@ msgstr "Impossibile caricare i controlli, la fotocamera non è connessa"
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
 msgstr ""
+"Impossibile ottenere la configurazione di controllo della fotocamera: %s"
 
 #: src/backend/entangle-camera.c:2476
 #, c-format
@@ -149,7 +151,7 @@ msgstr "Impossibile salvare i controlli, la fotocamera non è configurabile"
 #: src/backend/entangle-camera.c:3264 src/backend/entangle-camera.c:3432
 #, c-format
 msgid "Unable to save camera control configuration: %s"
-msgstr ""
+msgstr "Impossibile salvare la configurazione di controllo della fotocamera: %s"
 
 #: src/backend/entangle-camera.c:2604 src/backend/entangle-camera.c:2658
 #: src/backend/entangle-camera.c:2836 src/backend/entangle-camera.c:2997
@@ -203,7 +205,7 @@ msgstr "Focus manuale non disponibile per questa fotocamera"
 #: src/backend/entangle-camera.c:3025
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
-msgstr ""
+msgstr "Focus manuale non è un range o radio widget"
 
 #: src/backend/entangle-camera.c:3044 src/backend/entangle-camera.c:3068
 #: src/backend/entangle-camera.c:3087 src/backend/entangle-camera.c:3103
@@ -214,65 +216,66 @@ msgstr "Impostazione focus manuale non riuscita: %s %d"
 #: src/backend/entangle-camera.c:3061 src/backend/entangle-camera.c:3096
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
-msgstr ""
+msgstr "Lettura della scelta di fuoco manuale non riuscita %d %s %d"
 
 #: src/backend/entangle-camera.c:3235
 #, c-format
 msgid "Time setting not available with this camera"
-msgstr ""
+msgstr "Impostazione dell'ora non disponibile per questa fotocamera"
 
 #: src/backend/entangle-camera.c:3248
 #, c-format
 msgid "Time setting was not a date widget"
-msgstr ""
+msgstr "Impostazione dell'ora non è un date widget"
 
 #: src/backend/entangle-camera.c:3255
 #, c-format
 msgid "Failed to set time state: %s %d"
-msgstr ""
+msgstr "Impostazione dello stato dell'ora fallita: %s %d"
 
 #: src/backend/entangle-camera.c:3401
 #, c-format
 msgid "Capture target setting not available with this camera"
 msgstr ""
+"Impostazione del target di cattura non disponibile per questa fotocamera"
 
 #: src/backend/entangle-camera.c:3414
 #, c-format
 msgid "Time setting was not a choice widget"
-msgstr ""
+msgstr "Impostazione dell'ora non è un choice widget"
 
 #: src/backend/entangle-camera.c:3423
 #, c-format
 msgid "Failed to set capture target: %s %d"
-msgstr ""
+msgstr "Impostazione del target di cattura fallita: %s %d"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_New window"
-msgstr ""
+msgstr "_Nuova finestra"
 
 #: src/frontend/entangle-camera-manager-menus.ui:10
 msgid "_Preferences…"
-msgstr ""
+msgstr "_Preferenze…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Select session…"
-msgstr ""
+msgstr "_Seleziona sessione…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Connect…"
-msgstr ""
+msgstr "_Connetti…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:26
 msgid "_Disconnect…"
-msgstr ""
+msgstr "_Disconnetti…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:32
 msgid "_Help"
-msgstr "A_iuto"
+msgstr "_Aiuto"
 
 #: src/frontend/entangle-camera-manager-menus.ui:34
 msgid "_Supported cameras"
-msgstr ""
+msgstr "_Fotocamere supportate"
 
 #: src/frontend/entangle-camera-manager-menus.ui:38
 msgid "_Keyboard shortcuts"
@@ -280,31 +283,31 @@ msgstr ""
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
-msgstr ""
+msgstr "_Manuale"
 
 #: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
-msgstr ""
+msgstr "Informazioni su _Entangle"
 
 #: src/frontend/entangle-camera-manager-menus.ui:53
 msgid "_Quit"
-msgstr ""
+msgstr "_Chiudi Entangle"
 
 #: src/frontend/entangle-camera-manager-menus.ui:62
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Tutto schermo"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "_Presentation"
-msgstr ""
+msgstr "_Apri in una presentazione"
 
 #: src/frontend/entangle-camera-manager-menus.ui:72
 msgid "_Settings"
-msgstr ""
+msgstr "_Impostazioni"
 
 #: src/frontend/entangle-camera-manager-menus.ui:78
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "_Sincronizza cattura"
 
 #: src/frontend/entangle-camera-manager-menus.ui:87
 msgid "Best Fit"
@@ -312,15 +315,15 @@ msgstr "Adattamento migliore"
 
 #: src/frontend/entangle-camera-manager-menus.ui:91
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Dimensioni normali"
 
 #: src/frontend/entangle-camera-manager-menus.ui:97
 msgid "Zoom _In"
-msgstr ""
+msgstr "In_grandisci"
 
 #: src/frontend/entangle-camera-manager-menus.ui:101
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Riduci"
 
 #: src/frontend/entangle-camera-manager.c:569
 #: src/frontend/entangle-camera-manager.c:573
