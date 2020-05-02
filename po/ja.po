@@ -1,25 +1,26 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Hajime Taira <htaira@redhat.com>, 2013-2014
 # Tomoyuki KATO <tomo@dream.daynight.jp>, 2012-2013
+# Casey Jones <nahareport@yahoo.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-03 22:10+0000\n"
-"PO-Revision-Date: 2014-12-22 02:36+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/entangle/"
-"language/ja/)\n"
+"PO-Revision-Date: 2020-05-02 07:40+0000\n"
+"Last-Translator: Casey Jones <nahareport@yahoo.com>\n"
+"Language-Team: Japanese <https://translate.fedoraproject.org/projects/"
+"entangle/master/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Zanata 4.6.2\n"
+"X-Generator: Weblate 4.0.1\n"
 
 #: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
@@ -44,7 +45,7 @@ msgstr "gphoto2 ポートを読み込めません"
 #: src/backend/entangle-camera.c:792
 #, c-format
 msgid "Unable to initialize camera: %s"
-msgstr ""
+msgstr "カメラ: %s を初期化できません"
 
 #: src/backend/entangle-camera.c:1146
 #, c-format
@@ -128,7 +129,7 @@ msgstr "制御情報を読み込めません、カメラが接続されていま
 #: src/backend/entangle-camera.c:2355
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
-msgstr ""
+msgstr "カメラ制御設定: %s を取得できません"
 
 #: src/backend/entangle-camera.c:2476
 #, c-format
@@ -145,7 +146,7 @@ msgstr "制御情報を保存できません、カメラが設定可能ではあ
 #: src/backend/entangle-camera.c:3264 src/backend/entangle-camera.c:3432
 #, c-format
 msgid "Unable to save camera control configuration: %s"
-msgstr ""
+msgstr "カメラ制御設定: %s を保存できません"
 
 #: src/backend/entangle-camera.c:2604 src/backend/entangle-camera.c:2658
 #: src/backend/entangle-camera.c:2836 src/backend/entangle-camera.c:2997
@@ -199,7 +200,7 @@ msgstr "手動フォーカス制御がこのカメラで利用できません"
 #: src/backend/entangle-camera.c:3025
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
-msgstr ""
+msgstr "マニュアルフォーカス制御が範囲にない、またはラジオウィジェットではありません"
 
 #: src/backend/entangle-camera.c:3044 src/backend/entangle-camera.c:3068
 #: src/backend/entangle-camera.c:3087 src/backend/entangle-camera.c:3103
@@ -210,7 +211,7 @@ msgstr "マニュアルフォーカスの状態を設定できません: %s %d"
 #: src/backend/entangle-camera.c:3061 src/backend/entangle-camera.c:3096
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
-msgstr ""
+msgstr "マニュアルフォーカス選択 %d: %s %d の読み込みに失敗しました"
 
 #: src/backend/entangle-camera.c:3235
 #, c-format
@@ -230,37 +231,37 @@ msgstr "時刻の状態の設定に失敗しました: %s %d"
 #: src/backend/entangle-camera.c:3401
 #, c-format
 msgid "Capture target setting not available with this camera"
-msgstr ""
+msgstr "このカメラでキャプチャーターゲット設定は利用できません"
 
 #: src/backend/entangle-camera.c:3414
 #, c-format
 msgid "Time setting was not a choice widget"
-msgstr ""
+msgstr "時刻の設定は選択ウィジェットにはありませんでした"
 
 #: src/backend/entangle-camera.c:3423
 #, c-format
 msgid "Failed to set capture target: %s %d"
-msgstr ""
+msgstr "キャプチャーターゲット: %s %d の設定に失敗しました"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_New window"
-msgstr ""
+msgstr "新しいウィンドウ(_N)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:10
 msgid "_Preferences…"
-msgstr ""
+msgstr "設定(_P)…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Select session…"
-msgstr ""
+msgstr "セッションの選択(_S)…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Connect…"
-msgstr ""
+msgstr "接続(_C)…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:26
 msgid "_Disconnect…"
-msgstr ""
+msgstr "切断(_D)…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:32
 msgid "_Help"
@@ -268,39 +269,39 @@ msgstr "ヘルプ(_H)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:34
 msgid "_Supported cameras"
-msgstr ""
+msgstr "サポートされるカメラ(_S)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:38
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "キーボードショートカット(_K)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
-msgstr ""
+msgstr "マニュアル(_M)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
-msgstr ""
+msgstr "詳細(_A)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:53
 msgid "_Quit"
-msgstr ""
+msgstr "退出(_Q)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:62
 msgid "_Fullscreen"
-msgstr ""
+msgstr "フルスクリーン(_F)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "_Presentation"
-msgstr ""
+msgstr "プレゼンテーション(_P)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:72
 msgid "_Settings"
-msgstr ""
+msgstr "設定(_S)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:78
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "キャプチャの同期(_S)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:87
 msgid "Best Fit"
@@ -308,15 +309,15 @@ msgstr "最適"
 
 #: src/frontend/entangle-camera-manager-menus.ui:91
 msgid "_Normal Size"
-msgstr ""
+msgstr "標準サイズ(_N)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:97
 msgid "Zoom _In"
-msgstr ""
+msgstr "ズームイン(_I)"
 
 #: src/frontend/entangle-camera-manager-menus.ui:101
 msgid "Zoom _Out"
-msgstr ""
+msgstr "ズームアウト(_O)"
 
 #: src/frontend/entangle-camera-manager.c:569
 #: src/frontend/entangle-camera-manager.c:573
@@ -449,7 +450,7 @@ msgstr "キャプチャー"
 
 #: src/frontend/entangle-camera-manager.c:1660
 msgid "Script"
-msgstr ""
+msgstr "スクリプト"
 
 #: src/frontend/entangle-camera-manager.c:1727
 msgid "Preview"
@@ -482,7 +483,7 @@ msgstr "削除"
 
 #: src/frontend/entangle-camera-manager.c:2530
 msgid "Open"
-msgstr ""
+msgstr "開く"
 
 #: src/frontend/entangle-camera-manager.c:2534
 msgid "Open with"
@@ -494,11 +495,11 @@ msgstr "アプリケーションの選択..."
 
 #: src/frontend/entangle-camera-manager.c:2896
 msgid "Image histogram"
-msgstr ""
+msgstr "イメージヒストグラム"
 
 #: src/frontend/entangle-camera-manager.c:2898
 msgid "Automation"
-msgstr ""
+msgstr "オートメーション"
 
 #: src/frontend/entangle-camera-picker.c:529
 msgid "Model"
@@ -529,26 +530,36 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"カメラが検出されません、以下を確認してください\n"
+"\n"
+"  -  <b>ケーブル</b> が接続されている\n"
+"  - カメラの <b>電源がオン</b>\n"
+"  - カメラが <b>接続モード</b>\n"
+"  - カメラが <b>サポートされる</b> モデル\n"
+"\n"
+"USBカメラは接続時に自動的に検出されます、\n"
+"その他は更新を試すか、\n"
+"ネットワークカメラIPアドレスを入力してください"
 
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
-msgstr ""
+msgstr "IP アドレス:"
 
 #: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
-msgstr ""
+msgstr "ネットワークカメラ"
 
 #: src/frontend/entangle-camera-support.c:188
 msgid "capture"
-msgstr ""
+msgstr "キャプチャー"
 
 #: src/frontend/entangle-camera-support.c:194
 msgid "preview"
-msgstr ""
+msgstr "プレビュー"
 
 #: src/frontend/entangle-camera-support.c:200
 msgid "settings"
-msgstr ""
+msgstr "設定"
 
 #: src/frontend/entangle-camera-support.ui:65
 msgid "label"
@@ -572,7 +583,7 @@ msgstr "オフ"
 
 #: src/frontend/entangle-control-panel.c:782
 msgid "Reset controls"
-msgstr ""
+msgstr "制御のリセット"
 
 #: src/frontend/entangle-control-panel.c:857
 msgid "No controls available"
@@ -597,122 +608,122 @@ msgstr "接続されたカメラの制御とキャプチャー"
 #: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "アプリケーションの制御"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "新しいカメラウィンドウを開く"
 
 #: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "全てのウィンドウを閉じて終了"
 
 #: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "ヘルプマニュアルを表示"
 
 #: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "イメージディスプレイ"
 
 #: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "ズームイン"
 
 #: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "ズームアウト"
 
 #: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "ズーム標準"
 
 #: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
-msgstr ""
+msgstr "ズーム最適"
 
 #: src/frontend/entangle-help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle image mask"
-msgstr ""
+msgstr "イメージマスクをトグル"
 
 #: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "露出過度ハイライトをトグル"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
-msgstr ""
+msgstr "ヒストグラムスケールをトグル"
 
 #: src/frontend/entangle-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "ウィンドウディスプレイ"
 
 #: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "フルスクリーン"
 
 #: src/frontend/entangle-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "プレゼンテーション"
 
 #: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr ""
+msgstr "シャッター制御"
 
 #: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "単一イメージのキャプチャ"
 
 #: src/frontend/entangle-help-overlay.ui:126
 msgctxt "shortcut window"
 msgid "Toggle live preview"
-msgstr ""
+msgstr "ライブプレビューのトグル"
 
 #: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr ""
+msgstr "フォーカス制御(ライブプレビュー中)"
 
 #: src/frontend/entangle-help-overlay.ui:139
 msgctxt "shortcut window"
 msgid "Autofocus"
-msgstr ""
+msgstr "オートフォーカス"
 
 #: src/frontend/entangle-help-overlay.ui:146
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "フォーカスイン(小ステップ)"
 
 #: src/frontend/entangle-help-overlay.ui:153
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "フォーカスアウト(小ステップ)"
 
 #: src/frontend/entangle-help-overlay.ui:160
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "フォーカスイン(大ステップ)"
 
 #: src/frontend/entangle-help-overlay.ui:167
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "フォーカスアウト(大ステップ)"
 
 #: src/frontend/entangle-preferences-display.c:1070
 #: src/frontend/entangle-preferences-display.ui:645
@@ -884,7 +895,7 @@ msgstr "キャプチャー後にプレビューモードを続けます"
 
 #: src/frontend/entangle-preferences-display.ui:179
 msgid "Use preview output as capture image"
-msgstr ""
+msgstr "キャプチャイメージとしてプレビュー出力を使用"
 
 #: src/frontend/entangle-preferences-display.ui:195
 msgid "Delete file from camera after downloading"
@@ -960,7 +971,7 @@ msgstr "不透明度マスク:"
 
 #: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
@@ -984,19 +995,19 @@ msgstr "重ね合わせ層:"
 
 #: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
-msgstr ""
+msgstr "背景:"
 
 #: src/frontend/entangle-preferences-display.ui:913
 msgid "Highlight:"
-msgstr ""
+msgstr "ハイライト:"
 
 #: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "露出過度のハイライトエリア"
 
 #: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
@@ -1016,19 +1027,19 @@ msgstr "絶対カラーメトリック"
 
 #: src/frontend/entangle-script.c:96
 msgid "Untitled script"
-msgstr ""
+msgstr "無題のスクリプト"
 
 #: src/frontend/entangle-script-config.c:77
 msgid "No script"
-msgstr ""
+msgstr "スクリプトなし"
 
 #: src/frontend/entangle-script-config.c:159
 msgid "No config options"
-msgstr ""
+msgstr "設定オプションなし"
 
 #: src/frontend/entangle-script-simple.c:63
 msgid "Missing 'execute' method implementation"
-msgstr ""
+msgstr "'実行'メソッド実装が見つかりません"
 
 #: src/entangle.appdata.xml.in:7 src/entangle.desktop.in:4
 msgid "Entangle"
@@ -1070,100 +1081,100 @@ msgstr ""
 
 #: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Entangle Photoプロジェクト"
 
 #: src/entangle.appdata.xml.in:46
 msgid "Require gobject introspection &gt;= 1.54"
-msgstr ""
+msgstr "gobject introspection &gt;= 1.54 が必要です"
 
 #: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
-msgstr ""
+msgstr "GTK3 &gt;= 3.22 が必要です"
 
 #: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
-msgstr ""
+msgstr "librawの依存関係を修正"
 
 #: src/entangle.appdata.xml.in:49
 msgid "Fix variable name in photobox plugin"
-msgstr ""
+msgstr "photobox pluginの変数名を修正"
 
 #: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
-msgstr ""
+msgstr "存在しないキーボードショートカットについてのドキュメント"
 
 #: src/entangle.appdata.xml.in:51
 msgid "Fix upper bound in histogram to display clipped pixel"
-msgstr ""
+msgstr "クリップされたピクセルを表示するため、ヒストグラムの上限値を修正"
 
 #: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
-msgstr ""
+msgstr "翻訳の更新"
 
 #: src/entangle.appdata.xml.in:53
 msgid "Option to highlight over exposed pixels in red"
-msgstr ""
+msgstr "露出過度されたピクセルを赤くハイライトするオプション"
 
 #: src/entangle.appdata.xml.in:54
 msgid "Disable noisy compiler warning"
-msgstr ""
+msgstr "うるさいコンパイラ警告の無効化"
 
 #: src/entangle.appdata.xml.in:55
 msgid "Remove use of deprecated application menu concept"
-msgstr ""
+msgstr "廃止されたアプリケーションメニューコンセプトの使用を削除"
 
 #: src/entangle.appdata.xml.in:56
 msgid "Fix image redraw when changing some settings"
-msgstr ""
+msgstr "設定変更時のイメージ再描画を修正"
 
 #: src/entangle.appdata.xml.in:57
 msgid "Update mailing list address in appdaat"
-msgstr ""
+msgstr "appdaatのメーリングリストアドレスをアップデート"
 
 #: src/entangle.appdata.xml.in:58
 msgid "Add more fields to appdata content"
-msgstr ""
+msgstr "appdataコンテンツにフィールドを追加"
 
 #: src/entangle.appdata.xml.in:59
 msgid "Fix reference counting during window close"
-msgstr ""
+msgstr "ウィンドウを閉じる際の参照回数を修正"
 
 #: src/entangle.appdata.xml.in:60
 msgid "Use correct API for destroying top level windows"
-msgstr ""
+msgstr "トップレベルウィンドウを削除するため正しいAPIを使用"
 
 #: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
-msgstr ""
+msgstr "新しいgvfs URIネーミングスキームによるカメラのアンマウントを修正"
 
 #: src/entangle.appdata.xml.in:62
 msgid "Avoid out of bounds read of property values"
-msgstr ""
+msgstr "プロパティ値の読み取り範囲外れを回避"
 
 #: src/entangle.appdata.xml.in:63
 msgid "Fix many memory leaks"
-msgstr ""
+msgstr "多くのメモリリークの修正"
 
 #: src/entangle.appdata.xml.in:64
 msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr ""
+msgstr "Waylandに表示されないコンボボックスに対するワークアラウンド"
 
 #: src/entangle.appdata.xml.in:65
 msgid "Fix race condition in building enums"
-msgstr ""
+msgstr "enumsビルドの競合状態を修正"
 
 #: src/entangle.appdata.xml.in:66
 msgid "Fix setting of gschema directory during startup"
-msgstr ""
+msgstr "スタートアップ中のgschemaディレクトリの設定を修正"
 
 #: src/entangle.appdata.xml.in:67
 msgid "Set env to ensure plugins can find introspection typelib"
-msgstr ""
+msgstr "プラグインがintrospection typelibを見つけられるよう、envを設定"
 
 #: src/entangle.desktop.in:6
 msgid "entangle"
-msgstr ""
+msgstr "entangle"
 
 #: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr ""
+msgstr "Capture;Camera;Tethered;Photo;"
