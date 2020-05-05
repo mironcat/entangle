@@ -262,10 +262,10 @@ entangle_pixbuf_loader_result(gpointer data)
                                                ENTANGLE_MEDIA(result->image)));
     }
 
+    g_mutex_unlock(&priv->lock);
     g_object_unref(result->loader);
     g_object_unref(result->image);
     g_free(result);
-    g_mutex_unlock(&priv->lock);
 
     return FALSE;
 }
