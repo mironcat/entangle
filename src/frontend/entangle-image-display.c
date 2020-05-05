@@ -43,6 +43,8 @@ struct _EntangleImageDisplay
     gboolean maskEnabled;
     gboolean overexposureHighlighting;
 
+    gchar *textOverlay;
+
     gboolean focusPoint;
     EntangleImageDisplayGrid gridDisplay;
 };
@@ -63,6 +65,7 @@ enum
     PROP_FOCUS_POINT,
     PROP_GRID_DISPLAY,
     PROP_OVEREXPOSURE_HIGHLIGHTING,
+    PROP_TEXT_OVERLAY,
 };
 
 static void
@@ -247,6 +250,10 @@ entangle_image_display_get_property(GObject *object,
         g_value_set_boolean(value, display->overexposureHighlighting);
         break;
 
+    case PROP_TEXT_OVERLAY:
+        g_value_set_string(value, display->textOverlay);
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
     }
@@ -302,6 +309,11 @@ entangle_image_display_set_property(GObject *object,
             display, g_value_get_boolean(value));
         break;
 
+    case PROP_TEXT_OVERLAY:
+        entangle_image_display_set_text_overlay(display,
+                                                g_value_get_string(value));
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
     }
@@ -325,6 +337,8 @@ entangle_image_display_finalize(GObject *object)
 
     if (display->pixmap)
         cairo_surface_destroy(display->pixmap);
+
+    g_free(display->textOverlay);
 
     G_OBJECT_CLASS(entangle_image_display_parent_class)->finalize(object);
 }
@@ -499,6 +513,62 @@ entangle_image_display_draw_grid_display(GtkWidget *widget,
     }
 }
 
+static void
+entangle_image_display_draw_text(EntangleImageDisplay *display, cairo_t *cr)
+{
+    PangoLayout *baselayout = pango_cairo_create_layout(cr);
+    PangoLayout *scaledlayout = pango_cairo_create_layout(cr);
+    PangoFontDescription *basefont;
+    PangoFontDescription *scaledfont = pango_font_description_new();
+    int w, h, ww, wh;
+    int size;
+    int ox, oy;
+    double sx, sy;
+    char *fontspec;
+
+    cairo_set_source_rgba(cr, 0.8, 0.8, 0.8, 0.8);
+
+    ww = gdk_window_get_width(gtk_widget_get_window(GTK_WIDGET(display)));
+    wh = gdk_window_get_height(gtk_widget_get_window(GTK_WIDGET(display)));
+
+    basefont = pango_font_description_from_string("Arial 25");
+
+    pango_layout_set_font_description(baselayout, basefont);
+    pango_layout_set_text(baselayout, display->textOverlay, -1);
+    pango_cairo_update_layout(cr, baselayout);
+
+    pango_layout_get_pixel_size(baselayout, &w, &h);
+
+    sx = (ww * 0.8) / w;
+    sy = (wh * 0.8) / h;
+
+    if (sx > sy) {
+        size = 25 * sy;
+        ox = (ww - (w * sy)) / 2;
+        oy = (wh - (h * sy)) / 2;
+    } else {
+        size = 25 * sx;
+        ox = (ww - (w * sx)) / 2;
+        oy = (wh - (h * sx)) / 2;
+    }
+
+    cairo_translate(cr, ox, oy);
+
+    fontspec = g_strdup_printf("Arial %d", (int)size);
+    scaledfont = pango_font_description_from_string(fontspec);
+
+    pango_layout_set_font_description(scaledlayout, scaledfont);
+    pango_layout_set_text(scaledlayout, display->textOverlay, -1);
+    pango_cairo_update_layout(cr, scaledlayout);
+
+    pango_cairo_show_layout(cr, scaledlayout);
+
+    g_object_unref(baselayout);
+    g_object_unref(scaledlayout);
+    pango_font_description_free(basefont);
+    pango_font_description_free(scaledfont);
+}
+
 static gboolean
 entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
 {
@@ -621,6 +691,9 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
             cairo_fill(cr);
         }
     }
+
+    if (display->textOverlay)
+        entangle_image_display_draw_text(display, cr);
 
     return TRUE;
 }
@@ -1089,6 +1162,24 @@ entangle_image_display_get_background(EntangleImageDisplay *display)
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
     return gdk_rgba_to_string(&display->bkg);
+}
+
+void
+entangle_image_display_set_text_overlay(EntangleImageDisplay *display,
+                                        const char *msg)
+{
+    g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
+
+    g_free(display->textOverlay);
+    display->textOverlay = g_strdup(msg);
+}
+
+const char *
+entangle_image_display_get_text_overlay(EntangleImageDisplay *display)
+{
+    g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), NULL);
+
+    return display->textOverlay;
 }
 
 /*

@@ -118,6 +118,12 @@ entangle_image_display_set_grid_display(EntangleImageDisplay *display,
 EntangleImageDisplayGrid
 entangle_image_display_get_grid_display(EntangleImageDisplay *display);
 
+void
+entangle_image_display_set_text_overlay(EntangleImageDisplay *display,
+                                        const char *msg);
+const char *
+entangle_image_display_get_text_overlay(EntangleImageDisplay *display);
+
 G_END_DECLS
 
 #endif /* __ENTANGLE_IMAGE_DISPLAY_H__ */

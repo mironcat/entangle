@@ -86,6 +86,8 @@ entangle_frontend_deps = [
   gmodule_dep,
   gtk_dep,
   gst_dep,
+  pango_dep,
+  pango_cairo_dep,
   libpeas_dep,
   libpeas_gtk_dep,
   gexiv2_dep,

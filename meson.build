@@ -17,6 +17,7 @@ cc = meson.get_compiler('c')
 glib_min_version = '>= 2.38.0'
 gdk_pixbuf_min_version = '>= 2.12.0'
 gtk_min_version = '>= 3.22.0'
+pango_min_version = '>= 1.40.11'
 gphoto2_min_version = '>= 2.5.0'
 gudev_min_version = '>= 145'
 gobject_introspection_min_version = '>= 1.54.0'
@@ -36,6 +37,8 @@ gthread_dep = dependency('gthread-2.0', version: glib_min_version)
 gmodule_dep = dependency('gmodule-2.0', version: glib_min_version)
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: gdk_pixbuf_min_version)
 gtk_dep = dependency('gtk+-3.0', version: gtk_min_version)
+pango_dep = dependency('pango', version: pango_min_version)
+pango_cairo_dep = dependency('pangocairo', version: pango_min_version)
 gphoto2_dep = dependency('libgphoto2', version: gphoto2_min_version)
 gudev_dep = dependency('gudev-1.0', version: gudev_min_version)
 gobject_introspection_dep = dependency('gobject-introspection-1.0', version: gobject_introspection_min_version)
