@@ -345,7 +345,7 @@ entangle_application_startup(GApplication *gapp)
                                               actionAccels[i].name,
                                               actionAccels[i].accels);
 
-    gtk_window_set_default_icon_name("entangle");
+    gtk_window_set_default_icon_name("org.entangle_photo.Manager");
 
     if (entangle_preferences_interface_get_auto_connect(app->preferences))
         cameras = tmp = entangle_camera_list_get_cameras(app->activeCameras);
