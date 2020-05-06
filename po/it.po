@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # cri <cri.penta@gmail.com>, 2013
 # Gianluca Sforna <giallu@gmail.com>, 2013
@@ -152,7 +152,8 @@ msgstr "Impossibile salvare i controlli, la fotocamera non è configurabile"
 #: src/backend/entangle-camera.c:3264 src/backend/entangle-camera.c:3432
 #, c-format
 msgid "Unable to save camera control configuration: %s"
-msgstr "Impossibile salvare la configurazione di controllo della fotocamera: %s"
+msgstr ""
+"Impossibile salvare la configurazione di controllo della fotocamera: %s"
 
 #: src/backend/entangle-camera.c:2604 src/backend/entangle-camera.c:2658
 #: src/backend/entangle-camera.c:2836 src/backend/entangle-camera.c:2997
