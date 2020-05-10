@@ -109,12 +109,12 @@ class PhotoBoxPluginWindow(object):
         self.config = config
         self.win = win
         self.action = None
-        self.button = Gtk.Button("Shoot")
+        self.shoot = Gtk.Button("Shoot")
         # orientation, min, max, step
-        self.scale = Gtk.Scale.new_with_range(0, 0, 10, 1)
-        self.scale.set_value(5)
+        self.delay = Gtk.Scale.new_with_range(0, 0, 10, 1)
+        self.delay.set_value(5)
         self.winsig = None
-        self.buttonsig = None
+        self.shootsig = None
 
     def do_set_widget_state(self, visible):
         settings = self.win.get_template_child(Entangle.CameraManager, "settingsScroll")
@@ -123,14 +123,14 @@ class PhotoBoxPluginWindow(object):
     def do_start_photobox(self):
         self.do_set_widget_state(False)
         pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
-        pane.pack_start(self.scale, False, True, 0)
-        self.scale.show()
-        pane.pack_start(self.button, False, True, 0)
-        self.button.show()
-        self.button.grab_focus()
+        pane.pack_start(self.delay, False, True, 0)
+        self.delay.show()
+        pane.pack_start(self.shoot, False, True, 0)
+        self.shoot.show()
+        self.shoot.grab_focus()
         self.win.fullscreen()
         self.winsig = self.win.connect("key-release-event", self.do_key_release)
-        self.buttonsig = self.button.connect("clicked", self.do_capture)
+        self.shootsig = self.shoot.connect("clicked", self.do_capture)
 
         panel = self.win.get_template_child(Entangle.CameraManager, "displayPanel")
         overlay = panel.get_child1()
@@ -147,11 +147,11 @@ class PhotoBoxPluginWindow(object):
     def do_stop_photobox(self):
         self.do_set_widget_state(True)
         pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
-        pane.remove(self.button)
-        pane.remove(self.scale)
+        pane.remove(self.shoot)
+        pane.remove(self.delay)
         self.win.unfullscreen()
         self.win.disconnect(self.winsig)
-        self.button.disconnect(self.buttonsig)
+        self.shoot.disconnect(self.shootsig)
         self.imageDisplay.set_text_overlay(None)
 
         app = self.win.get_application()
@@ -211,7 +211,7 @@ class PhotoBoxPluginWindow(object):
         return False
 
     def do_capture(self, src):
-        self.timer = int(self.scale.get_value())
+        self.timer = int(self.delay.get_value())
         if self.timer > 0:
             self.previewSig = self.camera.connect("camera-file-previewed",
                                                   self.do_countdown_start)
