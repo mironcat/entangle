@@ -59,6 +59,12 @@ entangle_camera_manager_set_camera(EntangleCameraManager *manager,
 EntangleCamera *
 entangle_camera_manager_get_camera(EntangleCameraManager *manager);
 
+void
+entangle_camera_manager_set_media_context_menu(EntangleCameraManager *manager,
+                                               gboolean enabled);
+gboolean
+entangle_camera_manager_get_media_context_menu(EntangleCameraManager *manager);
+
 G_END_DECLS
 
 #endif /* __ENTANGLE_CAMERA_MANAGER_H__ */

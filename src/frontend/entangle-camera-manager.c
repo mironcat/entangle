@@ -127,6 +127,7 @@ struct _EntangleCameraManager
     gboolean taskProcessEvents;
     char *deleteImageDup;
     gboolean syncCapture;
+    gboolean mediaContextMenu;
 };
 
 static void
@@ -2437,6 +2438,9 @@ do_session_browser_popup(EntangleSessionBrowser *browser,
     if (event->button != 3)
         return FALSE;
 
+    if (!manager->mediaContextMenu)
+        return FALSE;
+
     manager->sessionBrowserMedia = entangle_session_browser_get_media_at_coords(
         browser, event->x, event->y);
 
@@ -2927,6 +2931,8 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
                      manager);
 
     g_object_unref(menuBuilder);
+
+    manager->mediaContextMenu = TRUE;
 }
 
 EntangleCameraManager *
@@ -3009,6 +3015,19 @@ entangle_camera_manager_get_camera(EntangleCameraManager *manager)
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager), NULL);
 
     return manager->camera;
+}
+
+void
+entangle_camera_manager_set_media_context_menu(EntangleCameraManager *manager,
+                                               gboolean enabled)
+{
+    manager->mediaContextMenu = enabled;
+}
+
+gboolean
+entangle_camera_manager_get_media_context_menu(EntangleCameraManager *manager)
+{
+    return manager->mediaContextMenu;
 }
 
 /*
