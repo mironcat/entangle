@@ -661,12 +661,16 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
         cairo_set_matrix(cr, &m);
     }
 
+    cairo_save(cr);
+
     /* Draw the focus point */
     if (display->focusPoint)
         entangle_image_display_draw_focus_point(widget, cr);
 
     /* Draw the grid lines */
     entangle_image_display_draw_grid_display(widget, cr, mx, my);
+
+    cairo_restore(cr);
 
     /* Finally a possible aspect ratio mask */
     if (display->pixmap && display->maskEnabled &&
@@ -1164,6 +1168,13 @@ entangle_image_display_get_background(EntangleImageDisplay *display)
     return gdk_rgba_to_string(&display->bkg);
 }
 
+/**
+ * entangle_image_display_set_text_overlay:
+ * @display: (transfer none): the display
+ * @msg: (transfer none)(nullable): the message to display, or NULL
+ *
+ * Set a message to render over the top of the image
+ */
 void
 entangle_image_display_set_text_overlay(EntangleImageDisplay *display,
                                         const char *msg)
