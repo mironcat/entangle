@@ -93,15 +93,6 @@ class PhotoBoxPluginUnlockDialog(Gtk.Dialog):
             self.warning.set_text("Incorrect password")
             self.warning.show()
 
-class MainWindow(Gtk.Window):
-    def __init__(self):
-        Gtk.Window.__init__(self, title="Countdown")
-        self.box = Gtk.Box(spacing=1)
-        self.box.set_size_request(300, 350)
-        self.add(self.box)
-        self.label = Gtk.Label()
-        self.label.set_use_markup(True)
-        self.box.pack_start(self.label, True, True, 0)
 
 class PhotoBoxPluginWindow(object):
     '''Handles interaction with a single instance of
@@ -141,6 +132,13 @@ class PhotoBoxPluginWindow(object):
         self.winsig = self.win.connect("key-release-event", self.do_key_release)
         self.buttonsig = self.button.connect("clicked", self.do_capture)
 
+        panel = self.win.get_template_child(Entangle.CameraManager, "displayPanel")
+        overlay = panel.get_child1()
+        scroll = overlay.get_child()
+        viewport = scroll.get_child()
+        self.imageDisplay = viewport.get_child()
+        self.camera = self.win.get_camera()
+
     def do_stop_photobox(self):
         self.do_set_widget_state(True)
         pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
@@ -149,6 +147,7 @@ class PhotoBoxPluginWindow(object):
         self.win.unfullscreen()
         self.win.disconnect(self.winsig)
         self.button.disconnect(self.buttonsig)
+        self.imageDisplay.set_text_overlay(None)
 
     def do_close_greeting(self, src, response, data=None):
         src.set_visible(False)
@@ -188,21 +187,17 @@ class PhotoBoxPluginWindow(object):
     def displaycounter(self):
         if self.timer > 0:
             t = str(self.timer)
+            self.imageDisplay.set_text_overlay(t)
             self.timer = self.timer - 1
-            self.countdown.label.set_markup("<span size=\"250000\">" + t + "</span>")
             return True
         else:
-            self.countdown.label.set_markup("<span size=\"250000\">0</span>")
+            self.imageDisplay.set_text_overlay(None)
             self.win.capture()
-            GLib.timeout_add(200, self.countdown.destroy)
             return False
 
     def do_capture(self, src):
         self.timer = int(self.scale.get_value())
         if self.timer > 0:
-            self.countdown = MainWindow()
-            self.countdown.connect("delete-event", Gtk.main_quit)
-            self.countdown.show_all()
             self.displaycounter()
             GLib.timeout_add(1000, self.displaycounter)
         else:
