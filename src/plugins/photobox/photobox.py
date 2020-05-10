@@ -110,9 +110,11 @@ class PhotoBoxPluginWindow(object):
         self.win = win
         self.action = None
         self.shoot = Gtk.Button("Shoot")
-        # orientation, min, max, step
         self.delay = Gtk.Scale.new_with_range(0, 0, 10, 1)
         self.delay.set_value(5)
+        self.settings = Gtk.Grid()
+        self.settings.attach(Gtk.Label("Preview time (secs):"), 0, 0, 1, 1)
+        self.settings.attach(self.delay, 1, 0, 1, 1)
         self.winsig = None
         self.shootsig = None
 
@@ -123,8 +125,8 @@ class PhotoBoxPluginWindow(object):
     def do_start_photobox(self):
         self.do_set_widget_state(False)
         pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
-        pane.pack_start(self.delay, False, True, 0)
-        self.delay.show()
+        pane.pack_start(self.settings, False, True, 0)
+        self.settings.show_all()
         pane.pack_start(self.shoot, False, True, 0)
         self.shoot.show()
         self.shoot.grab_focus()
@@ -150,7 +152,7 @@ class PhotoBoxPluginWindow(object):
         self.do_set_widget_state(True)
         pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
         pane.remove(self.shoot)
-        pane.remove(self.delay)
+        pane.remove(self.settings)
         self.win.unfullscreen()
         self.win.disconnect(self.winsig)
         self.shoot.disconnect(self.shootsig)
