@@ -144,6 +144,8 @@ class PhotoBoxPluginWindow(object):
         self.continuousPreview = prefs.capture_get_continuous_preview()
         prefs.capture_set_continuous_preview(False)
 
+        self.win.set_media_context_menu(False)
+
     def do_stop_photobox(self):
         self.do_set_widget_state(True)
         pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
@@ -157,6 +159,8 @@ class PhotoBoxPluginWindow(object):
         app = self.win.get_application()
         prefs = app.get_preferences()
         prefs.capture_set_continuous_preview(self.continuousPreview)
+
+        self.win.set_media_context_menu(True)
 
     def do_close_greeting(self, src, response, data=None):
         src.set_visible(False)
