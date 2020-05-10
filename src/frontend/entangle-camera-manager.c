@@ -1076,7 +1076,7 @@ do_camera_load_controls_finish(GObject *source,
 }
 
 static void
-do_camera_connect_finish(GObject *source, GAsyncResult *result, gpointer data)
+do_camera_open_finish(GObject *source, GAsyncResult *result, gpointer data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(data));
 
@@ -1084,7 +1084,7 @@ do_camera_connect_finish(GObject *source, GAsyncResult *result, gpointer data)
     EntangleCamera *cam = ENTANGLE_CAMERA(source);
     GError *error = NULL;
 
-    if (entangle_camera_connect_finish(cam, result, &error)) {
+    if (entangle_camera_open_finish(cam, result, &error)) {
         entangle_camera_load_controls_async(
             manager->camera, NULL, do_camera_load_controls_finish, manager);
     } else {
@@ -1112,8 +1112,8 @@ do_camera_connect_finish(GObject *source, GAsyncResult *result, gpointer data)
         if (response == GTK_RESPONSE_CANCEL) {
             entangle_camera_manager_set_camera(manager, NULL);
         } else {
-            entangle_camera_connect_async(cam, NULL, do_camera_connect_finish,
-                                          manager);
+            entangle_camera_open_async(cam, NULL, do_camera_open_finish,
+                                       manager);
         }
         g_error_free(error);
     }
@@ -1160,8 +1160,8 @@ do_camera_unmount_finish(GObject *source, GAsyncResult *result, gpointer data)
     GError *error = NULL;
 
     if (entangle_camera_unmount_finish(cam, result, &error)) {
-        entangle_camera_connect_async(manager->camera, NULL,
-                                      do_camera_connect_finish, manager);
+        entangle_camera_open_async(manager->camera, NULL, do_camera_open_finish,
+                                   manager);
     } else {
         GtkWidget *msg =
             gtk_message_dialog_new(GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR,
@@ -1212,8 +1212,8 @@ do_add_camera(EntangleCameraManager *manager)
         entangle_camera_unmount_async(manager->camera, NULL,
                                       do_camera_unmount_finish, manager);
     } else {
-        entangle_camera_connect_async(manager->camera, NULL,
-                                      do_camera_connect_finish, manager);
+        entangle_camera_open_async(manager->camera, NULL, do_camera_open_finish,
+                                   manager);
     }
 }
 
@@ -2206,7 +2206,7 @@ do_picker_connect(EntangleCameraPicker *picker G_GNUC_UNUSED,
     if (need_camera_unmount(manager, cam))
         do_camera_unmount(cam);
 
-    while (!entangle_camera_connect(cam, &error)) {
+    while (!entangle_camera_open(cam, &error)) {
         int response;
         GtkWidget *msg = gtk_message_dialog_new(GTK_WINDOW(manager),
                                                 GTK_DIALOG_MODAL,
@@ -2240,7 +2240,7 @@ do_picker_connect(EntangleCameraPicker *picker G_GNUC_UNUSED,
 }
 
 static void
-do_camera_connect(EntangleCameraManager *manager)
+do_camera_open(EntangleCameraManager *manager)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
 
@@ -2271,7 +2271,7 @@ do_action_connect(GSimpleAction *act G_GNUC_UNUSED,
 
     EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
 
-    do_camera_connect(manager);
+    do_camera_open(manager);
 }
 
 static void
@@ -2967,14 +2967,14 @@ entangle_camera_manager_remove_script(EntangleCameraManager *manager,
 }
 
 static void
-do_camera_disconnect_finish(GObject *source,
-                            GAsyncResult *result,
-                            gpointer opaque G_GNUC_UNUSED)
+do_camera_close_finish(GObject *source,
+                       GAsyncResult *result,
+                       gpointer opaque G_GNUC_UNUSED)
 {
     EntangleCamera *cam = ENTANGLE_CAMERA(source);
     GError *error = NULL;
 
-    if (entangle_camera_disconnect_finish(cam, result, &error)) {
+    if (entangle_camera_close_finish(cam, result, &error)) {
         ENTANGLE_DEBUG("Unable to disconnect from camera");
     }
 }
@@ -2987,8 +2987,8 @@ entangle_camera_manager_set_camera(EntangleCameraManager *manager,
 
     if (manager->camera) {
         do_remove_camera(manager);
-        entangle_camera_disconnect_async(manager->camera, NULL,
-                                         do_camera_disconnect_finish, manager);
+        entangle_camera_close_async(manager->camera, NULL,
+                                    do_camera_close_finish, manager);
         g_object_unref(manager->camera);
     }
     manager->camera = cam;

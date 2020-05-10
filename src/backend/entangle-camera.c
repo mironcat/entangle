@@ -356,13 +356,11 @@ entangle_camera_class_init(EntangleCameraClass *klass)
                  g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                  ENTANGLE_TYPE_CAMERA_FILE);
 
-    g_signal_new("camera-connected", G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
+    g_signal_new("camera-opened", G_TYPE_FROM_CLASS(klass), G_SIGNAL_RUN_FIRST,
+                 0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
-    g_signal_new("camera-disconnected", G_TYPE_FROM_CLASS(klass),
-                 G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
-                 g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
+    g_signal_new("camera-closed", G_TYPE_FROM_CLASS(klass), G_SIGNAL_RUN_FIRST,
+                 0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
     g_signal_new("camera-controls-changed", G_TYPE_FROM_CLASS(klass),
                  G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
@@ -610,10 +608,10 @@ do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
 }
 
 /**
- * entangle_camera_connect:
+ * entangle_camera_open:
  * @cam: (transfer none): the camera
  *
- * Attempt to connect to and initialize the camera. This
+ * Attempt to open to and initialize the camera. This
  * may fail if the camera is in use by another application,
  * has gone to sleep or has been disconnected from the port.
  *
@@ -622,7 +620,7 @@ do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
  * Returns: TRUE if the camera is connected, FALSE on error
  */
 gboolean
-entangle_camera_connect(EntangleCamera *cam, GError **error)
+entangle_camera_open(EntangleCamera *cam, GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -720,19 +718,19 @@ entangle_camera_connect(EntangleCamera *cam, GError **error)
 cleanup:
     g_mutex_unlock(&cam->lock);
     if (ret)
-        entangle_camera_emit_deferred(cam, "camera-connected", NULL);
+        entangle_camera_emit_deferred(cam, "camera-opened", NULL);
     return ret;
 }
 
 static void
-entangle_camera_connect_helper(GTask *task,
-                               gpointer object,
-                               gpointer task_data G_GNUC_UNUSED,
-                               GCancellable *cancellable G_GNUC_UNUSED)
+entangle_camera_open_helper(GTask *task,
+                            gpointer object,
+                            gpointer task_data G_GNUC_UNUSED,
+                            GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
-    if (!entangle_camera_connect(ENTANGLE_CAMERA(object), &error)) {
+    if (!entangle_camera_open(ENTANGLE_CAMERA(object), &error)) {
         g_task_return_error(task, error);
     } else {
         g_task_return_boolean(task, TRUE);
@@ -740,44 +738,44 @@ entangle_camera_connect_helper(GTask *task,
 }
 
 /**
- * entangle_camera_connect_async:
+ * entangle_camera_open_async:
  * @cam: (transfer none): the camera
  *
- * Attempt to connect to and initialize the camera. This
+ * Attempt to open to and initialize the camera. This
  * may fail if the camera is in use by another application,
  * has gone to sleep or has been disconnected from the port.
  *
  * This will execute in the background, and invoke @callback
- * when complete, whereupon entangle_camera_connect_finish
+ * when complete, whereupon entangle_camera_open_finish
  * can be used to check the status
  */
 void
-entangle_camera_connect_async(EntangleCamera *cam,
-                              GCancellable *cancellable,
-                              GAsyncReadyCallback callback,
-                              gpointer user_data)
+entangle_camera_open_async(EntangleCamera *cam,
+                           GCancellable *cancellable,
+                           GAsyncReadyCallback callback,
+                           gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_task_run_in_thread(task, entangle_camera_connect_helper);
+    g_task_run_in_thread(task, entangle_camera_open_helper);
     g_object_unref(task);
 }
 
 /**
- * entangle_camera_connect_finish:
+ * entangle_camera_open_finish:
  * @cam: (transfer none): the camera
  *
  * Check the completion status of a previous call to
- * entangle_camera_connect_async
+ * entangle_camera_open_async
  *
- * Returns: TRUE if the camera is connected, FALSE on error
+ * Returns: TRUE if the camera is opened, FALSE on error
  */
 gboolean
-entangle_camera_connect_finish(EntangleCamera *cam,
-                               GAsyncResult *result,
-                               GError **error)
+entangle_camera_open_finish(EntangleCamera *cam,
+                            GAsyncResult *result,
+                            GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -785,24 +783,24 @@ entangle_camera_connect_finish(EntangleCamera *cam,
 }
 
 /**
- * entangle_camera_disconnect:
+ * entangle_camera_close:
  * @cam: (transfer none): the camera
  *
- * Disconnect from the camera, enabling it to be used by
+ * Close from the camera, enabling it to be used by
  * other applications.
  *
  * This block execution of the caller until completion.
  *
- * Returns: TRUE if the camera is disconnected, FALSE on error
+ * Returns: TRUE if the camera is closeed, FALSE on error
  */
 gboolean
-entangle_camera_disconnect(EntangleCamera *cam, GError **error G_GNUC_UNUSED)
+entangle_camera_close(EntangleCamera *cam, GError **error G_GNUC_UNUSED)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     gboolean ret = FALSE;
 
-    ENTANGLE_DEBUG("Disconnecting from cam");
+    ENTANGLE_DEBUG("Closeing from cam");
 
     g_mutex_lock(&cam->lock);
 
@@ -852,19 +850,19 @@ entangle_camera_disconnect(EntangleCamera *cam, GError **error G_GNUC_UNUSED)
 cleanup:
     g_mutex_unlock(&cam->lock);
     if (ret)
-        entangle_camera_emit_deferred(cam, "camera-disconnected", NULL);
+        entangle_camera_emit_deferred(cam, "camera-closed", NULL);
     return ret;
 }
 
 static void
-entangle_camera_disconnect_helper(GTask *task,
-                                  gpointer object,
-                                  gpointer task_data G_GNUC_UNUSED,
-                                  GCancellable *cancellable G_GNUC_UNUSED)
+entangle_camera_close_helper(GTask *task,
+                             gpointer object,
+                             gpointer task_data G_GNUC_UNUSED,
+                             GCancellable *cancellable G_GNUC_UNUSED)
 {
     GError *error = NULL;
 
-    if (!entangle_camera_disconnect(ENTANGLE_CAMERA(object), &error)) {
+    if (!entangle_camera_close(ENTANGLE_CAMERA(object), &error)) {
         g_task_return_error(task, error);
     } else {
         g_task_return_boolean(task, TRUE);
@@ -872,43 +870,43 @@ entangle_camera_disconnect_helper(GTask *task,
 }
 
 /**
- * entangle_camera_disconnect_async:
+ * entangle_camera_close_async:
  * @cam: (transfer none): the camera
  *
- * Disconnect from the camera, enabling it to be used by
+ * Close from the camera, enabling it to be used by
  * other applications.
  *
  * This will execute in the background, and invoke @callback
- * when complete, whereupon entangle_camera_connect_async
+ * when complete, whereupon entangle_camera_open_async
  * can be used to check the status
  */
 void
-entangle_camera_disconnect_async(EntangleCamera *cam,
-                                 GCancellable *cancellable,
-                                 GAsyncReadyCallback callback,
-                                 gpointer user_data)
+entangle_camera_close_async(EntangleCamera *cam,
+                            GCancellable *cancellable,
+                            GAsyncReadyCallback callback,
+                            gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
 
     GTask *task = g_task_new(cam, cancellable, callback, user_data);
 
-    g_task_run_in_thread(task, entangle_camera_disconnect_helper);
+    g_task_run_in_thread(task, entangle_camera_close_helper);
     g_object_unref(task);
 }
 
 /**
- * entangle_camera_disconnect_finish:
+ * entangle_camera_close_finish:
  * @cam: (transfer none): the camera
  *
  * Check the completion status of a previous call to
- * entangle_camera_disconnect_async
+ * entangle_camera_close_async
  *
- * Returns: TRUE if the camera is disconnected, FALSE on error
+ * Returns: TRUE if the camera is closeed, FALSE on error
  */
 gboolean
-entangle_camera_disconnect_finish(EntangleCamera *cam,
-                                  GAsyncResult *result,
-                                  GError **error)
+entangle_camera_close_finish(EntangleCamera *cam,
+                             GAsyncResult *result,
+                             GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -916,15 +914,15 @@ entangle_camera_disconnect_finish(EntangleCamera *cam,
 }
 
 /**
- * entangle_camera_get_connected:
+ * entangle_camera_get_opened:
  * @cam: (transfer none): the camera
  *
- * Determine if the camera is currently connected
+ * Determine if the camera is currently opened
  *
- * Returns: TRUE if the camera is connected, FALSE otherwise
+ * Returns: TRUE if the camera is opened, FALSE otherwise
  */
 gboolean
-entangle_camera_get_connected(EntangleCamera *cam)
+entangle_camera_get_opened(EntangleCamera *cam)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -941,7 +939,7 @@ entangle_camera_get_connected(EntangleCamera *cam)
  * @cam: (transfer none): the camera
  *
  * Get the camera summary text. This is only available
- * while the camera is connected
+ * while the camera is opened
  *
  * Returns: (transfer full): the camera summary
  */
@@ -964,7 +962,7 @@ entangle_camera_get_summary(EntangleCamera *cam)
  * @cam: (transfer none): the camera
  *
  * Get the camera manual text. This is only available
- * while the camera is connected
+ * while the camera is opened
  *
  * Returns: (transfer full): the camera manual
  */
@@ -987,7 +985,7 @@ entangle_camera_get_manual(EntangleCamera *cam)
  * @cam: (transfer none): the camera
  *
  * Get the camera driver information text. This is only available
- * while the camera is connected
+ * while the camera is opened
  *
  * Returns: (transfer full): the camera driver information
  */
@@ -1015,7 +1013,7 @@ entangle_camera_get_driver(EntangleCamera *cam)
  * The caller should watch for signal notifications to detect any
  * additional images
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -1034,7 +1032,7 @@ entangle_camera_capture_image(EntangleCamera *cam, GError **error)
 
     if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Cannot capture image while not connected"));
+                    _("Cannot capture image while not opened"));
         goto cleanup;
     }
 
@@ -1084,7 +1082,7 @@ entangle_camera_capture_image_helper(GTask *task,
  * The caller should watch for signal notifications to detect any
  * additional images
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_capture_image_finish
@@ -1131,7 +1129,7 @@ entangle_camera_capture_image_finish(EntangleCamera *cam,
  * low resolution preview image. The "live view" mode will
  * remain enabled after execution.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -1155,7 +1153,7 @@ entangle_camera_preview_image(EntangleCamera *cam, GError **error)
 
     if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Cannot preview image while not connected"));
+                    _("Cannot preview image while not opened"));
         goto cleanup;
     }
 
@@ -1229,7 +1227,7 @@ entangle_camera_preview_image_helper(GTask *task,
  * low resolution preview image. The "live view" mode will
  * remain enabled after execution.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_preview_image_finish
@@ -1276,7 +1274,7 @@ entangle_camera_preview_image_finish(EntangleCamera *cam,
  * Download the data associated with @file and set the data
  * on @file.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -1301,7 +1299,7 @@ entangle_camera_download_file(EntangleCamera *cam,
 
     if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Cannot download file while not connected"));
+                    _("Cannot download file while not opened"));
         goto cleanup;
     }
 
@@ -1375,7 +1373,7 @@ entangle_camera_download_file_helper(GTask *task,
  * Download the data associated with @file and set the data
  * on @file.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_download_file_finish
@@ -1426,7 +1424,7 @@ entangle_camera_download_file_finish(EntangleCamera *cam,
  *
  * Delete @file from the camera capture target.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -1447,7 +1445,7 @@ entangle_camera_delete_file(EntangleCamera *cam,
 
     if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Cannot delete file while not connected"));
+                    _("Cannot delete file while not opened"));
         goto cleanup;
     }
 
@@ -1499,7 +1497,7 @@ entangle_camera_delete_file_helper(GTask *task,
  *
  * Delete @file from the camera capture target.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_delete_file_finish
@@ -1553,7 +1551,7 @@ entangle_camera_delete_file_finish(EntangleCamera *cam,
  * events that arrive. Multiple events will be processed
  * until @waitms is exceeded.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -1576,7 +1574,7 @@ entangle_camera_process_events(EntangleCamera *cam,
 
     if (!cam->cam) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Cannot wait for events while not connected"));
+                    _("Cannot wait for events while not opened"));
         goto cleanup;
     }
 
@@ -1702,7 +1700,7 @@ entangle_camera_process_events_helper(GTask *task,
  * events that arrive. Multiple events will be processed
  * until @waitms is exceeded.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_process_events_finish
@@ -2187,7 +2185,7 @@ cleanup:
  *
  * Loads the configuration controls from the camera.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -2205,7 +2203,7 @@ entangle_camera_load_controls(EntangleCamera *cam, GError **error)
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to load controls, camera is not connected"));
+                    _("Unable to load controls, camera is not opened"));
         goto cleanup;
     }
 
@@ -2271,7 +2269,7 @@ entangle_camera_load_controls_helper(GTask *task,
  *
  * Loads the configuration controls from the camera.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_load_controls_finish
@@ -2316,7 +2314,7 @@ entangle_camera_load_controls_finish(EntangleCamera *cam,
  *
  * Saves the configuration controls to the camera.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -2335,7 +2333,7 @@ entangle_camera_save_controls(EntangleCamera *cam, GError **error)
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to save controls, camera is not connected"));
+                    _("Unable to save controls, camera is not opened"));
         goto cleanup;
     }
 
@@ -2400,7 +2398,7 @@ entangle_camera_save_controls_helper(GTask *task,
  *
  * Saves the configuration controls to the camera.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_save_controls_finish
@@ -2445,7 +2443,7 @@ entangle_camera_save_controls_finish(EntangleCamera *cam,
  *
  * Get the configuration controls associated with the camera.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * Returns: (transfer full): the controls, or NULL
  */
@@ -2460,7 +2458,7 @@ entangle_camera_get_controls(EntangleCamera *cam, GError **error)
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is disconnected"));
+                    _("Controls not available when camera is closeed"));
         goto cleanup;
     }
 
@@ -2487,7 +2485,7 @@ cleanup:
  * allowing preview images to be captured. If @enabled is
  * FALSE, the view finder will be deactivated.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -2513,7 +2511,7 @@ entangle_camera_set_viewfinder(EntangleCamera *cam,
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is disconnected"));
+                    _("Controls not available when camera is closeed"));
         goto cleanup;
     }
 
@@ -2611,7 +2609,7 @@ entangle_camera_set_viewfinder_helper(GTask *task,
  * allowing preview images to be captured. If @enabled is
  * FALSE, the view finder will be deactivated.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_set_viewfinder_finish
@@ -2660,7 +2658,7 @@ entangle_camera_set_viewfinder_finish(EntangleCamera *cam,
  * Trigger the autofocus mechanism on the camera, waiting
  * until focus is achieved or fails.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -2684,7 +2682,7 @@ entangle_camera_autofocus(EntangleCamera *cam, GError **error)
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is disconnected"));
+                    _("Controls not available when camera is closeed"));
         goto cleanup;
     }
 
@@ -2767,7 +2765,7 @@ entangle_camera_autofocus_helper(GTask *task,
  * Trigger the autofocus mechanism on the camera, waiting
  * until focus is achieved or fails.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_autofocus_finish
@@ -2814,7 +2812,7 @@ entangle_camera_autofocus_finish(EntangleCamera *cam,
  * Trigger the focus mechanism on the camera, to move
  * by @step.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -2839,7 +2837,7 @@ entangle_camera_manualfocus(EntangleCamera *cam,
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is disconnected"));
+                    _("Controls not available when camera is closeed"));
         goto cleanup;
     }
 
@@ -2979,7 +2977,7 @@ entangle_camera_manualfocus_helper(GTask *task,
  * Trigger the focus mechanism on the camera, to move
  * by @step.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_manualfocus_finish
@@ -3029,7 +3027,7 @@ entangle_camera_manualfocus_finish(EntangleCamera *cam,
  * Update the camera clock to be @epochsecs seconds since
  * the epoch.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -3053,7 +3051,7 @@ entangle_camera_set_clock(EntangleCamera *cam, gint64 epochsecs, GError **error)
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is disconnected"));
+                    _("Controls not available when camera is closeed"));
         goto cleanup;
     }
 
@@ -3131,7 +3129,7 @@ entangle_camera_set_clock_helper(GTask *task,
  * Update the camera clock to be @epochsecs seconds since
  * the epoch.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_set_clock_finish
@@ -3185,7 +3183,7 @@ entangle_camera_set_clock_finish(EntangleCamera *cam,
  * Set the destination for storing captured images
  * to @target.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This block execution of the caller until completion.
  *
@@ -3213,7 +3211,7 @@ entangle_camera_set_capture_target(EntangleCamera *cam,
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is disconnected"));
+                    _("Controls not available when camera is closeed"));
         goto cleanup;
     }
 
@@ -3296,7 +3294,7 @@ entangle_camera_set_capture_target_helper(GTask *task,
  * Set the destination for storing captured images
  * to @target.
  *
- * This can only be invoked when the camera is connected.
+ * This can only be invoked when the camera is opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_set_clock_finish
@@ -3534,7 +3532,7 @@ entangle_device_manager_find_mount(EntangleCamera *cam, GVolumeMonitor *monitor)
  * @cam: (transfer none): the camera
  *
  * Check whether the camera is mounted as a virtual filesystem,
- * which would prevent connecting it to.
+ * which would prevent opening it.
  *
  * Returns: TRUE if the camera is mounted, FALSE otherwise
  */
@@ -3611,7 +3609,7 @@ entangle_camera_unmount_complete(GObject *object,
  * @cam: (transfer none): the camera
  *
  * Unmount the camera virtual filesystem, allowing it to be
- * connected to
+ * opened.
  *
  * This will execute in the background, and invoke @callback
  * when complete, whereupon entangle_camera_unmount_finish

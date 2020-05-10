@@ -47,31 +47,31 @@ const char *
 entangle_camera_get_port(EntangleCamera *cam);
 
 gboolean
-entangle_camera_connect(EntangleCamera *cam, GError **error);
+entangle_camera_open(EntangleCamera *cam, GError **error);
 void
-entangle_camera_connect_async(EntangleCamera *cam,
-                              GCancellable *cancellable,
-                              GAsyncReadyCallback callback,
-                              gpointer user_data);
+entangle_camera_open_async(EntangleCamera *cam,
+                           GCancellable *cancellable,
+                           GAsyncReadyCallback callback,
+                           gpointer user_data);
 gboolean
-entangle_camera_connect_finish(EntangleCamera *cam,
-                               GAsyncResult *result,
-                               GError **error);
+entangle_camera_open_finish(EntangleCamera *cam,
+                            GAsyncResult *result,
+                            GError **error);
 
 gboolean
-entangle_camera_disconnect(EntangleCamera *cam, GError **error);
+entangle_camera_close(EntangleCamera *cam, GError **error);
 void
-entangle_camera_disconnect_async(EntangleCamera *cam,
-                                 GCancellable *cancellable,
-                                 GAsyncReadyCallback callback,
-                                 gpointer user_data);
+entangle_camera_close_async(EntangleCamera *cam,
+                            GCancellable *cancellable,
+                            GAsyncReadyCallback callback,
+                            gpointer user_data);
 gboolean
-entangle_camera_disconnect_finish(EntangleCamera *cam,
-                                  GAsyncResult *result,
-                                  GError **error);
+entangle_camera_close_finish(EntangleCamera *cam,
+                             GAsyncResult *result,
+                             GError **error);
 
 gboolean
-entangle_camera_get_connected(EntangleCamera *cam);
+entangle_camera_get_opened(EntangleCamera *cam);
 
 char *
 entangle_camera_get_summary(EntangleCamera *cam);
