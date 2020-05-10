@@ -139,6 +139,11 @@ class PhotoBoxPluginWindow(object):
         self.imageDisplay = viewport.get_child()
         self.camera = self.win.get_camera()
 
+        app = self.win.get_application()
+        prefs = app.get_preferences()
+        self.continuousPreview = prefs.capture_get_continuous_preview()
+        prefs.capture_set_continuous_preview(False)
+
     def do_stop_photobox(self):
         self.do_set_widget_state(True)
         pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
@@ -148,6 +153,10 @@ class PhotoBoxPluginWindow(object):
         self.win.disconnect(self.winsig)
         self.button.disconnect(self.buttonsig)
         self.imageDisplay.set_text_overlay(None)
+
+        app = self.win.get_application()
+        prefs = app.get_preferences()
+        prefs.capture_set_continuous_preview(self.continuousPreview)
 
     def do_close_greeting(self, src, response, data=None):
         src.set_visible(False)
@@ -195,11 +204,18 @@ class PhotoBoxPluginWindow(object):
             self.win.capture()
             return False
 
+    def do_countdown_start(self, src, camfile):
+        self.displaycounter()
+        GLib.timeout_add(1000, self.displaycounter)
+        self.camera.disconnect(self.previewSig)
+        return False
+
     def do_capture(self, src):
         self.timer = int(self.scale.get_value())
         if self.timer > 0:
-            self.displaycounter()
-            GLib.timeout_add(1000, self.displaycounter)
+            self.previewSig = self.camera.connect("camera-file-previewed",
+                                                  self.do_countdown_start)
+            self.win.preview_begin()
         else:
             self.win.capture()
 
