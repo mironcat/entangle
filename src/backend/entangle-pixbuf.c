@@ -43,7 +43,7 @@ entangle_pixbuf_auto_rotate(GdkPixbuf *src, GExiv2Metadata *metadata)
     GdkPixbuf *dest = gdk_pixbuf_apply_embedded_orientation(src);
     GdkPixbuf *temp;
 
-    ENTANGLE_DEBUG("Auto-rotate %p %p\n", src, dest);
+    ENTANGLE_DEBUG("Auto-rotate %p %p", src, dest);
 
     if (dest == src) {
         int transform = 0;
