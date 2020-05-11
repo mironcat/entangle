@@ -1183,6 +1183,9 @@ entangle_image_display_set_text_overlay(EntangleImageDisplay *display,
 
     g_free(display->textOverlay);
     display->textOverlay = g_strdup(msg);
+
+    if (gtk_widget_get_visible((GtkWidget *)display))
+        gtk_widget_queue_resize(GTK_WIDGET(display));
 }
 
 const char *
