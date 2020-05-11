@@ -11,6 +11,7 @@ src/frontend/entangle-control-panel.c
 src/frontend/entangle-dpms.c
 src/frontend/entangle-help-about.ui
 src/frontend/entangle-help-overlay.ui
+src/frontend/entangle-media-popup.c
 src/frontend/entangle-media-popup.ui
 src/frontend/entangle-preferences-display.c
 src/frontend/entangle-preferences-display.ui

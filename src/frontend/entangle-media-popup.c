@@ -39,6 +39,7 @@ struct _EntangleMediaPopup
 
     EntangleMedia *media;
     EntangleImageDisplay *imageDisplay;
+    guint greetingSig;
 };
 
 G_DEFINE_TYPE(EntangleMediaPopup, entangle_media_popup, GTK_TYPE_WINDOW);
@@ -104,6 +105,10 @@ entangle_media_popup_finalize(GObject *object)
 
     if (popup->media)
         g_object_unref(popup->media);
+    if (popup->greetingSig) {
+        g_source_remove(popup->greetingSig);
+        popup->greetingSig = 0;
+    }
 
     G_OBJECT_CLASS(entangle_media_popup_parent_class)->finalize(object);
 }
@@ -222,6 +227,14 @@ entangle_media_popup_init(EntangleMediaPopup *popup)
     g_signal_connect(popup, "delete-event", G_CALLBACK(do_popup_delete), NULL);
 }
 
+static void
+do_greeting_clear(EntangleMediaPopup *popup)
+{
+    entangle_image_display_set_text_overlay(popup->imageDisplay, NULL);
+    g_source_remove(popup->greetingSig);
+    popup->greetingSig = 0;
+}
+
 void
 entangle_media_popup_show(EntangleMediaPopup *popup,
                           GtkWindow *parent,
@@ -239,6 +252,12 @@ entangle_media_popup_show(EntangleMediaPopup *popup,
     gtk_window_move(GTK_WINDOW(popup), x, y);
     gtk_widget_show(GTK_WIDGET(popup->imageDisplay));
     gtk_window_present(GTK_WINDOW(popup));
+
+    entangle_image_display_set_text_overlay(popup->imageDisplay,
+                                            _("'Escape' to close"));
+
+    popup->greetingSig =
+        g_timeout_add(3000, (GSourceFunc)do_greeting_clear, popup);
 }
 
 void
