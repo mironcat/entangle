@@ -2863,8 +2863,8 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_widget_set_size_request(settingsBox, 300, 100);
     gtk_widget_set_size_request(iconScroll, 140, 170);
 
-    manager->popups =
-        g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_object_unref);
+    manager->popups = g_hash_table_new_full(g_str_hash, g_str_equal, g_free,
+                                            (GDestroyNotify)gtk_widget_destroy);
 
     gtk_container_add(GTK_CONTAINER(imageViewport),
                       GTK_WIDGET(manager->imageDisplay));
