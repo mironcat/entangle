@@ -110,11 +110,17 @@ class PhotoBoxPluginWindow(object):
         self.win = win
         self.action = None
         self.shoot = Gtk.Button("Shoot")
+        self.shoot.set_border_width(6)
         self.delay = Gtk.Scale.new_with_range(0, 0, 10, 1)
         self.delay.set_value(5)
+        self.delay.set_hexpand(True)
+        self.delay.set_value_pos(Gtk.PositionType.RIGHT)
         self.settings = Gtk.Grid()
-        self.settings.attach(Gtk.Label("Preview time (secs):"), 0, 0, 1, 1)
+        self.settings.attach(Gtk.Label("Countdown time:"), 0, 0, 1, 1)
         self.settings.attach(self.delay, 1, 0, 1, 1)
+        self.settings.attach(Gtk.Label("secs"), 2, 0, 1, 1)
+        self.settings.set_column_spacing(3)
+        self.settings.set_border_width(6)
         self.winsig = None
         self.shootsig = None
 
