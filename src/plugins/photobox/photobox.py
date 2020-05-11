@@ -128,6 +128,10 @@ class PhotoBoxPluginWindow(object):
         settings = self.win.get_template_child(Entangle.CameraManager, "settingsScroll")
         settings.set_visible(visible)
 
+    def do_clear_greeting(self):
+        self.imageDisplay.set_text_overlay(None)
+        self.greetingSig = 0
+
     def do_start_photobox(self):
         self.do_set_widget_state(False)
         pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
@@ -154,6 +158,9 @@ class PhotoBoxPluginWindow(object):
 
         self.win.set_media_context_menu(False)
 
+        self.imageDisplay.set_text_overlay("Press 'Escape' to exit photo box")
+        self.greetingSig = GLib.timeout_add(3000, self.do_clear_greeting)
+
     def do_stop_photobox(self):
         self.do_set_widget_state(True)
         pane = self.win.get_template_child(Entangle.CameraManager, "winBox")
@@ -164,32 +171,19 @@ class PhotoBoxPluginWindow(object):
         self.shoot.disconnect(self.shootsig)
         self.imageDisplay.set_text_overlay(None)
 
+        if self.greetingSig != 0:
+            GLib.source_remove(self.greetingSig)
+            self.greetingSig = 0
+
         app = self.win.get_application()
         prefs = app.get_preferences()
         prefs.capture_set_continuous_preview(self.continuousPreview)
 
         self.win.set_media_context_menu(True)
 
-    def do_close_greeting(self, src, response, data=None):
-        src.set_visible(False)
-        src.destroy()
-
-    def do_show_greeting(self):
-        dlg = Gtk.MessageDialog(title="Photo box active",
-                                parent=self.win,
-                                flags=Gtk.DialogFlags.MODAL,
-                                type=Gtk.MessageType.INFO,
-                                buttons=Gtk.ButtonsType.OK)
-        dlg.set_markup("Press 'Escape' to exit photo box")
-        dlg.set_transient_for(self.win)
-        dlg.connect("response", self.do_close_greeting)
-        dlg.show()
-
     def do_toggle_photobox(self, action, state, data=None):
         if state.unpack():
             self.do_start_photobox()
-
-            GLib.timeout_add(500, self.do_show_greeting)
         else:
             self.do_stop_photobox()
 
@@ -217,6 +211,10 @@ class PhotoBoxPluginWindow(object):
             return False
 
     def do_countdown_start(self, src, camfile):
+        if self.greetingSig != 0:
+            GLib.source_remove(self.greetingSig)
+            self.greetingSig = 0
+
         self.displaycounter()
         GLib.timeout_add(1000, self.displaycounter)
         self.camera.disconnect(self.previewSig)
