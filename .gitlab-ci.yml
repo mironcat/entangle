@@ -11,7 +11,7 @@ stages:
   before_script:
     - docker info
     - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
-    - export TAG="${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG}"
+    - export TAG="${CI_REGISTRY_IMAGE}/${NAME}:latest"
   script:
     - docker pull ${TAG} || true
     - docker build --tag ${TAG} --cache-from ${TAG} -f ci/${NAME}.docker ci
@@ -20,6 +20,7 @@ stages:
     - docker logout
 
 .build-job-template: &build-job-definition
+  image: ${CI_REGISTRY_IMAGE}/${NAME}:latest
   stage: build
   script:
     - meson --prefix="`pwd`/vroot" -Denable-gtk-doc=true build
@@ -38,21 +39,23 @@ container-build-ubuntu2004:
 
 build-fedora31:
   <<: *build-job-definition
-  image: ${CI_REGISTRY_IMAGE}/build-fedora31:${CI_COMMIT_REF_SLUG}
+  variables:
+    NAME: build-fedora31
 
 build-ubuntu2004:
   <<: *build-job-definition
-  image: ${CI_REGISTRY_IMAGE}/build-ubuntu2004:${CI_COMMIT_REF_SLUG}
+  variables:
+    NAME: build-ubuntu2004
 
 syntax-check:
   stage: style
-  image: ${CI_REGISTRY_IMAGE}/build-fedora31:${CI_COMMIT_REF_SLUG}
+  image: ${CI_REGISTRY_IMAGE}/build-fedora31:latest
   script:
     - make syntax-check
 
 clang-format:
   stage: style
-  image: ${CI_REGISTRY_IMAGE}/build-fedora31:${CI_COMMIT_REF_SLUG}
+  image: ${CI_REGISTRY_IMAGE}/build-fedora31:latest
   script:
     - meson build
     - ninja -C build clang-format
