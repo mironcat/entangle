@@ -526,7 +526,7 @@ entangle_image_display_draw_text(EntangleImageDisplay *display, cairo_t *cr)
     double sx, sy;
     char *fontspec;
 
-    cairo_set_source_rgba(cr, 0.8, 0.8, 0.8, 0.8);
+    cairo_set_source_rgba(cr, 0.9, 0.9, 0.9, 1);
 
     ww = gdk_window_get_width(gtk_widget_get_window(GTK_WIDGET(display)));
     wh = gdk_window_get_height(gtk_widget_get_window(GTK_WIDGET(display)));
