@@ -1,0 +1,21 @@
+<release codename="Higgs Boson" date="2012-07-08" version="0.4.0">
+  <description>
+    <ul>
+      <li>Better use of GtkApplication class</li>
+      <li>Add support for multiple windows &amp; cameras</li>
+      <li>Add ability to sync capture/preview across windows</li>
+      <li>Add preference to control whether cameras autoconnect at startup</li>
+      <li>Add ability to apply aspect ratio masks to images</li>
+      <li>Add key bindings for common actions (see README)</li>
+      <li>Rewrite session browser widget to not use GtkIconView</li>
+      <li>Add popup menu with session browser to allow open and delete of captured images</li>
+      <li>Fix memory leak during preview</li>
+      <li>Fix memory leak in session browser widget</li>
+      <li>Add ability to DPMS-blank screen during capture for consistent lighting environment</li>
+      <li>Add ability to render a focus point during preview</li>
+      <li>Add ability to render grid lines during preview</li>
+      <li>Merge "New session" and "Open session" toolbar buttons into one "Select session" drop down / menu</li>
+      <li>Add custom icons for toolbar capture/preview buttons</li>
+    </ul>
+  </description>
+</release>

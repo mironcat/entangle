@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import glob
+import os
+import subprocess
+import sys
+
+release_dir = sys.argv[1]
+metainfo_in = sys.argv[2]
+metainfo_out = sys.argv[3]
+
+with open(metainfo_in, "r") as fhin, open(metainfo_out, "w") as fhout:
+    for line in fhin:
+        print(line, file=fhout, end='')
+
+        if "<releases>" in line:
+            filenames = glob.glob(os.path.join(release_dir, '*.xml'))
+            filenames.sort(reverse=True)
+            for filename in filenames:
+                with open(filename, "r") as fhrel:
+                    for relline in fhrel:
+                        relline = "    " + relline
+                        print(relline, file=fhout, end='')

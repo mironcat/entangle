@@ -1,0 +1,16 @@
+<release codename="Charm" date="2015-03-17" version="0.7.0">
+  <description>
+    <ul>
+      <li>Require GLib &gt;= 2.36</li>
+      <li>Import new logo design</li>
+      <li>Switch to using zanata.org for translations</li>
+      <li>Set default window icon</li>
+      <li>Introduce an initial help manual via yelp</li>
+      <li>Use shared library for core engine to ensure all symbols are exported to plugins</li>
+      <li>Add framework for scripting capture operations</li>
+      <li>Workaround camera busy problems with Nikon cameras</li>
+      <li>Add a plugin for repeated capture sequences</li>
+      <li>Replace progress bar with spinner icon</li>
+    </ul>
+  </description>
+</release>

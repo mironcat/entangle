@@ -1,0 +1,18 @@
+<release codename="Tau neutrino" date="2012-02-13" version="0.3.1">
+  <description>
+    <ul>
+      <li>Fix crash in handling camera control combo lists</li>
+      <li>Add notice about need to set XDG_DATA_DIRS when installing into unusual directories</li>
+      <li>Add workaround to avoid immediate crash if schemas were not found in XDG_DATA_DIRS</li>
+      <li>Compile schema files after installation</li>
+      <li>Fix crash updating widget sensitivity</li>
+      <li>Fix crashes &amp; race conditions during capture of images</li>
+      <li>Fix infinite preview error message popups which can hang the window manager</li>
+      <li>Fix crash when retrying a failed connection attempt</li>
+      <li>Fix thread locking when hiding status display</li>
+      <li>Avoid running multiple threads for monitoring status</li>
+      <li>Fix initial sensitivity of camera control panels</li>
+      <li>Update README with new URLs for bugs/mailing lists</li>
+    </ul>
+  </description>
+</release>

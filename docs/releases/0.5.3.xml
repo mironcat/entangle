@@ -1,0 +1,12 @@
+<release codename="Photon" date="2013-08-28" version="0.5.3">
+  <description>
+    <ul>
+      <li>Move file name of image thumbnails to tooltip popup</li>
+      <li>Add --disable-schemas-compile configure arg to disable schema compilation</li>
+      <li>Remove "Encoding" key from desktop file</li>
+      <li>Fix massive memory leak in pixbuf loading</li>
+      <li>Fix thread safety in camera control updates which caused hangs in GTK</li>
+      <li>Fix updating of control readonly state when camera modes change</li>
+    </ul>
+  </description>
+</release>

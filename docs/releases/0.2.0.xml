@@ -1,0 +1,13 @@
+<release codename="Electron neutrino" date="2010-09-17" version="0.2.0">
+  <description>
+    <ul>
+      <li>Better compatibility with cameras not supporting events</li>
+      <li>Ability to unmount camera via GVFS</li>
+      <li>Switch to libpeas for plugins</li>
+      <li>Improved error reporting</li>
+      <li>Fixed inifinite loops in event waiting</li>
+      <li>Improved preview capability</li>
+      <li>Fixed crash with udev</li>
+    </ul>
+  </description>
+</release>

@@ -1,0 +1,23 @@
+<release codename="Graviton" date="2013-08-17" version="0.5.2">
+  <description>
+    <ul>
+      <li>Split histogram into RGB colour channels</li>
+      <li>Fix aperture / shutter speed calculations in status bar</li>
+      <li>Only import files with known image extensions</li>
+      <li>Use case insensitive file extension check to detect raw files</li>
+      <li>Set saner defaults for processing raw files to fix Canon raw display</li>
+      <li>Set preferences before loading session to fix settings for initial image load</li>
+      <li>Apply orientation from EXIF images if image file has none</li>
+      <li>Remove left over debug prints</li>
+      <li>Add support for linear histogram display mode</li>
+      <li>Support 'h' key to toggle linear/log histogram mode</li>
+      <li>Ensure all events are emitted in main thread</li>
+      <li>Remove use of deprecated GDK thread APIs</li>
+      <li>Use GtkGrid instead of deprecated GtkTable</li>
+      <li>Ensure status bar is constant size when scaling image</li>
+      <li>Preserve scrollbar offsets when switching images</li>
+      <li>Make metadata extraction more robust wrt missing fields</li>
+      <li>Updated translations from transifex</li>
+    </ul>
+  </description>
+</release>

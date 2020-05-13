@@ -1,0 +1,24 @@
+<release codename="Gluon" date="2012-09-06" version="0.4.1">
+  <description>
+    <ul>
+      <li>Fix leak of image pixbufs when changing image in session</li>
+      <li>Keep toolbar directory in sync with session dir</li>
+      <li>Fix leak when displaying image popups</li>
+      <li>Fix leak when closing image popups</li>
+      <li>Fix key bindings in session browser</li>
+      <li>Add image histogram display</li>
+      <li>Load libpeas introspection data for plugins</li>
+      <li>Main plugin list in preferences</li>
+      <li>Add object type checking in all APIs</li>
+      <li>Fix image mask aspect ratio conversion to avoid locale problems</li>
+      <li>Fix build on GTK &lt; 3.4</li>
+      <li>Remove obsolete conditionals from GTK 2.x days</li>
+      <li>Populate list of supported cameras in help menu dialog</li>
+      <li>Add a simple man page</li>
+      <li>Add accelerators for many menu options</li>
+      <li>Fix unref of cairo surface objects</li>
+      <li>Avoid GTK assertion when range is max-min is zero</li>
+      <li>Avoid crash in control panel when updating after camera disconnect</li>
+    </ul>
+  </description>
+</release>

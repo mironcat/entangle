@@ -41,7 +41,9 @@ entangle = executable(
   install_dir: entangle_bindir
 )
 
-desktop = 'org.entangle_photo.Manager.desktop'
+appname = 'org.entangle_photo.Manager'
+
+desktop = appname + '.desktop'
 
 i18n.merge_file (
   desktop,
@@ -53,11 +55,19 @@ i18n.merge_file (
   install_dir: join_paths(entangle_datadir, 'applications')
 )
 
-metainfo = 'org.entangle_photo.Manager.metainfo.xml'
+metainfo = appname + '.metainfo.xml'
+metainfotmp = appname + '.tmp.metainfo.xml'
+
+metainfotmp = custom_target('gen-metadata',
+	input: metainfo,
+	output: metainfotmp,
+	command: [meson.source_root() / 'build-aux' / 'metainfo-merge',
+		 meson.source_root() / 'docs' / 'releases',
+		 '@INPUT@', '@OUTPUT@'])
 
 i18n.merge_file(
   metainfo,
-  input: metainfo,
+  input: metainfotmp,
   output: metainfo,
   install: true,
   install_dir: join_paths(entangle_datadir, 'metainfo'),

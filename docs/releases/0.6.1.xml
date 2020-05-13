@@ -1,0 +1,25 @@
+<release codename="Strange" date="2015-02-05" version="0.6.1">
+  <description>
+    <ul>
+      <li>Require GTK &gt;= 3.4</li>
+      <li>Fix check for GIO package in configure</li>
+      <li>Add missing icons to Makefile</li>
+      <li>Follow freedesktop thumbnail standard storage location</li>
+      <li>Refactor capture code to facilitate plugin script automation</li>
+      <li>Fix bug causing plugin to be displayed more than once</li>
+      <li>Make histogram height larger</li>
+      <li>Strip trailing '2' from widget labels to be more friendly</li>
+      <li>Completely rewrite control panel display to show a small, user configurable subset from all the camera controls.</li>
+      <li>Remember custom list of camera controls per camera model</li>
+      <li>Hide compiler warnings from new glib atomic opertaions</li>
+      <li>Update to newer gnulib compiler warnings code</li>
+      <li>Remove broken double buffering code that's no required when using GTK3</li>
+      <li>Remove use of deprecated GtkMisc APis</li>
+      <li>Allow camera picker list to show multiple lines</li>
+      <li>Remove crufty broken code from session browser that was breaking with new GTK versions</li>
+      <li>Disable libraw auto brightness since it totally overexposes many images, generally making things look worse</li>
+      <li>Fix memory leak handling camera events</li>
+      <li>Add keywords to desktop &amp; appdata files</li>
+    </ul>
+  </description>
+</release>

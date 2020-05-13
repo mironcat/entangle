@@ -1,0 +1,27 @@
+<release codename="Tau" date="2011-11-28" version="0.3.0">
+  <description>
+    <ul>
+      <li>Switch to use Gtk3 for UI</li>
+      <li>Switch to use GSettings for preferences</li>
+      <li>Switch to use GtkBuilder for UI modelling</li>
+      <li>Always enable GObject introspection</li>
+      <li>Mandate libpeas for building</li>
+      <li>Use gexiv2 for extracting metadata from images</li>
+      <li>Rewrite internals for camera capture to be based on GIO async invocation, instead of explicitly using threads</li>
+      <li>Automatically detect change of config on camera and propagate to UI (probably only works with Nikon cameras)</li>
+      <li>Display basic image properties (aperture, iso, shutter speed, size and focal length) in a popup</li>
+      <li>Remove support for HAL, in favour of udev</li>
+      <li>Avoid 100% cpu burn with GVolumeMonitor / DBus bug</li>
+      <li>Remember last image directory across restarts</li>
+      <li>Default to $PICTURE_DIR/Capture for images, instead of creating a directory based on the camera model name</li>
+      <li>Keep display of images in session even when no camera is connected</li>
+      <li>Remove "Other PTP properties" from control panel to make the UI more scalable &amp; improve speed of loading the UI</li>
+      <li>Preference to prevent deletion of images from camera after download</li>
+      <li>Preference to allow preview to continue after image capture</li>
+      <li>Continuously monitor for new images on the camera and download as they appear.</li>
+      <li>Setup transient window hints to assist window manager in handling window placement</li>
+      <li>Delete all website content which is now managed live</li>
+      <li>Skip directories / special files when loading sessions</li>
+    </ul>
+  </description>
+</release>

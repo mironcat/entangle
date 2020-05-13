@@ -1,0 +1,13 @@
+<release codename="Muon neutrino" date="2012-04-25" version="0.3.3">
+  <description>
+    <ul>
+      <li>Fix deadlock when starting app with glib &gt;= 2.32</li>
+      <li>Remove use of deprecated API calls</li>
+      <li>Remove use of deprecated GTK widgets</li>
+      <li>Fix debugging with glib &gt;= 2.32</li>
+      <li>Fix creation of session browser widget to avoid warnings</li>
+      <li>Refresh translations</li>
+      <li>Fix check for glib-compile-schemas binary</li>
+    </ul>
+  </description>
+</release>

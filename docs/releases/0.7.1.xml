@@ -1,0 +1,20 @@
+<release codename="Top" date="2016-02-21" version="0.7.1">
+  <description>
+    <ul>
+      <li>Fix linking problem with strict linkers</li>
+      <li>Misc spelling fixes to online help docs</li>
+      <li>Replace use of GSimpleAsyncResult with GTask</li>
+      <li>Specify versions when importing from python plugins</li>
+      <li>Remove use of deprecated GTK APIs</li>
+      <li>Render image stats overlay partially transparent</li>
+      <li>Fix error reporting when saving settings</li>
+      <li>Flush events after capture to avoid accidentally restarting preview</li>
+      <li>Make Nikon fine focus stepping finer</li>
+      <li>Ensure images are sorted by last modified date</li>
+      <li>Switch from 128 px to 256 px thumbnail sizes to benefit larger high dpi screens</li>
+      <li>Rewrite film strip browser to dynamically resize icons to fit available space</li>
+      <li>Draw symbolic icons in film strip if image is not yet loaded</li>
+      <li>Refresh translations from Zanata</li>
+    </ul>
+  </description>
+</release>

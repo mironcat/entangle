@@ -1,0 +1,17 @@
+<release codename="Lithium" date="2017-10-10" version="1.0">
+  <description>
+    <ul>
+      <li>Requires Meson + Ninja build system instead of make</li>
+      <li>Switch to 2-digit version numbering</li>
+      <li>Fix corruption of display when drawing session browser</li>
+      <li>Register application actions for main operations</li>
+      <li>Compile UI files into binary</li>
+      <li>Add a custom application menu</li>
+      <li>Switch over to using header bar, instead of menu bar and tool bar.</li>
+      <li>Enable close button for about dialog</li>
+      <li>Ensure plugin panel fills preferences dialog</li>
+      <li>Tweak UI spacing in supported cameras dialog</li>
+      <li>Add keyboard shortcuts overlay</li>
+    </ul>
+  </description>
+</release>

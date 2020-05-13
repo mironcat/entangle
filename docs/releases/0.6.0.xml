@@ -1,0 +1,35 @@
+<release codename="Down" date="2014-05-02" version="0.6.0">
+  <description>
+    <ul>
+      <li>Add a demonstration plugin for setting up a captive photo box display mode</li>
+      <li>Switch to use Python3 for plugin engine instead of JavaScript</li>
+      <li>Use GTK dark theme</li>
+      <li>Require GNOME symbolic icon theme to be installed</li>
+      <li>Switch to require lcms2 instead of lcms</li>
+      <li>Move application icon into a standard directory mandated to work with the appdata tools</li>
+      <li>Make manual focus work with Canon EOS cameras</li>
+      <li>Disable flickering progress bar in preview mode with Canon EOS cameras</li>
+      <li>Remove use of deprecated GTK methods/classes/constants</li>
+      <li>Remove use of gexiv2 method which is not long exported</li>
+      <li>Remove use of deprecated libpeas methods</li>
+      <li>Add GTK-DOC transfer annotations / docs to all methods</li>
+      <li>Avoid loosing camera capabilities on disconnect</li>
+      <li>Fix off by one in histogram tables causing memory corruption</li>
+      <li>Mark appdata / desktop files for translation</li>
+      <li>Fix typos in README file</li>
+      <li>Fix inverted tests when checking if range widget changed</li>
+      <li>Avoid storm of expose events due to auto-drawer widget</li>
+      <li>Avoid never ending circular update of controls causing errors in some camera modes</li>
+      <li>Add workaround for crazy D5100 camera serial number</li>
+      <li>Add customizable highlight/background for images</li>
+      <li>Avoid reference leak of windows preventing proper cleanup</li>
+      <li>Remove camera manual/about/driver help windows since it did not contain any info useful to users</li>
+      <li>Filter list of cameras in connect dialog to only those which support capture/preview</li>
+      <li>Don't auto connect to cameras which don't support capture or preview</li>
+      <li>Ensure parent window is set on dialogs to prevent them falling behind main window</li>
+      <li>Fix crash with latest GTK due to incorrect overriding of GtkApplication startup method</li>
+      <li>Update to cope with changed GExiv API version</li>
+      <li>Refreshed translations from transifex</li>
+    </ul>
+  </description>
+</release>

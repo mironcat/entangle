@@ -1,0 +1,11 @@
+<release codename="Muon" date="2012-04-03" version="0.3.2">
+  <description>
+    <ul>
+      <li>Major code style cleanup</li>
+      <li>Mark all translatable strings in code &amp; UI files</li>
+      <li>Register with Transifex for translations via Fedora team</li>
+      <li>Pull in translations (German, Polish, Ukrainian, Japanese: full, Spanish, Chinese: partial).</li>
+      <li>Add m4 macros for compiler warnings, missing from previous release dist.</li>
+    </ul>
+  </description>
+</release>

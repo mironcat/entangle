@@ -1,0 +1,25 @@
+<release codename="Bottom" date="2017-08-25" version="0.7.2">
+  <description>
+    <ul>
+      <li>Requires Gtk &gt;= 3.10.0</li>
+      <li>Fix some introspection annotations</li>
+      <li>Use GdkSeat APIs if available</li>
+      <li>Use GtkOverlay and GtkRevealer in preference to custom widgets</li>
+      <li>Refactoring to prepare to support display of video files</li>
+      <li>Draw symbolic icons for video/image files while waiting for thumbnails to load</li>
+      <li>Ensure session highlight has a min 1 pixel visible border</li>
+      <li>Ensure session browser scrolls fully to right</li>
+      <li>Check for Adwaita icon theme which now includes symbolic icons</li>
+      <li>Remove left over check for DBus GLib</li>
+      <li>Remove use of deprecated GDK monitor functions</li>
+      <li>Remove use of deprecated GTK API for loading URIs</li>
+      <li>Fix handling of motion-notify event that broke client side window dragging</li>
+      <li>Fix warning when setting size of settings viewport</li>
+      <li>Update bug reporting address</li>
+      <li>Turn off over-zealous compiler warning about loop optimizations</li>
+      <li>Add ability to enter IP address of network camera</li>
+      <li>Fix URI pattern used to locate gphoto gvfs mounts</li>
+      <li>Add example plugin for bracketing photos of a total eclipse</li>
+    </ul>
+  </description>
+</release>

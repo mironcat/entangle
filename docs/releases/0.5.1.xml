@@ -1,0 +1,18 @@
+<release codename="W Boson" date="2012-03-12" version="0.5.1">
+  <description>
+    <ul>
+      <li>Update for compatibility with libgphoto 2.5 API callbacks</li>
+      <li>Avoid warnings about deprecated glib2 mutex and condition variable APIs</li>
+      <li>Directly disable viewfinder mode using config APIs</li>
+      <li>Add support for triggering autofocus during preview with 'a' key</li>
+      <li>Add support for manual focus drive in/out using '.' and ',' keys</li>
+      <li>Refresh translations from transifex</li>
+      <li>Import user contributed Italian translation</li>
+      <li>Add missing translation markers on some strings</li>
+    </ul>
+    <p>Known issues:</p>
+    <ul>
+      <li>Compile triggers deprecation warnings about Gdk threads API usage and GtkTable API usage. Harmless but to be addressed in next release.</li>
+    </ul>
+  </description>
+</release>
