@@ -50,6 +50,12 @@ foreach f: entangle_frontend_sources + entangle_frontend_headers
   entangle_frontend_files += [fn]
 endforeach
 
+entangle_frontend_sources += gnome.compile_resources(
+  'entangle-resources',
+  'entangle.gresource.xml',
+  source_dir: '.',
+)
+
 
 entangle_frontend_enum_headers = []
 entangle_frontend_enum_sources = []

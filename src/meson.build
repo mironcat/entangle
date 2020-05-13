@@ -11,12 +11,6 @@ entangle_sources = [
   'entangle-main.c'
 ]
 
-entangle_sources += gnome.compile_resources(
-  'entangle-resources',
-  'entangle.gresource.xml',
-  source_dir: '.',
-)
-
 entangle_sources += entangle_backend_enum_headers
 entangle_sources += entangle_frontend_enum_headers
 

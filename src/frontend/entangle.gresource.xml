@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/entangle_photo/Manager/frontend">
+    <file preprocess="xml-stripblanks">entangle-camera-manager.ui</file>
+    <file preprocess="xml-stripblanks">entangle-camera-manager-menus.ui</file>
+    <file preprocess="xml-stripblanks">entangle-camera-picker.ui</file>
+    <file preprocess="xml-stripblanks">entangle-camera-support.ui</file>
+    <file preprocess="xml-stripblanks">entangle-help-about.ui</file>
+    <file preprocess="xml-stripblanks">entangle-media-popup.ui</file>
+    <file preprocess="xml-stripblanks">entangle-preferences-display.ui</file>
+    <file alias="gtk/help-overlay.ui" preprocess="xml-stripblanks">entangle-help-overlay.ui</file>
+  </gresource>
+</gresources>
