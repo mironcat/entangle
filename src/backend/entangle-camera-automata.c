@@ -350,6 +350,39 @@ do_entangle_camera_flush_events_finish(GObject *src,
 }
 
 static void
+do_entangle_camera_stop_preview_finish(GObject *src,
+                                       GAsyncResult *res,
+                                       gpointer opaque)
+{
+    EntangleCameraAutomataData *data = opaque;
+    EntangleCameraAutomata *automata = data->automata;
+    EntangleCamera *camera = ENTANGLE_CAMERA(src);
+    GError *error = NULL;
+
+    g_signal_emit_by_name(data->automata, "camera-capture-end");
+
+    if (!entangle_camera_set_viewfinder_finish(camera, res, &error)) {
+        g_task_return_error(data->task, error);
+        entangle_camera_automata_data_free(data);
+        return;
+    }
+
+    if (g_cancellable_is_cancelled(data->cancel)) {
+        if (automata->deleteFile) {
+            entangle_camera_delete_file_async(camera, data->file, NULL,
+                                              do_entangle_camera_delete_finish,
+                                              data);
+        } else {
+            g_task_return_boolean(data->task, TRUE);
+            entangle_camera_automata_data_free(data);
+        }
+    } else {
+        entangle_camera_process_events_async(
+            camera, 100, NULL, do_entangle_camera_flush_events_finish, data);
+    }
+}
+
+static void
 do_entangle_camera_capture_finish(GObject *src,
                                   GAsyncResult *res,
                                   gpointer opaque)
@@ -368,7 +401,11 @@ do_entangle_camera_capture_finish(GObject *src,
         return;
     }
 
-    if (g_cancellable_is_cancelled(data->cancel)) {
+    if (entangle_camera_get_has_viewfinder(automata->camera)) {
+        entangle_camera_set_viewfinder_async(
+            automata->camera, FALSE, NULL,
+            do_entangle_camera_stop_preview_finish, data);
+    } else if (g_cancellable_is_cancelled(data->cancel)) {
         if (automata->deleteFile) {
             entangle_camera_delete_file_async(camera, data->file, NULL,
                                               do_entangle_camera_delete_finish,
