@@ -102,6 +102,7 @@ entangle_script_simple_init_task_data(EntangleScriptSimple *script)
 
 /**
  * entangle_script_simple_get_task_data:
+ * @script: a script object
  * @result: the task object
  *
  * Returns: (transfer full): the data

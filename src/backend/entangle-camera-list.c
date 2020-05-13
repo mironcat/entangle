@@ -363,6 +363,7 @@ entangle_camera_list_refresh_supported(EntangleCameraList *list,
 /**
  * entangle_camera_list_refresh:
  * @list: (transfer none): the camera list
+ * @error: a GError, or NULL
  *
  * De-intialization the list of cameras
  *

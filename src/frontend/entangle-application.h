@@ -40,13 +40,13 @@ EntangleApplication *
 entangle_application_new(void);
 
 EntangleCameraList *
-entangle_application_get_active_cameras(EntangleApplication *application);
+entangle_application_get_active_cameras(EntangleApplication *app);
 EntangleCameraList *
-entangle_application_get_supported_cameras(EntangleApplication *application);
+entangle_application_get_supported_cameras(EntangleApplication *app);
 EntanglePreferences *
-entangle_application_get_preferences(EntangleApplication *application);
+entangle_application_get_preferences(EntangleApplication *app);
 PeasEngine *
-entangle_application_get_plugin_engine(EntangleApplication *application);
+entangle_application_get_plugin_engine(EntangleApplication *app);
 
 G_END_DECLS
 

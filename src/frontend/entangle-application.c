@@ -522,6 +522,7 @@ entangle_application_init(EntangleApplication *app)
 
 /**
  * entangle_application_get_active_cameras:
+ * @app: the application
  *
  * Retrieve the active camera list
  *
@@ -537,6 +538,7 @@ entangle_application_get_active_cameras(EntangleApplication *app)
 
 /**
  * entangle_application_get_supported_cameras:
+ * @app: the application
  *
  * Retrieve the supported camera list
  *
@@ -552,6 +554,7 @@ entangle_application_get_supported_cameras(EntangleApplication *app)
 
 /**
  * entangle_application_get_preferences:
+ * @app: the application
  *
  * Retrieve the application preferences object
  *
@@ -567,6 +570,7 @@ entangle_application_get_preferences(EntangleApplication *app)
 
 /**
  * entangle_application_get_plugin_engine:
+ * @app: the application
  *
  * Retrieve the plugin manager
  *

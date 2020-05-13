@@ -610,6 +610,7 @@ do_entangle_camera_error(GPContext *ctx G_GNUC_UNUSED,
 /**
  * entangle_camera_open:
  * @cam: (transfer none): the camera
+ * @error: a GError, or NULL
  *
  * Attempt to open to and initialize the camera. This
  * may fail if the camera is in use by another application,
@@ -740,6 +741,10 @@ entangle_camera_open_helper(GTask *task,
 /**
  * entangle_camera_open_async:
  * @cam: (transfer none): the camera
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Attempt to open to and initialize the camera. This
  * may fail if the camera is in use by another application,
@@ -766,6 +771,8 @@ entangle_camera_open_async(EntangleCamera *cam,
 /**
  * entangle_camera_open_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_open_async
@@ -785,6 +792,7 @@ entangle_camera_open_finish(EntangleCamera *cam,
 /**
  * entangle_camera_close:
  * @cam: (transfer none): the camera
+ * @error: a GError, or NULL
  *
  * Close from the camera, enabling it to be used by
  * other applications.
@@ -872,6 +880,10 @@ entangle_camera_close_helper(GTask *task,
 /**
  * entangle_camera_close_async:
  * @cam: (transfer none): the camera
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Close from the camera, enabling it to be used by
  * other applications.
@@ -897,6 +909,8 @@ entangle_camera_close_async(EntangleCamera *cam,
 /**
  * entangle_camera_close_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_close_async
@@ -1006,6 +1020,7 @@ entangle_camera_get_driver(EntangleCamera *cam)
 /**
  * entangle_camera_capture_image:
  * @cam: (transfer none): the camera
+ * @error: a GError, or NULL
  *
  * Trigger the camera shutter and download the first resulting
  * image. If the camera is shooting in multiple formats (eg JPEG
@@ -1075,6 +1090,10 @@ entangle_camera_capture_image_helper(GTask *task,
 /**
  * entangle_camera_capture_image_async:
  * @cam: (transfer none): the camera
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Trigger the camera shutter and download the first resulting
  * image. If the camera is shooting in multiple formats (eg JPEG
@@ -1105,6 +1124,8 @@ entangle_camera_capture_image_async(EntangleCamera *cam,
 /**
  * entangle_camera_capture_image_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_capture_image_async.
@@ -1124,6 +1145,7 @@ entangle_camera_capture_image_finish(EntangleCamera *cam,
 /**
  * entangle_camera_preview_image:
  * @cam: (transfer none): the camera
+ * @error: a GError, or NULL
  *
  * Enable "live view", if not already enabled, and capture a
  * low resolution preview image. The "live view" mode will
@@ -1222,6 +1244,10 @@ entangle_camera_preview_image_helper(GTask *task,
 /**
  * entangle_camera_preview_image_async:
  * @cam: (transfer none): the camera
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Enable "live view", if not already enabled, and capture a
  * low resolution preview image. The "live view" mode will
@@ -1250,6 +1276,8 @@ entangle_camera_preview_image_async(EntangleCamera *cam,
 /**
  * entangle_camera_preview_image_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_preview_image_async.
@@ -1270,6 +1298,7 @@ entangle_camera_preview_image_finish(EntangleCamera *cam,
  * entangle_camera_download_file:
  * @cam: (transfer none): the camera
  * @file: (transfer none): the file whose contents to download
+ * @error: a GError, or NULL
  *
  * Download the data associated with @file and set the data
  * on @file.
@@ -1369,6 +1398,10 @@ entangle_camera_download_file_helper(GTask *task,
  * entangle_camera_download_file_async:
  * @cam: (transfer none): the camera
  * @file: (transfer none): the file whose contents to download
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Download the data associated with @file and set the data
  * on @file.
@@ -1401,6 +1434,8 @@ entangle_camera_download_file_async(EntangleCamera *cam,
 /**
  * entangle_camera_download_file_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_download_file_async.
@@ -1421,6 +1456,7 @@ entangle_camera_download_file_finish(EntangleCamera *cam,
  * entangle_camera_delete_file:
  * @cam: (transfer none): the camera
  * @file: (transfer none): the file to delete
+ * @error: a GError, or NULL
  *
  * Delete @file from the camera capture target.
  *
@@ -1494,6 +1530,10 @@ entangle_camera_delete_file_helper(GTask *task,
  * entangle_camera_delete_file_async:
  * @cam: (transfer none): the camera
  * @file: (transfer none): the file to delete
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Delete @file from the camera capture target.
  *
@@ -1525,6 +1565,8 @@ entangle_camera_delete_file_async(EntangleCamera *cam,
 /**
  * entangle_camera_delete_file_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_delete_file_async.
@@ -1545,6 +1587,7 @@ entangle_camera_delete_file_finish(EntangleCamera *cam,
  * entangle_camera_process_events:
  * @cam: (transfer none): the camera
  * @waitms: the number of milliseconds to wait
+ * @error: a GError, or NULL
  *
  * Wait upto @waitms milliseconds for events to arrive from
  * the camera. Signals will be emitted for any interesting
@@ -1694,6 +1737,10 @@ entangle_camera_process_events_helper(GTask *task,
  * entangle_camera_process_events_async:
  * @cam: (transfer none): the camera
  * @waitms: the number of milliseconds to wait
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Wait upto @waitms milliseconds for events to arrive from
  * the camera. Signals will be emitted for any interesting
@@ -1728,6 +1775,8 @@ entangle_camera_process_events_async(EntangleCamera *cam,
 /**
  * entangle_camera_process_events_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_process_events_async.
@@ -2182,6 +2231,7 @@ cleanup:
 /**
  * entangle_camera_load_controls:
  * @cam: (transfer none): the camera
+ * @error: a GError, or NULL
  *
  * Loads the configuration controls from the camera.
  *
@@ -2266,6 +2316,10 @@ entangle_camera_load_controls_helper(GTask *task,
 /**
  * entangle_camera_load_controls_async:
  * @cam: (transfer none): the camera
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Loads the configuration controls from the camera.
  *
@@ -2292,6 +2346,8 @@ entangle_camera_load_controls_async(EntangleCamera *cam,
 /**
  * entangle_camera_load_controls_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_load_controls_async.
@@ -2311,6 +2367,7 @@ entangle_camera_load_controls_finish(EntangleCamera *cam,
 /**
  * entangle_camera_save_controls:
  * @cam: (transfer none): the camera
+ * @error: a GError, or NULL
  *
  * Saves the configuration controls to the camera.
  *
@@ -2395,6 +2452,10 @@ entangle_camera_save_controls_helper(GTask *task,
 /**
  * entangle_camera_save_controls_async:
  * @cam: (transfer none): the camera
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Saves the configuration controls to the camera.
  *
@@ -2421,6 +2482,8 @@ entangle_camera_save_controls_async(EntangleCamera *cam,
 /**
  * entangle_camera_save_controls_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_save_controls_async.
@@ -2440,6 +2503,7 @@ entangle_camera_save_controls_finish(EntangleCamera *cam,
 /**
  * entangle_camera_get_controls:
  * @cam: (transfer none): the camera
+ * @error: a GError, or NULL
  *
  * Get the configuration controls associated with the camera.
  *
@@ -2480,6 +2544,7 @@ cleanup:
  * entangle_camera_set_viewfinder:
  * @cam: (transfer none): the camera
  * @enabled: TRUE to turn on the view finder
+ * @error: a GError, or NULL
  *
  * If @enabled is TRUE, the view finder will be activated
  * allowing preview images to be captured. If @enabled is
@@ -2604,6 +2669,10 @@ entangle_camera_set_viewfinder_helper(GTask *task,
  * entangle_camera_set_viewfinder_async:
  * @cam: (transfer none): the camera
  * @enabled: TRUE to turn on the view finder
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * If @enabled is TRUE, the view finder will be activated
  * allowing preview images to be captured. If @enabled is
@@ -2635,6 +2704,8 @@ entangle_camera_set_viewfinder_async(EntangleCamera *cam,
 /**
  * entangle_camera_set_viewfinder_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_set_viewfinder_async.
@@ -2654,6 +2725,7 @@ entangle_camera_set_viewfinder_finish(EntangleCamera *cam,
 /**
  * entangle_camera_autofocus:
  * @cam: (transfer none): the camera
+ * @error: a GError, or NULL
  *
  * Trigger the autofocus mechanism on the camera, waiting
  * until focus is achieved or fails.
@@ -2761,6 +2833,10 @@ entangle_camera_autofocus_helper(GTask *task,
 /**
  * entangle_camera_autofocus_async:
  * @cam: (transfer none): the camera
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Trigger the autofocus mechanism on the camera, waiting
  * until focus is achieved or fails.
@@ -2788,6 +2864,8 @@ entangle_camera_autofocus_async(EntangleCamera *cam,
 /**
  * entangle_camera_autofocus_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_autofocus_async.
@@ -2808,6 +2886,7 @@ entangle_camera_autofocus_finish(EntangleCamera *cam,
  * entangle_camera_manualfocus:
  * @cam: (transfer none): the camera
  * @step: how much to change focus by
+ * @error: a GError, or NULL
  *
  * Trigger the focus mechanism on the camera, to move
  * by @step.
@@ -2973,6 +3052,10 @@ entangle_camera_manualfocus_helper(GTask *task,
  * entangle_camera_manualfocus_async:
  * @cam: (transfer none): the camera
  * @step: how much to change focus by
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Trigger the focus mechanism on the camera, to move
  * by @step.
@@ -3003,6 +3086,8 @@ entangle_camera_manualfocus_async(EntangleCamera *cam,
 /**
  * entangle_camera_manualfocus_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_manualfocus_async.
@@ -3023,6 +3108,7 @@ entangle_camera_manualfocus_finish(EntangleCamera *cam,
  * entangle_camera_set_clock:
  * @cam: (transfer none): the camera
  * @epochsecs: new time in seconds since the epoch
+ * @error: a GError, or NULL
  *
  * Update the camera clock to be @epochsecs seconds since
  * the epoch.
@@ -3125,6 +3211,10 @@ entangle_camera_set_clock_helper(GTask *task,
  * entangle_camera_set_clock_async:
  * @cam: (transfer none): the camera
  * @epochsecs: new time in seconds since the epoch
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Update the camera clock to be @epochsecs seconds since
  * the epoch.
@@ -3159,6 +3249,8 @@ entangle_camera_set_clock_async(EntangleCamera *cam,
 /**
  * entangle_camera_set_clock_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_set_clock_async.
@@ -3179,6 +3271,7 @@ entangle_camera_set_clock_finish(EntangleCamera *cam,
  * entangle_camera_set_capture_target:
  * @cam: (transfer none): the camera
  * @target: the capture target
+ * @error: a GError, or NULL
  *
  * Set the destination for storing captured images
  * to @target.
@@ -3290,6 +3383,10 @@ entangle_camera_set_capture_target_helper(GTask *task,
  * entangle_camera_set_capture_target_async:
  * @cam: (transfer none): the camera
  * @target: the capture target
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Set the destination for storing captured images
  * to @target.
@@ -3324,6 +3421,8 @@ entangle_camera_set_capture_target_async(EntangleCamera *cam,
 /**
  * entangle_camera_capture_target_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_capture_target_async.
@@ -3607,6 +3706,10 @@ entangle_camera_unmount_complete(GObject *object,
 /**
  * entangle_camera_unmount_async:
  * @cam: (transfer none): the camera
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: (closure): the data to pass to callback function.
  *
  * Unmount the camera virtual filesystem, allowing it to be
  * opened.
@@ -3645,6 +3748,8 @@ entangle_camera_unmount_async(EntangleCamera *cam,
 /**
  * entangle_camera_unmount_finish:
  * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
  *
  * Check the completion status of a previous call to
  * entangle_camera_unmount_async.

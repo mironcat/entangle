@@ -117,7 +117,7 @@ entangle_camera_download_file_async(EntangleCamera *cam,
 gboolean
 entangle_camera_download_file_finish(EntangleCamera *cam,
                                      GAsyncResult *result,
-                                     GError **err);
+                                     GError **error);
 
 gboolean
 entangle_camera_delete_file(EntangleCamera *cam,
@@ -289,7 +289,7 @@ entangle_camera_mount_async(EntangleCamera *cam,
 gboolean
 entangle_camera_mount_finish(EntangleCamera *cam,
                              GAsyncResult *result,
-                             GError **err);
+                             GError **error);
 
 void
 entangle_camera_unmount_async(EntangleCamera *cam,
@@ -299,7 +299,7 @@ entangle_camera_unmount_async(EntangleCamera *cam,
 gboolean
 entangle_camera_unmount_finish(EntangleCamera *cam,
                                GAsyncResult *result,
-                               GError **err);
+                               GError **error);
 
 G_END_DECLS
 

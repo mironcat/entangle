@@ -216,6 +216,7 @@ entangle_camera_file_get_name(EntangleCameraFile *file)
  * entangle_camera_file_save_path:
  * @file: (transfer none): the camera file
  * @localpath: (transfer none): path on the local filesystem
+ * @err: a GError, or NULL
  *
  * Saves the content of the camera file to the local
  * filesystem path identified by @localpath
@@ -279,6 +280,7 @@ cleanup:
  * entangle_camera_file_save_uri:
  * @file: (transfer none): the camera file
  * @uri: (transfer none): virtual filesystem URI
+ * @err: a GError, or NULL
  *
  * Saves the content of the camera file to the virtual
  * filesystem location identified by @uri. @uri can be
