@@ -29,7 +29,7 @@ msgid "Cannot load gphoto2 abilities"
 msgstr "Kan ikke laste inn gphoto2-funksjonalitet"
 
 #: src/backend/entangle-camera-list.c:409 src/backend/entangle-camera.c:755
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot initialize gphoto2 ports"
 msgstr "Kan ikke igangsette porter for gphoto2"
 
@@ -169,7 +169,7 @@ msgid "Viewfinder control was not a toggle widget"
 msgstr "Søkerstyring er ikke et miniprogram som kan skrus av og på"
 
 #: src/backend/entangle-camera.c:2702 src/backend/entangle-camera.c:2709
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Failed to set viewfinder state: %s %d"
 msgstr "Klarte ikke å sette søkermodus: %s %d"
 
@@ -194,7 +194,7 @@ msgid "Manual focus control not available with this camera"
 msgstr "Manuell fokusstyring ikke tilgjengelig med dette kameraet"
 
 #: src/backend/entangle-camera.c:3025
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Manual focus control was not a range or radio widget"
 msgstr ""
 "Manuell fokusstyring utenfor gyldig rekkevidde eller et valgbart miniprogram"
@@ -216,7 +216,7 @@ msgid "Time setting not available with this camera"
 msgstr "Tidsinnstilling ikke tilgjengelig med dette kameraet"
 
 #: src/backend/entangle-camera.c:3248
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Time setting was not a date widget"
 msgstr "Tidsinnstilling var ikke et dato-miniprogram"
 
@@ -231,7 +231,7 @@ msgid "Capture target setting not available with this camera"
 msgstr "Innstilling for opptaksmål ikke tilgjengelig med dette kameraet"
 
 #: src/backend/entangle-camera.c:3414
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Time setting was not a choice widget"
 msgstr "Tidsinnstilling var ikke et innstillings-miniprogram"
 
