@@ -1132,9 +1132,8 @@ need_camera_unmount(EntangleCameraManager *manager, EntangleCamera *cam)
 
         gtk_message_dialog_format_secondary_markup(
             GTK_MESSAGE_DIALOG(msg), "%s",
-            _("The camera cannot be opened because it is "
-              "currently mounted as a filesystem. Do you "
-              "wish to umount it now ?"));
+            _("The camera cannot be opened because it is mounted as a "
+              "filesystem. Do you wish to umount it now?"));
 
         gtk_dialog_add_button(GTK_DIALOG(msg), _("No"), GTK_RESPONSE_NO);
         gtk_dialog_add_button(GTK_DIALOG(msg), _("Yes"), GTK_RESPONSE_YES);
