@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-03 22:10+0000\n"
+"POT-Creation-Date: 2020-05-16 23:09+0100\n"
 "PO-Revision-Date: 2020-01-19 03:16+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://translate.stg.fedoraproject.org/projects/"
@@ -23,557 +23,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 3.10.3\n"
 
-#, c-format
-msgid "Cannot initialize gphoto2 abilities"
-msgstr "Impossible d’initialiser gphoto2"
-
-#, c-format
-msgid "Cannot load gphoto2 abilities"
-msgstr "Échec du chargement des fonctions de gphoto2"
-
-#, c-format
-msgid "Cannot initialize gphoto2 ports"
-msgstr "Impossible d’initialiser les ports de gphoto2"
-
-#, c-format
-msgid "Cannot load gphoto2 ports"
-msgstr "Échec du chargement des ports de gphoto2"
-
-#, c-format
-msgid "Unable to initialize camera: %s"
-msgstr "Impossible d’initialiser l’APN %s"
-
-#, c-format
-msgid "Cannot capture image while not connected"
-msgstr "Capture impossible hors connexion"
-
-#, c-format
-msgid "Unable to capture image: %s"
-msgstr "Impossible de capturer l’image : %s"
-
-#, c-format
-msgid "Cannot preview image while not connected"
-msgstr "Aperçu de l’image impossible hors connexion"
-
-#, c-format
-msgid "Unable to capture preview: %s"
-msgstr "Capture de l’aperçu : %s impossible"
-
-#, c-format
-msgid "Unable to get file data: %s"
-msgstr "Pas d’accès au fichier de données : %s"
-
-#, c-format
-msgid "Unable to get filename: %s"
-msgstr "Impossible de charger le fichier : %s"
-
-#, c-format
-msgid "Cannot download file while not connected"
-msgstr "Chargement de fichier impossible hors connexion"
-
-#, c-format
-msgid "Unable to get camera file: %s"
-msgstr "Impossible de charger le fichier APN : %s"
-
-#, c-format
-msgid "Cannot delete file while not connected"
-msgstr "Effacement du fichier impossible hors connexion"
-
-#, c-format
-msgid "Unable to delete file: %s"
-msgstr "Impossible d’effacer le fichier : %s"
-
-#, c-format
-msgid "Cannot wait for events while not connected"
-msgstr "Attente d’évènements impossible hors connexion"
-
-#, c-format
-msgid "Unable to wait for events: %s"
-msgstr "Impossible d’attendre des évènements : %s"
-
-#, c-format
-msgid "Unable to fetch widget type"
-msgstr "Récupération du type de gadget impossible"
-
-#, c-format
-msgid "Unable to fetch widget name"
-msgstr "Récupération du nom de gadget impossible"
-
-#, c-format
-msgid "Unable to load controls, camera is not connected"
-msgstr "Échec du chargement des paramètres, APN non connecté"
-
-#, c-format
-msgid "Unable to fetch camera control configuration: %s"
-msgstr "Échec de la récupération des paramètres de l’APN : %s"
-
-#, c-format
-msgid "Unable to save controls, camera is not connected"
-msgstr "Paramètres non enregistrés, aucun APN connecté"
-
-#, c-format
-msgid "Unable to save controls, camera is not configurable"
-msgstr "Paramètres non sauvegardés, APN non configurable"
-
-#, c-format
-msgid "Unable to save camera control configuration: %s"
-msgstr "Paramètres de la config. de l’APN non sauvée : %s"
-
-#, c-format
-msgid "Controls not available when camera is disconnected"
-msgstr "Paramètres indisponibles quand l’APN est déconnecté"
-
-#, c-format
-msgid "Controls not available for this camera"
-msgstr "Aucun contrôle disponible pour cet APN"
-
-#, c-format
-msgid "Viewfinder control not available with this camera"
-msgstr "Viseur indisponible pour cet APN"
-
-#, c-format
-msgid "Viewfinder control was not a toggle widget"
-msgstr "Le contrôle du viseur n’est pas un gadget actif"
-
-#, c-format
-msgid "Failed to set viewfinder state: %s %d"
-msgstr "Impossible de définir l’état du viseur : %s %d"
-
-#, c-format
-msgid "Autofocus control not available with this camera"
-msgstr "Contrôle de l’autofocus indisponible pour cet APN"
-
-#, c-format
-msgid "Autofocus control was not a toggle widget"
-msgstr "Le contrôle de l’autofocus n’est pas un gadget actif"
-
-#, c-format
-msgid "Failed to set autofocus state: %s %d"
-msgstr "Impossible de définir l’état de l’autofocus : %s %d"
-
-#, c-format
-msgid "Manual focus control not available with this camera"
-msgstr "Contrôle de mise au point indisponible pour cet APN"
-
-#, c-format
-msgid "Manual focus control was not a range or radio widget"
-msgstr "Ni plage ni gadget radio dispo. pour le contrôle de MAP manuel"
-
-#, c-format
-msgid "Failed to set manual focus state: %s %d"
-msgstr "Échec du réglage manuel de MAP : %s %d"
-
-#, c-format
-msgid "Failed to read manual focus choice %d: %s %d"
-msgstr "Lecture du choix de MAP manuelle %d %s %d impossible"
-
-#, c-format
-msgid "Time setting not available with this camera"
-msgstr "Réglage de l’heure indisponible avec cet APN"
-
-#, c-format
-msgid "Time setting was not a date widget"
-msgstr "Le réglage horaire n’est pas un gadget calendaire"
-
-#, c-format
-msgid "Failed to set time state: %s %d"
-msgstr "Réglage de l’heure : %s %d impossible"
-
-#, c-format
-msgid "Capture target setting not available with this camera"
-msgstr "Le réglage cible de la capture est indisponible avec cet APN"
-
-#, c-format
-msgid "Time setting was not a choice widget"
-msgstr "Le réglage horaire n’est pas un gadget à choix"
-
-#, c-format
-msgid "Failed to set capture target: %s %d"
-msgstr "Réglage cible de la capture %s %d impossible"
-
-msgid "_New window"
-msgstr "_Nouvelle fenêtre"
-
-msgid "_Preferences…"
-msgstr "_Préférences…"
-
-msgid "_Select session…"
-msgstr "_Sélection session…"
-
-msgid "_Connect…"
-msgstr "_Connexion…"
-
-msgid "_Disconnect…"
-msgstr "_Déconnexion…"
-
-msgid "_Help"
-msgstr "_Aide"
-
-msgid "_Supported cameras"
-msgstr "_Modèles APN supportés"
-
-msgid "_Keyboard shortcuts"
-msgstr "_Raccourcis clavier"
-
-msgid "_Manual"
-msgstr "_Manuel"
-
-msgid "_About"
-msgstr "_À propos"
-
-msgid "_Quit"
-msgstr "_Quitter"
-
-msgid "_Fullscreen"
-msgstr "_Plein écran"
-
-msgid "_Presentation"
-msgstr "_Présentation"
-
-msgid "_Settings"
-msgstr "_Réglages"
-
-msgid "_Synchronize capture"
-msgstr "_Synchro de la capture"
-
-msgid "Best Fit"
-msgstr "Ajuster"
-
-msgid "_Normal Size"
-msgstr "_Taille normale"
-
-msgid "Zoom _In"
-msgstr "Zoom avant"
-
-msgid "Zoom _Out"
-msgstr "Zoom arrière"
-
-msgid "Capture an image"
-msgstr "Capture image"
-
-msgid "Continuous capture preview"
-msgstr "Aperçu continu de la capture"
-
-msgid "This camera does not support image capture"
-msgstr "Cet APN ne supporte pas la capture d’images"
-
-msgid "This camera does not support image preview"
-msgstr "Cet appareil ne supporte pas le mode aperçu"
-
-#, c-format
-msgid "Operation: %s"
-msgstr "Opération : %s"
-
-msgid "Entangle: Operation failed"
-msgstr "Entangle : échec de l’opération"
-
-msgid "Camera load controls failed"
-msgstr "Échec du chargement des paramètres de l’APN"
-
-msgid "Entangle: Camera load controls failed"
-msgstr "Entangle : Échec du chargement des paramètres de l’APN"
-
-msgid "Monitor"
-msgstr "Moniteur"
-
-msgid "No camera connected"
-msgstr "Aucun APN connecté"
-
-#, c-format
-msgid "Unable to connect to camera: %s"
-msgstr "Connexion à l’APN : %s impossible"
-
-msgid ""
-"Check that the camera is not\n"
-"\n"
-" - opened by another photo <b>application</b>\n"
-" - mounted as a <b>filesystem</b> on the desktop\n"
-" - in <b>sleep mode</b> to save battery power\n"
-msgstr ""
-"Vérifier que l’APN n’est pas :\n"
-"\n"
-" – utilisé par une autre <b>application</b> photo,\n"
-" – monté en tant que <b>système de fichier</b> sur le bureau,\n"
-" – passé en <b>mode veille</b> pour économiser la batterie.\n"
-
-msgid "Cancel"
-msgstr "Annuler"
-
-msgid "Retry"
-msgstr "Réessayer"
-
-msgid "Camera is in use"
-msgstr "L’APN est déjà utilisé"
-
-msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
-msgstr ""
-"APN inutilisable car actuellement monté en tant que système de fichier. "
-"Souhaitez-vous le démonter maintenant ?"
-
-msgid "No"
-msgstr "Non"
-
-msgid "Yes"
-msgstr "Oui"
-
-msgid "Camera connect failed"
-msgstr "Échec de la connexion à l’APN"
-
-msgid "Entangle: Camera connect failed"
-msgstr "Entangle : échec de la connexion à l’APN"
-
-msgid "Select a folder"
-msgstr "Choisir un dossier"
-
-msgid "_Cancel"
-msgstr "_Annuler"
-
-msgid "_Open"
-msgstr "_Ouvrir"
-
-msgid "Capture"
-msgstr "Capturer"
-
-msgid "Script"
-msgstr "Script"
-
-msgid "Preview"
-msgstr "Prévisualiser"
-
-msgid "Set clock"
-msgstr "Régler l’heure"
-
-msgid "Autofocus failed"
-msgstr "Échec de l’autofocus"
-
-msgid "Entangle: Camera autofocus failed"
-msgstr "Entangle : échec de l’autofocus de l’APN"
-
-msgid "Manual focus failed"
-msgstr "Échec de la MAP manuelle"
-
-msgid "Entangle: Camera manual focus failed"
-msgstr "Entangle : échec de la MAP manuelle de l’APN"
-
-msgid "Delete"
-msgstr "Supprimer"
-
-msgid "Open"
-msgstr "Ouvrir"
-
-msgid "Open with"
-msgstr "Ouvrir avec"
-
-msgid "Select application..."
-msgstr "Sélectionner une application…"
-
-msgid "Image histogram"
-msgstr "Histogramme de l’image"
-
-msgid "Automation"
-msgstr "Automatisation"
-
-msgid "Model"
-msgstr "Modèle"
-
-msgid "Port"
-msgstr "Port"
-
-msgid "Select camera - Entangle"
-msgstr "Sélectionner l’APN – Entangle"
-
-msgid "Select a camera to connect to:"
-msgstr "Sélectionner l’APN auquel se connecter :"
-
-msgid ""
-"No cameras were detected, check that\n"
-"\n"
-"  - the <b>cables</b> are connected\n"
-"  - the camera is <b>turned on</b>\n"
-"  - the camera is in the <b>correct mode</b>\n"
-"  - the camera is a <b>supported</b> model\n"
-"\n"
-"USB cameras are automatically detected\n"
-"when plugged in, for others try a refresh\n"
-"or enter a network camera IP address"
-msgstr ""
-"Aucun APN détecté, vérifiez que :\n"
-"\n"
-"– les <b>câbles</b> sont connectés\n"
-"– l’APN est bien <b> allumé </b>\n"
-"– le <b> mode </b> de l’APN est correct\n"
-"– le modèle d’APN est <b> supporté </b>\n"
-"\n"
-"les APNs USB sont automatiquement détectés\n"
-"à la connexion. Pour les autres modèles, tenter\n"
-"de rafraichir la fenêtre ou entrer une adresse IP"
-
-msgid "IP Address:"
-msgstr "Adresse IP :"
-
-msgid "Network camera"
-msgstr "APN réseau"
-
-msgid "capture"
-msgstr "capturer"
-
-msgid "preview"
-msgstr "prévisualiser"
-
-msgid "settings"
-msgstr "réglages"
-
-msgid "label"
-msgstr "étiquette"
-
-msgid "Camera control update failed"
-msgstr "Échec d’actualisation des paramètres APN"
-
-msgid "Entangle: Camera control update failed"
-msgstr "Entangle : échec d’actualisation des paramètres APN"
-
-msgid "On"
-msgstr "Allumé"
-
-msgid "Off"
-msgstr "Éteint"
-
-msgid "Reset controls"
-msgstr "RAZ paramètres"
-
-msgid "No controls available"
-msgstr "Aucun paramètre disponible"
-
-msgid "Screen blanking is not available on this display"
-msgstr "Extinction impossible sur cet écran"
-
-msgid "Screen blanking is not implemented on this platform"
-msgstr "Extinction écran indisponible sur cette plateforme"
-
-msgid "About - Entangle"
-msgstr "À propos – Entangle"
-
-msgid "Tethered Camera Control & Capture"
-msgstr "Pilotage distant d’APNs & Capture"
-
-msgctxt "shortcut window"
-msgid "Controlling the application"
-msgstr "Contrôler l’application"
-
-msgctxt "shortcut window"
-msgid "Open a new camera window"
-msgstr "Ouvrir une nouvelle fenêtre APN"
-
-msgctxt "shortcut window"
-msgid "Close all windows & exit"
-msgstr "Tout fermer & quitter"
-
-msgctxt "shortcut window"
-msgid "Display help manual"
-msgstr "Affiche l’aide utilisateur"
-
-msgctxt "shortcut window"
-msgid "Image display"
-msgstr "Affiche l’image"
-
-msgctxt "shortcut window"
-msgid "Zoom in"
-msgstr "Zoom avant"
-
-msgctxt "shortcut window"
-msgid "Zoom out"
-msgstr "Zoom arrière"
-
-msgctxt "shortcut window"
-msgid "Zoom normal"
-msgstr "Taille normale"
-
-msgctxt "shortcut window"
-msgid "Zoom best"
-msgstr "Taille écran"
-
-msgctxt "shortcut window"
-msgid "Toggle image mask"
-msgstr "Commute le masque de l’image"
-
-msgctxt "shortcut window"
-msgid "Toggle overexposure highlighting"
-msgstr "Commute l’indicateur des hautes lumières"
-
-msgctxt "shortcut window"
-msgid "Toggle histogram scale"
-msgstr "Commute l’échelle de l’histogramme"
-
-msgctxt "shortcut window"
-msgid "Window display"
-msgstr "Affichage fenêtre"
-
-msgctxt "shortcut window"
-msgid "Fullscreen"
-msgstr "Plein écran"
-
-msgctxt "shortcut window"
-msgid "Presentation"
-msgstr "Présentation"
-
-msgctxt "shortcut window"
-msgid "Shutter control"
-msgstr "Contrôle déclenchement"
-
-msgctxt "shortcut window"
-msgid "Capture a single image"
-msgstr "Capturer une image"
-
-msgctxt "shortcut window"
-msgid "Toggle live preview"
-msgstr "Commute l’aperçu"
-
-msgctxt "shortcut window"
-msgid "Focus control (during live preview)"
-msgstr "Contrôle la MAP (durant l’aperçu)"
-
-msgctxt "shortcut window"
-msgid "Autofocus"
-msgstr "Autofocus"
-
-msgctxt "shortcut window"
-msgid "Focus in (small step)"
-msgstr "Focus avant (fin)"
-
-msgctxt "shortcut window"
-msgid "Focus out (small step)"
-msgstr "Focus arrière (fin)"
-
-msgctxt "shortcut window"
-msgid "Focus in (large step)"
-msgstr "Focus avant (rapide)"
-
-msgctxt "shortcut window"
-msgid "Focus out (large step)"
-msgstr "Focus arrière (rapide)"
-
-msgid "Interface"
-msgstr "Interface"
-
-msgid "Image Viewer"
-msgstr "Afficheur d’images"
-
-msgid "Color Management"
-msgstr "Gestion de la couleur"
-
-msgid "Plugins"
-msgstr "Greffons"
-
-msgid "ICC profiles (*.icc, *.icm)"
-msgstr "Profils ICC (*.icc, *.icm)"
-
-msgid "All files (*.*)"
-msgstr "Tous les fichiers (*.*)"
-
-msgid "1:1 - Square / MF 6x6"
-msgstr "1:1 – Carré / MF 6x6"
+msgid "0"
+msgstr "0"
 
 msgid "1.15:1 - Movietone"
 msgstr "1.15:1 – Movietone"
@@ -590,11 +41,11 @@ msgstr "1.44:1 – IMAX"
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
 msgstr "1.50:1 (3:2, 15:10) – 35 mm argentique"
 
-msgid "1.6:1 (8:5, 16:10) - Widescreen"
-msgstr "1.6:1 (8:5, 16:10) – Écran large"
-
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
 msgstr "1.66:1 (5:3, 15:9) – Super 16 mm"
+
+msgid "1.6:1 (8:5, 16:10) - Widescreen"
+msgstr "1.6:1 (8:5, 16:10) – Écran large"
 
 msgid "1.75:1 (7:4) - Widescreen"
 msgstr "1.75:1 (7:4) – Écran large"
@@ -604,6 +55,12 @@ msgstr "1.77:1 (16:9) – APS-H / HDTV / Écran large"
 
 msgid "1.85:1 - 35mm Widescreen"
 msgstr "1.85:1 – 35 mm Écran large"
+
+msgid "12.00:1 - Circle-Vision 360"
+msgstr "12.00:1 – Vision à 360"
+
+msgid "1:1 - Square / MF 6x6"
+msgstr "1:1 – Carré / MF 6x6"
 
 msgid "2.00:1 - SuperScope"
 msgstr "2.00:1 – SuperScope"
@@ -638,92 +95,38 @@ msgstr "2.76:1 (11:4) – Ultra Panavision"
 msgid "2.93:1 - MGM Camera 65"
 msgstr "2.93:1 – MGM Camera 65"
 
+msgid "3"
+msgstr "3"
+
 msgid "3:1 APS Panorama"
 msgstr "3:1 APS Panorama"
 
 msgid "4.00:1 - Polyvision"
 msgstr "4.00:1 – Polyvision"
 
-msgid "12.00:1 - Circle-Vision 360"
-msgstr "12.00:1 – Vision à 360"
-
-msgid "None"
-msgstr "Aucun"
-
-msgid "Center lines"
-msgstr "Centrage des lignes"
-
-msgid "Rule of 3rds"
-msgstr "Règle des tiers"
-
-msgid "Quarters"
-msgstr "4 quarts"
-
-msgid "Rule of 5ths"
-msgstr "Règles des 5e"
-
-msgid "Golden sections"
-msgstr "Nombre d’or"
-
-msgid "Entangle Preferences"
-msgstr "Préférences d’Entangle"
-
 msgid "<b>Capture</b>"
 msgstr "<b>Capturer</b>"
-
-msgid "Filename pattern:"
-msgstr "Format du nom de fichier :"
-
-msgid "Continue preview mode after capture"
-msgstr "Maintenir le mode aperçu après capture"
-
-msgid "Use preview output as capture image"
-msgstr "Capturer le résultat de l’aperçu en tant qu’image"
-
-msgid "Delete file from camera after downloading"
-msgstr "Effacer le fichier de l’APN après le transfert"
-
-msgid "Automatically synchronize camera clock"
-msgstr "Synchro auto de l’horloge de l’APN"
 
 msgid "<b>Colour management</b>"
 msgstr "<b>Gestion de la couleur</b>"
 
-msgid "Mode of operation:"
-msgstr "Mode d’opération :"
-
-msgid "RGB profile:"
-msgstr "Profil RVB :"
-
-msgid "Monitor profile:"
-msgstr "Profil du moniteur :"
-
-msgid "Rendering intent:"
-msgstr "Intention de rendu :"
-
-msgid "Detect the system monitor profile"
-msgstr "Détecter le profil du moniteur système"
-
-msgid "Colour managed display"
-msgstr "Affichage des couleurs gérées"
-
-msgid "<b>Plugins</b>"
-msgstr "<b>Greffons</b>"
+msgid "<b>Image Viewer</b>"
+msgstr "<b>Visualiseur d’images</b>"
 
 msgid "<b>Interface</b>"
 msgstr "<b>Interface</b>"
 
-msgid "Automatically connect to cameras at startup"
-msgstr "Connecter automatiquement l’APN au démarrage"
+msgid "<b>Plugins</b>"
+msgstr "<b>Greffons</b>"
 
-msgid "Blank screen when capturing images"
-msgstr "Écran désactivé à la capture des images"
+msgid "About - Entangle"
+msgstr "À propos – Entangle"
 
-msgid "Show linear histogram"
-msgstr "Afficher l’histogramme linéaire"
+msgid "Absolute colourimetric"
+msgstr "Colorimétrie absolue"
 
-msgid "<b>Image Viewer</b>"
-msgstr "<b>Visualiseur d’images</b>"
+msgid "All files (*.*)"
+msgstr "Tous les fichiers (*.*)"
 
 msgid "Apply mask to alter aspect ratio"
 msgstr "Appliquer le masque pour modifier le ratio"
@@ -731,74 +134,172 @@ msgstr "Appliquer le masque pour modifier le ratio"
 msgid "Aspect ratio:"
 msgstr "Ratio de l’aspect :"
 
-msgid "Mask opacity:"
-msgstr "Opacité du masque :"
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr "Autofocus"
 
-msgid "0"
-msgstr "0"
+#, c-format
+msgid "Autofocus control not available with this camera"
+msgstr "Contrôle de l’autofocus indisponible pour cet APN"
 
-msgid "Display focus point during preview"
-msgstr "Afficher le point de MAP durant l’aperçu"
+#, c-format
+msgid "Autofocus control was not a toggle widget"
+msgstr "Le contrôle de l’autofocus n’est pas un gadget actif"
 
-msgid "Grid lines:"
-msgstr "Quadrillage :"
+msgid "Autofocus failed"
+msgstr "Échec de l’autofocus"
 
-msgid "Use embedded preview from raw files"
-msgstr "Utiliser la vignette des fichiers raw"
+msgid "Automatically connect to cameras at startup"
+msgstr "Connecter automatiquement l’APN au démarrage"
 
-msgid "Overlay earlier images"
-msgstr "Empiler aux images précédentes"
+msgid "Automatically synchronize camera clock"
+msgstr "Synchro auto de l’horloge de l’APN"
 
-msgid "Overlay layers:"
-msgstr "Empilements :"
-
-msgid "3"
-msgstr "3"
+msgid "Automation"
+msgstr "Automatisation"
 
 msgid "Background:"
 msgstr "Arrière-plan :"
 
-msgid "Highlight:"
-msgstr "Hautes lumières :"
+msgid "Best Fit"
+msgstr "Ajuster"
 
-msgid "Highlight areas of overexposure"
-msgstr "Montrer les zones surexposées"
+msgid "Blank screen when capturing images"
+msgstr "Écran désactivé à la capture des images"
 
-msgid "Perceptual"
-msgstr "Perceptif"
+msgid "Camera connect failed"
+msgstr "Échec de la connexion à l’APN"
 
-msgid "Relative colourimetric"
-msgstr "Colorimétrie relative"
+msgid "Camera control update failed"
+msgstr "Échec d’actualisation des paramètres APN"
 
-msgid "Saturation"
-msgstr "Saturation"
+msgid "Camera is in use"
+msgstr "L’APN est déjà utilisé"
 
-msgid "Absolute colourimetric"
-msgstr "Colorimétrie absolue"
+msgid "Camera load controls failed"
+msgstr "Échec du chargement des paramètres de l’APN"
 
-msgid "Untitled script"
-msgstr "Script sans nom"
+msgid "Cancel"
+msgstr "Annuler"
 
-msgid "No script"
-msgstr "Pas de script"
+#, c-format
+msgid "Cannot capture image while not opened"
+msgstr ""
 
-msgid "No config options"
-msgstr "Pas d’option de config"
+#, c-format
+msgid "Cannot delete file while not opened"
+msgstr ""
 
-msgid "Missing 'execute' method implementation"
-msgstr "Méthode d’implémentation « execute » manquante"
+#, c-format
+msgid "Cannot download file while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot initialize gphoto2 abilities"
+msgstr "Impossible d’initialiser gphoto2"
+
+#, c-format
+msgid "Cannot initialize gphoto2 ports"
+msgstr "Impossible d’initialiser les ports de gphoto2"
+
+#, c-format
+msgid "Cannot load gphoto2 abilities"
+msgstr "Échec du chargement des fonctions de gphoto2"
+
+#, c-format
+msgid "Cannot load gphoto2 ports"
+msgstr "Échec du chargement des ports de gphoto2"
+
+#, c-format
+msgid "Cannot preview image while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot wait for events while not opened"
+msgstr ""
+
+msgid "Capture"
+msgstr "Capturer"
+
+msgctxt "shortcut window"
+msgid "Capture a single image"
+msgstr "Capturer une image"
+
+msgid "Capture an image"
+msgstr "Capture image"
+
+#, c-format
+msgid "Capture target setting not available with this camera"
+msgstr "Le réglage cible de la capture est indisponible avec cet APN"
+
+msgid "Capture;Camera;Tethered;Photo;"
+msgstr "Capture;APN;Connecté;Photo;"
+
+msgid "Center lines"
+msgstr "Centrage des lignes"
+
+msgid ""
+"Check that the camera is not\n"
+"\n"
+" - opened by another photo <b>application</b>\n"
+" - mounted as a <b>filesystem</b> on the desktop\n"
+" - in <b>sleep mode</b> to save battery power\n"
+msgstr ""
+"Vérifier que l’APN n’est pas :\n"
+"\n"
+" – utilisé par une autre <b>application</b> photo,\n"
+" – monté en tant que <b>système de fichier</b> sur le bureau,\n"
+" – passé en <b>mode veille</b> pour économiser la batterie.\n"
+
+msgctxt "shortcut window"
+msgid "Close all windows & exit"
+msgstr "Tout fermer & quitter"
+
+msgid "Color Management"
+msgstr "Gestion de la couleur"
+
+msgid "Colour managed display"
+msgstr "Affichage des couleurs gérées"
+
+msgid "Continue preview mode after capture"
+msgstr "Maintenir le mode aperçu après capture"
+
+msgid "Continuous capture preview"
+msgstr "Aperçu continu de la capture"
+
+msgctxt "shortcut window"
+msgid "Controlling the application"
+msgstr "Contrôler l’application"
+
+#, c-format
+msgid "Controls not available for this camera"
+msgstr "Aucun contrôle disponible pour cet APN"
+
+#, c-format
+msgid "Controls not available when camera is closeed"
+msgstr ""
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Delete file from camera after downloading"
+msgstr "Effacer le fichier de l’APN après le transfert"
+
+msgid "Detect the system monitor profile"
+msgstr "Détecter le profil du moniteur système"
+
+msgid "Display focus point during preview"
+msgstr "Afficher le point de MAP durant l’aperçu"
+
+msgctxt "shortcut window"
+msgid "Display help manual"
+msgstr "Affiche l’aide utilisateur"
 
 msgid "Entangle"
 msgstr "Entangle"
 
-msgid "Tethered Camera Control &amp; Capture"
-msgstr "Contrôle de l’APN connecté &amp; Capture"
-
-msgid ""
-"Entangle is a program used to control digital cameras that are connected to "
-"the computer via USB."
-msgstr ""
-"Entangle peut piloter les APNs connectés aux ports USB de l’ordinateur."
+msgid "Entangle Preferences"
+msgstr "Préférences d’Entangle"
 
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
@@ -814,6 +315,12 @@ msgstr ""
 "l’APN à distance."
 
 msgid ""
+"Entangle is a program used to control digital cameras that are connected to "
+"the computer via USB."
+msgstr ""
+"Entangle peut piloter les APNs connectés aux ports USB de l’ordinateur."
+
+msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
@@ -821,85 +328,608 @@ msgstr ""
 "Entangle est compatible avec la plupart des APN Canon / Nikon réflexes, "
 "compacts et de certains modèles d’autres marques."
 
+msgid "Entangle: Camera autofocus failed"
+msgstr "Entangle : échec de l’autofocus de l’APN"
+
+msgid "Entangle: Camera connect failed"
+msgstr "Entangle : échec de la connexion à l’APN"
+
+msgid "Entangle: Camera control update failed"
+msgstr "Entangle : échec d’actualisation des paramètres APN"
+
+msgid "Entangle: Camera load controls failed"
+msgstr "Entangle : Échec du chargement des paramètres de l’APN"
+
+msgid "Entangle: Camera manual focus failed"
+msgstr "Entangle : échec de la MAP manuelle de l’APN"
+
+msgid "Entangle: Operation failed"
+msgstr "Entangle : échec de l’opération"
+
+#, c-format
+msgid "Failed to read manual focus choice %d: %s %d"
+msgstr "Lecture du choix de MAP manuelle %d %s %d impossible"
+
+#, c-format
+msgid "Failed to set autofocus state: %s %d"
+msgstr "Impossible de définir l’état de l’autofocus : %s %d"
+
+#, c-format
+msgid "Failed to set capture target: %s %d"
+msgstr "Réglage cible de la capture %s %d impossible"
+
+#, c-format
+msgid "Failed to set manual focus state: %s %d"
+msgstr "Échec du réglage manuel de MAP : %s %d"
+
+#, c-format
+msgid "Failed to set time state: %s %d"
+msgstr "Réglage de l’heure : %s %d impossible"
+
+#, c-format
+msgid "Failed to set viewfinder state: %s %d"
+msgstr "Impossible de définir l’état du viseur : %s %d"
+
+msgid "Filename pattern:"
+msgstr "Format du nom de fichier :"
+
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr "Contrôle la MAP (durant l’aperçu)"
+
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr "Focus avant (rapide)"
+
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr "Focus avant (fin)"
+
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
+msgstr "Focus arrière (rapide)"
+
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr "Focus arrière (fin)"
+
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Plein écran"
+
+msgid "Golden sections"
+msgstr "Nombre d’or"
+
+msgid "Grid lines:"
+msgstr "Quadrillage :"
+
+msgid "Highlight areas of overexposure"
+msgstr "Montrer les zones surexposées"
+
+msgid "Highlight:"
+msgstr "Hautes lumières :"
+
+msgid "ICC profiles (*.icc, *.icm)"
+msgstr "Profils ICC (*.icc, *.icm)"
+
+msgid "IP Address:"
+msgstr "Adresse IP :"
+
+msgid "Image Viewer"
+msgstr "Afficheur d’images"
+
+msgctxt "shortcut window"
+msgid "Image display"
+msgstr "Affiche l’image"
+
+msgid "Image histogram"
+msgstr "Histogramme de l’image"
+
+msgid "Interface"
+msgstr "Interface"
+
+#, c-format
+msgid "Manual focus control not available with this camera"
+msgstr "Contrôle de mise au point indisponible pour cet APN"
+
+#, c-format
+msgid "Manual focus control was not a range or radio widget"
+msgstr "Ni plage ni gadget radio dispo. pour le contrôle de MAP manuel"
+
+msgid "Manual focus failed"
+msgstr "Échec de la MAP manuelle"
+
+msgid "Mask opacity:"
+msgstr "Opacité du masque :"
+
+msgid "Missing 'execute' method implementation"
+msgstr "Méthode d’implémentation « execute » manquante"
+
+msgid "Mode of operation:"
+msgstr "Mode d’opération :"
+
+msgid "Model"
+msgstr "Modèle"
+
+msgid "Monitor"
+msgstr "Moniteur"
+
+msgid "Monitor profile:"
+msgstr "Profil du moniteur :"
+
+msgid "Network camera"
+msgstr "APN réseau"
+
+msgid "No"
+msgstr "Non"
+
+msgid "No camera connected"
+msgstr "Aucun APN connecté"
+
+msgid ""
+"No cameras were detected, check that\n"
+"\n"
+"  - the <b>cables</b> are connected\n"
+"  - the camera is <b>turned on</b>\n"
+"  - the camera is in the <b>correct mode</b>\n"
+"  - the camera is a <b>supported</b> model\n"
+"\n"
+"USB cameras are automatically detected\n"
+"when plugged in, for others try a refresh\n"
+"or enter a network camera IP address"
+msgstr ""
+"Aucun APN détecté, vérifiez que :\n"
+"\n"
+"– les <b>câbles</b> sont connectés\n"
+"– l’APN est bien <b> allumé </b>\n"
+"– le <b> mode </b> de l’APN est correct\n"
+"– le modèle d’APN est <b> supporté </b>\n"
+"\n"
+"les APNs USB sont automatiquement détectés\n"
+"à la connexion. Pour les autres modèles, tenter\n"
+"de rafraichir la fenêtre ou entrer une adresse IP"
+
+msgid "No config options"
+msgstr "Pas d’option de config"
+
+msgid "No controls available"
+msgstr "Aucun paramètre disponible"
+
+msgid "No script"
+msgstr "Pas de script"
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "Off"
+msgstr "Éteint"
+
+msgid "On"
+msgstr "Allumé"
+
+msgid "Open"
+msgstr "Ouvrir"
+
+msgctxt "shortcut window"
+msgid "Open a new camera window"
+msgstr "Ouvrir une nouvelle fenêtre APN"
+
+msgid "Open with"
+msgstr "Ouvrir avec"
+
+#, c-format
+msgid "Operation: %s"
+msgstr "Opération : %s"
+
+msgid "Overlay earlier images"
+msgstr "Empiler aux images précédentes"
+
+msgid "Overlay layers:"
+msgstr "Empilements :"
+
+msgid "Pattern must contain 'XXXXXX' placeholder"
+msgstr ""
+
+msgid "Perceptual"
+msgstr "Perceptif"
+
+msgid "Plugins"
+msgstr "Greffons"
+
+msgid "Port"
+msgstr "Port"
+
+msgctxt "shortcut window"
+msgid "Presentation"
+msgstr "Présentation"
+
+msgid "Preview"
+msgstr "Prévisualiser"
+
+msgid "Quarters"
+msgstr "4 quarts"
+
+msgid "RGB profile:"
+msgstr "Profil RVB :"
+
+msgid "Relative colourimetric"
+msgstr "Colorimétrie relative"
+
+msgid "Rendering intent:"
+msgstr "Intention de rendu :"
+
+msgid "Reset controls"
+msgstr "RAZ paramètres"
+
+msgid "Retry"
+msgstr "Réessayer"
+
+msgid "Rule of 3rds"
+msgstr "Règle des tiers"
+
+msgid "Rule of 5ths"
+msgstr "Règles des 5e"
+
+msgid "Saturation"
+msgstr "Saturation"
+
+msgid "Screen blanking is not available on this display"
+msgstr "Extinction impossible sur cet écran"
+
+msgid "Screen blanking is not implemented on this platform"
+msgstr "Extinction écran indisponible sur cette plateforme"
+
+msgid "Script"
+msgstr "Script"
+
+msgid "Select a camera to connect to:"
+msgstr "Sélectionner l’APN auquel se connecter :"
+
+msgid "Select a folder"
+msgstr "Choisir un dossier"
+
+msgid "Select application..."
+msgstr "Sélectionner une application…"
+
+msgid "Select camera - Entangle"
+msgstr "Sélectionner l’APN – Entangle"
+
+msgid "Set clock"
+msgstr "Régler l’heure"
+
+msgid "Show linear histogram"
+msgstr "Afficher l’histogramme linéaire"
+
+msgctxt "shortcut window"
+msgid "Shutter control"
+msgstr "Contrôle déclenchement"
+
+msgid "Tethered Camera Control & Capture"
+msgstr "Pilotage distant d’APNs & Capture"
+
+msgid "Tethered Camera Control &amp; Capture"
+msgstr "Contrôle de l’APN connecté &amp; Capture"
+
 msgid "The Entangle Photo project"
 msgstr "Le projet photo Entangle"
 
-msgid "Require gobject introspection &gt;= 1.54"
-msgstr "Nécessite l’introspection gobject &gt;= 1.54"
-
-msgid "Require GTK3 &gt;= 3.22"
-msgstr "Nécessite GTK3 &gt;= 3.22"
-
-msgid "Fix dependency on libraw"
-msgstr "Correction de la dépendance à libraw"
-
-msgid "Fix variable name in photobox plugin"
-msgstr "Correction du nom de la variable dans le greffon photobox"
-
-msgid "Document some missing keyboard shortcuts"
-msgstr "Documentation de certains raccourcis clavier manquants"
-
-msgid "Fix upper bound in histogram to display clipped pixel"
+msgid ""
+"The camera cannot be opened because it is currently mounted as a filesystem. "
+"Do you wish to umount it now ?"
 msgstr ""
-"Correction de la limite supérieure de l’histogramme pour afficher les pixels "
-"tronqués"
+"APN inutilisable car actuellement monté en tant que système de fichier. "
+"Souhaitez-vous le démonter maintenant ?"
 
-msgid "Refresh translations"
-msgstr "Mise à jour des traductions"
+msgid "This camera does not support image capture"
+msgstr "Cet APN ne supporte pas la capture d’images"
 
-msgid "Option to highlight over exposed pixels in red"
-msgstr "Option pour mettre en surbrillance les pixels exposés en rouge"
+msgid "This camera does not support image preview"
+msgstr "Cet appareil ne supporte pas le mode aperçu"
 
-msgid "Disable noisy compiler warning"
-msgstr "Suppression de divers avertissements du compilateur"
+#, c-format
+msgid "Time setting not available with this camera"
+msgstr "Réglage de l’heure indisponible avec cet APN"
 
-msgid "Remove use of deprecated application menu concept"
-msgstr "Suppression du menu d’application obsolète"
+#, c-format
+msgid "Time setting was not a choice widget"
+msgstr "Le réglage horaire n’est pas un gadget à choix"
 
-msgid "Fix image redraw when changing some settings"
+#, c-format
+msgid "Time setting was not a date widget"
+msgstr "Le réglage horaire n’est pas un gadget calendaire"
+
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr "Commute l’échelle de l’histogramme"
+
+msgctxt "shortcut window"
+msgid "Toggle image mask"
+msgstr "Commute le masque de l’image"
+
+msgctxt "shortcut window"
+msgid "Toggle live preview"
+msgstr "Commute l’aperçu"
+
+msgctxt "shortcut window"
+msgid "Toggle overexposure highlighting"
+msgstr "Commute l’indicateur des hautes lumières"
+
+#, c-format
+msgid "Unable to capture image: %s"
+msgstr "Impossible de capturer l’image : %s"
+
+#, c-format
+msgid "Unable to capture preview: %s"
+msgstr "Capture de l’aperçu : %s impossible"
+
+#, c-format
+msgid "Unable to connect to camera: %s"
+msgstr "Connexion à l’APN : %s impossible"
+
+#, c-format
+msgid "Unable to delete file: %s"
+msgstr "Impossible d’effacer le fichier : %s"
+
+#, c-format
+msgid "Unable to fetch camera control configuration: %s"
+msgstr "Échec de la récupération des paramètres de l’APN : %s"
+
+#, c-format
+msgid "Unable to fetch widget name"
+msgstr "Récupération du nom de gadget impossible"
+
+#, c-format
+msgid "Unable to fetch widget type"
+msgstr "Récupération du type de gadget impossible"
+
+#, c-format
+msgid "Unable to get camera file: %s"
+msgstr "Impossible de charger le fichier APN : %s"
+
+#, c-format
+msgid "Unable to get file data: %s"
+msgstr "Pas d’accès au fichier de données : %s"
+
+#, c-format
+msgid "Unable to get filename: %s"
+msgstr "Impossible de charger le fichier : %s"
+
+#, c-format
+msgid "Unable to initialize camera: %s"
+msgstr "Impossible d’initialiser l’APN %s"
+
+#, c-format
+msgid "Unable to load controls, camera is not opened"
 msgstr ""
-"Correction du redessinage de l’image lors de la modification de certains "
-"paramètres"
 
-msgid "Update mailing list address in appdaat"
-msgstr "Mise à jour de l’adresse de la liste de distribution dans appdata"
+#, c-format
+msgid "Unable to save camera control configuration: %s"
+msgstr "Paramètres de la config. de l’APN non sauvée : %s"
 
-msgid "Add more fields to appdata content"
-msgstr "Ajout de champs supplémentaires dans le contenu appdata"
+#, c-format
+msgid "Unable to save controls, camera is not configurable"
+msgstr "Paramètres non sauvegardés, APN non configurable"
 
-msgid "Fix reference counting during window close"
-msgstr "Correction du comptage de référence lors de la fermeture des fenêtres"
-
-msgid "Use correct API for destroying top level windows"
-msgstr "Utilisez l’API correcte pour détruire les fenêtres de niveau supérieur"
-
-msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+#, c-format
+msgid "Unable to save controls, camera is not opened"
 msgstr ""
-"Correction du démontage des caméras avec le nouveau schéma de dénomination "
-"des URI gvfs"
 
-msgid "Avoid out of bounds read of property values"
-msgstr ""
-"Correction pour éviter la lecture des valeurs des propriétés hors limites"
+#, c-format
+msgid "Unable to wait for events: %s"
+msgstr "Impossible d’attendre des évènements : %s"
 
-msgid "Fix many memory leaks"
-msgstr "Correction de nombreuses fuites de mémoire"
+msgid "Untitled script"
+msgstr "Script sans nom"
 
-msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr "Contournement pour les boites combo n’apparaissant pas sous Wayland"
+msgid "Use embedded preview from raw files"
+msgstr "Utiliser la vignette des fichiers raw"
 
-msgid "Fix race condition in building enums"
-msgstr "Correction de race condition dans la construction d’enums"
+msgid "Use preview output as capture image"
+msgstr "Capturer le résultat de l’aperçu en tant qu’image"
 
-msgid "Fix setting of gschema directory during startup"
-msgstr "Correction du réglage du répertoire gschema au démarrage"
+#, c-format
+msgid "Viewfinder control not available with this camera"
+msgstr "Viseur indisponible pour cet APN"
 
-msgid "Set env to ensure plugins can find introspection typelib"
-msgstr ""
-"Régler env pour que les greffons puissent trouver le typelib d’introspection"
+#, c-format
+msgid "Viewfinder control was not a toggle widget"
+msgstr "Le contrôle du viseur n’est pas un gadget actif"
 
-msgid "entangle"
-msgstr "entangle"
+msgctxt "shortcut window"
+msgid "Window display"
+msgstr "Affichage fenêtre"
 
-msgid "Capture;Camera;Tethered;Photo;"
-msgstr "Capture;APN;Connecté;Photo;"
+msgid "Yes"
+msgstr "Oui"
+
+msgid "Zoom _In"
+msgstr "Zoom avant"
+
+msgid "Zoom _Out"
+msgstr "Zoom arrière"
+
+msgctxt "shortcut window"
+msgid "Zoom best"
+msgstr "Taille écran"
+
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Zoom avant"
+
+msgctxt "shortcut window"
+msgid "Zoom normal"
+msgstr "Taille normale"
+
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Zoom arrière"
+
+msgid "_About"
+msgstr "_À propos"
+
+msgid "_Cancel"
+msgstr "_Annuler"
+
+msgid "_Connect…"
+msgstr "_Connexion…"
+
+msgid "_Disconnect…"
+msgstr "_Déconnexion…"
+
+msgid "_Fullscreen"
+msgstr "_Plein écran"
+
+msgid "_Help"
+msgstr "_Aide"
+
+msgid "_Keyboard shortcuts"
+msgstr "_Raccourcis clavier"
+
+msgid "_Manual"
+msgstr "_Manuel"
+
+msgid "_New window"
+msgstr "_Nouvelle fenêtre"
+
+msgid "_Normal Size"
+msgstr "_Taille normale"
+
+msgid "_Open"
+msgstr "_Ouvrir"
+
+msgid "_Preferences…"
+msgstr "_Préférences…"
+
+msgid "_Presentation"
+msgstr "_Présentation"
+
+msgid "_Quit"
+msgstr "_Quitter"
+
+msgid "_Select session…"
+msgstr "_Sélection session…"
+
+msgid "_Settings"
+msgstr "_Réglages"
+
+msgid "_Supported cameras"
+msgstr "_Modèles APN supportés"
+
+msgid "_Synchronize capture"
+msgstr "_Synchro de la capture"
+
+msgid "capture"
+msgstr "capturer"
+
+msgid "label"
+msgstr "étiquette"
+
+msgid "preview"
+msgstr "prévisualiser"
+
+msgid "settings"
+msgstr "réglages"
+
+#~ msgid "Cannot capture image while not connected"
+#~ msgstr "Capture impossible hors connexion"
+
+#~ msgid "Cannot preview image while not connected"
+#~ msgstr "Aperçu de l’image impossible hors connexion"
+
+#~ msgid "Cannot download file while not connected"
+#~ msgstr "Chargement de fichier impossible hors connexion"
+
+#~ msgid "Cannot delete file while not connected"
+#~ msgstr "Effacement du fichier impossible hors connexion"
+
+#~ msgid "Cannot wait for events while not connected"
+#~ msgstr "Attente d’évènements impossible hors connexion"
+
+#~ msgid "Unable to load controls, camera is not connected"
+#~ msgstr "Échec du chargement des paramètres, APN non connecté"
+
+#~ msgid "Unable to save controls, camera is not connected"
+#~ msgstr "Paramètres non enregistrés, aucun APN connecté"
+
+#~ msgid "Controls not available when camera is disconnected"
+#~ msgstr "Paramètres indisponibles quand l’APN est déconnecté"
+
+#~ msgid "Require gobject introspection &gt;= 1.54"
+#~ msgstr "Nécessite l’introspection gobject &gt;= 1.54"
+
+#~ msgid "Require GTK3 &gt;= 3.22"
+#~ msgstr "Nécessite GTK3 &gt;= 3.22"
+
+#~ msgid "Fix dependency on libraw"
+#~ msgstr "Correction de la dépendance à libraw"
+
+#~ msgid "Fix variable name in photobox plugin"
+#~ msgstr "Correction du nom de la variable dans le greffon photobox"
+
+#~ msgid "Document some missing keyboard shortcuts"
+#~ msgstr "Documentation de certains raccourcis clavier manquants"
+
+#~ msgid "Fix upper bound in histogram to display clipped pixel"
+#~ msgstr ""
+#~ "Correction de la limite supérieure de l’histogramme pour afficher les "
+#~ "pixels tronqués"
+
+#~ msgid "Refresh translations"
+#~ msgstr "Mise à jour des traductions"
+
+#~ msgid "Option to highlight over exposed pixels in red"
+#~ msgstr "Option pour mettre en surbrillance les pixels exposés en rouge"
+
+#~ msgid "Disable noisy compiler warning"
+#~ msgstr "Suppression de divers avertissements du compilateur"
+
+#~ msgid "Remove use of deprecated application menu concept"
+#~ msgstr "Suppression du menu d’application obsolète"
+
+#~ msgid "Fix image redraw when changing some settings"
+#~ msgstr ""
+#~ "Correction du redessinage de l’image lors de la modification de certains "
+#~ "paramètres"
+
+#~ msgid "Update mailing list address in appdaat"
+#~ msgstr "Mise à jour de l’adresse de la liste de distribution dans appdata"
+
+#~ msgid "Add more fields to appdata content"
+#~ msgstr "Ajout de champs supplémentaires dans le contenu appdata"
+
+#~ msgid "Fix reference counting during window close"
+#~ msgstr ""
+#~ "Correction du comptage de référence lors de la fermeture des fenêtres"
+
+#~ msgid "Use correct API for destroying top level windows"
+#~ msgstr ""
+#~ "Utilisez l’API correcte pour détruire les fenêtres de niveau supérieur"
+
+#~ msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+#~ msgstr ""
+#~ "Correction du démontage des caméras avec le nouveau schéma de "
+#~ "dénomination des URI gvfs"
+
+#~ msgid "Avoid out of bounds read of property values"
+#~ msgstr ""
+#~ "Correction pour éviter la lecture des valeurs des propriétés hors limites"
+
+#~ msgid "Fix many memory leaks"
+#~ msgstr "Correction de nombreuses fuites de mémoire"
+
+#~ msgid "Workaround for combo boxes not displaying on Wayland"
+#~ msgstr "Contournement pour les boites combo n’apparaissant pas sous Wayland"
+
+#~ msgid "Fix race condition in building enums"
+#~ msgstr "Correction de race condition dans la construction d’enums"
+
+#~ msgid "Fix setting of gschema directory during startup"
+#~ msgstr "Correction du réglage du répertoire gschema au démarrage"
+
+#~ msgid "Set env to ensure plugins can find introspection typelib"
+#~ msgstr ""
+#~ "Régler env pour que les greffons puissent trouver le typelib "
+#~ "d’introspection"
+
+#~ msgid "entangle"
+#~ msgstr "entangle"

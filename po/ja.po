@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-03 22:10+0000\n"
+"POT-Creation-Date: 2020-05-16 23:09+0100\n"
 "PO-Revision-Date: 2020-05-11 23:31+0000\n"
 "Last-Translator: Hajime Taira <htaira@pantora.net>\n"
 "Language-Team: Japanese <https://translate.fedoraproject.org/projects/"
@@ -23,558 +23,8 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.0.4\n"
 
-#, c-format
-msgid "Cannot initialize gphoto2 abilities"
-msgstr "gphoto2 機能を初期化できません"
-
-#, c-format
-msgid "Cannot load gphoto2 abilities"
-msgstr "gphoto2 機能を読み込めません"
-
-#, c-format
-msgid "Cannot initialize gphoto2 ports"
-msgstr "gphoto2 ポートを初期化できません"
-
-#, c-format
-msgid "Cannot load gphoto2 ports"
-msgstr "gphoto2 ポートを読み込めません"
-
-#, c-format
-msgid "Unable to initialize camera: %s"
-msgstr "カメラ: %s を初期化できません"
-
-#, c-format
-msgid "Cannot capture image while not connected"
-msgstr "接続していない間は画像をキャプチャーできません"
-
-#, c-format
-msgid "Unable to capture image: %s"
-msgstr "画像をキャプチャーできません: %s"
-
-#, c-format
-msgid "Cannot preview image while not connected"
-msgstr "接続していない間は画像をプレビューできません"
-
-#, c-format
-msgid "Unable to capture preview: %s"
-msgstr "プレビューをキャプチャーできません: %s"
-
-#, c-format
-msgid "Unable to get file data: %s"
-msgstr "ファイルのデータを取得できません: %s"
-
-#, c-format
-msgid "Unable to get filename: %s"
-msgstr "ファイル名を取得できません: %s"
-
-#, c-format
-msgid "Cannot download file while not connected"
-msgstr "接続されていないときにファイルをダウンロードできません"
-
-#, c-format
-msgid "Unable to get camera file: %s"
-msgstr "カメラのファイルを取得できません: %s"
-
-#, c-format
-msgid "Cannot delete file while not connected"
-msgstr "接続されていないときにファイルを削除できません"
-
-#, c-format
-msgid "Unable to delete file: %s"
-msgstr "ファイルを削除できません: %s"
-
-#, c-format
-msgid "Cannot wait for events while not connected"
-msgstr "接続されていないときにイベントを待機できません"
-
-#, c-format
-msgid "Unable to wait for events: %s"
-msgstr "イベントを待機できません: %s"
-
-#, c-format
-msgid "Unable to fetch widget type"
-msgstr "ウィジェットの形式を取り出せません"
-
-#, c-format
-msgid "Unable to fetch widget name"
-msgstr "装置名を取得できません"
-
-#, c-format
-msgid "Unable to load controls, camera is not connected"
-msgstr "制御情報を読み込めません、カメラが接続されていません"
-
-#, c-format
-msgid "Unable to fetch camera control configuration: %s"
-msgstr "カメラ制御設定: %s を取得できません"
-
-#, c-format
-msgid "Unable to save controls, camera is not connected"
-msgstr "制御情報を保存できません、カメラが接続されていません"
-
-#, c-format
-msgid "Unable to save controls, camera is not configurable"
-msgstr "制御情報を保存できません、カメラが設定可能ではありません"
-
-#, c-format
-msgid "Unable to save camera control configuration: %s"
-msgstr "カメラ制御設定: %s を保存できません"
-
-#, c-format
-msgid "Controls not available when camera is disconnected"
-msgstr "カメラが切断されているときに制御は利用可能ではありません"
-
-#, c-format
-msgid "Controls not available for this camera"
-msgstr "このカメラに対して制御できません"
-
-#, c-format
-msgid "Viewfinder control not available with this camera"
-msgstr "ビューファインダーの制御がこのカメラで利用できません"
-
-#, c-format
-msgid "Viewfinder control was not a toggle widget"
-msgstr "ビューファインダーの制御がトグルウィジェットではありませんでした"
-
-#, c-format
-msgid "Failed to set viewfinder state: %s %d"
-msgstr "ビューファインダーの状態の設定に失敗しました: %s %d"
-
-#, c-format
-msgid "Autofocus control not available with this camera"
-msgstr "オートフォーカスの制御がこのカメラで利用できません"
-
-#, c-format
-msgid "Autofocus control was not a toggle widget"
-msgstr "オートフォーカス制御がトグルウィジェットではありませんでした"
-
-#, c-format
-msgid "Failed to set autofocus state: %s %d"
-msgstr "オートフォーカスの状態を設定できませんでした: %s %d"
-
-#, c-format
-msgid "Manual focus control not available with this camera"
-msgstr "手動フォーカス制御がこのカメラで利用できません"
-
-#, c-format
-msgid "Manual focus control was not a range or radio widget"
-msgstr ""
-"マニュアルフォーカス制御が範囲にない、またはラジオウィジェットではありません"
-
-#, c-format
-msgid "Failed to set manual focus state: %s %d"
-msgstr "マニュアルフォーカスの状態を設定できません: %s %d"
-
-#, c-format
-msgid "Failed to read manual focus choice %d: %s %d"
-msgstr "マニュアルフォーカス選択 %d: %s %d の読み込みに失敗しました"
-
-#, c-format
-msgid "Time setting not available with this camera"
-msgstr "このカメラでは時刻の設定は利用できません"
-
-#, c-format
-msgid "Time setting was not a date widget"
-msgstr "時刻の設定は日付ウィジェットにはありませんでした"
-
-#, c-format
-msgid "Failed to set time state: %s %d"
-msgstr "時刻の状態の設定に失敗しました: %s %d"
-
-#, c-format
-msgid "Capture target setting not available with this camera"
-msgstr "このカメラでキャプチャーターゲット設定は利用できません"
-
-#, c-format
-msgid "Time setting was not a choice widget"
-msgstr "時刻の設定は選択ウィジェットにはありませんでした"
-
-#, c-format
-msgid "Failed to set capture target: %s %d"
-msgstr "キャプチャーターゲット: %s %d の設定に失敗しました"
-
-msgid "_New window"
-msgstr "新しいウィンドウ(_N)"
-
-msgid "_Preferences…"
-msgstr "設定(_P)…"
-
-msgid "_Select session…"
-msgstr "セッションの選択(_S)…"
-
-msgid "_Connect…"
-msgstr "接続(_C)…"
-
-msgid "_Disconnect…"
-msgstr "切断(_D)…"
-
-msgid "_Help"
-msgstr "ヘルプ(_H)"
-
-msgid "_Supported cameras"
-msgstr "サポートされるカメラ(_S)"
-
-msgid "_Keyboard shortcuts"
-msgstr "キーボードショートカット(_K)"
-
-msgid "_Manual"
-msgstr "マニュアル(_M)"
-
-msgid "_About"
-msgstr "詳細(_A)"
-
-msgid "_Quit"
-msgstr "退出(_Q)"
-
-msgid "_Fullscreen"
-msgstr "フルスクリーン(_F)"
-
-msgid "_Presentation"
-msgstr "プレゼンテーション(_P)"
-
-msgid "_Settings"
-msgstr "設定(_S)"
-
-msgid "_Synchronize capture"
-msgstr "キャプチャの同期(_S)"
-
-msgid "Best Fit"
-msgstr "最適"
-
-msgid "_Normal Size"
-msgstr "標準サイズ(_N)"
-
-msgid "Zoom _In"
-msgstr "ズームイン(_I)"
-
-msgid "Zoom _Out"
-msgstr "ズームアウト(_O)"
-
-msgid "Capture an image"
-msgstr "画像をキャプチャーする"
-
-msgid "Continuous capture preview"
-msgstr "連続的なキャプチャーのプレビュー"
-
-msgid "This camera does not support image capture"
-msgstr "このカメラは画像のキャプチャーをサポートしません"
-
-msgid "This camera does not support image preview"
-msgstr "このカメラは画像のプレビューをサポートしません"
-
-#, c-format
-msgid "Operation: %s"
-msgstr "オペレーション: %s"
-
-msgid "Entangle: Operation failed"
-msgstr "Entangle: オペレーションに失敗しました"
-
-msgid "Camera load controls failed"
-msgstr "カメラが制御情報の読み込みに失敗しました"
-
-msgid "Entangle: Camera load controls failed"
-msgstr "Entangle: カメラが制御情報の読み込みに失敗しました"
-
-msgid "Monitor"
-msgstr "モニター"
-
-msgid "No camera connected"
-msgstr "カメラが接続されていません"
-
-#, c-format
-msgid "Unable to connect to camera: %s"
-msgstr "カメラに接続できません: %s"
-
-msgid ""
-"Check that the camera is not\n"
-"\n"
-" - opened by another photo <b>application</b>\n"
-" - mounted as a <b>filesystem</b> on the desktop\n"
-" - in <b>sleep mode</b> to save battery power\n"
-msgstr ""
-"カメラが次の状態であることを確認してください\n"
-"\n"
-" - 他の写真 <b>アプリケーション</b> により利用されていない\n"
-" - デスクトップに <b>ファイルシステム</b> としてマウントされていない\n"
-" - バッテリー電源を節約するために <b>スリープモード</b> になっていない\n"
-
-msgid "Cancel"
-msgstr "キャンセル"
-
-msgid "Retry"
-msgstr "再試行"
-
-msgid "Camera is in use"
-msgstr "カメラは使用中です"
-
-msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
-msgstr ""
-"現在ファイルシステムとしてマウントされているので、カメラを開けません。今すぐ"
-"アンマウントしたいですか？"
-
-msgid "No"
-msgstr "いいえ"
-
-msgid "Yes"
-msgstr "はい"
-
-msgid "Camera connect failed"
-msgstr "カメラの接続に失敗しました"
-
-msgid "Entangle: Camera connect failed"
-msgstr "Entangle: カメラの接続に失敗しました"
-
-msgid "Select a folder"
-msgstr "フォルダーの選択"
-
-msgid "_Cancel"
-msgstr "キャンセル(_C)"
-
-msgid "_Open"
-msgstr "開く(_O)"
-
-msgid "Capture"
-msgstr "キャプチャー"
-
-msgid "Script"
-msgstr "スクリプト"
-
-msgid "Preview"
-msgstr "プレビュー"
-
-msgid "Set clock"
-msgstr "時刻の設定"
-
-msgid "Autofocus failed"
-msgstr "オートフォーカスに失敗しました"
-
-msgid "Entangle: Camera autofocus failed"
-msgstr "Entangle: カメラのオートフォーカスに失敗しました"
-
-msgid "Manual focus failed"
-msgstr "マニュアルフォーカスに失敗しました"
-
-msgid "Entangle: Camera manual focus failed"
-msgstr "Entangle: カメラのマニュアルフォーカスに失敗しました"
-
-msgid "Delete"
-msgstr "削除"
-
-msgid "Open"
-msgstr "開く"
-
-msgid "Open with"
-msgstr "開く"
-
-msgid "Select application..."
-msgstr "アプリケーションの選択..."
-
-msgid "Image histogram"
-msgstr "イメージヒストグラム"
-
-msgid "Automation"
-msgstr "オートメーション"
-
-msgid "Model"
-msgstr "型名"
-
-msgid "Port"
-msgstr "ポート"
-
-msgid "Select camera - Entangle"
-msgstr "カメラの選択 - Entangle"
-
-msgid "Select a camera to connect to:"
-msgstr "接続するカメラを選択してください:"
-
-msgid ""
-"No cameras were detected, check that\n"
-"\n"
-"  - the <b>cables</b> are connected\n"
-"  - the camera is <b>turned on</b>\n"
-"  - the camera is in the <b>correct mode</b>\n"
-"  - the camera is a <b>supported</b> model\n"
-"\n"
-"USB cameras are automatically detected\n"
-"when plugged in, for others try a refresh\n"
-"or enter a network camera IP address"
-msgstr ""
-"カメラが検出されません、以下を確認してください\n"
-"\n"
-"  -  <b>ケーブル</b> が接続されている\n"
-"  - カメラの <b>電源がオン</b>\n"
-"  - カメラが <b>接続モード</b>\n"
-"  - カメラが <b>サポートされる</b> モデル\n"
-"\n"
-"USBカメラは接続時に自動的に検出されます、\n"
-"その他は更新を試すか、\n"
-"ネットワークカメラIPアドレスを入力してください"
-
-msgid "IP Address:"
-msgstr "IP アドレス:"
-
-msgid "Network camera"
-msgstr "ネットワークカメラ"
-
-msgid "capture"
-msgstr "キャプチャー"
-
-msgid "preview"
-msgstr "プレビュー"
-
-msgid "settings"
-msgstr "設定"
-
-msgid "label"
-msgstr "ラベル"
-
-msgid "Camera control update failed"
-msgstr "カメラの制御内容の更新に失敗しました"
-
-msgid "Entangle: Camera control update failed"
-msgstr "Entangle: カメラの制御内容の更新に失敗しました"
-
-msgid "On"
-msgstr "オン"
-
-msgid "Off"
-msgstr "オフ"
-
-msgid "Reset controls"
-msgstr "制御のリセット"
-
-msgid "No controls available"
-msgstr "制御できるデバイスがありません"
-
-msgid "Screen blanking is not available on this display"
-msgstr "このディスプレイにおいて画面を空白にすることはできません。"
-
-msgid "Screen blanking is not implemented on this platform"
-msgstr "このディスプレイにおいて画面を空白にする機能が実装されていません。"
-
-msgid "About - Entangle"
-msgstr "Entangle について"
-
-msgid "Tethered Camera Control & Capture"
-msgstr "接続されたカメラの制御とキャプチャー"
-
-msgctxt "shortcut window"
-msgid "Controlling the application"
-msgstr "アプリケーションの制御"
-
-msgctxt "shortcut window"
-msgid "Open a new camera window"
-msgstr "新しいカメラウィンドウを開く"
-
-msgctxt "shortcut window"
-msgid "Close all windows & exit"
-msgstr "全てのウィンドウを閉じて終了"
-
-msgctxt "shortcut window"
-msgid "Display help manual"
-msgstr "ヘルプマニュアルを表示"
-
-msgctxt "shortcut window"
-msgid "Image display"
-msgstr "イメージディスプレイ"
-
-msgctxt "shortcut window"
-msgid "Zoom in"
-msgstr "ズームイン"
-
-msgctxt "shortcut window"
-msgid "Zoom out"
-msgstr "ズームアウト"
-
-msgctxt "shortcut window"
-msgid "Zoom normal"
-msgstr "ズーム標準"
-
-msgctxt "shortcut window"
-msgid "Zoom best"
-msgstr "ズーム最適"
-
-msgctxt "shortcut window"
-msgid "Toggle image mask"
-msgstr "イメージマスクをトグル"
-
-msgctxt "shortcut window"
-msgid "Toggle overexposure highlighting"
-msgstr "露出過度ハイライトをトグル"
-
-msgctxt "shortcut window"
-msgid "Toggle histogram scale"
-msgstr "ヒストグラムスケールをトグル"
-
-msgctxt "shortcut window"
-msgid "Window display"
-msgstr "ウィンドウディスプレイ"
-
-msgctxt "shortcut window"
-msgid "Fullscreen"
-msgstr "フルスクリーン"
-
-msgctxt "shortcut window"
-msgid "Presentation"
-msgstr "プレゼンテーション"
-
-msgctxt "shortcut window"
-msgid "Shutter control"
-msgstr "シャッター制御"
-
-msgctxt "shortcut window"
-msgid "Capture a single image"
-msgstr "単一イメージのキャプチャ"
-
-msgctxt "shortcut window"
-msgid "Toggle live preview"
-msgstr "ライブプレビューのトグル"
-
-msgctxt "shortcut window"
-msgid "Focus control (during live preview)"
-msgstr "フォーカス制御(ライブプレビュー中)"
-
-msgctxt "shortcut window"
-msgid "Autofocus"
-msgstr "オートフォーカス"
-
-msgctxt "shortcut window"
-msgid "Focus in (small step)"
-msgstr "フォーカスイン(小ステップ)"
-
-msgctxt "shortcut window"
-msgid "Focus out (small step)"
-msgstr "フォーカスアウト(小ステップ)"
-
-msgctxt "shortcut window"
-msgid "Focus in (large step)"
-msgstr "フォーカスイン(大ステップ)"
-
-msgctxt "shortcut window"
-msgid "Focus out (large step)"
-msgstr "フォーカスアウト(大ステップ)"
-
-msgid "Interface"
-msgstr "インターフェース"
-
-msgid "Image Viewer"
-msgstr "イメージビューアー"
-
-msgid "Color Management"
-msgstr "カラーマネジメント"
-
-msgid "Plugins"
-msgstr "プラグイン"
-
-msgid "ICC profiles (*.icc, *.icm)"
-msgstr "ICC プロファイル (*.icc, *.icm)"
-
-msgid "All files (*.*)"
-msgstr "すべてのファイル (*.*)"
-
-msgid "1:1 - Square / MF 6x6"
-msgstr "1:1 - 正方形 / MF 6x6"
+msgid "0"
+msgstr "0"
 
 msgid "1.15:1 - Movietone"
 msgstr "1.15:1 - ムービートーン"
@@ -591,11 +41,11 @@ msgstr "1.44:1 - IMAX"
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
 msgstr "1.50:1 (3:2, 15:10)- 35mm SLR"
 
-msgid "1.6:1 (8:5, 16:10) - Widescreen"
-msgstr "1.6:1 (8:5, 16:10) - ワイドスクリーン"
-
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
 msgstr "1.66:1 (5:3, 15:9) - スーパー 16mm"
+
+msgid "1.6:1 (8:5, 16:10) - Widescreen"
+msgstr "1.6:1 (8:5, 16:10) - ワイドスクリーン"
 
 msgid "1.75:1 (7:4) - Widescreen"
 msgstr "1.75:1 (7:4) - ワイドスクリーン"
@@ -605,6 +55,12 @@ msgstr "1.77:1 (16:9) - APS-H / HDTV / ワイドスクリーン"
 
 msgid "1.85:1 - 35mm Widescreen"
 msgstr "1.85:1 - 35mm ワイドスクリーン"
+
+msgid "12.00:1 - Circle-Vision 360"
+msgstr "12.00:1 - Circle-Vision 360"
+
+msgid "1:1 - Square / MF 6x6"
+msgstr "1:1 - 正方形 / MF 6x6"
 
 msgid "2.00:1 - SuperScope"
 msgstr "2.00:1 - スーパースコープ"
@@ -639,92 +95,38 @@ msgstr "2.76:1 (11:4) - ウルトラパナビジョン"
 msgid "2.93:1 - MGM Camera 65"
 msgstr "2.93:1 - MGM カメラ 65"
 
+msgid "3"
+msgstr "3"
+
 msgid "3:1 APS Panorama"
 msgstr "3:1 APS パノラマ"
 
 msgid "4.00:1 - Polyvision"
 msgstr "4.00:1 - Polyvision"
 
-msgid "12.00:1 - Circle-Vision 360"
-msgstr "12.00:1 - Circle-Vision 360"
-
-msgid "None"
-msgstr "なし"
-
-msgid "Center lines"
-msgstr "センターライン"
-
-msgid "Rule of 3rds"
-msgstr "三分割法"
-
-msgid "Quarters"
-msgstr "クォーター"
-
-msgid "Rule of 5ths"
-msgstr "五分割法"
-
-msgid "Golden sections"
-msgstr "黄金分割"
-
-msgid "Entangle Preferences"
-msgstr "Entangleの設定"
-
 msgid "<b>Capture</b>"
 msgstr "<b>キャプチャー</b>"
-
-msgid "Filename pattern:"
-msgstr "ファイル名のパターン:"
-
-msgid "Continue preview mode after capture"
-msgstr "キャプチャー後にプレビューモードを続けます"
-
-msgid "Use preview output as capture image"
-msgstr "キャプチャイメージとしてプレビュー出力を使用"
-
-msgid "Delete file from camera after downloading"
-msgstr "ダウンロード後にカメラからファイルを削除します"
-
-msgid "Automatically synchronize camera clock"
-msgstr "自動的にカメラの時刻を同期する"
 
 msgid "<b>Colour management</b>"
 msgstr "<b>カラーマネジメント</b>"
 
-msgid "Mode of operation:"
-msgstr "操作モード:"
-
-msgid "RGB profile:"
-msgstr "RGB プロファイル:"
-
-msgid "Monitor profile:"
-msgstr "モニタープロファイル:"
-
-msgid "Rendering intent:"
-msgstr "レンダリング用途:"
-
-msgid "Detect the system monitor profile"
-msgstr "システムのモニタープロファイルを検知します"
-
-msgid "Colour managed display"
-msgstr "カラーマネジメントされたディスプレイ"
-
-msgid "<b>Plugins</b>"
-msgstr "<b>プラグイン</b>"
+msgid "<b>Image Viewer</b>"
+msgstr "<b>イメージビューアー</b>"
 
 msgid "<b>Interface</b>"
 msgstr "<b>インターフェース</b>"
 
-msgid "Automatically connect to cameras at startup"
-msgstr "起動するとき自動的にカメラに接続する"
+msgid "<b>Plugins</b>"
+msgstr "<b>プラグイン</b>"
 
-msgid "Blank screen when capturing images"
-msgstr "イメージのキャプチャー中に画面を表示しない"
+msgid "About - Entangle"
+msgstr "Entangle について"
 
-msgid "Show linear histogram"
-msgstr "リニアヒストグラムの表示"
+msgid "Absolute colourimetric"
+msgstr "絶対カラーメトリック"
 
-msgid "<b>Image Viewer</b>"
-msgstr "<b>イメージビューアー</b>"
+msgid "All files (*.*)"
+msgstr "すべてのファイル (*.*)"
 
 msgid "Apply mask to alter aspect ratio"
 msgstr "アスペクト比を変更する場合はマスクを適用します"
@@ -732,75 +134,172 @@ msgstr "アスペクト比を変更する場合はマスクを適用します"
 msgid "Aspect ratio:"
 msgstr "アスペクト比:"
 
-msgid "Mask opacity:"
-msgstr "不透明度マスク:"
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr "オートフォーカス"
 
-msgid "0"
-msgstr "0"
+#, c-format
+msgid "Autofocus control not available with this camera"
+msgstr "オートフォーカスの制御がこのカメラで利用できません"
 
-msgid "Display focus point during preview"
-msgstr "プレビュー中に焦点を表示する"
+#, c-format
+msgid "Autofocus control was not a toggle widget"
+msgstr "オートフォーカス制御がトグルウィジェットではありませんでした"
 
-msgid "Grid lines:"
-msgstr "グリッド線:"
+msgid "Autofocus failed"
+msgstr "オートフォーカスに失敗しました"
 
-msgid "Use embedded preview from raw files"
-msgstr "元ファイルから埋め込みプレビューを使用する"
+msgid "Automatically connect to cameras at startup"
+msgstr "起動するとき自動的にカメラに接続する"
 
-msgid "Overlay earlier images"
-msgstr "これまでのイメージを重ね合わせる"
+msgid "Automatically synchronize camera clock"
+msgstr "自動的にカメラの時刻を同期する"
 
-msgid "Overlay layers:"
-msgstr "重ね合わせ層:"
-
-msgid "3"
-msgstr "3"
+msgid "Automation"
+msgstr "オートメーション"
 
 msgid "Background:"
 msgstr "背景:"
 
-msgid "Highlight:"
-msgstr "ハイライト:"
+msgid "Best Fit"
+msgstr "最適"
 
-msgid "Highlight areas of overexposure"
-msgstr "露出過度のハイライトエリア"
+msgid "Blank screen when capturing images"
+msgstr "イメージのキャプチャー中に画面を表示しない"
 
-msgid "Perceptual"
-msgstr "知覚"
+msgid "Camera connect failed"
+msgstr "カメラの接続に失敗しました"
 
-msgid "Relative colourimetric"
-msgstr "相対カラーメトリック"
+msgid "Camera control update failed"
+msgstr "カメラの制御内容の更新に失敗しました"
 
-msgid "Saturation"
-msgstr "彩度"
+msgid "Camera is in use"
+msgstr "カメラは使用中です"
 
-msgid "Absolute colourimetric"
-msgstr "絶対カラーメトリック"
+msgid "Camera load controls failed"
+msgstr "カメラが制御情報の読み込みに失敗しました"
 
-msgid "Untitled script"
-msgstr "無題のスクリプト"
+msgid "Cancel"
+msgstr "キャンセル"
 
-msgid "No script"
-msgstr "スクリプトなし"
+#, c-format
+msgid "Cannot capture image while not opened"
+msgstr ""
 
-msgid "No config options"
-msgstr "設定オプションなし"
+#, c-format
+msgid "Cannot delete file while not opened"
+msgstr ""
 
-msgid "Missing 'execute' method implementation"
-msgstr "'実行'メソッド実装が見つかりません"
+#, c-format
+msgid "Cannot download file while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot initialize gphoto2 abilities"
+msgstr "gphoto2 機能を初期化できません"
+
+#, c-format
+msgid "Cannot initialize gphoto2 ports"
+msgstr "gphoto2 ポートを初期化できません"
+
+#, c-format
+msgid "Cannot load gphoto2 abilities"
+msgstr "gphoto2 機能を読み込めません"
+
+#, c-format
+msgid "Cannot load gphoto2 ports"
+msgstr "gphoto2 ポートを読み込めません"
+
+#, c-format
+msgid "Cannot preview image while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot wait for events while not opened"
+msgstr ""
+
+msgid "Capture"
+msgstr "キャプチャー"
+
+msgctxt "shortcut window"
+msgid "Capture a single image"
+msgstr "単一イメージのキャプチャ"
+
+msgid "Capture an image"
+msgstr "画像をキャプチャーする"
+
+#, c-format
+msgid "Capture target setting not available with this camera"
+msgstr "このカメラでキャプチャーターゲット設定は利用できません"
+
+msgid "Capture;Camera;Tethered;Photo;"
+msgstr "Capture;Camera;Tethered;Photo;"
+
+msgid "Center lines"
+msgstr "センターライン"
+
+msgid ""
+"Check that the camera is not\n"
+"\n"
+" - opened by another photo <b>application</b>\n"
+" - mounted as a <b>filesystem</b> on the desktop\n"
+" - in <b>sleep mode</b> to save battery power\n"
+msgstr ""
+"カメラが次の状態であることを確認してください\n"
+"\n"
+" - 他の写真 <b>アプリケーション</b> により利用されていない\n"
+" - デスクトップに <b>ファイルシステム</b> としてマウントされていない\n"
+" - バッテリー電源を節約するために <b>スリープモード</b> になっていない\n"
+
+msgctxt "shortcut window"
+msgid "Close all windows & exit"
+msgstr "全てのウィンドウを閉じて終了"
+
+msgid "Color Management"
+msgstr "カラーマネジメント"
+
+msgid "Colour managed display"
+msgstr "カラーマネジメントされたディスプレイ"
+
+msgid "Continue preview mode after capture"
+msgstr "キャプチャー後にプレビューモードを続けます"
+
+msgid "Continuous capture preview"
+msgstr "連続的なキャプチャーのプレビュー"
+
+msgctxt "shortcut window"
+msgid "Controlling the application"
+msgstr "アプリケーションの制御"
+
+#, c-format
+msgid "Controls not available for this camera"
+msgstr "このカメラに対して制御できません"
+
+#, c-format
+msgid "Controls not available when camera is closeed"
+msgstr ""
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Delete file from camera after downloading"
+msgstr "ダウンロード後にカメラからファイルを削除します"
+
+msgid "Detect the system monitor profile"
+msgstr "システムのモニタープロファイルを検知します"
+
+msgid "Display focus point during preview"
+msgstr "プレビュー中に焦点を表示する"
+
+msgctxt "shortcut window"
+msgid "Display help manual"
+msgstr "ヘルプマニュアルを表示"
 
 msgid "Entangle"
 msgstr "Entangle"
 
-msgid "Tethered Camera Control &amp; Capture"
-msgstr "接続されたカメラの制御とキャプチャー"
-
-msgid ""
-"Entangle is a program used to control digital cameras that are connected to "
-"the computer via USB."
-msgstr ""
-"EntangleはコンピューターにUSB接続されたデジタルカメラを制御して利用するアプリ"
-"ケーションです。"
+msgid "Entangle Preferences"
+msgstr "Entangleの設定"
 
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
@@ -815,6 +314,13 @@ msgstr ""
 "れます。Entangleはカメラ側の設定をパソコン側から変更することもできます。"
 
 msgid ""
+"Entangle is a program used to control digital cameras that are connected to "
+"the computer via USB."
+msgstr ""
+"EntangleはコンピューターにUSB接続されたデジタルカメラを制御して利用するアプリ"
+"ケーションです。"
+
+msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
@@ -822,77 +328,598 @@ msgstr ""
 "Entangleは、ほとんどのNikon製とCanon製のデジタル一眼と、いくつかのコンパクト"
 "デジカメ、また、他のメーカーが製造している様々なカメラと互換性があります。"
 
+msgid "Entangle: Camera autofocus failed"
+msgstr "Entangle: カメラのオートフォーカスに失敗しました"
+
+msgid "Entangle: Camera connect failed"
+msgstr "Entangle: カメラの接続に失敗しました"
+
+msgid "Entangle: Camera control update failed"
+msgstr "Entangle: カメラの制御内容の更新に失敗しました"
+
+msgid "Entangle: Camera load controls failed"
+msgstr "Entangle: カメラが制御情報の読み込みに失敗しました"
+
+msgid "Entangle: Camera manual focus failed"
+msgstr "Entangle: カメラのマニュアルフォーカスに失敗しました"
+
+msgid "Entangle: Operation failed"
+msgstr "Entangle: オペレーションに失敗しました"
+
+#, c-format
+msgid "Failed to read manual focus choice %d: %s %d"
+msgstr "マニュアルフォーカス選択 %d: %s %d の読み込みに失敗しました"
+
+#, c-format
+msgid "Failed to set autofocus state: %s %d"
+msgstr "オートフォーカスの状態を設定できませんでした: %s %d"
+
+#, c-format
+msgid "Failed to set capture target: %s %d"
+msgstr "キャプチャーターゲット: %s %d の設定に失敗しました"
+
+#, c-format
+msgid "Failed to set manual focus state: %s %d"
+msgstr "マニュアルフォーカスの状態を設定できません: %s %d"
+
+#, c-format
+msgid "Failed to set time state: %s %d"
+msgstr "時刻の状態の設定に失敗しました: %s %d"
+
+#, c-format
+msgid "Failed to set viewfinder state: %s %d"
+msgstr "ビューファインダーの状態の設定に失敗しました: %s %d"
+
+msgid "Filename pattern:"
+msgstr "ファイル名のパターン:"
+
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr "フォーカス制御(ライブプレビュー中)"
+
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr "フォーカスイン(大ステップ)"
+
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr "フォーカスイン(小ステップ)"
+
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
+msgstr "フォーカスアウト(大ステップ)"
+
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr "フォーカスアウト(小ステップ)"
+
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "フルスクリーン"
+
+msgid "Golden sections"
+msgstr "黄金分割"
+
+msgid "Grid lines:"
+msgstr "グリッド線:"
+
+msgid "Highlight areas of overexposure"
+msgstr "露出過度のハイライトエリア"
+
+msgid "Highlight:"
+msgstr "ハイライト:"
+
+msgid "ICC profiles (*.icc, *.icm)"
+msgstr "ICC プロファイル (*.icc, *.icm)"
+
+msgid "IP Address:"
+msgstr "IP アドレス:"
+
+msgid "Image Viewer"
+msgstr "イメージビューアー"
+
+msgctxt "shortcut window"
+msgid "Image display"
+msgstr "イメージディスプレイ"
+
+msgid "Image histogram"
+msgstr "イメージヒストグラム"
+
+msgid "Interface"
+msgstr "インターフェース"
+
+#, c-format
+msgid "Manual focus control not available with this camera"
+msgstr "手動フォーカス制御がこのカメラで利用できません"
+
+#, c-format
+msgid "Manual focus control was not a range or radio widget"
+msgstr ""
+"マニュアルフォーカス制御が範囲にない、またはラジオウィジェットではありません"
+
+msgid "Manual focus failed"
+msgstr "マニュアルフォーカスに失敗しました"
+
+msgid "Mask opacity:"
+msgstr "不透明度マスク:"
+
+msgid "Missing 'execute' method implementation"
+msgstr "'実行'メソッド実装が見つかりません"
+
+msgid "Mode of operation:"
+msgstr "操作モード:"
+
+msgid "Model"
+msgstr "型名"
+
+msgid "Monitor"
+msgstr "モニター"
+
+msgid "Monitor profile:"
+msgstr "モニタープロファイル:"
+
+msgid "Network camera"
+msgstr "ネットワークカメラ"
+
+msgid "No"
+msgstr "いいえ"
+
+msgid "No camera connected"
+msgstr "カメラが接続されていません"
+
+msgid ""
+"No cameras were detected, check that\n"
+"\n"
+"  - the <b>cables</b> are connected\n"
+"  - the camera is <b>turned on</b>\n"
+"  - the camera is in the <b>correct mode</b>\n"
+"  - the camera is a <b>supported</b> model\n"
+"\n"
+"USB cameras are automatically detected\n"
+"when plugged in, for others try a refresh\n"
+"or enter a network camera IP address"
+msgstr ""
+"カメラが検出されません、以下を確認してください\n"
+"\n"
+"  -  <b>ケーブル</b> が接続されている\n"
+"  - カメラの <b>電源がオン</b>\n"
+"  - カメラが <b>接続モード</b>\n"
+"  - カメラが <b>サポートされる</b> モデル\n"
+"\n"
+"USBカメラは接続時に自動的に検出されます、\n"
+"その他は更新を試すか、\n"
+"ネットワークカメラIPアドレスを入力してください"
+
+msgid "No config options"
+msgstr "設定オプションなし"
+
+msgid "No controls available"
+msgstr "制御できるデバイスがありません"
+
+msgid "No script"
+msgstr "スクリプトなし"
+
+msgid "None"
+msgstr "なし"
+
+msgid "Off"
+msgstr "オフ"
+
+msgid "On"
+msgstr "オン"
+
+msgid "Open"
+msgstr "開く"
+
+msgctxt "shortcut window"
+msgid "Open a new camera window"
+msgstr "新しいカメラウィンドウを開く"
+
+msgid "Open with"
+msgstr "開く"
+
+#, c-format
+msgid "Operation: %s"
+msgstr "オペレーション: %s"
+
+msgid "Overlay earlier images"
+msgstr "これまでのイメージを重ね合わせる"
+
+msgid "Overlay layers:"
+msgstr "重ね合わせ層:"
+
+msgid "Pattern must contain 'XXXXXX' placeholder"
+msgstr ""
+
+msgid "Perceptual"
+msgstr "知覚"
+
+msgid "Plugins"
+msgstr "プラグイン"
+
+msgid "Port"
+msgstr "ポート"
+
+msgctxt "shortcut window"
+msgid "Presentation"
+msgstr "プレゼンテーション"
+
+msgid "Preview"
+msgstr "プレビュー"
+
+msgid "Quarters"
+msgstr "クォーター"
+
+msgid "RGB profile:"
+msgstr "RGB プロファイル:"
+
+msgid "Relative colourimetric"
+msgstr "相対カラーメトリック"
+
+msgid "Rendering intent:"
+msgstr "レンダリング用途:"
+
+msgid "Reset controls"
+msgstr "制御のリセット"
+
+msgid "Retry"
+msgstr "再試行"
+
+msgid "Rule of 3rds"
+msgstr "三分割法"
+
+msgid "Rule of 5ths"
+msgstr "五分割法"
+
+msgid "Saturation"
+msgstr "彩度"
+
+msgid "Screen blanking is not available on this display"
+msgstr "このディスプレイにおいて画面を空白にすることはできません。"
+
+msgid "Screen blanking is not implemented on this platform"
+msgstr "このディスプレイにおいて画面を空白にする機能が実装されていません。"
+
+msgid "Script"
+msgstr "スクリプト"
+
+msgid "Select a camera to connect to:"
+msgstr "接続するカメラを選択してください:"
+
+msgid "Select a folder"
+msgstr "フォルダーの選択"
+
+msgid "Select application..."
+msgstr "アプリケーションの選択..."
+
+msgid "Select camera - Entangle"
+msgstr "カメラの選択 - Entangle"
+
+msgid "Set clock"
+msgstr "時刻の設定"
+
+msgid "Show linear histogram"
+msgstr "リニアヒストグラムの表示"
+
+msgctxt "shortcut window"
+msgid "Shutter control"
+msgstr "シャッター制御"
+
+msgid "Tethered Camera Control & Capture"
+msgstr "接続されたカメラの制御とキャプチャー"
+
+msgid "Tethered Camera Control &amp; Capture"
+msgstr "接続されたカメラの制御とキャプチャー"
+
 msgid "The Entangle Photo project"
 msgstr "Entangle Photoプロジェクト"
 
-msgid "Require gobject introspection &gt;= 1.54"
-msgstr "gobject introspection &gt;= 1.54 が必要です"
+msgid ""
+"The camera cannot be opened because it is currently mounted as a filesystem. "
+"Do you wish to umount it now ?"
+msgstr ""
+"現在ファイルシステムとしてマウントされているので、カメラを開けません。今すぐ"
+"アンマウントしたいですか？"
 
-msgid "Require GTK3 &gt;= 3.22"
-msgstr "GTK3 &gt;= 3.22 が必要です"
+msgid "This camera does not support image capture"
+msgstr "このカメラは画像のキャプチャーをサポートしません"
 
-msgid "Fix dependency on libraw"
-msgstr "librawの依存関係を修正"
+msgid "This camera does not support image preview"
+msgstr "このカメラは画像のプレビューをサポートしません"
 
-msgid "Fix variable name in photobox plugin"
-msgstr "photobox pluginの変数名を修正"
+#, c-format
+msgid "Time setting not available with this camera"
+msgstr "このカメラでは時刻の設定は利用できません"
 
-msgid "Document some missing keyboard shortcuts"
-msgstr "存在しないキーボードショートカットについてのドキュメント"
+#, c-format
+msgid "Time setting was not a choice widget"
+msgstr "時刻の設定は選択ウィジェットにはありませんでした"
 
-msgid "Fix upper bound in histogram to display clipped pixel"
-msgstr "クリップされたピクセルを表示するため、ヒストグラムの上限値を修正"
+#, c-format
+msgid "Time setting was not a date widget"
+msgstr "時刻の設定は日付ウィジェットにはありませんでした"
 
-msgid "Refresh translations"
-msgstr "翻訳の更新"
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr "ヒストグラムスケールをトグル"
 
-msgid "Option to highlight over exposed pixels in red"
-msgstr "露出過度されたピクセルを赤くハイライトするオプション"
+msgctxt "shortcut window"
+msgid "Toggle image mask"
+msgstr "イメージマスクをトグル"
 
-msgid "Disable noisy compiler warning"
-msgstr "うるさいコンパイラ警告の無効化"
+msgctxt "shortcut window"
+msgid "Toggle live preview"
+msgstr "ライブプレビューのトグル"
 
-msgid "Remove use of deprecated application menu concept"
-msgstr "廃止されたアプリケーションメニューコンセプトの使用を削除"
+msgctxt "shortcut window"
+msgid "Toggle overexposure highlighting"
+msgstr "露出過度ハイライトをトグル"
 
-msgid "Fix image redraw when changing some settings"
-msgstr "設定変更時のイメージ再描画を修正"
+#, c-format
+msgid "Unable to capture image: %s"
+msgstr "画像をキャプチャーできません: %s"
 
-msgid "Update mailing list address in appdaat"
-msgstr "appdaatのメーリングリストアドレスをアップデート"
+#, c-format
+msgid "Unable to capture preview: %s"
+msgstr "プレビューをキャプチャーできません: %s"
 
-msgid "Add more fields to appdata content"
-msgstr "appdataコンテンツにフィールドを追加"
+#, c-format
+msgid "Unable to connect to camera: %s"
+msgstr "カメラに接続できません: %s"
 
-msgid "Fix reference counting during window close"
-msgstr "ウィンドウを閉じる際の参照回数を修正"
+#, c-format
+msgid "Unable to delete file: %s"
+msgstr "ファイルを削除できません: %s"
 
-msgid "Use correct API for destroying top level windows"
-msgstr "トップレベルウィンドウを削除するため正しいAPIを使用"
+#, c-format
+msgid "Unable to fetch camera control configuration: %s"
+msgstr "カメラ制御設定: %s を取得できません"
 
-msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
-msgstr "新しいgvfs URIネーミングスキームによるカメラのアンマウントを修正"
+#, c-format
+msgid "Unable to fetch widget name"
+msgstr "装置名を取得できません"
 
-msgid "Avoid out of bounds read of property values"
-msgstr "プロパティ値の読み取り範囲外れを回避"
+#, c-format
+msgid "Unable to fetch widget type"
+msgstr "ウィジェットの形式を取り出せません"
 
-msgid "Fix many memory leaks"
-msgstr "多くのメモリーリークの修正"
+#, c-format
+msgid "Unable to get camera file: %s"
+msgstr "カメラのファイルを取得できません: %s"
 
-msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr "Waylandに表示されないコンボボックスに対するワークアラウンド"
+#, c-format
+msgid "Unable to get file data: %s"
+msgstr "ファイルのデータを取得できません: %s"
 
-msgid "Fix race condition in building enums"
-msgstr "enumsビルドの競合状態を修正"
+#, c-format
+msgid "Unable to get filename: %s"
+msgstr "ファイル名を取得できません: %s"
 
-msgid "Fix setting of gschema directory during startup"
-msgstr "スタートアップ中のgschemaディレクトリの設定を修正"
+#, c-format
+msgid "Unable to initialize camera: %s"
+msgstr "カメラ: %s を初期化できません"
 
-msgid "Set env to ensure plugins can find introspection typelib"
-msgstr "プラグインがintrospection typelibを見つけられるよう、envを設定"
+#, c-format
+msgid "Unable to load controls, camera is not opened"
+msgstr ""
 
-msgid "entangle"
-msgstr "entangle"
+#, c-format
+msgid "Unable to save camera control configuration: %s"
+msgstr "カメラ制御設定: %s を保存できません"
 
-msgid "Capture;Camera;Tethered;Photo;"
-msgstr "Capture;Camera;Tethered;Photo;"
+#, c-format
+msgid "Unable to save controls, camera is not configurable"
+msgstr "制御情報を保存できません、カメラが設定可能ではありません"
+
+#, c-format
+msgid "Unable to save controls, camera is not opened"
+msgstr ""
+
+#, c-format
+msgid "Unable to wait for events: %s"
+msgstr "イベントを待機できません: %s"
+
+msgid "Untitled script"
+msgstr "無題のスクリプト"
+
+msgid "Use embedded preview from raw files"
+msgstr "元ファイルから埋め込みプレビューを使用する"
+
+msgid "Use preview output as capture image"
+msgstr "キャプチャイメージとしてプレビュー出力を使用"
+
+#, c-format
+msgid "Viewfinder control not available with this camera"
+msgstr "ビューファインダーの制御がこのカメラで利用できません"
+
+#, c-format
+msgid "Viewfinder control was not a toggle widget"
+msgstr "ビューファインダーの制御がトグルウィジェットではありませんでした"
+
+msgctxt "shortcut window"
+msgid "Window display"
+msgstr "ウィンドウディスプレイ"
+
+msgid "Yes"
+msgstr "はい"
+
+msgid "Zoom _In"
+msgstr "ズームイン(_I)"
+
+msgid "Zoom _Out"
+msgstr "ズームアウト(_O)"
+
+msgctxt "shortcut window"
+msgid "Zoom best"
+msgstr "ズーム最適"
+
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "ズームイン"
+
+msgctxt "shortcut window"
+msgid "Zoom normal"
+msgstr "ズーム標準"
+
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "ズームアウト"
+
+msgid "_About"
+msgstr "詳細(_A)"
+
+msgid "_Cancel"
+msgstr "キャンセル(_C)"
+
+msgid "_Connect…"
+msgstr "接続(_C)…"
+
+msgid "_Disconnect…"
+msgstr "切断(_D)…"
+
+msgid "_Fullscreen"
+msgstr "フルスクリーン(_F)"
+
+msgid "_Help"
+msgstr "ヘルプ(_H)"
+
+msgid "_Keyboard shortcuts"
+msgstr "キーボードショートカット(_K)"
+
+msgid "_Manual"
+msgstr "マニュアル(_M)"
+
+msgid "_New window"
+msgstr "新しいウィンドウ(_N)"
+
+msgid "_Normal Size"
+msgstr "標準サイズ(_N)"
+
+msgid "_Open"
+msgstr "開く(_O)"
+
+msgid "_Preferences…"
+msgstr "設定(_P)…"
+
+msgid "_Presentation"
+msgstr "プレゼンテーション(_P)"
+
+msgid "_Quit"
+msgstr "退出(_Q)"
+
+msgid "_Select session…"
+msgstr "セッションの選択(_S)…"
+
+msgid "_Settings"
+msgstr "設定(_S)"
+
+msgid "_Supported cameras"
+msgstr "サポートされるカメラ(_S)"
+
+msgid "_Synchronize capture"
+msgstr "キャプチャの同期(_S)"
+
+msgid "capture"
+msgstr "キャプチャー"
+
+msgid "label"
+msgstr "ラベル"
+
+msgid "preview"
+msgstr "プレビュー"
+
+msgid "settings"
+msgstr "設定"
+
+#~ msgid "Cannot capture image while not connected"
+#~ msgstr "接続していない間は画像をキャプチャーできません"
+
+#~ msgid "Cannot preview image while not connected"
+#~ msgstr "接続していない間は画像をプレビューできません"
+
+#~ msgid "Cannot download file while not connected"
+#~ msgstr "接続されていないときにファイルをダウンロードできません"
+
+#~ msgid "Cannot delete file while not connected"
+#~ msgstr "接続されていないときにファイルを削除できません"
+
+#~ msgid "Cannot wait for events while not connected"
+#~ msgstr "接続されていないときにイベントを待機できません"
+
+#~ msgid "Unable to load controls, camera is not connected"
+#~ msgstr "制御情報を読み込めません、カメラが接続されていません"
+
+#~ msgid "Unable to save controls, camera is not connected"
+#~ msgstr "制御情報を保存できません、カメラが接続されていません"
+
+#~ msgid "Controls not available when camera is disconnected"
+#~ msgstr "カメラが切断されているときに制御は利用可能ではありません"
+
+#~ msgid "Require gobject introspection &gt;= 1.54"
+#~ msgstr "gobject introspection &gt;= 1.54 が必要です"
+
+#~ msgid "Require GTK3 &gt;= 3.22"
+#~ msgstr "GTK3 &gt;= 3.22 が必要です"
+
+#~ msgid "Fix dependency on libraw"
+#~ msgstr "librawの依存関係を修正"
+
+#~ msgid "Fix variable name in photobox plugin"
+#~ msgstr "photobox pluginの変数名を修正"
+
+#~ msgid "Document some missing keyboard shortcuts"
+#~ msgstr "存在しないキーボードショートカットについてのドキュメント"
+
+#~ msgid "Fix upper bound in histogram to display clipped pixel"
+#~ msgstr "クリップされたピクセルを表示するため、ヒストグラムの上限値を修正"
+
+#~ msgid "Refresh translations"
+#~ msgstr "翻訳の更新"
+
+#~ msgid "Option to highlight over exposed pixels in red"
+#~ msgstr "露出過度されたピクセルを赤くハイライトするオプション"
+
+#~ msgid "Disable noisy compiler warning"
+#~ msgstr "うるさいコンパイラ警告の無効化"
+
+#~ msgid "Remove use of deprecated application menu concept"
+#~ msgstr "廃止されたアプリケーションメニューコンセプトの使用を削除"
+
+#~ msgid "Fix image redraw when changing some settings"
+#~ msgstr "設定変更時のイメージ再描画を修正"
+
+#~ msgid "Update mailing list address in appdaat"
+#~ msgstr "appdaatのメーリングリストアドレスをアップデート"
+
+#~ msgid "Add more fields to appdata content"
+#~ msgstr "appdataコンテンツにフィールドを追加"
+
+#~ msgid "Fix reference counting during window close"
+#~ msgstr "ウィンドウを閉じる際の参照回数を修正"
+
+#~ msgid "Use correct API for destroying top level windows"
+#~ msgstr "トップレベルウィンドウを削除するため正しいAPIを使用"
+
+#~ msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+#~ msgstr "新しいgvfs URIネーミングスキームによるカメラのアンマウントを修正"
+
+#~ msgid "Avoid out of bounds read of property values"
+#~ msgstr "プロパティ値の読み取り範囲外れを回避"
+
+#~ msgid "Fix many memory leaks"
+#~ msgstr "多くのメモリーリークの修正"
+
+#~ msgid "Workaround for combo boxes not displaying on Wayland"
+#~ msgstr "Waylandに表示されないコンボボックスに対するワークアラウンド"
+
+#~ msgid "Fix race condition in building enums"
+#~ msgstr "enumsビルドの競合状態を修正"
+
+#~ msgid "Fix setting of gschema directory during startup"
+#~ msgstr "スタートアップ中のgschemaディレクトリの設定を修正"
+
+#~ msgid "Set env to ensure plugins can find introspection typelib"
+#~ msgstr "プラグインがintrospection typelibを見つけられるよう、envを設定"
+
+#~ msgid "entangle"
+#~ msgstr "entangle"

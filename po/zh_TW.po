@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-03 22:10+0000\n"
+"POT-Creation-Date: 2020-05-16 23:09+0100\n"
 "PO-Revision-Date: 2014-12-22 02:36+0000\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/"
@@ -20,539 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Zanata 4.6.2\n"
 
-#, c-format
-msgid "Cannot initialize gphoto2 abilities"
-msgstr ""
-
-#, c-format
-msgid "Cannot load gphoto2 abilities"
-msgstr ""
-
-#, c-format
-msgid "Cannot initialize gphoto2 ports"
-msgstr ""
-
-#, c-format
-msgid "Cannot load gphoto2 ports"
-msgstr ""
-
-#, c-format
-msgid "Unable to initialize camera: %s"
-msgstr ""
-
-#, c-format
-msgid "Cannot capture image while not connected"
-msgstr ""
-
-#, c-format
-msgid "Unable to capture image: %s"
-msgstr ""
-
-#, c-format
-msgid "Cannot preview image while not connected"
-msgstr ""
-
-#, c-format
-msgid "Unable to capture preview: %s"
-msgstr ""
-
-#, c-format
-msgid "Unable to get file data: %s"
-msgstr ""
-
-#, c-format
-msgid "Unable to get filename: %s"
-msgstr ""
-
-#, c-format
-msgid "Cannot download file while not connected"
-msgstr ""
-
-#, c-format
-msgid "Unable to get camera file: %s"
-msgstr ""
-
-#, c-format
-msgid "Cannot delete file while not connected"
-msgstr ""
-
-#, c-format
-msgid "Unable to delete file: %s"
-msgstr ""
-
-#, c-format
-msgid "Cannot wait for events while not connected"
-msgstr ""
-
-#, c-format
-msgid "Unable to wait for events: %s"
-msgstr ""
-
-#, c-format
-msgid "Unable to fetch widget type"
-msgstr ""
-
-#, c-format
-msgid "Unable to fetch widget name"
-msgstr ""
-
-#, c-format
-msgid "Unable to load controls, camera is not connected"
-msgstr ""
-
-#, c-format
-msgid "Unable to fetch camera control configuration: %s"
-msgstr ""
-
-#, c-format
-msgid "Unable to save controls, camera is not connected"
-msgstr ""
-
-#, c-format
-msgid "Unable to save controls, camera is not configurable"
-msgstr ""
-
-#, c-format
-msgid "Unable to save camera control configuration: %s"
-msgstr ""
-
-#, c-format
-msgid "Controls not available when camera is disconnected"
-msgstr ""
-
-#, c-format
-msgid "Controls not available for this camera"
-msgstr ""
-
-#, c-format
-msgid "Viewfinder control not available with this camera"
-msgstr ""
-
-#, c-format
-msgid "Viewfinder control was not a toggle widget"
-msgstr ""
-
-#, c-format
-msgid "Failed to set viewfinder state: %s %d"
-msgstr ""
-
-#, c-format
-msgid "Autofocus control not available with this camera"
-msgstr ""
-
-#, c-format
-msgid "Autofocus control was not a toggle widget"
-msgstr ""
-
-#, c-format
-msgid "Failed to set autofocus state: %s %d"
-msgstr ""
-
-#, c-format
-msgid "Manual focus control not available with this camera"
-msgstr ""
-
-#, c-format
-msgid "Manual focus control was not a range or radio widget"
-msgstr ""
-
-#, c-format
-msgid "Failed to set manual focus state: %s %d"
-msgstr ""
-
-#, c-format
-msgid "Failed to read manual focus choice %d: %s %d"
-msgstr ""
-
-#, c-format
-msgid "Time setting not available with this camera"
-msgstr ""
-
-#, c-format
-msgid "Time setting was not a date widget"
-msgstr ""
-
-#, c-format
-msgid "Failed to set time state: %s %d"
-msgstr ""
-
-#, c-format
-msgid "Capture target setting not available with this camera"
-msgstr ""
-
-#, c-format
-msgid "Time setting was not a choice widget"
-msgstr ""
-
-#, c-format
-msgid "Failed to set capture target: %s %d"
-msgstr ""
-
-msgid "_New window"
-msgstr ""
-
-msgid "_Preferences…"
-msgstr ""
-
-msgid "_Select session…"
-msgstr ""
-
-msgid "_Connect…"
-msgstr ""
-
-msgid "_Disconnect…"
-msgstr ""
-
-msgid "_Help"
-msgstr ""
-
-msgid "_Supported cameras"
-msgstr ""
-
-msgid "_Keyboard shortcuts"
-msgstr ""
-
-msgid "_Manual"
-msgstr ""
-
-msgid "_About"
-msgstr ""
-
-msgid "_Quit"
-msgstr ""
-
-msgid "_Fullscreen"
-msgstr ""
-
-msgid "_Presentation"
-msgstr ""
-
-msgid "_Settings"
-msgstr ""
-
-msgid "_Synchronize capture"
-msgstr ""
-
-msgid "Best Fit"
-msgstr ""
-
-msgid "_Normal Size"
-msgstr ""
-
-msgid "Zoom _In"
-msgstr ""
-
-msgid "Zoom _Out"
-msgstr ""
-
-msgid "Capture an image"
-msgstr "擷取影像"
-
-msgid "Continuous capture preview"
-msgstr "持續擷取預覽"
-
-msgid "This camera does not support image capture"
-msgstr ""
-
-msgid "This camera does not support image preview"
-msgstr ""
-
-#, c-format
-msgid "Operation: %s"
-msgstr ""
-
-msgid "Entangle: Operation failed"
-msgstr ""
-
-msgid "Camera load controls failed"
-msgstr ""
-
-msgid "Entangle: Camera load controls failed"
-msgstr ""
-
-msgid "Monitor"
-msgstr ""
-
-msgid "No camera connected"
-msgstr ""
-
-#, c-format
-msgid "Unable to connect to camera: %s"
-msgstr ""
-
-msgid ""
-"Check that the camera is not\n"
-"\n"
-" - opened by another photo <b>application</b>\n"
-" - mounted as a <b>filesystem</b> on the desktop\n"
-" - in <b>sleep mode</b> to save battery power\n"
-msgstr ""
-
-msgid "Cancel"
-msgstr "取消"
-
-msgid "Retry"
-msgstr ""
-
-msgid "Camera is in use"
-msgstr ""
-
-msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
-msgstr ""
-
-msgid "No"
-msgstr ""
-
-msgid "Yes"
-msgstr ""
-
-msgid "Camera connect failed"
-msgstr ""
-
-msgid "Entangle: Camera connect failed"
-msgstr ""
-
-msgid "Select a folder"
-msgstr ""
-
-msgid "_Cancel"
-msgstr ""
-
-msgid "_Open"
-msgstr ""
-
-msgid "Capture"
-msgstr "擷取"
-
-msgid "Script"
-msgstr ""
-
-msgid "Preview"
-msgstr "預覽"
-
-msgid "Set clock"
-msgstr ""
-
-msgid "Autofocus failed"
-msgstr ""
-
-msgid "Entangle: Camera autofocus failed"
-msgstr ""
-
-msgid "Manual focus failed"
-msgstr ""
-
-msgid "Entangle: Camera manual focus failed"
-msgstr ""
-
-msgid "Delete"
-msgstr ""
-
-msgid "Open"
-msgstr ""
-
-msgid "Open with"
-msgstr ""
-
-msgid "Select application..."
-msgstr ""
-
-msgid "Image histogram"
-msgstr ""
-
-msgid "Automation"
-msgstr ""
-
-msgid "Model"
-msgstr ""
-
-msgid "Port"
-msgstr ""
-
-msgid "Select camera - Entangle"
-msgstr "選擇相機 - Entangle"
-
-msgid "Select a camera to connect to:"
-msgstr "選擇要連接相機："
-
-msgid ""
-"No cameras were detected, check that\n"
-"\n"
-"  - the <b>cables</b> are connected\n"
-"  - the camera is <b>turned on</b>\n"
-"  - the camera is in the <b>correct mode</b>\n"
-"  - the camera is a <b>supported</b> model\n"
-"\n"
-"USB cameras are automatically detected\n"
-"when plugged in, for others try a refresh\n"
-"or enter a network camera IP address"
-msgstr ""
-
-msgid "IP Address:"
-msgstr ""
-
-msgid "Network camera"
-msgstr ""
-
-msgid "capture"
-msgstr ""
-
-msgid "preview"
-msgstr ""
-
-msgid "settings"
-msgstr ""
-
-msgid "label"
-msgstr "標籤"
-
-msgid "Camera control update failed"
-msgstr ""
-
-msgid "Entangle: Camera control update failed"
-msgstr ""
-
-msgid "On"
-msgstr ""
-
-msgid "Off"
-msgstr ""
-
-msgid "Reset controls"
-msgstr ""
-
-msgid "No controls available"
-msgstr ""
-
-msgid "Screen blanking is not available on this display"
-msgstr ""
-
-msgid "Screen blanking is not implemented on this platform"
-msgstr ""
-
-msgid "About - Entangle"
-msgstr "關於 - Entangle"
-
-msgid "Tethered Camera Control & Capture"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Controlling the application"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Open a new camera window"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Close all windows & exit"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Display help manual"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Image display"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Zoom in"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Zoom out"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Zoom normal"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Zoom best"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Toggle image mask"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Toggle overexposure highlighting"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Toggle histogram scale"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Window display"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Fullscreen"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Presentation"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Shutter control"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Capture a single image"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Toggle live preview"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus control (during live preview)"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Autofocus"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus in (small step)"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus out (small step)"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus in (large step)"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus out (large step)"
-msgstr ""
-
-msgid "Interface"
-msgstr ""
-
-msgid "Image Viewer"
-msgstr ""
-
-msgid "Color Management"
-msgstr "色彩管理"
-
-msgid "Plugins"
-msgstr ""
-
-msgid "ICC profiles (*.icc, *.icm)"
-msgstr ""
-
-msgid "All files (*.*)"
-msgstr ""
-
-msgid "1:1 - Square / MF 6x6"
+msgid "0"
 msgstr ""
 
 msgid "1.15:1 - Movietone"
@@ -570,10 +38,10 @@ msgstr ""
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
 msgstr ""
 
-msgid "1.6:1 (8:5, 16:10) - Widescreen"
+msgid "1.66:1 (5:3, 15:9) - Super 16mm"
 msgstr ""
 
-msgid "1.66:1 (5:3, 15:9) - Super 16mm"
+msgid "1.6:1 (8:5, 16:10) - Widescreen"
 msgstr ""
 
 msgid "1.75:1 (7:4) - Widescreen"
@@ -583,6 +51,12 @@ msgid "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
 msgstr ""
 
 msgid "1.85:1 - 35mm Widescreen"
+msgstr ""
+
+msgid "12.00:1 - Circle-Vision 360"
+msgstr ""
+
+msgid "1:1 - Square / MF 6x6"
 msgstr ""
 
 msgid "2.00:1 - SuperScope"
@@ -618,91 +92,37 @@ msgstr ""
 msgid "2.93:1 - MGM Camera 65"
 msgstr ""
 
+msgid "3"
+msgstr ""
+
 msgid "3:1 APS Panorama"
 msgstr ""
 
 msgid "4.00:1 - Polyvision"
 msgstr ""
 
-msgid "12.00:1 - Circle-Vision 360"
-msgstr ""
-
-msgid "None"
-msgstr ""
-
-msgid "Center lines"
-msgstr ""
-
-msgid "Rule of 3rds"
-msgstr ""
-
-msgid "Quarters"
-msgstr ""
-
-msgid "Rule of 5ths"
-msgstr ""
-
-msgid "Golden sections"
-msgstr ""
-
-msgid "Entangle Preferences"
-msgstr ""
-
 msgid "<b>Capture</b>"
 msgstr "<b>擷取</b>"
-
-msgid "Filename pattern:"
-msgstr ""
-
-msgid "Continue preview mode after capture"
-msgstr "擷取後繼續擷取模式"
-
-msgid "Use preview output as capture image"
-msgstr ""
-
-msgid "Delete file from camera after downloading"
-msgstr ""
-
-msgid "Automatically synchronize camera clock"
-msgstr ""
 
 msgid "<b>Colour management</b>"
 msgstr "<b>色彩管理</b>"
 
-msgid "Mode of operation:"
-msgstr ""
-
-msgid "RGB profile:"
-msgstr ""
-
-msgid "Monitor profile:"
-msgstr ""
-
-msgid "Rendering intent:"
-msgstr ""
-
-msgid "Detect the system monitor profile"
-msgstr ""
-
-msgid "Colour managed display"
-msgstr ""
-
-msgid "<b>Plugins</b>"
+msgid "<b>Image Viewer</b>"
 msgstr ""
 
 msgid "<b>Interface</b>"
 msgstr ""
 
-msgid "Automatically connect to cameras at startup"
+msgid "<b>Plugins</b>"
 msgstr ""
 
-msgid "Blank screen when capturing images"
+msgid "About - Entangle"
+msgstr "關於 - Entangle"
+
+msgid "Absolute colourimetric"
 msgstr ""
 
-msgid "Show linear histogram"
-msgstr ""
-
-msgid "<b>Image Viewer</b>"
+msgid "All files (*.*)"
 msgstr ""
 
 msgid "Apply mask to alter aspect ratio"
@@ -711,72 +131,166 @@ msgstr ""
 msgid "Aspect ratio:"
 msgstr ""
 
-msgid "Mask opacity:"
+msgctxt "shortcut window"
+msgid "Autofocus"
 msgstr ""
 
-msgid "0"
+#, c-format
+msgid "Autofocus control not available with this camera"
 msgstr ""
 
-msgid "Display focus point during preview"
+#, c-format
+msgid "Autofocus control was not a toggle widget"
 msgstr ""
 
-msgid "Grid lines:"
+msgid "Autofocus failed"
 msgstr ""
 
-msgid "Use embedded preview from raw files"
+msgid "Automatically connect to cameras at startup"
 msgstr ""
 
-msgid "Overlay earlier images"
+msgid "Automatically synchronize camera clock"
 msgstr ""
 
-msgid "Overlay layers:"
-msgstr ""
-
-msgid "3"
+msgid "Automation"
 msgstr ""
 
 msgid "Background:"
 msgstr ""
 
-msgid "Highlight:"
+msgid "Best Fit"
 msgstr ""
 
-msgid "Highlight areas of overexposure"
+msgid "Blank screen when capturing images"
 msgstr ""
 
-msgid "Perceptual"
+msgid "Camera connect failed"
 msgstr ""
 
-msgid "Relative colourimetric"
+msgid "Camera control update failed"
 msgstr ""
 
-msgid "Saturation"
+msgid "Camera is in use"
 msgstr ""
 
-msgid "Absolute colourimetric"
+msgid "Camera load controls failed"
 msgstr ""
 
-msgid "Untitled script"
+msgid "Cancel"
+msgstr "取消"
+
+#, c-format
+msgid "Cannot capture image while not opened"
 msgstr ""
 
-msgid "No script"
+#, c-format
+msgid "Cannot delete file while not opened"
 msgstr ""
 
-msgid "No config options"
+#, c-format
+msgid "Cannot download file while not opened"
 msgstr ""
 
-msgid "Missing 'execute' method implementation"
+#, c-format
+msgid "Cannot initialize gphoto2 abilities"
+msgstr ""
+
+#, c-format
+msgid "Cannot initialize gphoto2 ports"
+msgstr ""
+
+#, c-format
+msgid "Cannot load gphoto2 abilities"
+msgstr ""
+
+#, c-format
+msgid "Cannot load gphoto2 ports"
+msgstr ""
+
+#, c-format
+msgid "Cannot preview image while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot wait for events while not opened"
+msgstr ""
+
+msgid "Capture"
+msgstr "擷取"
+
+msgctxt "shortcut window"
+msgid "Capture a single image"
+msgstr ""
+
+msgid "Capture an image"
+msgstr "擷取影像"
+
+#, c-format
+msgid "Capture target setting not available with this camera"
+msgstr ""
+
+msgid "Capture;Camera;Tethered;Photo;"
+msgstr ""
+
+msgid "Center lines"
+msgstr ""
+
+msgid ""
+"Check that the camera is not\n"
+"\n"
+" - opened by another photo <b>application</b>\n"
+" - mounted as a <b>filesystem</b> on the desktop\n"
+" - in <b>sleep mode</b> to save battery power\n"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Close all windows & exit"
+msgstr ""
+
+msgid "Color Management"
+msgstr "色彩管理"
+
+msgid "Colour managed display"
+msgstr ""
+
+msgid "Continue preview mode after capture"
+msgstr "擷取後繼續擷取模式"
+
+msgid "Continuous capture preview"
+msgstr "持續擷取預覽"
+
+msgctxt "shortcut window"
+msgid "Controlling the application"
+msgstr ""
+
+#, c-format
+msgid "Controls not available for this camera"
+msgstr ""
+
+#, c-format
+msgid "Controls not available when camera is closeed"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete file from camera after downloading"
+msgstr ""
+
+msgid "Detect the system monitor profile"
+msgstr ""
+
+msgid "Display focus point during preview"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Display help manual"
 msgstr ""
 
 msgid "Entangle"
 msgstr ""
 
-msgid "Tethered Camera Control &amp; Capture"
-msgstr ""
-
-msgid ""
-"Entangle is a program used to control digital cameras that are connected to "
-"the computer via USB."
+msgid "Entangle Preferences"
 msgstr ""
 
 msgid ""
@@ -788,82 +302,502 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Entangle is a program used to control digital cameras that are connected to "
+"the computer via USB."
+msgstr ""
+
+msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
 msgstr ""
 
+msgid "Entangle: Camera autofocus failed"
+msgstr ""
+
+msgid "Entangle: Camera connect failed"
+msgstr ""
+
+msgid "Entangle: Camera control update failed"
+msgstr ""
+
+msgid "Entangle: Camera load controls failed"
+msgstr ""
+
+msgid "Entangle: Camera manual focus failed"
+msgstr ""
+
+msgid "Entangle: Operation failed"
+msgstr ""
+
+#, c-format
+msgid "Failed to read manual focus choice %d: %s %d"
+msgstr ""
+
+#, c-format
+msgid "Failed to set autofocus state: %s %d"
+msgstr ""
+
+#, c-format
+msgid "Failed to set capture target: %s %d"
+msgstr ""
+
+#, c-format
+msgid "Failed to set manual focus state: %s %d"
+msgstr ""
+
+#, c-format
+msgid "Failed to set time state: %s %d"
+msgstr ""
+
+#, c-format
+msgid "Failed to set viewfinder state: %s %d"
+msgstr ""
+
+msgid "Filename pattern:"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Golden sections"
+msgstr ""
+
+msgid "Grid lines:"
+msgstr ""
+
+msgid "Highlight areas of overexposure"
+msgstr ""
+
+msgid "Highlight:"
+msgstr ""
+
+msgid "ICC profiles (*.icc, *.icm)"
+msgstr ""
+
+msgid "IP Address:"
+msgstr ""
+
+msgid "Image Viewer"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Image display"
+msgstr ""
+
+msgid "Image histogram"
+msgstr ""
+
+msgid "Interface"
+msgstr ""
+
+#, c-format
+msgid "Manual focus control not available with this camera"
+msgstr ""
+
+#, c-format
+msgid "Manual focus control was not a range or radio widget"
+msgstr ""
+
+msgid "Manual focus failed"
+msgstr ""
+
+msgid "Mask opacity:"
+msgstr ""
+
+msgid "Missing 'execute' method implementation"
+msgstr ""
+
+msgid "Mode of operation:"
+msgstr ""
+
+msgid "Model"
+msgstr ""
+
+msgid "Monitor"
+msgstr ""
+
+msgid "Monitor profile:"
+msgstr ""
+
+msgid "Network camera"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "No camera connected"
+msgstr ""
+
+msgid ""
+"No cameras were detected, check that\n"
+"\n"
+"  - the <b>cables</b> are connected\n"
+"  - the camera is <b>turned on</b>\n"
+"  - the camera is in the <b>correct mode</b>\n"
+"  - the camera is a <b>supported</b> model\n"
+"\n"
+"USB cameras are automatically detected\n"
+"when plugged in, for others try a refresh\n"
+"or enter a network camera IP address"
+msgstr ""
+
+msgid "No config options"
+msgstr ""
+
+msgid "No controls available"
+msgstr ""
+
+msgid "No script"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Open a new camera window"
+msgstr ""
+
+msgid "Open with"
+msgstr ""
+
+#, c-format
+msgid "Operation: %s"
+msgstr ""
+
+msgid "Overlay earlier images"
+msgstr ""
+
+msgid "Overlay layers:"
+msgstr ""
+
+msgid "Pattern must contain 'XXXXXX' placeholder"
+msgstr ""
+
+msgid "Perceptual"
+msgstr ""
+
+msgid "Plugins"
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Presentation"
+msgstr ""
+
+msgid "Preview"
+msgstr "預覽"
+
+msgid "Quarters"
+msgstr ""
+
+msgid "RGB profile:"
+msgstr ""
+
+msgid "Relative colourimetric"
+msgstr ""
+
+msgid "Rendering intent:"
+msgstr ""
+
+msgid "Reset controls"
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "Rule of 3rds"
+msgstr ""
+
+msgid "Rule of 5ths"
+msgstr ""
+
+msgid "Saturation"
+msgstr ""
+
+msgid "Screen blanking is not available on this display"
+msgstr ""
+
+msgid "Screen blanking is not implemented on this platform"
+msgstr ""
+
+msgid "Script"
+msgstr ""
+
+msgid "Select a camera to connect to:"
+msgstr "選擇要連接相機："
+
+msgid "Select a folder"
+msgstr ""
+
+msgid "Select application..."
+msgstr ""
+
+msgid "Select camera - Entangle"
+msgstr "選擇相機 - Entangle"
+
+msgid "Set clock"
+msgstr ""
+
+msgid "Show linear histogram"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Shutter control"
+msgstr ""
+
+msgid "Tethered Camera Control & Capture"
+msgstr ""
+
+msgid "Tethered Camera Control &amp; Capture"
+msgstr ""
+
 msgid "The Entangle Photo project"
 msgstr ""
 
-msgid "Require gobject introspection &gt;= 1.54"
+msgid ""
+"The camera cannot be opened because it is currently mounted as a filesystem. "
+"Do you wish to umount it now ?"
 msgstr ""
 
-msgid "Require GTK3 &gt;= 3.22"
+msgid "This camera does not support image capture"
 msgstr ""
 
-msgid "Fix dependency on libraw"
+msgid "This camera does not support image preview"
 msgstr ""
 
-msgid "Fix variable name in photobox plugin"
+#, c-format
+msgid "Time setting not available with this camera"
 msgstr ""
 
-msgid "Document some missing keyboard shortcuts"
+#, c-format
+msgid "Time setting was not a choice widget"
 msgstr ""
 
-msgid "Fix upper bound in histogram to display clipped pixel"
+#, c-format
+msgid "Time setting was not a date widget"
 msgstr ""
 
-msgid "Refresh translations"
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
 msgstr ""
 
-msgid "Option to highlight over exposed pixels in red"
+msgctxt "shortcut window"
+msgid "Toggle image mask"
 msgstr ""
 
-msgid "Disable noisy compiler warning"
+msgctxt "shortcut window"
+msgid "Toggle live preview"
 msgstr ""
 
-msgid "Remove use of deprecated application menu concept"
+msgctxt "shortcut window"
+msgid "Toggle overexposure highlighting"
 msgstr ""
 
-msgid "Fix image redraw when changing some settings"
+#, c-format
+msgid "Unable to capture image: %s"
 msgstr ""
 
-msgid "Update mailing list address in appdaat"
+#, c-format
+msgid "Unable to capture preview: %s"
 msgstr ""
 
-msgid "Add more fields to appdata content"
+#, c-format
+msgid "Unable to connect to camera: %s"
 msgstr ""
 
-msgid "Fix reference counting during window close"
+#, c-format
+msgid "Unable to delete file: %s"
 msgstr ""
 
-msgid "Use correct API for destroying top level windows"
+#, c-format
+msgid "Unable to fetch camera control configuration: %s"
 msgstr ""
 
-msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+#, c-format
+msgid "Unable to fetch widget name"
 msgstr ""
 
-msgid "Avoid out of bounds read of property values"
+#, c-format
+msgid "Unable to fetch widget type"
 msgstr ""
 
-msgid "Fix many memory leaks"
+#, c-format
+msgid "Unable to get camera file: %s"
 msgstr ""
 
-msgid "Workaround for combo boxes not displaying on Wayland"
+#, c-format
+msgid "Unable to get file data: %s"
 msgstr ""
 
-msgid "Fix race condition in building enums"
+#, c-format
+msgid "Unable to get filename: %s"
 msgstr ""
 
-msgid "Fix setting of gschema directory during startup"
+#, c-format
+msgid "Unable to initialize camera: %s"
 msgstr ""
 
-msgid "Set env to ensure plugins can find introspection typelib"
+#, c-format
+msgid "Unable to load controls, camera is not opened"
 msgstr ""
 
-msgid "entangle"
+#, c-format
+msgid "Unable to save camera control configuration: %s"
 msgstr ""
 
-msgid "Capture;Camera;Tethered;Photo;"
+#, c-format
+msgid "Unable to save controls, camera is not configurable"
+msgstr ""
+
+#, c-format
+msgid "Unable to save controls, camera is not opened"
+msgstr ""
+
+#, c-format
+msgid "Unable to wait for events: %s"
+msgstr ""
+
+msgid "Untitled script"
+msgstr ""
+
+msgid "Use embedded preview from raw files"
+msgstr ""
+
+msgid "Use preview output as capture image"
+msgstr ""
+
+#, c-format
+msgid "Viewfinder control not available with this camera"
+msgstr ""
+
+#, c-format
+msgid "Viewfinder control was not a toggle widget"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Window display"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "Zoom _In"
+msgstr ""
+
+msgid "Zoom _Out"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Zoom best"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Zoom normal"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr ""
+
+msgid "_About"
+msgstr ""
+
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Connect…"
+msgstr ""
+
+msgid "_Disconnect…"
+msgstr ""
+
+msgid "_Fullscreen"
+msgstr ""
+
+msgid "_Help"
+msgstr ""
+
+msgid "_Keyboard shortcuts"
+msgstr ""
+
+msgid "_Manual"
+msgstr ""
+
+msgid "_New window"
+msgstr ""
+
+msgid "_Normal Size"
+msgstr ""
+
+msgid "_Open"
+msgstr ""
+
+msgid "_Preferences…"
+msgstr ""
+
+msgid "_Presentation"
+msgstr ""
+
+msgid "_Quit"
+msgstr ""
+
+msgid "_Select session…"
+msgstr ""
+
+msgid "_Settings"
+msgstr ""
+
+msgid "_Supported cameras"
+msgstr ""
+
+msgid "_Synchronize capture"
+msgstr ""
+
+msgid "capture"
+msgstr ""
+
+msgid "label"
+msgstr "標籤"
+
+msgid "preview"
+msgstr ""
+
+msgid "settings"
 msgstr ""

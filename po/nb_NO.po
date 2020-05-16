@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-03 22:10+0000\n"
+"POT-Creation-Date: 2020-05-16 23:09+0100\n"
 "PO-Revision-Date: 2020-05-15 08:24+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.fedoraproject.org/"
@@ -18,568 +18,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.0.4\n"
 
-#, c-format
-msgid "Cannot initialize gphoto2 abilities"
-msgstr "Kan ikke igangsette gphoto2-funksjonalitet"
-
-#, c-format
-msgid "Cannot load gphoto2 abilities"
-msgstr "Kan ikke laste inn gphoto2-funksjonalitet"
-
-#, fuzzy, c-format
-msgid "Cannot initialize gphoto2 ports"
-msgstr "Kan ikke igangsette porter for gphoto2"
-
-#, c-format
-msgid "Cannot load gphoto2 ports"
-msgstr "Kan ikke laste inn porter for gphoto2"
-
-#, c-format
-msgid "Unable to initialize camera: %s"
-msgstr "Kunne ikke igangsette kamera: %s"
-
-#, c-format
-msgid "Cannot capture image while not connected"
-msgstr "Kunne ikke knipse bilde uten tilkobling"
-
-#, c-format
-msgid "Unable to capture image: %s"
-msgstr "Kunne ikke knipse bilde: %s"
-
-#, c-format
-msgid "Cannot preview image while not connected"
-msgstr "Kan ikke forhåndsvise bilde uten tilkobling"
-
-#, c-format
-msgid "Unable to capture preview: %s"
-msgstr "Kunne ikke knipse forhåndsvisning: %s"
-
-#, c-format
-msgid "Unable to get file data: %s"
-msgstr "Kunne ikke hente fildata: %s"
-
-#, c-format
-msgid "Unable to get filename: %s"
-msgstr "Kunne ikke hente filnavn: %s"
-
-#, c-format
-msgid "Cannot download file while not connected"
-msgstr "Kan ikke laste ned fil uten tilkobling"
-
-#, c-format
-msgid "Unable to get camera file: %s"
-msgstr "Kunne ikke hente kamerafil: %s"
-
-#, c-format
-msgid "Cannot delete file while not connected"
-msgstr "Kan ikke slette fil uten tilkobling"
-
-#, c-format
-msgid "Unable to delete file: %s"
-msgstr "Kunne ikke slette fil: %s"
-
-#, c-format
-msgid "Cannot wait for events while not connected"
-msgstr "Kan ikke vente på hendelser uten tilkobling"
-
-#, c-format
-msgid "Unable to wait for events: %s"
-msgstr "Kunne ikke vente på hendelser: %s"
-
-#, c-format
-msgid "Unable to fetch widget type"
-msgstr "Kunne ikke hente miniprogramstype"
-
-#, c-format
-msgid "Unable to fetch widget name"
-msgstr "Kunne ikke hente miniprogramsnavn"
-
-#, c-format
-msgid "Unable to load controls, camera is not connected"
-msgstr "Kunne ikke laste inn styringskontroller, kamera er frakoblet"
-
-#, c-format
-msgid "Unable to fetch camera control configuration: %s"
-msgstr "Kunne ikke hente oppsett for kamerastyring: %s"
-
-#, c-format
-msgid "Unable to save controls, camera is not connected"
-msgstr "Kunne ikke lagre styringskontroller, kamera er frakoblet"
-
-#, c-format
-msgid "Unable to save controls, camera is not configurable"
-msgstr "Kunne ikke lagre styringskontroller, kamera kan ikke settes opp"
-
-#, c-format
-msgid "Unable to save camera control configuration: %s"
-msgstr "Kunne ikke lagre oppsett av kamerastyring: %s"
-
-#, c-format
-msgid "Controls not available when camera is disconnected"
-msgstr "Styringskontroller ikke tilgjengeligere når kamera er frakoblet"
-
-#, c-format
-msgid "Controls not available for this camera"
-msgstr "Styringskontroller ikke tilgjengelige for dette kameraet"
-
-#, c-format
-msgid "Viewfinder control not available with this camera"
-msgstr "Søkerstyring ikke tilgjengelig med dette kameraet"
-
-#, c-format
-msgid "Viewfinder control was not a toggle widget"
-msgstr "Søkerstyring er ikke et miniprogram som kan skrus av og på"
-
-#, fuzzy, c-format
-msgid "Failed to set viewfinder state: %s %d"
-msgstr "Klarte ikke å sette søkermodus: %s %d"
-
-#, c-format
-msgid "Autofocus control not available with this camera"
-msgstr "Autofokus-styring ikke tilgjengelig med dette kameraet"
-
-#, c-format
-msgid "Autofocus control was not a toggle widget"
-msgstr "Autofokusstyring er ikke et miniprogram som lar seg skru av og på"
-
-#, c-format
-msgid "Failed to set autofocus state: %s %d"
-msgstr "Klarte ikke å sette autofokustilstand: %s %d"
-
-#, c-format
-msgid "Manual focus control not available with this camera"
-msgstr "Manuell fokusstyring ikke tilgjengelig med dette kameraet"
-
-#, fuzzy, c-format
-msgid "Manual focus control was not a range or radio widget"
-msgstr ""
-"Manuell fokusstyring utenfor gyldig rekkevidde eller et valgbart miniprogram"
-
-#, c-format
-msgid "Failed to set manual focus state: %s %d"
-msgstr "Klarte ikke å sette manuell fokustilstand: %s %d"
-
-#, c-format
-msgid "Failed to read manual focus choice %d: %s %d"
-msgstr "Klarte ikke å lese manuelt fokusvalg %d: %s %d"
-
-#, c-format
-msgid "Time setting not available with this camera"
-msgstr "Tidsinnstilling ikke tilgjengelig med dette kameraet"
-
-#, fuzzy, c-format
-msgid "Time setting was not a date widget"
-msgstr "Tidsinnstilling var ikke et dato-miniprogram"
-
-#, c-format
-msgid "Failed to set time state: %s %d"
-msgstr "Klarte ikke å sette tidstilstand: %s %d"
-
-#, c-format
-msgid "Capture target setting not available with this camera"
-msgstr "Innstilling for opptaksmål ikke tilgjengelig med dette kameraet"
-
-#, fuzzy, c-format
-msgid "Time setting was not a choice widget"
-msgstr "Tidsinnstilling var ikke et innstillings-miniprogram"
-
-#, c-format
-msgid "Failed to set capture target: %s %d"
-msgstr "Klarte ikke å sette opptaksmål: %s %d"
-
-msgid "_New window"
-msgstr "_Nytt vindu"
-
-msgid "_Preferences…"
-msgstr "_Innstillinger…"
-
-msgid "_Select session…"
-msgstr "_Velg økt…"
-
-msgid "_Connect…"
-msgstr "_Koble til"
-
-msgid "_Disconnect…"
-msgstr "Koble _fra…"
-
-msgid "_Help"
-msgstr "_Hjelp"
-
-msgid "_Supported cameras"
-msgstr "_Støttede kamera"
-
-msgid "_Keyboard shortcuts"
-msgstr "_Tastatursnarveier"
-
-msgid "_Manual"
-msgstr "_Manual"
-
-msgid "_About"
-msgstr "_Om"
-
-msgid "_Quit"
-msgstr "_Avslutt"
-
-msgid "_Fullscreen"
-msgstr "_Fullskjermsvisning"
-
-msgid "_Presentation"
-msgstr "_Presentasjon"
-
-msgid "_Settings"
-msgstr "_Innstillinger"
-
-msgid "_Synchronize capture"
-msgstr "_Synkroniser opptak"
-
-msgid "Best Fit"
-msgstr "Beste tilpasning"
-
-msgid "_Normal Size"
-msgstr "_Normal størrelse"
-
-msgid "Zoom _In"
-msgstr "_Forstørr"
-
-msgid "Zoom _Out"
-msgstr "_Forminsk"
-
-msgid "Capture an image"
-msgstr "Knips et bilde"
-
-msgid "Continuous capture preview"
-msgstr "Vedvarende opptaksforhåndsvisning"
-
-msgid "This camera does not support image capture"
-msgstr "Dette kameraet støtter ikke bildeknipsing"
-
-msgid "This camera does not support image preview"
-msgstr "Dette kameraet støtter ikke bildeforhåndsvisning"
-
-#, c-format
-msgid "Operation: %s"
-msgstr "Operasjon: %s"
-
-msgid "Entangle: Operation failed"
-msgstr "Entangle: Operasjon mislyktes"
-
-msgid "Camera load controls failed"
-msgstr "Innlasting av kamerastyring mislyktes"
-
-msgid "Entangle: Camera load controls failed"
-msgstr "Entangle: Innlasting av kamerastyring mislyktes"
-
-#, fuzzy
-msgid "Monitor"
-msgstr "Overvåk"
-
-msgid "No camera connected"
-msgstr "Ingen kamera tilknyttet"
-
-#, c-format
-msgid "Unable to connect to camera: %s"
-msgstr "Kunne ikke koble til kamera: %s"
-
-msgid ""
-"Check that the camera is not\n"
-"\n"
-" - opened by another photo <b>application</b>\n"
-" - mounted as a <b>filesystem</b> on the desktop\n"
-" - in <b>sleep mode</b> to save battery power\n"
-msgstr ""
-"Sjekk at kameraet ikke\n"
-"\n"
-" - Brukes av et annet bilde-<b>program</b>\n"
-" - Montert som et <b>filsystem</b> på skrivebordet\n"
-" - Er i <b>dvalemodus</b> for å spare batteri\n"
-
-msgid "Cancel"
-msgstr "Avbryt"
-
-msgid "Retry"
-msgstr "Prøv igjen"
-
-msgid "Camera is in use"
-msgstr "Kamera i bruk"
-
-#, fuzzy
-msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
-msgstr ""
-"Kameraet kan ikke åpnes fordi det ikke er montert som et filsystem. Ønsker "
-"du å avmontere det nå?"
-
-msgid "No"
-msgstr "Nei"
-
-msgid "Yes"
-msgstr "Ja"
-
-msgid "Camera connect failed"
-msgstr "Tilkobling av kamera mislyktes"
-
-msgid "Entangle: Camera connect failed"
-msgstr "Entangle: Tilkobling av kamera mislyktes"
-
-msgid "Select a folder"
-msgstr "Velg en mappe"
-
-msgid "_Cancel"
-msgstr "_Avbryt"
-
-msgid "_Open"
-msgstr "_Åpne"
-
-msgid "Capture"
-msgstr "Opptak"
-
-msgid "Script"
-msgstr "Skript"
-
-msgid "Preview"
-msgstr "Forhåndsvisning"
-
-msgid "Set clock"
-msgstr "Still klokken"
-
-msgid "Autofocus failed"
-msgstr "Autofokus mislyktes"
-
-msgid "Entangle: Camera autofocus failed"
-msgstr "Entangle: Kamera-autofokus mislyktes"
-
-msgid "Manual focus failed"
-msgstr "Manuell fokus mislyktes"
-
-msgid "Entangle: Camera manual focus failed"
-msgstr "Entangle: Manuell kamera-autofokus mislyktes"
-
-msgid "Delete"
-msgstr "Slett"
-
-msgid "Open"
-msgstr "Åpne"
-
-msgid "Open with"
-msgstr "Åpne med"
-
-msgid "Select application..."
-msgstr "Velg program…"
-
-msgid "Image histogram"
-msgstr "Bildehistogram"
-
-msgid "Automation"
-msgstr "Automasjon"
-
-msgid "Model"
-msgstr "Modell"
-
-msgid "Port"
-msgstr "Port"
-
-msgid "Select camera - Entangle"
-msgstr "Velg kamera - Entangle"
-
-msgid "Select a camera to connect to:"
-msgstr "Velg et kamera å koble til:"
-
-msgid ""
-"No cameras were detected, check that\n"
-"\n"
-"  - the <b>cables</b> are connected\n"
-"  - the camera is <b>turned on</b>\n"
-"  - the camera is in the <b>correct mode</b>\n"
-"  - the camera is a <b>supported</b> model\n"
-"\n"
-"USB cameras are automatically detected\n"
-"when plugged in, for others try a refresh\n"
-"or enter a network camera IP address"
-msgstr ""
-"Fant ingen kamera, sjekk at\n"
-"\n"
-"  - <b>Kablene</b> er satt i\n"
-"  - Kameraet er <b>påsrkudd</b>\n"
-"  - Kameraet er i <b>rett modus</b>\n"
-"  - Kameraet er en <b>støttet</b> modell\n"
-"\n"
-"USB-kameraer oppdages automatisk når\n"
-"de plugges inn. Med andre kan du prøve å oppdatere\n"
-"eller skrive inn IP-adresse for nettverkskamera."
-
-msgid "IP Address:"
-msgstr "IP-adresse:"
-
-msgid "Network camera"
-msgstr "Nettverkskamera"
-
-#, fuzzy
-msgid "capture"
-msgstr "knips"
-
-msgid "preview"
-msgstr "forhåndsvis"
-
-msgid "settings"
-msgstr "innstillinger"
-
-msgid "label"
-msgstr "etikett"
-
-msgid "Camera control update failed"
-msgstr "Oppdatering av kamerastyring mislyktes"
-
-msgid "Entangle: Camera control update failed"
-msgstr "Entangle: Oppdatering av kamerastyring mislyktes"
-
-msgid "On"
-msgstr "Påslått"
-
-msgid "Off"
-msgstr "Avslått"
-
-msgid "Reset controls"
-msgstr "Tilbakestill styringskontroller"
-
-msgid "No controls available"
-msgstr "Ingen styringskontroller tilgjengelige"
-
-msgid "Screen blanking is not available on this display"
-msgstr "Skjermtømming er ikke tilgjengelig for denne skjermen"
-
-#, fuzzy
-msgid "Screen blanking is not implemented on this platform"
-msgstr "Skjermtømming er ikke implementert på denne plattformen"
-
-msgid "About - Entangle"
-msgstr "Om - Entangle"
-
-msgid "Tethered Camera Control & Capture"
-msgstr "Tjudret kamerastyring og opptak"
-
-msgctxt "shortcut window"
-msgid "Controlling the application"
-msgstr "Styring av programmet"
-
-msgctxt "shortcut window"
-msgid "Open a new camera window"
-msgstr "Åpne et nytt kameravindu"
-
-msgctxt "shortcut window"
-msgid "Close all windows & exit"
-msgstr "Lukk alle vinduer og avslutt"
-
-msgctxt "shortcut window"
-msgid "Display help manual"
-msgstr "Vis hjelpemanualen"
-
-msgctxt "shortcut window"
-msgid "Image display"
-msgstr "Bildeforhåndsvisning"
-
-msgctxt "shortcut window"
-msgid "Zoom in"
-msgstr "Forstørr"
-
-msgctxt "shortcut window"
-msgid "Zoom out"
-msgstr "Forminsk"
-
-msgctxt "shortcut window"
-msgid "Zoom normal"
-msgstr "Opprinnelig forstørrelsesnivå"
-
-msgctxt "shortcut window"
-msgid "Zoom best"
-msgstr "Beste forstørrelsesnivå"
-
-msgctxt "shortcut window"
-msgid "Toggle image mask"
-msgstr "Skru bildemaske av/på"
-
-#, fuzzy
-msgctxt "shortcut window"
-msgid "Toggle overexposure highlighting"
-msgstr "Skru framheving av overeksponering av/på"
-
-#, fuzzy
-msgctxt "shortcut window"
-msgid "Toggle histogram scale"
-msgstr "Skru historgramskala av/på"
-
-#, fuzzy
-msgctxt "shortcut window"
-msgid "Window display"
-msgstr "Vindusvisning"
-
-msgctxt "shortcut window"
-msgid "Fullscreen"
-msgstr "Fullskjermsvisning"
-
-msgctxt "shortcut window"
-msgid "Presentation"
-msgstr "Presentasjon"
-
-msgctxt "shortcut window"
-msgid "Shutter control"
-msgstr "Lukkerstyring"
-
-msgctxt "shortcut window"
-msgid "Capture a single image"
-msgstr "Knips ett bilde"
-
-msgctxt "shortcut window"
-msgid "Toggle live preview"
-msgstr "Skru sanntidsforhåndsvisning av/på"
-
-msgctxt "shortcut window"
-msgid "Focus control (during live preview)"
-msgstr "Fokuskontroll (under sanntidsforhåndsvisning)"
-
-msgctxt "shortcut window"
-msgid "Autofocus"
-msgstr "Autofokus"
-
-#, fuzzy
-msgctxt "shortcut window"
-msgid "Focus in (small step)"
-msgstr "Fokuser innover (lite steg)"
-
-msgctxt "shortcut window"
-msgid "Focus out (small step)"
-msgstr "Fokuser utover (lite steg)"
-
-#, fuzzy
-msgctxt "shortcut window"
-msgid "Focus in (large step)"
-msgstr "Fokuser innover (stort steg)"
-
-#, fuzzy
-msgctxt "shortcut window"
-msgid "Focus out (large step)"
-msgstr "Fokuser utover (stort steg)"
-
-msgid "Interface"
-msgstr "Grensesnitt"
-
-msgid "Image Viewer"
-msgstr "Bildeviser"
-
-msgid "Color Management"
-msgstr "Fargebehandling"
-
-msgid "Plugins"
-msgstr "Programtillegg"
-
-msgid "ICC profiles (*.icc, *.icm)"
-msgstr "ICC-profiler (*.icc, *.icm)"
-
-msgid "All files (*.*)"
-msgstr "Alle filer (*.*)"
-
-msgid "1:1 - Square / MF 6x6"
-msgstr "1:1 - Kvadrat / MF 6x6"
+msgid "0"
+msgstr "0"
 
 msgid "1.15:1 - Movietone"
 msgstr "1.15:1 - Movietone"
@@ -597,12 +37,12 @@ msgstr "1.44:1 - IMAX"
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
 msgstr "1.50:1 (3:2, 15:10)- 35mm SLR"
 
+msgid "1.66:1 (5:3, 15:9) - Super 16mm"
+msgstr "1.66:1 (5:3, 15:9) - Super 16mm"
+
 #, fuzzy
 msgid "1.6:1 (8:5, 16:10) - Widescreen"
 msgstr "1.6:1 (8:5, 16:10) - Bredskjerm"
-
-msgid "1.66:1 (5:3, 15:9) - Super 16mm"
-msgstr "1.66:1 (5:3, 15:9) - Super 16mm"
 
 #, fuzzy
 msgid "1.75:1 (7:4) - Widescreen"
@@ -615,6 +55,12 @@ msgstr "1.77:1 (16:9) - APS-H / HDTV / Bredskjerm"
 #, fuzzy
 msgid "1.85:1 - 35mm Widescreen"
 msgstr "1.85:1 - 35mm Bredskjerm"
+
+msgid "12.00:1 - Circle-Vision 360"
+msgstr "12.00:1 - Circle-Vision 360"
+
+msgid "1:1 - Square / MF 6x6"
+msgstr "1:1 - Kvadrat / MF 6x6"
 
 msgid "2.00:1 - SuperScope"
 msgstr "2.00:1 - SuperScope"
@@ -652,94 +98,38 @@ msgstr "2.76:1 (11:4) - Ultra Panavision"
 msgid "2.93:1 - MGM Camera 65"
 msgstr "2.93:1 - MGM Camera 65"
 
+msgid "3"
+msgstr "3"
+
 msgid "3:1 APS Panorama"
 msgstr "3:1 APS Panorama"
 
 msgid "4.00:1 - Polyvision"
 msgstr "4.00:1 - Polyvision"
 
-msgid "12.00:1 - Circle-Vision 360"
-msgstr "12.00:1 - Circle-Vision 360"
-
-msgid "None"
-msgstr "Ingen"
-
-#, fuzzy
-msgid "Center lines"
-msgstr "Midtlinjer"
-
-msgid "Rule of 3rds"
-msgstr "Tredjedelsregelen"
-
-msgid "Quarters"
-msgstr "Fjerdedeler"
-
-msgid "Rule of 5ths"
-msgstr "Femtedelsregelen"
-
-msgid "Golden sections"
-msgstr "Gyldne snitt"
-
-msgid "Entangle Preferences"
-msgstr "Entangle-innstillinger"
-
 msgid "<b>Capture</b>"
 msgstr "<b>Opptak</b>"
-
-msgid "Filename pattern:"
-msgstr "Filnavnsmønster:"
-
-msgid "Continue preview mode after capture"
-msgstr "Fortsett forhåndsvisning etter opptak"
-
-msgid "Use preview output as capture image"
-msgstr "Bruk forhåndsvisning som opptaksbilde"
-
-msgid "Delete file from camera after downloading"
-msgstr "Slett fil fra kamera etter nedlasting"
-
-msgid "Automatically synchronize camera clock"
-msgstr "Synkroniser kameraklokke automatisk"
 
 msgid "<b>Colour management</b>"
 msgstr "<b>Fargebehandling</b>"
 
-msgid "Mode of operation:"
-msgstr "Operasjonsmodus:"
-
-msgid "RGB profile:"
-msgstr "RGB-profil:"
-
-msgid "Monitor profile:"
-msgstr "Monitorprofil:"
-
-msgid "Rendering intent:"
-msgstr "Opptegningsintensjon:"
-
-msgid "Detect the system monitor profile"
-msgstr "Oppdag systemskjermprofilen"
-
-msgid "Colour managed display"
-msgstr "Fargekorrigert skjerm"
-
-msgid "<b>Plugins</b>"
-msgstr "<b>Programtillegg</b>"
+msgid "<b>Image Viewer</b>"
+msgstr "<b>Bildeviser</b>"
 
 msgid "<b>Interface</b>"
 msgstr "<b>Grensesnitt</b>"
 
-msgid "Automatically connect to cameras at startup"
-msgstr "Koble til kamera automatisk ved oppstart"
+msgid "<b>Plugins</b>"
+msgstr "<b>Programtillegg</b>"
 
-msgid "Blank screen when capturing images"
-msgstr "Tøm skjermen ved bildeknipsing"
+msgid "About - Entangle"
+msgstr "Om - Entangle"
 
-#, fuzzy
-msgid "Show linear histogram"
-msgstr "Vis lineært histogram"
+msgid "Absolute colourimetric"
+msgstr "Absolutt kolorimetrisk"
 
-msgid "<b>Image Viewer</b>"
-msgstr "<b>Bildeviser</b>"
+msgid "All files (*.*)"
+msgstr "Alle filer (*.*)"
 
 msgid "Apply mask to alter aspect ratio"
 msgstr "Tillagt maske for endring av bildeformat"
@@ -747,79 +137,173 @@ msgstr "Tillagt maske for endring av bildeformat"
 msgid "Aspect ratio:"
 msgstr "Bildeformat:"
 
-#, fuzzy
-msgid "Mask opacity:"
-msgstr "Maskedekkevne:"
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr "Autofokus"
 
-msgid "0"
-msgstr "0"
+#, c-format
+msgid "Autofocus control not available with this camera"
+msgstr "Autofokus-styring ikke tilgjengelig med dette kameraet"
 
-msgid "Display focus point during preview"
-msgstr "Vis fokuspunkt under sanntidsvisning"
+#, c-format
+msgid "Autofocus control was not a toggle widget"
+msgstr "Autofokusstyring er ikke et miniprogram som lar seg skru av og på"
 
-msgid "Grid lines:"
-msgstr "Rutenett:"
+msgid "Autofocus failed"
+msgstr "Autofokus mislyktes"
 
-#, fuzzy
-msgid "Use embedded preview from raw files"
-msgstr "Bruk innebygd forhåndsvisning fra råfiler"
+msgid "Automatically connect to cameras at startup"
+msgstr "Koble til kamera automatisk ved oppstart"
 
-#, fuzzy
-msgid "Overlay earlier images"
-msgstr "Tegn over tidligere bilder"
+msgid "Automatically synchronize camera clock"
+msgstr "Synkroniser kameraklokke automatisk"
 
-msgid "Overlay layers:"
-msgstr "Overleggslag:"
-
-msgid "3"
-msgstr "3"
+msgid "Automation"
+msgstr "Automasjon"
 
 msgid "Background:"
 msgstr "Bakgrunn:"
 
-msgid "Highlight:"
-msgstr "Framheving:"
+msgid "Best Fit"
+msgstr "Beste tilpasning"
 
-msgid "Highlight areas of overexposure"
-msgstr "Framhev overeksponerte områder"
+msgid "Blank screen when capturing images"
+msgstr "Tøm skjermen ved bildeknipsing"
 
-msgid "Perceptual"
-msgstr "Perseptuell"
+msgid "Camera connect failed"
+msgstr "Tilkobling av kamera mislyktes"
+
+msgid "Camera control update failed"
+msgstr "Oppdatering av kamerastyring mislyktes"
+
+msgid "Camera is in use"
+msgstr "Kamera i bruk"
+
+msgid "Camera load controls failed"
+msgstr "Innlasting av kamerastyring mislyktes"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+#, c-format
+msgid "Cannot capture image while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot delete file while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot download file while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot initialize gphoto2 abilities"
+msgstr "Kan ikke igangsette gphoto2-funksjonalitet"
+
+#, fuzzy, c-format
+msgid "Cannot initialize gphoto2 ports"
+msgstr "Kan ikke igangsette porter for gphoto2"
+
+#, c-format
+msgid "Cannot load gphoto2 abilities"
+msgstr "Kan ikke laste inn gphoto2-funksjonalitet"
+
+#, c-format
+msgid "Cannot load gphoto2 ports"
+msgstr "Kan ikke laste inn porter for gphoto2"
+
+#, c-format
+msgid "Cannot preview image while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot wait for events while not opened"
+msgstr ""
+
+msgid "Capture"
+msgstr "Opptak"
+
+msgctxt "shortcut window"
+msgid "Capture a single image"
+msgstr "Knips ett bilde"
+
+msgid "Capture an image"
+msgstr "Knips et bilde"
+
+#, c-format
+msgid "Capture target setting not available with this camera"
+msgstr "Innstilling for opptaksmål ikke tilgjengelig med dette kameraet"
+
+msgid "Capture;Camera;Tethered;Photo;"
+msgstr "Opptak;Kamera;Tjudring;Foto;"
 
 #, fuzzy
-msgid "Relative colourimetric"
-msgstr "Relativ kolorimetrisk"
+msgid "Center lines"
+msgstr "Midtlinjer"
 
-msgid "Saturation"
-msgstr "Metning"
+msgid ""
+"Check that the camera is not\n"
+"\n"
+" - opened by another photo <b>application</b>\n"
+" - mounted as a <b>filesystem</b> on the desktop\n"
+" - in <b>sleep mode</b> to save battery power\n"
+msgstr ""
+"Sjekk at kameraet ikke\n"
+"\n"
+" - Brukes av et annet bilde-<b>program</b>\n"
+" - Montert som et <b>filsystem</b> på skrivebordet\n"
+" - Er i <b>dvalemodus</b> for å spare batteri\n"
 
-msgid "Absolute colourimetric"
-msgstr "Absolutt kolorimetrisk"
+msgctxt "shortcut window"
+msgid "Close all windows & exit"
+msgstr "Lukk alle vinduer og avslutt"
 
-msgid "Untitled script"
-msgstr "Navnløst skript"
+msgid "Color Management"
+msgstr "Fargebehandling"
 
-msgid "No script"
-msgstr "Ingen skript"
+msgid "Colour managed display"
+msgstr "Fargekorrigert skjerm"
 
-msgid "No config options"
-msgstr "Ingen oppsettsvalg"
+msgid "Continue preview mode after capture"
+msgstr "Fortsett forhåndsvisning etter opptak"
 
-msgid "Missing 'execute' method implementation"
-msgstr "Manglende implementasjon av \"kjøre\"-metode"
+msgid "Continuous capture preview"
+msgstr "Vedvarende opptaksforhåndsvisning"
+
+msgctxt "shortcut window"
+msgid "Controlling the application"
+msgstr "Styring av programmet"
+
+#, c-format
+msgid "Controls not available for this camera"
+msgstr "Styringskontroller ikke tilgjengelige for dette kameraet"
+
+#, c-format
+msgid "Controls not available when camera is closeed"
+msgstr ""
+
+msgid "Delete"
+msgstr "Slett"
+
+msgid "Delete file from camera after downloading"
+msgstr "Slett fil fra kamera etter nedlasting"
+
+msgid "Detect the system monitor profile"
+msgstr "Oppdag systemskjermprofilen"
+
+msgid "Display focus point during preview"
+msgstr "Vis fokuspunkt under sanntidsvisning"
+
+msgctxt "shortcut window"
+msgid "Display help manual"
+msgstr "Vis hjelpemanualen"
 
 msgid "Entangle"
 msgstr "Entangle"
 
-msgid "Tethered Camera Control &amp; Capture"
-msgstr "Tjudret kamerastyring og opptak"
-
-msgid ""
-"Entangle is a program used to control digital cameras that are connected to "
-"the computer via USB."
-msgstr ""
-"Entangle er et program til bruk for styring av digitale kamera tilkoblet "
-"datamaskinen via USB."
+msgid "Entangle Preferences"
+msgstr "Entangle-innstillinger"
 
 #, fuzzy
 msgid ""
@@ -836,6 +320,13 @@ msgstr ""
 "datamaskinen."
 
 msgid ""
+"Entangle is a program used to control digital cameras that are connected to "
+"the computer via USB."
+msgstr ""
+"Entangle er et program til bruk for styring av digitale kamera tilkoblet "
+"datamaskinen via USB."
+
+msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
@@ -843,90 +334,628 @@ msgstr ""
 "Entangle er kompatibelt med de fleste DSLR-kamera fra Nikon og Canon, noen "
 "av deres kompaktkamera, og et utall andre kamera fra andre produsenter."
 
+msgid "Entangle: Camera autofocus failed"
+msgstr "Entangle: Kamera-autofokus mislyktes"
+
+msgid "Entangle: Camera connect failed"
+msgstr "Entangle: Tilkobling av kamera mislyktes"
+
+msgid "Entangle: Camera control update failed"
+msgstr "Entangle: Oppdatering av kamerastyring mislyktes"
+
+msgid "Entangle: Camera load controls failed"
+msgstr "Entangle: Innlasting av kamerastyring mislyktes"
+
+msgid "Entangle: Camera manual focus failed"
+msgstr "Entangle: Manuell kamera-autofokus mislyktes"
+
+msgid "Entangle: Operation failed"
+msgstr "Entangle: Operasjon mislyktes"
+
+#, c-format
+msgid "Failed to read manual focus choice %d: %s %d"
+msgstr "Klarte ikke å lese manuelt fokusvalg %d: %s %d"
+
+#, c-format
+msgid "Failed to set autofocus state: %s %d"
+msgstr "Klarte ikke å sette autofokustilstand: %s %d"
+
+#, c-format
+msgid "Failed to set capture target: %s %d"
+msgstr "Klarte ikke å sette opptaksmål: %s %d"
+
+#, c-format
+msgid "Failed to set manual focus state: %s %d"
+msgstr "Klarte ikke å sette manuell fokustilstand: %s %d"
+
+#, c-format
+msgid "Failed to set time state: %s %d"
+msgstr "Klarte ikke å sette tidstilstand: %s %d"
+
+#, fuzzy, c-format
+msgid "Failed to set viewfinder state: %s %d"
+msgstr "Klarte ikke å sette søkermodus: %s %d"
+
+msgid "Filename pattern:"
+msgstr "Filnavnsmønster:"
+
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr "Fokuskontroll (under sanntidsforhåndsvisning)"
+
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr "Fokuser innover (stort steg)"
+
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr "Fokuser innover (lite steg)"
+
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
+msgstr "Fokuser utover (stort steg)"
+
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr "Fokuser utover (lite steg)"
+
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Fullskjermsvisning"
+
+msgid "Golden sections"
+msgstr "Gyldne snitt"
+
+msgid "Grid lines:"
+msgstr "Rutenett:"
+
+msgid "Highlight areas of overexposure"
+msgstr "Framhev overeksponerte områder"
+
+msgid "Highlight:"
+msgstr "Framheving:"
+
+msgid "ICC profiles (*.icc, *.icm)"
+msgstr "ICC-profiler (*.icc, *.icm)"
+
+msgid "IP Address:"
+msgstr "IP-adresse:"
+
+msgid "Image Viewer"
+msgstr "Bildeviser"
+
+msgctxt "shortcut window"
+msgid "Image display"
+msgstr "Bildeforhåndsvisning"
+
+msgid "Image histogram"
+msgstr "Bildehistogram"
+
+msgid "Interface"
+msgstr "Grensesnitt"
+
+#, c-format
+msgid "Manual focus control not available with this camera"
+msgstr "Manuell fokusstyring ikke tilgjengelig med dette kameraet"
+
+#, fuzzy, c-format
+msgid "Manual focus control was not a range or radio widget"
+msgstr ""
+"Manuell fokusstyring utenfor gyldig rekkevidde eller et valgbart miniprogram"
+
+msgid "Manual focus failed"
+msgstr "Manuell fokus mislyktes"
+
+#, fuzzy
+msgid "Mask opacity:"
+msgstr "Maskedekkevne:"
+
+msgid "Missing 'execute' method implementation"
+msgstr "Manglende implementasjon av \"kjøre\"-metode"
+
+msgid "Mode of operation:"
+msgstr "Operasjonsmodus:"
+
+msgid "Model"
+msgstr "Modell"
+
+#, fuzzy
+msgid "Monitor"
+msgstr "Overvåk"
+
+msgid "Monitor profile:"
+msgstr "Monitorprofil:"
+
+msgid "Network camera"
+msgstr "Nettverkskamera"
+
+msgid "No"
+msgstr "Nei"
+
+msgid "No camera connected"
+msgstr "Ingen kamera tilknyttet"
+
+msgid ""
+"No cameras were detected, check that\n"
+"\n"
+"  - the <b>cables</b> are connected\n"
+"  - the camera is <b>turned on</b>\n"
+"  - the camera is in the <b>correct mode</b>\n"
+"  - the camera is a <b>supported</b> model\n"
+"\n"
+"USB cameras are automatically detected\n"
+"when plugged in, for others try a refresh\n"
+"or enter a network camera IP address"
+msgstr ""
+"Fant ingen kamera, sjekk at\n"
+"\n"
+"  - <b>Kablene</b> er satt i\n"
+"  - Kameraet er <b>påsrkudd</b>\n"
+"  - Kameraet er i <b>rett modus</b>\n"
+"  - Kameraet er en <b>støttet</b> modell\n"
+"\n"
+"USB-kameraer oppdages automatisk når\n"
+"de plugges inn. Med andre kan du prøve å oppdatere\n"
+"eller skrive inn IP-adresse for nettverkskamera."
+
+msgid "No config options"
+msgstr "Ingen oppsettsvalg"
+
+msgid "No controls available"
+msgstr "Ingen styringskontroller tilgjengelige"
+
+msgid "No script"
+msgstr "Ingen skript"
+
+msgid "None"
+msgstr "Ingen"
+
+msgid "Off"
+msgstr "Avslått"
+
+msgid "On"
+msgstr "Påslått"
+
+msgid "Open"
+msgstr "Åpne"
+
+msgctxt "shortcut window"
+msgid "Open a new camera window"
+msgstr "Åpne et nytt kameravindu"
+
+msgid "Open with"
+msgstr "Åpne med"
+
+#, c-format
+msgid "Operation: %s"
+msgstr "Operasjon: %s"
+
+#, fuzzy
+msgid "Overlay earlier images"
+msgstr "Tegn over tidligere bilder"
+
+msgid "Overlay layers:"
+msgstr "Overleggslag:"
+
+msgid "Pattern must contain 'XXXXXX' placeholder"
+msgstr ""
+
+msgid "Perceptual"
+msgstr "Perseptuell"
+
+msgid "Plugins"
+msgstr "Programtillegg"
+
+msgid "Port"
+msgstr "Port"
+
+msgctxt "shortcut window"
+msgid "Presentation"
+msgstr "Presentasjon"
+
+msgid "Preview"
+msgstr "Forhåndsvisning"
+
+msgid "Quarters"
+msgstr "Fjerdedeler"
+
+msgid "RGB profile:"
+msgstr "RGB-profil:"
+
+#, fuzzy
+msgid "Relative colourimetric"
+msgstr "Relativ kolorimetrisk"
+
+msgid "Rendering intent:"
+msgstr "Opptegningsintensjon:"
+
+msgid "Reset controls"
+msgstr "Tilbakestill styringskontroller"
+
+msgid "Retry"
+msgstr "Prøv igjen"
+
+msgid "Rule of 3rds"
+msgstr "Tredjedelsregelen"
+
+msgid "Rule of 5ths"
+msgstr "Femtedelsregelen"
+
+msgid "Saturation"
+msgstr "Metning"
+
+msgid "Screen blanking is not available on this display"
+msgstr "Skjermtømming er ikke tilgjengelig for denne skjermen"
+
+#, fuzzy
+msgid "Screen blanking is not implemented on this platform"
+msgstr "Skjermtømming er ikke implementert på denne plattformen"
+
+msgid "Script"
+msgstr "Skript"
+
+msgid "Select a camera to connect to:"
+msgstr "Velg et kamera å koble til:"
+
+msgid "Select a folder"
+msgstr "Velg en mappe"
+
+msgid "Select application..."
+msgstr "Velg program…"
+
+msgid "Select camera - Entangle"
+msgstr "Velg kamera - Entangle"
+
+msgid "Set clock"
+msgstr "Still klokken"
+
+#, fuzzy
+msgid "Show linear histogram"
+msgstr "Vis lineært histogram"
+
+msgctxt "shortcut window"
+msgid "Shutter control"
+msgstr "Lukkerstyring"
+
+msgid "Tethered Camera Control & Capture"
+msgstr "Tjudret kamerastyring og opptak"
+
+msgid "Tethered Camera Control &amp; Capture"
+msgstr "Tjudret kamerastyring og opptak"
+
 msgid "The Entangle Photo project"
 msgstr "Entangle-bildeprosjektet"
 
-msgid "Require gobject introspection &gt;= 1.54"
-msgstr "Krever gobject introspection &gt;= 1.54"
-
-msgid "Require GTK3 &gt;= 3.22"
-msgstr "Krev GTK3 ≥ 3.22"
-
-msgid "Fix dependency on libraw"
-msgstr "Fikset avhengighet til libraw"
-
 #, fuzzy
-msgid "Fix variable name in photobox plugin"
-msgstr "Fikset variabelnavn i photobox-programtillegg"
-
-msgid "Document some missing keyboard shortcuts"
-msgstr "Dokumentasjon av noen manglende tastatursnarveier"
-
-msgid "Fix upper bound in histogram to display clipped pixel"
-msgstr "Fikset øvre grense i histogram for visning av klipt piksel"
-
-msgid "Refresh translations"
-msgstr "Oppdaterte oversettelser"
-
-#, fuzzy
-msgid "Option to highlight over exposed pixels in red"
-msgstr "Alternativ for framheving av overeksponerte piksler i rødt"
-
-#, fuzzy
-msgid "Disable noisy compiler warning"
-msgstr "Avskrudd støyende kompilatoradvarsel"
-
-msgid "Remove use of deprecated application menu concept"
-msgstr "Foreldet programmenykonsept fjernet"
-
-msgid "Fix image redraw when changing some settings"
-msgstr "Fikset bildegjenopptegning ved endring av noen innstillinger"
-
-#, fuzzy
-msgid "Update mailing list address in appdaat"
-msgstr "Oppdatert e-postliste i programdata"
-
-#, fuzzy
-msgid "Add more fields to appdata content"
-msgstr "Flere felter lagt til i programdatainnhold."
-
-msgid "Fix reference counting during window close"
-msgstr "Fikset referanseteller ved lukking av vindu"
-
-#, fuzzy
-msgid "Use correct API for destroying top level windows"
-msgstr "Bruk av korrekt API for lukking av toppnivåvindu"
-
-msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
-msgstr "Fikset avmontering av kamera med nyere gvfs-URI-navngivningsforordning"
-
-#, fuzzy
-msgid "Avoid out of bounds read of property values"
-msgstr "Unngått lesing av egenskapsverdier utenfor grenser"
-
-#, fuzzy
-msgid "Fix many memory leaks"
-msgstr "Mange minnelekkasjer fikset"
-
-#, fuzzy
-msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr "Provisorisk fiks av kombobokser som ikke vises på Wayland"
-
-#, fuzzy
-msgid "Fix race condition in building enums"
-msgstr "Fikset følgefeil i bygging av opptellinger"
-
-#, fuzzy
-msgid "Fix setting of gschema directory during startup"
-msgstr "Fikset innstilling av gschema-katalog under oppstart"
-
-msgid "Set env to ensure plugins can find introspection typelib"
+msgid ""
+"The camera cannot be opened because it is currently mounted as a filesystem. "
+"Do you wish to umount it now ?"
 msgstr ""
-"Miljø satt for å forsikre at programtillegg kan finne introspeksjonstypelib"
+"Kameraet kan ikke åpnes fordi det ikke er montert som et filsystem. Ønsker "
+"du å avmontere det nå?"
+
+msgid "This camera does not support image capture"
+msgstr "Dette kameraet støtter ikke bildeknipsing"
+
+msgid "This camera does not support image preview"
+msgstr "Dette kameraet støtter ikke bildeforhåndsvisning"
+
+#, c-format
+msgid "Time setting not available with this camera"
+msgstr "Tidsinnstilling ikke tilgjengelig med dette kameraet"
+
+#, fuzzy, c-format
+msgid "Time setting was not a choice widget"
+msgstr "Tidsinnstilling var ikke et innstillings-miniprogram"
+
+#, fuzzy, c-format
+msgid "Time setting was not a date widget"
+msgstr "Tidsinnstilling var ikke et dato-miniprogram"
 
 #, fuzzy
-msgid "entangle"
-msgstr "entangle"
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr "Skru historgramskala av/på"
 
-msgid "Capture;Camera;Tethered;Photo;"
-msgstr "Opptak;Kamera;Tjudring;Foto;"
+msgctxt "shortcut window"
+msgid "Toggle image mask"
+msgstr "Skru bildemaske av/på"
+
+msgctxt "shortcut window"
+msgid "Toggle live preview"
+msgstr "Skru sanntidsforhåndsvisning av/på"
+
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Toggle overexposure highlighting"
+msgstr "Skru framheving av overeksponering av/på"
+
+#, c-format
+msgid "Unable to capture image: %s"
+msgstr "Kunne ikke knipse bilde: %s"
+
+#, c-format
+msgid "Unable to capture preview: %s"
+msgstr "Kunne ikke knipse forhåndsvisning: %s"
+
+#, c-format
+msgid "Unable to connect to camera: %s"
+msgstr "Kunne ikke koble til kamera: %s"
+
+#, c-format
+msgid "Unable to delete file: %s"
+msgstr "Kunne ikke slette fil: %s"
+
+#, c-format
+msgid "Unable to fetch camera control configuration: %s"
+msgstr "Kunne ikke hente oppsett for kamerastyring: %s"
+
+#, c-format
+msgid "Unable to fetch widget name"
+msgstr "Kunne ikke hente miniprogramsnavn"
+
+#, c-format
+msgid "Unable to fetch widget type"
+msgstr "Kunne ikke hente miniprogramstype"
+
+#, c-format
+msgid "Unable to get camera file: %s"
+msgstr "Kunne ikke hente kamerafil: %s"
+
+#, c-format
+msgid "Unable to get file data: %s"
+msgstr "Kunne ikke hente fildata: %s"
+
+#, c-format
+msgid "Unable to get filename: %s"
+msgstr "Kunne ikke hente filnavn: %s"
+
+#, c-format
+msgid "Unable to initialize camera: %s"
+msgstr "Kunne ikke igangsette kamera: %s"
+
+#, c-format
+msgid "Unable to load controls, camera is not opened"
+msgstr ""
+
+#, c-format
+msgid "Unable to save camera control configuration: %s"
+msgstr "Kunne ikke lagre oppsett av kamerastyring: %s"
+
+#, c-format
+msgid "Unable to save controls, camera is not configurable"
+msgstr "Kunne ikke lagre styringskontroller, kamera kan ikke settes opp"
+
+#, c-format
+msgid "Unable to save controls, camera is not opened"
+msgstr ""
+
+#, c-format
+msgid "Unable to wait for events: %s"
+msgstr "Kunne ikke vente på hendelser: %s"
+
+msgid "Untitled script"
+msgstr "Navnløst skript"
+
+#, fuzzy
+msgid "Use embedded preview from raw files"
+msgstr "Bruk innebygd forhåndsvisning fra råfiler"
+
+msgid "Use preview output as capture image"
+msgstr "Bruk forhåndsvisning som opptaksbilde"
+
+#, c-format
+msgid "Viewfinder control not available with this camera"
+msgstr "Søkerstyring ikke tilgjengelig med dette kameraet"
+
+#, c-format
+msgid "Viewfinder control was not a toggle widget"
+msgstr "Søkerstyring er ikke et miniprogram som kan skrus av og på"
+
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Window display"
+msgstr "Vindusvisning"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "Zoom _In"
+msgstr "_Forstørr"
+
+msgid "Zoom _Out"
+msgstr "_Forminsk"
+
+msgctxt "shortcut window"
+msgid "Zoom best"
+msgstr "Beste forstørrelsesnivå"
+
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Forstørr"
+
+msgctxt "shortcut window"
+msgid "Zoom normal"
+msgstr "Opprinnelig forstørrelsesnivå"
+
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Forminsk"
+
+msgid "_About"
+msgstr "_Om"
+
+msgid "_Cancel"
+msgstr "_Avbryt"
+
+msgid "_Connect…"
+msgstr "_Koble til"
+
+msgid "_Disconnect…"
+msgstr "Koble _fra…"
+
+msgid "_Fullscreen"
+msgstr "_Fullskjermsvisning"
+
+msgid "_Help"
+msgstr "_Hjelp"
+
+msgid "_Keyboard shortcuts"
+msgstr "_Tastatursnarveier"
+
+msgid "_Manual"
+msgstr "_Manual"
+
+msgid "_New window"
+msgstr "_Nytt vindu"
+
+msgid "_Normal Size"
+msgstr "_Normal størrelse"
+
+msgid "_Open"
+msgstr "_Åpne"
+
+msgid "_Preferences…"
+msgstr "_Innstillinger…"
+
+msgid "_Presentation"
+msgstr "_Presentasjon"
+
+msgid "_Quit"
+msgstr "_Avslutt"
+
+msgid "_Select session…"
+msgstr "_Velg økt…"
+
+msgid "_Settings"
+msgstr "_Innstillinger"
+
+msgid "_Supported cameras"
+msgstr "_Støttede kamera"
+
+msgid "_Synchronize capture"
+msgstr "_Synkroniser opptak"
+
+#, fuzzy
+msgid "capture"
+msgstr "knips"
+
+msgid "label"
+msgstr "etikett"
+
+msgid "preview"
+msgstr "forhåndsvis"
+
+msgid "settings"
+msgstr "innstillinger"
+
+#~ msgid "Cannot capture image while not connected"
+#~ msgstr "Kunne ikke knipse bilde uten tilkobling"
+
+#~ msgid "Cannot preview image while not connected"
+#~ msgstr "Kan ikke forhåndsvise bilde uten tilkobling"
+
+#~ msgid "Cannot download file while not connected"
+#~ msgstr "Kan ikke laste ned fil uten tilkobling"
+
+#~ msgid "Cannot delete file while not connected"
+#~ msgstr "Kan ikke slette fil uten tilkobling"
+
+#~ msgid "Cannot wait for events while not connected"
+#~ msgstr "Kan ikke vente på hendelser uten tilkobling"
+
+#~ msgid "Unable to load controls, camera is not connected"
+#~ msgstr "Kunne ikke laste inn styringskontroller, kamera er frakoblet"
+
+#~ msgid "Unable to save controls, camera is not connected"
+#~ msgstr "Kunne ikke lagre styringskontroller, kamera er frakoblet"
+
+#~ msgid "Controls not available when camera is disconnected"
+#~ msgstr "Styringskontroller ikke tilgjengeligere når kamera er frakoblet"
+
+#~ msgid "Require gobject introspection &gt;= 1.54"
+#~ msgstr "Krever gobject introspection &gt;= 1.54"
+
+#~ msgid "Require GTK3 &gt;= 3.22"
+#~ msgstr "Krev GTK3 ≥ 3.22"
+
+#~ msgid "Fix dependency on libraw"
+#~ msgstr "Fikset avhengighet til libraw"
+
+#, fuzzy
+#~ msgid "Fix variable name in photobox plugin"
+#~ msgstr "Fikset variabelnavn i photobox-programtillegg"
+
+#~ msgid "Document some missing keyboard shortcuts"
+#~ msgstr "Dokumentasjon av noen manglende tastatursnarveier"
+
+#~ msgid "Fix upper bound in histogram to display clipped pixel"
+#~ msgstr "Fikset øvre grense i histogram for visning av klipt piksel"
+
+#~ msgid "Refresh translations"
+#~ msgstr "Oppdaterte oversettelser"
+
+#, fuzzy
+#~ msgid "Option to highlight over exposed pixels in red"
+#~ msgstr "Alternativ for framheving av overeksponerte piksler i rødt"
+
+#, fuzzy
+#~ msgid "Disable noisy compiler warning"
+#~ msgstr "Avskrudd støyende kompilatoradvarsel"
+
+#~ msgid "Remove use of deprecated application menu concept"
+#~ msgstr "Foreldet programmenykonsept fjernet"
+
+#~ msgid "Fix image redraw when changing some settings"
+#~ msgstr "Fikset bildegjenopptegning ved endring av noen innstillinger"
+
+#, fuzzy
+#~ msgid "Update mailing list address in appdaat"
+#~ msgstr "Oppdatert e-postliste i programdata"
+
+#, fuzzy
+#~ msgid "Add more fields to appdata content"
+#~ msgstr "Flere felter lagt til i programdatainnhold."
+
+#~ msgid "Fix reference counting during window close"
+#~ msgstr "Fikset referanseteller ved lukking av vindu"
+
+#, fuzzy
+#~ msgid "Use correct API for destroying top level windows"
+#~ msgstr "Bruk av korrekt API for lukking av toppnivåvindu"
+
+#~ msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+#~ msgstr ""
+#~ "Fikset avmontering av kamera med nyere gvfs-URI-navngivningsforordning"
+
+#, fuzzy
+#~ msgid "Avoid out of bounds read of property values"
+#~ msgstr "Unngått lesing av egenskapsverdier utenfor grenser"
+
+#, fuzzy
+#~ msgid "Fix many memory leaks"
+#~ msgstr "Mange minnelekkasjer fikset"
+
+#, fuzzy
+#~ msgid "Workaround for combo boxes not displaying on Wayland"
+#~ msgstr "Provisorisk fiks av kombobokser som ikke vises på Wayland"
+
+#, fuzzy
+#~ msgid "Fix race condition in building enums"
+#~ msgstr "Fikset følgefeil i bygging av opptellinger"
+
+#, fuzzy
+#~ msgid "Fix setting of gschema directory during startup"
+#~ msgstr "Fikset innstilling av gschema-katalog under oppstart"
+
+#~ msgid "Set env to ensure plugins can find introspection typelib"
+#~ msgstr ""
+#~ "Miljø satt for å forsikre at programtillegg kan finne "
+#~ "introspeksjonstypelib"
+
+#, fuzzy
+#~ msgid "entangle"
+#~ msgstr "entangle"

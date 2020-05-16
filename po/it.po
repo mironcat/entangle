@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-03 22:10+0000\n"
+"POT-Creation-Date: 2020-05-16 23:09+0100\n"
 "PO-Revision-Date: 2020-04-27 10:40+0000\n"
 "Last-Translator: Michele Falappi <nittalope@gmail.com>\n"
 "Language-Team: Italian <https://translate.fedoraproject.org/projects/"
@@ -25,563 +25,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.0.1\n"
 
-#, c-format
-msgid "Cannot initialize gphoto2 abilities"
-msgstr "Impossibile inizializzare le funzionalità di gphoto2"
-
-#, c-format
-msgid "Cannot load gphoto2 abilities"
-msgstr "Impossibile caricare le funzionalità di gphoto2"
-
-#, c-format
-msgid "Cannot initialize gphoto2 ports"
-msgstr "Impossibile inizializzare le porte di gphoto2"
-
-#, c-format
-msgid "Cannot load gphoto2 ports"
-msgstr "Impossibile caricare le porte di gphoto2"
-
-#, c-format
-msgid "Unable to initialize camera: %s"
-msgstr "Impossibile inizializzare la fotocamera %s"
-
-#, c-format
-msgid "Cannot capture image while not connected"
-msgstr "Impossibile catturare l'immagine quando la fotocamera non è connessa"
-
-#, c-format
-msgid "Unable to capture image: %s"
-msgstr "Impossibile catturare l'immagine: %s"
-
-#, c-format
-msgid "Cannot preview image while not connected"
-msgstr ""
-"Impossibile creare l'anteprima dell'immagine quando la fotocamera non è "
-"connessa"
-
-#, c-format
-msgid "Unable to capture preview: %s"
-msgstr "Impossibile catturare l'anteprima: %s"
-
-#, c-format
-msgid "Unable to get file data: %s"
-msgstr "Impossibile ottenere i dati del file: %s"
-
-#, c-format
-msgid "Unable to get filename: %s"
-msgstr "Impossibile ottenere il nome del file: %s"
-
-#, c-format
-msgid "Cannot download file while not connected"
-msgstr "Impossibile scaricare il file quando la fotocamera non è connessa"
-
-#, c-format
-msgid "Unable to get camera file: %s"
-msgstr "Impossibile ottenere il file della fotocamera: %s"
-
-#, c-format
-msgid "Cannot delete file while not connected"
-msgstr "Impossibile eliminare il file quando la fotocamera non è connessa"
-
-#, c-format
-msgid "Unable to delete file: %s"
-msgstr "Impossibile eliminare il file: %s"
-
-#, c-format
-msgid "Cannot wait for events while not connected"
-msgstr "Impossibile attendere gli eventi quando la fotocamera non è connessa"
-
-#, c-format
-msgid "Unable to wait for events: %s"
-msgstr "Impossibile attendere gli eventi: %s"
-
-#, c-format
-msgid "Unable to fetch widget type"
-msgstr "Impossibile ottenere il tipo di widget"
-
-#, c-format
-msgid "Unable to fetch widget name"
-msgstr "Impossibile ottenere il nome del widget"
-
-#, c-format
-msgid "Unable to load controls, camera is not connected"
-msgstr "Impossibile caricare i controlli, la fotocamera non è connessa"
-
-#, c-format
-msgid "Unable to fetch camera control configuration: %s"
-msgstr ""
-"Impossibile ottenere la configurazione di controllo della fotocamera: %s"
-
-#, c-format
-msgid "Unable to save controls, camera is not connected"
-msgstr "Impossibile salvare i controlli, la fotocamera non è connessa"
-
-#, c-format
-msgid "Unable to save controls, camera is not configurable"
-msgstr "Impossibile salvare i controlli, la fotocamera non è configurabile"
-
-#, c-format
-msgid "Unable to save camera control configuration: %s"
-msgstr ""
-"Impossibile salvare la configurazione di controllo della fotocamera: %s"
-
-#, c-format
-msgid "Controls not available when camera is disconnected"
-msgstr "I controlli non sono disponibili quando la fotocamera non è connessa"
-
-#, c-format
-msgid "Controls not available for this camera"
-msgstr "Controlli non disponibili per questa fotocamera"
-
-#, c-format
-msgid "Viewfinder control not available with this camera"
-msgstr "Controllo mirino non disponibile per questa fotocamera"
-
-#, c-format
-msgid "Viewfinder control was not a toggle widget"
-msgstr "Il controllo mirino non era un widget attivabile"
-
-#, c-format
-msgid "Failed to set viewfinder state: %s %d"
-msgstr "Impostazione mirino non riuscita: %s %d"
-
-#, c-format
-msgid "Autofocus control not available with this camera"
-msgstr "Controllo autofocus non disponibile per questa fotocamera"
-
-#, c-format
-msgid "Autofocus control was not a toggle widget"
-msgstr "Il controllo autofocus non era un widget attivabile"
-
-#, c-format
-msgid "Failed to set autofocus state: %s %d"
-msgstr "Impostazione autofocus non riuscita: %s %d"
-
-#, c-format
-msgid "Manual focus control not available with this camera"
-msgstr "Focus manuale non disponibile per questa fotocamera"
-
-#, c-format
-msgid "Manual focus control was not a range or radio widget"
-msgstr "Focus manuale non è un range o radio widget"
-
-#, c-format
-msgid "Failed to set manual focus state: %s %d"
-msgstr "Impostazione focus manuale non riuscita: %s %d"
-
-#, c-format
-msgid "Failed to read manual focus choice %d: %s %d"
-msgstr "Lettura della scelta di fuoco manuale non riuscita %d %s %d"
-
-#, c-format
-msgid "Time setting not available with this camera"
-msgstr "Impostazione dell'ora non disponibile per questa fotocamera"
-
-#, c-format
-msgid "Time setting was not a date widget"
-msgstr "Impostazione dell'ora non è un date widget"
-
-#, c-format
-msgid "Failed to set time state: %s %d"
-msgstr "Impostazione dello stato dell'ora fallita: %s %d"
-
-#, c-format
-msgid "Capture target setting not available with this camera"
-msgstr ""
-"Impostazione del target di cattura non disponibile per questa fotocamera"
-
-#, c-format
-msgid "Time setting was not a choice widget"
-msgstr "Impostazione dell'ora non è un choice widget"
-
-#, c-format
-msgid "Failed to set capture target: %s %d"
-msgstr "Impostazione del target di cattura fallita: %s %d"
-
-msgid "_New window"
-msgstr "Nuova _finestra"
-
-msgid "_Preferences…"
-msgstr "_Preferenze…"
-
-msgid "_Select session…"
-msgstr "_Scegli sessione…"
-
-msgid "_Connect…"
-msgstr "_Connetti…"
-
-msgid "_Disconnect…"
-msgstr "_Disconnetti…"
-
-msgid "_Help"
-msgstr "_Aiuto"
-
-msgid "_Supported cameras"
-msgstr "Fo_tocamere supportate"
-
-msgid "_Keyboard shortcuts"
-msgstr "Scorciatoie da _tastiera"
-
-msgid "_Manual"
-msgstr "_Manuale"
-
-msgid "_About"
-msgstr "Informa_zioni su Entangle"
-
-msgid "_Quit"
-msgstr "Termina _Entangle"
-
-msgid "_Fullscreen"
-msgstr "Tutto sc_hermo"
-
-msgid "_Presentation"
-msgstr "_Visualizza in una presentazione"
-
-msgid "_Settings"
-msgstr "_Impostazioni"
-
-msgid "_Synchronize capture"
-msgstr "Sincr_onizza cattura"
-
-msgid "Best Fit"
-msgstr "Adattamento migliore"
-
-msgid "_Normal Size"
-msgstr "Dimensioni norma_li"
-
-msgid "Zoom _In"
-msgstr "In_grandisci"
-
-msgid "Zoom _Out"
-msgstr "Rid_uci"
-
-msgid "Capture an image"
-msgstr "Cattura un'immagine"
-
-msgid "Continuous capture preview"
-msgstr "Anteprima a cattura continua"
-
-msgid "This camera does not support image capture"
-msgstr "Questa fotocamera non supporta la cattura delle immagini"
-
-msgid "This camera does not support image preview"
-msgstr "Questa fotocamera non supporta l'anteprima dell'immagine"
-
-#, c-format
-msgid "Operation: %s"
-msgstr "Operazione: %s"
-
-msgid "Entangle: Operation failed"
-msgstr "Entangle: operazione non riuscita"
-
-msgid "Camera load controls failed"
-msgstr "Caricamento dei controlli della fotocamera non riuscito"
-
-msgid "Entangle: Camera load controls failed"
-msgstr "Entangle: caricamento dei controlli della fotocamera non riuscito"
-
-msgid "Monitor"
-msgstr "Schermo"
-
-msgid "No camera connected"
-msgstr "Nessuna fotocamera connessa"
-
-#, c-format
-msgid "Unable to connect to camera: %s"
-msgstr "Impossibile connettersi alla fotocamera: %s"
-
-msgid ""
-"Check that the camera is not\n"
-"\n"
-" - opened by another photo <b>application</b>\n"
-" - mounted as a <b>filesystem</b> on the desktop\n"
-" - in <b>sleep mode</b> to save battery power\n"
-msgstr ""
-"Controllare che la fotocamera non sia:\n"
-"\n"
-" - in uso da un'altra <b>applicazione</b>;\n"
-" - montata come <b>file system</b>;\n"
-" - in <b>modalità sleep</b> per il risparmio della batteria.\n"
-
-msgid "Cancel"
-msgstr "Annulla"
-
-msgid "Retry"
-msgstr "Ritenta"
-
-msgid "Camera is in use"
-msgstr "La fotocamera è in uso"
-
-msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
-msgstr ""
-"La fotocamera non può essere aperta perché è montata come un file system. "
-"Smontarla ora?"
-
-msgid "No"
-msgstr "No"
-
-msgid "Yes"
-msgstr "Sì"
-
-msgid "Camera connect failed"
-msgstr "Connessione alla fotocamera non riuscita"
-
-msgid "Entangle: Camera connect failed"
-msgstr "Entangle: connessione alla fotocamera non riuscita"
-
-msgid "Select a folder"
-msgstr "Selezione cartella"
-
-msgid "_Cancel"
-msgstr "A_nnulla"
-
-msgid "_Open"
-msgstr "Ap_ri"
-
-msgid "Capture"
-msgstr "Cattura"
-
-msgid "Script"
-msgstr "Script"
-
-msgid "Preview"
-msgstr "Anteprima"
-
-msgid "Set clock"
-msgstr "Imposta ora"
-
-msgid "Autofocus failed"
-msgstr "Autofocus non riuscito"
-
-msgid "Entangle: Camera autofocus failed"
-msgstr "Entangle: autofocus fotocamera non riuscito"
-
-msgid "Manual focus failed"
-msgstr "Focus manuale non riuscito"
-
-msgid "Entangle: Camera manual focus failed"
-msgstr "Entangle: focus manuale fotocamera non riuscito"
-
-msgid "Delete"
-msgstr "Elimina"
-
-msgid "Open"
-msgstr "Aprire"
-
-msgid "Open with"
-msgstr "Apri con"
-
-msgid "Select application..."
-msgstr "Selezionare un'applicazione..."
-
-msgid "Image histogram"
-msgstr "Istogramma dell'immagine"
-
-msgid "Automation"
-msgstr "Automazione"
-
-msgid "Model"
-msgstr "Modello"
-
-msgid "Port"
-msgstr "Porta"
-
-msgid "Select camera - Entangle"
-msgstr "Selezione fotocamera - Entangle"
-
-msgid "Select a camera to connect to:"
-msgstr "Selezionare una fotocamera a cui connettersi:"
-
-msgid ""
-"No cameras were detected, check that\n"
-"\n"
-"  - the <b>cables</b> are connected\n"
-"  - the camera is <b>turned on</b>\n"
-"  - the camera is in the <b>correct mode</b>\n"
-"  - the camera is a <b>supported</b> model\n"
-"\n"
-"USB cameras are automatically detected\n"
-"when plugged in, for others try a refresh\n"
-"or enter a network camera IP address"
-msgstr ""
-"Nessuna fotocamera è stata trovata, controlla che\n"
-"\n"
-"  - i <b>cavi</b> sono connessi\n"
-"  - la fotocamera è <b>accesa</b>\n"
-"  - la fotocamera è nella <b>modalità corretta</b>\n"
-"  - la camera è un modello <b>supportato</b>\n"
-"\n"
-"fotocamere USB sono riconosciute automaticamente\n"
-"quando connesse, per altri tipi di fotocamera cercare di\n"
-"fare un refresh o inserire l'indirizzo IP della fotocamera"
-
-msgid "IP Address:"
-msgstr "Indirizzo IP:"
-
-msgid "Network camera"
-msgstr "Fotocamera di rete"
-
-msgid "capture"
-msgstr "catturare"
-
-msgid "preview"
-msgstr "anteprima"
-
-msgid "settings"
-msgstr "impostazioni"
-
-msgid "label"
-msgstr "etichetta"
-
-msgid "Camera control update failed"
-msgstr "Aggiornamento dei controlli della fotocamera non riuscito"
-
-msgid "Entangle: Camera control update failed"
-msgstr "Entangle: aggiornamento dei controlli della fotocamera non riuscito"
-
-msgid "On"
-msgstr "Attivo"
-
-msgid "Off"
-msgstr "Inattivo"
-
-msgid "Reset controls"
-msgstr "Resetta i controlli"
-
-msgid "No controls available"
-msgstr "Nessun controllo disponibile"
-
-msgid "Screen blanking is not available on this display"
-msgstr "Lo svuotamento della schermata non è disponibile su questo schermo"
-
-msgid "Screen blanking is not implemented on this platform"
-msgstr ""
-"Lo svuotamento della schermata non è implementato su questa piattaforma"
-
-msgid "About - Entangle"
-msgstr "Informazioni su Entangle"
-
-msgid "Tethered Camera Control & Capture"
-msgstr "Controllo e cattura dalla fotocamera via cavo"
-
-msgctxt "shortcut window"
-msgid "Controlling the application"
-msgstr "Verificando l'applicazione"
-
-msgctxt "shortcut window"
-msgid "Open a new camera window"
-msgstr "Aprire una nuova finestra per la fotocamera"
-
-msgctxt "shortcut window"
-msgid "Close all windows & exit"
-msgstr "Chiudere tutte le finestre e uscire"
-
-msgctxt "shortcut window"
-msgid "Display help manual"
-msgstr "Visualizzare il manuale d'aiuto"
-
-msgctxt "shortcut window"
-msgid "Image display"
-msgstr "Visualizzazione dell'immagine"
-
-msgctxt "shortcut window"
-msgid "Zoom in"
-msgstr "Ingrandisci"
-
-msgctxt "shortcut window"
-msgid "Zoom out"
-msgstr "Riduci"
-
-msgctxt "shortcut window"
-msgid "Zoom normal"
-msgstr "Dimensioni normali"
-
-msgctxt "shortcut window"
-msgid "Zoom best"
-msgstr "Dimensioni ottimali"
-
-msgctxt "shortcut window"
-msgid "Toggle image mask"
-msgstr "Attiva maschera immagine"
-
-msgctxt "shortcut window"
-msgid "Toggle overexposure highlighting"
-msgstr "Attiva notifica di sovraesposizione"
-
-msgctxt "shortcut window"
-msgid "Toggle histogram scale"
-msgstr "Attiva indice dell'istogramma"
-
-msgctxt "shortcut window"
-msgid "Window display"
-msgstr "Finestra di display"
-
-msgctxt "shortcut window"
-msgid "Fullscreen"
-msgstr "Tuttoschermo"
-
-msgctxt "shortcut window"
-msgid "Presentation"
-msgstr "Presentazione"
-
-msgctxt "shortcut window"
-msgid "Shutter control"
-msgstr "Controlli otturatore"
-
-msgctxt "shortcut window"
-msgid "Capture a single image"
-msgstr "Cattura una singola immagine"
-
-msgctxt "shortcut window"
-msgid "Toggle live preview"
-msgstr "Attiva anteprima live"
-
-msgctxt "shortcut window"
-msgid "Focus control (during live preview)"
-msgstr "Controlli di focus (durante anteprima live)"
-
-msgctxt "shortcut window"
-msgid "Autofocus"
-msgstr "Autofocus"
-
-msgctxt "shortcut window"
-msgid "Focus in (small step)"
-msgstr "Focus in (piccoli step)"
-
-msgctxt "shortcut window"
-msgid "Focus out (small step)"
-msgstr "Focus out (piccoli step)"
-
-msgctxt "shortcut window"
-msgid "Focus in (large step)"
-msgstr "Focus in (grandi step)"
-
-msgctxt "shortcut window"
-msgid "Focus out (large step)"
-msgstr "Focus out (grandi step)"
-
-msgid "Interface"
-msgstr "Interfaccia"
-
-msgid "Image Viewer"
-msgstr "Visualizzatore di immagini"
-
-msgid "Color Management"
-msgstr "Gestione del colore"
-
-msgid "Plugins"
-msgstr "Plugin"
-
-msgid "ICC profiles (*.icc, *.icm)"
-msgstr "Profili ICC (*.icc, *.icm)"
-
-msgid "All files (*.*)"
-msgstr "Tutti i file (*.*)"
-
-msgid "1:1 - Square / MF 6x6"
-msgstr "1:1 - Quadrato / MF 6x6"
+msgid "0"
+msgstr "0"
 
 msgid "1.15:1 - Movietone"
 msgstr "1.15:1 - Movietone"
@@ -598,11 +43,11 @@ msgstr "1.44:1 - IMAX"
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
 msgstr "1.50:1 (3:2, 15:10)- 35mm SLR"
 
-msgid "1.6:1 (8:5, 16:10) - Widescreen"
-msgstr "1.6:1 (8:5, 16:10) - Widescreen"
-
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
 msgstr "1.66:1 (5:3, 15:9) - Super 16mm"
+
+msgid "1.6:1 (8:5, 16:10) - Widescreen"
+msgstr "1.6:1 (8:5, 16:10) - Widescreen"
 
 msgid "1.75:1 (7:4) - Widescreen"
 msgstr "1.75:1 (7:4) - Widescreen"
@@ -612,6 +57,12 @@ msgstr "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
 
 msgid "1.85:1 - 35mm Widescreen"
 msgstr "1.85:1 - 35mm Widescreen"
+
+msgid "12.00:1 - Circle-Vision 360"
+msgstr "12.00:1 - Circle-Vision 360"
+
+msgid "1:1 - Square / MF 6x6"
+msgstr "1:1 - Quadrato / MF 6x6"
 
 msgid "2.00:1 - SuperScope"
 msgstr "2.00:1 - SuperScope"
@@ -646,92 +97,38 @@ msgstr "2.76:1 (11:4) - Ultra Panavision"
 msgid "2.93:1 - MGM Camera 65"
 msgstr "2.93:1 - MGM Camera 65"
 
+msgid "3"
+msgstr "3"
+
 msgid "3:1 APS Panorama"
 msgstr "3:1 APS Panorama"
 
 msgid "4.00:1 - Polyvision"
 msgstr "4.00:1 - Polyvision"
 
-msgid "12.00:1 - Circle-Vision 360"
-msgstr "12.00:1 - Circle-Vision 360"
-
-msgid "None"
-msgstr "nessuno"
-
-msgid "Center lines"
-msgstr "Righe centrali"
-
-msgid "Rule of 3rds"
-msgstr "Regola dei terzi"
-
-msgid "Quarters"
-msgstr "Quarti"
-
-msgid "Rule of 5ths"
-msgstr "Regola dei quinti"
-
-msgid "Golden sections"
-msgstr "Sezioni auree"
-
-msgid "Entangle Preferences"
-msgstr "Preferenze di Entangle"
-
 msgid "<b>Capture</b>"
 msgstr "<b>Cattura</b>"
-
-msgid "Filename pattern:"
-msgstr "Schema del nome del file:"
-
-msgid "Continue preview mode after capture"
-msgstr "Continua la modalità anteprima dopo la cattura"
-
-msgid "Use preview output as capture image"
-msgstr "Usa l'immagine di anteprima come immagine di cattura"
-
-msgid "Delete file from camera after downloading"
-msgstr "Elimina il file dalla fotocamera dopo lo scaricamento"
-
-msgid "Automatically synchronize camera clock"
-msgstr "Sincronizza automaticamente l'orologio della fotocamera"
 
 msgid "<b>Colour management</b>"
 msgstr "<b>Gestione del colore</b>"
 
-msgid "Mode of operation:"
-msgstr "Modalità di operazione:"
-
-msgid "RGB profile:"
-msgstr "Profilo RGB:"
-
-msgid "Monitor profile:"
-msgstr "Profilo del monitor:"
-
-msgid "Rendering intent:"
-msgstr "Scopo del rendering:"
-
-msgid "Detect the system monitor profile"
-msgstr "Identifica il profilo dello schermo di sistema"
-
-msgid "Colour managed display"
-msgstr "Schermo con gestione del colore"
-
-msgid "<b>Plugins</b>"
-msgstr "<b>Plugin</b>"
+msgid "<b>Image Viewer</b>"
+msgstr "<b>Visualizzatore di immagini</b>"
 
 msgid "<b>Interface</b>"
 msgstr "<b>Interfaccia</b>"
 
-msgid "Automatically connect to cameras at startup"
-msgstr "Connetti automaticamente la fotocamera all'avvio"
+msgid "<b>Plugins</b>"
+msgstr "<b>Plugin</b>"
 
-msgid "Blank screen when capturing images"
-msgstr "Svuota lo schermo durante la cattura delle immagini"
+msgid "About - Entangle"
+msgstr "Informazioni su Entangle"
 
-msgid "Show linear histogram"
-msgstr "Mostra istogramma lineare"
+msgid "Absolute colourimetric"
+msgstr "Colorimetrico assoluto"
 
-msgid "<b>Image Viewer</b>"
-msgstr "<b>Visualizzatore di immagini</b>"
+msgid "All files (*.*)"
+msgstr "Tutti i file (*.*)"
 
 msgid "Apply mask to alter aspect ratio"
 msgstr "Applica maschera per modificare il rapporto d'aspetto"
@@ -739,75 +136,173 @@ msgstr "Applica maschera per modificare il rapporto d'aspetto"
 msgid "Aspect ratio:"
 msgstr "Rapporto d'aspetto:"
 
-msgid "Mask opacity:"
-msgstr "Opacità maschera:"
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr "Autofocus"
 
-msgid "0"
-msgstr "0"
+#, c-format
+msgid "Autofocus control not available with this camera"
+msgstr "Controllo autofocus non disponibile per questa fotocamera"
 
-msgid "Display focus point during preview"
-msgstr "Mostra il punto di fuoco durante l'anteprima"
+#, c-format
+msgid "Autofocus control was not a toggle widget"
+msgstr "Il controllo autofocus non era un widget attivabile"
 
-msgid "Grid lines:"
-msgstr "Griglia:"
+msgid "Autofocus failed"
+msgstr "Autofocus non riuscito"
 
-msgid "Use embedded preview from raw files"
-msgstr "Usa anteprima contenuta nei file raw"
+msgid "Automatically connect to cameras at startup"
+msgstr "Connetti automaticamente la fotocamera all'avvio"
 
-msgid "Overlay earlier images"
-msgstr "Sovrapponi le immagini precedenti"
+msgid "Automatically synchronize camera clock"
+msgstr "Sincronizza automaticamente l'orologio della fotocamera"
 
-msgid "Overlay layers:"
-msgstr "Livelli di sovrapposizione:"
-
-msgid "3"
-msgstr "3"
+msgid "Automation"
+msgstr "Automazione"
 
 msgid "Background:"
 msgstr "Sfondo:"
 
-msgid "Highlight:"
-msgstr "Evidenzia:"
+msgid "Best Fit"
+msgstr "Adattamento migliore"
 
-msgid "Highlight areas of overexposure"
-msgstr "Evidenzia aree di sovraesposizione"
+msgid "Blank screen when capturing images"
+msgstr "Svuota lo schermo durante la cattura delle immagini"
 
-msgid "Perceptual"
-msgstr "Percettivo"
+msgid "Camera connect failed"
+msgstr "Connessione alla fotocamera non riuscita"
 
-msgid "Relative colourimetric"
-msgstr "Colorimetrico relativo"
+msgid "Camera control update failed"
+msgstr "Aggiornamento dei controlli della fotocamera non riuscito"
 
-msgid "Saturation"
-msgstr "Saturazione"
+msgid "Camera is in use"
+msgstr "La fotocamera è in uso"
 
-msgid "Absolute colourimetric"
-msgstr "Colorimetrico assoluto"
+msgid "Camera load controls failed"
+msgstr "Caricamento dei controlli della fotocamera non riuscito"
 
-msgid "Untitled script"
-msgstr "Script senza titolo"
+msgid "Cancel"
+msgstr "Annulla"
 
-msgid "No script"
-msgstr "Nessuno script"
+#, c-format
+msgid "Cannot capture image while not opened"
+msgstr ""
 
-msgid "No config options"
-msgstr "Nessuna opzione di configurazione"
+#, c-format
+msgid "Cannot delete file while not opened"
+msgstr ""
 
-msgid "Missing 'execute' method implementation"
-msgstr "Manca l'implementazione del metodo \"esecuzione\""
+#, c-format
+msgid "Cannot download file while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot initialize gphoto2 abilities"
+msgstr "Impossibile inizializzare le funzionalità di gphoto2"
+
+#, c-format
+msgid "Cannot initialize gphoto2 ports"
+msgstr "Impossibile inizializzare le porte di gphoto2"
+
+#, c-format
+msgid "Cannot load gphoto2 abilities"
+msgstr "Impossibile caricare le funzionalità di gphoto2"
+
+#, c-format
+msgid "Cannot load gphoto2 ports"
+msgstr "Impossibile caricare le porte di gphoto2"
+
+#, c-format
+msgid "Cannot preview image while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot wait for events while not opened"
+msgstr ""
+
+msgid "Capture"
+msgstr "Cattura"
+
+msgctxt "shortcut window"
+msgid "Capture a single image"
+msgstr "Cattura una singola immagine"
+
+msgid "Capture an image"
+msgstr "Cattura un'immagine"
+
+#, c-format
+msgid "Capture target setting not available with this camera"
+msgstr ""
+"Impostazione del target di cattura non disponibile per questa fotocamera"
+
+msgid "Capture;Camera;Tethered;Photo;"
+msgstr "Cattura;Fotocamera;Connessa;Foto;"
+
+msgid "Center lines"
+msgstr "Righe centrali"
+
+msgid ""
+"Check that the camera is not\n"
+"\n"
+" - opened by another photo <b>application</b>\n"
+" - mounted as a <b>filesystem</b> on the desktop\n"
+" - in <b>sleep mode</b> to save battery power\n"
+msgstr ""
+"Controllare che la fotocamera non sia:\n"
+"\n"
+" - in uso da un'altra <b>applicazione</b>;\n"
+" - montata come <b>file system</b>;\n"
+" - in <b>modalità sleep</b> per il risparmio della batteria.\n"
+
+msgctxt "shortcut window"
+msgid "Close all windows & exit"
+msgstr "Chiudere tutte le finestre e uscire"
+
+msgid "Color Management"
+msgstr "Gestione del colore"
+
+msgid "Colour managed display"
+msgstr "Schermo con gestione del colore"
+
+msgid "Continue preview mode after capture"
+msgstr "Continua la modalità anteprima dopo la cattura"
+
+msgid "Continuous capture preview"
+msgstr "Anteprima a cattura continua"
+
+msgctxt "shortcut window"
+msgid "Controlling the application"
+msgstr "Verificando l'applicazione"
+
+#, c-format
+msgid "Controls not available for this camera"
+msgstr "Controlli non disponibili per questa fotocamera"
+
+#, c-format
+msgid "Controls not available when camera is closeed"
+msgstr ""
+
+msgid "Delete"
+msgstr "Elimina"
+
+msgid "Delete file from camera after downloading"
+msgstr "Elimina il file dalla fotocamera dopo lo scaricamento"
+
+msgid "Detect the system monitor profile"
+msgstr "Identifica il profilo dello schermo di sistema"
+
+msgid "Display focus point during preview"
+msgstr "Mostra il punto di fuoco durante l'anteprima"
+
+msgctxt "shortcut window"
+msgid "Display help manual"
+msgstr "Visualizzare il manuale d'aiuto"
 
 msgid "Entangle"
 msgstr "Entangle"
 
-msgid "Tethered Camera Control &amp; Capture"
-msgstr "Controllo e cattura per la fotocamera connessa"
-
-msgid ""
-"Entangle is a program used to control digital cameras that are connected to "
-"the computer via USB."
-msgstr ""
-"Entangle è un programma usato per controllare fotocamere digitali che sono "
-"connesse al computer via USB."
+msgid "Entangle Preferences"
+msgstr "Preferenze di Entangle"
 
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
@@ -823,6 +318,13 @@ msgstr ""
 "impostazioni della fotocamera direttamente dal computer."
 
 msgid ""
+"Entangle is a program used to control digital cameras that are connected to "
+"the computer via USB."
+msgstr ""
+"Entangle è un programma usato per controllare fotocamere digitali che sono "
+"connesse al computer via USB."
+
+msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
@@ -830,82 +332,610 @@ msgstr ""
 "Entangle è compatibile con molte fotocamereDSLR di Nikon e Canon, con alcune "
 "dei loro modelli compact, e una varietà di fotocamere di altri produttori."
 
+msgid "Entangle: Camera autofocus failed"
+msgstr "Entangle: autofocus fotocamera non riuscito"
+
+msgid "Entangle: Camera connect failed"
+msgstr "Entangle: connessione alla fotocamera non riuscita"
+
+msgid "Entangle: Camera control update failed"
+msgstr "Entangle: aggiornamento dei controlli della fotocamera non riuscito"
+
+msgid "Entangle: Camera load controls failed"
+msgstr "Entangle: caricamento dei controlli della fotocamera non riuscito"
+
+msgid "Entangle: Camera manual focus failed"
+msgstr "Entangle: focus manuale fotocamera non riuscito"
+
+msgid "Entangle: Operation failed"
+msgstr "Entangle: operazione non riuscita"
+
+#, c-format
+msgid "Failed to read manual focus choice %d: %s %d"
+msgstr "Lettura della scelta di fuoco manuale non riuscita %d %s %d"
+
+#, c-format
+msgid "Failed to set autofocus state: %s %d"
+msgstr "Impostazione autofocus non riuscita: %s %d"
+
+#, c-format
+msgid "Failed to set capture target: %s %d"
+msgstr "Impostazione del target di cattura fallita: %s %d"
+
+#, c-format
+msgid "Failed to set manual focus state: %s %d"
+msgstr "Impostazione focus manuale non riuscita: %s %d"
+
+#, c-format
+msgid "Failed to set time state: %s %d"
+msgstr "Impostazione dello stato dell'ora fallita: %s %d"
+
+#, c-format
+msgid "Failed to set viewfinder state: %s %d"
+msgstr "Impostazione mirino non riuscita: %s %d"
+
+msgid "Filename pattern:"
+msgstr "Schema del nome del file:"
+
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr "Controlli di focus (durante anteprima live)"
+
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr "Focus in (grandi step)"
+
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr "Focus in (piccoli step)"
+
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
+msgstr "Focus out (grandi step)"
+
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr "Focus out (piccoli step)"
+
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Tuttoschermo"
+
+msgid "Golden sections"
+msgstr "Sezioni auree"
+
+msgid "Grid lines:"
+msgstr "Griglia:"
+
+msgid "Highlight areas of overexposure"
+msgstr "Evidenzia aree di sovraesposizione"
+
+msgid "Highlight:"
+msgstr "Evidenzia:"
+
+msgid "ICC profiles (*.icc, *.icm)"
+msgstr "Profili ICC (*.icc, *.icm)"
+
+msgid "IP Address:"
+msgstr "Indirizzo IP:"
+
+msgid "Image Viewer"
+msgstr "Visualizzatore di immagini"
+
+msgctxt "shortcut window"
+msgid "Image display"
+msgstr "Visualizzazione dell'immagine"
+
+msgid "Image histogram"
+msgstr "Istogramma dell'immagine"
+
+msgid "Interface"
+msgstr "Interfaccia"
+
+#, c-format
+msgid "Manual focus control not available with this camera"
+msgstr "Focus manuale non disponibile per questa fotocamera"
+
+#, c-format
+msgid "Manual focus control was not a range or radio widget"
+msgstr "Focus manuale non è un range o radio widget"
+
+msgid "Manual focus failed"
+msgstr "Focus manuale non riuscito"
+
+msgid "Mask opacity:"
+msgstr "Opacità maschera:"
+
+msgid "Missing 'execute' method implementation"
+msgstr "Manca l'implementazione del metodo \"esecuzione\""
+
+msgid "Mode of operation:"
+msgstr "Modalità di operazione:"
+
+msgid "Model"
+msgstr "Modello"
+
+msgid "Monitor"
+msgstr "Schermo"
+
+msgid "Monitor profile:"
+msgstr "Profilo del monitor:"
+
+msgid "Network camera"
+msgstr "Fotocamera di rete"
+
+msgid "No"
+msgstr "No"
+
+msgid "No camera connected"
+msgstr "Nessuna fotocamera connessa"
+
+msgid ""
+"No cameras were detected, check that\n"
+"\n"
+"  - the <b>cables</b> are connected\n"
+"  - the camera is <b>turned on</b>\n"
+"  - the camera is in the <b>correct mode</b>\n"
+"  - the camera is a <b>supported</b> model\n"
+"\n"
+"USB cameras are automatically detected\n"
+"when plugged in, for others try a refresh\n"
+"or enter a network camera IP address"
+msgstr ""
+"Nessuna fotocamera è stata trovata, controlla che\n"
+"\n"
+"  - i <b>cavi</b> sono connessi\n"
+"  - la fotocamera è <b>accesa</b>\n"
+"  - la fotocamera è nella <b>modalità corretta</b>\n"
+"  - la camera è un modello <b>supportato</b>\n"
+"\n"
+"fotocamere USB sono riconosciute automaticamente\n"
+"quando connesse, per altri tipi di fotocamera cercare di\n"
+"fare un refresh o inserire l'indirizzo IP della fotocamera"
+
+msgid "No config options"
+msgstr "Nessuna opzione di configurazione"
+
+msgid "No controls available"
+msgstr "Nessun controllo disponibile"
+
+msgid "No script"
+msgstr "Nessuno script"
+
+msgid "None"
+msgstr "nessuno"
+
+msgid "Off"
+msgstr "Inattivo"
+
+msgid "On"
+msgstr "Attivo"
+
+msgid "Open"
+msgstr "Aprire"
+
+msgctxt "shortcut window"
+msgid "Open a new camera window"
+msgstr "Aprire una nuova finestra per la fotocamera"
+
+msgid "Open with"
+msgstr "Apri con"
+
+#, c-format
+msgid "Operation: %s"
+msgstr "Operazione: %s"
+
+msgid "Overlay earlier images"
+msgstr "Sovrapponi le immagini precedenti"
+
+msgid "Overlay layers:"
+msgstr "Livelli di sovrapposizione:"
+
+msgid "Pattern must contain 'XXXXXX' placeholder"
+msgstr ""
+
+msgid "Perceptual"
+msgstr "Percettivo"
+
+msgid "Plugins"
+msgstr "Plugin"
+
+msgid "Port"
+msgstr "Porta"
+
+msgctxt "shortcut window"
+msgid "Presentation"
+msgstr "Presentazione"
+
+msgid "Preview"
+msgstr "Anteprima"
+
+msgid "Quarters"
+msgstr "Quarti"
+
+msgid "RGB profile:"
+msgstr "Profilo RGB:"
+
+msgid "Relative colourimetric"
+msgstr "Colorimetrico relativo"
+
+msgid "Rendering intent:"
+msgstr "Scopo del rendering:"
+
+msgid "Reset controls"
+msgstr "Resetta i controlli"
+
+msgid "Retry"
+msgstr "Ritenta"
+
+msgid "Rule of 3rds"
+msgstr "Regola dei terzi"
+
+msgid "Rule of 5ths"
+msgstr "Regola dei quinti"
+
+msgid "Saturation"
+msgstr "Saturazione"
+
+msgid "Screen blanking is not available on this display"
+msgstr "Lo svuotamento della schermata non è disponibile su questo schermo"
+
+msgid "Screen blanking is not implemented on this platform"
+msgstr ""
+"Lo svuotamento della schermata non è implementato su questa piattaforma"
+
+msgid "Script"
+msgstr "Script"
+
+msgid "Select a camera to connect to:"
+msgstr "Selezionare una fotocamera a cui connettersi:"
+
+msgid "Select a folder"
+msgstr "Selezione cartella"
+
+msgid "Select application..."
+msgstr "Selezionare un'applicazione..."
+
+msgid "Select camera - Entangle"
+msgstr "Selezione fotocamera - Entangle"
+
+msgid "Set clock"
+msgstr "Imposta ora"
+
+msgid "Show linear histogram"
+msgstr "Mostra istogramma lineare"
+
+msgctxt "shortcut window"
+msgid "Shutter control"
+msgstr "Controlli otturatore"
+
+msgid "Tethered Camera Control & Capture"
+msgstr "Controllo e cattura dalla fotocamera via cavo"
+
+msgid "Tethered Camera Control &amp; Capture"
+msgstr "Controllo e cattura per la fotocamera connessa"
+
 msgid "The Entangle Photo project"
 msgstr "Il progetto Fotografico Entangle"
 
-msgid "Require gobject introspection &gt;= 1.54"
-msgstr "Necessita di gobject introspection &gt;=1.54"
-
-msgid "Require GTK3 &gt;= 3.22"
-msgstr "Necessita GTK3 &gt;=3.22"
-
-msgid "Fix dependency on libraw"
-msgstr "Correggi le dipendenze in libraw"
-
-msgid "Fix variable name in photobox plugin"
-msgstr "Correggi il nome della variabile nel plugin photobox"
-
-msgid "Document some missing keyboard shortcuts"
-msgstr "Documenta alcune scorciatoie di tastiera mancanti"
-
-msgid "Fix upper bound in histogram to display clipped pixel"
+msgid ""
+"The camera cannot be opened because it is currently mounted as a filesystem. "
+"Do you wish to umount it now ?"
 msgstr ""
-"Correggi il limite superiore nel istogramma per mostrare i pixel troncati"
+"La fotocamera non può essere aperta perché è montata come un file system. "
+"Smontarla ora?"
 
-msgid "Refresh translations"
-msgstr "Aggiorna traduzioni"
+msgid "This camera does not support image capture"
+msgstr "Questa fotocamera non supporta la cattura delle immagini"
 
-msgid "Option to highlight over exposed pixels in red"
-msgstr "Opzione per evidenziare in rosso i pixel sovraesposti"
+msgid "This camera does not support image preview"
+msgstr "Questa fotocamera non supporta l'anteprima dell'immagine"
 
-msgid "Disable noisy compiler warning"
-msgstr "Disabilita l'allarme per il noisy compiler"
+#, c-format
+msgid "Time setting not available with this camera"
+msgstr "Impostazione dell'ora non disponibile per questa fotocamera"
 
-msgid "Remove use of deprecated application menu concept"
-msgstr "Rimuovi l'uso di concept del menu applicazione non più in uso"
+#, c-format
+msgid "Time setting was not a choice widget"
+msgstr "Impostazione dell'ora non è un choice widget"
 
-msgid "Fix image redraw when changing some settings"
-msgstr "Correggi l'aggiornamento dell'immagine quando cambi alcuni settaggi"
+#, c-format
+msgid "Time setting was not a date widget"
+msgstr "Impostazione dell'ora non è un date widget"
 
-msgid "Update mailing list address in appdaat"
-msgstr "Aggiorna l'indirizzo della lista di distribuzione in appaat"
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr "Attiva indice dell'istogramma"
 
-msgid "Add more fields to appdata content"
-msgstr "Aggiungi più campi ai contenuti in appdata"
+msgctxt "shortcut window"
+msgid "Toggle image mask"
+msgstr "Attiva maschera immagine"
 
-msgid "Fix reference counting during window close"
-msgstr "Correggi il reference counting durante la chiusura della finestra"
+msgctxt "shortcut window"
+msgid "Toggle live preview"
+msgstr "Attiva anteprima live"
 
-msgid "Use correct API for destroying top level windows"
-msgstr "Usa la API corretta per terminare le finestre di alto livello"
+msgctxt "shortcut window"
+msgid "Toggle overexposure highlighting"
+msgstr "Attiva notifica di sovraesposizione"
 
-msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+#, c-format
+msgid "Unable to capture image: %s"
+msgstr "Impossibile catturare l'immagine: %s"
+
+#, c-format
+msgid "Unable to capture preview: %s"
+msgstr "Impossibile catturare l'anteprima: %s"
+
+#, c-format
+msgid "Unable to connect to camera: %s"
+msgstr "Impossibile connettersi alla fotocamera: %s"
+
+#, c-format
+msgid "Unable to delete file: %s"
+msgstr "Impossibile eliminare il file: %s"
+
+#, c-format
+msgid "Unable to fetch camera control configuration: %s"
 msgstr ""
-"Correggi la disconnessione di fotocamere con nuovi schemi di nomenclatura "
-"gvfs URI"
+"Impossibile ottenere la configurazione di controllo della fotocamera: %s"
 
-msgid "Avoid out of bounds read of property values"
-msgstr "Evita la lettura out of bound dei valori di proprietà"
+#, c-format
+msgid "Unable to fetch widget name"
+msgstr "Impossibile ottenere il nome del widget"
 
-msgid "Fix many memory leaks"
-msgstr "Aggiusta numerosi memory leaks"
+#, c-format
+msgid "Unable to fetch widget type"
+msgstr "Impossibile ottenere il tipo di widget"
 
-msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr "Workaround per quando i combo box non vengono mostrati in Wayland"
+#, c-format
+msgid "Unable to get camera file: %s"
+msgstr "Impossibile ottenere il file della fotocamera: %s"
 
-msgid "Fix race condition in building enums"
-msgstr "Correggi la race condition durante la costruzione di enums"
+#, c-format
+msgid "Unable to get file data: %s"
+msgstr "Impossibile ottenere i dati del file: %s"
 
-msgid "Fix setting of gschema directory during startup"
-msgstr "Correggi il settaggio della directory gschema durante l'avvio"
+#, c-format
+msgid "Unable to get filename: %s"
+msgstr "Impossibile ottenere il nome del file: %s"
 
-msgid "Set env to ensure plugins can find introspection typelib"
+#, c-format
+msgid "Unable to initialize camera: %s"
+msgstr "Impossibile inizializzare la fotocamera %s"
+
+#, c-format
+msgid "Unable to load controls, camera is not opened"
 msgstr ""
-"Setta env per fare in modo che i plugins possono trovare la introspection "
-"typelib"
 
-msgid "entangle"
-msgstr "entangle"
+#, c-format
+msgid "Unable to save camera control configuration: %s"
+msgstr ""
+"Impossibile salvare la configurazione di controllo della fotocamera: %s"
 
-msgid "Capture;Camera;Tethered;Photo;"
-msgstr "Cattura;Fotocamera;Connessa;Foto;"
+#, c-format
+msgid "Unable to save controls, camera is not configurable"
+msgstr "Impossibile salvare i controlli, la fotocamera non è configurabile"
+
+#, c-format
+msgid "Unable to save controls, camera is not opened"
+msgstr ""
+
+#, c-format
+msgid "Unable to wait for events: %s"
+msgstr "Impossibile attendere gli eventi: %s"
+
+msgid "Untitled script"
+msgstr "Script senza titolo"
+
+msgid "Use embedded preview from raw files"
+msgstr "Usa anteprima contenuta nei file raw"
+
+msgid "Use preview output as capture image"
+msgstr "Usa l'immagine di anteprima come immagine di cattura"
+
+#, c-format
+msgid "Viewfinder control not available with this camera"
+msgstr "Controllo mirino non disponibile per questa fotocamera"
+
+#, c-format
+msgid "Viewfinder control was not a toggle widget"
+msgstr "Il controllo mirino non era un widget attivabile"
+
+msgctxt "shortcut window"
+msgid "Window display"
+msgstr "Finestra di display"
+
+msgid "Yes"
+msgstr "Sì"
+
+msgid "Zoom _In"
+msgstr "In_grandisci"
+
+msgid "Zoom _Out"
+msgstr "Rid_uci"
+
+msgctxt "shortcut window"
+msgid "Zoom best"
+msgstr "Dimensioni ottimali"
+
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Ingrandisci"
+
+msgctxt "shortcut window"
+msgid "Zoom normal"
+msgstr "Dimensioni normali"
+
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Riduci"
+
+msgid "_About"
+msgstr "Informa_zioni su Entangle"
+
+msgid "_Cancel"
+msgstr "A_nnulla"
+
+msgid "_Connect…"
+msgstr "_Connetti…"
+
+msgid "_Disconnect…"
+msgstr "_Disconnetti…"
+
+msgid "_Fullscreen"
+msgstr "Tutto sc_hermo"
+
+msgid "_Help"
+msgstr "_Aiuto"
+
+msgid "_Keyboard shortcuts"
+msgstr "Scorciatoie da _tastiera"
+
+msgid "_Manual"
+msgstr "_Manuale"
+
+msgid "_New window"
+msgstr "Nuova _finestra"
+
+msgid "_Normal Size"
+msgstr "Dimensioni norma_li"
+
+msgid "_Open"
+msgstr "Ap_ri"
+
+msgid "_Preferences…"
+msgstr "_Preferenze…"
+
+msgid "_Presentation"
+msgstr "_Visualizza in una presentazione"
+
+msgid "_Quit"
+msgstr "Termina _Entangle"
+
+msgid "_Select session…"
+msgstr "_Scegli sessione…"
+
+msgid "_Settings"
+msgstr "_Impostazioni"
+
+msgid "_Supported cameras"
+msgstr "Fo_tocamere supportate"
+
+msgid "_Synchronize capture"
+msgstr "Sincr_onizza cattura"
+
+msgid "capture"
+msgstr "catturare"
+
+msgid "label"
+msgstr "etichetta"
+
+msgid "preview"
+msgstr "anteprima"
+
+msgid "settings"
+msgstr "impostazioni"
+
+#~ msgid "Cannot capture image while not connected"
+#~ msgstr ""
+#~ "Impossibile catturare l'immagine quando la fotocamera non è connessa"
+
+#~ msgid "Cannot preview image while not connected"
+#~ msgstr ""
+#~ "Impossibile creare l'anteprima dell'immagine quando la fotocamera non è "
+#~ "connessa"
+
+#~ msgid "Cannot download file while not connected"
+#~ msgstr "Impossibile scaricare il file quando la fotocamera non è connessa"
+
+#~ msgid "Cannot delete file while not connected"
+#~ msgstr "Impossibile eliminare il file quando la fotocamera non è connessa"
+
+#~ msgid "Cannot wait for events while not connected"
+#~ msgstr ""
+#~ "Impossibile attendere gli eventi quando la fotocamera non è connessa"
+
+#~ msgid "Unable to load controls, camera is not connected"
+#~ msgstr "Impossibile caricare i controlli, la fotocamera non è connessa"
+
+#~ msgid "Unable to save controls, camera is not connected"
+#~ msgstr "Impossibile salvare i controlli, la fotocamera non è connessa"
+
+#~ msgid "Controls not available when camera is disconnected"
+#~ msgstr ""
+#~ "I controlli non sono disponibili quando la fotocamera non è connessa"
+
+#~ msgid "Require gobject introspection &gt;= 1.54"
+#~ msgstr "Necessita di gobject introspection &gt;=1.54"
+
+#~ msgid "Require GTK3 &gt;= 3.22"
+#~ msgstr "Necessita GTK3 &gt;=3.22"
+
+#~ msgid "Fix dependency on libraw"
+#~ msgstr "Correggi le dipendenze in libraw"
+
+#~ msgid "Fix variable name in photobox plugin"
+#~ msgstr "Correggi il nome della variabile nel plugin photobox"
+
+#~ msgid "Document some missing keyboard shortcuts"
+#~ msgstr "Documenta alcune scorciatoie di tastiera mancanti"
+
+#~ msgid "Fix upper bound in histogram to display clipped pixel"
+#~ msgstr ""
+#~ "Correggi il limite superiore nel istogramma per mostrare i pixel troncati"
+
+#~ msgid "Refresh translations"
+#~ msgstr "Aggiorna traduzioni"
+
+#~ msgid "Option to highlight over exposed pixels in red"
+#~ msgstr "Opzione per evidenziare in rosso i pixel sovraesposti"
+
+#~ msgid "Disable noisy compiler warning"
+#~ msgstr "Disabilita l'allarme per il noisy compiler"
+
+#~ msgid "Remove use of deprecated application menu concept"
+#~ msgstr "Rimuovi l'uso di concept del menu applicazione non più in uso"
+
+#~ msgid "Fix image redraw when changing some settings"
+#~ msgstr "Correggi l'aggiornamento dell'immagine quando cambi alcuni settaggi"
+
+#~ msgid "Update mailing list address in appdaat"
+#~ msgstr "Aggiorna l'indirizzo della lista di distribuzione in appaat"
+
+#~ msgid "Add more fields to appdata content"
+#~ msgstr "Aggiungi più campi ai contenuti in appdata"
+
+#~ msgid "Fix reference counting during window close"
+#~ msgstr "Correggi il reference counting durante la chiusura della finestra"
+
+#~ msgid "Use correct API for destroying top level windows"
+#~ msgstr "Usa la API corretta per terminare le finestre di alto livello"
+
+#~ msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+#~ msgstr ""
+#~ "Correggi la disconnessione di fotocamere con nuovi schemi di nomenclatura "
+#~ "gvfs URI"
+
+#~ msgid "Avoid out of bounds read of property values"
+#~ msgstr "Evita la lettura out of bound dei valori di proprietà"
+
+#~ msgid "Fix many memory leaks"
+#~ msgstr "Aggiusta numerosi memory leaks"
+
+#~ msgid "Workaround for combo boxes not displaying on Wayland"
+#~ msgstr "Workaround per quando i combo box non vengono mostrati in Wayland"
+
+#~ msgid "Fix race condition in building enums"
+#~ msgstr "Correggi la race condition durante la costruzione di enums"
+
+#~ msgid "Fix setting of gschema directory during startup"
+#~ msgstr "Correggi il settaggio della directory gschema durante l'avvio"
+
+#~ msgid "Set env to ensure plugins can find introspection typelib"
+#~ msgstr ""
+#~ "Setta env per fare in modo che i plugins possono trovare la introspection "
+#~ "typelib"
+
+#~ msgid "entangle"
+#~ msgstr "entangle"

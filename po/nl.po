@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-03 22:10+0000\n"
+"POT-Creation-Date: 2020-05-16 23:09+0100\n"
 "PO-Revision-Date: 2020-01-10 15:15+0000\n"
 "Last-Translator: Geert Warrink <geert.warrink@onsnet.nu>\n"
 "Language-Team: Dutch <https://translate.stg.fedoraproject.org/projects/"
@@ -21,557 +21,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.10.1\n"
 
-#, c-format
-msgid "Cannot initialize gphoto2 abilities"
-msgstr "Kan gphoto2-mogelijkheden niet initialiseren"
-
-#, c-format
-msgid "Cannot load gphoto2 abilities"
-msgstr "Kan gphoto2-mogelijkheden niet laden"
-
-#, c-format
-msgid "Cannot initialize gphoto2 ports"
-msgstr "Kan gphoto2-poorten niet initialiseren"
-
-#, c-format
-msgid "Cannot load gphoto2 ports"
-msgstr "Kan gphoto2-poorten niet laden"
-
-#, c-format
-msgid "Unable to initialize camera: %s"
-msgstr "Kan camera niet initialiseren: %s"
-
-#, c-format
-msgid "Cannot capture image while not connected"
-msgstr "Kan geen schermopname maken als er geen verbinding is"
-
-#, c-format
-msgid "Unable to capture image: %s"
-msgstr "Kan geen schermopname maken: %s"
-
-#, c-format
-msgid "Cannot preview image while not connected"
-msgstr "Kan geen preview maken als er geen verbinding is"
-
-#, c-format
-msgid "Unable to capture preview: %s"
-msgstr "Kan geen preview maken: %s"
-
-#, c-format
-msgid "Unable to get file data: %s"
-msgstr "Kan geen bestandsdata krijgen: %s"
-
-#, c-format
-msgid "Unable to get filename: %s"
-msgstr "Kan geen bestandsnaam krijgen: %s"
-
-#, c-format
-msgid "Cannot download file while not connected"
-msgstr "Kan bestand niet downloaden als er geen verbinding is"
-
-#, c-format
-msgid "Unable to get camera file: %s"
-msgstr "Kan camerabestand niet krijgen: %s"
-
-#, c-format
-msgid "Cannot delete file while not connected"
-msgstr "Kan bestand niet verwijderen als er geen verbinding is"
-
-#, c-format
-msgid "Unable to delete file: %s"
-msgstr "Kan bestand niet verwijderen: %s"
-
-#, c-format
-msgid "Cannot wait for events while not connected"
-msgstr "Kan niet op events wachten als er geen verbinding is"
-
-#, c-format
-msgid "Unable to wait for events: %s"
-msgstr "Kan niet op events wachten: %s"
-
-#, c-format
-msgid "Unable to fetch widget type"
-msgstr "Kan widgettype niet ophalen"
-
-#, c-format
-msgid "Unable to fetch widget name"
-msgstr "Kan widgetnaam niet ophalen"
-
-#, c-format
-msgid "Unable to load controls, camera is not connected"
-msgstr "Kan besturingselementen niet laden, camera is niet aangesloten"
-
-#, c-format
-msgid "Unable to fetch camera control configuration: %s"
-msgstr "Kan camerabedieningsconfiguratie niet ophalen: %s"
-
-#, c-format
-msgid "Unable to save controls, camera is not connected"
-msgstr "Kan besturingselementen niet opslaan, camera is niet aangesloten"
-
-#, c-format
-msgid "Unable to save controls, camera is not configurable"
-msgstr "Kan besturingselementen niet opslaan, camera is niet configureerbaar"
-
-#, c-format
-msgid "Unable to save camera control configuration: %s"
-msgstr "Kan camerabedieningsconfiguratie niet opslaan: %s"
-
-#, c-format
-msgid "Controls not available when camera is disconnected"
-msgstr "Bedieningselementen niet beschikbaar als camera niet is aangesloten"
-
-#, c-format
-msgid "Controls not available for this camera"
-msgstr "Bedieningselementen zijn voor deze camera niet beschikbaar"
-
-#, c-format
-msgid "Viewfinder control not available with this camera"
-msgstr "Zoekerbediening is voor deze camera niet beschikbaar"
-
-#, c-format
-msgid "Viewfinder control was not a toggle widget"
-msgstr "Zoeker bedieningselement is geen schakelwidget"
-
-#, c-format
-msgid "Failed to set viewfinder state: %s %d"
-msgstr "Instellen van zoekerstatus mislukte: %s %d"
-
-#, c-format
-msgid "Autofocus control not available with this camera"
-msgstr "Autofocuscontrole niet beschikbaar voor deze camera"
-
-#, c-format
-msgid "Autofocus control was not a toggle widget"
-msgstr "Autofocuscontrole is geen schakelwidget"
-
-#, c-format
-msgid "Failed to set autofocus state: %s %d"
-msgstr "Instellen van autofocustoestand mislukte: %s %d"
-
-#, c-format
-msgid "Manual focus control not available with this camera"
-msgstr "Handmatige scherpstellingsbediening niet beschikbaar voor deze camera"
-
-#, c-format
-msgid "Manual focus control was not a range or radio widget"
-msgstr "Handmatige scherpstellingsbediening  was geen reeks of radiowidget"
-
-#, c-format
-msgid "Failed to set manual focus state: %s %d"
-msgstr "Handmatig instellen van scherpstellingstaat mislukte: %s %d"
-
-#, c-format
-msgid "Failed to read manual focus choice %d: %s %d"
-msgstr "Kan handmatige focuskeuze %d niet lezen: %s %d"
-
-#, c-format
-msgid "Time setting not available with this camera"
-msgstr "Tijdinstelling is voor deze camera niet beschikbaar"
-
-#, c-format
-msgid "Time setting was not a date widget"
-msgstr "Tijdinstelling is geen datum widget"
-
-#, c-format
-msgid "Failed to set time state: %s %d"
-msgstr "Instellen van de tijd mislukte: %s %d"
-
-#, c-format
-msgid "Capture target setting not available with this camera"
-msgstr "Doel vastleggen is bij deze camera niet beschikbaar"
-
-#, c-format
-msgid "Time setting was not a choice widget"
-msgstr "Tijdinstelling is geen keuzewidget"
-
-#, c-format
-msgid "Failed to set capture target: %s %d"
-msgstr "Instellen van doel vastleggen mislukte: %s %d"
-
-msgid "_New window"
-msgstr "_Nieuw venster"
-
-msgid "_Preferences…"
-msgstr "_Voorkeuren…"
-
-msgid "_Select session…"
-msgstr "_Selecteer sessie…"
-
-msgid "_Connect…"
-msgstr "_Verbinden…"
-
-msgid "_Disconnect…"
-msgstr "_Afbreken…"
-
-msgid "_Help"
-msgstr "_Hulp"
-
-msgid "_Supported cameras"
-msgstr "_Ondersteunde camera's"
-
-msgid "_Keyboard shortcuts"
-msgstr "_Toetsenbord snelkoppelingen"
-
-msgid "_Manual"
-msgstr "_Handmatig"
-
-msgid "_About"
-msgstr "_Over"
-
-msgid "_Quit"
-msgstr "_Verlaten"
-
-msgid "_Fullscreen"
-msgstr "_Volledig scherm"
-
-msgid "_Presentation"
-msgstr "_Presentatie"
-
-msgid "_Settings"
-msgstr "_Instellingen"
-
-msgid "_Synchronize capture"
-msgstr "_Synchroniseer opname"
-
-msgid "Best Fit"
-msgstr "Best passend"
-
-msgid "_Normal Size"
-msgstr "_Normale grootte"
-
-msgid "Zoom _In"
-msgstr "_In zoomen"
-
-msgid "Zoom _Out"
-msgstr "_Uit zoomen"
-
-msgid "Capture an image"
-msgstr "Leg een afbeelding vast"
-
-msgid "Continuous capture preview"
-msgstr "Continue vastleggen van preview"
-
-msgid "This camera does not support image capture"
-msgstr "Deze camera ondersteunt geen beeldopname"
-
-msgid "This camera does not support image preview"
-msgstr "Deze camera ondersteunt geen beeldopname preview"
-
-#, c-format
-msgid "Operation: %s"
-msgstr "Bewerking: %s"
-
-msgid "Entangle: Operation failed"
-msgstr "Entangle: Bewerking mislukte"
-
-msgid "Camera load controls failed"
-msgstr "Laden van camerabedieningselementen mislukte"
-
-msgid "Entangle: Camera load controls failed"
-msgstr "Entangle: Laden van camerabedieningselementen mislukte"
-
-msgid "Monitor"
-msgstr "Monitor"
-
-msgid "No camera connected"
-msgstr "Geen camera aangesloten"
-
-#, c-format
-msgid "Unable to connect to camera: %s"
-msgstr "Kan niet verbinden met camera: %s"
-
-msgid ""
-"Check that the camera is not\n"
-"\n"
-" - opened by another photo <b>application</b>\n"
-" - mounted as a <b>filesystem</b> on the desktop\n"
-" - in <b>sleep mode</b> to save battery power\n"
-msgstr ""
-"Controleer of de camera niet\n"
-"\n"
-" - geopend is door een ander foto <b>toepassing</b>\n"
-" - aangekoppeld is als een <b>bestandssysteem</b> op het bureaublad\n"
-" - in <b>slaapmodus</b> staat om batterijvermogen te besparen\n"
-
-msgid "Cancel"
-msgstr "Annuleren"
-
-msgid "Retry"
-msgstr "Opnieuw proberen"
-
-msgid "Camera is in use"
-msgstr "Camera is in gebruik"
-
-msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
-msgstr ""
-"De camera kan niet geopend worden omdat het op dit moment aangekoppeld is "
-"als een bestandssysteem. Wil je het nu afkoppelen?"
-
-msgid "No"
-msgstr "Nee"
-
-msgid "Yes"
-msgstr "Ja"
-
-msgid "Camera connect failed"
-msgstr "Verbinden met camera mislukte"
-
-msgid "Entangle: Camera connect failed"
-msgstr "Entangle: Verbinden met camera mislukte"
-
-msgid "Select a folder"
-msgstr "Selecteer een folder"
-
-msgid "_Cancel"
-msgstr "_Afbreken"
-
-msgid "_Open"
-msgstr "_Openen"
-
-msgid "Capture"
-msgstr "Vastleggen"
-
-msgid "Script"
-msgstr "Script"
-
-msgid "Preview"
-msgstr "Voorbeeld"
-
-msgid "Set clock"
-msgstr "Instellen klok"
-
-msgid "Autofocus failed"
-msgstr "Autofocus mislukte"
-
-msgid "Entangle: Camera autofocus failed"
-msgstr "Entangle: Camera autofocus mislukte"
-
-msgid "Manual focus failed"
-msgstr "Handmatige scherpstelling mislukte"
-
-msgid "Entangle: Camera manual focus failed"
-msgstr "Entangle: Camera handmatige scherpstelling mislukte"
-
-msgid "Delete"
-msgstr "Verwijderen"
-
-msgid "Open"
-msgstr "Openen"
-
-msgid "Open with"
-msgstr "Openen met"
-
-msgid "Select application..."
-msgstr "Selecteer toepassing..."
-
-msgid "Image histogram"
-msgstr "Histogram van afbeelding"
-
-msgid "Automation"
-msgstr "Automatisering"
-
-msgid "Model"
-msgstr "Model"
-
-msgid "Port"
-msgstr "Poort"
-
-msgid "Select camera - Entangle"
-msgstr "Selecteer camera - Entangle"
-
-msgid "Select a camera to connect to:"
-msgstr "Selecteer een camera om te verbinden met:"
-
-msgid ""
-"No cameras were detected, check that\n"
-"\n"
-"  - the <b>cables</b> are connected\n"
-"  - the camera is <b>turned on</b>\n"
-"  - the camera is in the <b>correct mode</b>\n"
-"  - the camera is a <b>supported</b> model\n"
-"\n"
-"USB cameras are automatically detected\n"
-"when plugged in, for others try a refresh\n"
-"or enter a network camera IP address"
-msgstr ""
-"Er werden geen camera's gedetecteerd, controleer of\n"
-"\n"
-"  - de <b>kabels</b> aangesloten zijn\n"
-"  - de camera <b>ingeschakeld</b>\n"
-"  - de camera zich in de <b>juiste modus</b> bevindt\n"
-"  - de camera een <b>ondersteund</b> model is\n"
-"\n"
-"USB camera's worden automatisch gedetecteerd\n"
-"als ze ingeplugd worden, probeer voor andere een\n"
-"verversing of vul een netwerk camera IP adres in"
-
-msgid "IP Address:"
-msgstr "IP adres:"
-
-msgid "Network camera"
-msgstr "Netwerk camera"
-
-msgid "capture"
-msgstr "vangen"
-
-msgid "preview"
-msgstr "voorbeeld"
-
-msgid "settings"
-msgstr "instellingen"
-
-msgid "label"
-msgstr "label"
-
-msgid "Camera control update failed"
-msgstr "Camerabedieningselementen vernieuwen mislukte"
-
-msgid "Entangle: Camera control update failed"
-msgstr "Entangle: Camerabedieningselementen vernieuwing mislukte"
-
-msgid "On"
-msgstr "Aan"
-
-msgid "Off"
-msgstr "Uiy"
-
-msgid "Reset controls"
-msgstr "Reset bediening"
-
-msgid "No controls available"
-msgstr "Geen bedieningselementen beschikbaar"
-
-msgid "Screen blanking is not available on this display"
-msgstr "Schermonderdrukking is op dit display niet beschikbaar"
-
-msgid "Screen blanking is not implemented on this platform"
-msgstr "Schermonderdrukking is op dit platform niet geïmplementeerd"
-
-msgid "About - Entangle"
-msgstr "Over - Entangle"
-
-msgid "Tethered Camera Control & Capture"
-msgstr "Gebonden camera controle & vastleggen"
-
-msgctxt "shortcut window"
-msgid "Controlling the application"
-msgstr "Controle van de toepassing"
-
-msgctxt "shortcut window"
-msgid "Open a new camera window"
-msgstr "Open een nieuw cameravenster"
-
-msgctxt "shortcut window"
-msgid "Close all windows & exit"
-msgstr "Sluit alle vensters & sluit af"
-
-msgctxt "shortcut window"
-msgid "Display help manual"
-msgstr "Toon hulp-handleiding"
-
-msgctxt "shortcut window"
-msgid "Image display"
-msgstr "Beeldweergave"
-
-msgctxt "shortcut window"
-msgid "Zoom in"
-msgstr "In zoomen"
-
-msgctxt "shortcut window"
-msgid "Zoom out"
-msgstr "Uit zoomen"
-
-msgctxt "shortcut window"
-msgid "Zoom normal"
-msgstr "Normale zoom"
-
-msgctxt "shortcut window"
-msgid "Zoom best"
-msgstr "Beste zoom"
-
-msgctxt "shortcut window"
-msgid "Toggle image mask"
-msgstr "Beeldmasker omschakelen"
-
-msgctxt "shortcut window"
-msgid "Toggle overexposure highlighting"
-msgstr "Overbelichting markeren omschakelen"
-
-msgctxt "shortcut window"
-msgid "Toggle histogram scale"
-msgstr "Histogramschaal omschakelen"
-
-msgctxt "shortcut window"
-msgid "Window display"
-msgstr "Vensterweergave"
-
-msgctxt "shortcut window"
-msgid "Fullscreen"
-msgstr "Volledig scherm"
-
-msgctxt "shortcut window"
-msgid "Presentation"
-msgstr "Presentatie"
-
-msgctxt "shortcut window"
-msgid "Shutter control"
-msgstr "Sluitercontrole"
-
-msgctxt "shortcut window"
-msgid "Capture a single image"
-msgstr "Maak een enkele afbeelding"
-
-msgctxt "shortcut window"
-msgid "Toggle live preview"
-msgstr "Live preview omschakelen"
-
-msgctxt "shortcut window"
-msgid "Focus control (during live preview)"
-msgstr "Focusregeling (tijdens live preview)"
-
-msgctxt "shortcut window"
-msgid "Autofocus"
-msgstr "Autofocus"
-
-msgctxt "shortcut window"
-msgid "Focus in (small step)"
-msgstr "Focus in (kleine stap)"
-
-msgctxt "shortcut window"
-msgid "Focus out (small step)"
-msgstr "Focus uit (kleine stap)"
-
-msgctxt "shortcut window"
-msgid "Focus in (large step)"
-msgstr "Focus in (grote stap)"
-
-msgctxt "shortcut window"
-msgid "Focus out (large step)"
-msgstr "Focus uit (grote stap)"
-
-msgid "Interface"
-msgstr "Interface"
-
-msgid "Image Viewer"
-msgstr "Afbeeldingsviewer"
-
-msgid "Color Management"
-msgstr "Kleurbeheer"
-
-msgid "Plugins"
-msgstr "Plug-ins"
-
-msgid "ICC profiles (*.icc, *.icm)"
-msgstr "ICC profielen (*.icc, *.icm)"
-
-msgid "All files (*.*)"
-msgstr "Alle bestanden (*.*)"
-
-msgid "1:1 - Square / MF 6x6"
-msgstr "1:1 - Rechthoekig / MF 6x6"
+msgid "0"
+msgstr "0"
 
 msgid "1.15:1 - Movietone"
 msgstr "1.15:1 - Movietone"
@@ -588,11 +39,11 @@ msgstr "1.44:1 - IMAX"
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
 msgstr "1.50:1 (3:2, 15:10)- 35mm SLR"
 
-msgid "1.6:1 (8:5, 16:10) - Widescreen"
-msgstr "1.6:1 (8:5, 16:10) - Widescreen"
-
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
 msgstr "1.66:1 (5:3, 15:9) - Super 16mm"
+
+msgid "1.6:1 (8:5, 16:10) - Widescreen"
+msgstr "1.6:1 (8:5, 16:10) - Widescreen"
 
 msgid "1.75:1 (7:4) - Widescreen"
 msgstr "1.75:1 (7:4) - Widescreen"
@@ -602,6 +53,12 @@ msgstr "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
 
 msgid "1.85:1 - 35mm Widescreen"
 msgstr "1.85:1 - 35mm Widescreen"
+
+msgid "12.00:1 - Circle-Vision 360"
+msgstr "12.00:1 - Circle-Vision 360"
+
+msgid "1:1 - Square / MF 6x6"
+msgstr "1:1 - Rechthoekig / MF 6x6"
 
 msgid "2.00:1 - SuperScope"
 msgstr "2.00:1 - SuperScope"
@@ -636,92 +93,38 @@ msgstr "2.76:1 (11:4) - Ultra Panavision"
 msgid "2.93:1 - MGM Camera 65"
 msgstr "2.93:1 - MGM Camera 65"
 
+msgid "3"
+msgstr "3"
+
 msgid "3:1 APS Panorama"
 msgstr "3:1 APS Panorama"
 
 msgid "4.00:1 - Polyvision"
 msgstr "4.00:1 - Polyvision"
 
-msgid "12.00:1 - Circle-Vision 360"
-msgstr "12.00:1 - Circle-Vision 360"
-
-msgid "None"
-msgstr "Geen"
-
-msgid "Center lines"
-msgstr "Hartlijnen"
-
-msgid "Rule of 3rds"
-msgstr "Regel van 3den"
-
-msgid "Quarters"
-msgstr "In vierendelen"
-
-msgid "Rule of 5ths"
-msgstr "Regel van 5den"
-
-msgid "Golden sections"
-msgstr "Gouden secties"
-
-msgid "Entangle Preferences"
-msgstr "Entangle voorkeuren"
-
 msgid "<b>Capture</b>"
 msgstr "<b>Vastleggen</b>"
-
-msgid "Filename pattern:"
-msgstr "Bestandsnaam patroon:"
-
-msgid "Continue preview mode after capture"
-msgstr "Ga verder met  preview modus na schermopname"
-
-msgid "Use preview output as capture image"
-msgstr "Gebruik preview output om afbeelding vast te leggen"
-
-msgid "Delete file from camera after downloading"
-msgstr "Verwijder bestand uit camera na het downloaden"
-
-msgid "Automatically synchronize camera clock"
-msgstr "Synchroniseer de cameraklok automatisch"
 
 msgid "<b>Colour management</b>"
 msgstr "<b>Kleurbeheer</b>"
 
-msgid "Mode of operation:"
-msgstr "Werkingsmodus:"
-
-msgid "RGB profile:"
-msgstr "RGB profiel:"
-
-msgid "Monitor profile:"
-msgstr "Monitorprofiel:"
-
-msgid "Rendering intent:"
-msgstr "Rendermethode:"
-
-msgid "Detect the system monitor profile"
-msgstr "Detecteer het systeem monitorprofiel"
-
-msgid "Colour managed display"
-msgstr "Kleuren-beheerd display"
-
-msgid "<b>Plugins</b>"
-msgstr "<b>Plug-ins</b>"
+msgid "<b>Image Viewer</b>"
+msgstr "<b>Afbeeldingsviewer</b>"
 
 msgid "<b>Interface</b>"
 msgstr "<b>Interface</b>"
 
-msgid "Automatically connect to cameras at startup"
-msgstr "Verbind bij opstarten automatisch met camera"
+msgid "<b>Plugins</b>"
+msgstr "<b>Plug-ins</b>"
 
-msgid "Blank screen when capturing images"
-msgstr "Onderdruk scherm bij afbeeldingsopname"
+msgid "About - Entangle"
+msgstr "Over - Entangle"
 
-msgid "Show linear histogram"
-msgstr "Toon lineair histogram"
+msgid "Absolute colourimetric"
+msgstr "Absolute colorimetrie"
 
-msgid "<b>Image Viewer</b>"
-msgstr "<b>Afbeeldingsviewer</b>"
+msgid "All files (*.*)"
+msgstr "Alle bestanden (*.*)"
 
 msgid "Apply mask to alter aspect ratio"
 msgstr "Pas masker toe om beeldverhouding te veranderen"
@@ -729,75 +132,172 @@ msgstr "Pas masker toe om beeldverhouding te veranderen"
 msgid "Aspect ratio:"
 msgstr "Beeldverhouding:"
 
-msgid "Mask opacity:"
-msgstr "Maskerondoorzichtigheid:"
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr "Autofocus"
 
-msgid "0"
-msgstr "0"
+#, c-format
+msgid "Autofocus control not available with this camera"
+msgstr "Autofocuscontrole niet beschikbaar voor deze camera"
 
-msgid "Display focus point during preview"
-msgstr "Toon focuspunten tijdens preview"
+#, c-format
+msgid "Autofocus control was not a toggle widget"
+msgstr "Autofocuscontrole is geen schakelwidget"
 
-msgid "Grid lines:"
-msgstr "Rasterlijnen:"
+msgid "Autofocus failed"
+msgstr "Autofocus mislukte"
 
-msgid "Use embedded preview from raw files"
-msgstr "Gebruik ingesloten preview van raw-bestanden"
+msgid "Automatically connect to cameras at startup"
+msgstr "Verbind bij opstarten automatisch met camera"
 
-msgid "Overlay earlier images"
-msgstr "Bedek vorige beelden"
+msgid "Automatically synchronize camera clock"
+msgstr "Synchroniseer de cameraklok automatisch"
 
-msgid "Overlay layers:"
-msgstr "Bedekkingslagen:"
-
-msgid "3"
-msgstr "3"
+msgid "Automation"
+msgstr "Automatisering"
 
 msgid "Background:"
 msgstr "Achtergrond:"
 
-msgid "Highlight:"
-msgstr "Markering:"
+msgid "Best Fit"
+msgstr "Best passend"
 
-msgid "Highlight areas of overexposure"
-msgstr "Markeer gebieden met overbelichting"
+msgid "Blank screen when capturing images"
+msgstr "Onderdruk scherm bij afbeeldingsopname"
 
-msgid "Perceptual"
-msgstr "Perceptueel"
+msgid "Camera connect failed"
+msgstr "Verbinden met camera mislukte"
 
-msgid "Relative colourimetric"
-msgstr "Relatieve colorimetrie"
+msgid "Camera control update failed"
+msgstr "Camerabedieningselementen vernieuwen mislukte"
 
-msgid "Saturation"
-msgstr "Verzadiging"
+msgid "Camera is in use"
+msgstr "Camera is in gebruik"
 
-msgid "Absolute colourimetric"
-msgstr "Absolute colorimetrie"
+msgid "Camera load controls failed"
+msgstr "Laden van camerabedieningselementen mislukte"
 
-msgid "Untitled script"
-msgstr "Naamloos script"
+msgid "Cancel"
+msgstr "Annuleren"
 
-msgid "No script"
-msgstr "Geen script"
+#, c-format
+msgid "Cannot capture image while not opened"
+msgstr ""
 
-msgid "No config options"
-msgstr "Geen configureeropties"
+#, c-format
+msgid "Cannot delete file while not opened"
+msgstr ""
 
-msgid "Missing 'execute' method implementation"
-msgstr "Implementatie van de methode 'uitvoeren' ontbreekt"
+#, c-format
+msgid "Cannot download file while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot initialize gphoto2 abilities"
+msgstr "Kan gphoto2-mogelijkheden niet initialiseren"
+
+#, c-format
+msgid "Cannot initialize gphoto2 ports"
+msgstr "Kan gphoto2-poorten niet initialiseren"
+
+#, c-format
+msgid "Cannot load gphoto2 abilities"
+msgstr "Kan gphoto2-mogelijkheden niet laden"
+
+#, c-format
+msgid "Cannot load gphoto2 ports"
+msgstr "Kan gphoto2-poorten niet laden"
+
+#, c-format
+msgid "Cannot preview image while not opened"
+msgstr ""
+
+#, c-format
+msgid "Cannot wait for events while not opened"
+msgstr ""
+
+msgid "Capture"
+msgstr "Vastleggen"
+
+msgctxt "shortcut window"
+msgid "Capture a single image"
+msgstr "Maak een enkele afbeelding"
+
+msgid "Capture an image"
+msgstr "Leg een afbeelding vast"
+
+#, c-format
+msgid "Capture target setting not available with this camera"
+msgstr "Doel vastleggen is bij deze camera niet beschikbaar"
+
+msgid "Capture;Camera;Tethered;Photo;"
+msgstr "Vastleggen;Camera;Vastgebonden; Foto;"
+
+msgid "Center lines"
+msgstr "Hartlijnen"
+
+msgid ""
+"Check that the camera is not\n"
+"\n"
+" - opened by another photo <b>application</b>\n"
+" - mounted as a <b>filesystem</b> on the desktop\n"
+" - in <b>sleep mode</b> to save battery power\n"
+msgstr ""
+"Controleer of de camera niet\n"
+"\n"
+" - geopend is door een ander foto <b>toepassing</b>\n"
+" - aangekoppeld is als een <b>bestandssysteem</b> op het bureaublad\n"
+" - in <b>slaapmodus</b> staat om batterijvermogen te besparen\n"
+
+msgctxt "shortcut window"
+msgid "Close all windows & exit"
+msgstr "Sluit alle vensters & sluit af"
+
+msgid "Color Management"
+msgstr "Kleurbeheer"
+
+msgid "Colour managed display"
+msgstr "Kleuren-beheerd display"
+
+msgid "Continue preview mode after capture"
+msgstr "Ga verder met  preview modus na schermopname"
+
+msgid "Continuous capture preview"
+msgstr "Continue vastleggen van preview"
+
+msgctxt "shortcut window"
+msgid "Controlling the application"
+msgstr "Controle van de toepassing"
+
+#, c-format
+msgid "Controls not available for this camera"
+msgstr "Bedieningselementen zijn voor deze camera niet beschikbaar"
+
+#, c-format
+msgid "Controls not available when camera is closeed"
+msgstr ""
+
+msgid "Delete"
+msgstr "Verwijderen"
+
+msgid "Delete file from camera after downloading"
+msgstr "Verwijder bestand uit camera na het downloaden"
+
+msgid "Detect the system monitor profile"
+msgstr "Detecteer het systeem monitorprofiel"
+
+msgid "Display focus point during preview"
+msgstr "Toon focuspunten tijdens preview"
+
+msgctxt "shortcut window"
+msgid "Display help manual"
+msgstr "Toon hulp-handleiding"
 
 msgid "Entangle"
 msgstr "Entangle"
 
-msgid "Tethered Camera Control &amp; Capture"
-msgstr "Gebonden camera controle &amp; vastleggen"
-
-msgid ""
-"Entangle is a program used to control digital cameras that are connected to "
-"the computer via USB."
-msgstr ""
-"Entangle is een programma voor het beheren van digitale camera's die via USB "
-"met de computer verbonden zijn."
+msgid "Entangle Preferences"
+msgstr "Entangle voorkeuren"
 
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
@@ -814,6 +314,13 @@ msgstr ""
 "worden."
 
 msgid ""
+"Entangle is a program used to control digital cameras that are connected to "
+"the computer via USB."
+msgstr ""
+"Entangle is een programma voor het beheren van digitale camera's die via USB "
+"met de computer verbonden zijn."
+
+msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
@@ -822,85 +329,607 @@ msgstr ""
 "enkele van hun compact camera modellen, en een groot aantal camera's van "
 "andere fabrikanten."
 
+msgid "Entangle: Camera autofocus failed"
+msgstr "Entangle: Camera autofocus mislukte"
+
+msgid "Entangle: Camera connect failed"
+msgstr "Entangle: Verbinden met camera mislukte"
+
+msgid "Entangle: Camera control update failed"
+msgstr "Entangle: Camerabedieningselementen vernieuwing mislukte"
+
+msgid "Entangle: Camera load controls failed"
+msgstr "Entangle: Laden van camerabedieningselementen mislukte"
+
+msgid "Entangle: Camera manual focus failed"
+msgstr "Entangle: Camera handmatige scherpstelling mislukte"
+
+msgid "Entangle: Operation failed"
+msgstr "Entangle: Bewerking mislukte"
+
+#, c-format
+msgid "Failed to read manual focus choice %d: %s %d"
+msgstr "Kan handmatige focuskeuze %d niet lezen: %s %d"
+
+#, c-format
+msgid "Failed to set autofocus state: %s %d"
+msgstr "Instellen van autofocustoestand mislukte: %s %d"
+
+#, c-format
+msgid "Failed to set capture target: %s %d"
+msgstr "Instellen van doel vastleggen mislukte: %s %d"
+
+#, c-format
+msgid "Failed to set manual focus state: %s %d"
+msgstr "Handmatig instellen van scherpstellingstaat mislukte: %s %d"
+
+#, c-format
+msgid "Failed to set time state: %s %d"
+msgstr "Instellen van de tijd mislukte: %s %d"
+
+#, c-format
+msgid "Failed to set viewfinder state: %s %d"
+msgstr "Instellen van zoekerstatus mislukte: %s %d"
+
+msgid "Filename pattern:"
+msgstr "Bestandsnaam patroon:"
+
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr "Focusregeling (tijdens live preview)"
+
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr "Focus in (grote stap)"
+
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr "Focus in (kleine stap)"
+
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
+msgstr "Focus uit (grote stap)"
+
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr "Focus uit (kleine stap)"
+
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Volledig scherm"
+
+msgid "Golden sections"
+msgstr "Gouden secties"
+
+msgid "Grid lines:"
+msgstr "Rasterlijnen:"
+
+msgid "Highlight areas of overexposure"
+msgstr "Markeer gebieden met overbelichting"
+
+msgid "Highlight:"
+msgstr "Markering:"
+
+msgid "ICC profiles (*.icc, *.icm)"
+msgstr "ICC profielen (*.icc, *.icm)"
+
+msgid "IP Address:"
+msgstr "IP adres:"
+
+msgid "Image Viewer"
+msgstr "Afbeeldingsviewer"
+
+msgctxt "shortcut window"
+msgid "Image display"
+msgstr "Beeldweergave"
+
+msgid "Image histogram"
+msgstr "Histogram van afbeelding"
+
+msgid "Interface"
+msgstr "Interface"
+
+#, c-format
+msgid "Manual focus control not available with this camera"
+msgstr "Handmatige scherpstellingsbediening niet beschikbaar voor deze camera"
+
+#, c-format
+msgid "Manual focus control was not a range or radio widget"
+msgstr "Handmatige scherpstellingsbediening  was geen reeks of radiowidget"
+
+msgid "Manual focus failed"
+msgstr "Handmatige scherpstelling mislukte"
+
+msgid "Mask opacity:"
+msgstr "Maskerondoorzichtigheid:"
+
+msgid "Missing 'execute' method implementation"
+msgstr "Implementatie van de methode 'uitvoeren' ontbreekt"
+
+msgid "Mode of operation:"
+msgstr "Werkingsmodus:"
+
+msgid "Model"
+msgstr "Model"
+
+msgid "Monitor"
+msgstr "Monitor"
+
+msgid "Monitor profile:"
+msgstr "Monitorprofiel:"
+
+msgid "Network camera"
+msgstr "Netwerk camera"
+
+msgid "No"
+msgstr "Nee"
+
+msgid "No camera connected"
+msgstr "Geen camera aangesloten"
+
+msgid ""
+"No cameras were detected, check that\n"
+"\n"
+"  - the <b>cables</b> are connected\n"
+"  - the camera is <b>turned on</b>\n"
+"  - the camera is in the <b>correct mode</b>\n"
+"  - the camera is a <b>supported</b> model\n"
+"\n"
+"USB cameras are automatically detected\n"
+"when plugged in, for others try a refresh\n"
+"or enter a network camera IP address"
+msgstr ""
+"Er werden geen camera's gedetecteerd, controleer of\n"
+"\n"
+"  - de <b>kabels</b> aangesloten zijn\n"
+"  - de camera <b>ingeschakeld</b>\n"
+"  - de camera zich in de <b>juiste modus</b> bevindt\n"
+"  - de camera een <b>ondersteund</b> model is\n"
+"\n"
+"USB camera's worden automatisch gedetecteerd\n"
+"als ze ingeplugd worden, probeer voor andere een\n"
+"verversing of vul een netwerk camera IP adres in"
+
+msgid "No config options"
+msgstr "Geen configureeropties"
+
+msgid "No controls available"
+msgstr "Geen bedieningselementen beschikbaar"
+
+msgid "No script"
+msgstr "Geen script"
+
+msgid "None"
+msgstr "Geen"
+
+msgid "Off"
+msgstr "Uiy"
+
+msgid "On"
+msgstr "Aan"
+
+msgid "Open"
+msgstr "Openen"
+
+msgctxt "shortcut window"
+msgid "Open a new camera window"
+msgstr "Open een nieuw cameravenster"
+
+msgid "Open with"
+msgstr "Openen met"
+
+#, c-format
+msgid "Operation: %s"
+msgstr "Bewerking: %s"
+
+msgid "Overlay earlier images"
+msgstr "Bedek vorige beelden"
+
+msgid "Overlay layers:"
+msgstr "Bedekkingslagen:"
+
+msgid "Pattern must contain 'XXXXXX' placeholder"
+msgstr ""
+
+msgid "Perceptual"
+msgstr "Perceptueel"
+
+msgid "Plugins"
+msgstr "Plug-ins"
+
+msgid "Port"
+msgstr "Poort"
+
+msgctxt "shortcut window"
+msgid "Presentation"
+msgstr "Presentatie"
+
+msgid "Preview"
+msgstr "Voorbeeld"
+
+msgid "Quarters"
+msgstr "In vierendelen"
+
+msgid "RGB profile:"
+msgstr "RGB profiel:"
+
+msgid "Relative colourimetric"
+msgstr "Relatieve colorimetrie"
+
+msgid "Rendering intent:"
+msgstr "Rendermethode:"
+
+msgid "Reset controls"
+msgstr "Reset bediening"
+
+msgid "Retry"
+msgstr "Opnieuw proberen"
+
+msgid "Rule of 3rds"
+msgstr "Regel van 3den"
+
+msgid "Rule of 5ths"
+msgstr "Regel van 5den"
+
+msgid "Saturation"
+msgstr "Verzadiging"
+
+msgid "Screen blanking is not available on this display"
+msgstr "Schermonderdrukking is op dit display niet beschikbaar"
+
+msgid "Screen blanking is not implemented on this platform"
+msgstr "Schermonderdrukking is op dit platform niet geïmplementeerd"
+
+msgid "Script"
+msgstr "Script"
+
+msgid "Select a camera to connect to:"
+msgstr "Selecteer een camera om te verbinden met:"
+
+msgid "Select a folder"
+msgstr "Selecteer een folder"
+
+msgid "Select application..."
+msgstr "Selecteer toepassing..."
+
+msgid "Select camera - Entangle"
+msgstr "Selecteer camera - Entangle"
+
+msgid "Set clock"
+msgstr "Instellen klok"
+
+msgid "Show linear histogram"
+msgstr "Toon lineair histogram"
+
+msgctxt "shortcut window"
+msgid "Shutter control"
+msgstr "Sluitercontrole"
+
+msgid "Tethered Camera Control & Capture"
+msgstr "Gebonden camera controle & vastleggen"
+
+msgid "Tethered Camera Control &amp; Capture"
+msgstr "Gebonden camera controle &amp; vastleggen"
+
 msgid "The Entangle Photo project"
 msgstr "Het Entangle Photo project"
 
-msgid "Require gobject introspection &gt;= 1.54"
-msgstr "Vereist gobject introspectie &gt;= 1.54"
-
-msgid "Require GTK3 &gt;= 3.22"
-msgstr "Vereist GTK3 &gt;= 3.22"
-
-msgid "Fix dependency on libraw"
-msgstr "Repareert de afhankelijkheid van libraw"
-
-msgid "Fix variable name in photobox plugin"
-msgstr "Repareert variabelenaam in photobox plug-in"
-
-msgid "Document some missing keyboard shortcuts"
-msgstr "Documenteert enkel ontbrekende toetsenbord snelkoppelingen"
-
-msgid "Fix upper bound in histogram to display clipped pixel"
+msgid ""
+"The camera cannot be opened because it is currently mounted as a filesystem. "
+"Do you wish to umount it now ?"
 msgstr ""
-"Repareert de bovengrens in het histogram om de uitgeknipte pixel weer te "
-"geven"
+"De camera kan niet geopend worden omdat het op dit moment aangekoppeld is "
+"als een bestandssysteem. Wil je het nu afkoppelen?"
 
-msgid "Refresh translations"
-msgstr "Ververst vertalingen"
+msgid "This camera does not support image capture"
+msgstr "Deze camera ondersteunt geen beeldopname"
 
-msgid "Option to highlight over exposed pixels in red"
-msgstr "Optie om overbelichte pixels rood te markeren"
+msgid "This camera does not support image preview"
+msgstr "Deze camera ondersteunt geen beeldopname preview"
 
-msgid "Disable noisy compiler warning"
-msgstr "Schakel de lawaaierige compilerwaarschuwing uit"
+#, c-format
+msgid "Time setting not available with this camera"
+msgstr "Tijdinstelling is voor deze camera niet beschikbaar"
 
-msgid "Remove use of deprecated application menu concept"
-msgstr "Verwijder het gebruik van het verouderde applicatiemenu-concept"
+#, c-format
+msgid "Time setting was not a choice widget"
+msgstr "Tijdinstelling is geen keuzewidget"
 
-msgid "Fix image redraw when changing some settings"
+#, c-format
+msgid "Time setting was not a date widget"
+msgstr "Tijdinstelling is geen datum widget"
+
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr "Histogramschaal omschakelen"
+
+msgctxt "shortcut window"
+msgid "Toggle image mask"
+msgstr "Beeldmasker omschakelen"
+
+msgctxt "shortcut window"
+msgid "Toggle live preview"
+msgstr "Live preview omschakelen"
+
+msgctxt "shortcut window"
+msgid "Toggle overexposure highlighting"
+msgstr "Overbelichting markeren omschakelen"
+
+#, c-format
+msgid "Unable to capture image: %s"
+msgstr "Kan geen schermopname maken: %s"
+
+#, c-format
+msgid "Unable to capture preview: %s"
+msgstr "Kan geen preview maken: %s"
+
+#, c-format
+msgid "Unable to connect to camera: %s"
+msgstr "Kan niet verbinden met camera: %s"
+
+#, c-format
+msgid "Unable to delete file: %s"
+msgstr "Kan bestand niet verwijderen: %s"
+
+#, c-format
+msgid "Unable to fetch camera control configuration: %s"
+msgstr "Kan camerabedieningsconfiguratie niet ophalen: %s"
+
+#, c-format
+msgid "Unable to fetch widget name"
+msgstr "Kan widgetnaam niet ophalen"
+
+#, c-format
+msgid "Unable to fetch widget type"
+msgstr "Kan widgettype niet ophalen"
+
+#, c-format
+msgid "Unable to get camera file: %s"
+msgstr "Kan camerabestand niet krijgen: %s"
+
+#, c-format
+msgid "Unable to get file data: %s"
+msgstr "Kan geen bestandsdata krijgen: %s"
+
+#, c-format
+msgid "Unable to get filename: %s"
+msgstr "Kan geen bestandsnaam krijgen: %s"
+
+#, c-format
+msgid "Unable to initialize camera: %s"
+msgstr "Kan camera niet initialiseren: %s"
+
+#, c-format
+msgid "Unable to load controls, camera is not opened"
 msgstr ""
-"Herstel opnieuw tekenen van het beeld bij het wijzigen van enkele "
-"instellingen"
 
-msgid "Update mailing list address in appdaat"
-msgstr "Vernieuw mailinglijst adres in appdaat"
+#, c-format
+msgid "Unable to save camera control configuration: %s"
+msgstr "Kan camerabedieningsconfiguratie niet opslaan: %s"
 
-msgid "Add more fields to appdata content"
-msgstr "Voeg meer velden toe aan appdata-inhoud"
+#, c-format
+msgid "Unable to save controls, camera is not configurable"
+msgstr "Kan besturingselementen niet opslaan, camera is niet configureerbaar"
 
-msgid "Fix reference counting during window close"
-msgstr "Repareer referentietelling tijdens sluiten van venster"
-
-msgid "Use correct API for destroying top level windows"
-msgstr "Gebruik de juiste API om vensters op het hoogste niveau te vernietigen"
-
-msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+#, c-format
+msgid "Unable to save controls, camera is not opened"
 msgstr ""
-"Repareer loskoppelen van camera's met nieuwere gvfs URI-naamgevingsschema"
 
-msgid "Avoid out of bounds read of property values"
-msgstr "Vermijd het buiten bereik lezen van eigenschapswaarden"
+#, c-format
+msgid "Unable to wait for events: %s"
+msgstr "Kan niet op events wachten: %s"
 
-msgid "Fix many memory leaks"
-msgstr "Herstel veel geheugenlekken"
+msgid "Untitled script"
+msgstr "Naamloos script"
 
-msgid "Workaround for combo boxes not displaying on Wayland"
-msgstr ""
-"Tijdelijke oplossing voor comboboxen die niet worden weergegeven op Wayland"
+msgid "Use embedded preview from raw files"
+msgstr "Gebruik ingesloten preview van raw-bestanden"
 
-msgid "Fix race condition in building enums"
-msgstr "Repareer raceconditie bij het bouwen van enums"
+msgid "Use preview output as capture image"
+msgstr "Gebruik preview output om afbeelding vast te leggen"
 
-msgid "Fix setting of gschema directory during startup"
-msgstr "Repareer instelling van de gschema-map tijdens het opstarten"
+#, c-format
+msgid "Viewfinder control not available with this camera"
+msgstr "Zoekerbediening is voor deze camera niet beschikbaar"
 
-msgid "Set env to ensure plugins can find introspection typelib"
-msgstr ""
-"Stel env in om ervoor te zorgen dat plug-ins introspectie typelib kunnen "
-"vinden"
+#, c-format
+msgid "Viewfinder control was not a toggle widget"
+msgstr "Zoeker bedieningselement is geen schakelwidget"
 
-msgid "entangle"
-msgstr "entangle"
+msgctxt "shortcut window"
+msgid "Window display"
+msgstr "Vensterweergave"
 
-msgid "Capture;Camera;Tethered;Photo;"
-msgstr "Vastleggen;Camera;Vastgebonden; Foto;"
+msgid "Yes"
+msgstr "Ja"
+
+msgid "Zoom _In"
+msgstr "_In zoomen"
+
+msgid "Zoom _Out"
+msgstr "_Uit zoomen"
+
+msgctxt "shortcut window"
+msgid "Zoom best"
+msgstr "Beste zoom"
+
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "In zoomen"
+
+msgctxt "shortcut window"
+msgid "Zoom normal"
+msgstr "Normale zoom"
+
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Uit zoomen"
+
+msgid "_About"
+msgstr "_Over"
+
+msgid "_Cancel"
+msgstr "_Afbreken"
+
+msgid "_Connect…"
+msgstr "_Verbinden…"
+
+msgid "_Disconnect…"
+msgstr "_Afbreken…"
+
+msgid "_Fullscreen"
+msgstr "_Volledig scherm"
+
+msgid "_Help"
+msgstr "_Hulp"
+
+msgid "_Keyboard shortcuts"
+msgstr "_Toetsenbord snelkoppelingen"
+
+msgid "_Manual"
+msgstr "_Handmatig"
+
+msgid "_New window"
+msgstr "_Nieuw venster"
+
+msgid "_Normal Size"
+msgstr "_Normale grootte"
+
+msgid "_Open"
+msgstr "_Openen"
+
+msgid "_Preferences…"
+msgstr "_Voorkeuren…"
+
+msgid "_Presentation"
+msgstr "_Presentatie"
+
+msgid "_Quit"
+msgstr "_Verlaten"
+
+msgid "_Select session…"
+msgstr "_Selecteer sessie…"
+
+msgid "_Settings"
+msgstr "_Instellingen"
+
+msgid "_Supported cameras"
+msgstr "_Ondersteunde camera's"
+
+msgid "_Synchronize capture"
+msgstr "_Synchroniseer opname"
+
+msgid "capture"
+msgstr "vangen"
+
+msgid "label"
+msgstr "label"
+
+msgid "preview"
+msgstr "voorbeeld"
+
+msgid "settings"
+msgstr "instellingen"
+
+#~ msgid "Cannot capture image while not connected"
+#~ msgstr "Kan geen schermopname maken als er geen verbinding is"
+
+#~ msgid "Cannot preview image while not connected"
+#~ msgstr "Kan geen preview maken als er geen verbinding is"
+
+#~ msgid "Cannot download file while not connected"
+#~ msgstr "Kan bestand niet downloaden als er geen verbinding is"
+
+#~ msgid "Cannot delete file while not connected"
+#~ msgstr "Kan bestand niet verwijderen als er geen verbinding is"
+
+#~ msgid "Cannot wait for events while not connected"
+#~ msgstr "Kan niet op events wachten als er geen verbinding is"
+
+#~ msgid "Unable to load controls, camera is not connected"
+#~ msgstr "Kan besturingselementen niet laden, camera is niet aangesloten"
+
+#~ msgid "Unable to save controls, camera is not connected"
+#~ msgstr "Kan besturingselementen niet opslaan, camera is niet aangesloten"
+
+#~ msgid "Controls not available when camera is disconnected"
+#~ msgstr "Bedieningselementen niet beschikbaar als camera niet is aangesloten"
+
+#~ msgid "Require gobject introspection &gt;= 1.54"
+#~ msgstr "Vereist gobject introspectie &gt;= 1.54"
+
+#~ msgid "Require GTK3 &gt;= 3.22"
+#~ msgstr "Vereist GTK3 &gt;= 3.22"
+
+#~ msgid "Fix dependency on libraw"
+#~ msgstr "Repareert de afhankelijkheid van libraw"
+
+#~ msgid "Fix variable name in photobox plugin"
+#~ msgstr "Repareert variabelenaam in photobox plug-in"
+
+#~ msgid "Document some missing keyboard shortcuts"
+#~ msgstr "Documenteert enkel ontbrekende toetsenbord snelkoppelingen"
+
+#~ msgid "Fix upper bound in histogram to display clipped pixel"
+#~ msgstr ""
+#~ "Repareert de bovengrens in het histogram om de uitgeknipte pixel weer te "
+#~ "geven"
+
+#~ msgid "Refresh translations"
+#~ msgstr "Ververst vertalingen"
+
+#~ msgid "Option to highlight over exposed pixels in red"
+#~ msgstr "Optie om overbelichte pixels rood te markeren"
+
+#~ msgid "Disable noisy compiler warning"
+#~ msgstr "Schakel de lawaaierige compilerwaarschuwing uit"
+
+#~ msgid "Remove use of deprecated application menu concept"
+#~ msgstr "Verwijder het gebruik van het verouderde applicatiemenu-concept"
+
+#~ msgid "Fix image redraw when changing some settings"
+#~ msgstr ""
+#~ "Herstel opnieuw tekenen van het beeld bij het wijzigen van enkele "
+#~ "instellingen"
+
+#~ msgid "Update mailing list address in appdaat"
+#~ msgstr "Vernieuw mailinglijst adres in appdaat"
+
+#~ msgid "Add more fields to appdata content"
+#~ msgstr "Voeg meer velden toe aan appdata-inhoud"
+
+#~ msgid "Fix reference counting during window close"
+#~ msgstr "Repareer referentietelling tijdens sluiten van venster"
+
+#~ msgid "Use correct API for destroying top level windows"
+#~ msgstr ""
+#~ "Gebruik de juiste API om vensters op het hoogste niveau te vernietigen"
+
+#~ msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+#~ msgstr ""
+#~ "Repareer loskoppelen van camera's met nieuwere gvfs URI-naamgevingsschema"
+
+#~ msgid "Avoid out of bounds read of property values"
+#~ msgstr "Vermijd het buiten bereik lezen van eigenschapswaarden"
+
+#~ msgid "Fix many memory leaks"
+#~ msgstr "Herstel veel geheugenlekken"
+
+#~ msgid "Workaround for combo boxes not displaying on Wayland"
+#~ msgstr ""
+#~ "Tijdelijke oplossing voor comboboxen die niet worden weergegeven op "
+#~ "Wayland"
+
+#~ msgid "Fix race condition in building enums"
+#~ msgstr "Repareer raceconditie bij het bouwen van enums"
+
+#~ msgid "Fix setting of gschema directory during startup"
+#~ msgstr "Repareer instelling van de gschema-map tijdens het opstarten"
+
+#~ msgid "Set env to ensure plugins can find introspection typelib"
+#~ msgstr ""
+#~ "Stel env in om ervoor te zorgen dat plug-ins introspectie typelib kunnen "
+#~ "vinden"
+
+#~ msgid "entangle"
+#~ msgstr "entangle"

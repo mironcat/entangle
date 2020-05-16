@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-03 22:10+0000\n"
+"POT-Creation-Date: 2020-05-16 23:09+0100\n"
 "PO-Revision-Date: 2014-12-22 02:35+0000\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/entangle/"
@@ -20,547 +20,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Zanata 4.6.2\n"
 
-#, c-format
-msgid "Cannot initialize gphoto2 abilities"
-msgstr "A gphoto2 képességei nem beállíthatóak"
-
-#, c-format
-msgid "Cannot load gphoto2 abilities"
-msgstr "A gphoto2 képességei nem betölthetőek"
-
-#, c-format
-msgid "Cannot initialize gphoto2 ports"
-msgstr "A gphoto2 portjai nem beállíthatóak"
-
-#, c-format
-msgid "Cannot load gphoto2 ports"
-msgstr "A gphoto2 portjai nem betölthetőek"
-
-#, c-format
-msgid "Unable to initialize camera: %s"
+msgid "0"
 msgstr ""
-
-#, c-format
-msgid "Cannot capture image while not connected"
-msgstr "Képrögzítés sikertelen, amíg nincs csatlakoztatva"
-
-#, c-format
-msgid "Unable to capture image: %s"
-msgstr "Képrögzítés sikertelen: %s"
-
-#, c-format
-msgid "Cannot preview image while not connected"
-msgstr "Kép előnézete sikertelen, míg nincs csatlakoztatva"
-
-#, c-format
-msgid "Unable to capture preview: %s"
-msgstr "Előnézeti kép rögzítése sikertelen: %s"
-
-#, c-format
-msgid "Unable to get file data: %s"
-msgstr "Fájl adatainak letöltése sikertelen: %s"
-
-#, c-format
-msgid "Unable to get filename: %s"
-msgstr "Fájlnév elérhetetlen: %s"
-
-#, c-format
-msgid "Cannot download file while not connected"
-msgstr "Fájl nem letölthető amíg nincs csatlakoztatva"
-
-#, c-format
-msgid "Unable to get camera file: %s"
-msgstr "A kamera fájl elérhetetlen: %s"
-
-#, c-format
-msgid "Cannot delete file while not connected"
-msgstr "Nem törölhető amíg nincs csatlakoztatva"
-
-#, c-format
-msgid "Unable to delete file: %s"
-msgstr "Fájl törlése sikertelen: %s"
-
-#, c-format
-msgid "Cannot wait for events while not connected"
-msgstr "Műveletre várakozás nem lehetséges, amíg nincs csatlakoztatva"
-
-#, c-format
-msgid "Unable to wait for events: %s"
-msgstr "Műveletre várakozás nem lehetséges: %s"
-
-#, c-format
-msgid "Unable to fetch widget type"
-msgstr "Widget típus letöltése sikertelen"
-
-#, c-format
-msgid "Unable to fetch widget name"
-msgstr "Widget nevének letöltése sikertelen"
-
-#, c-format
-msgid "Unable to load controls, camera is not connected"
-msgstr "Vezérlés nem betölthető, kamera nincs csatlakoztatva"
-
-#, c-format
-msgid "Unable to fetch camera control configuration: %s"
-msgstr ""
-
-#, c-format
-msgid "Unable to save controls, camera is not connected"
-msgstr "Vezérlés mentése nem lehetséges, kamera nincs csatlakoztatva"
-
-#, c-format
-msgid "Unable to save controls, camera is not configurable"
-msgstr "Vezérlés mentése nem lehetséges, kamera nem szabályozható"
-
-#, c-format
-msgid "Unable to save camera control configuration: %s"
-msgstr ""
-
-#, c-format
-msgid "Controls not available when camera is disconnected"
-msgstr "Vezérlés nem elérhető amíg a kamera nincs csatlakoztatva"
-
-#, c-format
-msgid "Controls not available for this camera"
-msgstr "Vezérlés nem elérhető ehhez a kamerához"
-
-#, c-format
-msgid "Viewfinder control not available with this camera"
-msgstr "Kereső vezérlés nem elérhető ezzel a kamerával"
-
-#, c-format
-msgid "Viewfinder control was not a toggle widget"
-msgstr "Kereső vezérlés nem volt kapcsoló widget"
-
-#, c-format
-msgid "Failed to set viewfinder state: %s %d"
-msgstr "Sikertelen a kereső állapotának beállítása: %s %d"
-
-#, c-format
-msgid "Autofocus control not available with this camera"
-msgstr "Autofókusz vezérlés nem elérhető ehhez a kamerához"
-
-#, c-format
-msgid "Autofocus control was not a toggle widget"
-msgstr "Autofókusz vezérlés nem kapcsoló widget"
-
-#, c-format
-msgid "Failed to set autofocus state: %s %d"
-msgstr "Sikertelen az autofókusz kereső állapotának beállítása: %s %d"
-
-#, c-format
-msgid "Manual focus control not available with this camera"
-msgstr "Kézi fókuszvezérlés nem elérhető ezzel a kamerával"
-
-#, c-format
-msgid "Manual focus control was not a range or radio widget"
-msgstr ""
-
-#, c-format
-msgid "Failed to set manual focus state: %s %d"
-msgstr "Manuális fókusz állapotának beállítása sikertelen: %s %d"
-
-#, c-format
-msgid "Failed to read manual focus choice %d: %s %d"
-msgstr ""
-
-#, c-format
-msgid "Time setting not available with this camera"
-msgstr ""
-
-#, c-format
-msgid "Time setting was not a date widget"
-msgstr ""
-
-#, c-format
-msgid "Failed to set time state: %s %d"
-msgstr ""
-
-#, c-format
-msgid "Capture target setting not available with this camera"
-msgstr ""
-
-#, c-format
-msgid "Time setting was not a choice widget"
-msgstr ""
-
-#, c-format
-msgid "Failed to set capture target: %s %d"
-msgstr ""
-
-msgid "_New window"
-msgstr ""
-
-msgid "_Preferences…"
-msgstr ""
-
-msgid "_Select session…"
-msgstr ""
-
-msgid "_Connect…"
-msgstr ""
-
-msgid "_Disconnect…"
-msgstr ""
-
-msgid "_Help"
-msgstr "Súgó"
-
-msgid "_Supported cameras"
-msgstr ""
-
-msgid "_Keyboard shortcuts"
-msgstr ""
-
-msgid "_Manual"
-msgstr ""
-
-msgid "_About"
-msgstr ""
-
-msgid "_Quit"
-msgstr ""
-
-msgid "_Fullscreen"
-msgstr ""
-
-msgid "_Presentation"
-msgstr ""
-
-msgid "_Settings"
-msgstr ""
-
-msgid "_Synchronize capture"
-msgstr ""
-
-msgid "Best Fit"
-msgstr "Legjobb illesztés"
-
-msgid "_Normal Size"
-msgstr ""
-
-msgid "Zoom _In"
-msgstr ""
-
-msgid "Zoom _Out"
-msgstr ""
-
-msgid "Capture an image"
-msgstr "Egy kép rögzítése"
-
-msgid "Continuous capture preview"
-msgstr "Sorozatkép előnézet"
-
-msgid "This camera does not support image capture"
-msgstr "Ez a kamera nem támogatja a képrögzítést"
-
-msgid "This camera does not support image preview"
-msgstr "Ez a kamera nem támogatja az előnézeti kép megjelenítését"
-
-#, c-format
-msgid "Operation: %s"
-msgstr "Művelet: %s"
-
-msgid "Entangle: Operation failed"
-msgstr "Entangle: Művelet sikertelen"
-
-msgid "Camera load controls failed"
-msgstr "Kamera vezérlési betöltése sikertelen"
-
-msgid "Entangle: Camera load controls failed"
-msgstr "Entangle: Kamera vezérlési betöltése sikertelen"
-
-msgid "Monitor"
-msgstr "Monitor"
-
-msgid "No camera connected"
-msgstr "Nincs kamera csatlakoztatva"
-
-#, c-format
-msgid "Unable to connect to camera: %s"
-msgstr "Csatlakozás a kamerához sikertelen: %s"
-
-msgid ""
-"Check that the camera is not\n"
-"\n"
-" - opened by another photo <b>application</b>\n"
-" - mounted as a <b>filesystem</b> on the desktop\n"
-" - in <b>sleep mode</b> to save battery power\n"
-msgstr ""
-"Ellenőrizze, hogy a kamera:\n"
-"\n"
-"- nincs megnyitva más fotós <b>alkalmazással</b> ami lefoglalja\n"
-"- nincs csatlakoztatva <b>a fájlrendszere</b> az asztalon\n"
-"- nincs <b>alvó módban</b> hogy az elemeket kímélje\n"
-
-msgid "Cancel"
-msgstr "Mégsem"
-
-msgid "Retry"
-msgstr "Újra"
-
-msgid "Camera is in use"
-msgstr "Kamera használatban"
-
-msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
-msgstr ""
-"A kamera nem megnyitható, mivel a fájlrendszerben csatlakoztatva van. "
-"Kívánja, hogy leválasszuk most?"
-
-msgid "No"
-msgstr "Nem"
-
-msgid "Yes"
-msgstr "Igen"
-
-msgid "Camera connect failed"
-msgstr "Kamera csatlakozása sikertelen"
-
-msgid "Entangle: Camera connect failed"
-msgstr "Entangle: Kamera csatlakozása sikertelen"
-
-msgid "Select a folder"
-msgstr "Válasszon mappát"
-
-msgid "_Cancel"
-msgstr ""
-
-msgid "_Open"
-msgstr ""
-
-msgid "Capture"
-msgstr "Képrögzítés"
-
-msgid "Script"
-msgstr ""
-
-msgid "Preview"
-msgstr "Előnézet"
-
-msgid "Set clock"
-msgstr ""
-
-msgid "Autofocus failed"
-msgstr "Autofókuszálás sikertelen"
-
-msgid "Entangle: Camera autofocus failed"
-msgstr "Entangle: Kamera autofókuszálás sikertelen"
-
-msgid "Manual focus failed"
-msgstr "Manuális fókuszálás sikertelen"
-
-msgid "Entangle: Camera manual focus failed"
-msgstr "Entangle: Kamera manuális fókuszálás sikertelen"
-
-msgid "Delete"
-msgstr "Törlés"
-
-msgid "Open"
-msgstr ""
-
-msgid "Open with"
-msgstr "Megnyitás ezzel:"
-
-msgid "Select application..."
-msgstr "Válasszon alkalmazást..."
-
-msgid "Image histogram"
-msgstr ""
-
-msgid "Automation"
-msgstr ""
-
-msgid "Model"
-msgstr "Modell"
-
-msgid "Port"
-msgstr "Port"
-
-msgid "Select camera - Entangle"
-msgstr "Válasszon kamerát - Entangle"
-
-msgid "Select a camera to connect to:"
-msgstr "Válasszon egy kamerát a csatlakozáshoz:"
-
-msgid ""
-"No cameras were detected, check that\n"
-"\n"
-"  - the <b>cables</b> are connected\n"
-"  - the camera is <b>turned on</b>\n"
-"  - the camera is in the <b>correct mode</b>\n"
-"  - the camera is a <b>supported</b> model\n"
-"\n"
-"USB cameras are automatically detected\n"
-"when plugged in, for others try a refresh\n"
-"or enter a network camera IP address"
-msgstr ""
-
-msgid "IP Address:"
-msgstr ""
-
-msgid "Network camera"
-msgstr ""
-
-msgid "capture"
-msgstr ""
-
-msgid "preview"
-msgstr ""
-
-msgid "settings"
-msgstr ""
-
-msgid "label"
-msgstr "címke"
-
-msgid "Camera control update failed"
-msgstr "Kamera vezérlés frissítése sikertelen"
-
-msgid "Entangle: Camera control update failed"
-msgstr "Entangle: Kamera vezérlés frissítése sikertelen"
-
-msgid "On"
-msgstr "Be"
-
-msgid "Off"
-msgstr "Ki"
-
-msgid "Reset controls"
-msgstr ""
-
-msgid "No controls available"
-msgstr "Nincs elérhető vezérlés"
-
-msgid "Screen blanking is not available on this display"
-msgstr "Képernyő törlése nem lehetséges ezen a kijelzőn"
-
-msgid "Screen blanking is not implemented on this platform"
-msgstr "Képernyőtörlés nincs implementálva ezen a platformon"
-
-msgid "About - Entangle"
-msgstr "Az alkalmazásról - Entangle"
-
-msgid "Tethered Camera Control & Capture"
-msgstr "Összekapcsolt kameravezérlés & képrögzítő"
-
-msgctxt "shortcut window"
-msgid "Controlling the application"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Open a new camera window"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Close all windows & exit"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Display help manual"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Image display"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Zoom in"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Zoom out"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Zoom normal"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Zoom best"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Toggle image mask"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Toggle overexposure highlighting"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Toggle histogram scale"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Window display"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Fullscreen"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Presentation"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Shutter control"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Capture a single image"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Toggle live preview"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus control (during live preview)"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Autofocus"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus in (small step)"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus out (small step)"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus in (large step)"
-msgstr ""
-
-msgctxt "shortcut window"
-msgid "Focus out (large step)"
-msgstr ""
-
-msgid "Interface"
-msgstr "Kezelőfelület"
-
-msgid "Image Viewer"
-msgstr "Képnéző"
-
-msgid "Color Management"
-msgstr "Színkezelés"
-
-msgid "Plugins"
-msgstr "Bővítmények"
-
-msgid "ICC profiles (*.icc, *.icm)"
-msgstr "ICC profilok (*.icc, *.icm)"
-
-msgid "All files (*.*)"
-msgstr "Minden fájl (*.*)"
-
-msgid "1:1 - Square / MF 6x6"
-msgstr "1:1 - Négyszög / MF 6x6"
 
 msgid "1.15:1 - Movietone"
 msgstr "1.15:1 - Film-rögzítés változó fényerővel"
@@ -577,11 +38,11 @@ msgstr "1.44:1 - IMAX"
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
 msgstr "1.50:1 (3:2, 15:10)- 35 mm SLR"
 
-msgid "1.6:1 (8:5, 16:10) - Widescreen"
-msgstr "1.6:1 (8:5, 16:10) - Szélesvásznú"
-
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
 msgstr "1.66:1 (5:3, 15:9) - Szuper 16 mm"
+
+msgid "1.6:1 (8:5, 16:10) - Widescreen"
+msgstr "1.6:1 (8:5, 16:10) - Szélesvásznú"
 
 msgid "1.75:1 (7:4) - Widescreen"
 msgstr "1.75:1 (7:4) - Szélesvásznú"
@@ -591,6 +52,12 @@ msgstr "1.77:1 (16:9) - APS-H / HDTV / Szélesvásznú"
 
 msgid "1.85:1 - 35mm Widescreen"
 msgstr "1.85:1 - 35 mm Szélesvásznú"
+
+msgid "12.00:1 - Circle-Vision 360"
+msgstr "12.00:1 - Circle-Vision 360"
+
+msgid "1:1 - Square / MF 6x6"
+msgstr "1:1 - Négyszög / MF 6x6"
 
 msgid "2.00:1 - SuperScope"
 msgstr "2.00:1 - SuperScope arány"
@@ -625,92 +92,38 @@ msgstr "2.76:1 (11:4) - Ultra Panavision"
 msgid "2.93:1 - MGM Camera 65"
 msgstr "2.93:1 - MGM Camera 65"
 
+msgid "3"
+msgstr ""
+
 msgid "3:1 APS Panorama"
 msgstr "3:1 APS Panoráma"
 
 msgid "4.00:1 - Polyvision"
 msgstr "4.00:1 - Polyvision"
 
-msgid "12.00:1 - Circle-Vision 360"
-msgstr "12.00:1 - Circle-Vision 360"
-
-msgid "None"
-msgstr "Nincs"
-
-msgid "Center lines"
-msgstr "Középvonalak"
-
-msgid "Rule of 3rds"
-msgstr "3 osztású szabály"
-
-msgid "Quarters"
-msgstr "Negyedek"
-
-msgid "Rule of 5ths"
-msgstr "5 osztású szabály"
-
-msgid "Golden sections"
-msgstr "Arany szekciók"
-
-msgid "Entangle Preferences"
-msgstr "Entangle beállításai"
-
 msgid "<b>Capture</b>"
 msgstr "<b>Képrögzítés</b>"
-
-msgid "Filename pattern:"
-msgstr "Fáljnév minta:"
-
-msgid "Continue preview mode after capture"
-msgstr "Előnézeti módban marad képrögzítés után is"
-
-msgid "Use preview output as capture image"
-msgstr ""
-
-msgid "Delete file from camera after downloading"
-msgstr "Fájl törlése a kameráról a letöltés után"
-
-msgid "Automatically synchronize camera clock"
-msgstr ""
 
 msgid "<b>Colour management</b>"
 msgstr "<b>Színkezelés</b>"
 
-msgid "Mode of operation:"
-msgstr "Működési mód:"
-
-msgid "RGB profile:"
-msgstr "RGB profil:"
-
-msgid "Monitor profile:"
-msgstr "Monitor profil:"
-
-msgid "Rendering intent:"
-msgstr "Leképezési mód:"
-
-msgid "Detect the system monitor profile"
-msgstr "Érzékelje a rendszer monitor profilját"
-
-msgid "Colour managed display"
-msgstr "Színre beállított kijelző"
-
-msgid "<b>Plugins</b>"
-msgstr "<b>Bővítmények</b>"
+msgid "<b>Image Viewer</b>"
+msgstr "<b>Képnéző</b>"
 
 msgid "<b>Interface</b>"
 msgstr "<b>Kezelőfelület</b>"
 
-msgid "Automatically connect to cameras at startup"
-msgstr "Automatikusan csatlakoztassa a kamerákat induláskor"
+msgid "<b>Plugins</b>"
+msgstr "<b>Bővítmények</b>"
 
-msgid "Blank screen when capturing images"
-msgstr "Törölje a képet ha képet rögzít, fotóz"
+msgid "About - Entangle"
+msgstr "Az alkalmazásról - Entangle"
 
-msgid "Show linear histogram"
-msgstr "Lineáris hisztogram megjelenítése"
+msgid "Absolute colourimetric"
+msgstr "Abszolút színmetrikus"
 
-msgid "<b>Image Viewer</b>"
-msgstr "<b>Képnéző</b>"
+msgid "All files (*.*)"
+msgstr "Minden fájl (*.*)"
 
 msgid "Apply mask to alter aspect ratio"
 msgstr "Maszk alkalmazása a képarányok módosításához"
@@ -718,73 +131,172 @@ msgstr "Maszk alkalmazása a képarányok módosításához"
 msgid "Aspect ratio:"
 msgstr "Képarány"
 
-msgid "Mask opacity:"
-msgstr "Maszk átlászósága"
-
-msgid "0"
+msgctxt "shortcut window"
+msgid "Autofocus"
 msgstr ""
 
-msgid "Display focus point during preview"
-msgstr "Fókuszpont megjelenítése az előnézet alatt"
+#, c-format
+msgid "Autofocus control not available with this camera"
+msgstr "Autofókusz vezérlés nem elérhető ehhez a kamerához"
 
-msgid "Grid lines:"
-msgstr "Hálóvonalak:"
+#, c-format
+msgid "Autofocus control was not a toggle widget"
+msgstr "Autofókusz vezérlés nem kapcsoló widget"
 
-msgid "Use embedded preview from raw files"
-msgstr "Beépített előnézet használata raw fájlokból"
+msgid "Autofocus failed"
+msgstr "Autofókuszálás sikertelen"
 
-msgid "Overlay earlier images"
-msgstr "Korábbi képek átfedése"
+msgid "Automatically connect to cameras at startup"
+msgstr "Automatikusan csatlakoztassa a kamerákat induláskor"
 
-msgid "Overlay layers:"
-msgstr "Átfedési rétegek:"
+msgid "Automatically synchronize camera clock"
+msgstr ""
 
-msgid "3"
+msgid "Automation"
 msgstr ""
 
 msgid "Background:"
 msgstr ""
 
-msgid "Highlight:"
+msgid "Best Fit"
+msgstr "Legjobb illesztés"
+
+msgid "Blank screen when capturing images"
+msgstr "Törölje a képet ha képet rögzít, fotóz"
+
+msgid "Camera connect failed"
+msgstr "Kamera csatlakozása sikertelen"
+
+msgid "Camera control update failed"
+msgstr "Kamera vezérlés frissítése sikertelen"
+
+msgid "Camera is in use"
+msgstr "Kamera használatban"
+
+msgid "Camera load controls failed"
+msgstr "Kamera vezérlési betöltése sikertelen"
+
+msgid "Cancel"
+msgstr "Mégsem"
+
+#, c-format
+msgid "Cannot capture image while not opened"
 msgstr ""
 
-msgid "Highlight areas of overexposure"
+#, c-format
+msgid "Cannot delete file while not opened"
 msgstr ""
 
-msgid "Perceptual"
-msgstr "Észlelési"
-
-msgid "Relative colourimetric"
-msgstr "Relatív szín-metrikus"
-
-msgid "Saturation"
-msgstr "Telítettség"
-
-msgid "Absolute colourimetric"
-msgstr "Abszolút színmetrikus"
-
-msgid "Untitled script"
+#, c-format
+msgid "Cannot download file while not opened"
 msgstr ""
 
-msgid "No script"
+#, c-format
+msgid "Cannot initialize gphoto2 abilities"
+msgstr "A gphoto2 képességei nem beállíthatóak"
+
+#, c-format
+msgid "Cannot initialize gphoto2 ports"
+msgstr "A gphoto2 portjai nem beállíthatóak"
+
+#, c-format
+msgid "Cannot load gphoto2 abilities"
+msgstr "A gphoto2 képességei nem betölthetőek"
+
+#, c-format
+msgid "Cannot load gphoto2 ports"
+msgstr "A gphoto2 portjai nem betölthetőek"
+
+#, c-format
+msgid "Cannot preview image while not opened"
 msgstr ""
 
-msgid "No config options"
+#, c-format
+msgid "Cannot wait for events while not opened"
 msgstr ""
 
-msgid "Missing 'execute' method implementation"
+msgid "Capture"
+msgstr "Képrögzítés"
+
+msgctxt "shortcut window"
+msgid "Capture a single image"
+msgstr ""
+
+msgid "Capture an image"
+msgstr "Egy kép rögzítése"
+
+#, c-format
+msgid "Capture target setting not available with this camera"
+msgstr ""
+
+msgid "Capture;Camera;Tethered;Photo;"
+msgstr ""
+
+msgid "Center lines"
+msgstr "Középvonalak"
+
+msgid ""
+"Check that the camera is not\n"
+"\n"
+" - opened by another photo <b>application</b>\n"
+" - mounted as a <b>filesystem</b> on the desktop\n"
+" - in <b>sleep mode</b> to save battery power\n"
+msgstr ""
+"Ellenőrizze, hogy a kamera:\n"
+"\n"
+"- nincs megnyitva más fotós <b>alkalmazással</b> ami lefoglalja\n"
+"- nincs csatlakoztatva <b>a fájlrendszere</b> az asztalon\n"
+"- nincs <b>alvó módban</b> hogy az elemeket kímélje\n"
+
+msgctxt "shortcut window"
+msgid "Close all windows & exit"
+msgstr ""
+
+msgid "Color Management"
+msgstr "Színkezelés"
+
+msgid "Colour managed display"
+msgstr "Színre beállított kijelző"
+
+msgid "Continue preview mode after capture"
+msgstr "Előnézeti módban marad képrögzítés után is"
+
+msgid "Continuous capture preview"
+msgstr "Sorozatkép előnézet"
+
+msgctxt "shortcut window"
+msgid "Controlling the application"
+msgstr ""
+
+#, c-format
+msgid "Controls not available for this camera"
+msgstr "Vezérlés nem elérhető ehhez a kamerához"
+
+#, c-format
+msgid "Controls not available when camera is closeed"
+msgstr ""
+
+msgid "Delete"
+msgstr "Törlés"
+
+msgid "Delete file from camera after downloading"
+msgstr "Fájl törlése a kameráról a letöltés után"
+
+msgid "Detect the system monitor profile"
+msgstr "Érzékelje a rendszer monitor profilját"
+
+msgid "Display focus point during preview"
+msgstr "Fókuszpont megjelenítése az előnézet alatt"
+
+msgctxt "shortcut window"
+msgid "Display help manual"
 msgstr ""
 
 msgid "Entangle"
 msgstr "Entangle"
 
-msgid "Tethered Camera Control &amp; Capture"
-msgstr ""
-
-msgid ""
-"Entangle is a program used to control digital cameras that are connected to "
-"the computer via USB."
-msgstr ""
+msgid "Entangle Preferences"
+msgstr "Entangle beállításai"
 
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
@@ -795,82 +307,528 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Entangle is a program used to control digital cameras that are connected to "
+"the computer via USB."
+msgstr ""
+
+msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
 msgstr ""
 
+msgid "Entangle: Camera autofocus failed"
+msgstr "Entangle: Kamera autofókuszálás sikertelen"
+
+msgid "Entangle: Camera connect failed"
+msgstr "Entangle: Kamera csatlakozása sikertelen"
+
+msgid "Entangle: Camera control update failed"
+msgstr "Entangle: Kamera vezérlés frissítése sikertelen"
+
+msgid "Entangle: Camera load controls failed"
+msgstr "Entangle: Kamera vezérlési betöltése sikertelen"
+
+msgid "Entangle: Camera manual focus failed"
+msgstr "Entangle: Kamera manuális fókuszálás sikertelen"
+
+msgid "Entangle: Operation failed"
+msgstr "Entangle: Művelet sikertelen"
+
+#, c-format
+msgid "Failed to read manual focus choice %d: %s %d"
+msgstr ""
+
+#, c-format
+msgid "Failed to set autofocus state: %s %d"
+msgstr "Sikertelen az autofókusz kereső állapotának beállítása: %s %d"
+
+#, c-format
+msgid "Failed to set capture target: %s %d"
+msgstr ""
+
+#, c-format
+msgid "Failed to set manual focus state: %s %d"
+msgstr "Manuális fókusz állapotának beállítása sikertelen: %s %d"
+
+#, c-format
+msgid "Failed to set time state: %s %d"
+msgstr ""
+
+#, c-format
+msgid "Failed to set viewfinder state: %s %d"
+msgstr "Sikertelen a kereső állapotának beállítása: %s %d"
+
+msgid "Filename pattern:"
+msgstr "Fáljnév minta:"
+
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Golden sections"
+msgstr "Arany szekciók"
+
+msgid "Grid lines:"
+msgstr "Hálóvonalak:"
+
+msgid "Highlight areas of overexposure"
+msgstr ""
+
+msgid "Highlight:"
+msgstr ""
+
+msgid "ICC profiles (*.icc, *.icm)"
+msgstr "ICC profilok (*.icc, *.icm)"
+
+msgid "IP Address:"
+msgstr ""
+
+msgid "Image Viewer"
+msgstr "Képnéző"
+
+msgctxt "shortcut window"
+msgid "Image display"
+msgstr ""
+
+msgid "Image histogram"
+msgstr ""
+
+msgid "Interface"
+msgstr "Kezelőfelület"
+
+#, c-format
+msgid "Manual focus control not available with this camera"
+msgstr "Kézi fókuszvezérlés nem elérhető ezzel a kamerával"
+
+#, c-format
+msgid "Manual focus control was not a range or radio widget"
+msgstr ""
+
+msgid "Manual focus failed"
+msgstr "Manuális fókuszálás sikertelen"
+
+msgid "Mask opacity:"
+msgstr "Maszk átlászósága"
+
+msgid "Missing 'execute' method implementation"
+msgstr ""
+
+msgid "Mode of operation:"
+msgstr "Működési mód:"
+
+msgid "Model"
+msgstr "Modell"
+
+msgid "Monitor"
+msgstr "Monitor"
+
+msgid "Monitor profile:"
+msgstr "Monitor profil:"
+
+msgid "Network camera"
+msgstr ""
+
+msgid "No"
+msgstr "Nem"
+
+msgid "No camera connected"
+msgstr "Nincs kamera csatlakoztatva"
+
+msgid ""
+"No cameras were detected, check that\n"
+"\n"
+"  - the <b>cables</b> are connected\n"
+"  - the camera is <b>turned on</b>\n"
+"  - the camera is in the <b>correct mode</b>\n"
+"  - the camera is a <b>supported</b> model\n"
+"\n"
+"USB cameras are automatically detected\n"
+"when plugged in, for others try a refresh\n"
+"or enter a network camera IP address"
+msgstr ""
+
+msgid "No config options"
+msgstr ""
+
+msgid "No controls available"
+msgstr "Nincs elérhető vezérlés"
+
+msgid "No script"
+msgstr ""
+
+msgid "None"
+msgstr "Nincs"
+
+msgid "Off"
+msgstr "Ki"
+
+msgid "On"
+msgstr "Be"
+
+msgid "Open"
+msgstr ""
+
+msgctxt "shortcut window"
+msgid "Open a new camera window"
+msgstr ""
+
+msgid "Open with"
+msgstr "Megnyitás ezzel:"
+
+#, c-format
+msgid "Operation: %s"
+msgstr "Művelet: %s"
+
+msgid "Overlay earlier images"
+msgstr "Korábbi képek átfedése"
+
+msgid "Overlay layers:"
+msgstr "Átfedési rétegek:"
+
+msgid "Pattern must contain 'XXXXXX' placeholder"
+msgstr ""
+
+msgid "Perceptual"
+msgstr "Észlelési"
+
+msgid "Plugins"
+msgstr "Bővítmények"
+
+msgid "Port"
+msgstr "Port"
+
+msgctxt "shortcut window"
+msgid "Presentation"
+msgstr ""
+
+msgid "Preview"
+msgstr "Előnézet"
+
+msgid "Quarters"
+msgstr "Negyedek"
+
+msgid "RGB profile:"
+msgstr "RGB profil:"
+
+msgid "Relative colourimetric"
+msgstr "Relatív szín-metrikus"
+
+msgid "Rendering intent:"
+msgstr "Leképezési mód:"
+
+msgid "Reset controls"
+msgstr ""
+
+msgid "Retry"
+msgstr "Újra"
+
+msgid "Rule of 3rds"
+msgstr "3 osztású szabály"
+
+msgid "Rule of 5ths"
+msgstr "5 osztású szabály"
+
+msgid "Saturation"
+msgstr "Telítettség"
+
+msgid "Screen blanking is not available on this display"
+msgstr "Képernyő törlése nem lehetséges ezen a kijelzőn"
+
+msgid "Screen blanking is not implemented on this platform"
+msgstr "Képernyőtörlés nincs implementálva ezen a platformon"
+
+msgid "Script"
+msgstr ""
+
+msgid "Select a camera to connect to:"
+msgstr "Válasszon egy kamerát a csatlakozáshoz:"
+
+msgid "Select a folder"
+msgstr "Válasszon mappát"
+
+msgid "Select application..."
+msgstr "Válasszon alkalmazást..."
+
+msgid "Select camera - Entangle"
+msgstr "Válasszon kamerát - Entangle"
+
+msgid "Set clock"
+msgstr ""
+
+msgid "Show linear histogram"
+msgstr "Lineáris hisztogram megjelenítése"
+
+msgctxt "shortcut window"
+msgid "Shutter control"
+msgstr ""
+
+msgid "Tethered Camera Control & Capture"
+msgstr "Összekapcsolt kameravezérlés & képrögzítő"
+
+msgid "Tethered Camera Control &amp; Capture"
+msgstr ""
+
 msgid "The Entangle Photo project"
 msgstr ""
 
-msgid "Require gobject introspection &gt;= 1.54"
+msgid ""
+"The camera cannot be opened because it is currently mounted as a filesystem. "
+"Do you wish to umount it now ?"
+msgstr ""
+"A kamera nem megnyitható, mivel a fájlrendszerben csatlakoztatva van. "
+"Kívánja, hogy leválasszuk most?"
+
+msgid "This camera does not support image capture"
+msgstr "Ez a kamera nem támogatja a képrögzítést"
+
+msgid "This camera does not support image preview"
+msgstr "Ez a kamera nem támogatja az előnézeti kép megjelenítését"
+
+#, c-format
+msgid "Time setting not available with this camera"
 msgstr ""
 
-msgid "Require GTK3 &gt;= 3.22"
+#, c-format
+msgid "Time setting was not a choice widget"
 msgstr ""
 
-msgid "Fix dependency on libraw"
+#, c-format
+msgid "Time setting was not a date widget"
 msgstr ""
 
-msgid "Fix variable name in photobox plugin"
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
 msgstr ""
 
-msgid "Document some missing keyboard shortcuts"
+msgctxt "shortcut window"
+msgid "Toggle image mask"
 msgstr ""
 
-msgid "Fix upper bound in histogram to display clipped pixel"
+msgctxt "shortcut window"
+msgid "Toggle live preview"
 msgstr ""
 
-msgid "Refresh translations"
+msgctxt "shortcut window"
+msgid "Toggle overexposure highlighting"
 msgstr ""
 
-msgid "Option to highlight over exposed pixels in red"
+#, c-format
+msgid "Unable to capture image: %s"
+msgstr "Képrögzítés sikertelen: %s"
+
+#, c-format
+msgid "Unable to capture preview: %s"
+msgstr "Előnézeti kép rögzítése sikertelen: %s"
+
+#, c-format
+msgid "Unable to connect to camera: %s"
+msgstr "Csatlakozás a kamerához sikertelen: %s"
+
+#, c-format
+msgid "Unable to delete file: %s"
+msgstr "Fájl törlése sikertelen: %s"
+
+#, c-format
+msgid "Unable to fetch camera control configuration: %s"
 msgstr ""
 
-msgid "Disable noisy compiler warning"
+#, c-format
+msgid "Unable to fetch widget name"
+msgstr "Widget nevének letöltése sikertelen"
+
+#, c-format
+msgid "Unable to fetch widget type"
+msgstr "Widget típus letöltése sikertelen"
+
+#, c-format
+msgid "Unable to get camera file: %s"
+msgstr "A kamera fájl elérhetetlen: %s"
+
+#, c-format
+msgid "Unable to get file data: %s"
+msgstr "Fájl adatainak letöltése sikertelen: %s"
+
+#, c-format
+msgid "Unable to get filename: %s"
+msgstr "Fájlnév elérhetetlen: %s"
+
+#, c-format
+msgid "Unable to initialize camera: %s"
 msgstr ""
 
-msgid "Remove use of deprecated application menu concept"
+#, c-format
+msgid "Unable to load controls, camera is not opened"
 msgstr ""
 
-msgid "Fix image redraw when changing some settings"
+#, c-format
+msgid "Unable to save camera control configuration: %s"
 msgstr ""
 
-msgid "Update mailing list address in appdaat"
+#, c-format
+msgid "Unable to save controls, camera is not configurable"
+msgstr "Vezérlés mentése nem lehetséges, kamera nem szabályozható"
+
+#, c-format
+msgid "Unable to save controls, camera is not opened"
 msgstr ""
 
-msgid "Add more fields to appdata content"
+#, c-format
+msgid "Unable to wait for events: %s"
+msgstr "Műveletre várakozás nem lehetséges: %s"
+
+msgid "Untitled script"
 msgstr ""
 
-msgid "Fix reference counting during window close"
+msgid "Use embedded preview from raw files"
+msgstr "Beépített előnézet használata raw fájlokból"
+
+msgid "Use preview output as capture image"
 msgstr ""
 
-msgid "Use correct API for destroying top level windows"
+#, c-format
+msgid "Viewfinder control not available with this camera"
+msgstr "Kereső vezérlés nem elérhető ezzel a kamerával"
+
+#, c-format
+msgid "Viewfinder control was not a toggle widget"
+msgstr "Kereső vezérlés nem volt kapcsoló widget"
+
+msgctxt "shortcut window"
+msgid "Window display"
 msgstr ""
 
-msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
+msgid "Yes"
+msgstr "Igen"
+
+msgid "Zoom _In"
 msgstr ""
 
-msgid "Avoid out of bounds read of property values"
+msgid "Zoom _Out"
 msgstr ""
 
-msgid "Fix many memory leaks"
+msgctxt "shortcut window"
+msgid "Zoom best"
 msgstr ""
 
-msgid "Workaround for combo boxes not displaying on Wayland"
+msgctxt "shortcut window"
+msgid "Zoom in"
 msgstr ""
 
-msgid "Fix race condition in building enums"
+msgctxt "shortcut window"
+msgid "Zoom normal"
 msgstr ""
 
-msgid "Fix setting of gschema directory during startup"
+msgctxt "shortcut window"
+msgid "Zoom out"
 msgstr ""
 
-msgid "Set env to ensure plugins can find introspection typelib"
+msgid "_About"
 msgstr ""
 
-msgid "entangle"
+msgid "_Cancel"
 msgstr ""
 
-msgid "Capture;Camera;Tethered;Photo;"
+msgid "_Connect…"
 msgstr ""
+
+msgid "_Disconnect…"
+msgstr ""
+
+msgid "_Fullscreen"
+msgstr ""
+
+msgid "_Help"
+msgstr "Súgó"
+
+msgid "_Keyboard shortcuts"
+msgstr ""
+
+msgid "_Manual"
+msgstr ""
+
+msgid "_New window"
+msgstr ""
+
+msgid "_Normal Size"
+msgstr ""
+
+msgid "_Open"
+msgstr ""
+
+msgid "_Preferences…"
+msgstr ""
+
+msgid "_Presentation"
+msgstr ""
+
+msgid "_Quit"
+msgstr ""
+
+msgid "_Select session…"
+msgstr ""
+
+msgid "_Settings"
+msgstr ""
+
+msgid "_Supported cameras"
+msgstr ""
+
+msgid "_Synchronize capture"
+msgstr ""
+
+msgid "capture"
+msgstr ""
+
+msgid "label"
+msgstr "címke"
+
+msgid "preview"
+msgstr ""
+
+msgid "settings"
+msgstr ""
+
+#~ msgid "Cannot capture image while not connected"
+#~ msgstr "Képrögzítés sikertelen, amíg nincs csatlakoztatva"
+
+#~ msgid "Cannot preview image while not connected"
+#~ msgstr "Kép előnézete sikertelen, míg nincs csatlakoztatva"
+
+#~ msgid "Cannot download file while not connected"
+#~ msgstr "Fájl nem letölthető amíg nincs csatlakoztatva"
+
+#~ msgid "Cannot delete file while not connected"
+#~ msgstr "Nem törölhető amíg nincs csatlakoztatva"
+
+#~ msgid "Cannot wait for events while not connected"
+#~ msgstr "Műveletre várakozás nem lehetséges, amíg nincs csatlakoztatva"
+
+#~ msgid "Unable to load controls, camera is not connected"
+#~ msgstr "Vezérlés nem betölthető, kamera nincs csatlakoztatva"
+
+#~ msgid "Unable to save controls, camera is not connected"
+#~ msgstr "Vezérlés mentése nem lehetséges, kamera nincs csatlakoztatva"
+
+#~ msgid "Controls not available when camera is disconnected"
+#~ msgstr "Vezérlés nem elérhető amíg a kamera nincs csatlakoztatva"
