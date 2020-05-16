@@ -8,7 +8,7 @@
 # Dennis Tobar <dennis.tobar@gmail.com>, 2012
 # vareli <ehespinosa@ya.com>, 2013
 # Javier Galnares Arias <javigalnares@yahoo.es>, 2012
-# Daniel Berrange <dan-zanata@berrange.com>, 2015. #zanata
+# Daniel Berrangé <dan-zanata@berrange.com>, 2015. #zanata
 # Máximo Castañeda Riloba <mcrcctm@gmail.com>, 2016. #zanata
 msgid ""
 msgstr ""

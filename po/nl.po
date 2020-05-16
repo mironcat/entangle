@@ -4,7 +4,7 @@
 # Translators:
 # Geert Warrink <geert.warrink@onsnet.nu>, 2013-2014, 2020.
 # Richard E. van der Luit <nippur@fedoraproject.org>, 2016. #zanata
-# Daniel Berrange <dan-zanata@berrange.com>, 2018. #zanata
+# Daniel Berrangé <dan-zanata@berrange.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"

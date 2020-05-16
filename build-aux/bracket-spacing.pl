@@ -18,7 +18,7 @@
 # <http://www.gnu.org/licenses/>.
 #
 # Authors:
-#     Daniel P. Berrange <berrange@redhat.com>
+#     Daniel P. Berrangé <berrange@redhat.com>
 
 use strict;
 use warnings;

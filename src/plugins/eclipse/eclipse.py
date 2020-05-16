@@ -1,7 +1,7 @@
 1#
 # Entangle: Tethered Camera Control & Capture
 #
-# Copyright (C) 2014 Daniel P. Berrange
+# Copyright (C) 2014 Daniel P. Berrangé
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

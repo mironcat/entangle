@@ -1,3 +1,5 @@
+=encoding utf-8
+
 =head1 NAME
 
 entangle - tethered camera control & capture
@@ -44,13 +46,13 @@ Show Entangle command line options
 
 =head1 AUTHOR
 
-Entangle was initially written by Daniel P. Berrange <dan@berrange.com>. For
+Entangle was initially written by Daniel P. Berrangé <dan@berrange.com>. For
 details of subsequent contributors, see the application AUTHORS file in the
 source or GIT commit history.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2009-2012 by Daniel P. Berrange
+Copyright (C) 2009-2012 by Daniel P. Berrangé
 
 =head1 LICENSE
 
