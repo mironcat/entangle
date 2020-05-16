@@ -25,369 +25,275 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.10.1\n"
 
-#: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
 msgstr "Не вдалося ініціалізувати можливості gphoto2"
 
-#: src/backend/entangle-camera-list.c:250 src/backend/entangle-camera.c:749
 #, c-format
 msgid "Cannot load gphoto2 abilities"
 msgstr "Не вдалося завантажити можливості gphoto2"
 
-#: src/backend/entangle-camera-list.c:409 src/backend/entangle-camera.c:755
 #, c-format
 msgid "Cannot initialize gphoto2 ports"
 msgstr "Не вдалося ініціалізувати порти gphoto2"
 
-#: src/backend/entangle-camera-list.c:412 src/backend/entangle-camera.c:761
 #, c-format
 msgid "Cannot load gphoto2 ports"
 msgstr "Не вдалося завантажити порти gphoto2"
 
-#: src/backend/entangle-camera.c:792
 #, c-format
 msgid "Unable to initialize camera: %s"
 msgstr "Не вдалося ініціалізувати фотоапарат: %s"
 
-#: src/backend/entangle-camera.c:1146
 #, c-format
 msgid "Cannot capture image while not connected"
 msgstr "Захоплення зображень з нез’єднаного фотоапарата не передбачено"
 
-#: src/backend/entangle-camera.c:1159
 #, c-format
 msgid "Unable to capture image: %s"
 msgstr "Не вдалося захопити зображення: %s"
 
-#: src/backend/entangle-camera.c:1273
 #, c-format
 msgid "Cannot preview image while not connected"
 msgstr ""
 "Попереднього перегляду зображень з нез’єднаного фотоапарата не передбачено"
 
-#: src/backend/entangle-camera.c:1288
 #, c-format
 msgid "Unable to capture preview: %s"
 msgstr "Не вдалося захопити зображення попереднього перегляду: %s"
 
-#: src/backend/entangle-camera.c:1295 src/backend/entangle-camera.c:1453
 #, c-format
 msgid "Unable to get file data: %s"
 msgstr "Не вдалося отримати дані щодо файла: %s"
 
-#: src/backend/entangle-camera.c:1301
 #, c-format
 msgid "Unable to get filename: %s"
 msgstr "Не вдалося отримати назву файла: %s"
 
-#: src/backend/entangle-camera.c:1423
 #, c-format
 msgid "Cannot download file while not connected"
 msgstr "Звантаження файлів з нез’єднаного фотоапарата не передбачено"
 
-#: src/backend/entangle-camera.c:1446
 #, c-format
 msgid "Unable to get camera file: %s"
 msgstr "Не вдалося отримати файл з фотоапарата: %s"
 
-#: src/backend/entangle-camera.c:1573
 #, c-format
 msgid "Cannot delete file while not connected"
 msgstr "Вилучення файлів з нез’єднаного фотоапарата не передбачено"
 
-#: src/backend/entangle-camera.c:1591
 #, c-format
 msgid "Unable to delete file: %s"
 msgstr "Не вдалося вилучити файл: %s"
 
-#: src/backend/entangle-camera.c:1707
 #, c-format
 msgid "Cannot wait for events while not connected"
 msgstr "Очікування на події неможливе, якщо фотоапарат не з’єднано"
 
-#: src/backend/entangle-camera.c:1733
 #, c-format
 msgid "Unable to wait for events: %s"
 msgstr "Очікування на події неможливе: %s"
 
-#: src/backend/entangle-camera.c:1928 src/backend/entangle-camera.c:2091
-#: src/backend/entangle-camera.c:2227 src/backend/entangle-camera.c:2682
-#: src/backend/entangle-camera.c:2857 src/backend/entangle-camera.c:3018
-#: src/backend/entangle-camera.c:3242 src/backend/entangle-camera.c:3408
 #, c-format
 msgid "Unable to fetch widget type"
 msgstr "Не вдалося отримати тип віджета"
 
-#: src/backend/entangle-camera.c:1934 src/backend/entangle-camera.c:2097
-#: src/backend/entangle-camera.c:2233
 #, c-format
 msgid "Unable to fetch widget name"
 msgstr "Не вдалося отримати назву віджета"
 
-#: src/backend/entangle-camera.c:2346
 #, c-format
 msgid "Unable to load controls, camera is not connected"
 msgstr ""
 "Не вдалося завантажити засоби керування — фотоапарат не з’єднано з "
 "комп’ютером"
 
-#: src/backend/entangle-camera.c:2355
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
 msgstr "Не вдалося отримати налаштування засобів керування фотоапаратом: %s"
 
-#: src/backend/entangle-camera.c:2476
 #, c-format
 msgid "Unable to save controls, camera is not connected"
 msgstr ""
 "Не вдалося зберегти налаштування засобів керування фотоапаратом — фотоапарат "
 "не з’єднано"
 
-#: src/backend/entangle-camera.c:2482
 #, c-format
 msgid "Unable to save controls, camera is not configurable"
 msgstr ""
 "Не вдалося зберегти налаштування засобів керування фотоапаратом — "
 "налаштовування фотоапарата не передбачено"
 
-#: src/backend/entangle-camera.c:2501 src/backend/entangle-camera.c:2718
-#: src/backend/entangle-camera.c:2887 src/backend/entangle-camera.c:3078
-#: src/backend/entangle-camera.c:3264 src/backend/entangle-camera.c:3432
 #, c-format
 msgid "Unable to save camera control configuration: %s"
 msgstr "Не вдалося зберегти налаштування засобів керування фотоапаратом: %s"
 
-#: src/backend/entangle-camera.c:2604 src/backend/entangle-camera.c:2658
-#: src/backend/entangle-camera.c:2836 src/backend/entangle-camera.c:2997
-#: src/backend/entangle-camera.c:3221 src/backend/entangle-camera.c:3387
 #, c-format
 msgid "Controls not available when camera is disconnected"
 msgstr "Для цього фотоапарата не передбачено засобів керування"
 
-#: src/backend/entangle-camera.c:2610 src/backend/entangle-camera.c:2664
-#: src/backend/entangle-camera.c:2842 src/backend/entangle-camera.c:3003
-#: src/backend/entangle-camera.c:3227 src/backend/entangle-camera.c:3393
 #, c-format
 msgid "Controls not available for this camera"
 msgstr "Не вдалося отримати доступ до засобів керування цим фотоапаратом"
 
-#: src/backend/entangle-camera.c:2675
 #, c-format
 msgid "Viewfinder control not available with this camera"
 msgstr "Керування видошукачем для цього фотоапарата не передбачено"
 
-#: src/backend/entangle-camera.c:2688
 #, c-format
 msgid "Viewfinder control was not a toggle widget"
 msgstr "Віджет керування видошукачем не можна вмикати або вимикати"
 
-#: src/backend/entangle-camera.c:2702 src/backend/entangle-camera.c:2709
 #, c-format
 msgid "Failed to set viewfinder state: %s %d"
 msgstr "Не вдалося встановити стан видошукача: %s %d"
 
-#: src/backend/entangle-camera.c:2850
 #, c-format
 msgid "Autofocus control not available with this camera"
 msgstr "Керування автофокусуванням для цього фотоапарата не передбачено"
 
-#: src/backend/entangle-camera.c:2863
 #, c-format
 msgid "Autofocus control was not a toggle widget"
 msgstr "Віджет керування автофокусуванням не можна вмикати або вимикати"
 
-#: src/backend/entangle-camera.c:2870 src/backend/entangle-camera.c:2878
 #, c-format
 msgid "Failed to set autofocus state: %s %d"
 msgstr "Не вдалося встановити стан автофокусування: %s %d"
 
-#: src/backend/entangle-camera.c:3011
 #, c-format
 msgid "Manual focus control not available with this camera"
 msgstr "Керування фокусуванням вручну для цього фотоапарата не передбачено"
 
-#: src/backend/entangle-camera.c:3025
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
 msgstr ""
 "Засіб керування фокусуванням вручну не є діапазоном або віджетом вибору з "
 "варіантів"
 
-#: src/backend/entangle-camera.c:3044 src/backend/entangle-camera.c:3068
-#: src/backend/entangle-camera.c:3087 src/backend/entangle-camera.c:3103
 #, c-format
 msgid "Failed to set manual focus state: %s %d"
 msgstr "Не вдалося встановити стан фокусування вручну: %s %d"
 
-#: src/backend/entangle-camera.c:3061 src/backend/entangle-camera.c:3096
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
 msgstr "Не вдалося прочитати дані щодо фокусування вручну %d: %s %d"
 
-#: src/backend/entangle-camera.c:3235
 #, c-format
 msgid "Time setting not available with this camera"
 msgstr "Параметр часу для цього фотоапарата не передбачено"
 
-#: src/backend/entangle-camera.c:3248
 #, c-format
 msgid "Time setting was not a date widget"
 msgstr "Параметр часу визначається не за допомогою віджета дати"
 
-#: src/backend/entangle-camera.c:3255
 #, c-format
 msgid "Failed to set time state: %s %d"
 msgstr "Не вдалося встановити стан часу: %s %d"
 
-#: src/backend/entangle-camera.c:3401
 #, c-format
 msgid "Capture target setting not available with this camera"
 msgstr "Параметр цілі захоплення недоступний для цього фотоапарата"
 
-#: src/backend/entangle-camera.c:3414
 #, c-format
 msgid "Time setting was not a choice widget"
 msgstr "Засіб визначення часу не є віджетом вибору варіанта"
 
-#: src/backend/entangle-camera.c:3423
 #, c-format
 msgid "Failed to set capture target: %s %d"
 msgstr "Не вдалося встановити ціль захоплення: %s %d"
 
-#: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_New window"
 msgstr "_Нове вікно"
 
-#: src/frontend/entangle-camera-manager-menus.ui:10
 msgid "_Preferences…"
 msgstr "_Налаштування…"
 
-#: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Select session…"
 msgstr "_Вибрати сеанс…"
 
-#: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Connect…"
 msgstr "З'_єднати…"
 
-#: src/frontend/entangle-camera-manager-menus.ui:26
 msgid "_Disconnect…"
 msgstr "Ві_д'єднати…"
 
-#: src/frontend/entangle-camera-manager-menus.ui:32
 msgid "_Help"
 msgstr "_Довідка"
 
-#: src/frontend/entangle-camera-manager-menus.ui:34
 msgid "_Supported cameras"
 msgstr "_Підтримувані фотоапарати"
 
-#: src/frontend/entangle-camera-manager-menus.ui:38
 msgid "_Keyboard shortcuts"
 msgstr "_Клавіатурні скорочення"
 
-#: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
 msgstr "_Підручник"
 
-#: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
 msgstr "_Про програму"
 
-#: src/frontend/entangle-camera-manager-menus.ui:53
 msgid "_Quit"
 msgstr "Ви_йти"
 
-#: src/frontend/entangle-camera-manager-menus.ui:62
 msgid "_Fullscreen"
 msgstr "На весь _екран"
 
-#: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "_Presentation"
 msgstr "Пр_езентація"
 
-#: src/frontend/entangle-camera-manager-menus.ui:72
 msgid "_Settings"
 msgstr "П_араметри"
 
-#: src/frontend/entangle-camera-manager-menus.ui:78
 msgid "_Synchronize capture"
 msgstr "_Синхронізувати захоплення"
 
-#: src/frontend/entangle-camera-manager-menus.ui:87
 msgid "Best Fit"
 msgstr "Найкраще заповнення"
 
-#: src/frontend/entangle-camera-manager-menus.ui:91
 msgid "_Normal Size"
 msgstr "Зви_чайний розмір"
 
-#: src/frontend/entangle-camera-manager-menus.ui:97
 msgid "Zoom _In"
 msgstr "З_більшити"
 
-#: src/frontend/entangle-camera-manager-menus.ui:101
 msgid "Zoom _Out"
 msgstr "З_меншити"
 
-#: src/frontend/entangle-camera-manager.c:569
-#: src/frontend/entangle-camera-manager.c:573
 msgid "Capture an image"
 msgstr "Захопити зображення"
 
-#: src/frontend/entangle-camera-manager.c:571
-#: src/frontend/entangle-camera-manager.c:575
 msgid "Continuous capture preview"
 msgstr "Неперервний перегляд захопленого"
 
-#: src/frontend/entangle-camera-manager.c:580
-#: src/frontend/entangle-camera-manager.c:582
 msgid "This camera does not support image capture"
 msgstr "Для цього фотоапарата не передбачено захоплення зображень"
 
-#: src/frontend/entangle-camera-manager.c:587
-#: src/frontend/entangle-camera-manager.c:589
 msgid "This camera does not support image preview"
 msgstr "Для цього фотоапарата не передбачено попереднього перегляду знімків"
 
-#: src/frontend/entangle-camera-manager.c:730
 #, c-format
 msgid "Operation: %s"
 msgstr "Дія: %s"
 
-#: src/frontend/entangle-camera-manager.c:732
 msgid "Entangle: Operation failed"
 msgstr "Entangle: помилка дії"
 
-#: src/frontend/entangle-camera-manager.c:764
-#: src/frontend/entangle-camera-manager.c:1032
 msgid "Camera load controls failed"
 msgstr "Помилка завантаження засобів керування фотоапаратом"
 
-#: src/frontend/entangle-camera-manager.c:766
-#: src/frontend/entangle-camera-manager.c:1034
 msgid "Entangle: Camera load controls failed"
 msgstr "Entangle: не вдалося завантажити засоби керування фотоапаратом"
 
-#: src/frontend/entangle-camera-manager.c:804
 msgid "Monitor"
 msgstr "Монітор"
 
-#: src/frontend/entangle-camera-manager.c:993
-#: src/frontend/entangle-camera-manager.c:994
-#: src/frontend/entangle-control-panel.c:850
 msgid "No camera connected"
 msgstr "Не з’єднано жодного фотоапарата"
 
-#: src/frontend/entangle-camera-manager.c:1083
-#: src/frontend/entangle-camera-manager.c:2285
 #, c-format
 msgid "Unable to connect to camera: %s"
 msgstr "Не вдалося встановити з’єднання з фотоапаратом: %s"
 
-#: src/frontend/entangle-camera-manager.c:1088
-#: src/frontend/entangle-camera-manager.c:2291
 msgid ""
 "Check that the camera is not\n"
 "\n"
@@ -403,21 +309,15 @@ msgstr ""
 " - фотоапарат не перебуває у <b>режимі сну</b>, призначеному для економії "
 "заряду акумуляторів.\n"
 
-#: src/frontend/entangle-camera-manager.c:1093
-#: src/frontend/entangle-camera-manager.c:2296
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/frontend/entangle-camera-manager.c:1094
-#: src/frontend/entangle-camera-manager.c:2297
 msgid "Retry"
 msgstr "Повторити"
 
-#: src/frontend/entangle-camera-manager.c:1125
 msgid "Camera is in use"
 msgstr "Фотоапарат використовується"
 
-#: src/frontend/entangle-camera-manager.c:1129
 msgid ""
 "The camera cannot be opened because it is currently mounted as a filesystem. "
 "Do you wish to umount it now ?"
@@ -425,114 +325,82 @@ msgstr ""
 "Робота з фотоапаратом неможлива, оскільки зараз його змонтовано як сховище "
 "даних. Демонтувати відповідне сховище даних?"
 
-#: src/frontend/entangle-camera-manager.c:1133
-#: src/frontend/entangle-camera-picker.c:127
 msgid "No"
 msgstr "Ні"
 
-#: src/frontend/entangle-camera-manager.c:1134
-#: src/frontend/entangle-camera-picker.c:127
 msgid "Yes"
 msgstr "Так"
 
-#: src/frontend/entangle-camera-manager.c:1169
 msgid "Camera connect failed"
 msgstr "Помилка з’єднання з фотоапаратом"
 
-#: src/frontend/entangle-camera-manager.c:1171
 msgid "Entangle: Camera connect failed"
 msgstr "Entangle: не вдалося встановити з’єднання з фотоапаратом"
 
-#: src/frontend/entangle-camera-manager.c:1483
 msgid "Select a folder"
 msgstr "Виберіть теку"
 
-#: src/frontend/entangle-camera-manager.c:1486
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/frontend/entangle-camera-manager.c:1488
 msgid "_Open"
 msgstr "_Відкрити"
 
-#: src/frontend/entangle-camera-manager.c:1639
-#: src/frontend/entangle-camera-picker.c:531
-#: src/frontend/entangle-preferences-display.c:1084
-#: src/frontend/entangle-preferences-display.ui:237
 msgid "Capture"
 msgstr "Захопити"
 
-#: src/frontend/entangle-camera-manager.c:1660
 msgid "Script"
 msgstr "Скрипт"
 
-#: src/frontend/entangle-camera-manager.c:1727
 msgid "Preview"
 msgstr "Перегляд"
 
-#: src/frontend/entangle-camera-manager.c:1841
 msgid "Set clock"
 msgstr "Встановити час на годиннику"
 
-#: src/frontend/entangle-camera-manager.c:1886
 msgid "Autofocus failed"
 msgstr "Спроба автофокусування зазнала невдачі"
 
-#: src/frontend/entangle-camera-manager.c:1888
 msgid "Entangle: Camera autofocus failed"
 msgstr ""
 "Entangle: спроба автоматично встановити фокус фотоапарата зазнала невдачі"
 
-#: src/frontend/entangle-camera-manager.c:1918
 msgid "Manual focus failed"
 msgstr "Спроба фокусування вручну зазнала невдачі"
 
-#: src/frontend/entangle-camera-manager.c:1920
 msgid "Entangle: Camera manual focus failed"
 msgstr "Entangle: не вдалося встановити на фотоапараті фокусування вручну"
 
-#: src/frontend/entangle-camera-manager.c:2420
-#: src/frontend/entangle-camera-manager.c:2538
 msgid "Delete"
 msgstr "Вилучити"
 
-#: src/frontend/entangle-camera-manager.c:2530
 msgid "Open"
 msgstr "Відкрити"
 
-#: src/frontend/entangle-camera-manager.c:2534
 msgid "Open with"
 msgstr "Відкрити за допомогою"
 
-#: src/frontend/entangle-camera-manager.c:2568
 msgid "Select application..."
 msgstr "Виберіть програму…"
 
-#: src/frontend/entangle-camera-manager.c:2896
 msgid "Image histogram"
 msgstr "Гістограма зображення"
 
-#: src/frontend/entangle-camera-manager.c:2898
 msgid "Automation"
 msgstr "Автоматизація"
 
-#: src/frontend/entangle-camera-picker.c:529
 msgid "Model"
 msgstr "Модель"
 
-#: src/frontend/entangle-camera-picker.c:530
 msgid "Port"
 msgstr "Порт"
 
-#: src/frontend/entangle-camera-picker.ui:8
 msgid "Select camera - Entangle"
 msgstr "Вибір фотоапарата — Entangle"
 
-#: src/frontend/entangle-camera-picker.ui:97
 msgid "Select a camera to connect to:"
 msgstr "Виберіть фотоапарат, з яким слід встановити з’єднання:"
 
-#: src/frontend/entangle-camera-picker.ui:157
 msgid ""
 "No cameras were detected, check that\n"
 "\n"
@@ -556,516 +424,391 @@ msgstr ""
 "USB. Для виявлення фотоапаратів, з’єднаних іншим способом, слід\n"
 "оновити список або вказати IP-адресу фотоапарата у мережі вручну"
 
-#: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
 msgstr "IP-адреса:"
 
-#: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
 msgstr "Фотоапарат у мережі"
 
-#: src/frontend/entangle-camera-support.c:188
 msgid "capture"
 msgstr "захоплення"
 
-#: src/frontend/entangle-camera-support.c:194
 msgid "preview"
 msgstr "попередній перегляд"
 
-#: src/frontend/entangle-camera-support.c:200
 msgid "settings"
 msgstr "параметри"
 
-#: src/frontend/entangle-camera-support.ui:65
 msgid "label"
 msgstr "мітка"
 
-#: src/frontend/entangle-control-panel.c:88
 msgid "Camera control update failed"
 msgstr "Помилка оновлення списку фотоапаратів"
 
-#: src/frontend/entangle-control-panel.c:90
 msgid "Entangle: Camera control update failed"
 msgstr ""
 "Entangle: спроба оновлення списку керування фотоапаратами зазнала невдачі"
 
-#: src/frontend/entangle-control-panel.c:318
 msgid "On"
 msgstr "Увімкнено"
 
-#: src/frontend/entangle-control-panel.c:318
 msgid "Off"
 msgstr "Вимкнено"
 
-#: src/frontend/entangle-control-panel.c:782
 msgid "Reset controls"
 msgstr "Відновити початкові параметри"
 
-#: src/frontend/entangle-control-panel.c:857
 msgid "No controls available"
 msgstr "Немає доступу до засобів керування"
 
-#: src/frontend/entangle-dpms.c:57
 msgid "Screen blanking is not available on this display"
 msgstr "Спорожнення екрана недоступне на цьому дисплеї"
 
-#: src/frontend/entangle-dpms.c:69
 msgid "Screen blanking is not implemented on this platform"
 msgstr "Спорожнення екрана на цій платформі не реалізовано"
 
-#: src/frontend/entangle-help-about.ui:8
 msgid "About - Entangle"
 msgstr "Про програму Entangle"
 
-#: src/frontend/entangle-help-about.ui:17 src/entangle.desktop.in:5
 msgid "Tethered Camera Control & Capture"
 msgstr "Керування фотоапаратами та захоплення даних зі з’єднаних фотоапаратів"
 
-#: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
 msgstr "Керування програмою"
 
-#: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
 msgstr "Відкрити вікно нового фотоапарата"
 
-#: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
 msgstr "Закрити усі вікна і вийти з програми"
 
-#: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
 msgstr "Показати підручник"
 
-#: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
 msgstr "Показ зображення"
 
-#: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Збільшити"
 
-#: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Зменшити"
 
-#: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
 msgstr "Звичайний розмір"
 
-#: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
 msgstr "Найкращий масштаб"
 
-#: src/frontend/entangle-help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle image mask"
 msgstr "Перемкнути маскування зображення"
 
-#: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
 msgstr "Увімкнути або вимкнути підсвічування переекспонованого"
 
-#: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
 msgstr "Перемкнути масштабування гістограми"
 
-#: src/frontend/entangle-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Window display"
 msgstr "Показ у вікні"
 
-#: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "На весь екран"
 
-#: src/frontend/entangle-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Presentation"
 msgstr "Показ"
 
-#: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
 msgstr "Керування затвором"
 
-#: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Capture a single image"
 msgstr "Захопити одне зображення"
 
-#: src/frontend/entangle-help-overlay.ui:126
 msgctxt "shortcut window"
 msgid "Toggle live preview"
 msgstr "Увімкнути або вимкнути інтерактивний перегляд"
 
-#: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
 msgstr "Керування фокусуванням (під час інтерактивного перегляду)"
 
-#: src/frontend/entangle-help-overlay.ui:139
 msgctxt "shortcut window"
 msgid "Autofocus"
 msgstr "Автофокусування"
 
-#: src/frontend/entangle-help-overlay.ui:146
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
 msgstr "Збільшення фокуса (малий крок)"
 
-#: src/frontend/entangle-help-overlay.ui:153
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
 msgstr "Зменшення фокуса (малий крок)"
 
-#: src/frontend/entangle-help-overlay.ui:160
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
 msgstr "Збільшення фокуса (великий крок)"
 
-#: src/frontend/entangle-help-overlay.ui:167
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
 msgstr "Зменшення фокуса (великий крок)"
 
-#: src/frontend/entangle-preferences-display.c:1070
-#: src/frontend/entangle-preferences-display.ui:645
 msgid "Interface"
 msgstr "Інтерфейс"
 
-#: src/frontend/entangle-preferences-display.c:1077
-#: src/frontend/entangle-preferences-display.ui:967
 msgid "Image Viewer"
 msgstr "Перегляд зображень"
 
-#: src/frontend/entangle-preferences-display.c:1091
-#: src/frontend/entangle-preferences-display.ui:446
 msgid "Color Management"
 msgstr "Керування кольорами"
 
-#: src/frontend/entangle-preferences-display.c:1098
-#: src/frontend/entangle-preferences-display.ui:516
 msgid "Plugins"
 msgstr "Додатки"
 
-#: src/frontend/entangle-preferences-display.c:1118
 msgid "ICC profiles (*.icc, *.icm)"
 msgstr "профілі ICC (*.icc, *.icm)"
 
-#: src/frontend/entangle-preferences-display.c:1123
 msgid "All files (*.*)"
 msgstr "всі файли (*.*)"
 
-#: src/frontend/entangle-preferences-display.c:1146
 msgid "1:1 - Square / MF 6x6"
 msgstr "1:1 — квадратне / MF 6x6"
 
-#: src/frontend/entangle-preferences-display.c:1151
 msgid "1.15:1 - Movietone"
 msgstr "1.15:1 — Movietone"
 
-#: src/frontend/entangle-preferences-display.c:1156
 msgid "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
 msgstr "1,33:1 (4:3, 12:9) — супер 35 мм / DSLR / MF 645"
 
-#: src/frontend/entangle-preferences-display.c:1161
 msgid "1.37:1 - 35mm movie"
 msgstr "1.37:1 — 35 мм відео"
 
-#: src/frontend/entangle-preferences-display.c:1166
 msgid "1.44:1 - IMAX"
 msgstr "1.44:1 — IMAX"
 
-#: src/frontend/entangle-preferences-display.c:1171
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
 msgstr "1.50:1 (3:2, 15:10) — 35 мм відеозапис"
 
-#: src/frontend/entangle-preferences-display.c:1176
 msgid "1.6:1 (8:5, 16:10) - Widescreen"
 msgstr "1.6:1 (8:5, 16:10) — широкий екран"
 
-#: src/frontend/entangle-preferences-display.c:1181
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
 msgstr "1,66:1 (5:3, 15:9) — супер 16 мм"
 
-#: src/frontend/entangle-preferences-display.c:1186
 msgid "1.75:1 (7:4) - Widescreen"
 msgstr "1,75:1 (7:4) — широкий екран"
 
-#: src/frontend/entangle-preferences-display.c:1191
 msgid "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
 msgstr "1,77:1 (16:9) — APS-H / HDTV / широкоекранне"
 
-#: src/frontend/entangle-preferences-display.c:1196
 msgid "1.85:1 - 35mm Widescreen"
 msgstr "1,85:1 — широкоекранний, 35 мм"
 
-#: src/frontend/entangle-preferences-display.c:1201
 msgid "2.00:1 - SuperScope"
 msgstr "2,00:1 — SuperScope"
 
-#: src/frontend/entangle-preferences-display.c:1206
 msgid "2.10:1 (21:10) - Planned HDTV"
 msgstr "2,10:1 (21:10) —плановане телебачення високої роздільності"
 
-#: src/frontend/entangle-preferences-display.c:1211
 msgid "2.20:1 (11:5, 22:10) - 70mm movie"
 msgstr "2,20:1 (11:5, 22:10) — 70 мм відео"
 
-#: src/frontend/entangle-preferences-display.c:1216
 msgid "2.35:1 - CinemaScope"
 msgstr "2,35:1 — CinemaScope"
 
-#: src/frontend/entangle-preferences-display.c:1221
 msgid "2.37:1 (64:27)- HDTV cinema"
 msgstr "2,37:1 (64:27) — телебачення високої роздільності"
 
-#: src/frontend/entangle-preferences-display.c:1226
 msgid "2.39:1 (12:5)- Panavision"
 msgstr "2,39:1 (12:5) — Panavision"
 
-#: src/frontend/entangle-preferences-display.c:1231
 msgid "2.55:1 (23:9)- CinemaScope 55"
 msgstr "2,55:1 (23:9) — CinemaScope 55"
 
-#: src/frontend/entangle-preferences-display.c:1236
 msgid "2.59:1 (13:5)- Cinerama"
 msgstr "2,59:1 (13:5) — Cinerama"
 
-#: src/frontend/entangle-preferences-display.c:1241
 msgid "2.66:1 (8:3, 24:9)- Super 16mm"
 msgstr "2,66:1 (8:3, 24:9) — супер 16 мм"
 
-#: src/frontend/entangle-preferences-display.c:1246
 msgid "2.76:1 (11:4) - Ultra Panavision"
 msgstr "2,76:1 (11:4) — Ultra Panavision"
 
-#: src/frontend/entangle-preferences-display.c:1251
 msgid "2.93:1 - MGM Camera 65"
 msgstr "2,93:1 — камера MGM 65"
 
-#: src/frontend/entangle-preferences-display.c:1256
 msgid "3:1 APS Panorama"
 msgstr "3:1 панорама APS"
 
-#: src/frontend/entangle-preferences-display.c:1261
 msgid "4.00:1 - Polyvision"
 msgstr "4.00:1 — Polyvision"
 
-#: src/frontend/entangle-preferences-display.c:1266
 msgid "12.00:1 - Circle-Vision 360"
 msgstr "12.00:1 — кругове бачення 360"
 
-#: src/frontend/entangle-preferences-display.c:1283
 msgid "None"
 msgstr "Немає"
 
-#: src/frontend/entangle-preferences-display.c:1288
 msgid "Center lines"
 msgstr "Центрувати рядки"
 
-#: src/frontend/entangle-preferences-display.c:1293
 msgid "Rule of 3rds"
 msgstr "Правило третіх"
 
-#: src/frontend/entangle-preferences-display.c:1298
 msgid "Quarters"
 msgstr "Чверті"
 
-#: src/frontend/entangle-preferences-display.c:1303
 msgid "Rule of 5ths"
 msgstr "Правило п’ятих"
 
-#: src/frontend/entangle-preferences-display.c:1308
 msgid "Golden sections"
 msgstr "Золоті перетини"
 
-#: src/frontend/entangle-preferences-display.ui:8
 msgid "Entangle Preferences"
 msgstr "Параметри Entangle"
 
-#: src/frontend/entangle-preferences-display.ui:101
 msgid "<b>Capture</b>"
 msgstr "<b>Захоплення</b>"
 
-#: src/frontend/entangle-preferences-display.ui:145
 msgid "Filename pattern:"
 msgstr "Шаблон назви файла:"
 
-#: src/frontend/entangle-preferences-display.ui:163
 msgid "Continue preview mode after capture"
 msgstr "Продовжити роботу у режимі перегляду після захоплення"
 
-#: src/frontend/entangle-preferences-display.ui:179
 msgid "Use preview output as capture image"
 msgstr "Використати виведення попереднього перегляду як зображення захоплення"
 
-#: src/frontend/entangle-preferences-display.ui:195
 msgid "Delete file from camera after downloading"
 msgstr "Вилучити файл з фотоапарата після звантаження"
 
-#: src/frontend/entangle-preferences-display.ui:211
 msgid "Automatically synchronize camera clock"
 msgstr "Автоматично синхронізувати годинник на фотоапараті"
 
-#: src/frontend/entangle-preferences-display.ui:263
 msgid "<b>Colour management</b>"
 msgstr "<b>Керування кольорами</b>"
 
-#: src/frontend/entangle-preferences-display.ui:310
 msgid "Mode of operation:"
 msgstr "Режим роботи:"
 
-#: src/frontend/entangle-preferences-display.ui:318
 msgid "RGB profile:"
 msgstr "Профіль RGB:"
 
-#: src/frontend/entangle-preferences-display.ui:330
 msgid "Monitor profile:"
 msgstr "Профіль монітора:"
 
-#: src/frontend/entangle-preferences-display.ui:342
 msgid "Rendering intent:"
 msgstr "Відтворення кольорів:"
 
-#: src/frontend/entangle-preferences-display.ui:352
 msgid "Detect the system monitor profile"
 msgstr "Виявляти профіль монітора системи"
 
-#: src/frontend/entangle-preferences-display.ui:417
 msgid "Colour managed display"
 msgstr "Показ з керуванням кольорами"
 
-#: src/frontend/entangle-preferences-display.ui:473
 msgid "<b>Plugins</b>"
 msgstr "<b>Додатки</b>"
 
-#: src/frontend/entangle-preferences-display.ui:543
 msgid "<b>Interface</b>"
 msgstr "<b>Інтерфейс</b>"
 
-#: src/frontend/entangle-preferences-display.ui:585
 msgid "Automatically connect to cameras at startup"
 msgstr "Автоматично встановлювати з’єднання з камерами під час запуску"
 
-#: src/frontend/entangle-preferences-display.ui:599
 msgid "Blank screen when capturing images"
 msgstr "Спорожняти екран під час захоплення зображень"
 
-#: src/frontend/entangle-preferences-display.ui:615
 msgid "Show linear histogram"
 msgstr "Показати лінійну гістограму"
 
-#: src/frontend/entangle-preferences-display.ui:672
 msgid "<b>Image Viewer</b>"
 msgstr "<b>Перегляд зображень</b>"
 
-#: src/frontend/entangle-preferences-display.ui:714
 msgid "Apply mask to alter aspect ratio"
 msgstr "Застосувати маску з метою зміни форм-фактора"
 
-#: src/frontend/entangle-preferences-display.ui:730
 msgid "Aspect ratio:"
 msgstr "Форм-фактор:"
 
-#: src/frontend/entangle-preferences-display.ui:742
 msgid "Mask opacity:"
 msgstr "Непрозорість маски:"
 
-#: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
 msgstr "0"
 
-#: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
 msgstr "Показувати точку фокусування під час перегляду"
 
-#: src/frontend/entangle-preferences-display.ui:800
 msgid "Grid lines:"
 msgstr "Лінії сітки:"
 
-#: src/frontend/entangle-preferences-display.ui:824
 msgid "Use embedded preview from raw files"
 msgstr "Вбудовані мініатюри з файлів цифрових негативів"
 
-#: src/frontend/entangle-preferences-display.ui:840
 msgid "Overlay earlier images"
 msgstr "Накладати попередні зображення"
 
-#: src/frontend/entangle-preferences-display.ui:858
 msgid "Overlay layers:"
 msgstr "Шари накладання:"
 
-#: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
 msgstr "3"
 
-#: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
 msgstr "Тло:"
 
-#: src/frontend/entangle-preferences-display.ui:913
 msgid "Highlight:"
 msgstr "Підсвічування:"
 
-#: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
 msgstr "Підсвітити переекспоновані ділянки"
 
-#: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
 msgstr "Придатний для сприйняття"
 
-#: src/frontend/entangle-preferences-display.ui:1019
 msgid "Relative colourimetric"
 msgstr "Відносний колориметричний"
 
-#: src/frontend/entangle-preferences-display.ui:1022
 msgid "Saturation"
 msgstr "Насиченість"
 
-#: src/frontend/entangle-preferences-display.ui:1025
 msgid "Absolute colourimetric"
 msgstr "Абсолютний колориметричний"
 
-#: src/frontend/entangle-script.c:96
 msgid "Untitled script"
 msgstr "Скрипт без назви"
 
-#: src/frontend/entangle-script-config.c:77
 msgid "No script"
 msgstr "Немає скрипту"
 
-#: src/frontend/entangle-script-config.c:159
 msgid "No config options"
 msgstr "Немає параметрів налаштування"
 
-#: src/frontend/entangle-script-simple.c:63
 msgid "Missing 'execute' method implementation"
 msgstr "Не визначено реалізації методу «execute»"
 
-#: src/entangle.appdata.xml.in:7 src/entangle.desktop.in:4
 msgid "Entangle"
 msgstr "Entangle"
 
-#: src/entangle.appdata.xml.in:8
 msgid "Tethered Camera Control &amp; Capture"
 msgstr "Керування та захоплення зображення зі з’єднаного фотоапарата"
 
-#: src/entangle.appdata.xml.in:10
 msgid ""
 "Entangle is a program used to control digital cameras that are connected to "
 "the computer via USB."
@@ -1073,7 +816,6 @@ msgstr ""
 "Entangle — програма для керування цифровими фотоапаратами, з’єднаними з "
 "комп’ютером за допомогою USB."
 
-#: src/entangle.appdata.xml.in:14
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
 "supported by the camera, a continuously updating preview of the scene can be "
@@ -1087,7 +829,6 @@ msgstr ""
 "показує знімки, щойно їх буде створено. Крім того, Entangle надає змогу "
 "змінювати параметри роботи фотоапарата безпосередньо з комп’ютера."
 
-#: src/entangle.appdata.xml.in:22
 msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
@@ -1097,108 +838,83 @@ msgstr ""
 "Nikon та Canon, деякими з компактних фотоапаратів цих виробників та "
 "різноманітними фотоапаратами інших виробників."
 
-#: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
 msgstr "Проєкт Entangle Photo"
 
-#: src/entangle.appdata.xml.in:46
 msgid "Require gobject introspection &gt;= 1.54"
 msgstr "Потребує інтроспекції gobject &gt;= 1.54"
 
-#: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
 msgstr "Потребує GTK3 &gt;= 3.22"
 
-#: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
 msgstr "Виправлено залежність від libraw"
 
-#: src/entangle.appdata.xml.in:49
 msgid "Fix variable name in photobox plugin"
 msgstr "Виправлено назву змінної у додатку photobox"
 
-#: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
 msgstr "Документовано усі клавіатурні скорочення"
 
-#: src/entangle.appdata.xml.in:51
 msgid "Fix upper bound in histogram to display clipped pixel"
 msgstr "Виправлено обрізання пікселів на верхній межі гістограми"
 
-#: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
 msgstr "Оновлено переклади"
 
-#: src/entangle.appdata.xml.in:53
 msgid "Option to highlight over exposed pixels in red"
 msgstr "Параметр для підсвічування переекспонованих пікселів червоним кольором"
 
-#: src/entangle.appdata.xml.in:54
 msgid "Disable noisy compiler warning"
 msgstr "Виправлено надокучливе попередження компілятора"
 
-#: src/entangle.appdata.xml.in:55
 msgid "Remove use of deprecated application menu concept"
 msgstr "Вилучено використання застарілої концепції меню програми"
 
-#: src/entangle.appdata.xml.in:56
 msgid "Fix image redraw when changing some settings"
 msgstr "Виправлено перемальовування зображення при зміні деяких параметрів"
 
-#: src/entangle.appdata.xml.in:57
 msgid "Update mailing list address in appdaat"
 msgstr "Оновлено адресу списку листування у appdata"
 
-#: src/entangle.appdata.xml.in:58
 msgid "Add more fields to appdata content"
 msgstr "Додано додаткові поля до даних appdata"
 
-#: src/entangle.appdata.xml.in:59
 msgid "Fix reference counting during window close"
 msgstr "Виправлено облік посилань під час закриття вікна"
 
-#: src/entangle.appdata.xml.in:60
 msgid "Use correct API for destroying top level windows"
 msgstr ""
 "Використано належний програмний інтерфейс для закриття вікон верхнього рівня"
 
-#: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
 msgstr ""
 "Виправлено демонтування фотоапаратів із новою схемою побудови адрес у gvfs"
 
-#: src/entangle.appdata.xml.in:62
 msgid "Avoid out of bounds read of property values"
 msgstr ""
 "Усунено читання за межами припустимого діапазону для значень властивостей"
 
-#: src/entangle.appdata.xml.in:63
 msgid "Fix many memory leaks"
 msgstr "Виправлено багато витоків пам'яті"
 
-#: src/entangle.appdata.xml.in:64
 msgid "Workaround for combo boxes not displaying on Wayland"
 msgstr "Усунено проблему із показом спадних списків у Wayland"
 
-#: src/entangle.appdata.xml.in:65
 msgid "Fix race condition in building enums"
 msgstr "Виправлено конкуренцію при побудові переліків"
 
-#: src/entangle.appdata.xml.in:66
 msgid "Fix setting of gschema directory during startup"
 msgstr "Виправлено встановлення каталогу gschema під час запуску"
 
-#: src/entangle.appdata.xml.in:67
 msgid "Set env to ensure plugins can find introspection typelib"
 msgstr ""
 "Встановлено параметри середовища для забезпечення виявлення typelib-"
 "інтроспекції"
 
-#: src/entangle.desktop.in:6
 msgid "entangle"
 msgstr "entangle"
 
-#: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
 msgstr ""
 "Capture;Camera;Tethered;Photo;захоплення;фотоапарат;камера;зв'язок;фото;"

@@ -18,362 +18,268 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.0.4\n"
 
-#: src/backend/entangle-camera-list.c:247 src/backend/entangle-camera.c:743
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
 msgstr "Kan ikke igangsette gphoto2-funksjonalitet"
 
-#: src/backend/entangle-camera-list.c:250 src/backend/entangle-camera.c:749
 #, c-format
 msgid "Cannot load gphoto2 abilities"
 msgstr "Kan ikke laste inn gphoto2-funksjonalitet"
 
-#: src/backend/entangle-camera-list.c:409 src/backend/entangle-camera.c:755
 #, fuzzy, c-format
 msgid "Cannot initialize gphoto2 ports"
 msgstr "Kan ikke igangsette porter for gphoto2"
 
-#: src/backend/entangle-camera-list.c:412 src/backend/entangle-camera.c:761
 #, c-format
 msgid "Cannot load gphoto2 ports"
 msgstr "Kan ikke laste inn porter for gphoto2"
 
-#: src/backend/entangle-camera.c:792
 #, c-format
 msgid "Unable to initialize camera: %s"
 msgstr "Kunne ikke igangsette kamera: %s"
 
-#: src/backend/entangle-camera.c:1146
 #, c-format
 msgid "Cannot capture image while not connected"
 msgstr "Kunne ikke knipse bilde uten tilkobling"
 
-#: src/backend/entangle-camera.c:1159
 #, c-format
 msgid "Unable to capture image: %s"
 msgstr "Kunne ikke knipse bilde: %s"
 
-#: src/backend/entangle-camera.c:1273
 #, c-format
 msgid "Cannot preview image while not connected"
 msgstr "Kan ikke forhåndsvise bilde uten tilkobling"
 
-#: src/backend/entangle-camera.c:1288
 #, c-format
 msgid "Unable to capture preview: %s"
 msgstr "Kunne ikke knipse forhåndsvisning: %s"
 
-#: src/backend/entangle-camera.c:1295 src/backend/entangle-camera.c:1453
 #, c-format
 msgid "Unable to get file data: %s"
 msgstr "Kunne ikke hente fildata: %s"
 
-#: src/backend/entangle-camera.c:1301
 #, c-format
 msgid "Unable to get filename: %s"
 msgstr "Kunne ikke hente filnavn: %s"
 
-#: src/backend/entangle-camera.c:1423
 #, c-format
 msgid "Cannot download file while not connected"
 msgstr "Kan ikke laste ned fil uten tilkobling"
 
-#: src/backend/entangle-camera.c:1446
 #, c-format
 msgid "Unable to get camera file: %s"
 msgstr "Kunne ikke hente kamerafil: %s"
 
-#: src/backend/entangle-camera.c:1573
 #, c-format
 msgid "Cannot delete file while not connected"
 msgstr "Kan ikke slette fil uten tilkobling"
 
-#: src/backend/entangle-camera.c:1591
 #, c-format
 msgid "Unable to delete file: %s"
 msgstr "Kunne ikke slette fil: %s"
 
-#: src/backend/entangle-camera.c:1707
 #, c-format
 msgid "Cannot wait for events while not connected"
 msgstr "Kan ikke vente på hendelser uten tilkobling"
 
-#: src/backend/entangle-camera.c:1733
 #, c-format
 msgid "Unable to wait for events: %s"
 msgstr "Kunne ikke vente på hendelser: %s"
 
-#: src/backend/entangle-camera.c:1928 src/backend/entangle-camera.c:2091
-#: src/backend/entangle-camera.c:2227 src/backend/entangle-camera.c:2682
-#: src/backend/entangle-camera.c:2857 src/backend/entangle-camera.c:3018
-#: src/backend/entangle-camera.c:3242 src/backend/entangle-camera.c:3408
 #, c-format
 msgid "Unable to fetch widget type"
 msgstr "Kunne ikke hente miniprogramstype"
 
-#: src/backend/entangle-camera.c:1934 src/backend/entangle-camera.c:2097
-#: src/backend/entangle-camera.c:2233
 #, c-format
 msgid "Unable to fetch widget name"
 msgstr "Kunne ikke hente miniprogramsnavn"
 
-#: src/backend/entangle-camera.c:2346
 #, c-format
 msgid "Unable to load controls, camera is not connected"
 msgstr "Kunne ikke laste inn styringskontroller, kamera er frakoblet"
 
-#: src/backend/entangle-camera.c:2355
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
 msgstr "Kunne ikke hente oppsett for kamerastyring: %s"
 
-#: src/backend/entangle-camera.c:2476
 #, c-format
 msgid "Unable to save controls, camera is not connected"
 msgstr "Kunne ikke lagre styringskontroller, kamera er frakoblet"
 
-#: src/backend/entangle-camera.c:2482
 #, c-format
 msgid "Unable to save controls, camera is not configurable"
 msgstr "Kunne ikke lagre styringskontroller, kamera kan ikke settes opp"
 
-#: src/backend/entangle-camera.c:2501 src/backend/entangle-camera.c:2718
-#: src/backend/entangle-camera.c:2887 src/backend/entangle-camera.c:3078
-#: src/backend/entangle-camera.c:3264 src/backend/entangle-camera.c:3432
 #, c-format
 msgid "Unable to save camera control configuration: %s"
 msgstr "Kunne ikke lagre oppsett av kamerastyring: %s"
 
-#: src/backend/entangle-camera.c:2604 src/backend/entangle-camera.c:2658
-#: src/backend/entangle-camera.c:2836 src/backend/entangle-camera.c:2997
-#: src/backend/entangle-camera.c:3221 src/backend/entangle-camera.c:3387
 #, c-format
 msgid "Controls not available when camera is disconnected"
 msgstr "Styringskontroller ikke tilgjengeligere når kamera er frakoblet"
 
-#: src/backend/entangle-camera.c:2610 src/backend/entangle-camera.c:2664
-#: src/backend/entangle-camera.c:2842 src/backend/entangle-camera.c:3003
-#: src/backend/entangle-camera.c:3227 src/backend/entangle-camera.c:3393
 #, c-format
 msgid "Controls not available for this camera"
 msgstr "Styringskontroller ikke tilgjengelige for dette kameraet"
 
-#: src/backend/entangle-camera.c:2675
 #, c-format
 msgid "Viewfinder control not available with this camera"
 msgstr "Søkerstyring ikke tilgjengelig med dette kameraet"
 
-#: src/backend/entangle-camera.c:2688
 #, c-format
 msgid "Viewfinder control was not a toggle widget"
 msgstr "Søkerstyring er ikke et miniprogram som kan skrus av og på"
 
-#: src/backend/entangle-camera.c:2702 src/backend/entangle-camera.c:2709
 #, fuzzy, c-format
 msgid "Failed to set viewfinder state: %s %d"
 msgstr "Klarte ikke å sette søkermodus: %s %d"
 
-#: src/backend/entangle-camera.c:2850
 #, c-format
 msgid "Autofocus control not available with this camera"
 msgstr "Autofokus-styring ikke tilgjengelig med dette kameraet"
 
-#: src/backend/entangle-camera.c:2863
 #, c-format
 msgid "Autofocus control was not a toggle widget"
 msgstr "Autofokusstyring er ikke et miniprogram som lar seg skru av og på"
 
-#: src/backend/entangle-camera.c:2870 src/backend/entangle-camera.c:2878
 #, c-format
 msgid "Failed to set autofocus state: %s %d"
 msgstr "Klarte ikke å sette autofokustilstand: %s %d"
 
-#: src/backend/entangle-camera.c:3011
 #, c-format
 msgid "Manual focus control not available with this camera"
 msgstr "Manuell fokusstyring ikke tilgjengelig med dette kameraet"
 
-#: src/backend/entangle-camera.c:3025
 #, fuzzy, c-format
 msgid "Manual focus control was not a range or radio widget"
 msgstr ""
 "Manuell fokusstyring utenfor gyldig rekkevidde eller et valgbart miniprogram"
 
-#: src/backend/entangle-camera.c:3044 src/backend/entangle-camera.c:3068
-#: src/backend/entangle-camera.c:3087 src/backend/entangle-camera.c:3103
 #, c-format
 msgid "Failed to set manual focus state: %s %d"
 msgstr "Klarte ikke å sette manuell fokustilstand: %s %d"
 
-#: src/backend/entangle-camera.c:3061 src/backend/entangle-camera.c:3096
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
 msgstr "Klarte ikke å lese manuelt fokusvalg %d: %s %d"
 
-#: src/backend/entangle-camera.c:3235
 #, c-format
 msgid "Time setting not available with this camera"
 msgstr "Tidsinnstilling ikke tilgjengelig med dette kameraet"
 
-#: src/backend/entangle-camera.c:3248
 #, fuzzy, c-format
 msgid "Time setting was not a date widget"
 msgstr "Tidsinnstilling var ikke et dato-miniprogram"
 
-#: src/backend/entangle-camera.c:3255
 #, c-format
 msgid "Failed to set time state: %s %d"
 msgstr "Klarte ikke å sette tidstilstand: %s %d"
 
-#: src/backend/entangle-camera.c:3401
 #, c-format
 msgid "Capture target setting not available with this camera"
 msgstr "Innstilling for opptaksmål ikke tilgjengelig med dette kameraet"
 
-#: src/backend/entangle-camera.c:3414
 #, fuzzy, c-format
 msgid "Time setting was not a choice widget"
 msgstr "Tidsinnstilling var ikke et innstillings-miniprogram"
 
-#: src/backend/entangle-camera.c:3423
 #, c-format
 msgid "Failed to set capture target: %s %d"
 msgstr "Klarte ikke å sette opptaksmål: %s %d"
 
-#: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_New window"
 msgstr "_Nytt vindu"
 
-#: src/frontend/entangle-camera-manager-menus.ui:10
 msgid "_Preferences…"
 msgstr "_Innstillinger…"
 
-#: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Select session…"
 msgstr "_Velg økt…"
 
-#: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Connect…"
 msgstr "_Koble til"
 
-#: src/frontend/entangle-camera-manager-menus.ui:26
 msgid "_Disconnect…"
 msgstr "Koble _fra…"
 
-#: src/frontend/entangle-camera-manager-menus.ui:32
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: src/frontend/entangle-camera-manager-menus.ui:34
 msgid "_Supported cameras"
 msgstr "_Støttede kamera"
 
-#: src/frontend/entangle-camera-manager-menus.ui:38
 msgid "_Keyboard shortcuts"
 msgstr "_Tastatursnarveier"
 
-#: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
 msgstr "_Manual"
 
-#: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
 msgstr "_Om"
 
-#: src/frontend/entangle-camera-manager-menus.ui:53
 msgid "_Quit"
 msgstr "_Avslutt"
 
-#: src/frontend/entangle-camera-manager-menus.ui:62
 msgid "_Fullscreen"
 msgstr "_Fullskjermsvisning"
 
-#: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "_Presentation"
 msgstr "_Presentasjon"
 
-#: src/frontend/entangle-camera-manager-menus.ui:72
 msgid "_Settings"
 msgstr "_Innstillinger"
 
-#: src/frontend/entangle-camera-manager-menus.ui:78
 msgid "_Synchronize capture"
 msgstr "_Synkroniser opptak"
 
-#: src/frontend/entangle-camera-manager-menus.ui:87
 msgid "Best Fit"
 msgstr "Beste tilpasning"
 
-#: src/frontend/entangle-camera-manager-menus.ui:91
 msgid "_Normal Size"
 msgstr "_Normal størrelse"
 
-#: src/frontend/entangle-camera-manager-menus.ui:97
 msgid "Zoom _In"
 msgstr "_Forstørr"
 
-#: src/frontend/entangle-camera-manager-menus.ui:101
 msgid "Zoom _Out"
 msgstr "_Forminsk"
 
-#: src/frontend/entangle-camera-manager.c:569
-#: src/frontend/entangle-camera-manager.c:573
 msgid "Capture an image"
 msgstr "Knips et bilde"
 
-#: src/frontend/entangle-camera-manager.c:571
-#: src/frontend/entangle-camera-manager.c:575
 msgid "Continuous capture preview"
 msgstr "Vedvarende opptaksforhåndsvisning"
 
-#: src/frontend/entangle-camera-manager.c:580
-#: src/frontend/entangle-camera-manager.c:582
 msgid "This camera does not support image capture"
 msgstr "Dette kameraet støtter ikke bildeknipsing"
 
-#: src/frontend/entangle-camera-manager.c:587
-#: src/frontend/entangle-camera-manager.c:589
 msgid "This camera does not support image preview"
 msgstr "Dette kameraet støtter ikke bildeforhåndsvisning"
 
-#: src/frontend/entangle-camera-manager.c:730
 #, c-format
 msgid "Operation: %s"
 msgstr "Operasjon: %s"
 
-#: src/frontend/entangle-camera-manager.c:732
 msgid "Entangle: Operation failed"
 msgstr "Entangle: Operasjon mislyktes"
 
-#: src/frontend/entangle-camera-manager.c:764
-#: src/frontend/entangle-camera-manager.c:1032
 msgid "Camera load controls failed"
 msgstr "Innlasting av kamerastyring mislyktes"
 
-#: src/frontend/entangle-camera-manager.c:766
-#: src/frontend/entangle-camera-manager.c:1034
 msgid "Entangle: Camera load controls failed"
 msgstr "Entangle: Innlasting av kamerastyring mislyktes"
 
-#: src/frontend/entangle-camera-manager.c:804
 #, fuzzy
 msgid "Monitor"
 msgstr "Overvåk"
 
-#: src/frontend/entangle-camera-manager.c:993
-#: src/frontend/entangle-camera-manager.c:994
-#: src/frontend/entangle-control-panel.c:850
 msgid "No camera connected"
 msgstr "Ingen kamera tilknyttet"
 
-#: src/frontend/entangle-camera-manager.c:1083
-#: src/frontend/entangle-camera-manager.c:2285
 #, c-format
 msgid "Unable to connect to camera: %s"
 msgstr "Kunne ikke koble til kamera: %s"
 
-#: src/frontend/entangle-camera-manager.c:1088
-#: src/frontend/entangle-camera-manager.c:2291
 msgid ""
 "Check that the camera is not\n"
 "\n"
@@ -387,21 +293,15 @@ msgstr ""
 " - Montert som et <b>filsystem</b> på skrivebordet\n"
 " - Er i <b>dvalemodus</b> for å spare batteri\n"
 
-#: src/frontend/entangle-camera-manager.c:1093
-#: src/frontend/entangle-camera-manager.c:2296
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: src/frontend/entangle-camera-manager.c:1094
-#: src/frontend/entangle-camera-manager.c:2297
 msgid "Retry"
 msgstr "Prøv igjen"
 
-#: src/frontend/entangle-camera-manager.c:1125
 msgid "Camera is in use"
 msgstr "Kamera i bruk"
 
-#: src/frontend/entangle-camera-manager.c:1129
 #, fuzzy
 msgid ""
 "The camera cannot be opened because it is currently mounted as a filesystem. "
@@ -410,113 +310,81 @@ msgstr ""
 "Kameraet kan ikke åpnes fordi det ikke er montert som et filsystem. Ønsker "
 "du å avmontere det nå?"
 
-#: src/frontend/entangle-camera-manager.c:1133
-#: src/frontend/entangle-camera-picker.c:127
 msgid "No"
 msgstr "Nei"
 
-#: src/frontend/entangle-camera-manager.c:1134
-#: src/frontend/entangle-camera-picker.c:127
 msgid "Yes"
 msgstr "Ja"
 
-#: src/frontend/entangle-camera-manager.c:1169
 msgid "Camera connect failed"
 msgstr "Tilkobling av kamera mislyktes"
 
-#: src/frontend/entangle-camera-manager.c:1171
 msgid "Entangle: Camera connect failed"
 msgstr "Entangle: Tilkobling av kamera mislyktes"
 
-#: src/frontend/entangle-camera-manager.c:1483
 msgid "Select a folder"
 msgstr "Velg en mappe"
 
-#: src/frontend/entangle-camera-manager.c:1486
 msgid "_Cancel"
 msgstr "_Avbryt"
 
-#: src/frontend/entangle-camera-manager.c:1488
 msgid "_Open"
 msgstr "_Åpne"
 
-#: src/frontend/entangle-camera-manager.c:1639
-#: src/frontend/entangle-camera-picker.c:531
-#: src/frontend/entangle-preferences-display.c:1084
-#: src/frontend/entangle-preferences-display.ui:237
 msgid "Capture"
 msgstr "Opptak"
 
-#: src/frontend/entangle-camera-manager.c:1660
 msgid "Script"
 msgstr "Skript"
 
-#: src/frontend/entangle-camera-manager.c:1727
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
-#: src/frontend/entangle-camera-manager.c:1841
 msgid "Set clock"
 msgstr "Still klokken"
 
-#: src/frontend/entangle-camera-manager.c:1886
 msgid "Autofocus failed"
 msgstr "Autofokus mislyktes"
 
-#: src/frontend/entangle-camera-manager.c:1888
 msgid "Entangle: Camera autofocus failed"
 msgstr "Entangle: Kamera-autofokus mislyktes"
 
-#: src/frontend/entangle-camera-manager.c:1918
 msgid "Manual focus failed"
 msgstr "Manuell fokus mislyktes"
 
-#: src/frontend/entangle-camera-manager.c:1920
 msgid "Entangle: Camera manual focus failed"
 msgstr "Entangle: Manuell kamera-autofokus mislyktes"
 
-#: src/frontend/entangle-camera-manager.c:2420
-#: src/frontend/entangle-camera-manager.c:2538
 msgid "Delete"
 msgstr "Slett"
 
-#: src/frontend/entangle-camera-manager.c:2530
 msgid "Open"
 msgstr "Åpne"
 
-#: src/frontend/entangle-camera-manager.c:2534
 msgid "Open with"
 msgstr "Åpne med"
 
-#: src/frontend/entangle-camera-manager.c:2568
 msgid "Select application..."
 msgstr "Velg program…"
 
-#: src/frontend/entangle-camera-manager.c:2896
 msgid "Image histogram"
 msgstr "Bildehistogram"
 
-#: src/frontend/entangle-camera-manager.c:2898
 msgid "Automation"
 msgstr "Automasjon"
 
-#: src/frontend/entangle-camera-picker.c:529
 msgid "Model"
 msgstr "Modell"
 
-#: src/frontend/entangle-camera-picker.c:530
 msgid "Port"
 msgstr "Port"
 
-#: src/frontend/entangle-camera-picker.ui:8
 msgid "Select camera - Entangle"
 msgstr "Velg kamera - Entangle"
 
-#: src/frontend/entangle-camera-picker.ui:97
 msgid "Select a camera to connect to:"
 msgstr "Velg et kamera å koble til:"
 
-#: src/frontend/entangle-camera-picker.ui:157
 msgid ""
 "No cameras were detected, check that\n"
 "\n"
@@ -540,537 +408,412 @@ msgstr ""
 "de plugges inn. Med andre kan du prøve å oppdatere\n"
 "eller skrive inn IP-adresse for nettverkskamera."
 
-#: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
 msgstr "IP-adresse:"
 
-#: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
 msgstr "Nettverkskamera"
 
-#: src/frontend/entangle-camera-support.c:188
 #, fuzzy
 msgid "capture"
 msgstr "knips"
 
-#: src/frontend/entangle-camera-support.c:194
 msgid "preview"
 msgstr "forhåndsvis"
 
-#: src/frontend/entangle-camera-support.c:200
 msgid "settings"
 msgstr "innstillinger"
 
-#: src/frontend/entangle-camera-support.ui:65
 msgid "label"
 msgstr "etikett"
 
-#: src/frontend/entangle-control-panel.c:88
 msgid "Camera control update failed"
 msgstr "Oppdatering av kamerastyring mislyktes"
 
-#: src/frontend/entangle-control-panel.c:90
 msgid "Entangle: Camera control update failed"
 msgstr "Entangle: Oppdatering av kamerastyring mislyktes"
 
-#: src/frontend/entangle-control-panel.c:318
 msgid "On"
 msgstr "Påslått"
 
-#: src/frontend/entangle-control-panel.c:318
 msgid "Off"
 msgstr "Avslått"
 
-#: src/frontend/entangle-control-panel.c:782
 msgid "Reset controls"
 msgstr "Tilbakestill styringskontroller"
 
-#: src/frontend/entangle-control-panel.c:857
 msgid "No controls available"
 msgstr "Ingen styringskontroller tilgjengelige"
 
-#: src/frontend/entangle-dpms.c:57
 msgid "Screen blanking is not available on this display"
 msgstr "Skjermtømming er ikke tilgjengelig for denne skjermen"
 
-#: src/frontend/entangle-dpms.c:69
 #, fuzzy
 msgid "Screen blanking is not implemented on this platform"
 msgstr "Skjermtømming er ikke implementert på denne plattformen"
 
-#: src/frontend/entangle-help-about.ui:8
 msgid "About - Entangle"
 msgstr "Om - Entangle"
 
-#: src/frontend/entangle-help-about.ui:17 src/entangle.desktop.in:5
 msgid "Tethered Camera Control & Capture"
 msgstr "Tjudret kamerastyring og opptak"
 
-#: src/frontend/entangle-help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "Controlling the application"
 msgstr "Styring av programmet"
 
-#: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
 msgstr "Åpne et nytt kameravindu"
 
-#: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
 msgstr "Lukk alle vinduer og avslutt"
 
-#: src/frontend/entangle-help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Display help manual"
 msgstr "Vis hjelpemanualen"
 
-#: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
 msgstr "Bildeforhåndsvisning"
 
-#: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Forstørr"
 
-#: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Forminsk"
 
-#: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
 msgstr "Opprinnelig forstørrelsesnivå"
 
-#: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
 msgstr "Beste forstørrelsesnivå"
 
-#: src/frontend/entangle-help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle image mask"
 msgstr "Skru bildemaske av/på"
 
-#: src/frontend/entangle-help-overlay.ui:79
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
 msgstr "Skru framheving av overeksponering av/på"
 
-#: src/frontend/entangle-help-overlay.ui:86
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
 msgstr "Skru historgramskala av/på"
 
-#: src/frontend/entangle-help-overlay.ui:95
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Window display"
 msgstr "Vindusvisning"
 
-#: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Fullskjermsvisning"
 
-#: src/frontend/entangle-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Presentation"
 msgstr "Presentasjon"
 
-#: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
 msgstr "Lukkerstyring"
 
-#: src/frontend/entangle-help-overlay.ui:119
 msgctxt "shortcut window"
 msgid "Capture a single image"
 msgstr "Knips ett bilde"
 
-#: src/frontend/entangle-help-overlay.ui:126
 msgctxt "shortcut window"
 msgid "Toggle live preview"
 msgstr "Skru sanntidsforhåndsvisning av/på"
 
-#: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
 msgstr "Fokuskontroll (under sanntidsforhåndsvisning)"
 
-#: src/frontend/entangle-help-overlay.ui:139
 msgctxt "shortcut window"
 msgid "Autofocus"
 msgstr "Autofokus"
 
-#: src/frontend/entangle-help-overlay.ui:146
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
 msgstr "Fokuser innover (lite steg)"
 
-#: src/frontend/entangle-help-overlay.ui:153
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
 msgstr "Fokuser utover (lite steg)"
 
-#: src/frontend/entangle-help-overlay.ui:160
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
 msgstr "Fokuser innover (stort steg)"
 
-#: src/frontend/entangle-help-overlay.ui:167
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
 msgstr "Fokuser utover (stort steg)"
 
-#: src/frontend/entangle-preferences-display.c:1070
-#: src/frontend/entangle-preferences-display.ui:645
 msgid "Interface"
 msgstr "Grensesnitt"
 
-#: src/frontend/entangle-preferences-display.c:1077
-#: src/frontend/entangle-preferences-display.ui:967
 msgid "Image Viewer"
 msgstr "Bildeviser"
 
-#: src/frontend/entangle-preferences-display.c:1091
-#: src/frontend/entangle-preferences-display.ui:446
 msgid "Color Management"
 msgstr "Fargebehandling"
 
-#: src/frontend/entangle-preferences-display.c:1098
-#: src/frontend/entangle-preferences-display.ui:516
 msgid "Plugins"
 msgstr "Programtillegg"
 
-#: src/frontend/entangle-preferences-display.c:1118
 msgid "ICC profiles (*.icc, *.icm)"
 msgstr "ICC-profiler (*.icc, *.icm)"
 
-#: src/frontend/entangle-preferences-display.c:1123
 msgid "All files (*.*)"
 msgstr "Alle filer (*.*)"
 
-#: src/frontend/entangle-preferences-display.c:1146
 msgid "1:1 - Square / MF 6x6"
 msgstr "1:1 - Kvadrat / MF 6x6"
 
-#: src/frontend/entangle-preferences-display.c:1151
 msgid "1.15:1 - Movietone"
 msgstr "1.15:1 - Movietone"
 
-#: src/frontend/entangle-preferences-display.c:1156
 msgid "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
 msgstr "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
 
-#: src/frontend/entangle-preferences-display.c:1161
 #, fuzzy
 msgid "1.37:1 - 35mm movie"
 msgstr "1.37:1 - 35mm-film"
 
-#: src/frontend/entangle-preferences-display.c:1166
 msgid "1.44:1 - IMAX"
 msgstr "1.44:1 - IMAX"
 
-#: src/frontend/entangle-preferences-display.c:1171
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
 msgstr "1.50:1 (3:2, 15:10)- 35mm SLR"
 
-#: src/frontend/entangle-preferences-display.c:1176
 #, fuzzy
 msgid "1.6:1 (8:5, 16:10) - Widescreen"
 msgstr "1.6:1 (8:5, 16:10) - Bredskjerm"
 
-#: src/frontend/entangle-preferences-display.c:1181
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
 msgstr "1.66:1 (5:3, 15:9) - Super 16mm"
 
-#: src/frontend/entangle-preferences-display.c:1186
 #, fuzzy
 msgid "1.75:1 (7:4) - Widescreen"
 msgstr "1.75:1 (7:4) - Bredskjerm"
 
-#: src/frontend/entangle-preferences-display.c:1191
 #, fuzzy
 msgid "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
 msgstr "1.77:1 (16:9) - APS-H / HDTV / Bredskjerm"
 
-#: src/frontend/entangle-preferences-display.c:1196
 #, fuzzy
 msgid "1.85:1 - 35mm Widescreen"
 msgstr "1.85:1 - 35mm Bredskjerm"
 
-#: src/frontend/entangle-preferences-display.c:1201
 msgid "2.00:1 - SuperScope"
 msgstr "2.00:1 - SuperScope"
 
-#: src/frontend/entangle-preferences-display.c:1206
 #, fuzzy
 msgid "2.10:1 (21:10) - Planned HDTV"
 msgstr "2.10:1 (21:10) - Planlagt HDTV"
 
-#: src/frontend/entangle-preferences-display.c:1211
 #, fuzzy
 msgid "2.20:1 (11:5, 22:10) - 70mm movie"
 msgstr "2.20:1 (11:5, 22:10) - 70mm-film"
 
-#: src/frontend/entangle-preferences-display.c:1216
 msgid "2.35:1 - CinemaScope"
 msgstr "2.35:1 - CinemaScope"
 
-#: src/frontend/entangle-preferences-display.c:1221
 #, fuzzy
 msgid "2.37:1 (64:27)- HDTV cinema"
 msgstr "2.37:1 (64:27)- HDTV-kino"
 
-#: src/frontend/entangle-preferences-display.c:1226
 msgid "2.39:1 (12:5)- Panavision"
 msgstr "2.39:1 (12:5)- Panavision"
 
-#: src/frontend/entangle-preferences-display.c:1231
 msgid "2.55:1 (23:9)- CinemaScope 55"
 msgstr "2.55:1 (23:9)- CinemaScope 55"
 
-#: src/frontend/entangle-preferences-display.c:1236
 msgid "2.59:1 (13:5)- Cinerama"
 msgstr "2.59:1 (13:5)- Cinerama"
 
-#: src/frontend/entangle-preferences-display.c:1241
 msgid "2.66:1 (8:3, 24:9)- Super 16mm"
 msgstr "2.66:1 (8:3, 24:9)- Super 16mm"
 
-#: src/frontend/entangle-preferences-display.c:1246
 msgid "2.76:1 (11:4) - Ultra Panavision"
 msgstr "2.76:1 (11:4) - Ultra Panavision"
 
-#: src/frontend/entangle-preferences-display.c:1251
 msgid "2.93:1 - MGM Camera 65"
 msgstr "2.93:1 - MGM Camera 65"
 
-#: src/frontend/entangle-preferences-display.c:1256
 msgid "3:1 APS Panorama"
 msgstr "3:1 APS Panorama"
 
-#: src/frontend/entangle-preferences-display.c:1261
 msgid "4.00:1 - Polyvision"
 msgstr "4.00:1 - Polyvision"
 
-#: src/frontend/entangle-preferences-display.c:1266
 msgid "12.00:1 - Circle-Vision 360"
 msgstr "12.00:1 - Circle-Vision 360"
 
-#: src/frontend/entangle-preferences-display.c:1283
 msgid "None"
 msgstr "Ingen"
 
-#: src/frontend/entangle-preferences-display.c:1288
 #, fuzzy
 msgid "Center lines"
 msgstr "Midtlinjer"
 
-#: src/frontend/entangle-preferences-display.c:1293
 msgid "Rule of 3rds"
 msgstr "Tredjedelsregelen"
 
-#: src/frontend/entangle-preferences-display.c:1298
 msgid "Quarters"
 msgstr "Fjerdedeler"
 
-#: src/frontend/entangle-preferences-display.c:1303
 msgid "Rule of 5ths"
 msgstr "Femtedelsregelen"
 
-#: src/frontend/entangle-preferences-display.c:1308
 msgid "Golden sections"
 msgstr "Gyldne snitt"
 
-#: src/frontend/entangle-preferences-display.ui:8
 msgid "Entangle Preferences"
 msgstr "Entangle-innstillinger"
 
-#: src/frontend/entangle-preferences-display.ui:101
 msgid "<b>Capture</b>"
 msgstr "<b>Opptak</b>"
 
-#: src/frontend/entangle-preferences-display.ui:145
 msgid "Filename pattern:"
 msgstr "Filnavnsmønster:"
 
-#: src/frontend/entangle-preferences-display.ui:163
 msgid "Continue preview mode after capture"
 msgstr "Fortsett forhåndsvisning etter opptak"
 
-#: src/frontend/entangle-preferences-display.ui:179
 msgid "Use preview output as capture image"
 msgstr "Bruk forhåndsvisning som opptaksbilde"
 
-#: src/frontend/entangle-preferences-display.ui:195
 msgid "Delete file from camera after downloading"
 msgstr "Slett fil fra kamera etter nedlasting"
 
-#: src/frontend/entangle-preferences-display.ui:211
 msgid "Automatically synchronize camera clock"
 msgstr "Synkroniser kameraklokke automatisk"
 
-#: src/frontend/entangle-preferences-display.ui:263
 msgid "<b>Colour management</b>"
 msgstr "<b>Fargebehandling</b>"
 
-#: src/frontend/entangle-preferences-display.ui:310
 msgid "Mode of operation:"
 msgstr "Operasjonsmodus:"
 
-#: src/frontend/entangle-preferences-display.ui:318
 msgid "RGB profile:"
 msgstr "RGB-profil:"
 
-#: src/frontend/entangle-preferences-display.ui:330
 msgid "Monitor profile:"
 msgstr "Monitorprofil:"
 
-#: src/frontend/entangle-preferences-display.ui:342
 msgid "Rendering intent:"
 msgstr "Opptegningsintensjon:"
 
-#: src/frontend/entangle-preferences-display.ui:352
 msgid "Detect the system monitor profile"
 msgstr "Oppdag systemskjermprofilen"
 
-#: src/frontend/entangle-preferences-display.ui:417
 msgid "Colour managed display"
 msgstr "Fargekorrigert skjerm"
 
-#: src/frontend/entangle-preferences-display.ui:473
 msgid "<b>Plugins</b>"
 msgstr "<b>Programtillegg</b>"
 
-#: src/frontend/entangle-preferences-display.ui:543
 msgid "<b>Interface</b>"
 msgstr "<b>Grensesnitt</b>"
 
-#: src/frontend/entangle-preferences-display.ui:585
 msgid "Automatically connect to cameras at startup"
 msgstr "Koble til kamera automatisk ved oppstart"
 
-#: src/frontend/entangle-preferences-display.ui:599
 msgid "Blank screen when capturing images"
 msgstr "Tøm skjermen ved bildeknipsing"
 
-#: src/frontend/entangle-preferences-display.ui:615
 #, fuzzy
 msgid "Show linear histogram"
 msgstr "Vis lineært histogram"
 
-#: src/frontend/entangle-preferences-display.ui:672
 msgid "<b>Image Viewer</b>"
 msgstr "<b>Bildeviser</b>"
 
-#: src/frontend/entangle-preferences-display.ui:714
 msgid "Apply mask to alter aspect ratio"
 msgstr "Tillagt maske for endring av bildeformat"
 
-#: src/frontend/entangle-preferences-display.ui:730
 msgid "Aspect ratio:"
 msgstr "Bildeformat:"
 
-#: src/frontend/entangle-preferences-display.ui:742
 #, fuzzy
 msgid "Mask opacity:"
 msgstr "Maskedekkevne:"
 
-#: src/frontend/entangle-preferences-display.ui:769
 msgid "0"
 msgstr "0"
 
-#: src/frontend/entangle-preferences-display.ui:782
 msgid "Display focus point during preview"
 msgstr "Vis fokuspunkt under sanntidsvisning"
 
-#: src/frontend/entangle-preferences-display.ui:800
 msgid "Grid lines:"
 msgstr "Rutenett:"
 
-#: src/frontend/entangle-preferences-display.ui:824
 #, fuzzy
 msgid "Use embedded preview from raw files"
 msgstr "Bruk innebygd forhåndsvisning fra råfiler"
 
-#: src/frontend/entangle-preferences-display.ui:840
 #, fuzzy
 msgid "Overlay earlier images"
 msgstr "Tegn over tidligere bilder"
 
-#: src/frontend/entangle-preferences-display.ui:858
 msgid "Overlay layers:"
 msgstr "Overleggslag:"
 
-#: src/frontend/entangle-preferences-display.ui:871
 msgid "3"
 msgstr "3"
 
-#: src/frontend/entangle-preferences-display.ui:887
 msgid "Background:"
 msgstr "Bakgrunn:"
 
-#: src/frontend/entangle-preferences-display.ui:913
 msgid "Highlight:"
 msgstr "Framheving:"
 
-#: src/frontend/entangle-preferences-display.ui:937
 msgid "Highlight areas of overexposure"
 msgstr "Framhev overeksponerte områder"
 
-#: src/frontend/entangle-preferences-display.ui:1016
 msgid "Perceptual"
 msgstr "Perseptuell"
 
-#: src/frontend/entangle-preferences-display.ui:1019
 #, fuzzy
 msgid "Relative colourimetric"
 msgstr "Relativ kolorimetrisk"
 
-#: src/frontend/entangle-preferences-display.ui:1022
 msgid "Saturation"
 msgstr "Metning"
 
-#: src/frontend/entangle-preferences-display.ui:1025
 msgid "Absolute colourimetric"
 msgstr "Absolutt kolorimetrisk"
 
-#: src/frontend/entangle-script.c:96
 msgid "Untitled script"
 msgstr "Navnløst skript"
 
-#: src/frontend/entangle-script-config.c:77
 msgid "No script"
 msgstr "Ingen skript"
 
-#: src/frontend/entangle-script-config.c:159
 msgid "No config options"
 msgstr "Ingen oppsettsvalg"
 
-#: src/frontend/entangle-script-simple.c:63
 msgid "Missing 'execute' method implementation"
 msgstr "Manglende implementasjon av \"kjøre\"-metode"
 
-#: src/entangle.appdata.xml.in:7 src/entangle.desktop.in:4
 msgid "Entangle"
 msgstr "Entangle"
 
-#: src/entangle.appdata.xml.in:8
 msgid "Tethered Camera Control &amp; Capture"
 msgstr "Tjudret kamerastyring og opptak"
 
-#: src/entangle.appdata.xml.in:10
 msgid ""
 "Entangle is a program used to control digital cameras that are connected to "
 "the computer via USB."
@@ -1078,7 +821,6 @@ msgstr ""
 "Entangle er et program til bruk for styring av digitale kamera tilkoblet "
 "datamaskinen via USB."
 
-#: src/entangle.appdata.xml.in:14
 #, fuzzy
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
@@ -1093,7 +835,6 @@ msgstr ""
 "kameraet. Entangle tillater også endring av kamerainnstillingene fra "
 "datamaskinen."
 
-#: src/entangle.appdata.xml.in:22
 msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
@@ -1102,115 +843,90 @@ msgstr ""
 "Entangle er kompatibelt med de fleste DSLR-kamera fra Nikon og Canon, noen "
 "av deres kompaktkamera, og et utall andre kamera fra andre produsenter."
 
-#: src/entangle.appdata.xml.in:39
 msgid "The Entangle Photo project"
 msgstr "Entangle-bildeprosjektet"
 
-#: src/entangle.appdata.xml.in:46
 msgid "Require gobject introspection &gt;= 1.54"
 msgstr "Krever gobject introspection &gt;= 1.54"
 
-#: src/entangle.appdata.xml.in:47
 msgid "Require GTK3 &gt;= 3.22"
 msgstr "Krev GTK3 ≥ 3.22"
 
-#: src/entangle.appdata.xml.in:48
 msgid "Fix dependency on libraw"
 msgstr "Fikset avhengighet til libraw"
 
-#: src/entangle.appdata.xml.in:49
 #, fuzzy
 msgid "Fix variable name in photobox plugin"
 msgstr "Fikset variabelnavn i photobox-programtillegg"
 
-#: src/entangle.appdata.xml.in:50
 msgid "Document some missing keyboard shortcuts"
 msgstr "Dokumentasjon av noen manglende tastatursnarveier"
 
-#: src/entangle.appdata.xml.in:51
 msgid "Fix upper bound in histogram to display clipped pixel"
 msgstr "Fikset øvre grense i histogram for visning av klipt piksel"
 
-#: src/entangle.appdata.xml.in:52
 msgid "Refresh translations"
 msgstr "Oppdaterte oversettelser"
 
-#: src/entangle.appdata.xml.in:53
 #, fuzzy
 msgid "Option to highlight over exposed pixels in red"
 msgstr "Alternativ for framheving av overeksponerte piksler i rødt"
 
-#: src/entangle.appdata.xml.in:54
 #, fuzzy
 msgid "Disable noisy compiler warning"
 msgstr "Avskrudd støyende kompilatoradvarsel"
 
-#: src/entangle.appdata.xml.in:55
 msgid "Remove use of deprecated application menu concept"
 msgstr "Foreldet programmenykonsept fjernet"
 
-#: src/entangle.appdata.xml.in:56
 msgid "Fix image redraw when changing some settings"
 msgstr "Fikset bildegjenopptegning ved endring av noen innstillinger"
 
-#: src/entangle.appdata.xml.in:57
 #, fuzzy
 msgid "Update mailing list address in appdaat"
 msgstr "Oppdatert e-postliste i programdata"
 
-#: src/entangle.appdata.xml.in:58
 #, fuzzy
 msgid "Add more fields to appdata content"
 msgstr "Flere felter lagt til i programdatainnhold."
 
-#: src/entangle.appdata.xml.in:59
 msgid "Fix reference counting during window close"
 msgstr "Fikset referanseteller ved lukking av vindu"
 
-#: src/entangle.appdata.xml.in:60
 #, fuzzy
 msgid "Use correct API for destroying top level windows"
 msgstr "Bruk av korrekt API for lukking av toppnivåvindu"
 
-#: src/entangle.appdata.xml.in:61
 msgid "Fix unmounting of cameras with newer gvfs URI naming scheme"
 msgstr "Fikset avmontering av kamera med nyere gvfs-URI-navngivningsforordning"
 
-#: src/entangle.appdata.xml.in:62
 #, fuzzy
 msgid "Avoid out of bounds read of property values"
 msgstr "Unngått lesing av egenskapsverdier utenfor grenser"
 
-#: src/entangle.appdata.xml.in:63
 #, fuzzy
 msgid "Fix many memory leaks"
 msgstr "Mange minnelekkasjer fikset"
 
-#: src/entangle.appdata.xml.in:64
 #, fuzzy
 msgid "Workaround for combo boxes not displaying on Wayland"
 msgstr "Provisorisk fiks av kombobokser som ikke vises på Wayland"
 
-#: src/entangle.appdata.xml.in:65
 #, fuzzy
 msgid "Fix race condition in building enums"
 msgstr "Fikset følgefeil i bygging av opptellinger"
 
-#: src/entangle.appdata.xml.in:66
 #, fuzzy
 msgid "Fix setting of gschema directory during startup"
 msgstr "Fikset innstilling av gschema-katalog under oppstart"
 
-#: src/entangle.appdata.xml.in:67
 msgid "Set env to ensure plugins can find introspection typelib"
 msgstr ""
 "Miljø satt for å forsikre at programtillegg kan finne introspeksjonstypelib"
 
-#: src/entangle.desktop.in:6
 #, fuzzy
 msgid "entangle"
 msgstr "entangle"
 
-#: src/entangle.desktop.in:12
 msgid "Capture;Camera;Tethered;Photo;"
 msgstr "Opptak;Kamera;Tjudring;Foto;"
