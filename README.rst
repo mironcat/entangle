@@ -21,7 +21,7 @@ Installation
 
 The Entangle package uses the Meson build system available from:
 
-  http://mesonbuild.com/
+https://mesonbuild.com/
 
 As a quick start you can do
 
@@ -93,21 +93,21 @@ Communication
 To communicate with the development team, or to post patches
 there is a technical mailing list:
 
-   https://groups.google.com/forum/#!forum/entangle-devel
+https://groups.google.com/forum/#!forum/entangle-devel
 
 Bugs found when using an OS distribution's binary packages should
 be reported to the OS vendors' own bug tracker first. Otherwise
 they can be reported to
 
-   https://gitlab.com/entangle/entangle/issues
+https://gitlab.com/entangle/entangle/issues
 
 The latest entangle code can be found in GIT at:
 
-   https://gitlab.com/entangle/entangle
+https://gitlab.com/entangle/entangle
 
 For further information visit
 
-   http://entangle-photo.org/
+https://entangle-photo.org/
 
 Translators please see `po/README.rst <po/README.rst>`_ for more guidance.
 
@@ -133,4 +133,4 @@ for the Logo which is under the Creative Commons 1.0 Public
 Domain Dedication.
 
 Please see the COPYING file for the complete GPLv3+ license
-terms, or visit `GNU Licenses <http://www.gnu.org/licenses/>`_.
+terms, or visit `GNU Licenses <https://www.gnu.org/licenses/>`_.
