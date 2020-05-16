@@ -2,6 +2,10 @@
      :target: https://gitlab.com/entangle/entangle/pipelines
      :alt: GitLab CI Build Status
 
+.. image:: https://translate.fedoraproject.org/widgets/entangle/-/master/svg-badge.svg
+     :target: https://translate.fedoraproject.org/engage/entangle/
+     :alt: Translation status
+
 ===========================================
 Entangle: Tethered Camera Control & Capture
 ===========================================
@@ -105,7 +109,7 @@ For further information visit
 
    http://entangle-photo.org/
 
-Translators please see po/README.I18N for more guidance.
+Translators please see `po/README.rst <po/README.rst>`_ for more guidance.
 
 UI shortcuts
 ============
