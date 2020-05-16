@@ -1062,9 +1062,8 @@ generated_files ?= $(srcdir)/lib/*.[ch]
 sc_po_check:
 	@if test -f $(po_file); then					\
 	  grep -E -v '^(#|$$)' $(po_file)				\
-            | grep -v 'appdata\.xml\.in$$'				\
-            | grep -v 'desktop\.in$$'					\
-            | sed 's|\[type: gettext/glade\] ||'			\
+            | grep -v 'metainfo\.xml$$'					\
+            | grep -v 'desktop$$'					\
             | sort > $@-1;						\
 	  files=;							\
 	  for file in $$($(VC_LIST_EXCEPT)) $(generated_files); do	\

@@ -46,7 +46,7 @@ desktop = 'org.entangle_photo.Manager.desktop'
 i18n.merge_file (
   desktop,
   type: 'desktop',
-  input: desktop + '.in',
+  input: desktop,
   output: desktop,
   po_dir: po_dir,
   install: true,
@@ -57,7 +57,7 @@ metainfo = 'org.entangle_photo.Manager.metainfo.xml'
 
 i18n.merge_file(
   metainfo,
-  input: metainfo + '.in',
+  input: metainfo,
   output: metainfo,
   install: true,
   install_dir: join_paths(entangle_datadir, 'metainfo'),

@@ -18,5 +18,5 @@ src/frontend/entangle-preferences-display.ui
 src/frontend/entangle-script.c
 src/frontend/entangle-script-config.c
 src/frontend/entangle-script-simple.c
-src/entangle.appdata.xml.in
-src/org.entangle_photo.Manager.desktop.in
+src/org.entangle_photo.Manager.metainfo.xml
+src/org.entangle_photo.Manager.desktop
