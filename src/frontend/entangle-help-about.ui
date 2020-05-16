@@ -15,7 +15,7 @@
     <property name="program_name">Entangle</property>
     <property name="copyright">© 2009-2018 Daniel P. Berrangé</property>
     <property name="comments" translatable="yes">Tethered Camera Control &amp; Capture</property>
-    <property name="website">http://entangle-photo.org/</property>
+    <property name="website">https://entangle-photo.org/</property>
     <property name="website_label">entangle-photo.org</property>
     <property name="license">                    GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007

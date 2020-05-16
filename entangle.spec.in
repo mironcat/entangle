@@ -5,8 +5,8 @@ Name: entangle
 Version: #VERSION#
 Release: 1%{?dist}
 License: GPLv3+
-Source: http://entangle-photo.org/download/sources/%{name}-%{version}.tar.xz
-URL: http://entangle-photo.org/
+Source: https://entangle-photo.org/download/sources/%{name}-%{version}.tar.xz
+URL: https://entangle-photo.org/
 
 BuildRequires: glib2-devel >= 2.36.0
 BuildRequires: gtk3-devel >= 3.22.0
