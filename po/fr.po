@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
-"PO-Revision-Date: 2020-05-17 09:17+0000\n"
-"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
+"PO-Revision-Date: 2020-05-17 09:18+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: French <https://translate.fedoraproject.org/projects/entangle/"
 "master/fr/>\n"
 "Language: fr\n"
@@ -713,7 +713,7 @@ msgstr "Paramètres non sauvegardés, APN non configurable"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr ""
+msgstr "Paramètres non enregistrés, aucun APN connecté"
 
 #, c-format
 msgid "Unable to wait for events: %s"
