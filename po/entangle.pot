@@ -354,7 +354,7 @@ msgstr ""
 #: src/backend/entangle-camera.c:2685 src/backend/entangle-camera.c:2840
 #: src/backend/entangle-camera.c:3054 src/backend/entangle-camera.c:3214
 #, c-format
-msgid "Controls not available when camera is closeed"
+msgid "Controls not available when camera is closed"
 msgstr ""
 
 #: src/frontend/entangle-camera-manager.c:2348

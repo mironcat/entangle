@@ -791,7 +791,7 @@ entangle_camera_open_finish(EntangleCamera *cam,
  *
  * This block execution of the caller until completion.
  *
- * Returns: TRUE if the camera is closeed, FALSE on error
+ * Returns: TRUE if the camera is closed, FALSE on error
  */
 gboolean
 entangle_camera_close(EntangleCamera *cam, GError **error G_GNUC_UNUSED)
@@ -901,7 +901,7 @@ entangle_camera_close_async(EntangleCamera *cam,
  * Check the completion status of a previous call to
  * entangle_camera_close_async
  *
- * Returns: TRUE if the camera is closeed, FALSE on error
+ * Returns: TRUE if the camera is closed, FALSE on error
  */
 gboolean
 entangle_camera_close_finish(EntangleCamera *cam,
@@ -2458,7 +2458,7 @@ entangle_camera_get_controls(EntangleCamera *cam, GError **error)
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is closeed"));
+                    _("Controls not available when camera is closed"));
         goto cleanup;
     }
 
@@ -2511,7 +2511,7 @@ entangle_camera_set_viewfinder(EntangleCamera *cam,
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is closeed"));
+                    _("Controls not available when camera is closed"));
         goto cleanup;
     }
 
@@ -2682,7 +2682,7 @@ entangle_camera_autofocus(EntangleCamera *cam, GError **error)
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is closeed"));
+                    _("Controls not available when camera is closed"));
         goto cleanup;
     }
 
@@ -2837,7 +2837,7 @@ entangle_camera_manualfocus(EntangleCamera *cam,
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is closeed"));
+                    _("Controls not available when camera is closed"));
         goto cleanup;
     }
 
@@ -3051,7 +3051,7 @@ entangle_camera_set_clock(EntangleCamera *cam, gint64 epochsecs, GError **error)
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is closeed"));
+                    _("Controls not available when camera is closed"));
         goto cleanup;
     }
 
@@ -3211,7 +3211,7 @@ entangle_camera_set_capture_target(EntangleCamera *cam,
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Controls not available when camera is closeed"));
+                    _("Controls not available when camera is closed"));
         goto cleanup;
     }
 
