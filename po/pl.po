@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
-"PO-Revision-Date: 2020-03-15 12:02+0000\n"
+"PO-Revision-Date: 2020-05-17 08:16+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <https://translate.fedoraproject.org/projects/entangle/"
 "master/pl/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.11.3\n"
+"X-Generator: Weblate 4.0.4\n"
 
 msgid "0"
 msgstr "0"
@@ -188,15 +188,15 @@ msgstr "Anuluj"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "Nie można pobrać obrazu, kiedy nie jest otwarte"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "Nie można usunąć pliku, kiedy nie jest otwarte"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "Nie można pobrać pliku, kiedy nie jest otwarte"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
@@ -216,11 +216,11 @@ msgstr "Nie można wczytać portów biblioteki gphoto2"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "Nie można wyświetlić podglądu obrazu, kiedy nie jest otwarte"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "Nie można czekać na zdarzenia, kiedy nie jest otwarte"
 
 msgid "Capture"
 msgstr "Pobierz"
@@ -283,7 +283,7 @@ msgstr "Sterowanie nie jest dostępne dla tego aparatu"
 
 #, c-format
 msgid "Controls not available when camera is closeed"
-msgstr ""
+msgstr "Sterowanie nie jest dostępne, kiedy aparat jest zamknięty"
 
 msgid "Delete"
 msgstr "Usuń"
@@ -535,7 +535,7 @@ msgid "Overlay layers:"
 msgstr "Warstwy pokrywania:"
 
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "Wzór musi zawierać „XXXXXX”"
 
 msgid "Perceptual"
 msgstr "Percepcyjnie"
