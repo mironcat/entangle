@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
-"PO-Revision-Date: 2020-01-19 03:16+0000\n"
+"PO-Revision-Date: 2020-05-17 09:16+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
-"Language-Team: French <https://translate.stg.fedoraproject.org/projects/"
-"entangle/master/fr/>\n"
+"Language-Team: French <https://translate.fedoraproject.org/projects/entangle/"
+"master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 4.0.4\n"
 
 msgid "0"
 msgstr "0"
@@ -184,15 +184,15 @@ msgstr "Annuler"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "Impossible de capturer une image tant qu’il n’est pas ouvert"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "Impossible de supprimer l’image tant qu’elle n’est pas ouverte"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "Impossible de télécharger un fichier tant qu’il n’est pas ouvert"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
@@ -212,11 +212,11 @@ msgstr "Échec du chargement des ports de gphoto2"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "Impossible de prévisualiser une image tant qu’elle n’est pas ouverte"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "Impossible d’attendre pour les évènements tant qu’il n’est pas ouvert"
 
 msgid "Capture"
 msgstr "Capturer"
@@ -277,7 +277,7 @@ msgstr "Aucun contrôle disponible pour cet APN"
 
 #, c-format
 msgid "Controls not available when camera is closeed"
-msgstr ""
+msgstr "Contrôles non disponibles lorsque l’appareil photo est fermé"
 
 msgid "Delete"
 msgstr "Supprimer"
@@ -528,7 +528,7 @@ msgid "Overlay layers:"
 msgstr "Empilements :"
 
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "Le motif doit contenir les caractères de remplacement 'XXXXXX'"
 
 msgid "Perceptual"
 msgstr "Perceptif"
