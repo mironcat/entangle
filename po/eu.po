@@ -269,7 +269,7 @@ msgid "Controls not available for this camera"
 msgstr ""
 
 #, c-format
-msgid "Controls not available when camera is closeed"
+msgid "Controls not available when camera is closed"
 msgstr ""
 
 msgid "Delete"

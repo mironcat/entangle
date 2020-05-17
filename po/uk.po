@@ -21,8 +21,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.0.4\n"
 
 msgid "0"
@@ -281,8 +281,8 @@ msgid "Controls not available for this camera"
 msgstr "Не вдалося отримати доступ до засобів керування цим фотоапаратом"
 
 #, c-format
-msgid "Controls not available when camera is closeed"
-msgstr "Засоби керування недоступні, якщо камеру закрито"
+msgid "Controls not available when camera is closed"
+msgstr ""
 
 msgid "Delete"
 msgstr "Вилучити"
@@ -842,6 +842,9 @@ msgstr "попередній перегляд"
 
 msgid "settings"
 msgstr "параметри"
+
+#~ msgid "Controls not available when camera is closeed"
+#~ msgstr "Засоби керування недоступні, якщо камеру закрито"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "Захоплення зображень з нез’єднаного фотоапарата не передбачено"

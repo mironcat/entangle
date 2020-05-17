@@ -262,7 +262,7 @@ msgid "Controls not available for this camera"
 msgstr "פקדים אינם זמינים למצלמה זו"
 
 #, c-format
-msgid "Controls not available when camera is closeed"
+msgid "Controls not available when camera is closed"
 msgstr ""
 
 msgid "Delete"

@@ -283,8 +283,8 @@ msgid "Controls not available for this camera"
 msgstr "Sterowanie nie jest dostępne dla tego aparatu"
 
 #, c-format
-msgid "Controls not available when camera is closeed"
-msgstr "Sterowanie nie jest dostępne, kiedy aparat jest zamknięty"
+msgid "Controls not available when camera is closed"
+msgstr ""
 
 msgid "Delete"
 msgstr "Usuń"
@@ -837,6 +837,9 @@ msgstr "podgląd"
 
 msgid "settings"
 msgstr "ustawienia"
+
+#~ msgid "Controls not available when camera is closeed"
+#~ msgstr "Sterowanie nie jest dostępne, kiedy aparat jest zamknięty"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "Nie można pobrać obrazu, kiedy nie jest połączone"

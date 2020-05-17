@@ -275,8 +275,8 @@ msgid "Controls not available for this camera"
 msgstr "Bedieningselementen zijn voor deze camera niet beschikbaar"
 
 #, c-format
-msgid "Controls not available when camera is closeed"
-msgstr "Besturing niet beschikbaar wanneer camera gesloten is"
+msgid "Controls not available when camera is closed"
+msgstr ""
 
 msgid "Delete"
 msgstr "Verwijderen"
@@ -831,6 +831,9 @@ msgstr "voorbeeld"
 
 msgid "settings"
 msgstr "instellingen"
+
+#~ msgid "Controls not available when camera is closeed"
+#~ msgstr "Besturing niet beschikbaar wanneer camera gesloten is"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "Kan geen schermopname maken als er geen verbinding is"

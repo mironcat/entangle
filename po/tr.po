@@ -271,8 +271,8 @@ msgid "Controls not available for this camera"
 msgstr "Bu kamera için denetlemeler kullanılamıyor"
 
 #, c-format
-msgid "Controls not available when camera is closeed"
-msgstr "Kamera kapalıyken kontroller kullanılamaz"
+msgid "Controls not available when camera is closed"
+msgstr ""
 
 msgid "Delete"
 msgstr "Sil"
@@ -825,6 +825,9 @@ msgstr "ön izleme"
 
 msgid "settings"
 msgstr "ayarlar"
+
+#~ msgid "Controls not available when camera is closeed"
+#~ msgstr "Kamera kapalıyken kontroller kullanılamaz"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "Bağlı değilken görüntü yakalanamıyor"

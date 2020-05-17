@@ -277,8 +277,8 @@ msgid "Controls not available for this camera"
 msgstr "Aucun contrôle disponible pour cet APN"
 
 #, c-format
-msgid "Controls not available when camera is closeed"
-msgstr "Contrôles non disponibles lorsque l’appareil photo est fermé"
+msgid "Controls not available when camera is closed"
+msgstr ""
 
 msgid "Delete"
 msgstr "Supprimer"
@@ -830,6 +830,9 @@ msgstr "prévisualiser"
 
 msgid "settings"
 msgstr "réglages"
+
+#~ msgid "Controls not available when camera is closeed"
+#~ msgstr "Contrôles non disponibles lorsque l’appareil photo est fermé"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "Capture impossible hors connexion"
