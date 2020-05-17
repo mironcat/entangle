@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
-"PO-Revision-Date: 2020-04-21 18:40+0000\n"
+"PO-Revision-Date: 2020-05-17 22:19+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://translate.fedoraproject.org/projects/"
 "entangle/master/tr/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0.1\n"
+"X-Generator: Weblate 4.0.4\n"
 
 msgid "0"
 msgstr "0"
@@ -179,15 +179,15 @@ msgstr "İptal"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "Açık değilken görüntü yakalanamaz"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "Açık değilken dosya silinemez"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "Açık değilken dosya indirilemez"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
@@ -207,11 +207,11 @@ msgstr "gphoto2 bağlantı noktaları yüklenemiyor"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "Açık değilken görüntü ön izlemesi yapılamaz"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "Açık değilken olaylar beklenemez"
 
 msgid "Capture"
 msgstr "Yakala"
@@ -272,7 +272,7 @@ msgstr "Bu kamera için denetlemeler kullanılamıyor"
 
 #, c-format
 msgid "Controls not available when camera is closeed"
-msgstr ""
+msgstr "Kamera kapalıyken kontroller kullanılamaz"
 
 msgid "Delete"
 msgstr "Sil"
@@ -524,7 +524,7 @@ msgid "Overlay layers:"
 msgstr "Bindirme katmanları:"
 
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "Kalıp 'XXXXXX' yer tutucusunu içermelidir"
 
 msgid "Perceptual"
 msgstr "Algısal"
@@ -696,7 +696,7 @@ msgstr "Kamera başlatılamadı: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "Denetlemeler yüklenemedi, kamera açık değil"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
@@ -708,7 +708,7 @@ msgstr "Denetlemeler kaydedilemedi, kamera yapılandırılamıyor"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr ""
+msgstr "Denetlemeler kaydedilemedi, kamera açık değil"
 
 #, c-format
 msgid "Unable to wait for events: %s"
