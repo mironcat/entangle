@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
 "PO-Revision-Date: 2020-05-17 08:16+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <https://translate.fedoraproject.org/projects/entangle/"
 "master/pl/>\n"
 "Language: pl\n"
@@ -708,7 +708,7 @@ msgstr "Nie można zainicjować aparatu: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr "Nie można wczytać sterowania, aparat nie jest podłączony"
+msgstr "Nie można wczytać sterowania, aparat nie jest otwarty"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
