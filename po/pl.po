@@ -10,13 +10,14 @@
 # Piotr Drąg <piotrdrag@gmail.com>, 2018. #zanata, 2020.
 # Piotr Drąg <piotrdrag@gmail.com>, 2019. #zanata, 2020.
 # Michal Biesiada <biesiadmichal@gmail.com>, 2020.
+# Anonymous <noreply@weblate.org>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
 "PO-Revision-Date: 2020-05-17 08:16+0000\n"
-"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Polish <https://translate.fedoraproject.org/projects/entangle/"
 "master/pl/>\n"
 "Language: pl\n"
@@ -707,7 +708,7 @@ msgstr "Nie można zainicjować aparatu: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "Nie można wczytać sterowania, aparat nie jest podłączony"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
