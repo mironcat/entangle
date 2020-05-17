@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
-"PO-Revision-Date: 2020-05-17 12:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-05-17 22:19+0000\n"
+"Last-Translator: Geert Warrink <geert.warrink@onsnet.nu>\n"
 "Language-Team: Dutch <https://translate.fedoraproject.org/projects/entangle/"
 "master/nl/>\n"
 "Language: nl\n"
@@ -702,7 +702,7 @@ msgstr "Kan camera niet initialiseren: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr "Kan besturingselementen niet laden, camera is niet aangesloten"
+msgstr "Kan bedieningselementen niet laden, camera is niet geopend"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
