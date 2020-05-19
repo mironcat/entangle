@@ -242,9 +242,11 @@ do_entangle_camera_delete_finish(GObject *src,
 
     if (!entangle_camera_delete_file_finish(camera, res, &error)) {
         g_task_return_error(data->task, error);
-    } else {
-        g_task_return_boolean(data->task, TRUE);
+        entangle_camera_automata_data_free(data);
+        return;
     }
+
+    g_task_return_boolean(data->task, TRUE);
     entangle_camera_automata_data_free(data);
 }
 
@@ -267,9 +269,12 @@ do_entangle_camera_download_finish(GObject *src,
         entangle_camera_delete_file_async(
             camera, data->file, NULL, do_entangle_camera_delete_finish, data);
     } else {
-        if (!error)
+        if (!error) {
             g_task_return_boolean(data->task, TRUE);
-        entangle_camera_automata_data_free(data);
+            entangle_camera_automata_data_free(data);
+        } else {
+            entangle_camera_automata_data_free(data);
+        }
     }
 }
 
