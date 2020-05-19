@@ -169,19 +169,6 @@ entangle_find_picture_dir(void)
     return ret;
 }
 
-static char *
-entangle_find_srgb_profile(void)
-{
-    gchar *filename;
-    if (access("meson.build", R_OK) == 0) {
-        ENTANGLE_DEBUG("Loading local sRGB");
-        filename = g_strdup("./src/sRGB.icc");
-    } else {
-        filename = g_strdup(PKGDATADIR "/sRGB.icc");
-    }
-    return filename;
-}
-
 static void
 entangle_preferences_get_property(GObject *object,
                                   guint prop_id,
@@ -262,7 +249,7 @@ entangle_preferences_get_property(GObject *object,
         file =
             g_settings_get_string(prefs->cmsSettings, SETTING_CMS_RGB_PROFILE);
         if (!file)
-            file = entangle_find_srgb_profile();
+            file = g_strdup(PKGDATADIR "/sRGB.icc");
         prof = entangle_colour_profile_new_file(file);
         g_value_set_object(value, prof);
         g_object_unref(prof);

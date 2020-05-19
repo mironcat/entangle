@@ -488,15 +488,8 @@ entangle_application_init(EntangleApplication *app)
 
     peas_engine_add_search_path(app->pluginEngine, userdir, userdir);
     g_free(userdir);
-    if (access("meson.build", R_OK) == 0) {
-        ENTANGLE_DEBUG("Loading local plugins");
-        peas_engine_add_search_path(app->pluginEngine, "./src/plugins",
-                                    "./src/plugins");
-    } else {
-        peas_engine_add_search_path(app->pluginEngine,
-                                    LIBDIR "/entangle/plugins",
-                                    DATADIR "/entangle/plugins");
-    }
+    peas_engine_add_search_path(app->pluginEngine, LIBDIR "/entangle/plugins",
+                                DATADIR "/entangle/plugins");
     peas_engine_rescan_plugins(app->pluginEngine);
 
     app->pluginExt = peas_extension_set_new(
