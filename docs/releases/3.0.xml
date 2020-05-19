@@ -1,0 +1,30 @@
+<release codename="Potassium" date="2020-06-14" version="3.0">
+  <description>
+    <ul>
+      <li>Ensure picture directory is an absolute path</li>
+      <li>Add ability to flip image during preview</li>
+      <li>Fix warnings about string length</li>
+      <li>Convert appdata file to metainfo and add missing info</li>
+      <li>Another attempt to fix build deps on enum headers</li>
+      <li>Display remaining shot count &amp; ETA in repeat shooter plugin</li>
+      <li>Remove use of deprecated GObject macros</li>
+      <li>Remove use of deprecated GLib APIs</li>
+      <li>Ensure glib min version checks at build time</li>
+      <li>Convert to use GObject macros for declaring boilerplate</li>
+      <li>Bulk reformat code using clang-format rules</li>
+      <li>Force a default filename pattern if setting is invalid</li>
+      <li>Validate filename pattern when updating preferences</li>
+      <li>Rename desktop file and icon file to match application ID</li>
+      <li>Add ability to render text mesages over image</li>
+      <li>Add a countdown timer for photobox plugin capture</li>
+      <li>Disable context menu in image browser when photobox plugin is active</li>
+      <li>Run live view when counting down to capturein photobox plugin</li>
+      <li>Fix crash releasing popup windows</li>
+      <li>Add context menu option for opening popup image window</li>
+      <li>Drop drag support for opening popup image window</li>
+      <li>Display greeting when opening popup image window</li>
+      <li>Display greeting when entering photobox plugin</li>
+      <li>Disable view finder after capturing image in preview mode</li>
+    </ul>
+  </description>
+</release>

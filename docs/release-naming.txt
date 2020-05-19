@@ -42,7 +42,7 @@ Alkali Metals
 
  1.0 - Lithium
  2.0 - Sodium
- - Potassium
+ 3.0 - Potassium
  - Rubidium
  - Caesium
  - Francium
