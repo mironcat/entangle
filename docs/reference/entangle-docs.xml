@@ -16,11 +16,11 @@
 
   <chapter>
     <title>Entangle Backend</title>
+    <xi:include href="xml/entangle-camera-automata.xml"/>
     <xi:include href="xml/entangle-camera.xml"/>
     <xi:include href="xml/entangle-camera-file.xml"/>
     <xi:include href="xml/entangle-camera-list.xml"/>
     <xi:include href="xml/entangle-colour-profile.xml"/>
-<!--    <xi:include href="xml/entangle-colour-profile-enums.xml"/> -->
     <xi:include href="xml/entangle-control.xml"/>
     <xi:include href="xml/entangle-control-button.xml"/>
     <xi:include href="xml/entangle-control-choice.xml"/>
@@ -29,22 +29,24 @@
     <xi:include href="xml/entangle-control-range.xml"/>
     <xi:include href="xml/entangle-control-text.xml"/>
     <xi:include href="xml/entangle-control-toggle.xml"/>
+    <xi:include href="xml/entangle-debug.xml"/>
     <xi:include href="xml/entangle-device-manager.xml"/>
     <xi:include href="xml/entangle-image.xml"/>
     <xi:include href="xml/entangle-image-loader.xml"/>
+    <xi:include href="xml/entangle-media.xml"/>
     <xi:include href="xml/entangle-pixbuf.xml"/>
     <xi:include href="xml/entangle-pixbuf-loader.xml"/>
-    <xi:include href="xml/entangle-preferences.xml"/>
     <xi:include href="xml/entangle-progress.xml"/>
     <xi:include href="xml/entangle-session.xml"/>
     <xi:include href="xml/entangle-thumbnail-loader.xml"/>
-    <xi:include href="xml/entangle-debug.xml"/>
+    <xi:include href="xml/entangle-video.xml"/>
   </chapter>
   <chapter>
     <title>Entangle Frontend</title>
     <xi:include href="xml/entangle-application.xml"/>
     <xi:include href="xml/entangle-camera-manager.xml"/>
     <xi:include href="xml/entangle-camera-picker.xml"/>
+    <xi:include href="xml/entangle-camera-preferences.xml"/>
     <xi:include href="xml/entangle-camera-support.xml"/>
     <xi:include href="xml/entangle-control-panel.xml"/>
     <xi:include href="xml/entangle-dpms.xml"/>
@@ -53,7 +55,11 @@
     <xi:include href="xml/entangle-image-histogram.xml"/>
     <xi:include href="xml/entangle-media-popup.xml"/>
     <xi:include href="xml/entangle-media-statusbar.xml"/>
+    <xi:include href="xml/entangle-preferences.xml"/>
     <xi:include href="xml/entangle-preferences-display.xml"/>
+    <xi:include href="xml/entangle-script.xml"/>
+    <xi:include href="xml/entangle-script-config.xml"/>
+    <xi:include href="xml/entangle-script-simple.xml"/>
     <xi:include href="xml/entangle-session-browser.xml"/>
   </chapter>
   <!--
