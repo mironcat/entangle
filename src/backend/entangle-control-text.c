@@ -25,6 +25,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-control-text
+ * @Short_description: a device control representing free format text
+ * @Title: EntangleControlText
+ *
+ * The #EntangleControlText object provides a device control allowing the
+ * entry of free format text
+ */
+
 struct _EntangleControlText
 {
     EntangleControl parent;

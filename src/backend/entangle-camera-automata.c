@@ -24,6 +24,16 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-camera-automata
+ * @Short_description: Automation for the camera capture tasks
+ * @Title: EntangleCameraAutomata
+ *
+ * The #EntangleCameraAutomata object provides a simpler way to drive
+ * the capture operations for the camera, automating the steps for
+ * downloading the images after capture.
+ */
+
 struct _EntangleCameraAutomata
 {
     GObject parent;

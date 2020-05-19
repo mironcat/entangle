@@ -24,6 +24,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-control-group
+ * @Short_description: a device control that groups a set of child controls
+ * @Title: EntangleControlGroup
+ *
+ * The #EntangleControlGroup object provides a device control that is a
+ * container for a further set of device controls.
+ */
+
 struct _EntangleControlGroup
 {
     EntangleControl parent;

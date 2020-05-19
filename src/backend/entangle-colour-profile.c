@@ -28,6 +28,15 @@
 
 #define DEBUG_CMS 0
 
+/**
+ * SECTION:entangle-colour-profile
+ * @Short_description: a colour management profile for a device
+ * @Title: EntangleColourProfile
+ *
+ * The #EntangleColourProfile object provides colour management
+ * profile for a device.
+ */
+
 struct _EntangleColourProfile
 {
     GObject parent;

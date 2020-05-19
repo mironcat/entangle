@@ -36,8 +36,10 @@ G_DECLARE_DERIVABLE_TYPE(EntangleScript,
 
 struct _EntangleScriptClass
 {
+    /*< private >*/
     GObjectClass parent_class;
 
+    /*< public >*/
     GtkWidget *(*get_config_widget)(EntangleScript *script);
     void (*execute_async)(EntangleScript *script,
                           EntangleCameraAutomata *automata,

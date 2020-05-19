@@ -36,8 +36,10 @@ G_DECLARE_INTERFACE(EntangleProgress,
 
 struct _EntangleProgressInterface
 {
+    /*< private >*/
     GTypeInterface parent;
 
+    /*< public >*/
     void (*start)(EntangleProgress *prog, float target, const char *msg);
     void (*update)(EntangleProgress *prog, float current);
     void (*stop)(EntangleProgress *prog);

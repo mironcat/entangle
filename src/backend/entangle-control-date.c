@@ -24,6 +24,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-control-date
+ * @Short_description: a device control that stores a date
+ * @Title: EntangleControlDate
+ *
+ * The #EntangleControlDate object provides a device control that represents
+ * a date string.
+ */
+
 struct _EntangleControlDate
 {
     EntangleControl parent;

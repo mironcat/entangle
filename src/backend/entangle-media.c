@@ -27,6 +27,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-media
+ * @Short_description: a media file base object
+ * @Title: EntangleMedia
+ *
+ * The #EntangleMedia object is a base class providing
+ * common functionality for various types of media file
+ */
+
 typedef struct _EntangleMediaPrivate EntangleMediaPrivate;
 struct _EntangleMediaPrivate
 {

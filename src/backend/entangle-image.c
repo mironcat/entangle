@@ -27,6 +27,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-image
+ * @Short_description: a media file representing a static image
+ * @Title: EntangleImage
+ *
+ * The #EntangleImage object provides a media file that represents a static
+ * image.
+ */
+
 struct _EntangleImage
 {
     EntangleMedia parent;

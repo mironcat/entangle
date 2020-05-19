@@ -33,6 +33,15 @@
 #include "entangle-debug.h"
 #include "entangle-pixbuf.h"
 
+/**
+ * SECTION:entangle-thumbnail-loader
+ * @Short_description: A object for loading thumbnails of images
+ * @Title: EntangleThumbnailLoader
+ *
+ * The #EntangleThumbnailLoader object can load thumbnails from #EntangleImage
+ * media files.
+ */
+
 struct _EntangleThumbnailLoader
 {
     EntanglePixbufLoader parent;

@@ -40,6 +40,15 @@
 #include "entangle-control-toggle.h"
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-camera
+ * @Short_description: a digital SLR camera device
+ * @Title: EntangleCamera
+ *
+ * The #EntangleCamera object provides a way to control a digital
+ * SLR camera device.
+ */
+
 struct _EntangleCamera
 {
     GObject parent;

@@ -25,6 +25,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-pixbuf-loader
+ * @Short_description: an abstract base for loading image data
+ * @Title: EntanglePixbufLoader
+ *
+ * The #EntanglePixbufLoader object provides common functionality needed
+ * when loading image data.
+ */
+
 typedef struct _EntanglePixbufLoaderEntry
 {
     int refs;
@@ -36,7 +45,7 @@ typedef struct _EntanglePixbufLoaderEntry
     GExiv2Metadata *metadata;
 } EntanglePixbufLoaderEntry;
 
-typedef struct _EntanglePixbufrLoaderResult
+typedef struct _EntanglePixbufLoaderResult
 {
     EntanglePixbufLoader *loader;
     EntangleImage *image;

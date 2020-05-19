@@ -22,6 +22,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-progress
+ * @Short_description: an interface for monitoring operation progress
+ * @Title: EntangleProgress
+ *
+ * The #EntangleProgress interface provides a way to monitor the progress
+ * of operations performed by the camera.
+ */
+
 void
 entangle_progress_start(EntangleProgress *prog, float target, const char *msg)
 {

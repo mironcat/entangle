@@ -32,10 +32,27 @@ G_DECLARE_DERIVABLE_TYPE(EntangleScriptSimple,
                          SCRIPT_SIMPLE,
                          EntangleScript)
 
+/**
+ * EntangleScriptSimpleClass:
+ * @execute: Runs the logic for the script. The implementation should
+ *  use the @automata object to perform capture/preview operations on
+ *  the camera. @cancel will indicate whether the script should be
+ *  aborted early. @result should be set when the script completes
+ *  or aborts.
+ * @init_task_data: create a data object that will be associated
+ *  with the #GTask passed to the @execute method.
+ *
+ * The #EntangleScriptSimpleClass abstract class is a simplification
+ * of the #EntangleScriptClass to workaround limitations of the
+ * Python GObject introspection bindings propagating GErrors to/from
+ * the C layer, and dealing with async ready callbacks.
+ */
 struct _EntangleScriptSimpleClass
 {
+    /*< private >*/
     EntangleScriptClass parent_class;
 
+    /*< public >*/
     void (*execute)(EntangleScriptSimple *script,
                     EntangleCameraAutomata *automata,
                     GCancellable *cancel,

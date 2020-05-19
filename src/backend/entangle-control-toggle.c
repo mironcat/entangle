@@ -24,6 +24,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-control-toggle
+ * @Short_description: a device control toggling between two states
+ * @Title: EntangleControlToggle
+ *
+ * The #EntangleControlToggle object provides a device control that toggles
+ * between two states.
+ */
+
 struct _EntangleControlToggle
 {
     EntangleControl parent;

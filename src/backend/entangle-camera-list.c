@@ -30,6 +30,15 @@
 #include "entangle-debug.h"
 #include "entangle-device-manager.h"
 
+/**
+ * SECTION:entangle-camera-list
+ * @Short_description: a list of camera devices on the system
+ * @Title: EntangleCameraList
+ *
+ * The #EntangleCameraList object provides a way to enumerate
+ * camera devices on the system.
+ */
+
 struct _EntangleCameraList
 {
     GObject parent;

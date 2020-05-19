@@ -24,6 +24,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-control-button
+ * @Short_description: a device control that is a simple button
+ * @Title: EntangleControlButton
+ *
+ * The #EntangleControlButton object provides a device control
+ * that acts like a momentary push button.
+ */
+
 struct _EntangleControlButton
 {
     EntangleControl parent;

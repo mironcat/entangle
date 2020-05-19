@@ -40,6 +40,7 @@ G_DECLARE_DERIVABLE_TYPE(EntangleMedia,
 
 struct _EntangleMediaClass
 {
+    /*< private >*/
     GObjectClass parent;
 };
 

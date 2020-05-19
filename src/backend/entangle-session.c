@@ -33,6 +33,15 @@
 #include "entangle-image.h"
 #include "entangle-video.h"
 
+/**
+ * SECTION:entangle-session
+ * @Short_description: a collection of media files
+ * @Title: EntangleSession
+ *
+ * The #EntangleSession object represents a collection of media files
+ * used during the current capture session.
+ */
+
 struct _EntangleSession
 {
     GObject parent;

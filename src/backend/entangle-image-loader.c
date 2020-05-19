@@ -23,6 +23,15 @@
 #include "entangle-debug.h"
 #include "entangle-pixbuf.h"
 
+/**
+ * SECTION:entangle-image-loader
+ * @Short_description: a tool for loading full resolution images
+ * @Title: EntangleImageLoader
+ *
+ * The #EntangleImageLoader object provides a way to load the full resolution
+ * image data.
+ */
+
 struct _EntangleImageLoader
 {
     EntanglePixbufLoader parent;

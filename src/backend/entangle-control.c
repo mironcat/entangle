@@ -25,6 +25,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-control
+ * @Short_description: the abstract base for all device controls
+ * @Title: EntangleControl
+ *
+ * The #EntangleControl object is a common base for all device
+ * control types.
+ */
+
 typedef struct _EntangleControlPrivate EntangleControlPrivate;
 struct _EntangleControlPrivate
 {

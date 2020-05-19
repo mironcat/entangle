@@ -39,8 +39,10 @@ G_DECLARE_DERIVABLE_TYPE(EntanglePixbufLoader,
 
 struct _EntanglePixbufLoaderClass
 {
+    /*< private >*/
     GObjectClass parent_class;
 
+    /*< public >*/
     GdkPixbuf *(*pixbuf_load)(EntanglePixbufLoader *loader,
                               EntangleImage *image,
                               GExiv2Metadata **metadata);

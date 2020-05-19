@@ -27,6 +27,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-video
+ * @Short_description: a video media file
+ * @Title: EntangleVideo
+ *
+ * The #EntangleVideo object presents a media file containing a
+ * video stream.
+ */
+
 struct _EntangleVideo
 {
     EntangleMedia parent;

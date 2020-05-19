@@ -25,6 +25,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-control-choice
+ * @Short_description: a device control that offers a choice of options
+ * @Title: EntangleControlChoice
+ *
+ * The #EntangleControlChoice object provides a device control that allows
+ * selection between a range of choices.
+ */
+
 struct _EntangleControlChoice
 {
     EntangleControl parent;

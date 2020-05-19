@@ -29,6 +29,15 @@
 #include "entangle-debug.h"
 #include "entangle-device-manager.h"
 
+/**
+ * SECTION:entangle-device-manager
+ * @Short_description: a way for monitoring devices on the host
+ * @Title: EntangleDeviceManager
+ *
+ * The #EntangleDeviceManager provides a way to monitor devices on the
+ * host.
+ */
+
 struct _EntangleDeviceManager
 {
     GObject parent;

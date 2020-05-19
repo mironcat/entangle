@@ -38,16 +38,9 @@
  * @Short_description: Global application state base class
  * @Title: EntangleApplication
  *
- * <para>
  * EntangleApplication maintains some global application state. At this time,
  * the list of currently attached cameras, the application preferences
  * and the plugin manager.
- * </para>
- *
- * <para>
- * This class will normally be sub-classed when creating a Entangle based
- * application, typically in order to add in UI state.
- * </para>
  */
 
 struct _EntangleApplication

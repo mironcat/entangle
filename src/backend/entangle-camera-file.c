@@ -28,6 +28,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-camera-file
+ * @Short_description: a file downloaded from a camera
+ * @Title: EntangleCameraFile
+ *
+ * The #EntangleCameraFile object contains the metadata and payload
+ * of a file downloaded from the camera device.
+ */
+
 struct _EntangleCameraFile
 {
     GObject parent;

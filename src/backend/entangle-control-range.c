@@ -25,6 +25,15 @@
 
 #include "entangle-debug.h"
 
+/**
+ * SECTION:entangle-control-range
+ * @Short_description: a device control that exposes a range of values
+ * @Title: EntangleControlRange
+ *
+ * The #EntangleControlRange object provides a device control that allows
+ * adjustment of a setting through a range of values.
+ */
+
 struct _EntangleControlRange
 {
     EntangleControl parent;
