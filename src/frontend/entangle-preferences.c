@@ -1056,6 +1056,13 @@ entangle_preferences_capture_get_last_session(EntanglePreferences *prefs)
     }
     if (!dir)
         dir = entangle_find_picture_dir();
+    if (!g_path_is_absolute(dir)) {
+        g_autofree gchar *cwd = g_get_current_dir();
+        gchar *reldir = dir;
+
+        dir = g_strdup_printf("%s/%s", cwd, reldir);
+        g_free(reldir);
+    }
     return dir;
 }
 
