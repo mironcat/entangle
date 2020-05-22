@@ -1051,21 +1051,12 @@ entangle_preferences_capture_get_last_session(EntanglePreferences *prefs)
 
     char *dir = g_settings_get_string(prefs->captureSettings,
                                       SETTING_CAPTURE_LAST_SESSION);
-    if (dir && g_str_equal(dir, "")) {
+    if (dir && (g_str_equal(dir, "") || !g_path_is_absolute(dir))) {
         g_free(dir);
         dir = NULL;
     }
     if (!dir)
         dir = entangle_find_picture_dir();
-    // This should no longer happen after changes to entangle_find_picture_dir,
-    // but needs to remain for users who have already persisted a relative path.
-    if (!g_path_is_absolute(dir)) {
-        g_autofree gchar *cwd = g_get_current_dir();
-        gchar *reldir = dir;
-
-        dir = g_strdup_printf("%s/%s", cwd, reldir);
-        g_free(reldir);
-    }
     return dir;
 }
 
