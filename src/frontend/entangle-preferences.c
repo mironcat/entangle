@@ -168,11 +168,12 @@ entangle_find_picture_dir(void)
 {
     const gchar *baseDir = g_get_user_special_dir(G_USER_DIRECTORY_PICTURES);
     gchar *ret;
-    if (baseDir) {
-        ret = g_strdup_printf("%s/%s", baseDir, "Capture");
-    } else {
-        ret = g_strdup_printf("Capture");
-    }
+
+    if (!baseDir)
+        baseDir = g_get_user_special_dir(
+            G_USER_DIRECTORY_DESKTOP); // Guaranteed to be non-null
+
+    ret = g_strdup_printf("%s/%s", baseDir, "Capture");
     ENTANGLE_DEBUG("******** PICTURE '%s'", ret);
     return ret;
 }
@@ -1056,6 +1057,8 @@ entangle_preferences_capture_get_last_session(EntanglePreferences *prefs)
     }
     if (!dir)
         dir = entangle_find_picture_dir();
+    // This should no longer happen after changes to entangle_find_picture_dir,
+    // but needs to remain for users who have already persisted a relative path.
     if (!g_path_is_absolute(dir)) {
         g_autofree gchar *cwd = g_get_current_dir();
         gchar *reldir = dir;
