@@ -271,8 +271,9 @@ entangle_session_next_digit(EntangleSession *session)
         gint digit = 0;
 
         if (!g_str_has_prefix(name, session->directory)) {
-            ENTANGLE_DEBUG("File %s does not match directory",
-                           entangle_media_get_filename(media));
+            ENTANGLE_DEBUG("File %s does not match directory %s",
+                           entangle_media_get_filename(media),
+                           session->directory);
             goto next;
         }
         name += strlen(session->directory);
@@ -281,8 +282,8 @@ entangle_session_next_digit(EntangleSession *session)
 
         /* Ignore files not matching the template prefix */
         if (!g_str_has_prefix(name, prefix)) {
-            ENTANGLE_DEBUG("File %s does not match prefix",
-                           entangle_media_get_filename(media));
+            ENTANGLE_DEBUG("File %s does not match prefix %s",
+                           entangle_media_get_filename(media), prefix);
             goto next;
         }
 
