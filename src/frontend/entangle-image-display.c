@@ -42,6 +42,8 @@ struct _EntangleImageDisplay
     gdouble maskOpacity;
     gboolean maskEnabled;
     gboolean overexposureHighlighting;
+    gboolean flipVertically;
+    gboolean flipHorizontally;
 
     gchar *textOverlay;
 
@@ -66,6 +68,8 @@ enum
     PROP_GRID_DISPLAY,
     PROP_OVEREXPOSURE_HIGHLIGHTING,
     PROP_TEXT_OVERLAY,
+    PROP_FLIP_VERTICALLY,
+    PROP_FLIP_HORIZONTALLY,
 };
 
 static void
@@ -250,6 +254,14 @@ entangle_image_display_get_property(GObject *object,
         g_value_set_boolean(value, display->overexposureHighlighting);
         break;
 
+    case PROP_FLIP_VERTICALLY:
+        g_value_set_boolean(value, display->flipVertically);
+        break;
+
+    case PROP_FLIP_HORIZONTALLY:
+        g_value_set_boolean(value, display->flipHorizontally);
+        break;
+
     case PROP_TEXT_OVERLAY:
         g_value_set_string(value, display->textOverlay);
         break;
@@ -306,6 +318,16 @@ entangle_image_display_set_property(GObject *object,
 
     case PROP_OVEREXPOSURE_HIGHLIGHTING:
         entangle_image_display_set_overexposure_highlighting(
+            display, g_value_get_boolean(value));
+        break;
+
+    case PROP_FLIP_VERTICALLY:
+        entangle_image_display_set_flip_vertically(display,
+                                                   g_value_get_boolean(value));
+        break;
+
+    case PROP_FLIP_HORIZONTALLY:
+        entangle_image_display_set_flip_horizontally(
             display, g_value_get_boolean(value));
         break;
 
@@ -656,6 +678,23 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
         cairo_get_matrix(cr, &m);
         cairo_scale(cr, sx, sy);
 
+        if (display->flipVertically || display->flipHorizontally) {
+            cairo_matrix_t flip;
+            double fx = display->flipHorizontally ? -1 : 1;
+            double fy = display->flipVertically ? -1 : 1;
+            double cx = ww / sx / 2;
+            double cy = wh / sy / 2;
+
+            cairo_matrix_init_identity(&flip);
+
+            flip.xx = fx;
+            flip.yy = fy;
+            flip.x0 = cx * (1 - fx);
+            flip.y0 = cy * (1 - fy);
+
+            cairo_transform(cr, &flip);
+        }
+
         cairo_set_source_surface(cr, display->pixmap, mx / sx, my / sy);
         cairo_paint(cr);
         cairo_set_matrix(cr, &m);
@@ -855,6 +894,20 @@ entangle_image_display_class_init(EntangleImageDisplayClass *klass)
                              "Highlight areas of overexposure", TRUE,
                              G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+
+    g_object_class_install_property(
+        object_class, PROP_FLIP_VERTICALLY,
+        g_param_spec_boolean("flip-vertically", "Flip vertically",
+                             "Flip vertically", TRUE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+
+    g_object_class_install_property(
+        object_class, PROP_FLIP_HORIZONTALLY,
+        g_param_spec_boolean("flip-horizontally", "Flip horizontally",
+                             "Flip horizontally", TRUE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
 EntangleImageDisplay *
@@ -872,6 +925,8 @@ entangle_image_display_init(EntangleImageDisplay *display)
     display->aspectRatio = 1.33;
     display->maskEnabled = FALSE;
     display->overexposureHighlighting = TRUE;
+    display->flipVertically = FALSE;
+    display->flipHorizontally = FALSE;
 }
 
 /**
@@ -1134,6 +1189,48 @@ entangle_image_display_get_overexposure_highlighting(
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
     return display->overexposureHighlighting;
+}
+
+void
+entangle_image_display_set_flip_vertically(EntangleImageDisplay *display,
+                                           gboolean enabled)
+{
+    g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
+
+    display->flipVertically = enabled;
+
+    entangle_image_display_try_render_pixmap(display);
+    if (gtk_widget_get_visible((GtkWidget *)display))
+        gtk_widget_queue_draw(GTK_WIDGET(display));
+}
+
+gboolean
+entangle_image_display_get_flip_vertically(EntangleImageDisplay *display)
+{
+    g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
+
+    return display->flipVertically;
+}
+
+void
+entangle_image_display_set_flip_horizontally(EntangleImageDisplay *display,
+                                             gboolean enabled)
+{
+    g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
+
+    display->flipHorizontally = enabled;
+
+    entangle_image_display_try_render_pixmap(display);
+    if (gtk_widget_get_visible((GtkWidget *)display))
+        gtk_widget_queue_draw(GTK_WIDGET(display));
+}
+
+gboolean
+entangle_image_display_get_flip_horizontally(EntangleImageDisplay *display)
+{
+    g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
+
+    return display->flipHorizontally;
 }
 
 gboolean

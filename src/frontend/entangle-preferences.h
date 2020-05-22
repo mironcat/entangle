@@ -143,6 +143,16 @@ entangle_preferences_img_set_overexposure_highlighting(
     EntanglePreferences *prefs,
     gboolean enabled);
 gboolean
+entangle_preferences_img_get_flip_vertically(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_flip_vertically(EntanglePreferences *prefs,
+                                             gboolean enabled);
+gboolean
+entangle_preferences_img_get_flip_horizontally(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_flip_horizontally(EntanglePreferences *prefs,
+                                               gboolean enabled);
+gboolean
 entangle_preferences_img_get_focus_point(EntanglePreferences *prefs);
 void
 entangle_preferences_img_set_focus_point(EntanglePreferences *prefs,

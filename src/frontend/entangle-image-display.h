@@ -99,6 +99,18 @@ gboolean
 entangle_image_display_get_overexposure_highlighting(
     EntangleImageDisplay *display);
 
+void
+entangle_image_display_set_flip_vertically(EntangleImageDisplay *display,
+                                           gboolean enabled);
+gboolean
+entangle_image_display_get_flip_vertically(EntangleImageDisplay *display);
+
+void
+entangle_image_display_set_flip_horizontally(EntangleImageDisplay *display,
+                                             gboolean enabled);
+gboolean
+entangle_image_display_get_flip_horizontally(EntangleImageDisplay *display);
+
 gboolean
 entangle_image_display_get_loaded(EntangleImageDisplay *display);
 

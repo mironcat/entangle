@@ -92,6 +92,8 @@ struct _EntanglePreferencesDisplay
 
     GtkToggleButton *imgMaskEnabled;
     GtkToggleButton *imgOverexposureHighlighting;
+    GtkToggleButton *imgFlipVertically;
+    GtkToggleButton *imgFlipHorizontally;
     GtkLabel *imgAspectRatioLabel;
     GtkLabel *imgMaskOpacityLabel;
     GtkComboBox *imgAspectRatio;
@@ -174,6 +176,12 @@ do_img_mask_enabled_toggled(GtkToggleButton *src,
 void
 do_img_overexposure_highlighting_toggled(GtkToggleButton *src,
                                          EntanglePreferencesDisplay *display);
+void
+do_img_flip_vertically_toggled(GtkToggleButton *src,
+                               EntanglePreferencesDisplay *display);
+void
+do_img_flip_horizontally_toggled(GtkToggleButton *src,
+                                 EntanglePreferencesDisplay *display);
 void
 do_img_aspect_ratio_changed(GtkComboBox *src,
                             EntanglePreferencesDisplay *display);
@@ -383,6 +391,27 @@ entangle_preferences_display_notify(GObject *object,
         if (newvalue != oldvalue)
             gtk_toggle_button_set_active(
                 preferences->imgOverexposureHighlighting, newvalue);
+    } else if (strcmp(spec->name, "img-flip-vertically") == 0) {
+        gboolean newvalue;
+        gboolean oldvalue;
+
+        g_object_get(object, spec->name, &newvalue, NULL);
+        oldvalue = gtk_toggle_button_get_active(preferences->imgFlipVertically);
+
+        if (newvalue != oldvalue)
+            gtk_toggle_button_set_active(preferences->imgFlipVertically,
+                                         newvalue);
+    } else if (strcmp(spec->name, "img-flip-horizontally") == 0) {
+        gboolean newvalue;
+        gboolean oldvalue;
+
+        g_object_get(object, spec->name, &newvalue, NULL);
+        oldvalue =
+            gtk_toggle_button_get_active(preferences->imgFlipHorizontally);
+
+        if (newvalue != oldvalue)
+            gtk_toggle_button_set_active(preferences->imgFlipHorizontally,
+                                         newvalue);
     } else if (strcmp(spec->name, "img-aspect-ratio") == 0) {
         gchar *newvalue;
         const gchar *oldvalue;
@@ -590,6 +619,14 @@ entangle_preferences_display_refresh(EntanglePreferencesDisplay *preferences)
         entangle_preferences_img_get_overexposure_highlighting(
             preferences->prefs));
 
+    gtk_toggle_button_set_active(
+        preferences->imgFlipVertically,
+        entangle_preferences_img_get_flip_vertically(preferences->prefs));
+
+    gtk_toggle_button_set_active(
+        preferences->imgFlipHorizontally,
+        entangle_preferences_img_get_flip_horizontally(preferences->prefs));
+
     gtk_combo_box_set_active_id(preferences->imgAspectRatio, ratio);
     gtk_widget_set_sensitive(GTK_WIDGET(preferences->imgAspectRatio), hasRatio);
 
@@ -774,6 +811,11 @@ entangle_preferences_display_class_init(EntanglePreferencesDisplayClass *klass)
     gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
                                          EntanglePreferencesDisplay,
                                          imgOverexposureHighlighting);
+    gtk_widget_class_bind_template_child(
+        GTK_WIDGET_CLASS(klass), EntanglePreferencesDisplay, imgFlipVertically);
+    gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
+                                         EntanglePreferencesDisplay,
+                                         imgFlipHorizontally);
     gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
                                          EntanglePreferencesDisplay,
                                          imgAspectRatioLabel);
@@ -1070,6 +1112,28 @@ do_img_overexposure_highlighting_toggled(
 
     entangle_preferences_img_set_overexposure_highlighting(preferences->prefs,
                                                            enabled);
+}
+
+void
+do_img_flip_vertically_toggled(GtkToggleButton *src,
+                               EntanglePreferencesDisplay *preferences)
+{
+    g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
+
+    gboolean enabled = gtk_toggle_button_get_active(src);
+
+    entangle_preferences_img_set_flip_vertically(preferences->prefs, enabled);
+}
+
+void
+do_img_flip_horizontally_toggled(GtkToggleButton *src,
+                                 EntanglePreferencesDisplay *preferences)
+{
+    g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
+
+    gboolean enabled = gtk_toggle_button_get_active(src);
+
+    entangle_preferences_img_set_flip_horizontally(preferences->prefs, enabled);
 }
 
 void

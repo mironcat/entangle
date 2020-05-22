@@ -874,8 +874,8 @@
                             <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="top_attach">8</property>
-                            <property name="bottom_attach">9</property>
+                            <property name="top_attach">10</property>
+                            <property name="bottom_attach">11</property>
                           </packing>
                         </child>
                         <child>
@@ -891,8 +891,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">8</property>
-                            <property name="bottom_attach">9</property>
+                            <property name="top_attach">10</property>
+                            <property name="bottom_attach">11</property>
                           </packing>
                         </child>
                         <child>
@@ -903,8 +903,8 @@
                             <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="top_attach">9</property>
-                            <property name="bottom_attach">10</property>
+                            <property name="top_attach">11</property>
+                            <property name="bottom_attach">12</property>
                           </packing>
                         </child>
                         <child>
@@ -917,8 +917,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">9</property>
-                            <property name="bottom_attach">10</property>
+                            <property name="top_attach">11</property>
+                            <property name="bottom_attach">12</property>
                           </packing>
                         </child>
                         <child>
@@ -929,8 +929,8 @@
                             <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="top_attach">10</property>
-                            <property name="bottom_attach">11</property>
+                            <property name="top_attach">12</property>
+                            <property name="bottom_attach">13</property>
                           </packing>
                         </child>
                         <child>
@@ -943,8 +943,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">10</property>
-                            <property name="bottom_attach">11</property>
+                            <property name="top_attach">12</property>
+                            <property name="bottom_attach">13</property>
                           </packing>
                         </child>
                         <child>
@@ -961,6 +961,38 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">7</property>
                             <property name="bottom_attach">8</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="imgFlipVertically">
+                            <property name="label" translatable="yes">Flip vertically</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="do_img_flip_vertically_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">8</property>
+                            <property name="bottom_attach">9</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="imgFlipHorizontally">
+                            <property name="label" translatable="yes">Flip horizontally</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="do_img_flip_horizontally_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">9</property>
+                            <property name="bottom_attach">10</property>
                           </packing>
                         </child>
                       </object>

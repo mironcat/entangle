@@ -70,6 +70,8 @@ G_DEFINE_TYPE(EntanglePreferences, entangle_preferences, G_TYPE_OBJECT);
 #define SETTING_IMG_MASK_OPACITY "mask-opacity"
 #define SETTING_IMG_MASK_ENABLED "mask-enabled"
 #define SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING "overexposure-highlighting"
+#define SETTING_IMG_FLIP_VERTICALLY "flip-vertically"
+#define SETTING_IMG_FLIP_HORIZONTALLY "flip-horizontally"
 #define SETTING_IMG_FOCUS_POINT "focus-point"
 #define SETTING_IMG_GRID_LINES "grid-lines"
 #define SETTING_IMG_EMBEDDED_PREVIEW "embedded-preview"
@@ -112,6 +114,10 @@ G_DEFINE_TYPE(EntanglePreferences, entangle_preferences, G_TYPE_OBJECT);
 #define PROP_NAME_IMG_MASK_ENABLED SETTING_IMG "-" SETTING_IMG_MASK_ENABLED
 #define PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING                                \
     SETTING_IMG "-" SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING
+#define PROP_NAME_IMG_FLIP_VERTICALLY                                          \
+    SETTING_IMG "-" SETTING_IMG_FLIP_VERTICALLY
+#define PROP_NAME_IMG_FLIP_HORIZONTALLY                                        \
+    SETTING_IMG "-" SETTING_IMG_FLIP_HORIZONTALLY
 #define PROP_NAME_IMG_FOCUS_POINT SETTING_IMG "-" SETTING_IMG_FOCUS_POINT
 #define PROP_NAME_IMG_GRID_LINES SETTING_IMG "-" SETTING_IMG_GRID_LINES
 #define PROP_NAME_IMG_EMBEDDED_PREVIEW                                         \
@@ -146,6 +152,8 @@ enum
     PROP_IMG_MASK_OPACITY,
     PROP_IMG_MASK_ENABLED,
     PROP_IMG_OVEREXPOSURE_HIGHLIGHTING,
+    PROP_IMG_FLIP_VERTICALLY,
+    PROP_IMG_FLIP_HORIZONTALLY,
     PROP_IMG_FOCUS_POINT,
     PROP_IMG_GRID_LINES,
     PROP_IMG_EMBEDDED_PREVIEW,
@@ -290,6 +298,18 @@ entangle_preferences_get_property(GObject *object,
         g_value_set_boolean(value, g_settings_get_boolean(
                                        prefs->imgSettings,
                                        SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING));
+        break;
+
+    case PROP_IMG_FLIP_VERTICALLY:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->imgSettings,
+                                          SETTING_IMG_FLIP_VERTICALLY));
+        break;
+
+    case PROP_IMG_FLIP_HORIZONTALLY:
+        g_value_set_boolean(
+            value, g_settings_get_boolean(prefs->imgSettings,
+                                          SETTING_IMG_FLIP_HORIZONTALLY));
         break;
 
     case PROP_IMG_ASPECT_RATIO:
@@ -458,6 +478,17 @@ entangle_preferences_set_property(GObject *object,
     case PROP_IMG_OVEREXPOSURE_HIGHLIGHTING:
         g_settings_set_boolean(prefs->imgSettings,
                                SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING,
+                               g_value_get_boolean(value));
+        break;
+
+    case PROP_IMG_FLIP_VERTICALLY:
+        g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_FLIP_VERTICALLY,
+                               g_value_get_boolean(value));
+        break;
+
+    case PROP_IMG_FLIP_HORIZONTALLY:
+        g_settings_set_boolean(prefs->imgSettings,
+                               SETTING_IMG_FLIP_HORIZONTALLY,
                                g_value_get_boolean(value));
         break;
 
@@ -670,6 +701,20 @@ entangle_preferences_class_init(EntanglePreferencesClass *klass)
         g_param_spec_boolean(PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING,
                              "Overexposure highlighting",
                              "Highlight areas of overexposure", TRUE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+
+    g_object_class_install_property(
+        object_class, PROP_IMG_FLIP_VERTICALLY,
+        g_param_spec_boolean(PROP_NAME_IMG_FLIP_VERTICALLY, "Flip vertically",
+                             "Flip vertically", TRUE,
+                             G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+
+    g_object_class_install_property(
+        object_class, PROP_IMG_FLIP_HORIZONTALLY,
+        g_param_spec_boolean(PROP_NAME_IMG_FLIP_HORIZONTALLY,
+                             "Flip horizontally", "Flip horizontally", TRUE,
                              G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
@@ -1549,6 +1594,76 @@ entangle_preferences_img_set_overexposure_highlighting(
     g_settings_set_boolean(prefs->imgSettings,
                            SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING, enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_OVEREXPOSURE_HIGHLIGHTING);
+}
+
+/**
+ * entangle_preferences_img_get_flip_vertically:
+ * @prefs: (transfer none): the preferences store
+ *
+ * Determine if the image display should be flipped vertically
+ *
+ * Returns: TRUE if image display should be flipped vertically
+ */
+gboolean
+entangle_preferences_img_get_flip_vertically(EntanglePreferences *prefs)
+{
+    g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
+
+    return g_settings_get_boolean(prefs->imgSettings,
+                                  SETTING_IMG_FLIP_VERTICALLY);
+}
+
+/**
+ * entangle_preferences_img_set_flip_vertically:
+ * @prefs: (transfer none): the preferences store
+ * @enabled: TRUE to flip vertically
+ *
+ * If @enabled is TRUE the image display will be flipped vertically
+ */
+void
+entangle_preferences_img_set_flip_vertically(EntanglePreferences *prefs,
+                                             gboolean enabled)
+{
+    g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
+
+    g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_FLIP_VERTICALLY,
+                           enabled);
+    g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_FLIP_VERTICALLY);
+}
+
+/**
+ * entangle_preferences_img_get_flip_horizontally:
+ * @prefs: (transfer none): the preferences store
+ *
+ * Determine if the image display should be flipped horizontally
+ *
+ * Returns: TRUE if image display should be flipped horizontally
+ */
+gboolean
+entangle_preferences_img_get_flip_horizontally(EntanglePreferences *prefs)
+{
+    g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), FALSE);
+
+    return g_settings_get_boolean(prefs->imgSettings,
+                                  SETTING_IMG_FLIP_HORIZONTALLY);
+}
+
+/**
+ * entangle_preferences_img_set_flip_horizontally:
+ * @prefs: (transfer none): the preferences store
+ * @enabled: TRUE to flip horizontally
+ *
+ * If @enabled is TRUE the image display will be flipped horizontally
+ */
+void
+entangle_preferences_img_set_flip_horizontally(EntanglePreferences *prefs,
+                                               gboolean enabled)
+{
+    g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
+
+    g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_FLIP_HORIZONTALLY,
+                           enabled);
+    g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_FLIP_HORIZONTALLY);
 }
 
 /**
