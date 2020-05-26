@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
-"PO-Revision-Date: 2020-05-15 08:24+0000\n"
+"PO-Revision-Date: 2020-05-21 01:40+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.fedoraproject.org/"
 "projects/entangle/master/nb_NO/>\n"
@@ -35,7 +35,7 @@ msgid "1.44:1 - IMAX"
 msgstr "1.44:1 - IMAX"
 
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
-msgstr "1.50:1 (3:2, 15:10)- 35mm SLR"
+msgstr "1.50:1 (3:2, 15:10)- 35mm speilrefleks"
 
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
 msgstr "1.66:1 (5:3, 15:9) - Super 16mm"
@@ -187,15 +187,15 @@ msgstr "Avbryt"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "Kan ikke knipse bilde uåpnet"
 
-#, c-format
+#, c-format, fuzzy
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "Kan ikke slette fil uåpnet"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "Kan ikke laste ned fil uåpnet"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
@@ -215,11 +215,11 @@ msgstr "Kan ikke laste inn porter for gphoto2"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "Kan ikke forhåndsvise bilde uåpnet"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "Kan ikke avvente hendelser uåpnet"
 
 msgid "Capture"
 msgstr "Opptak"
@@ -281,7 +281,7 @@ msgstr "Styringskontroller ikke tilgjengelige for dette kameraet"
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "Styringskontroller ikke tilgjengelig når kamera er lukket"
 
 msgid "Delete"
 msgstr "Slett"
@@ -540,8 +540,9 @@ msgstr "Tegn over tidligere bilder"
 msgid "Overlay layers:"
 msgstr "Overleggslag:"
 
+#, fuzzy
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "Mønster må inneholde «XXXXXX»-plassholder"
 
 msgid "Perceptual"
 msgstr "Perseptuell"
@@ -719,7 +720,7 @@ msgstr "Kunne ikke igangsette kamera: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "Kan ikke laste inn styring, kameraet er ikke åpnet"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
@@ -731,7 +732,7 @@ msgstr "Kunne ikke lagre styringskontroller, kamera kan ikke settes opp"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr ""
+msgstr "Kan ikke lagre styring, kameraet er ikke åpnet"
 
 #, c-format
 msgid "Unable to wait for events: %s"
@@ -792,7 +793,7 @@ msgid "_Cancel"
 msgstr "_Avbryt"
 
 msgid "_Connect…"
-msgstr "_Koble til"
+msgstr "_Koble til…"
 
 msgid "_Disconnect…"
 msgstr "Koble _fra…"
