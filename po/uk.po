@@ -8,13 +8,14 @@
 # Yuri Chornoivan <yurchor@ukr.net>, 2017. #zanata, 2020.
 # Yuri Chornoivan <yurchor@ukr.net>, 2018. #zanata, 2020.
 # Yuri Chornoivan <yurchor@ukr.net>, 2019. #zanata, 2020.
+# Anonymous <noreply@weblate.org>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
-"PO-Revision-Date: 2020-05-17 22:19+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2020-05-18 21:38+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Ukrainian <https://translate.fedoraproject.org/projects/"
 "entangle/master/uk/>\n"
 "Language: uk\n"
@@ -282,7 +283,7 @@ msgstr "Не вдалося отримати доступ до засобів к
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "Засоби керування недоступні, якщо камеру закрито"
 
 msgid "Delete"
 msgstr "Вилучити"
