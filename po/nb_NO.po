@@ -189,7 +189,7 @@ msgstr "Avbryt"
 msgid "Cannot capture image while not opened"
 msgstr "Kan ikke knipse bilde uåpnet"
 
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot delete file while not opened"
 msgstr "Kan ikke slette fil uåpnet"
 
