@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-16 23:09+0100\n"
-"PO-Revision-Date: 2020-05-17 22:19+0000\n"
+"PO-Revision-Date: 2020-05-18 21:38+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://translate.fedoraproject.org/projects/"
 "entangle/master/tr/>\n"
@@ -272,7 +272,7 @@ msgstr "Bu kamera için denetlemeler kullanılamıyor"
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "Kamera kapalıyken denetlemeler kullanılamaz"
 
 msgid "Delete"
 msgstr "Sil"
