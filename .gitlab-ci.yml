@@ -9,13 +9,14 @@ stages:
   services:
     - docker:dind
   before_script:
+    - export TAG="$CI_REGISTRY_IMAGE/$NAME:latest"
+    - export COMMON_TAG="$CI_REGISTRY/entangle/entangle/$NAME:latest"
     - docker info
-    - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
-    - export TAG="${CI_REGISTRY_IMAGE}/${NAME}:latest"
+    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker pull ${TAG} || true
-    - docker build --tag ${TAG} --cache-from ${TAG} -f ci/${NAME}.docker ci
-    - docker push ${TAG}
+    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
+    - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "ci/$NAME.docker" ci
+    - docker push "$TAG"
   after_script:
     - docker logout
 
