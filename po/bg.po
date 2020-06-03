@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-16 23:09+0100\n"
+"POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2015-06-21 03:14+0000\n"
 "Last-Translator: Valentin Laskov <laskov@festa.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/projects/p/entangle/"
@@ -20,6 +20,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Zanata 4.6.2\n"
+
+msgid "'Escape' to close"
+msgstr ""
 
 msgid "0"
 msgstr ""
@@ -372,6 +375,12 @@ msgstr "Провал при задаване състоянието на виз�
 msgid "Filename pattern:"
 msgstr "Шаблон за име на файл:"
 
+msgid "Flip horizontally"
+msgstr ""
+
+msgid "Flip vertically"
+msgstr ""
+
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
 msgstr ""
@@ -593,6 +602,9 @@ msgctxt "shortcut window"
 msgid "Shutter control"
 msgstr ""
 
+msgid "Tear off"
+msgstr ""
+
 msgid "Tethered Camera Control & Capture"
 msgstr "Свързани контрол на камерата и снимане"
 
@@ -603,11 +615,9 @@ msgid "The Entangle Photo project"
 msgstr ""
 
 msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
+"The camera cannot be opened because it is mounted as a filesystem. Do you "
+"wish to umount it now?"
 msgstr ""
-"Не мога да отворя камерата, понеже в момента е монтирана като файлова "
-"система. Искате ли да я демонтирам сега?"
 
 msgid "This camera does not support image capture"
 msgstr "Камерата не поддържа снимане на изображение"
@@ -818,6 +828,13 @@ msgstr ""
 
 msgid "settings"
 msgstr "настройки"
+
+#~ msgid ""
+#~ "The camera cannot be opened because it is currently mounted as a "
+#~ "filesystem. Do you wish to umount it now ?"
+#~ msgstr ""
+#~ "Не мога да отворя камерата, понеже в момента е монтирана като файлова "
+#~ "система. Искате ли да я демонтирам сега?"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "Не мога да правя снимка докато не съм свързан"

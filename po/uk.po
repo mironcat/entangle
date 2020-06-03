@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-16 23:09+0100\n"
+"POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2020-05-18 21:38+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Ukrainian <https://translate.fedoraproject.org/projects/"
@@ -25,6 +25,9 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.0.4\n"
+
+msgid "'Escape' to close"
+msgstr ""
 
 msgid "0"
 msgstr "0"
@@ -383,6 +386,12 @@ msgstr "Не вдалося встановити стан видошукача: 
 msgid "Filename pattern:"
 msgstr "Шаблон назви файла:"
 
+msgid "Flip horizontally"
+msgstr ""
+
+msgid "Flip vertically"
+msgstr ""
+
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
 msgstr "Керування фокусуванням (під час інтерактивного перегляду)"
@@ -616,6 +625,9 @@ msgctxt "shortcut window"
 msgid "Shutter control"
 msgstr "Керування затвором"
 
+msgid "Tear off"
+msgstr ""
+
 msgid "Tethered Camera Control & Capture"
 msgstr "Керування фотоапаратами та захоплення даних зі з’єднаних фотоапаратів"
 
@@ -626,11 +638,9 @@ msgid "The Entangle Photo project"
 msgstr "Проєкт Entangle Photo"
 
 msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
+"The camera cannot be opened because it is mounted as a filesystem. Do you "
+"wish to umount it now?"
 msgstr ""
-"Робота з фотоапаратом неможлива, оскільки зараз його змонтовано як сховище "
-"даних. Демонтувати відповідне сховище даних?"
 
 msgid "This camera does not support image capture"
 msgstr "Для цього фотоапарата не передбачено захоплення зображень"
@@ -843,6 +853,13 @@ msgstr "попередній перегляд"
 
 msgid "settings"
 msgstr "параметри"
+
+#~ msgid ""
+#~ "The camera cannot be opened because it is currently mounted as a "
+#~ "filesystem. Do you wish to umount it now ?"
+#~ msgstr ""
+#~ "Робота з фотоапаратом неможлива, оскільки зараз його змонтовано як "
+#~ "сховище даних. Демонтувати відповідне сховище даних?"
 
 #~ msgid "Controls not available when camera is closeed"
 #~ msgstr "Засоби керування недоступні, якщо камеру закрито"

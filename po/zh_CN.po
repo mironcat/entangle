@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-16 23:09+0100\n"
+"POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2014-12-22 02:36+0000\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/entangle/"
@@ -20,6 +20,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Zanata 4.6.2\n"
+
+msgid "'Escape' to close"
+msgstr ""
 
 msgid "0"
 msgstr ""
@@ -368,6 +371,12 @@ msgstr "设定取景器状态失败: %s %d"
 msgid "Filename pattern:"
 msgstr "文件名范式："
 
+msgid "Flip horizontally"
+msgstr ""
+
+msgid "Flip vertically"
+msgstr ""
+
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
 msgstr ""
@@ -589,6 +598,9 @@ msgctxt "shortcut window"
 msgid "Shutter control"
 msgstr ""
 
+msgid "Tear off"
+msgstr ""
+
 msgid "Tethered Camera Control & Capture"
 msgstr "连接相机控制与拍摄"
 
@@ -599,9 +611,9 @@ msgid "The Entangle Photo project"
 msgstr ""
 
 msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
-msgstr "相机由于已被当作文件系统挂载而无法打开。您想要现在卸载它吗？"
+"The camera cannot be opened because it is mounted as a filesystem. Do you "
+"wish to umount it now?"
+msgstr ""
 
 msgid "This camera does not support image capture"
 msgstr "此相机不支持图像拍摄"
@@ -812,6 +824,11 @@ msgstr "预览"
 
 msgid "settings"
 msgstr "设置"
+
+#~ msgid ""
+#~ "The camera cannot be opened because it is currently mounted as a "
+#~ "filesystem. Do you wish to umount it now ?"
+#~ msgstr "相机由于已被当作文件系统挂载而无法打开。您想要现在卸载它吗？"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "不能在未联接时拍摄图像"

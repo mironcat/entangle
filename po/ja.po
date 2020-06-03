@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-16 23:09+0100\n"
+"POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2020-05-11 23:31+0000\n"
 "Last-Translator: Hajime Taira <htaira@pantora.net>\n"
 "Language-Team: Japanese <https://translate.fedoraproject.org/projects/"
@@ -22,6 +22,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.0.4\n"
+
+msgid "'Escape' to close"
+msgstr ""
 
 msgid "0"
 msgstr "0"
@@ -373,6 +376,12 @@ msgstr "ビューファインダーの状態の設定に失敗しました: %s %
 msgid "Filename pattern:"
 msgstr "ファイル名のパターン:"
 
+msgid "Flip horizontally"
+msgstr ""
+
+msgid "Flip vertically"
+msgstr ""
+
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
 msgstr "フォーカス制御(ライブプレビュー中)"
@@ -605,6 +614,9 @@ msgctxt "shortcut window"
 msgid "Shutter control"
 msgstr "シャッター制御"
 
+msgid "Tear off"
+msgstr ""
+
 msgid "Tethered Camera Control & Capture"
 msgstr "接続されたカメラの制御とキャプチャー"
 
@@ -615,11 +627,9 @@ msgid "The Entangle Photo project"
 msgstr "Entangle Photoプロジェクト"
 
 msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
+"The camera cannot be opened because it is mounted as a filesystem. Do you "
+"wish to umount it now?"
 msgstr ""
-"現在ファイルシステムとしてマウントされているので、カメラを開けません。今すぐ"
-"アンマウントしたいですか？"
 
 msgid "This camera does not support image capture"
 msgstr "このカメラは画像のキャプチャーをサポートしません"
@@ -830,6 +840,13 @@ msgstr "プレビュー"
 
 msgid "settings"
 msgstr "設定"
+
+#~ msgid ""
+#~ "The camera cannot be opened because it is currently mounted as a "
+#~ "filesystem. Do you wish to umount it now ?"
+#~ msgstr ""
+#~ "現在ファイルシステムとしてマウントされているので、カメラを開けません。今す"
+#~ "ぐアンマウントしたいですか？"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "接続していない間は画像をキャプチャーできません"

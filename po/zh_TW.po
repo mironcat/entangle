@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-16 23:09+0100\n"
+"POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2014-12-22 02:36+0000\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/"
@@ -19,6 +19,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Zanata 4.6.2\n"
+
+msgid "'Escape' to close"
+msgstr ""
 
 msgid "0"
 msgstr ""
@@ -357,6 +360,12 @@ msgstr ""
 msgid "Filename pattern:"
 msgstr ""
 
+msgid "Flip horizontally"
+msgstr ""
+
+msgid "Flip vertically"
+msgstr ""
+
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
 msgstr ""
@@ -578,6 +587,9 @@ msgctxt "shortcut window"
 msgid "Shutter control"
 msgstr ""
 
+msgid "Tear off"
+msgstr ""
+
 msgid "Tethered Camera Control & Capture"
 msgstr ""
 
@@ -588,8 +600,8 @@ msgid "The Entangle Photo project"
 msgstr ""
 
 msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
+"The camera cannot be opened because it is mounted as a filesystem. Do you "
+"wish to umount it now?"
 msgstr ""
 
 msgid "This camera does not support image capture"

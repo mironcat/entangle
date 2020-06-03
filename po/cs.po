@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-16 23:09+0100\n"
+"POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2020-01-10 15:15+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://translate.stg.fedoraproject.org/projects/"
@@ -25,6 +25,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 3.10.1\n"
+
+msgid "'Escape' to close"
+msgstr ""
 
 # auto translated by TM merge from project: virt-manager, version: master,
 # DocId: virt-manager
@@ -383,6 +386,12 @@ msgstr "Nastavení hledáčku se nezdařilo: %s %d"
 msgid "Filename pattern:"
 msgstr "Struktura názvů souborů:"
 
+msgid "Flip horizontally"
+msgstr ""
+
+msgid "Flip vertically"
+msgstr ""
+
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
 msgstr "Ovládání ostření (v živém náhledu)"
@@ -624,6 +633,9 @@ msgctxt "shortcut window"
 msgid "Shutter control"
 msgstr "Ovládání závěrky"
 
+msgid "Tear off"
+msgstr ""
+
 msgid "Tethered Camera Control & Capture"
 msgstr "Ovládání a pořizování snímků z fotoaparátu přes počítač"
 
@@ -634,12 +646,9 @@ msgid "The Entangle Photo project"
 msgstr "Fotografický projekt Entangle"
 
 msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
+"The camera cannot be opened because it is mounted as a filesystem. Do you "
+"wish to umount it now?"
 msgstr ""
-"Fotoaparát není možné otevřít, protože souborový systém na jeho paměťové "
-"kartě je momentálně připojen do systému. Přejete si tento souborový systém "
-"odpojit?"
 
 msgid "This camera does not support image capture"
 msgstr "Tento fotoaparát není možné ovládat z počítače"
@@ -858,6 +867,14 @@ msgstr "náhled"
 
 msgid "settings"
 msgstr "nastavení"
+
+#~ msgid ""
+#~ "The camera cannot be opened because it is currently mounted as a "
+#~ "filesystem. Do you wish to umount it now ?"
+#~ msgstr ""
+#~ "Fotoaparát není možné otevřít, protože souborový systém na jeho paměťové "
+#~ "kartě je momentálně připojen do systému. Přejete si tento souborový "
+#~ "systém odpojit?"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "Když fotoaparát není připojen, není možné pořizovat snímky"

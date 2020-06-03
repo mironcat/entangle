@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-16 23:09+0100\n"
+"POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2020-05-21 01:40+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.fedoraproject.org/"
@@ -17,6 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.0.4\n"
+
+msgid "'Escape' to close"
+msgstr ""
 
 msgid "0"
 msgstr "0"
@@ -379,6 +382,12 @@ msgstr "Klarte ikke å sette søkermodus: %s %d"
 msgid "Filename pattern:"
 msgstr "Filnavnsmønster:"
 
+msgid "Flip horizontally"
+msgstr ""
+
+msgid "Flip vertically"
+msgstr ""
+
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
 msgstr "Fokuskontroll (under sanntidsforhåndsvisning)"
@@ -621,6 +630,9 @@ msgctxt "shortcut window"
 msgid "Shutter control"
 msgstr "Lukkerstyring"
 
+msgid "Tear off"
+msgstr ""
+
 msgid "Tethered Camera Control & Capture"
 msgstr "Tjudret kamerastyring og opptak"
 
@@ -630,13 +642,10 @@ msgstr "Tjudret kamerastyring og opptak"
 msgid "The Entangle Photo project"
 msgstr "Entangle-bildeprosjektet"
 
-#, fuzzy
 msgid ""
-"The camera cannot be opened because it is currently mounted as a filesystem. "
-"Do you wish to umount it now ?"
+"The camera cannot be opened because it is mounted as a filesystem. Do you "
+"wish to umount it now?"
 msgstr ""
-"Kameraet kan ikke åpnes fordi det ikke er montert som et filsystem. Ønsker "
-"du å avmontere det nå?"
 
 msgid "This camera does not support image capture"
 msgstr "Dette kameraet støtter ikke bildeknipsing"
@@ -852,6 +861,14 @@ msgstr "forhåndsvis"
 
 msgid "settings"
 msgstr "innstillinger"
+
+#, fuzzy
+#~ msgid ""
+#~ "The camera cannot be opened because it is currently mounted as a "
+#~ "filesystem. Do you wish to umount it now ?"
+#~ msgstr ""
+#~ "Kameraet kan ikke åpnes fordi det ikke er montert som et filsystem. "
+#~ "Ønsker du å avmontere det nå?"
 
 #~ msgid "Cannot capture image while not connected"
 #~ msgstr "Kunne ikke knipse bilde uten tilkobling"
