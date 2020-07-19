@@ -10,27 +10,28 @@
 # Javier Galnares Arias <javigalnares@yahoo.es>, 2012
 # Daniel Berrangé <dan-zanata@berrange.com>, 2015. #zanata
 # Máximo Castañeda Riloba <mcrcctm@gmail.com>, 2016. #zanata
+# Emilio Herrera <ehespinosa57@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2016-08-07 07:27+0000\n"
-"Last-Translator: Máximo Castañeda Riloba <mcrcctm@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/entangle/"
-"language/es/)\n"
+"PO-Revision-Date: 2020-07-19 14:28+0000\n"
+"Last-Translator: Emilio Herrera <ehespinosa57@gmail.com>\n"
+"Language-Team: Spanish <https://translate.fedoraproject.org/projects/"
+"entangle/master/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.1.1\n"
 
 msgid "'Escape' to close"
-msgstr ""
+msgstr "'Escape' para cerrar"
 
 msgid "0"
-msgstr ""
+msgstr "0"
 
 msgid "1.15:1 - Movietone"
 msgstr "1.15:1 - Movietone"
@@ -102,7 +103,7 @@ msgid "2.93:1 - MGM Camera 65"
 msgstr "2.93:1 - MGM Camera 65"
 
 msgid "3"
-msgstr ""
+msgstr "3"
 
 msgid "3:1 APS Panorama"
 msgstr "3:1 APS Panorama"
@@ -142,7 +143,7 @@ msgstr "Relación de aspecto:"
 
 msgctxt "shortcut window"
 msgid "Autofocus"
-msgstr ""
+msgstr "Autofoco"
 
 #, c-format
 msgid "Autofocus control not available with this camera"
@@ -190,15 +191,15 @@ msgstr "Cancelar"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "No puede capturar imagen mientras no se abra"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "No puede borrar un fichero mientras no se abra"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "No puede descargar un fichero mientras no se abra"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
@@ -218,7 +219,7 @@ msgstr "No se pueden cargar los puertos de gphoto2"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "No puede previsualizar una imagen mientras no se abra"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
