@@ -6,13 +6,14 @@
 # Tiansworld <tiansworld@fedoraproject.org>, 2012
 # Tommy He <lovenemesis@gmail.com>, 2013-2014
 # Tian Shixiong <tiansworld@gmail.com>, 2020.
+# Charles Lee <lchopn@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-06-20 16:17+0000\n"
-"Last-Translator: Tian Shixiong <tiansworld@gmail.com>\n"
+"PO-Revision-Date: 2020-07-19 14:28+0000\n"
+"Last-Translator: Charles Lee <lchopn@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.fedoraproject.org/"
 "projects/entangle/master/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -441,7 +442,6 @@ msgstr "该相机不可以使用手动对焦控制"
 msgid "Manual focus control was not a range or radio widget"
 msgstr ""
 
-#, fuzzy
 msgid "Manual focus failed"
 msgstr "手动对焦失败"
 
@@ -625,7 +625,7 @@ msgstr "Entangle 照片项目"
 msgid ""
 "The camera cannot be opened because it is mounted as a filesystem. Do you "
 "wish to umount it now?"
-msgstr "因被当作文件系统进行挂载，因此该相机无法开启。您现在要卸下它吗？"
+msgstr "相机由于已被当作文件系统挂载而无法打开。您想要现在卸载它吗？"
 
 msgid "This camera does not support image capture"
 msgstr "此相机不支持图像拍摄"
@@ -707,7 +707,7 @@ msgstr "无法初始化相机：%s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr "无法加载控制，相机为开启"
+msgstr "无法加载控制，相机没有开启"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
@@ -719,7 +719,7 @@ msgstr "无法保存控制，相机不可配置"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr "无法保存控制，相机为开启"
+msgstr "无法保存控制，相机没有开启"
 
 #, c-format
 msgid "Unable to wait for events: %s"
