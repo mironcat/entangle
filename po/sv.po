@@ -13,19 +13,19 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-01-13 17:15+0000\n"
+"PO-Revision-Date: 2020-08-18 13:29+0000\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
-"Language-Team: Swedish <https://translate.stg.fedoraproject.org/projects/"
+"Language-Team: Swedish <https://translate.fedoraproject.org/projects/"
 "entangle/master/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.1\n"
+"X-Generator: Weblate 4.1.1\n"
 
 msgid "'Escape' to close"
-msgstr ""
+msgstr "”Escape” för att stänga"
 
 msgid "0"
 msgstr "0"
@@ -188,15 +188,15 @@ msgstr "Avbryt"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "Kan inte fånga bilder när inte öppnad"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "Kan inte radera en fil när inte öppnad"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "Kan inte hämta filen när inte öppnad"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
@@ -216,11 +216,11 @@ msgstr "Kan inte ladda gphoto2:s portar"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "Kan inte förhandsvisa en bild när inte öppnad"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "Kan inte vänta på händelser när inte öppnad"
 
 msgid "Capture"
 msgstr "Fånga"
@@ -277,11 +277,11 @@ msgstr "Styra programmet"
 
 #, c-format
 msgid "Controls not available for this camera"
-msgstr "Kontroller är inte tillgängliga för denna kamera"
+msgstr "Inställningar är inte tillgängliga för denna kamera"
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "Inställningar är inte tillgängliga när kameran är stängd"
 
 msgid "Delete"
 msgstr "Radera"
@@ -380,10 +380,10 @@ msgid "Filename pattern:"
 msgstr "Filnamnsmönster:"
 
 msgid "Flip horizontally"
-msgstr ""
+msgstr "Vänd horisontellt"
 
 msgid "Flip vertically"
-msgstr ""
+msgstr "Vänd vertikalt"
 
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
@@ -541,7 +541,7 @@ msgid "Overlay layers:"
 msgstr "Övertäckningslager:"
 
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "Mönstret måste innehålla ”XXXXXX” som platshållare"
 
 msgid "Perceptual"
 msgstr "Perceptuell"
@@ -572,7 +572,7 @@ msgid "Rendering intent:"
 msgstr "Renderingssyfte:"
 
 msgid "Reset controls"
-msgstr "Återställ styrningen"
+msgstr "Återställ inställningarna"
 
 msgid "Retry"
 msgstr "Försök igen"
@@ -618,13 +618,13 @@ msgid "Shutter control"
 msgstr "Slutarstyrning"
 
 msgid "Tear off"
-msgstr ""
+msgstr "Riv av"
 
 msgid "Tethered Camera Control & Capture"
-msgstr "Tjudrad kamerakontroll och -fångst"
+msgstr "Tjudrad kamerastyrning och -fångst"
 
 msgid "Tethered Camera Control &amp; Capture"
-msgstr "Tjudrad kamerakontroll och -fångst"
+msgstr "Tjudrad kamerastyrning &amp; -fångst"
 
 msgid "The Entangle Photo project"
 msgstr "Fotoprojektet Entagle"
@@ -633,6 +633,8 @@ msgid ""
 "The camera cannot be opened because it is mounted as a filesystem. Do you "
 "wish to umount it now?"
 msgstr ""
+"Kameran kan inte öppnas för att den just nu är monterad som ett filsystem. "
+"Vill du avmontera den nu?"
 
 msgid "This camera does not support image capture"
 msgstr "Denna kamera stödjer inte fångst av bilder"
@@ -714,7 +716,7 @@ msgstr "Kan inte initiera kameran: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "Kan inte ladda inställningar, kameran är inte öppnad"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
@@ -726,7 +728,7 @@ msgstr "Kan inte spara inställningar, kameran är inte konfigurerbar"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr ""
+msgstr "Kan inte spara inställningar, kameran är inte öppnad"
 
 #, c-format
 msgid "Unable to wait for events: %s"
