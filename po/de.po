@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-12-12 13:24+0000\n"
-"Last-Translator: Jonas <jonas.tannig@posteo.de>\n"
+"PO-Revision-Date: 2020-12-12 13:27+0000\n"
+"Last-Translator: Fabian Affolter <mail@fabian-affolter.ch>\n"
 "Language-Team: German <https://translate.fedoraproject.org/projects/entangle/"
 "master/de/>\n"
 "Language: de\n"
@@ -219,11 +219,11 @@ msgstr "Ports von gphoto 2 können nicht geladen werden"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr "Kann keine Vorschau zeigen, da nicht geöffnet"
+msgstr "Keine Vorschau, da kein Bild geöffnet ist"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr "Kann nicht auf Ereignisse warten, da nicht geöffnet"
+msgstr "Kann nicht auf Ereignisse warten, da sie nicht geöffnet sind"
 
 msgid "Capture"
 msgstr "Aufnahme"
@@ -284,7 +284,7 @@ msgstr "Steuerung ist für diese Kamera nicht verfügbar"
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "Steuerung ist nicht möglich, wenn die Kamera nicht angeschlossen ist"
 
 msgid "Delete"
 msgstr "Löschen"
@@ -383,7 +383,7 @@ msgid "Filename pattern:"
 msgstr "Dateinamensmuster:"
 
 msgid "Flip horizontally"
-msgstr ""
+msgstr "Horizontal spiegeln"
 
 msgid "Flip vertically"
 msgstr ""
@@ -394,19 +394,19 @@ msgstr "Fokuskontrolle (währed Live-Vorschau)"
 
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "Fokus verkürzen (großer Schritt)"
 
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "Fokus verkürzen (kleiner Schritt)"
 
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "Fokus verlängern (großer Schritt)"
 
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "Fokus verlängern (kleiner Schritt)"
 
 msgctxt "shortcut window"
 msgid "Fullscreen"
@@ -544,7 +544,7 @@ msgid "Overlay layers:"
 msgstr "Ebenen überdecken:"
 
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "Muster muss Platzhalter 'XXXXXX' enthalten"
 
 msgid "Perceptual"
 msgstr "Wahrnehmung"
@@ -621,7 +621,7 @@ msgid "Shutter control"
 msgstr "Verschlußkontrolle"
 
 msgid "Tear off"
-msgstr ""
+msgstr "Abreißen"
 
 msgid "Tethered Camera Control & Capture"
 msgstr "Steuerung und Aufnahme mit angeschlossenen Kameras"
@@ -636,6 +636,8 @@ msgid ""
 "The camera cannot be opened because it is mounted as a filesystem. Do you "
 "wish to umount it now?"
 msgstr ""
+"Die Kamera kann nicht geöffnet werden, da sie derzeit als Dateisystem "
+"eingehängt ist. Wollen Sie sie jetzt aushängen?"
 
 msgid "This camera does not support image capture"
 msgstr "Die Kamera unterstützt keine Bildaufnahmen"
@@ -717,7 +719,7 @@ msgstr "Kann Kamera nicht initialisieren: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "Bedienelemente können nicht geladen werden, Kamera ist nicht verbunden"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
@@ -730,7 +732,7 @@ msgstr ""
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr ""
+msgstr "Steuerung kann nicht gespeichert werden, Kamera ist nicht verbunden"
 
 #, c-format
 msgid "Unable to wait for events: %s"
