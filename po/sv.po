@@ -8,13 +8,14 @@
 # Göran Uddeborg <goeran@uddeborg.se>, 2015. #zanata, 2020.
 # Göran Uddeborg <goeran@uddeborg.se>, 2016. #zanata, 2020.
 # Göran Uddeborg <goeran@uddeborg.se>, 2018. #zanata, 2020.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-08-18 13:29+0000\n"
-"Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
+"PO-Revision-Date: 2021-07-01 13:04+0000\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <https://translate.fedoraproject.org/projects/"
 "entangle/master/sv/>\n"
 "Language: sv\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.7.1\n"
 
 msgid "'Escape' to close"
 msgstr "”Escape” för att stänga"
@@ -314,7 +315,7 @@ msgid ""
 msgstr ""
 "Entangle kan utlösa kameraslutaren för att ta nya bilder.  När kameran "
 "stödjer det kan en kontinuerligt uppdaterad förhandsvisning av scenen visas "
-"före kortet tas.  Bilkder kommer hämtas och visas allteftersom de tas av "
+"före kortet tas.  Bilder kommer hämtas och visas allteftersom de tas av "
 "kameran.  Entangle gör också att kamerainställningarna kan ändras från "
 "datorn."
 
@@ -741,7 +742,7 @@ msgid "Use embedded preview from raw files"
 msgstr "Använd inbäddad förhandsvisning från råa filer"
 
 msgid "Use preview output as capture image"
-msgstr "Används förhandsvisningsutdata som fångstbild"
+msgstr "Använd förhandsvisningsutdata som fångstbild"
 
 #, c-format
 msgid "Viewfinder control not available with this camera"
