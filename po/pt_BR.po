@@ -1,13 +1,14 @@
 # Marco Aurélio Krause <ouesten@me.com>, 2015. #zanata
 # Filipe Rosset <rosset.filipe@gmail.com>, 2017. #zanata
 # Caio Fontes de Castro <caiofcastro@usp.br>, 2020.
+# Fábio Rodrigues Ribeiro <farribeiro@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-07-05 18:27+0000\n"
-"Last-Translator: Caio Fontes de Castro <caiofcastro@usp.br>\n"
+"PO-Revision-Date: 2021-03-19 16:01+0000\n"
+"Last-Translator: Fábio Rodrigues Ribeiro <farribeiro@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.fedoraproject.org/"
 "projects/entangle/master/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.5.1\n"
 
 msgid "'Escape' to close"
 msgstr "'Escape' para fechar"
@@ -287,7 +288,6 @@ msgctxt "shortcut window"
 msgid "Display help manual"
 msgstr "Mostrar ajuda"
 
-#, fuzzy
 msgid "Entangle"
 msgstr "Entangle"
 
