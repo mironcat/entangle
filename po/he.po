@@ -1,24 +1,25 @@
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2018. #zanata
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2018. #zanata, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2018-03-18 10:38+0000\n"
+"PO-Revision-Date: 2021-04-15 09:02+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew\n"
+"Language-Team: Hebrew <https://translate.fedoraproject.org/projects/entangle/"
+"master/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 2 : 1;\n"
-"X-Generator: Zanata 4.6.2\n"
+"X-Generator: Weblate 4.5.3\n"
 
 msgid "'Escape' to close"
-msgstr ""
+msgstr "‚Escape’ לסגירה"
 
 msgid "0"
-msgstr ""
+msgstr "0"
 
 msgid "1.15:1 - Movietone"
 msgstr ""
@@ -27,34 +28,34 @@ msgid "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
 msgstr ""
 
 msgid "1.37:1 - 35mm movie"
-msgstr ""
+msgstr "1.37:1 - סרט 35 מ״מ"
 
 msgid "1.44:1 - IMAX"
-msgstr ""
+msgstr "1.44:1 - IMAX"
 
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
-msgstr ""
+msgstr "‎1.50:1 (3:2, 15:10) ‏- 35 מ״מ SLR"
 
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
-msgstr ""
+msgstr "‎1.66:1 (5:3, 15:9) - סופר 16 מ״מ"
 
 msgid "1.6:1 (8:5, 16:10) - Widescreen"
-msgstr ""
+msgstr "‎1.6:1 (8:5, 16:10) - מסך רחב"
 
 msgid "1.75:1 (7:4) - Widescreen"
-msgstr ""
+msgstr "‎1.75:1 (7:4) - מסך רחב"
 
 msgid "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
-msgstr ""
+msgstr "1.77:1 (16:9) - APS-H / HDTV / מסך רחב"
 
 msgid "1.85:1 - 35mm Widescreen"
-msgstr ""
+msgstr "1.85:1 - מסך רחב 35 מ״מ"
 
 msgid "12.00:1 - Circle-Vision 360"
 msgstr ""
 
 msgid "1:1 - Square / MF 6x6"
-msgstr ""
+msgstr "1:1 - ריבוע / MF 6x6"
 
 msgid "2.00:1 - SuperScope"
 msgstr ""
@@ -63,7 +64,7 @@ msgid "2.10:1 (21:10) - Planned HDTV"
 msgstr ""
 
 msgid "2.20:1 (11:5, 22:10) - 70mm movie"
-msgstr ""
+msgstr "‎2.20:1 (11:5, 22:10) - סרט 70 מ״מ"
 
 msgid "2.35:1 - CinemaScope"
 msgstr ""
@@ -87,10 +88,10 @@ msgid "2.76:1 (11:4) - Ultra Panavision"
 msgstr ""
 
 msgid "2.93:1 - MGM Camera 65"
-msgstr ""
+msgstr "2.93:1 - מצלמה של MGM‏ 65"
 
 msgid "3"
-msgstr ""
+msgstr "3"
 
 msgid "3:1 APS Panorama"
 msgstr ""
@@ -99,94 +100,94 @@ msgid "4.00:1 - Polyvision"
 msgstr ""
 
 msgid "<b>Capture</b>"
-msgstr ""
+msgstr "<b>צילום</b>"
 
 msgid "<b>Colour management</b>"
-msgstr ""
+msgstr "<b>ניהול צבע</b>"
 
 msgid "<b>Image Viewer</b>"
-msgstr ""
+msgstr "<b>מציג תמונות</b>"
 
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>מנשק</b>"
 
 msgid "<b>Plugins</b>"
-msgstr ""
+msgstr "<b>תוספים</b>"
 
 msgid "About - Entangle"
-msgstr ""
+msgstr "על אודות - Entangle"
 
 msgid "Absolute colourimetric"
 msgstr ""
 
 msgid "All files (*.*)"
-msgstr ""
+msgstr "כל הקבצים (*.*)"
 
 msgid "Apply mask to alter aspect ratio"
-msgstr ""
+msgstr "להחיל מסכה כדי לשנות את יחס התצוגה"
 
 msgid "Aspect ratio:"
-msgstr ""
+msgstr "יחס תצוגה:"
 
 msgctxt "shortcut window"
 msgid "Autofocus"
-msgstr ""
+msgstr "מיקוד אוטומטי"
 
 #, c-format
 msgid "Autofocus control not available with this camera"
-msgstr ""
+msgstr "למצלמה הזאת אין בקרת מיקוד אוטומטי"
 
 #, c-format
 msgid "Autofocus control was not a toggle widget"
-msgstr ""
+msgstr "בקרת המיקוד האוטומטי לא הייתה וידג׳ט מפסק"
 
 msgid "Autofocus failed"
 msgstr "המיקוד האוטומטי נכשל"
 
 msgid "Automatically connect to cameras at startup"
-msgstr ""
+msgstr "להתחבר למצלמות אוטומטית עם ההפעלה"
 
 msgid "Automatically synchronize camera clock"
-msgstr ""
+msgstr "לסנכרן את שעון המצלמה אוטומטית"
 
 msgid "Automation"
 msgstr "אוטומציה"
 
 msgid "Background:"
-msgstr ""
+msgstr "רקע:"
 
 msgid "Best Fit"
 msgstr "התאמה מיטבית"
 
 msgid "Blank screen when capturing images"
-msgstr ""
+msgstr "להחשיך את המסך בעת צילום תמונות"
 
 msgid "Camera connect failed"
 msgstr "ההתחברות למצלמה נכשלה"
 
 msgid "Camera control update failed"
-msgstr ""
+msgstr "עדכון בקרת המצלמה נכשל"
 
 msgid "Camera is in use"
 msgstr "המצלמה בשימוש"
 
 msgid "Camera load controls failed"
-msgstr ""
+msgstr "טעינת פקדי המצלמה נכשלה"
 
 msgid "Cancel"
 msgstr "ביטול"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "לא ניתן לצלם תמונה כשלא פתוח"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "לא ניתן למחוק קובץ כאשר לא פתוח"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "לא ניתן להוריד קובץ כאשר לא פתוח"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
@@ -206,31 +207,31 @@ msgstr "לא ניתן לטעון את הפתחות של gphoto2"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "לא ניתן להציג תצוגה מקדימה כשלא פתוח"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "לא ניתן להמתין לאירועים כשלא פתוח"
 
 msgid "Capture"
 msgstr "צילום"
 
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "צילום תמונה בודדה"
 
 msgid "Capture an image"
 msgstr "צילום תמונה"
 
 #, c-format
 msgid "Capture target setting not available with this camera"
-msgstr ""
+msgstr "הגדרות יעד צילום אינן זמינות עם המצלמה הזאת"
 
 msgid "Capture;Camera;Tethered;Photo;"
 msgstr ""
 
 msgid "Center lines"
-msgstr ""
+msgstr "קווי מירכוז"
 
 msgid ""
 "Check that the camera is not\n"
@@ -242,10 +243,10 @@ msgstr ""
 
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "לסגור את כל החלונות ולצאת"
 
 msgid "Color Management"
-msgstr ""
+msgstr "ניהול צבע"
 
 msgid "Colour managed display"
 msgstr ""
@@ -258,7 +259,7 @@ msgstr ""
 
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "שליטה ביישום"
 
 #, c-format
 msgid "Controls not available for this camera"
@@ -266,7 +267,7 @@ msgstr "פקדים אינם זמינים למצלמה זו"
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "הפקדים אינם זמינים כאשר המצלמה סגורה"
 
 msgid "Delete"
 msgstr "מחיקה"
@@ -285,10 +286,10 @@ msgid "Display help manual"
 msgstr ""
 
 msgid "Entangle"
-msgstr ""
+msgstr "Entangle"
 
 msgid "Entangle Preferences"
-msgstr ""
+msgstr "העדפות Entangle"
 
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
@@ -297,6 +298,10 @@ msgid ""
 "are captured by the camera. Entangle also allows the settings of the camera "
 "to be changed from the computer."
 msgstr ""
+"Entangle יכול להפעיל את צמצם המצלמה כדי לצלם תמונות חדשות. אם יש תמיכה "
+"במצלמה, ניתן להציג תצוגה מקדימה שמתעדכנת באופן רציף בטרם הצילום. התמונות "
+"יתקבלו ויוצגו בזמן הצילום על ידי המצלמה. Entangle מאפשר גם לשנות את הגדרות "
+"המצלמה דרך המחשב."
 
 msgid ""
 "Entangle is a program used to control digital cameras that are connected to "
@@ -316,7 +321,7 @@ msgid "Entangle: Camera connect failed"
 msgstr "Entangle: ההתחברות למצלמה נכשלה"
 
 msgid "Entangle: Camera control update failed"
-msgstr ""
+msgstr "Entangle: עדכון פקדי המצלמה נכשל"
 
 msgid "Entangle: Camera load controls failed"
 msgstr ""
@@ -352,13 +357,13 @@ msgid "Failed to set viewfinder state: %s %d"
 msgstr ""
 
 msgid "Filename pattern:"
-msgstr ""
+msgstr "תבנית שם הקובץ:"
 
 msgid "Flip horizontally"
-msgstr ""
+msgstr "היפוך אופקי"
 
 msgid "Flip vertically"
-msgstr ""
+msgstr "היפוך אנכי"
 
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
@@ -366,7 +371,7 @@ msgstr ""
 
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "להתמקד פנימה (צעד גדול)"
 
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
@@ -382,13 +387,13 @@ msgstr ""
 
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "מסך מלא"
 
 msgid "Golden sections"
 msgstr ""
 
 msgid "Grid lines:"
-msgstr ""
+msgstr "קווי רשת:"
 
 msgid "Highlight areas of overexposure"
 msgstr ""
@@ -397,23 +402,23 @@ msgid "Highlight:"
 msgstr ""
 
 msgid "ICC profiles (*.icc, *.icm)"
-msgstr ""
+msgstr "קובצי פרופילי צבע ICC‏ (‎*.icc‏; ‎*.icm)"
 
 msgid "IP Address:"
-msgstr ""
+msgstr "כתובת IP:"
 
 msgid "Image Viewer"
-msgstr ""
+msgstr "מציג תמונות"
 
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "הצגת תמונות"
 
 msgid "Image histogram"
 msgstr "היסטוגרמת התמונה"
 
 msgid "Interface"
-msgstr ""
+msgstr "מנשק"
 
 #, c-format
 msgid "Manual focus control not available with this camera"
@@ -427,25 +432,25 @@ msgid "Manual focus failed"
 msgstr "המיקוד הידני נכשל"
 
 msgid "Mask opacity:"
-msgstr ""
+msgstr "אטימות מסכה:"
 
 msgid "Missing 'execute' method implementation"
 msgstr ""
 
 msgid "Mode of operation:"
-msgstr ""
+msgstr "מצב הפעולה:"
 
 msgid "Model"
 msgstr "דגם"
 
 msgid "Monitor"
-msgstr ""
+msgstr "צג"
 
 msgid "Monitor profile:"
-msgstr ""
+msgstr "פרופיל צג:"
 
 msgid "Network camera"
-msgstr ""
+msgstr "מצלמת רשת"
 
 msgid "No"
 msgstr "לא"
@@ -467,10 +472,10 @@ msgid ""
 msgstr ""
 
 msgid "No config options"
-msgstr ""
+msgstr "אין אפשרויות הגדרה"
 
 msgid "No controls available"
-msgstr ""
+msgstr "אין פקדים זמינים"
 
 msgid "No script"
 msgstr ""
@@ -479,10 +484,10 @@ msgid "None"
 msgstr ""
 
 msgid "Off"
-msgstr ""
+msgstr "כבוי"
 
 msgid "On"
-msgstr ""
+msgstr "פעיל"
 
 msgid "Open"
 msgstr "פתיחה"
@@ -511,14 +516,14 @@ msgid "Perceptual"
 msgstr ""
 
 msgid "Plugins"
-msgstr ""
+msgstr "תוספים"
 
 msgid "Port"
 msgstr "פתחה"
 
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "מצגת"
 
 msgid "Preview"
 msgstr "תצוגה מקדימה"
@@ -536,7 +541,7 @@ msgid "Rendering intent:"
 msgstr ""
 
 msgid "Reset controls"
-msgstr ""
+msgstr "איפוס פקדים"
 
 msgid "Retry"
 msgstr "ניסיון חוזר"
@@ -548,7 +553,7 @@ msgid "Rule of 5ths"
 msgstr ""
 
 msgid "Saturation"
-msgstr ""
+msgstr "רוויה"
 
 msgid "Screen blanking is not available on this display"
 msgstr ""
@@ -575,7 +580,7 @@ msgid "Set clock"
 msgstr "הגדרת שעון"
 
 msgid "Show linear histogram"
-msgstr ""
+msgstr "הצגת היסטוגרם קווי"
 
 msgctxt "shortcut window"
 msgid "Shutter control"
@@ -597,6 +602,7 @@ msgid ""
 "The camera cannot be opened because it is mounted as a filesystem. Do you "
 "wish to umount it now?"
 msgstr ""
+"לא ניתן לפתוח את המצלמה כיוון שהיא מעוגנת כמערכת קבצים. לנתק את העיגון כעת?"
 
 msgid "This camera does not support image capture"
 msgstr ""
@@ -697,13 +703,13 @@ msgid "Unable to wait for events: %s"
 msgstr "לא ניתן להמתין לאירועים: %s"
 
 msgid "Untitled script"
-msgstr ""
+msgstr "סקריפט ללא שם"
 
 msgid "Use embedded preview from raw files"
-msgstr ""
+msgstr "להשתמש בתצוגה מוקדמת מוטמעת מקבצים גולמיים"
 
 msgid "Use preview output as capture image"
-msgstr ""
+msgstr "להשתמש בפלט התצוגה המקדימה כתמונת צילום"
 
 #, c-format
 msgid "Viewfinder control not available with this camera"
@@ -728,19 +734,19 @@ msgstr "הת_רחקות"
 
 msgctxt "shortcut window"
 msgid "Zoom best"
-msgstr ""
+msgstr "תקריב מיטבי"
 
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "התקרבות"
 
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "מרחק רגיל"
 
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "התרחקות"
 
 msgid "_About"
 msgstr "על _אודות"
@@ -764,7 +770,7 @@ msgid "_Keyboard shortcuts"
 msgstr "_קיצורי מקלדת"
 
 msgid "_Manual"
-msgstr ""
+msgstr "י_דני"
 
 msgid "_New window"
 msgstr "_חלון חדש"
@@ -797,16 +803,16 @@ msgid "_Synchronize capture"
 msgstr "סנ_כרון צילום"
 
 msgid "capture"
-msgstr ""
+msgstr "צילום"
 
 msgid "label"
-msgstr ""
+msgstr "תווית"
 
 msgid "preview"
-msgstr ""
+msgstr "תצוגה מקדימה"
 
 msgid "settings"
-msgstr ""
+msgstr "הגדרות"
 
 #~ msgid ""
 #~ "The camera cannot be opened because it is currently mounted as a "
