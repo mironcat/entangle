@@ -8,26 +8,26 @@
 # Zdenek <chmelarz@gmail.com>, 2015. #zanata
 # Zdenek <chmelarz@gmail.com>, 2016. #zanata
 # Zdenek <chmelarz@gmail.com>, 2017. #zanata
-# Pavel Borecki <pavel.borecki@gmail.com>, 2018. #zanata, 2020.
-# Pavel Borecki <pavel.borecki@gmail.com>, 2019. #zanata, 2020.
+# Pavel Borecki <pavel.borecki@gmail.com>, 2018. #zanata, 2020, 2021.
+# Pavel Borecki <pavel.borecki@gmail.com>, 2019. #zanata, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-01-10 15:15+0000\n"
+"PO-Revision-Date: 2021-09-05 11:04+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://translate.stg.fedoraproject.org/projects/"
-"entangle/master/cs/>\n"
+"Language-Team: Czech <https://translate.fedoraproject.org/projects/entangle/"
+"master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.10.1\n"
+"X-Generator: Weblate 4.8\n"
 
 msgid "'Escape' to close"
-msgstr ""
+msgstr "„Esc“ pro zavření"
 
 # auto translated by TM merge from project: virt-manager, version: master,
 # DocId: virt-manager
@@ -176,10 +176,10 @@ msgstr "Přizpůsobit velikosti okna"
 
 msgid "Blank screen when capturing images"
 msgstr ""
-"Při spuštění závěrky fotoaparátu zatemnit obrazovku počítače (probliknutí)."
+"Při spuštění závěrky fotoaparátu zatemnit obrazovku počítače (probliknutí)"
 
 msgid "Camera connect failed"
-msgstr "Navázání spojení s fotoaparátem se nezdařilo."
+msgstr "Navázání spojení s fotoaparátem se nezdařilo"
 
 msgid "Camera control update failed"
 msgstr "Aktualizace stavu ovládacího prvku se nezdařila"
@@ -188,22 +188,22 @@ msgid "Camera is in use"
 msgstr "Fotoaparát je používán jinou aplikací"
 
 msgid "Camera load controls failed"
-msgstr "Nahrání ovládacích prvků fotoaparátu se nezdařilo"
+msgstr "Načítání ovládacích prvků fotoaparátu se nezdařilo"
 
 msgid "Cancel"
 msgstr "Storno"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "Když fotoaparát není připojen, není možné pořizovat snímky"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "Když fotoaparát není připojen, nelze z něho mazat obrázky"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "Když fotoaparát není připojen, nelze z něho stahovat obrázky"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
@@ -223,11 +223,11 @@ msgstr "Nezdařilo se nahrát porty gphoto2"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "Když fotoaparát není připojen, nelze zobrazit náhled"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "Když fotoaparát není připojen, nelze sledovat vyčkávat na událost"
 
 msgid "Capture"
 msgstr "Pořizování snímků"
@@ -265,7 +265,7 @@ msgstr ""
 
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr "Zavřít všechna okna & skončit"
+msgstr "Zavřít všechna okna a skončit"
 
 msgid "Color Management"
 msgstr "Správa přesnosti podání barev"
@@ -289,7 +289,7 @@ msgstr "U tohoto fotoaparátu nejsou ovládací prvky dostupné"
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "Když je fotoaparát odpojený, ovládací prvky nemohou být dostupné"
 
 msgid "Delete"
 msgstr "Smazat"
@@ -311,7 +311,7 @@ msgid "Entangle"
 msgstr "Entangle"
 
 msgid "Entangle Preferences"
-msgstr "Nastavení Entangle"
+msgstr "Předvolby pro Entangle"
 
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
@@ -330,7 +330,7 @@ msgid ""
 "the computer via USB."
 msgstr ""
 "Entangle je program, který slouží k ovládání digitálních fotoaparátů, které "
-"jsou připojeny k počítači přes USB"
+"jsou připojeny k počítači přes USB."
 
 msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
@@ -351,7 +351,7 @@ msgid "Entangle: Camera control update failed"
 msgstr "Entangle: aktualizace stavu ovládacího prvku se nezdařila"
 
 msgid "Entangle: Camera load controls failed"
-msgstr "Entangle: nahrání ovládacích prvků fotoaparátu se nezdařilo"
+msgstr "Entangle: načtení ovládacích prvků fotoaparátu se nezdařilo"
 
 msgid "Entangle: Camera manual focus failed"
 msgstr "Entangle: ruční ostření se nezdařilo"
@@ -361,7 +361,7 @@ msgstr "Entangle: operace se nezdařila"
 
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
-msgstr "Selhalo načtení výběru ručního zaostření %d: %s %d"
+msgstr "Nepodařilo se načtení výběru ručního zaostření %d: %s %d"
 
 #, c-format
 msgid "Failed to set autofocus state: %s %d"
@@ -377,20 +377,20 @@ msgstr "Nastavení ručního ostření se nezdařilo: %s %d"
 
 #, c-format
 msgid "Failed to set time state: %s %d"
-msgstr "Selhalo nastavení stavu času: %s %d"
+msgstr "Nezdařilo se nastavit stavu času: %s %d"
 
 #, c-format
 msgid "Failed to set viewfinder state: %s %d"
-msgstr "Nastavení hledáčku se nezdařilo: %s %d"
+msgstr "Nastavení stavu hledáčku se nezdařilo: %s %d"
 
 msgid "Filename pattern:"
 msgstr "Struktura názvů souborů:"
 
 msgid "Flip horizontally"
-msgstr ""
+msgstr "Převrátit vodorovně"
 
 msgid "Flip vertically"
-msgstr ""
+msgstr "Převrátit svisle"
 
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
@@ -398,7 +398,7 @@ msgstr "Ovládání ostření (v živém náhledu)"
 
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr "Zaostřit (malý krok)"
+msgstr "Zaostřit (velký krok)"
 
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
@@ -466,7 +466,7 @@ msgid "Mask opacity:"
 msgstr "Průhlednost masky:"
 
 msgid "Missing 'execute' method implementation"
-msgstr "Scházející metoda implementace \"spustit\""
+msgstr "Scházející implementace metody „spustit“"
 
 msgid "Mode of operation:"
 msgstr "Režim:"
@@ -511,7 +511,7 @@ msgstr ""
 "Fotoaparáty s rozhraním USB jsou po připojení\n"
 "rozpoznány automaticky, u ostatních rozhraní\n"
 "je po připojení třeba kliknout na tlačítko obnovit\n"
-"nebo zadejte IP adresu síťové kamery."
+"nebo zadejte IP adresu síťové kamery"
 
 msgid "No config options"
 msgstr "Žádné volby nastavení"
@@ -554,7 +554,7 @@ msgid "Overlay layers:"
 msgstr "Počet překrývajících se vrstev:"
 
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "Je třeba, aby vzor obsahoval výplň „XXXXXX“"
 
 msgid "Perceptual"
 msgstr "Perceptuální (vjemová)"
@@ -587,7 +587,7 @@ msgid "Rendering intent:"
 msgstr "Metoda korekce barev:"
 
 msgid "Reset controls"
-msgstr "Obnovit ovládání"
+msgstr "Vrátit ovládací prvky na výchozí hodnoty"
 
 msgid "Retry"
 msgstr "Zkusit znovu"
@@ -599,14 +599,13 @@ msgid "Rule of 5ths"
 msgstr "Pravidlo pětin"
 
 msgid "Saturation"
-msgstr "Saturační"
+msgstr "Nasycení"
 
 msgid "Screen blanking is not available on this display"
-msgstr "Tuto obrazovku není možné zatmívat."
+msgstr "Tuto obrazovku není možné zatmívat"
 
 msgid "Screen blanking is not implemented on this platform"
-msgstr ""
-"Pro tento tento operační systém není zatmívání obrazovky ještě dodělané."
+msgstr "Pro tento operační systém není zatmívání obrazovky ještě dodělané"
 
 msgid "Script"
 msgstr "Skript"
@@ -634,13 +633,13 @@ msgid "Shutter control"
 msgstr "Ovládání závěrky"
 
 msgid "Tear off"
-msgstr ""
+msgstr "Odtrhnout"
 
 msgid "Tethered Camera Control & Capture"
 msgstr "Ovládání a pořizování snímků z fotoaparátu přes počítač"
 
 msgid "Tethered Camera Control &amp; Capture"
-msgstr "Ovládání fotoaparátu a pořizování snímků z počítače."
+msgstr "Ovládání fotoaparátu a pořizování snímků z počítače"
 
 msgid "The Entangle Photo project"
 msgstr "Fotografický projekt Entangle"
@@ -649,6 +648,9 @@ msgid ""
 "The camera cannot be opened because it is mounted as a filesystem. Do you "
 "wish to umount it now?"
 msgstr ""
+"Fotoaparát není možné otevřít, protože souborový systém na jeho paměťové "
+"kartě je momentálně připojen do systému. Přejete si tento souborový systém "
+"odpojit?"
 
 msgid "This camera does not support image capture"
 msgstr "Tento fotoaparát není možné ovládat z počítače"
@@ -658,7 +660,7 @@ msgstr "U tohoto fotoaparátu není možné zobrazovat náhled"
 
 #, c-format
 msgid "Time setting not available with this camera"
-msgstr "Nastavení času není pro tento fotoaparát dostupné."
+msgstr "Nastavení času není pro tento fotoaparát dostupné"
 
 #, c-format
 msgid "Time setting was not a choice widget"
@@ -666,7 +668,7 @@ msgstr "Nastavení času nebylo prvkem výběru"
 
 #, c-format
 msgid "Time setting was not a date widget"
-msgstr "Nastavení času nebylo prvkem datumu."
+msgstr "Nastavení času nebylo prvkem datumu"
 
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
@@ -730,7 +732,7 @@ msgstr "Nezdařilo se iniciovat fotoaparát: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "Nezdařilo se načíst ovládací prvky – fotoaparát není připojen"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
@@ -745,10 +747,12 @@ msgstr ""
 #, c-format
 msgid "Unable to save controls, camera is not opened"
 msgstr ""
+"Nezdařilo se uložit nastavení ovládacích prvků do fotoaparátu, protože není "
+"připojen"
 
 #, c-format
 msgid "Unable to wait for events: %s"
-msgstr "Nezdařilo se vyčkávat na událost: %s"
+msgstr "Nezdaří se vyčkávat na události: %s"
 
 msgid "Untitled script"
 msgstr "Skript bez názvu"
@@ -757,19 +761,19 @@ msgid "Use embedded preview from raw files"
 msgstr "Používat zapouzdřené náhledy z RAW souborů"
 
 msgid "Use preview output as capture image"
-msgstr "Použít náhled výstupu pro zachycení snímku"
+msgstr "Použít výstup z náhledu jako zachycený obrázek"
 
 #, c-format
 msgid "Viewfinder control not available with this camera"
-msgstr "Hledáček tohoto fotoaparátu nelze ovládat."
+msgstr "Hledáček tohoto fotoaparátu nelze ovládat"
 
 #, c-format
 msgid "Viewfinder control was not a toggle widget"
-msgstr "Ovládání hledáčku nebylo přepínatelným prvkem."
+msgstr "Ovládání hledáčku nebylo přepínatelným prvkem"
 
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr "Okno zobrazení"
+msgstr "Zobrazení okna"
 
 msgid "Yes"
 msgstr "Ano"
@@ -782,7 +786,7 @@ msgstr "_Oddálit"
 
 msgctxt "shortcut window"
 msgid "Zoom best"
-msgstr "Přiblížit nejlépe"
+msgstr "Přiblížit co nejvíc"
 
 msgctxt "shortcut window"
 msgid "Zoom in"
@@ -790,7 +794,7 @@ msgstr "Přiblížit"
 
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr "Přiblížit normálně"
+msgstr "Normální velikost"
 
 msgctxt "shortcut window"
 msgid "Zoom out"
@@ -799,16 +803,16 @@ msgstr "Oddálit"
 # auto translated by TM merge from project: virt-viewer, version: master,
 # DocId: virt-viewer
 msgid "_About"
-msgstr "O _metodě"
+msgstr "O _aplikaci"
 
 msgid "_Cancel"
-msgstr "_Zrušit"
+msgstr "_Storno"
 
 msgid "_Connect…"
-msgstr "Př_ipojit..."
+msgstr "Př_ipojit…"
 
 msgid "_Disconnect…"
-msgstr "_Odpojit..."
+msgstr "_Odpojit…"
 
 # auto translated by TM merge from project: virt-manager, version: master,
 # DocId: virt-manager
@@ -834,7 +838,7 @@ msgid "_Open"
 msgstr "_Otevřít"
 
 msgid "_Preferences…"
-msgstr "_Předvolby..."
+msgstr "_Předvolby…"
 
 msgid "_Presentation"
 msgstr "Pre_zentace"
@@ -845,13 +849,13 @@ msgid "_Quit"
 msgstr "_Ukončit"
 
 msgid "_Select session…"
-msgstr "Vybrat _relaci..."
+msgstr "Vybrat _relaci…"
 
 msgid "_Settings"
 msgstr "Na_stavení"
 
 msgid "_Supported cameras"
-msgstr "Podporované _kamery"
+msgstr "Podporované _fotoaparáty"
 
 msgid "_Synchronize capture"
 msgstr "_Synchronizovat zachycení"
