@@ -10,13 +10,14 @@
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2015. #zanata
 # Mike FABIAN <mfabian@redhat.com>, 2020.
 # Jonas <jonas.tannig@posteo.de>, 2020.
+# Fabian Affolter <mail@fabian-affolter.ch>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2020-12-12 13:22+0000\n"
-"Last-Translator: Jonas <jonas.tannig@posteo.de>\n"
+"Last-Translator: Fabian Affolter <mail@fabian-affolter.ch>\n"
 "Language-Team: German <https://translate.fedoraproject.org/projects/entangle/"
 "master/de/>\n"
 "Language: de\n"
@@ -27,7 +28,7 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 msgid "'Escape' to close"
-msgstr ""
+msgstr "'Escape' zum Schließen"
 
 msgid "0"
 msgstr "0"
