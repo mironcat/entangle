@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2020-12-12 13:23+0000\n"
-"Last-Translator: Jonas <jonas.tannig@posteo.de>\n"
+"Last-Translator: Fabian Affolter <mail@fabian-affolter.ch>\n"
 "Language-Team: German <https://translate.fedoraproject.org/projects/entangle/"
 "master/de/>\n"
 "Language: de\n"
@@ -195,11 +195,11 @@ msgstr "Kann kein Bild aufnehmen, da es nicht geöffnet ist"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr "Kann Datei nicht löschen, da nicht geöffnet"
+msgstr "Kann Datei nicht löschen, da sie nicht geöffnet ist"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr "Kann Datei nicht herunterladen, da nicht geöffnet"
+msgstr "Kann Datei nicht herunterladen, da sie nicht geöffnet ist"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
