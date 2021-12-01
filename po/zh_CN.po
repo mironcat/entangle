@@ -6,13 +6,13 @@
 # Tiansworld <tiansworld@fedoraproject.org>, 2012
 # Tommy He <lovenemesis@gmail.com>, 2013-2014
 # Tian Shixiong <tiansworld@gmail.com>, 2020.
-# Charles Lee <lchopn@gmail.com>, 2020.
+# Charles Lee <lchopn@gmail.com>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-07-19 14:28+0000\n"
+"PO-Revision-Date: 2021-12-02 13:16+0000\n"
 "Last-Translator: Charles Lee <lchopn@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.fedoraproject.org/"
 "projects/entangle/master/zh_CN/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.9.1\n"
 
 msgid "'Escape' to close"
 msgstr "'Esc' 键关闭"
@@ -464,7 +464,7 @@ msgid "Monitor profile:"
 msgstr "监视器预置文件："
 
 msgid "Network camera"
-msgstr ""
+msgstr "网络摄像头"
 
 msgid "No"
 msgstr "否"
@@ -755,7 +755,6 @@ msgstr "放大(_I)"
 msgid "Zoom _Out"
 msgstr "缩小(_O)"
 
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Zoom best"
 msgstr "缩放到最合适"
