@@ -40,7 +40,7 @@ appname = 'org.entangle_photo.Manager'
 desktop = appname + '.desktop'
 
 i18n.merge_file (
-  desktop,
+  data_dirs: desktop,
   type: 'desktop',
   input: desktop,
   output: desktop,
@@ -60,7 +60,7 @@ metainfotmp = custom_target('gen-metadata',
 		 '@INPUT@', '@OUTPUT@'])
 
 i18n.merge_file(
-  metainfo,
+  data_dirs: metainfo,
   input: metainfotmp,
   output: metainfo,
   install: true,
