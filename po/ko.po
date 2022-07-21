@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the entangle package.
 # simmon <simmon@nplob.com>, 2021.
+# 김인수 <simmon@nplob.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2021-04-13 08:02+0000\n"
-"Last-Translator: simmon <simmon@nplob.com>\n"
+"PO-Revision-Date: 2022-07-21 10:36+0000\n"
+"Last-Translator: 김인수 <simmon@nplob.com>\n"
 "Language-Team: Korean <https://translate.fedoraproject.org/projects/entangle/"
 "master/ko/>\n"
 "Language: ko\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5.3\n"
+"X-Generator: Weblate 4.13\n"
 
 #: src/frontend/entangle-media-popup.c:257
 msgid "'Escape' to close"
@@ -842,7 +843,7 @@ msgstr "시간 설정에 선택한 위젯이 없습니다"
 #: src/backend/entangle-camera.c:3165
 #, c-format
 msgid "Time setting was not a date widget"
-msgstr "시간 설정은 날자 위젯이 아닙니다"
+msgstr "시간 설정은 날짜 위젯이 아닙니다"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
