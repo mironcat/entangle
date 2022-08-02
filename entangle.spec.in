@@ -38,7 +38,7 @@ It includes control over camera shooting and configuration settings
 and 'hands off' shooting directly from the controlling computer.
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 %meson -Denable-gtk-doc=true
