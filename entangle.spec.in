@@ -30,9 +30,6 @@ BuildRequires: adwaita-icon-theme
 Requires: adwaita-icon-theme
 Requires: libpeas-loader-python3%{?_isa}
 
-Requires(post): desktop-file-utils
-Requires(postun): desktop-file-utils
-
 %description
 Entangle is an application which uses GTK and libgphoto2 to provide a
 graphical interface for tethered photography with digital cameras.
@@ -53,22 +50,6 @@ and 'hands off' shooting directly from the controlling computer.
 
 rm -f %{buildroot}%{_libdir}/libentangle_backend.so
 rm -f %{buildroot}%{_libdir}/libentangle_frontend.so
-
-%post
-update-desktop-database %{_datadir}/applications
-glib-compile-schemas /usr/share/glib-2.0/schemas ||:
-touch -c %{_datadir}/icons/hicolor
-if [ -x /usr/bin/gtk-update-icon-cache ]; then
-	/usr/bin/gtk-update-icon-cache -q %{_datadir}/icons/hicolor || :
-fi
-
-%postun
-update-desktop-database %{_datadir}/applications
-glib-compile-schemas /usr/share/glib-2.0/schemas ||:
-touch -c %{_datadir}/icons/hicolor
-if [ -x /usr/bin/gtk-update-icon-cache ]; then
-	/usr/bin/gtk-update-icon-cache -q %{_datadir}/icons/hicolor || :
-fi
 
 %files -f %{name}.lang
 %defattr(-, root, root)
