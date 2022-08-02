@@ -52,7 +52,6 @@ rm -f %{buildroot}%{_libdir}/libentangle_backend.so
 rm -f %{buildroot}%{_libdir}/libentangle_frontend.so
 
 %files -f %{name}.lang
-%defattr(-, root, root)
 %doc README.rst COPYING AUTHORS NEWS ChangeLog
 %{_bindir}/entangle
 %{_mandir}/man1/entangle.1*
