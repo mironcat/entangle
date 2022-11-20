@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the entangle package.
 # Oğuz Ersen <oguzersen@protonmail.com>, 2020.
+# Sabri Ünal <libreajans@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-06-06 01:40+0000\n"
-"Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
+"PO-Revision-Date: 2022-09-11 22:19+0000\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <https://translate.fedoraproject.org/projects/"
 "entangle/master/tr/>\n"
 "Language: tr\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0.4\n"
+"X-Generator: Weblate 4.14\n"
 
 msgid "'Escape' to close"
 msgstr "Kapatmak için 'Escape'"
@@ -616,7 +617,7 @@ msgid "Tethered Camera Control & Capture"
 msgstr "Bağlı Kamera Denetleme ve Yakalama"
 
 msgid "Tethered Camera Control &amp; Capture"
-msgstr "Bağlı Kamera Denetleme &amp; Yakalama"
+msgstr "Bağlı Kamera Denetleme ve Yakalama"
 
 msgid "The Entangle Photo project"
 msgstr "Entangle Fotoğraf projesi"
