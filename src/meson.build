@@ -55,8 +55,8 @@ metainfotmp = appname + '.tmp.metainfo.xml'
 metainfotmp = custom_target('gen-metadata',
 	input: metainfo,
 	output: metainfotmp,
-	command: [meson.source_root() / 'build-aux' / 'metainfo-merge',
-		 meson.source_root() / 'docs' / 'releases',
+	command: [meson.project_source_root() / 'build-aux' / 'metainfo-merge',
+		 meson.project_source_root() / 'docs' / 'releases',
 		 '@INPUT@', '@OUTPUT@'])
 
 i18n.merge_file(

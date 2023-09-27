@@ -7,7 +7,7 @@ project(
     'c_std=gnu99',
     'warning_level=1',
   ],
-  meson_version: '>= 0.49.0'
+  meson_version: '>= 0.56.0'
 )
 
 pod2man = find_program('pod2man')
@@ -209,7 +209,7 @@ entangle_schemadir = join_paths(entangle_datadir, 'glib-2.0', 'schemas')
 entangle_pluginlibdir = join_paths(entangle_libdir, 'entangle', 'plugins')
 entangle_plugindatadir = join_paths(entangle_datadir, 'entangle', 'plugins')
 
-po_dir = join_paths(meson.source_root(), 'po')
+po_dir = join_paths(meson.project_source_root(), 'po')
 
 subdir('src')
 subdir('po')
@@ -218,13 +218,13 @@ subdir('docs')
 
 test(
     'syntax-check',
-    find_program('@0@/build-aux/syntax-check'.format(meson.source_root())),
+    find_program('@0@/build-aux/syntax-check'.format(meson.project_source_root())),
     suite: 'style',
     env: [
-        'MESON_SOURCE_ROOT=@0@'.format(meson.source_root()),
+        'MESON_SOURCE_ROOT=@0@'.format(meson.project_source_root()),
     ],
 )
 
 
 meson.add_install_script('meson_post_install.py')
-meson.add_dist_script('build-aux/extra-dist', meson.source_root(), meson.build_root())
+meson.add_dist_script('build-aux/extra-dist', meson.project_source_root(), meson.project_build_root())
