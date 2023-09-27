@@ -25,5 +25,4 @@ gnome.yelp(
   sources: sources,
   media: media,
   symlink_media: true,
-  languages: linguas
 )
