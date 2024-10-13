@@ -33,6 +33,7 @@ add_global_arguments('-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_38', language : 
 
 glib_dep = dependency('glib-2.0', version: glib_min_version)
 gio_dep = dependency('gio-2.0', version: glib_min_version)
+gio_unix_dep = dependency('gio-unix-2.0', version: glib_min_version)
 gthread_dep = dependency('gthread-2.0', version: glib_min_version)
 gmodule_dep = dependency('gmodule-2.0', version: glib_min_version)
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: gdk_pixbuf_min_version)

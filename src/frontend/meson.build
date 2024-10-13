@@ -90,6 +90,7 @@ entangle_frontend_sources += entangle_frontend_enum_sources
 entangle_frontend_deps = [
   gthread_dep,
   gmodule_dep,
+  gio_unix_dep,
   gtk_dep,
   gst_dep,
   pango_dep,
