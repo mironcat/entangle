@@ -33,11 +33,13 @@
     <keyword>Photo</keyword>
   </keywords>
   <screenshots>
-    <screenshot type="default">https://entangle-photo.org/appdata/en_US/screenshots/camera-manager.png</screenshot>
+    <screenshot type="default">
+      <image>https://entangle-photo.org/appdata/en_US/screenshots/camera-manager.png</image>
+    </screenshot>
   </screenshots>
   <url type="homepage">https://entangle-photo.org/</url>
   <developer_name>The Entangle Photo project</developer_name>
-  <updatecontact>https://groups.google.com/forum/#!forum/entangle-devel</updatecontact>
+  <update_contact>https://groups.google.com/forum/#!forum/entangle-devel</update_contact>
   <content_rating type="oars-1.1"/>
   <releases>
   </releases>
