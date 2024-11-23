@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the entangle package.
 # Jan Kuparinen <copper_fin@hotmail.com>, 2023.
+# Ricky Tigg <ricky.tigg@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2023-03-24 19:20+0000\n"
-"Last-Translator: Jan Kuparinen <copper_fin@hotmail.com>\n"
+"PO-Revision-Date: 2024-11-23 09:38+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://translate.fedoraproject.org/projects/"
 "entangle/master/fi/>\n"
 "Language: fi\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.2\n"
+"X-Generator: Weblate 5.8.2\n"
 
 #: src/frontend/entangle-media-popup.c:257
 msgid "'Escape' to close"
@@ -406,12 +407,19 @@ msgid ""
 "are captured by the camera. Entangle also allows the settings of the camera "
 "to be changed from the computer."
 msgstr ""
+"Entangle voi laukaista kameran sulkimen uusien kuvien kaappaamiseksi. Kun "
+"kamera tukee, jatkuvasti päivittyvä esikatselu kohtauksesta voidaan näyttää "
+"ennen kaappaamista. Kuvat ladataan ja näytetään sitä mukaa, kun kamera on ne "
+"kaapannut. Entangle mahdollistaa myös kameran asetusten muuttamisen "
+"tietokoneelta käsin."
 
 #: src/org.entangle_photo.Manager.metainfo.xml:10
 msgid ""
 "Entangle is a program used to control digital cameras that are connected to "
 "the computer via USB."
 msgstr ""
+"Entangle on ohjelma, jolla ohjataan digitaalikameroita, jotka on kytketty "
+"tietokoneeseen USB:n kautta."
 
 #: src/org.entangle_photo.Manager.metainfo.xml:22
 msgid ""
@@ -419,142 +427,145 @@ msgid ""
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
 msgstr ""
+"Entangle on yhteensopiva useimpien Nikonin ja Canonin DSLR-kameroiden, "
+"joidenkin niiden kompaktikameramallien ja useiden muiden valmistajien "
+"kameroiden kanssa."
 
 #: src/frontend/entangle-camera-manager.c:1864
 msgid "Entangle: Camera autofocus failed"
-msgstr ""
+msgstr "Entangle: Kameran automaattitarkennus epäonnistui"
 
 #: src/frontend/entangle-camera-manager.c:1198
 msgid "Entangle: Camera connect failed"
-msgstr ""
+msgstr "Entangle: Kameran yhdistäminen epäonnistui"
 
 #: src/frontend/entangle-control-panel.c:88
 msgid "Entangle: Camera control update failed"
-msgstr ""
+msgstr "Entangle: Kameran ohjauksen päivitys epäonnistui"
 
 #: src/frontend/entangle-camera-manager.c:832
 #: src/frontend/entangle-camera-manager.c:1087
 msgid "Entangle: Camera load controls failed"
-msgstr ""
+msgstr "Entangle: Kameran lataussäätimet epäonnistuivat"
 
 #: src/frontend/entangle-camera-manager.c:1891
 msgid "Entangle: Camera manual focus failed"
-msgstr ""
+msgstr "Entangle: Kameran manuaalinen tarkennus epäonnistui"
 
 #: src/frontend/entangle-camera-manager.c:804
 msgid "Entangle: Operation failed"
-msgstr ""
+msgstr "Entangle: Toiminto epäonnistui"
 
 #: src/backend/entangle-camera.c:2980 src/backend/entangle-camera.c:3014
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
-msgstr ""
+msgstr "Manuaalisen tarkennuksen valinnan %d lukeminen epäonnistui: %s %d"
 
 #: src/backend/entangle-camera.c:2789 src/backend/entangle-camera.c:2797
 #, c-format
 msgid "Failed to set autofocus state: %s %d"
-msgstr ""
+msgstr "Automaattitarkennustilan asettaminen epäonnistui: %s %d"
 
 #: src/backend/entangle-camera.c:3341
 #, c-format
 msgid "Failed to set capture target: %s %d"
-msgstr ""
+msgstr "Kaappauskohteen asettaminen epäonnistui: %s %d"
 
 #: src/backend/entangle-camera.c:2963 src/backend/entangle-camera.c:2987
 #: src/backend/entangle-camera.c:3005 src/backend/entangle-camera.c:3021
 #, c-format
 msgid "Failed to set manual focus state: %s %d"
-msgstr ""
+msgstr "Manuaalisen tarkennuksen tilan asettaminen epäonnistui: %s %d"
 
 #: src/backend/entangle-camera.c:3172
 #, c-format
 msgid "Failed to set time state: %s %d"
-msgstr ""
+msgstr "Aikatilan asettaminen epäonnistui: %s %d"
 
 #: src/backend/entangle-camera.c:2621 src/backend/entangle-camera.c:2628
 #, c-format
 msgid "Failed to set viewfinder state: %s %d"
-msgstr ""
+msgstr "Näkymä-etsijän tilan asettaminen epäonnistui: %s %d"
 
 #: src/frontend/entangle-preferences-display.ui:145
 msgid "Filename pattern:"
-msgstr ""
+msgstr "Tiedostonimimalli:"
 
 #: src/frontend/entangle-preferences-display.ui:984
 msgid "Flip horizontally"
-msgstr ""
+msgstr "Käännä vaakasuoraan"
 
 #: src/frontend/entangle-preferences-display.ui:968
 msgid "Flip vertically"
-msgstr ""
+msgstr "Käännä pystysuoraan"
 
 #: src/frontend/entangle-help-overlay.ui:135
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr ""
+msgstr "Tarkennuksen hallinta (reaaliaikaisen esikatselun aikana)"
 
 #: src/frontend/entangle-help-overlay.ui:160
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "Tarkenna (iso askel)"
 
 #: src/frontend/entangle-help-overlay.ui:146
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "Tarkenna (pieni askel)"
 
 #: src/frontend/entangle-help-overlay.ui:167
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "Tarkenna pois (iso askel)"
 
 #: src/frontend/entangle-help-overlay.ui:153
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "Tarkenna pois (pieni askel)"
 
 #: src/frontend/entangle-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "Koko näyttö"
 
 #: src/frontend/entangle-preferences-display.c:1479
 msgid "Golden sections"
-msgstr ""
+msgstr "Kultaiset osat"
 
 #: src/frontend/entangle-preferences-display.ui:815
 msgid "Grid lines:"
-msgstr ""
+msgstr "Ruudukkolinjat:"
 
 #: src/frontend/entangle-preferences-display.ui:952
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "Korosta ylivalottuneita alueita"
 
 #: src/frontend/entangle-preferences-display.ui:928
 msgid "Highlight:"
-msgstr ""
+msgstr "Korosta:"
 
 #: src/frontend/entangle-preferences-display.c:1358
 msgid "ICC profiles (*.icc, *.icm)"
-msgstr ""
+msgstr "ICC-profiilit (*.icc, *.icm)"
 
 #: src/frontend/entangle-camera-picker.ui:198
 msgid "IP Address:"
-msgstr ""
+msgstr "IP-osoite:"
 
 #: src/frontend/entangle-preferences-display.c:1319
 #: src/frontend/entangle-preferences-display.ui:1014
 msgid "Image Viewer"
-msgstr ""
+msgstr "Kuvannäyttäjä"
 
 #: src/frontend/entangle-help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "Kuvan näyttö"
 
 #: src/frontend/entangle-camera-manager.c:2881
 msgid "Image histogram"
-msgstr ""
+msgstr "Kuvan histogrammi"
 
 #: src/frontend/entangle-preferences-display.c:1314
 #: src/frontend/entangle-preferences-display.ui:660
@@ -565,54 +576,55 @@ msgstr ""
 #, c-format
 msgid "Manual focus control not available with this camera"
 msgstr ""
+"Manuaalinen tarkennuksen säätö ei ole käytettävissä tämän kameran kanssa"
 
 #: src/backend/entangle-camera.c:2944
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
-msgstr ""
+msgstr "Manuaalinen tarkennuksen säätö ei ollut alue tai radio-vekotin"
 
 #: src/frontend/entangle-camera-manager.c:1889
 msgid "Manual focus failed"
-msgstr ""
+msgstr "Manuaalinen tarkennus epäonnistui"
 
 #: src/frontend/entangle-preferences-display.ui:757
 msgid "Mask opacity:"
-msgstr ""
+msgstr "Maskin läpinäkymättömyys:"
 
 #: src/frontend/entangle-script-simple.c:61
 msgid "Missing 'execute' method implementation"
-msgstr ""
+msgstr "Puuttuva 'execute'-menetelmän toteutus"
 
 #: src/frontend/entangle-preferences-display.ui:325
 msgid "Mode of operation:"
-msgstr ""
+msgstr "Toimintatapa:"
 
 #: src/frontend/entangle-camera-picker.c:515
 msgid "Model"
-msgstr ""
+msgstr "Malli"
 
 #: src/frontend/entangle-camera-manager.c:864
 msgid "Monitor"
-msgstr ""
+msgstr "Tarkkailu"
 
 #: src/frontend/entangle-preferences-display.ui:345
 msgid "Monitor profile:"
-msgstr ""
+msgstr "Tarkkailuprofiili:"
 
 #: src/frontend/entangle-camera-picker.ui:226
 msgid "Network camera"
-msgstr ""
+msgstr "Verkkokamera"
 
 #: src/frontend/entangle-camera-manager.c:1167
 #: src/frontend/entangle-camera-picker.c:134
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: src/frontend/entangle-camera-manager.c:1047
 #: src/frontend/entangle-camera-manager.c:1048
 #: src/frontend/entangle-control-panel.c:835
 msgid "No camera connected"
-msgstr ""
+msgstr "Ei kameraa kytkettynä"
 
 #: src/frontend/entangle-camera-picker.ui:157
 msgid ""
@@ -627,94 +639,104 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"Kameroita ei havaittu. Tarkista, että\n"
+"\n"
+" - <b>kaapelit</b> on kytketty\n"
+" - kamera on <b>päällä</b>\n"
+" - kamera on <b>oikeassa tilassa</b>\n"
+" - kamera on <b>tuettu</b> malli\n"
+"\n"
+"USB-kamerat tunnistetaan automaattisesti, kun\n"
+"ne on liitetty, kokeile muiden osalta päivitystä tai\n"
+"syötä verkkokameran IP-osoite"
 
 #: src/frontend/entangle-script-config.c:159
 msgid "No config options"
-msgstr ""
+msgstr "Ei määritysvaihtoehtoja"
 
 #: src/frontend/entangle-control-panel.c:843
 msgid "No controls available"
-msgstr ""
+msgstr "Ei säätimiä saatavilla"
 
 #: src/frontend/entangle-script-config.c:76
 msgid "No script"
-msgstr ""
+msgstr "Ei komentosarjaa"
 
 #: src/frontend/entangle-preferences-display.c:1465
 msgid "None"
-msgstr ""
+msgstr "Ei mitään"
 
 #: src/frontend/entangle-control-panel.c:309
 msgid "Off"
-msgstr ""
+msgstr "Pois"
 
 #: src/frontend/entangle-control-panel.c:309
 msgid "On"
-msgstr ""
+msgstr "Päällä"
 
 #: src/frontend/entangle-camera-manager.c:2554
 msgid "Open"
-msgstr ""
+msgstr "Avoinna"
 
 #: src/frontend/entangle-help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "Avaa uusi kameraikkuna"
 
 #: src/frontend/entangle-camera-manager.c:2559
 msgid "Open with"
-msgstr ""
+msgstr "Avaa kanssa"
 
 #: src/frontend/entangle-camera-manager.c:803
 #, c-format
 msgid "Operation: %s"
-msgstr ""
+msgstr "Toiminta: %s"
 
 #: src/frontend/entangle-preferences-display.ui:855
 msgid "Overlay earlier images"
-msgstr ""
+msgstr "Aiempien kuvien päällekkäisyys"
 
 #: src/frontend/entangle-preferences-display.ui:873
 msgid "Overlay layers:"
-msgstr ""
+msgstr "Päällekkäiset tasot:"
 
 #: src/frontend/entangle-preferences-display.c:993
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "Mallissa on oltava paikkamerkki 'XXXXXX'"
 
 #: src/frontend/entangle-preferences-display.ui:1063
 msgid "Perceptual"
-msgstr ""
+msgstr "Havaintokykyinen"
 
 #: src/frontend/entangle-preferences-display.c:1336
 #: src/frontend/entangle-preferences-display.ui:531
 msgid "Plugins"
-msgstr ""
+msgstr "Lisäosat"
 
 #: src/frontend/entangle-camera-picker.c:516
 msgid "Port"
-msgstr ""
+msgstr "Portti"
 
 #: src/frontend/entangle-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "Esittely"
 
 #: src/frontend/entangle-camera-manager.c:1721
 msgid "Preview"
-msgstr ""
+msgstr "Esikatselu"
 
 #: src/frontend/entangle-preferences-display.c:1473
 msgid "Quarters"
-msgstr ""
+msgstr "Neljännekset"
 
 #: src/frontend/entangle-preferences-display.ui:333
 msgid "RGB profile:"
-msgstr ""
+msgstr "RGB-profiili:"
 
 #: src/frontend/entangle-preferences-display.ui:1066
 msgid "Relative colourimetric"
-msgstr ""
+msgstr "Suhteellinen värimittari"
 
 #: src/frontend/entangle-preferences-display.ui:357
 msgid "Rendering intent:"
@@ -722,12 +744,12 @@ msgstr ""
 
 #: src/frontend/entangle-control-panel.c:769
 msgid "Reset controls"
-msgstr ""
+msgstr "Nollaa säätimet"
 
 #: src/frontend/entangle-camera-manager.c:1135
 #: src/frontend/entangle-camera-manager.c:2257
 msgid "Retry"
-msgstr ""
+msgstr "Yritä uudelleen"
 
 #: src/frontend/entangle-preferences-display.c:1470
 msgid "Rule of 3rds"
@@ -739,15 +761,15 @@ msgstr ""
 
 #: src/frontend/entangle-preferences-display.ui:1069
 msgid "Saturation"
-msgstr ""
+msgstr "Kylläisyys"
 
 #: src/frontend/entangle-dpms.c:57
 msgid "Screen blanking is not available on this display"
-msgstr ""
+msgstr "Näytön tyhjennys ei ole käytettävissä tässä näytössä"
 
 #: src/frontend/entangle-dpms.c:69
 msgid "Screen blanking is not implemented on this platform"
-msgstr ""
+msgstr "Näytön tyhjennys ei ole toteutettu tällä alustalla"
 
 #: src/frontend/entangle-camera-manager.c:1659
 msgid "Script"
@@ -755,32 +777,32 @@ msgstr ""
 
 #: src/frontend/entangle-camera-picker.ui:97
 msgid "Select a camera to connect to:"
-msgstr ""
+msgstr "Valitse kamera, johon yhdistää:"
 
 #: src/frontend/entangle-camera-manager.c:1493
 msgid "Select a folder"
-msgstr ""
+msgstr "Valitse kansio"
 
 #: src/frontend/entangle-camera-manager.c:2598
 msgid "Select application..."
-msgstr ""
+msgstr "Valitse sovellus..."
 
 #: src/frontend/entangle-camera-picker.ui:8
 msgid "Select camera - Entangle"
-msgstr ""
+msgstr "Valitse kamera - Entangle"
 
 #: src/frontend/entangle-camera-manager.c:1823
 msgid "Set clock"
-msgstr ""
+msgstr "Aseta kello"
 
 #: src/frontend/entangle-preferences-display.ui:630
 msgid "Show linear histogram"
-msgstr ""
+msgstr "Näytä lineaarinen histogrammi"
 
 #: src/frontend/entangle-help-overlay.ui:115
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr ""
+msgstr "Suljinohjaus"
 
 #: src/frontend/entangle-camera-manager.c:2546
 msgid "Tear off"
@@ -797,38 +819,40 @@ msgstr ""
 
 #: src/org.entangle_photo.Manager.metainfo.xml:39
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Entangle Photo -projekti"
 
 #: src/frontend/entangle-camera-manager.c:1164
 msgid ""
 "The camera cannot be opened because it is mounted as a filesystem. Do you "
 "wish to umount it now?"
 msgstr ""
+"Kameraa ei voi avata, koska se on liitetty tiedostojärjestelmään. Haluatko "
+"irrota sen nyt?"
 
 #: src/frontend/entangle-camera-manager.c:652
 #: src/frontend/entangle-camera-manager.c:655
 msgid "This camera does not support image capture"
-msgstr ""
+msgstr "Tämä kamera ei tue kuvankaappausta"
 
 #: src/frontend/entangle-camera-manager.c:661
 #: src/frontend/entangle-camera-manager.c:664
 msgid "This camera does not support image preview"
-msgstr ""
+msgstr "Tämä kamera ei tue kuvan esikatselua"
 
 #: src/backend/entangle-camera.c:3153
 #, c-format
 msgid "Time setting not available with this camera"
-msgstr ""
+msgstr "Aika-asetus ei ole käytettävissä tämän kameran kanssa"
 
 #: src/backend/entangle-camera.c:3332
 #, c-format
 msgid "Time setting was not a choice widget"
-msgstr ""
+msgstr "Aika-asetus ei ollut valinnainen vekotin"
 
 #: src/backend/entangle-camera.c:3165
 #, c-format
 msgid "Time setting was not a date widget"
-msgstr ""
+msgstr "Aika-asetus ei ollut päivämäärä-vekotin"
 
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
@@ -853,34 +877,34 @@ msgstr ""
 #: src/backend/entangle-camera.c:1060
 #, c-format
 msgid "Unable to capture image: %s"
-msgstr ""
+msgstr "Kuvaa ei voi kaapata: %s"
 
 #: src/backend/entangle-camera.c:1191
 #, c-format
 msgid "Unable to capture preview: %s"
-msgstr ""
+msgstr "Esikatselua ei voi kaapata: %s"
 
 #: src/frontend/entangle-camera-manager.c:1123
 #: src/frontend/entangle-camera-manager.c:2245
 #, c-format
 msgid "Unable to connect to camera: %s"
-msgstr ""
+msgstr "Ei voida muodostaa yhteyttä kameraan: %s"
 
 #: src/backend/entangle-camera.c:1500
 #, c-format
 msgid "Unable to delete file: %s"
-msgstr ""
+msgstr "Tiedostoa %s ei voi poistaa"
 
 #: src/backend/entangle-camera.c:2265
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
-msgstr ""
+msgstr "Kameran ohjauskokoonpanoa ei voi noutaa: %s"
 
 #: src/backend/entangle-camera.c:1846 src/backend/entangle-camera.c:2005
 #: src/backend/entangle-camera.c:2144
 #, c-format
 msgid "Unable to fetch widget name"
-msgstr ""
+msgstr "Nimi-vekotinta ei voi noutaa"
 
 #: src/backend/entangle-camera.c:1840 src/backend/entangle-camera.c:1999
 #: src/backend/entangle-camera.c:2138 src/backend/entangle-camera.c:2601
@@ -888,54 +912,54 @@ msgstr ""
 #: src/backend/entangle-camera.c:3159 src/backend/entangle-camera.c:3326
 #, c-format
 msgid "Unable to fetch widget type"
-msgstr ""
+msgstr "Tyyppi-vekotinta ei voi noutaa"
 
 #: src/backend/entangle-camera.c:1351
 #, c-format
 msgid "Unable to get camera file: %s"
-msgstr ""
+msgstr "Kameratiedostoa ei voi saada: %s"
 
 #: src/backend/entangle-camera.c:1197 src/backend/entangle-camera.c:1358
 #, c-format
 msgid "Unable to get file data: %s"
-msgstr ""
+msgstr "Tiedoston tietoja ei voi saada: %s"
 
 #: src/backend/entangle-camera.c:1203
 #, c-format
 msgid "Unable to get filename: %s"
-msgstr ""
+msgstr "Tiedostonimeä ei voi saada: %s"
 
 #: src/backend/entangle-camera.c:693
 #, c-format
 msgid "Unable to initialize camera: %s"
-msgstr ""
+msgstr "Kameraa ei voi alustaa: %s"
 
 #: src/backend/entangle-camera.c:2256
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "Säätimiä ei voi ladata, kameraa ei ole avattu"
 
 #: src/backend/entangle-camera.c:2418 src/backend/entangle-camera.c:2636
 #: src/backend/entangle-camera.c:2805 src/backend/entangle-camera.c:2996
 #: src/backend/entangle-camera.c:3180 src/backend/entangle-camera.c:3349
 #, c-format
 msgid "Unable to save camera control configuration: %s"
-msgstr ""
+msgstr "Kameran ohjauskokoonpanoa ei voi tallentaa: %s"
 
 #: src/backend/entangle-camera.c:2399
 #, c-format
 msgid "Unable to save controls, camera is not configurable"
-msgstr ""
+msgstr "Säätimiä ei voi tallentaa, kameraa ei ole määritettävissä"
 
 #: src/backend/entangle-camera.c:2393
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr ""
+msgstr "Säätimiä ei voi tallentaa, kameraa ei ole avattu"
 
 #: src/backend/entangle-camera.c:1646
 #, c-format
 msgid "Unable to wait for events: %s"
-msgstr ""
+msgstr "Tapahtumia ei voida odottaa: %s"
 
 #: src/frontend/entangle-script.c:95
 msgid "Untitled script"
@@ -943,144 +967,144 @@ msgstr ""
 
 #: src/frontend/entangle-preferences-display.ui:839
 msgid "Use embedded preview from raw files"
-msgstr ""
+msgstr "Käytä upotettua esikatselua raakatiedostoista"
 
 #: src/frontend/entangle-preferences-display.ui:182
 msgid "Use preview output as capture image"
-msgstr ""
+msgstr "Käytä esikatselutulostetta kaappauskuvana"
 
 #: src/backend/entangle-camera.c:2595
 #, c-format
 msgid "Viewfinder control not available with this camera"
-msgstr ""
+msgstr "Näkymä-etsijäsäätin ei ole saatavilla tämän kameran kanssa"
 
 #: src/backend/entangle-camera.c:2607
 #, c-format
 msgid "Viewfinder control was not a toggle widget"
-msgstr ""
+msgstr "Näkymä-etsijäsäädin ei ollut vaihto-vekotin"
 
 #: src/frontend/entangle-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "Ikkunan näyttö"
 
 #: src/frontend/entangle-camera-manager.c:1168
 #: src/frontend/entangle-camera-picker.c:134
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: src/frontend/entangle-camera-manager-menus.ui:97
 msgid "Zoom _In"
-msgstr ""
+msgstr "_Lähennä"
 
 #: src/frontend/entangle-camera-manager-menus.ui:101
 msgid "Zoom _Out"
-msgstr ""
+msgstr "L_oitonne"
 
 #: src/frontend/entangle-help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Zoom best"
-msgstr ""
+msgstr "Zoom paras"
 
 #: src/frontend/entangle-help-overlay.ui:44
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Lähenne"
 
 #: src/frontend/entangle-help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "Zoom normaali"
 
 #: src/frontend/entangle-help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Loitonne"
 
 #: src/frontend/entangle-camera-manager-menus.ui:46
 msgid "_About"
-msgstr ""
+msgstr "_Aiheesta"
 
 #: src/frontend/entangle-camera-manager.c:1494
 msgid "_Cancel"
-msgstr ""
+msgstr "_Peru"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Connect…"
-msgstr ""
+msgstr "_Yhdistä…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:26
 msgid "_Disconnect…"
-msgstr ""
+msgstr "_Katkaise yhteys…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:62
 msgid "_Fullscreen"
-msgstr ""
+msgstr "Koko _näyttö"
 
 #: src/frontend/entangle-camera-manager-menus.ui:32
 msgid "_Help"
-msgstr ""
+msgstr "_Ohje"
 
 #: src/frontend/entangle-camera-manager-menus.ui:38
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "_Pikanäppäimet"
 
 #: src/frontend/entangle-camera-manager-menus.ui:42
 msgid "_Manual"
-msgstr ""
+msgstr "_Käsikirja"
 
 #: src/frontend/entangle-camera-manager-menus.ui:6
 msgid "_New window"
-msgstr ""
+msgstr "_Uusi ikkuna"
 
 #: src/frontend/entangle-camera-manager-menus.ui:91
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Normaali koko"
 
 #: src/frontend/entangle-camera-manager.c:1495
 msgid "_Open"
-msgstr ""
+msgstr "_Avaa"
 
 #: src/frontend/entangle-camera-manager-menus.ui:10
 msgid "_Preferences…"
-msgstr ""
+msgstr "Asetukset"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "_Presentation"
-msgstr ""
+msgstr "_Esitys"
 
 #: src/frontend/entangle-camera-manager-menus.ui:53
 msgid "_Quit"
-msgstr ""
+msgstr "_Poistu"
 
 #: src/frontend/entangle-camera-manager-menus.ui:16
 msgid "_Select session…"
-msgstr ""
+msgstr "_Valitse istunto…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:72
 msgid "_Settings"
-msgstr ""
+msgstr "Asetukset"
 
 #: src/frontend/entangle-camera-manager-menus.ui:34
 msgid "_Supported cameras"
-msgstr ""
+msgstr "_Tuetut kamerat"
 
 #: src/frontend/entangle-camera-manager-menus.ui:78
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "_Synkronoi kaappaus"
 
 #: src/frontend/entangle-camera-support.c:184
 msgid "capture"
-msgstr ""
+msgstr "Kaappaus"
 
 #: src/frontend/entangle-camera-support.ui:65
 msgid "label"
-msgstr ""
+msgstr "Nimiö"
 
 #: src/frontend/entangle-camera-support.c:190
 msgid "preview"
-msgstr ""
+msgstr "esikatselu"
 
 #: src/frontend/entangle-camera-support.c:196
 msgid "settings"
-msgstr ""
+msgstr "Asetukset"
