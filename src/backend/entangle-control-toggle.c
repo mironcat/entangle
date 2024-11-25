@@ -128,7 +128,8 @@ entangle_control_toggle_new(const char *path,
 
 static void
 entangle_control_toggle_init(EntangleControlToggle *control G_GNUC_UNUSED)
-{}
+{
+}
 
 /*
  * Local variables:

@@ -187,7 +187,8 @@ entangle_camera_file_new(const char *folder, const char *name)
 
 static void
 entangle_camera_file_init(EntangleCameraFile *file G_GNUC_UNUSED)
-{}
+{
+}
 
 /**
  * entangle_camera_file_get_folder:

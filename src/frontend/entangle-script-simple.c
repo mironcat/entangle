@@ -130,7 +130,8 @@ entangle_script_simple_class_init(EntangleScriptSimpleClass *klass)
 
 static void
 entangle_script_simple_init(EntangleScriptSimple *script G_GNUC_UNUSED)
-{}
+{
+}
 
 /*
  * Local variables:

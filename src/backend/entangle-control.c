@@ -233,7 +233,8 @@ entangle_control_new(const gchar *path,
 
 static void
 entangle_control_init(EntangleControl *control G_GNUC_UNUSED)
-{}
+{
+}
 
 gint
 entangle_control_get_id(EntangleControl *control)

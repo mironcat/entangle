@@ -145,7 +145,8 @@ entangle_video_new_source(GstBaseSrc *source)
 
 static void
 entangle_video_init(EntangleVideo *video G_GNUC_UNUSED)
-{}
+{
+}
 
 /**
  * entangle_video_get_source:

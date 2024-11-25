@@ -1009,7 +1009,8 @@ do_entangle_camera_progress_start(EntangleProgress *iface,
 static void
 do_entangle_camera_progress_update(EntangleProgress *iface G_GNUC_UNUSED,
                                    float current G_GNUC_UNUSED)
-{}
+{
+}
 
 static void
 do_entangle_camera_progress_stop(EntangleProgress *iface)

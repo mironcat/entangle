@@ -347,7 +347,8 @@ entangle_image_histogram_new(void)
 
 static void
 entangle_image_histogram_init(EntangleImageHistogram *histogram G_GNUC_UNUSED)
-{}
+{
+}
 
 static void
 entangle_image_histogram_image_pixbuf_notify(GObject *image G_GNUC_UNUSED,

@@ -172,7 +172,8 @@ entangle_camera_automata_new(void)
 
 static void
 entangle_camera_automata_init(EntangleCameraAutomata *automata G_GNUC_UNUSED)
-{}
+{
+}
 
 typedef struct
 {

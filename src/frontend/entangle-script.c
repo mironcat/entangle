@@ -99,7 +99,8 @@ entangle_script_class_init(EntangleScriptClass *klass)
 
 static void
 entangle_script_init(EntangleScript *script G_GNUC_UNUSED)
-{}
+{
+}
 
 /**
  * entangle_script_get_title:

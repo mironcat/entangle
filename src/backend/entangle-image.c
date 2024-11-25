@@ -154,7 +154,8 @@ entangle_image_new_pixbuf(GdkPixbuf *pixbuf)
 
 static void
 entangle_image_init(EntangleImage *image G_GNUC_UNUSED)
-{}
+{
+}
 
 /**
  * entangle_image_get_pixbuf:

@@ -350,7 +350,8 @@ entangle_colour_profile_init(EntangleColourProfile *profile)
 static void
 entangle_colour_profile_transform_init(
     EntangleColourProfileTransform *transform G_GNUC_UNUSED)
-{}
+{
+}
 
 /**
  * entangle_colour_profile_filename:

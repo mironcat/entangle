@@ -82,7 +82,8 @@ entangle_control_group_new(const gchar *path,
 
 static void
 entangle_control_group_init(EntangleControlGroup *control G_GNUC_UNUSED)
-{}
+{
+}
 
 /**
  * entangle_control_group_add:

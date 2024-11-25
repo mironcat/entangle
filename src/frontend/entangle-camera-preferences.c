@@ -125,7 +125,8 @@ entangle_camera_preferences_new(void)
 
 static void
 entangle_camera_preferences_init(EntangleCameraPreferences *prefs G_GNUC_UNUSED)
-{}
+{
+}
 
 /**
  * entangle_camera_preferences_set_camera:

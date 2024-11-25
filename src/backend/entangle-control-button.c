@@ -73,7 +73,8 @@ entangle_control_button_new(const char *path,
 
 static void
 entangle_control_button_init(EntangleControlButton *control G_GNUC_UNUSED)
-{}
+{
+}
 
 /*
  * Local variables:

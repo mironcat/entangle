@@ -187,7 +187,8 @@ entangle_control_range_new(const char *path,
 
 static void
 entangle_control_range_init(EntangleControlRange *control G_GNUC_UNUSED)
-{}
+{
+}
 
 float
 entangle_control_range_get_min(EntangleControlRange *control)

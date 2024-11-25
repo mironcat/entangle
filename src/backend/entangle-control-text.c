@@ -155,7 +155,8 @@ entangle_control_text_new(const char *path,
 
 static void
 entangle_control_text_init(EntangleControlText *control G_GNUC_UNUSED)
-{}
+{
+}
 
 /*
  * Local variables:

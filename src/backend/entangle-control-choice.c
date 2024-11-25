@@ -144,7 +144,8 @@ entangle_control_choice_new(const char *path,
 
 static void
 entangle_control_choice_init(EntangleControlChoice *control G_GNUC_UNUSED)
-{}
+{
+}
 
 void
 entangle_control_choice_add_entry(EntangleControlChoice *control,

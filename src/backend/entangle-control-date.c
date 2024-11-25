@@ -128,7 +128,8 @@ entangle_control_date_new(const char *path,
 
 static void
 entangle_control_date_init(EntangleControlDate *control G_GNUC_UNUSED)
-{}
+{
+}
 
 /*
  * Local variables:
