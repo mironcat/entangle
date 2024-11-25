@@ -1,0 +1,9 @@
+FROM fedora:41
+
+RUN dnf install -y clang clang-tools-extra glib2-devel libgphoto2-devel \
+     libgexiv2-devel libgudev1-devel libpeas1-devel lcms2-devel \
+     gtk3-devel gobject-introspection-devel dbus-glib-devel \
+     intltool libX11-devel libXext-devel LibRaw-devel itstool \
+     gstreamer1-devel gstreamer1-plugins-base-devel meson gtk-doc \
+     make git rpm-build fedora-rpm-macros appstream && \
+  dnf clean all

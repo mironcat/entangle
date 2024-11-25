@@ -1,9 +1,9 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get install -y gcc libglib2.0-dev libgdk-pixbuf2.0-dev \
     libgphoto2-dev libgexiv2-dev libgudev-1.0-dev libpeas-dev liblcms2-dev \
-    libgtk-3-dev libgirepository1.0-dev libdbus-glib-1-dev \
-    libraw-dev gobject-introspection meson gtk-doc-tools \
+    libgtk-3-dev libgirepository1.0-dev libdbus-glib-1-dev gettext \
+    libraw-dev gobject-introspection meson gtk-doc-tools itstool \
     libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
     git make appstream && apt-get autoclean -y

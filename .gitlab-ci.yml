@@ -28,35 +28,35 @@ stages:
     - ninja -C build dist
     - if [ test -f /usr/bin/rpmbuild ]; then rpmbuild --nodeps --define "_sourcedir `pwd`" -ta --clean entangle*.tar.xz ; fi
 
-container-build-fedora31:
+container-build-fedora:
   <<: *container-job-definition
   variables:
-    NAME: build-fedora31
+    NAME: build-fedora
 
-container-build-ubuntu2004:
+container-build-ubuntu:
   <<: *container-job-definition
   variables:
-    NAME: build-ubuntu2004
+    NAME: build-ubuntu
 
-build-fedora31:
+build-fedora:
   <<: *build-job-definition
   variables:
-    NAME: build-fedora31
+    NAME: build-fedora
 
-build-ubuntu2004:
+build-ubuntu:
   <<: *build-job-definition
   variables:
-    NAME: build-ubuntu2004
+    NAME: build-ubuntu
 
 syntax-check:
   stage: style
-  image: ${CI_REGISTRY_IMAGE}/build-fedora31:latest
+  image: ${CI_REGISTRY_IMAGE}/build-fedora:latest
   script:
     - make syntax-check
 
 clang-format:
   stage: style
-  image: ${CI_REGISTRY_IMAGE}/build-fedora31:latest
+  image: ${CI_REGISTRY_IMAGE}/build-fedora:latest
   script:
     - meson build
     - ninja -C build clang-format
