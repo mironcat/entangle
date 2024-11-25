@@ -11,12 +11,13 @@
 # Daniel Berrangé <dan-zanata@berrange.com>, 2015. #zanata
 # Máximo Castañeda Riloba <mcrcctm@gmail.com>, 2016. #zanata
 # Emilio Herrera <ehespinosa57@gmail.com>, 2020.
+# José M. Ciordia <ciordia@gmail.com>, 2024
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-07-19 14:28+0000\n"
+"PO-Revision-Date: 2024-11-09 16:43+0100\n"
 "Last-Translator: Emilio Herrera <ehespinosa57@gmail.com>\n"
 "Language-Team: Spanish <https://translate.fedoraproject.org/projects/"
 "entangle/master/es/>\n"
@@ -40,7 +41,7 @@ msgid "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
 msgstr "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
 
 msgid "1.37:1 - 35mm movie"
-msgstr "1.37:1 - pelicula de 35mm"
+msgstr "1.37:1 - película de 35mm"
 
 msgid "1.44:1 - IMAX"
 msgstr "1.44:1 - IMAX"
@@ -223,14 +224,14 @@ msgstr "No puede previsualizar una imagen mientras no se abra"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "No se pueden esperar eventos mientras no esté abierta"
 
 msgid "Capture"
 msgstr "Capturar"
 
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "Capturar una imagen única"
 
 msgid "Capture an image"
 msgstr "Capturar una imagen"
@@ -240,7 +241,7 @@ msgid "Capture target setting not available with this camera"
 msgstr "No se puede elegir el destino de la captura con esta cámara"
 
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr ""
+msgstr "Capturar;Cámara;Conectado;Foto;"
 
 msgid "Center lines"
 msgstr "Centrar líneas"
@@ -260,7 +261,7 @@ msgstr ""
 
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "Cerrar todas las ventanas y salir"
 
 msgid "Color Management"
 msgstr "Gestión del color"
@@ -276,7 +277,7 @@ msgstr "Vista previa de captura continua"
 
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "Controlando la aplicación"
 
 #, c-format
 msgid "Controls not available for this camera"
@@ -284,7 +285,7 @@ msgstr "Controles no disponibles para esta cámara"
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "Los controles no están disponibles cuando la cámara está cerrada"
 
 msgid "Delete"
 msgstr "Eliminar"
@@ -300,7 +301,7 @@ msgstr "Mostrar el punto de enfoque durante la previsualización"
 
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "Mostrar el manual de ayuda"
 
 msgid "Entangle"
 msgstr "Entangle"
@@ -383,34 +384,34 @@ msgid "Filename pattern:"
 msgstr "Patrón de nombres:"
 
 msgid "Flip horizontally"
-msgstr ""
+msgstr "Girar horizontalmente"
 
 msgid "Flip vertically"
-msgstr ""
+msgstr "Girar verticalmente"
 
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr ""
+msgstr "Control de enfoque (durante la previsualización)"
 
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "Enfocar adentro (paso grande)"
 
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "Enfocar adentro (paso pequeño)"
 
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "Enfocar afuera (paso grande)"
 
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "Enfocar afuera (paso pequeño)"
 
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "Pantalla completa"
 
 msgid "Golden sections"
 msgstr "Secciones doradas"
@@ -419,7 +420,7 @@ msgid "Grid lines:"
 msgstr "Líneas de la cuadrícula:"
 
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "Destacar áreas sobreexpuestas"
 
 msgid "Highlight:"
 msgstr "Destacado:"
@@ -428,14 +429,14 @@ msgid "ICC profiles (*.icc, *.icm)"
 msgstr "Perfiles ICC (*.icc, *.icm)"
 
 msgid "IP Address:"
-msgstr ""
+msgstr "Dirección IP"
 
 msgid "Image Viewer"
 msgstr "Visor de imágenes"
 
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "Ventana de visualización"
 
 msgid "Image histogram"
 msgstr "Historama de imagen"
@@ -474,7 +475,7 @@ msgid "Monitor profile:"
 msgstr "Perfil de monitor:"
 
 msgid "Network camera"
-msgstr ""
+msgstr "Cámara en red"
 
 msgid "No"
 msgstr "No"
@@ -494,6 +495,16 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"No se han detectado cámaras, comprobar que\n"
+"\n"
+"  - los <b>cables</b> están conectados\n"
+"  - la cámara está <b>encendida</b>\n"
+"  - la cámara está en el <b>modo correcto</b>\n"
+"  - la cámara es de un modelo <b>soportado</b>\n"
+"\n"
+" Las cámaras USB se detectan automáticamente\n"
+"cuando se enchufan, para las demás intentar refrescar\n"
+"o poner una dirección IP de cámara en red"
 
 msgid "No config options"
 msgstr "No hay opciones de configuración"
@@ -514,11 +525,11 @@ msgid "On"
 msgstr "Encendido"
 
 msgid "Open"
-msgstr ""
+msgstr "Abrir"
 
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "Abrir una nueva ventana de cámara"
 
 msgid "Open with"
 msgstr "Abrir con"
@@ -534,7 +545,7 @@ msgid "Overlay layers:"
 msgstr "Superponer capas:"
 
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "El patrón debe contener el marcador de posición 'XXXXXX'"
 
 msgid "Perceptual"
 msgstr "Perceptivo"
@@ -547,7 +558,7 @@ msgstr "Puerto"
 
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "Presentación"
 
 msgid "Preview"
 msgstr "Vista previa"
@@ -608,10 +619,10 @@ msgstr "Mostrar histograma lineal"
 
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr ""
+msgstr "Control del obturador"
 
 msgid "Tear off"
-msgstr ""
+msgstr "Arrancar"
 
 msgid "Tethered Camera Control & Capture"
 msgstr "Control y captura de cámara conectada"
@@ -620,12 +631,14 @@ msgid "Tethered Camera Control &amp; Capture"
 msgstr "Control y captura de cámara conectada"
 
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "El proyecto Entangle Photo"
 
 msgid ""
 "The camera cannot be opened because it is mounted as a filesystem. Do you "
 "wish to umount it now?"
 msgstr ""
+"La cámara no se puede abrir porque está montada como un archivo de sistema. "
+"¿Quieres montarla ahora?"
 
 msgid "This camera does not support image capture"
 msgstr "Esta cámara no soporta la captura de imágenes"
@@ -647,19 +660,19 @@ msgstr "El control de establecimiento de la hora no era un elemento de fecha"
 
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
-msgstr ""
+msgstr "Alternar la escala del histograma"
 
 msgctxt "shortcut window"
 msgid "Toggle image mask"
-msgstr ""
+msgstr "Alternar la máscara de imagen"
 
 msgctxt "shortcut window"
 msgid "Toggle live preview"
-msgstr ""
+msgstr "Alternar la previsualización en directo"
 
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "Alternar el resaltado de la sobreexposición"
 
 #, c-format
 msgid "Unable to capture image: %s"
@@ -707,7 +720,7 @@ msgstr "No se puede inicializar la cámara: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "No se pueden cargar los controles, la cámara no está abierta"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
@@ -719,7 +732,7 @@ msgstr "Incapaz de guardar controles, la cámara no es configurable"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr ""
+msgstr "No se pueden guardar los controles, la cámara no está abierta"
 
 #, c-format
 msgid "Unable to wait for events: %s"
@@ -744,86 +757,86 @@ msgstr "El control del visor no era un widget palanca"
 
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "Ventana de visualizació"
 
 msgid "Yes"
 msgstr "Sí"
 
 msgid "Zoom _In"
-msgstr ""
+msgstr "Acercar zoom"
 
 msgid "Zoom _Out"
-msgstr ""
+msgstr "Alejar zoom"
 
 msgctxt "shortcut window"
 msgid "Zoom best"
-msgstr ""
+msgstr "Mejor zoom"
 
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Acercar zoom"
 
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "Zoom normal"
 
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Alejar zoom"
 
 msgid "_About"
-msgstr ""
+msgstr "_Acerca de"
 
 msgid "_Cancel"
 msgstr "_Cancelar"
 
 msgid "_Connect…"
-msgstr ""
+msgstr "_Conectar…"
 
 msgid "_Disconnect…"
-msgstr ""
+msgstr "_Desconectar…"
 
 msgid "_Fullscreen"
-msgstr ""
+msgstr "Pantalla completa"
 
 msgid "_Help"
 msgstr "_Ayuda"
 
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "Atajos de teclado"
 
 msgid "_Manual"
-msgstr ""
+msgstr "_Manual"
 
 msgid "_New window"
-msgstr ""
+msgstr "_Nueva ventana"
 
 msgid "_Normal Size"
-msgstr ""
+msgstr "Tamaño _normal"
 
 msgid "_Open"
 msgstr "_Abrir"
 
 msgid "_Preferences…"
-msgstr ""
+msgstr "_Preferencias…"
 
 msgid "_Presentation"
-msgstr ""
+msgstr "_Presentación"
 
 msgid "_Quit"
-msgstr ""
+msgstr "Salir"
 
 msgid "_Select session…"
-msgstr ""
+msgstr "_Seleccionar sesión"
 
 msgid "_Settings"
-msgstr ""
+msgstr "Preferencia_s"
 
 msgid "_Supported cameras"
-msgstr ""
+msgstr "Cámaras _soportadas"
 
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "_Sincronizar captura"
 
 msgid "capture"
 msgstr "capturar"
