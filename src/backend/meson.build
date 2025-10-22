@@ -121,6 +121,7 @@ entangle_backend_sources += entangle_backend_enum_sources
 entangle_backend_deps = [
   glib_dep,
   gio_dep,
+  girepository_dep,
   gthread_dep,
   gdk_pixbuf_dep,
   gst_dep,

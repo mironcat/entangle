@@ -21,6 +21,7 @@ pango_min_version = '>= 1.40.11'
 gphoto2_min_version = '>= 2.5.0'
 gudev_min_version = '>= 145'
 gobject_introspection_min_version = '>= 1.54.0'
+girepository2_min_version = '>= 2.86'
 lcms2_min_version = '>= 2.0'
 libpeas_min_version = '>= 1.2.0'
 gexiv2_min_version = '>= 0.10'
@@ -43,10 +44,10 @@ pango_dep = dependency('pango', version: pango_min_version)
 pango_cairo_dep = dependency('pangocairo', version: pango_min_version)
 gphoto2_dep = dependency('libgphoto2', version: gphoto2_min_version)
 gudev_dep = dependency('gudev-1.0', version: gudev_min_version)
-gobject_introspection_dep = dependency('gobject-introspection-1.0', version: gobject_introspection_min_version)
 lcms2_dep = dependency('lcms2', version: lcms2_min_version)
 libpeas_dep = dependency('libpeas-1.0', version: libpeas_min_version)
 libpeas_gtk_dep = dependency('libpeas-gtk-1.0', version: libpeas_min_version)
+pygobject_dep = dependency('pygobject-3.0', required: false)
 gexiv2_dep = dependency('gexiv2-0.16', version: gexiv2_016_min_version, required: false)
 if not gexiv2_dep.found()
     gexiv2_dep = dependency('gexiv2', version: gexiv2_min_version)
@@ -58,6 +59,21 @@ xext_dep = dependency('xext', version: xext_min_version)
 libraw_dep = cc.find_library('raw_r')
 gst_dep = dependency('gstreamer-1.0', version: gst_min_version)
 gst_video_dep = dependency('gstreamer-video-1.0', version: gst_min_version)
+
+# pygobject 3.52.x switched from libgirepository-1.0 to libgirepository-2.0,
+# and libpeas 1.38 did the same.
+# pygobject -dev files might not always be installed, but libpeas
+# 1.36 might have that change backported by distros, so check both.
+if (
+  libpeas_dep.version().version_compare('>=1.38')
+  or (pygobject_dep.found() and pygobject_dep.version().version_compare('>=3.52'))
+)
+  girepository_dep = dependency('girepository-2.0', version: girepository2_min_version)
+  girepository_cflags = ['-DGIREPOSITORY_MAJOR_VERSION=2']
+else
+  girepository_dep = dependency('gobject-introspection-1.0', version: gobject_introspection_min_version)
+  girepository_cflags = ['-DGIREPOSITORY_MAJOR_VERSION=1']
+endif
 
 gnome = import('gnome')
 i18n = import('i18n')

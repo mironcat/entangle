@@ -33,6 +33,12 @@
 #include "entangle-preferences-display.h"
 #include "entangle-preferences.h"
 
+#if GIREPOSITORY_MAJOR_VERSION >= 2
+#include <girepository/girepository.h>
+#else
+#include <girepository.h>
+#endif
+
 /**
  * SECTION:entangle-application
  * @Short_description: Global application state base class
@@ -55,6 +61,7 @@ struct _EntangleApplication
     EntangleHelpAbout *about;
     EntangleCameraSupport *devices;
 
+    GIRepository *giRepository;
     PeasEngine *pluginEngine;
     PeasExtensionSet *pluginExt;
 };
@@ -149,6 +156,7 @@ entangle_application_finalize(GObject *object)
         g_object_unref(app->pluginEngine);
     if (app->pluginExt)
         g_object_unref(app->pluginExt);
+    g_clear_object(&app->giRepository);
 
     G_OBJECT_CLASS(entangle_application_parent_class)->finalize(object);
 }
@@ -470,7 +478,13 @@ entangle_application_init(EntangleApplication *app)
     app->activeCameras = entangle_camera_list_new_active();
     app->supportedCameras = entangle_camera_list_new_supported();
 
-    g_irepository_require(g_irepository_get_default(), "Peas", "1.0", 0, NULL);
+#if GIREPOSITORY_MAJOR_VERSION >= 2
+    app->giRepository = gi_repository_dup_default();
+    gi_repository_require(app->giRepository, "Peas", "1.0", 0, NULL);
+#else
+    app->giRepository = g_object_ref(g_irepository_get_default());
+    g_irepository_require(app->giRepository, "Peas", "1.0", 0, NULL);
+#endif
 
     userdir =
         g_build_filename(g_get_user_config_dir(), "entangle/plugins", NULL);

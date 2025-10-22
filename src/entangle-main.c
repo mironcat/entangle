@@ -21,7 +21,11 @@
 #include <locale.h>
 #include <stdio.h>
 
+#if GIREPOSITORY_MAJOR_VERSION >= 2
+#include <girepository/girepository.h>
+#else
 #include <girepository.h>
+#endif
 #include <glib/gi18n.h>
 #include <gst/gst.h>
 #include <gtk/gtk.h>
@@ -80,7 +84,14 @@ main(int argc, char **argv)
     gst_init(NULL, NULL);
 
     if (ins) {
+#if GIREPOSITORY_MAJOR_VERSION >= 2
+        GStrv args = g_strsplit(ins, ",", 2);
+
+        gi_repository_dump(args[0], args[1], NULL);
+        g_strfreev(args);
+#else
         g_irepository_dump(ins, NULL);
+#endif
         return 0;
     }
 
