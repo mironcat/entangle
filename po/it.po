@@ -9,13 +9,14 @@
 # Fabio Tavano <tavano.fabio@gmail.com>, 2013
 # Michele Falappi <nittalope@gmail.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
+# Salvatore Cocuzza <info@salvatorecocuzza.it>, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2020-04-27 10:40+0000\n"
-"Last-Translator: Michele Falappi <nittalope@gmail.com>\n"
+"PO-Revision-Date: 2025-01-11 15:38+0000\n"
+"Last-Translator: Salvatore Cocuzza <info@salvatorecocuzza.it>\n"
 "Language-Team: Italian <https://translate.fedoraproject.org/projects/"
 "entangle/master/it/>\n"
 "Language: it\n"
@@ -23,10 +24,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0.1\n"
+"X-Generator: Weblate 5.9.2\n"
 
 msgid "'Escape' to close"
-msgstr ""
+msgstr "'Escape' per chiudere"
 
 msgid "0"
 msgstr "0"
@@ -189,15 +190,15 @@ msgstr "Annulla"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "Impossibile acquisire l'immagine quando non è aperta"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "Impossibile eliminare il file quando la fotocamera non è connessa"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "Impossibile scaricare il file se non è aperto"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
@@ -217,11 +218,11 @@ msgstr "Impossibile caricare le porte di gphoto2"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "Impossibile visualizzare l'anteprima dell'immagine quando non è aperta"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "Non posso aspettare gli eventi mentre non sono aperti"
 
 msgid "Capture"
 msgstr "Cattura"
@@ -283,7 +284,7 @@ msgstr "Controlli non disponibili per questa fotocamera"
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "Controlli non disponibili quando la fotocamera è chiusa"
 
 msgid "Delete"
 msgstr "Elimina"
@@ -381,10 +382,10 @@ msgid "Filename pattern:"
 msgstr "Schema del nome del file:"
 
 msgid "Flip horizontally"
-msgstr ""
+msgstr "Capovolgi orizzontalmente"
 
 msgid "Flip vertically"
-msgstr ""
+msgstr "Capovolgi verticalmente"
 
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
@@ -541,7 +542,7 @@ msgid "Overlay layers:"
 msgstr "Livelli di sovrapposizione:"
 
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "Il pattern deve contenere il segnaposto \"XXXXXX\""
 
 msgid "Perceptual"
 msgstr "Percettivo"
@@ -619,7 +620,7 @@ msgid "Shutter control"
 msgstr "Controlli otturatore"
 
 msgid "Tear off"
-msgstr ""
+msgstr "Strappo"
 
 msgid "Tethered Camera Control & Capture"
 msgstr "Controllo e cattura dalla fotocamera via cavo"
@@ -634,6 +635,8 @@ msgid ""
 "The camera cannot be opened because it is mounted as a filesystem. Do you "
 "wish to umount it now?"
 msgstr ""
+"Impossibile aprire la fotocamera perché è montata come file system. Desideri "
+"smontarlo adesso?"
 
 msgid "This camera does not support image capture"
 msgstr "Questa fotocamera non supporta la cattura delle immagini"
@@ -716,7 +719,7 @@ msgstr "Impossibile inizializzare la fotocamera %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "Impossibile caricare i controlli, la fotocamera non è connessa"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
@@ -729,7 +732,7 @@ msgstr "Impossibile salvare i controlli, la fotocamera non è configurabile"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr ""
+msgstr "Impossibile salvare i controlli, la fotocamera non è connessa"
 
 #, c-format
 msgid "Unable to wait for events: %s"
