@@ -4,27 +4,28 @@
 #
 # Translators:
 # Walter Cheuk <wwycheuk@gmail.com>, 2012
+# hsu zangmen <chzang55@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2014-12-22 02:36+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/"
-"entangle/language/zh_TW/)\n"
+"PO-Revision-Date: 2025-04-06 17:53+0000\n"
+"Last-Translator: hsu zangmen <chzang55@gmail.com>\n"
+"Language-Team: Chinese (Traditional) <https://translate.fedoraproject.org/"
+"projects/entangle/master/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Zanata 4.6.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 msgid "'Escape' to close"
 msgstr ""
 
 msgid "0"
-msgstr ""
+msgstr "0"
 
 msgid "1.15:1 - Movietone"
 msgstr ""
@@ -126,7 +127,7 @@ msgid "Absolute colourimetric"
 msgstr ""
 
 msgid "All files (*.*)"
-msgstr ""
+msgstr "所有檔案 (*)"
 
 msgid "Apply mask to alter aspect ratio"
 msgstr ""
@@ -156,7 +157,7 @@ msgid "Automatically synchronize camera clock"
 msgstr ""
 
 msgid "Automation"
-msgstr ""
+msgstr "自動"
 
 msgid "Background:"
 msgstr ""
@@ -275,7 +276,7 @@ msgid "Controls not available when camera is closed"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "刪除"
 
 msgid "Delete file from camera after downloading"
 msgstr ""
@@ -388,7 +389,7 @@ msgstr ""
 
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "全螢幕(_F)"
 
 msgid "Golden sections"
 msgstr ""
@@ -406,7 +407,7 @@ msgid "ICC profiles (*.icc, *.icm)"
 msgstr ""
 
 msgid "IP Address:"
-msgstr ""
+msgstr "IP 位址："
 
 msgid "Image Viewer"
 msgstr ""
@@ -419,7 +420,7 @@ msgid "Image histogram"
 msgstr ""
 
 msgid "Interface"
-msgstr ""
+msgstr "介面"
 
 #, c-format
 msgid "Manual focus control not available with this camera"
@@ -442,10 +443,10 @@ msgid "Mode of operation:"
 msgstr ""
 
 msgid "Model"
-msgstr ""
+msgstr "型號"
 
 msgid "Monitor"
-msgstr ""
+msgstr "監視器"
 
 msgid "Monitor profile:"
 msgstr ""
@@ -454,7 +455,7 @@ msgid "Network camera"
 msgstr ""
 
 msgid "No"
-msgstr ""
+msgstr "否"
 
 msgid "No camera connected"
 msgstr ""
@@ -482,16 +483,16 @@ msgid "No script"
 msgstr ""
 
 msgid "None"
-msgstr ""
+msgstr "無"
 
 msgid "Off"
-msgstr ""
+msgstr "關閉"
 
 msgid "On"
-msgstr ""
+msgstr "開"
 
 msgid "Open"
-msgstr ""
+msgstr "開啟(_O)"
 
 msgctxt "shortcut window"
 msgid "Open a new camera window"
@@ -520,7 +521,7 @@ msgid "Plugins"
 msgstr ""
 
 msgid "Port"
-msgstr ""
+msgstr "連接埠"
 
 msgctxt "shortcut window"
 msgid "Presentation"
@@ -545,7 +546,7 @@ msgid "Reset controls"
 msgstr ""
 
 msgid "Retry"
-msgstr ""
+msgstr "重試"
 
 msgid "Rule of 3rds"
 msgstr ""
@@ -554,7 +555,7 @@ msgid "Rule of 5ths"
 msgstr ""
 
 msgid "Saturation"
-msgstr ""
+msgstr "飽和度："
 
 msgid "Screen blanking is not available on this display"
 msgstr ""
@@ -652,7 +653,7 @@ msgstr ""
 
 #, c-format
 msgid "Unable to delete file: %s"
-msgstr ""
+msgstr "無法刪除 %s 檔案"
 
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
@@ -724,7 +725,7 @@ msgid "Window display"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 msgid "Zoom _In"
 msgstr ""
@@ -749,52 +750,52 @@ msgid "Zoom out"
 msgstr ""
 
 msgid "_About"
-msgstr ""
+msgstr "關於(_A)"
 
 msgid "_Cancel"
-msgstr ""
+msgstr "取消(_C)"
 
 msgid "_Connect…"
 msgstr ""
 
 msgid "_Disconnect…"
-msgstr ""
+msgstr "斷線"
 
 msgid "_Fullscreen"
-msgstr ""
+msgstr "全螢幕(_F)"
 
 msgid "_Help"
-msgstr ""
+msgstr "求助(_H)"
 
 msgid "_Keyboard shortcuts"
-msgstr ""
+msgstr "鍵盤快捷鍵"
 
 msgid "_Manual"
-msgstr ""
+msgstr "手動"
 
 msgid "_New window"
 msgstr ""
 
 msgid "_Normal Size"
-msgstr ""
+msgstr "普通大小(_N)"
 
 msgid "_Open"
-msgstr ""
+msgstr "開啟(_O)"
 
 msgid "_Preferences…"
-msgstr ""
+msgstr "偏好設定(_P)"
 
 msgid "_Presentation"
 msgstr ""
 
 msgid "_Quit"
-msgstr ""
+msgstr "退出(_Q)"
 
 msgid "_Select session…"
 msgstr ""
 
 msgid "_Settings"
-msgstr ""
+msgstr "設定"
 
 msgid "_Supported cameras"
 msgstr ""
@@ -803,13 +804,13 @@ msgid "_Synchronize capture"
 msgstr ""
 
 msgid "capture"
-msgstr ""
+msgstr "擷取"
 
 msgid "label"
 msgstr "標籤"
 
 msgid "preview"
-msgstr ""
+msgstr "預覽"
 
 msgid "settings"
-msgstr ""
+msgstr "設定"
