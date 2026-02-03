@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the entangle package.
 # Jan Kuparinen <copper_fin@hotmail.com>, 2023.
-# Ricky Tigg <ricky.tigg@gmail.com>, 2024.
+# Ricky Tigg <ricky.tigg@gmail.com>, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2024-11-23 09:38+0000\n"
+"PO-Revision-Date: 2025-04-03 12:04+0000\n"
 "Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://translate.fedoraproject.org/projects/"
 "entangle/master/fi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #: src/frontend/entangle-media-popup.c:257
 msgid "'Escape' to close"
@@ -323,8 +323,8 @@ msgstr ""
 "Tarkista, ettei kamera ole\n"
 "\n"
 " - avattu toisella <b>valokuvasovelluksella</b>\n"
-"  - asennettuna <b>tiedostojärjestelmänä</b> työpöydälle\n"
-"  - <b>lepotilassa</b> akun virran säästämiseksi\n"
+" - asennettuna <b>tiedostojärjestelmänä</b> työpöydälle\n"
+" - <b>lepotilassa</b> akun virran säästämiseksi\n"
 
 #: src/frontend/entangle-help-overlay.ui:24
 msgctxt "shortcut window"
@@ -570,7 +570,7 @@ msgstr "Kuvan histogrammi"
 #: src/frontend/entangle-preferences-display.c:1314
 #: src/frontend/entangle-preferences-display.ui:660
 msgid "Interface"
-msgstr ""
+msgstr "Liitäntä"
 
 #: src/backend/entangle-camera.c:2932
 #, c-format
@@ -740,7 +740,7 @@ msgstr "Suhteellinen värimittari"
 
 #: src/frontend/entangle-preferences-display.ui:357
 msgid "Rendering intent:"
-msgstr ""
+msgstr "Hahmonnuksen tarkoitus:"
 
 #: src/frontend/entangle-control-panel.c:769
 msgid "Reset controls"
@@ -753,11 +753,11 @@ msgstr "Yritä uudelleen"
 
 #: src/frontend/entangle-preferences-display.c:1470
 msgid "Rule of 3rds"
-msgstr ""
+msgstr "Kolmannesten sääntö"
 
 #: src/frontend/entangle-preferences-display.c:1475
 msgid "Rule of 5ths"
-msgstr ""
+msgstr "Viidennesten sääntö"
 
 #: src/frontend/entangle-preferences-display.ui:1069
 msgid "Saturation"
@@ -773,7 +773,7 @@ msgstr "Näytön tyhjennys ei ole toteutettu tällä alustalla"
 
 #: src/frontend/entangle-camera-manager.c:1659
 msgid "Script"
-msgstr ""
+msgstr "Scripti"
 
 #: src/frontend/entangle-camera-picker.ui:97
 msgid "Select a camera to connect to:"
@@ -806,16 +806,16 @@ msgstr "Suljinohjaus"
 
 #: src/frontend/entangle-camera-manager.c:2546
 msgid "Tear off"
-msgstr ""
+msgstr "Revi pois"
 
 #: src/frontend/entangle-help-about.ui:17
 #: src/org.entangle_photo.Manager.desktop:5
 msgid "Tethered Camera Control & Capture"
-msgstr ""
+msgstr "Jaetun kameran ohjaus ja kaappaus"
 
 #: src/org.entangle_photo.Manager.metainfo.xml:8
 msgid "Tethered Camera Control &amp; Capture"
-msgstr ""
+msgstr "Jaetun kameran ohjaus &amp; kaappaus"
 
 #: src/org.entangle_photo.Manager.metainfo.xml:39
 msgid "The Entangle Photo project"
@@ -857,22 +857,22 @@ msgstr "Aika-asetus ei ollut päivämäärä-vekotin"
 #: src/frontend/entangle-help-overlay.ui:86
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
-msgstr ""
+msgstr "Vaihda histogrammin asteikkoa"
 
 #: src/frontend/entangle-help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle image mask"
-msgstr ""
+msgstr "Vaihda kuvapeite"
 
 #: src/frontend/entangle-help-overlay.ui:126
 msgctxt "shortcut window"
 msgid "Toggle live preview"
-msgstr ""
+msgstr "Vaihda reaaliaikainen esikatselu"
 
 #: src/frontend/entangle-help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "Vaihda ylivalotuksen korostus"
 
 #: src/backend/entangle-camera.c:1060
 #, c-format
@@ -963,7 +963,7 @@ msgstr "Tapahtumia ei voida odottaa: %s"
 
 #: src/frontend/entangle-script.c:95
 msgid "Untitled script"
-msgstr ""
+msgstr "Skripti vailla otsikko"
 
 #: src/frontend/entangle-preferences-display.ui:839
 msgid "Use embedded preview from raw files"
@@ -1067,7 +1067,7 @@ msgstr "_Avaa"
 
 #: src/frontend/entangle-camera-manager-menus.ui:10
 msgid "_Preferences…"
-msgstr "Asetukset"
+msgstr "_Asetukset…"
 
 #: src/frontend/entangle-camera-manager-menus.ui:66
 msgid "_Presentation"
