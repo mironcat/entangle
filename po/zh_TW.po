@@ -5,13 +5,15 @@
 # Translators:
 # Walter Cheuk <wwycheuk@gmail.com>, 2012
 # hsu zangmen <chzang55@gmail.com>, 2025.
+# Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
 "PO-Revision-Date: 2025-04-06 17:53+0000\n"
-"Last-Translator: hsu zangmen <chzang55@gmail.com>\n"
+"Last-Translator: Weblate Translation Memory <noreply-mt-weblate-translation-"
+"memory@weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://translate.fedoraproject.org/"
 "projects/entangle/master/zh_TW/>\n"
 "Language: zh_TW\n"
@@ -756,7 +758,7 @@ msgid "_Cancel"
 msgstr "取消(_C)"
 
 msgid "_Connect…"
-msgstr ""
+msgstr "連接(_C)"
 
 msgid "_Disconnect…"
 msgstr "斷線"
