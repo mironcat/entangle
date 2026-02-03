@@ -13,13 +13,15 @@
 # Emilio Herrera <ehespinosa57@gmail.com>, 2020.
 # José M. Ciordia <ciordia@gmail.com>, 2024
 # "José M. Ciordia" <ciordia@gmail.com>, 2024.
+# Javier Francisco <fserrador@gmail.com>, 2025.
+# "Fco. Javier F. Serrador" <fserrador@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2024-12-02 11:38+0000\n"
-"Last-Translator: \"José M. Ciordia\" <ciordia@gmail.com>\n"
+"PO-Revision-Date: 2025-06-12 14:09+0000\n"
+"Last-Translator: \"Fco. Javier F. Serrador\" <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://translate.fedoraproject.org/projects/"
 "entangle/master/es/>\n"
 "Language: es\n"
@@ -27,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.11.4\n"
 
 msgid "'Escape' to close"
 msgstr "'Escape' para cerrar"
@@ -66,16 +68,16 @@ msgid "1.85:1 - 35mm Widescreen"
 msgstr "1.85:1 - 35mm Pantalla ancha"
 
 msgid "12.00:1 - Circle-Vision 360"
-msgstr "12.00:1 - Circle-Vision 360"
+msgstr "12.00:1 - Visión-Círculo 360"
 
 msgid "1:1 - Square / MF 6x6"
-msgstr "1:1 - Square / MF 6x6"
+msgstr "1:1 - Cuadro / MF 6×6"
 
 msgid "2.00:1 - SuperScope"
 msgstr "2.00:1 - Superscope"
 
 msgid "2.10:1 (21:10) - Planned HDTV"
-msgstr "2.10:1 (21:10) - Planned HDTV"
+msgstr "2.10:1 (21:10) - HDTV Planificado"
 
 msgid "2.20:1 (11:5, 22:10) - 70mm movie"
 msgstr "2.20:1 (11:5, 22:10) - Película de 70 mm"
@@ -84,7 +86,7 @@ msgid "2.35:1 - CinemaScope"
 msgstr "2.35:1 - Cinemascope"
 
 msgid "2.37:1 (64:27)- HDTV cinema"
-msgstr "2.37:1 (64:27)- HDTV cinema"
+msgstr "2.37:1 (64:27)- Cinema HDTV"
 
 msgid "2.39:1 (12:5)- Panavision"
 msgstr "2.39:1 (12:5)- Panavisión"
@@ -111,7 +113,7 @@ msgid "3:1 APS Panorama"
 msgstr "3:1 APS Panorama"
 
 msgid "4.00:1 - Polyvision"
-msgstr "4.00:1 - Polyvision"
+msgstr "4.00:1 - Polivisión"
 
 msgid "<b>Capture</b>"
 msgstr "<b>Capturar</b>"
@@ -225,14 +227,14 @@ msgstr "No se puede previsualizar una imagen si no está abierta"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr "No se pueden esperar eventos si no está abierta"
+msgstr "No se puede esperar eventos mientras no está abierta"
 
 msgid "Capture"
 msgstr "Capturar"
 
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr "Capturar una imagen única"
+msgstr "Capturar una única imagen"
 
 msgid "Capture an image"
 msgstr "Capturar una imagen"
@@ -626,10 +628,10 @@ msgid "Tear off"
 msgstr "Arrancar"
 
 msgid "Tethered Camera Control & Capture"
-msgstr "Control y captura de cámara conectada"
+msgstr "Control y captura de cámara Tethered"
 
 msgid "Tethered Camera Control &amp; Capture"
-msgstr "Control y captura de cámara conectada"
+msgstr "Control y captura de cámara Tethered"
 
 msgid "The Entangle Photo project"
 msgstr "El proyecto Entangle Photo"
@@ -657,7 +659,7 @@ msgstr "El ajuste de la hora no era un elemento de selección"
 
 #, c-format
 msgid "Time setting was not a date widget"
-msgstr "El ajuste de la ora no era un elemento de fecha"
+msgstr "El ajuste de la hora no era un elemento de fecha"
 
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
@@ -721,7 +723,7 @@ msgstr "No se puede iniciar la cámara: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr "No se pueden cargar los controles, la cámara no está abierta"
+msgstr "Incapaz de cargar controles, la cámara no está conectada"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
@@ -733,7 +735,7 @@ msgstr "No se pueden guardar controles, la cámara no es configurable"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr "No se pueden guardar los controles, la cámara no está abierta"
+msgstr "Incapaz de guardar controles, la cámara no está conectada"
 
 #, c-format
 msgid "Unable to wait for events: %s"
@@ -758,16 +760,16 @@ msgstr "El control del visor no era un widget palanca"
 
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr "Ventana de visualización"
+msgstr "Exhibir ventana"
 
 msgid "Yes"
 msgstr "Sí"
 
 msgid "Zoom _In"
-msgstr "Acercar zoom"
+msgstr "Ace_rcar"
 
 msgid "Zoom _Out"
-msgstr "Alejar zoom"
+msgstr "Alejar z_oom"
 
 msgctxt "shortcut window"
 msgid "Zoom best"
@@ -786,7 +788,7 @@ msgid "Zoom out"
 msgstr "Alejar zoom"
 
 msgid "_About"
-msgstr "_Acerca de"
+msgstr "Acerca _de"
 
 msgid "_Cancel"
 msgstr "_Cancelar"
@@ -798,7 +800,7 @@ msgid "_Disconnect…"
 msgstr "_Desconectar…"
 
 msgid "_Fullscreen"
-msgstr "Pantalla completa"
+msgstr "_Pantalla completa"
 
 msgid "_Help"
 msgstr "_Ayuda"
@@ -816,7 +818,7 @@ msgid "_Normal Size"
 msgstr "Tamaño _normal"
 
 msgid "_Open"
-msgstr "Abrir"
+msgstr "_Abrir"
 
 msgid "_Preferences…"
 msgstr "_Preferencias…"
@@ -825,7 +827,7 @@ msgid "_Presentation"
 msgstr "_Presentación"
 
 msgid "_Quit"
-msgstr "Salir"
+msgstr "_Salir"
 
 msgid "_Select session…"
 msgstr "_Seleccionar sesión…"
