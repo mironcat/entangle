@@ -1,13 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the entangle package.
-# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2023.
+# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2023, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2023-03-01 20:20+0000\n"
+"PO-Revision-Date: 2025-01-10 09:38+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <https://translate.fedoraproject.org/projects/"
 "entangle/master/ka/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.2\n"
+"X-Generator: Weblate 5.9.2\n"
 
 #: src/frontend/entangle-media-popup.c:257
 msgid "'Escape' to close"
@@ -998,7 +998,7 @@ msgstr "_შესახებ"
 
 #: src/frontend/entangle-camera-manager.c:1494
 msgid "_Cancel"
-msgstr "გაუქმება"
+msgstr "გაუ_ქმება"
 
 #: src/frontend/entangle-camera-manager-menus.ui:22
 msgid "_Connect…"
