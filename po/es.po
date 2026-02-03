@@ -12,13 +12,14 @@
 # Máximo Castañeda Riloba <mcrcctm@gmail.com>, 2016. #zanata
 # Emilio Herrera <ehespinosa57@gmail.com>, 2020.
 # José M. Ciordia <ciordia@gmail.com>, 2024
+# "José M. Ciordia" <ciordia@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2024-11-09 16:43+0100\n"
-"Last-Translator: Emilio Herrera <ehespinosa57@gmail.com>\n"
+"PO-Revision-Date: 2024-12-02 11:38+0000\n"
+"Last-Translator: \"José M. Ciordia\" <ciordia@gmail.com>\n"
 "Language-Team: Spanish <https://translate.fedoraproject.org/projects/"
 "entangle/master/es/>\n"
 "Language: es\n"
@@ -26,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 5.8.2\n"
 
 msgid "'Escape' to close"
 msgstr "'Escape' para cerrar"
@@ -38,19 +39,19 @@ msgid "1.15:1 - Movietone"
 msgstr "1.15:1 - Movietone"
 
 msgid "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
-msgstr "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
+msgstr "1.33:1 (4:3, 12:9) - Súper 35 mm / DSLR / MF 645"
 
 msgid "1.37:1 - 35mm movie"
-msgstr "1.37:1 - película de 35mm"
+msgstr "1.37:1 - película de 35 mm"
 
 msgid "1.44:1 - IMAX"
 msgstr "1.44:1 - IMAX"
 
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
-msgstr "1.50:1 (3:2, 15:10)- 35mm SLR"
+msgstr "1.50:1 (3:2, 15:10)- 35 mm SLR"
 
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
-msgstr "1.66:1 (5:3, 15:9) - Super 16mm"
+msgstr "1.66:1 (5:3, 15:9) - Súper 16 mm"
 
 msgid "1.6:1 (8:5, 16:10) - Widescreen"
 msgstr "1.6:1 (8:5, 16:10) – Pantalla ancha"
@@ -71,16 +72,16 @@ msgid "1:1 - Square / MF 6x6"
 msgstr "1:1 - Square / MF 6x6"
 
 msgid "2.00:1 - SuperScope"
-msgstr "2.00:1 - SuperScope"
+msgstr "2.00:1 - Superscope"
 
 msgid "2.10:1 (21:10) - Planned HDTV"
 msgstr "2.10:1 (21:10) - Planned HDTV"
 
 msgid "2.20:1 (11:5, 22:10) - 70mm movie"
-msgstr "2.20:1 (11:5, 22:10) - Película de 70mm"
+msgstr "2.20:1 (11:5, 22:10) - Película de 70 mm"
 
 msgid "2.35:1 - CinemaScope"
-msgstr "2.35:1 - CinemaScope"
+msgstr "2.35:1 - Cinemascope"
 
 msgid "2.37:1 (64:27)- HDTV cinema"
 msgstr "2.37:1 (64:27)- HDTV cinema"
@@ -89,16 +90,16 @@ msgid "2.39:1 (12:5)- Panavision"
 msgstr "2.39:1 (12:5)- Panavisión"
 
 msgid "2.55:1 (23:9)- CinemaScope 55"
-msgstr "2.55:1 (23:9)- CinemaScope 55"
+msgstr "2.55:1 (23:9)- Cinemascope 55"
 
 msgid "2.59:1 (13:5)- Cinerama"
 msgstr "2.59:1 (13:5)- Cinerama"
 
 msgid "2.66:1 (8:3, 24:9)- Super 16mm"
-msgstr "2.66:1 (8:3, 24:9)- Super 16mm"
+msgstr "2.66:1 (8:3, 24:9)- Súper 16 mm"
 
 msgid "2.76:1 (11:4) - Ultra Panavision"
-msgstr "2.76:1 (11:4) - Ultra Panavision"
+msgstr "2.76:1 (11:4) - Ultra Panavisión"
 
 msgid "2.93:1 - MGM Camera 65"
 msgstr "2.93:1 - MGM Camera 65"
@@ -128,7 +129,7 @@ msgid "<b>Plugins</b>"
 msgstr "<b>Plugins</b>"
 
 msgid "About - Entangle"
-msgstr "Acerca de - Entangle"
+msgstr "Acerca de… Entangle"
 
 msgid "Absolute colourimetric"
 msgstr "Colorimétrico absoluto"
@@ -192,19 +193,19 @@ msgstr "Cancelar"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr "No puede capturar imagen mientras no se abra"
+msgstr "No se puede capturar una imagen si no está abierta"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr "No puede borrar un fichero mientras no se abra"
+msgstr "No se puede borrar un fichero si no está abierto"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr "No puede descargar un fichero mientras no se abra"
+msgstr "No se puede descargar un fichero si no está abierto"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
-msgstr "No se pueden inicializar las habilidades gphoto2"
+msgstr "No se pueden iniciar las habilidades gphoto2"
 
 #, c-format
 msgid "Cannot initialize gphoto2 ports"
@@ -220,11 +221,11 @@ msgstr "No se pueden cargar los puertos de gphoto2"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr "No puede previsualizar una imagen mientras no se abra"
+msgstr "No se puede previsualizar una imagen si no está abierta"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr "No se pueden esperar eventos mientras no esté abierta"
+msgstr "No se pueden esperar eventos si no está abierta"
 
 msgid "Capture"
 msgstr "Capturar"
@@ -241,7 +242,7 @@ msgid "Capture target setting not available with this camera"
 msgstr "No se puede elegir el destino de la captura con esta cámara"
 
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr "Capturar;Cámara;Conectado;Foto;"
+msgstr "Capturar; Cámara; Conectado; Foto;"
 
 msgid "Center lines"
 msgstr "Centrar líneas"
@@ -288,7 +289,7 @@ msgid "Controls not available when camera is closed"
 msgstr "Los controles no están disponibles cuando la cámara está cerrada"
 
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Borrar"
 
 msgid "Delete file from camera after downloading"
 msgstr "Borrar archivo de la cámara tras la descarga"
@@ -345,7 +346,7 @@ msgid "Entangle: Camera connect failed"
 msgstr "Entangle: Falló la conexión con la cámara"
 
 msgid "Entangle: Camera control update failed"
-msgstr "Entangle: falló la actualización del control de la cámara"
+msgstr "Entangle: Falló la actualización del control de la cámara"
 
 msgid "Entangle: Camera load controls failed"
 msgstr "Entangle: Falló la carga de controles de la cámara"
@@ -358,27 +359,27 @@ msgstr "Entangle: Operación fallida"
 
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
-msgstr "Error en la lectura de la selección manual de enfoque %d: %s %d"
+msgstr "No se ha podido leer la selección manual de enfoque %d: %s %d"
 
 #, c-format
 msgid "Failed to set autofocus state: %s %d"
-msgstr "Fallado al fijar el estado del autofoco: %s %d"
+msgstr "No se ha podido establecer el estado del autofoco: %s %d"
 
 #, c-format
 msgid "Failed to set capture target: %s %d"
-msgstr "Falló la elección del destino de la captura: %s %d"
+msgstr "No se ha podido establecer el destino de la captura: %s %d"
 
 #, c-format
 msgid "Failed to set manual focus state: %s %d"
-msgstr "Error al establecer el estado de enfoque manual: %s %d"
+msgstr "No se ha podido establecer el estado de enfoque manual: %s %d"
 
 #, c-format
 msgid "Failed to set time state: %s %d"
-msgstr "No se pudo establecer el estado de la hora: %s %d"
+msgstr "No se ha podido establecer el estado de la hora: %s %d"
 
 #, c-format
 msgid "Failed to set viewfinder state: %s %d"
-msgstr "Fallado al fijar el estado del visor: %s %d"
+msgstr "No se ha podido establecer el estado del visor: %s %d"
 
 msgid "Filename pattern:"
 msgstr "Patrón de nombres:"
@@ -429,7 +430,7 @@ msgid "ICC profiles (*.icc, *.icm)"
 msgstr "Perfiles ICC (*.icc, *.icm)"
 
 msgid "IP Address:"
-msgstr "Dirección IP"
+msgstr "Dirección IP:"
 
 msgid "Image Viewer"
 msgstr "Visor de imágenes"
@@ -481,7 +482,7 @@ msgid "No"
 msgstr "No"
 
 msgid "No camera connected"
-msgstr "Sin cámara conectada"
+msgstr "No hay una cámara conectada"
 
 msgid ""
 "No cameras were detected, check that\n"
@@ -503,17 +504,17 @@ msgstr ""
 "  - la cámara es de un modelo <b>soportado</b>\n"
 "\n"
 " Las cámaras USB se detectan automáticamente\n"
-"cuando se enchufan, para las demás intentar refrescar\n"
+"cuando se enchufan; para las demás intentar refrescar\n"
 "o poner una dirección IP de cámara en red"
 
 msgid "No config options"
 msgstr "No hay opciones de configuración"
 
 msgid "No controls available"
-msgstr "Sin controles disponibles"
+msgstr "No hay controles disponibles"
 
 msgid "No script"
-msgstr "No script"
+msgstr "No hay script"
 
 msgid "None"
 msgstr "Ninguno"
@@ -582,10 +583,10 @@ msgid "Retry"
 msgstr "Reintentar"
 
 msgid "Rule of 3rds"
-msgstr "Regla de tercios"
+msgstr "Regla de los tercios"
 
 msgid "Rule of 5ths"
-msgstr "Regla de quintos"
+msgstr "Regla de los quintos"
 
 msgid "Saturation"
 msgstr "Saturación"
@@ -594,22 +595,22 @@ msgid "Screen blanking is not available on this display"
 msgstr "La pantalla en blanco no está disponible en esta visualización"
 
 msgid "Screen blanking is not implemented on this platform"
-msgstr "La pantalla en blanco no está implementada sobre esta plataforma"
+msgstr "La pantalla en blanco no está implementada en esta plataforma"
 
 msgid "Script"
 msgstr "Script"
 
 msgid "Select a camera to connect to:"
-msgstr "Seleccione una cámara para conectar a:"
+msgstr "Seleccionar una cámara para conectar a:"
 
 msgid "Select a folder"
 msgstr "Seleccionar un directorio"
 
 msgid "Select application..."
-msgstr "Selecionar aplicacion..."
+msgstr "Selecionar una aplicacion…"
 
 msgid "Select camera - Entangle"
-msgstr "Selecciona la cámara - Entangle"
+msgstr "Seleccionar la cámara - Entangle"
 
 msgid "Set clock"
 msgstr "Ajustar el reloj"
@@ -648,15 +649,15 @@ msgstr "Esta cámara no soporta la previsualización de imágenes"
 
 #, c-format
 msgid "Time setting not available with this camera"
-msgstr "El establecimiento de la hora no está disponible con esta cámara"
+msgstr "El ajuste de la hora no está disponible con esta cámara"
 
 #, c-format
 msgid "Time setting was not a choice widget"
-msgstr "El control de destino de captura no era un elemento de selección"
+msgstr "El ajuste de la hora no era un elemento de selección"
 
 #, c-format
 msgid "Time setting was not a date widget"
-msgstr "El control de establecimiento de la hora no era un elemento de fecha"
+msgstr "El ajuste de la ora no era un elemento de fecha"
 
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
@@ -676,47 +677,47 @@ msgstr "Alternar el resaltado de la sobreexposición"
 
 #, c-format
 msgid "Unable to capture image: %s"
-msgstr "Incapaz de capturar imagen: %s"
+msgstr "No se puede capturar imagen: %s"
 
 #, c-format
 msgid "Unable to capture preview: %s"
-msgstr "Incapaz de capturar vista previa: %s"
+msgstr "No se puede capturar vista previa: %s"
 
 #, c-format
 msgid "Unable to connect to camera: %s"
-msgstr "Imposible conectar a la cámara: %s"
+msgstr "No se puede conectar a la cámara: %s"
 
 #, c-format
 msgid "Unable to delete file: %s"
-msgstr "Incapaz de borrar archivo: %s"
+msgstr "No se puede borrar archivo: %s"
 
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
-msgstr "No se puede obtener la configuración de control de la cámara: %s"
+msgstr "No se puede obtener la configuración del control de la cámara: %s"
 
 #, c-format
 msgid "Unable to fetch widget name"
-msgstr "Incapaz de extraer el nombre widget"
+msgstr "No se puede extraer el nombre del widget"
 
 #, c-format
 msgid "Unable to fetch widget type"
-msgstr "Incapaz de extraer el tipo widget"
+msgstr "No se puede extraer el tipo del widget"
 
 #, c-format
 msgid "Unable to get camera file: %s"
-msgstr "Imposible obtener el archivo de la cámara: %s"
+msgstr "No se puede obtener el archivo de la cámara: %s"
 
 #, c-format
 msgid "Unable to get file data: %s"
-msgstr "Incapaz de obtener datos del archivo: %s"
+msgstr "No se pueden obtener datos del archivo: %s"
 
 #, c-format
 msgid "Unable to get filename: %s"
-msgstr "Incapaz de obtener nombre de archivo: %s"
+msgstr "No se puede obtener el nombre del archivo: %s"
 
 #, c-format
 msgid "Unable to initialize camera: %s"
-msgstr "No se puede inicializar la cámara: %s"
+msgstr "No se puede iniciar la cámara: %s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
@@ -728,7 +729,7 @@ msgstr "No se puede guardar la configuración de control de la cámara: %s"
 
 #, c-format
 msgid "Unable to save controls, camera is not configurable"
-msgstr "Incapaz de guardar controles, la cámara no es configurable"
+msgstr "No se pueden guardar controles, la cámara no es configurable"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
@@ -736,7 +737,7 @@ msgstr "No se pueden guardar los controles, la cámara no está abierta"
 
 #, c-format
 msgid "Unable to wait for events: %s"
-msgstr "Incapaz de esperar por eventos: %s"
+msgstr "No se puede esperar a eventos: %s"
 
 msgid "Untitled script"
 msgstr "Script sin título"
@@ -757,7 +758,7 @@ msgstr "El control del visor no era un widget palanca"
 
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr "Ventana de visualizació"
+msgstr "Ventana de visualización"
 
 msgid "Yes"
 msgstr "Sí"
@@ -815,7 +816,7 @@ msgid "_Normal Size"
 msgstr "Tamaño _normal"
 
 msgid "_Open"
-msgstr "_Abrir"
+msgstr "Abrir"
 
 msgid "_Preferences…"
 msgstr "_Preferencias…"
@@ -827,7 +828,7 @@ msgid "_Quit"
 msgstr "Salir"
 
 msgid "_Select session…"
-msgstr "_Seleccionar sesión"
+msgstr "_Seleccionar sesión…"
 
 msgid "_Settings"
 msgstr "Preferencia_s"
@@ -842,7 +843,7 @@ msgid "capture"
 msgstr "capturar"
 
 msgid "label"
-msgstr "Etiqueta"
+msgstr "etiqueta"
 
 msgid "preview"
 msgstr "previsualizar"
