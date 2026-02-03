@@ -1,0 +1,1107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the entangle package.
+# Arif Budiman <arifpedia@gmail.com>, 2026.
+msgid ""
+msgstr ""
+"Project-Id-Version: entangle\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-03 22:07+0100\n"
+"PO-Revision-Date: 2026-02-03 08:58+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
+"Language-Team: Indonesian <https://translate.fedoraproject.org/projects/"
+"entangle/master/id/>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.15.2\n"
+
+#: src/frontend/entangle-media-popup.c:257
+msgid "'Escape' to close"
+msgstr "'Escape' untuk menutup"
+
+#: src/frontend/entangle-preferences-display.ui:784
+msgid "0"
+msgstr "0"
+
+#: src/frontend/entangle-preferences-display.c:1386
+msgid "1.15:1 - Movietone"
+msgstr "1.15:1 - Movietone"
+
+#: src/frontend/entangle-preferences-display.c:1389
+msgid "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
+msgstr "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
+
+#: src/frontend/entangle-preferences-display.c:1392
+msgid "1.37:1 - 35mm movie"
+msgstr "1.37:1 - Film 35mm"
+
+#: src/frontend/entangle-preferences-display.c:1394
+msgid "1.44:1 - IMAX"
+msgstr "1.44:1 - IMAX"
+
+#: src/frontend/entangle-preferences-display.c:1397
+msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
+msgstr "1.50:1 (3:2, 15:10)- SLR 35mm"
+
+#: src/frontend/entangle-preferences-display.c:1403
+msgid "1.66:1 (5:3, 15:9) - Super 16mm"
+msgstr "1.66:1 (5:3, 15:9) - Super 16mm"
+
+#: src/frontend/entangle-preferences-display.c:1400
+msgid "1.6:1 (8:5, 16:10) - Widescreen"
+msgstr "1.6:1 (8:5, 16:10) - Layar Lebar"
+
+#: src/frontend/entangle-preferences-display.c:1406
+msgid "1.75:1 (7:4) - Widescreen"
+msgstr "1.75:1 (7:4) - Layar Lebar"
+
+#: src/frontend/entangle-preferences-display.c:1409
+msgid "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
+msgstr "1.77:1 (16:9) - APS-H / HDTV / Layar Lebar"
+
+#: src/frontend/entangle-preferences-display.c:1411
+msgid "1.85:1 - 35mm Widescreen"
+msgstr "1.85:1 - Layar Lebar 35mm"
+
+#: src/frontend/entangle-preferences-display.c:1451
+msgid "12.00:1 - Circle-Vision 360"
+msgstr "12.00:1 - Circle-Vision 360"
+
+#: src/frontend/entangle-preferences-display.c:1384
+msgid "1:1 - Square / MF 6x6"
+msgstr "1:1 - Persegi / MF 6x6"
+
+#: src/frontend/entangle-preferences-display.c:1414
+msgid "2.00:1 - SuperScope"
+msgstr "2.00:1 - SuperScope"
+
+#: src/frontend/entangle-preferences-display.c:1417
+msgid "2.10:1 (21:10) - Planned HDTV"
+msgstr "2.10:1 (21:10) - HDTV Terencana"
+
+#: src/frontend/entangle-preferences-display.c:1420
+msgid "2.20:1 (11:5, 22:10) - 70mm movie"
+msgstr "2.20:1 (11:5, 22:10) - Film 70mm"
+
+#: src/frontend/entangle-preferences-display.c:1422
+msgid "2.35:1 - CinemaScope"
+msgstr "2.35:1 - CinemaScope"
+
+#: src/frontend/entangle-preferences-display.c:1426
+msgid "2.37:1 (64:27)- HDTV cinema"
+msgstr "2.37:1 (64:27)- HDTV sinema"
+
+#: src/frontend/entangle-preferences-display.c:1429
+msgid "2.39:1 (12:5)- Panavision"
+msgstr "2.39:1 (12:5)- Panavision"
+
+#: src/frontend/entangle-preferences-display.c:1432
+msgid "2.55:1 (23:9)- CinemaScope 55"
+msgstr "2.55:1 (23:9)- CinemaScope 55"
+
+#: src/frontend/entangle-preferences-display.c:1434
+msgid "2.59:1 (13:5)- Cinerama"
+msgstr "2.59:1 (13:5)- Cinerama"
+
+#: src/frontend/entangle-preferences-display.c:1438
+msgid "2.66:1 (8:3, 24:9)- Super 16mm"
+msgstr "2.66:1 (8:3, 24:9)- Super 16mm"
+
+#: src/frontend/entangle-preferences-display.c:1441
+msgid "2.76:1 (11:4) - Ultra Panavision"
+msgstr "2.76:1 (11:4) - Ultra Panavision"
+
+#: src/frontend/entangle-preferences-display.c:1443
+msgid "2.93:1 - MGM Camera 65"
+msgstr "2.93:1 - MGM Camera 65"
+
+#: src/frontend/entangle-preferences-display.ui:886
+msgid "3"
+msgstr "3"
+
+#: src/frontend/entangle-preferences-display.c:1446
+msgid "3:1 APS Panorama"
+msgstr "3:1 APS Panorama"
+
+#: src/frontend/entangle-preferences-display.c:1448
+msgid "4.00:1 - Polyvision"
+msgstr "4.00:1 - Polyvision"
+
+#: src/frontend/entangle-preferences-display.ui:101
+msgid "<b>Capture</b>"
+msgstr "<b>Pengambilan Gambar</b>"
+
+#: src/frontend/entangle-preferences-display.ui:278
+msgid "<b>Colour management</b>"
+msgstr "<b>Manajemen warna</b>"
+
+#: src/frontend/entangle-preferences-display.ui:687
+msgid "<b>Image Viewer</b>"
+msgstr "<b>Penampil Gambar</b>"
+
+#: src/frontend/entangle-preferences-display.ui:558
+msgid "<b>Interface</b>"
+msgstr "<b>Antarmuka</b>"
+
+#: src/frontend/entangle-preferences-display.ui:488
+msgid "<b>Plugins</b>"
+msgstr "<b>Plugin</b>"
+
+#: src/frontend/entangle-help-about.ui:8
+msgid "About - Entangle"
+msgstr "Tentang - Entangle"
+
+#: src/frontend/entangle-preferences-display.ui:1072
+msgid "Absolute colourimetric"
+msgstr "Kolorimetrik absolut"
+
+#: src/frontend/entangle-preferences-display.c:1363
+msgid "All files (*.*)"
+msgstr "Semua file (*.*)"
+
+#: src/frontend/entangle-preferences-display.ui:729
+msgid "Apply mask to alter aspect ratio"
+msgstr "Terapkan masker untuk mengubah rasio aspek"
+
+#: src/frontend/entangle-preferences-display.ui:745
+msgid "Aspect ratio:"
+msgstr "Rasio aspek:"
+
+#: src/frontend/entangle-help-overlay.ui:139
+msgctxt "shortcut window"
+msgid "Autofocus"
+msgstr "Fokus otomatis"
+
+#: src/backend/entangle-camera.c:2770
+#, c-format
+msgid "Autofocus control not available with this camera"
+msgstr "Kontrol fokus otomatis tidak tersedia dengan kamera ini"
+
+#: src/backend/entangle-camera.c:2782
+#, c-format
+msgid "Autofocus control was not a toggle widget"
+msgstr "Kontrol fokus otomatis bukan widget toggle"
+
+#: src/frontend/entangle-camera-manager.c:1862
+msgid "Autofocus failed"
+msgstr "Fokus otomatis gagal"
+
+#: src/frontend/entangle-preferences-display.ui:600
+msgid "Automatically connect to cameras at startup"
+msgstr "Otomatis terhubung ke kamera saat startup"
+
+#: src/frontend/entangle-preferences-display.ui:214
+msgid "Automatically synchronize camera clock"
+msgstr "Otomatis sinkronkan jam kamera"
+
+#: src/frontend/entangle-camera-manager.c:2883
+msgid "Automation"
+msgstr "Otomasi"
+
+#: src/frontend/entangle-preferences-display.ui:902
+msgid "Background:"
+msgstr "Latar belakang:"
+
+#: src/frontend/entangle-camera-manager-menus.ui:87
+msgid "Best Fit"
+msgstr "Pas Terbaik"
+
+#: src/frontend/entangle-preferences-display.ui:614
+msgid "Blank screen when capturing images"
+msgstr "Kosongkan layar saat mengambil gambar"
+
+#: src/frontend/entangle-camera-manager.c:1196
+msgid "Camera connect failed"
+msgstr "Koneksi kamera gagal"
+
+#: src/frontend/entangle-control-panel.c:86
+msgid "Camera control update failed"
+msgstr "Pembaruan kontrol kamera gagal"
+
+#: src/frontend/entangle-camera-manager.c:1160
+msgid "Camera is in use"
+msgstr "Kamera sedang digunakan"
+
+#: src/frontend/entangle-camera-manager.c:830
+#: src/frontend/entangle-camera-manager.c:1085
+msgid "Camera load controls failed"
+msgstr "Pemuatan kontrol kamera gagal"
+
+#: src/frontend/entangle-camera-manager.c:1133
+#: src/frontend/entangle-camera-manager.c:2256
+msgid "Cancel"
+msgstr "Batal"
+
+#: src/backend/entangle-camera.c:1050
+#, c-format
+msgid "Cannot capture image while not opened"
+msgstr "Tidak dapat mengambil gambar saat tidak dibuka"
+
+#: src/backend/entangle-camera.c:1484
+#, c-format
+msgid "Cannot delete file while not opened"
+msgstr "Tidak dapat menghapus file saat tidak dibuka"
+
+#: src/backend/entangle-camera.c:1331
+#, c-format
+msgid "Cannot download file while not opened"
+msgstr "Tidak dapat mengunduh file saat tidak dibuka"
+
+#: src/backend/entangle-camera-list.c:221 src/backend/entangle-camera.c:648
+#, c-format
+msgid "Cannot initialize gphoto2 abilities"
+msgstr "Tidak dapat menginisialisasi kemampuan gphoto2"
+
+#: src/backend/entangle-camera-list.c:381 src/backend/entangle-camera.c:660
+#, c-format
+msgid "Cannot initialize gphoto2 ports"
+msgstr "Tidak dapat menginisialisasi port gphoto2"
+
+#: src/backend/entangle-camera-list.c:224 src/backend/entangle-camera.c:654
+#, c-format
+msgid "Cannot load gphoto2 abilities"
+msgstr "Tidak dapat memuat kemampuan gphoto2"
+
+#: src/backend/entangle-camera-list.c:384 src/backend/entangle-camera.c:666
+#, c-format
+msgid "Cannot load gphoto2 ports"
+msgstr "Tidak dapat memuat port gphoto2"
+
+#: src/backend/entangle-camera.c:1178
+#, c-format
+msgid "Cannot preview image while not opened"
+msgstr "Tidak dapat mempratinjau gambar saat tidak dibuka"
+
+#: src/backend/entangle-camera.c:1620
+#, c-format
+msgid "Cannot wait for events while not opened"
+msgstr "Tidak dapat menunggu event saat tidak dibuka"
+
+#: src/frontend/entangle-camera-manager.c:1640
+#: src/frontend/entangle-camera-picker.c:518
+#: src/frontend/entangle-preferences-display.c:1325
+#: src/frontend/entangle-preferences-display.ui:252
+msgid "Capture"
+msgstr "Ambil Gambar"
+
+#: src/frontend/entangle-help-overlay.ui:119
+msgctxt "shortcut window"
+msgid "Capture a single image"
+msgstr "Ambil gambar tunggal"
+
+#: src/frontend/entangle-camera-manager.c:640
+#: src/frontend/entangle-camera-manager.c:644
+msgid "Capture an image"
+msgstr "Ambil sebuah gambar"
+
+#: src/backend/entangle-camera.c:3320
+#, c-format
+msgid "Capture target setting not available with this camera"
+msgstr "Pengaturan target pengambilan gambar tidak tersedia dengan kamera ini"
+
+#: src/org.entangle_photo.Manager.desktop:12
+msgid "Capture;Camera;Tethered;Photo;"
+msgstr "Ambil Gambar;Kamera;Tethered;Foto;"
+
+#: src/frontend/entangle-preferences-display.c:1467
+msgid "Center lines"
+msgstr "Garis tengah"
+
+#: src/frontend/entangle-camera-manager.c:1128
+#: src/frontend/entangle-camera-manager.c:2251
+msgid ""
+"Check that the camera is not\n"
+"\n"
+" - opened by another photo <b>application</b>\n"
+" - mounted as a <b>filesystem</b> on the desktop\n"
+" - in <b>sleep mode</b> to save battery power\n"
+msgstr ""
+"Periksa bahwa kamera tidak\n"
+"\n"
+" - dibuka oleh <b>aplikasi</b> foto lain\n"
+" - dipasang sebagai <b>filesystem</b> di desktop\n"
+" - dalam <b>mode tidur</b> untuk menghemat daya baterai\n"
+
+#: src/frontend/entangle-help-overlay.ui:24
+msgctxt "shortcut window"
+msgid "Close all windows & exit"
+msgstr "Tutup semua jendela & keluar"
+
+#: src/frontend/entangle-preferences-display.c:1329
+#: src/frontend/entangle-preferences-display.ui:461
+msgid "Color Management"
+msgstr "Manajemen Warna"
+
+#: src/frontend/entangle-preferences-display.ui:432
+msgid "Colour managed display"
+msgstr "Tampilan terkelola warna"
+
+#: src/frontend/entangle-preferences-display.ui:166
+msgid "Continue preview mode after capture"
+msgstr "Lanjutkan mode pratinjau setelah pengambilan gambar"
+
+#: src/frontend/entangle-camera-manager.c:642
+#: src/frontend/entangle-camera-manager.c:646
+msgid "Continuous capture preview"
+msgstr "Pratinjau pengambilan gambar berkelanjutan"
+
+#: src/frontend/entangle-help-overlay.ui:13
+msgctxt "shortcut window"
+msgid "Controlling the application"
+msgstr "Mengontrol aplikasi"
+
+#: src/backend/entangle-camera.c:2531 src/backend/entangle-camera.c:2585
+#: src/backend/entangle-camera.c:2763 src/backend/entangle-camera.c:2925
+#: src/backend/entangle-camera.c:3146 src/backend/entangle-camera.c:3313
+#, c-format
+msgid "Controls not available for this camera"
+msgstr "Kontrol tidak tersedia untuk kamera ini"
+
+#: src/backend/entangle-camera.c:2525 src/backend/entangle-camera.c:2579
+#: src/backend/entangle-camera.c:2757 src/backend/entangle-camera.c:2919
+#: src/backend/entangle-camera.c:3140 src/backend/entangle-camera.c:3307
+#, c-format
+msgid "Controls not available when camera is closed"
+msgstr "Kontrol tidak tersedia saat kamera ditutup"
+
+#: src/frontend/entangle-camera-manager.c:2434
+#: src/frontend/entangle-camera-manager.c:2565
+msgid "Delete"
+msgstr "Hapus"
+
+#: src/frontend/entangle-preferences-display.ui:198
+msgid "Delete file from camera after downloading"
+msgstr "Hapus file dari kamera setelah mengunduh"
+
+#: src/frontend/entangle-preferences-display.ui:367
+msgid "Detect the system monitor profile"
+msgstr "Deteksi profil monitor sistem"
+
+#: src/frontend/entangle-preferences-display.ui:797
+msgid "Display focus point during preview"
+msgstr "Tampilkan titik fokus selama pratinjau"
+
+#: src/frontend/entangle-help-overlay.ui:31
+msgctxt "shortcut window"
+msgid "Display help manual"
+msgstr "Tampilkan manual bantuan"
+
+#: src/org.entangle_photo.Manager.metainfo.xml:7
+#: src/org.entangle_photo.Manager.desktop:4
+msgid "Entangle"
+msgstr "Entangle"
+
+#: src/frontend/entangle-preferences-display.ui:8
+msgid "Entangle Preferences"
+msgstr "Preferensi Entangle"
+
+#: src/org.entangle_photo.Manager.metainfo.xml:14
+msgid ""
+"Entangle can trigger the camera shutter to capture new images. When "
+"supported by the camera, a continuously updating preview of the scene can be "
+"displayed prior to capture. Images will be downloaded and displayed as they "
+"are captured by the camera. Entangle also allows the settings of the camera "
+"to be changed from the computer."
+msgstr ""
+"Entangle dapat memicu shutter kamera untuk mengambil gambar baru. Jika "
+"didukung oleh kamera, pratinjau pemandangan yang terus diperbarui dapat "
+"ditampilkan sebelum pengambilan gambar. Gambar akan diunduh dan ditampilkan "
+"saat diambil oleh kamera. Entangle juga memungkinkan pengaturan kamera "
+"diubah dari komputer."
+
+#: src/org.entangle_photo.Manager.metainfo.xml:10
+msgid ""
+"Entangle is a program used to control digital cameras that are connected to "
+"the computer via USB."
+msgstr ""
+"Entangle adalah program yang digunakan untuk mengontrol kamera digital yang "
+"terhubung ke komputer melalui USB."
+
+#: src/org.entangle_photo.Manager.metainfo.xml:22
+msgid ""
+"Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
+"their compact camera models, and a variety of cameras from other "
+"manufacturers."
+msgstr ""
+"Entangle kompatibel dengan sebagian besar kamera DSLR dari Nikon dan Canon, "
+"beberapa model kamera kompak mereka, dan berbagai kamera dari produsen lain."
+
+#: src/frontend/entangle-camera-manager.c:1864
+msgid "Entangle: Camera autofocus failed"
+msgstr "Entangle: Fokus otomatis kamera gagal"
+
+#: src/frontend/entangle-camera-manager.c:1198
+msgid "Entangle: Camera connect failed"
+msgstr "Entangle: Koneksi kamera gagal"
+
+#: src/frontend/entangle-control-panel.c:88
+msgid "Entangle: Camera control update failed"
+msgstr "Entangle: Pembaruan kontrol kamera gagal"
+
+#: src/frontend/entangle-camera-manager.c:832
+#: src/frontend/entangle-camera-manager.c:1087
+msgid "Entangle: Camera load controls failed"
+msgstr "Entangle: Pemuatan kontrol kamera gagal"
+
+#: src/frontend/entangle-camera-manager.c:1891
+msgid "Entangle: Camera manual focus failed"
+msgstr "Entangle: Fokus manual kamera gagal"
+
+#: src/frontend/entangle-camera-manager.c:804
+msgid "Entangle: Operation failed"
+msgstr "Entangle: Operasi gagal"
+
+#: src/backend/entangle-camera.c:2980 src/backend/entangle-camera.c:3014
+#, c-format
+msgid "Failed to read manual focus choice %d: %s %d"
+msgstr "Gagal membaca pilihan fokus manual %d: %s %d"
+
+#: src/backend/entangle-camera.c:2789 src/backend/entangle-camera.c:2797
+#, c-format
+msgid "Failed to set autofocus state: %s %d"
+msgstr "Gagal mengatur status fokus otomatis: %s %d"
+
+#: src/backend/entangle-camera.c:3341
+#, c-format
+msgid "Failed to set capture target: %s %d"
+msgstr "Gagal mengatur target pengambilan gambar: %s %d"
+
+#: src/backend/entangle-camera.c:2963 src/backend/entangle-camera.c:2987
+#: src/backend/entangle-camera.c:3005 src/backend/entangle-camera.c:3021
+#, c-format
+msgid "Failed to set manual focus state: %s %d"
+msgstr "Gagal mengatur status fokus manual: %s %d"
+
+#: src/backend/entangle-camera.c:3172
+#, c-format
+msgid "Failed to set time state: %s %d"
+msgstr "Gagal mengatur status waktu: %s %d"
+
+#: src/backend/entangle-camera.c:2621 src/backend/entangle-camera.c:2628
+#, c-format
+msgid "Failed to set viewfinder state: %s %d"
+msgstr "Gagal mengatur status viewfinder: %s %d"
+
+#: src/frontend/entangle-preferences-display.ui:145
+msgid "Filename pattern:"
+msgstr "Pola nama file:"
+
+#: src/frontend/entangle-preferences-display.ui:984
+msgid "Flip horizontally"
+msgstr "Balik secara horizontal"
+
+#: src/frontend/entangle-preferences-display.ui:968
+msgid "Flip vertically"
+msgstr "Balik secara vertikal"
+
+#: src/frontend/entangle-help-overlay.ui:135
+msgctxt "shortcut window"
+msgid "Focus control (during live preview)"
+msgstr "Kontrol fokus (selama pratinjau langsung)"
+
+#: src/frontend/entangle-help-overlay.ui:160
+msgctxt "shortcut window"
+msgid "Focus in (large step)"
+msgstr "Fokus masuk (langkah besar)"
+
+#: src/frontend/entangle-help-overlay.ui:146
+msgctxt "shortcut window"
+msgid "Focus in (small step)"
+msgstr "Fokus masuk (langkah kecil)"
+
+#: src/frontend/entangle-help-overlay.ui:167
+msgctxt "shortcut window"
+msgid "Focus out (large step)"
+msgstr "Fokus keluar (langkah besar)"
+
+#: src/frontend/entangle-help-overlay.ui:153
+msgctxt "shortcut window"
+msgid "Focus out (small step)"
+msgstr "Fokus keluar (langkah kecil)"
+
+#: src/frontend/entangle-help-overlay.ui:99
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Layar penuh"
+
+#: src/frontend/entangle-preferences-display.c:1479
+msgid "Golden sections"
+msgstr "Bagian emas"
+
+#: src/frontend/entangle-preferences-display.ui:815
+msgid "Grid lines:"
+msgstr "Garis kisi:"
+
+#: src/frontend/entangle-preferences-display.ui:952
+msgid "Highlight areas of overexposure"
+msgstr "Sorot area overexposure"
+
+#: src/frontend/entangle-preferences-display.ui:928
+msgid "Highlight:"
+msgstr "Sorot:"
+
+#: src/frontend/entangle-preferences-display.c:1358
+msgid "ICC profiles (*.icc, *.icm)"
+msgstr "Profil ICC (*.icc, *.icm)"
+
+#: src/frontend/entangle-camera-picker.ui:198
+msgid "IP Address:"
+msgstr "Alamat IP:"
+
+#: src/frontend/entangle-preferences-display.c:1319
+#: src/frontend/entangle-preferences-display.ui:1014
+msgid "Image Viewer"
+msgstr "Penampil Gambar"
+
+#: src/frontend/entangle-help-overlay.ui:40
+msgctxt "shortcut window"
+msgid "Image display"
+msgstr "Tampilan gambar"
+
+#: src/frontend/entangle-camera-manager.c:2881
+msgid "Image histogram"
+msgstr "Histogram gambar"
+
+#: src/frontend/entangle-preferences-display.c:1314
+#: src/frontend/entangle-preferences-display.ui:660
+msgid "Interface"
+msgstr "Antarmuka"
+
+#: src/backend/entangle-camera.c:2932
+#, c-format
+msgid "Manual focus control not available with this camera"
+msgstr "Kontrol fokus manual tidak tersedia dengan kamera ini"
+
+#: src/backend/entangle-camera.c:2944
+#, c-format
+msgid "Manual focus control was not a range or radio widget"
+msgstr "Kontrol fokus manual bukan widget range atau radio"
+
+#: src/frontend/entangle-camera-manager.c:1889
+msgid "Manual focus failed"
+msgstr "Fokus manual gagal"
+
+#: src/frontend/entangle-preferences-display.ui:757
+msgid "Mask opacity:"
+msgstr "Opasitas masker:"
+
+#: src/frontend/entangle-script-simple.c:61
+msgid "Missing 'execute' method implementation"
+msgstr "Implementasi metode 'execute' tidak ada"
+
+#: src/frontend/entangle-preferences-display.ui:325
+msgid "Mode of operation:"
+msgstr "Mode operasi:"
+
+#: src/frontend/entangle-camera-picker.c:515
+msgid "Model"
+msgstr "Model"
+
+#: src/frontend/entangle-camera-manager.c:864
+msgid "Monitor"
+msgstr "Monitor"
+
+#: src/frontend/entangle-preferences-display.ui:345
+msgid "Monitor profile:"
+msgstr "Profil monitor:"
+
+#: src/frontend/entangle-camera-picker.ui:226
+msgid "Network camera"
+msgstr "Kamera jaringan"
+
+#: src/frontend/entangle-camera-manager.c:1167
+#: src/frontend/entangle-camera-picker.c:134
+msgid "No"
+msgstr "Tidak"
+
+#: src/frontend/entangle-camera-manager.c:1047
+#: src/frontend/entangle-camera-manager.c:1048
+#: src/frontend/entangle-control-panel.c:835
+msgid "No camera connected"
+msgstr "Tidak ada kamera yang terhubung"
+
+#: src/frontend/entangle-camera-picker.ui:157
+msgid ""
+"No cameras were detected, check that\n"
+"\n"
+"  - the <b>cables</b> are connected\n"
+"  - the camera is <b>turned on</b>\n"
+"  - the camera is in the <b>correct mode</b>\n"
+"  - the camera is a <b>supported</b> model\n"
+"\n"
+"USB cameras are automatically detected\n"
+"when plugged in, for others try a refresh\n"
+"or enter a network camera IP address"
+msgstr ""
+"Tidak ada kamera yang terdeteksi, periksa bahwa\n"
+"\n"
+"  - <b>kabel</b> terhubung\n"
+"  - kamera <b>dinyalakan</b>\n"
+"  - kamera dalam <b>mode yang benar</b>\n"
+"  - kamera adalah model yang <b>didukung</b>\n"
+"\n"
+"Kamera USB terdeteksi secara otomatis\n"
+"saat dicolokkan, untuk yang lain coba refresh\n"
+"atau masukkan alamat IP kamera jaringan"
+
+#: src/frontend/entangle-script-config.c:159
+msgid "No config options"
+msgstr "Tidak ada opsi konfigurasi"
+
+#: src/frontend/entangle-control-panel.c:843
+msgid "No controls available"
+msgstr "Tidak ada kontrol yang tersedia"
+
+#: src/frontend/entangle-script-config.c:76
+msgid "No script"
+msgstr "Tidak ada skrip"
+
+#: src/frontend/entangle-preferences-display.c:1465
+msgid "None"
+msgstr "Tidak ada"
+
+#: src/frontend/entangle-control-panel.c:309
+msgid "Off"
+msgstr "Mati"
+
+#: src/frontend/entangle-control-panel.c:309
+msgid "On"
+msgstr "Hidup"
+
+#: src/frontend/entangle-camera-manager.c:2554
+msgid "Open"
+msgstr "Buka"
+
+#: src/frontend/entangle-help-overlay.ui:17
+msgctxt "shortcut window"
+msgid "Open a new camera window"
+msgstr "Buka jendela kamera baru"
+
+#: src/frontend/entangle-camera-manager.c:2559
+msgid "Open with"
+msgstr "Buka dengan"
+
+#: src/frontend/entangle-camera-manager.c:803
+#, c-format
+msgid "Operation: %s"
+msgstr "Operasi: %s"
+
+#: src/frontend/entangle-preferences-display.ui:855
+msgid "Overlay earlier images"
+msgstr "Overlay gambar sebelumnya"
+
+#: src/frontend/entangle-preferences-display.ui:873
+msgid "Overlay layers:"
+msgstr "Layer overlay:"
+
+#: src/frontend/entangle-preferences-display.c:993
+msgid "Pattern must contain 'XXXXXX' placeholder"
+msgstr "Pola harus mengandung placeholder 'XXXXXX'"
+
+#: src/frontend/entangle-preferences-display.ui:1063
+msgid "Perceptual"
+msgstr "Perseptual"
+
+#: src/frontend/entangle-preferences-display.c:1336
+#: src/frontend/entangle-preferences-display.ui:531
+msgid "Plugins"
+msgstr "Plugin"
+
+#: src/frontend/entangle-camera-picker.c:516
+msgid "Port"
+msgstr "Port"
+
+#: src/frontend/entangle-help-overlay.ui:106
+msgctxt "shortcut window"
+msgid "Presentation"
+msgstr "Presentasi"
+
+#: src/frontend/entangle-camera-manager.c:1721
+msgid "Preview"
+msgstr "Pratinjau"
+
+#: src/frontend/entangle-preferences-display.c:1473
+msgid "Quarters"
+msgstr "Seperempat"
+
+#: src/frontend/entangle-preferences-display.ui:333
+msgid "RGB profile:"
+msgstr "Profil RGB:"
+
+#: src/frontend/entangle-preferences-display.ui:1066
+msgid "Relative colourimetric"
+msgstr "Kolorimetrik relatif"
+
+#: src/frontend/entangle-preferences-display.ui:357
+msgid "Rendering intent:"
+msgstr "Intent rendering:"
+
+#: src/frontend/entangle-control-panel.c:769
+msgid "Reset controls"
+msgstr "Reset kontrol"
+
+#: src/frontend/entangle-camera-manager.c:1135
+#: src/frontend/entangle-camera-manager.c:2257
+msgid "Retry"
+msgstr "Coba lagi"
+
+#: src/frontend/entangle-preferences-display.c:1470
+msgid "Rule of 3rds"
+msgstr "Aturan sepertiga"
+
+#: src/frontend/entangle-preferences-display.c:1475
+msgid "Rule of 5ths"
+msgstr "Aturan seperlima"
+
+#: src/frontend/entangle-preferences-display.ui:1069
+msgid "Saturation"
+msgstr "Saturasi"
+
+#: src/frontend/entangle-dpms.c:57
+msgid "Screen blanking is not available on this display"
+msgstr "Pemadaman layar tidak tersedia pada tampilan ini"
+
+#: src/frontend/entangle-dpms.c:69
+msgid "Screen blanking is not implemented on this platform"
+msgstr "Pemadaman layar tidak diimplementasikan pada platform ini"
+
+#: src/frontend/entangle-camera-manager.c:1659
+msgid "Script"
+msgstr "Skrip"
+
+#: src/frontend/entangle-camera-picker.ui:97
+msgid "Select a camera to connect to:"
+msgstr "Pilih kamera untuk terhubung ke:"
+
+#: src/frontend/entangle-camera-manager.c:1493
+msgid "Select a folder"
+msgstr "Pilih folder"
+
+#: src/frontend/entangle-camera-manager.c:2598
+msgid "Select application..."
+msgstr "Pilih aplikasi..."
+
+#: src/frontend/entangle-camera-picker.ui:8
+msgid "Select camera - Entangle"
+msgstr "Pilih kamera - Entangle"
+
+#: src/frontend/entangle-camera-manager.c:1823
+msgid "Set clock"
+msgstr "Atur jam"
+
+#: src/frontend/entangle-preferences-display.ui:630
+msgid "Show linear histogram"
+msgstr "Tampilkan histogram linear"
+
+#: src/frontend/entangle-help-overlay.ui:115
+msgctxt "shortcut window"
+msgid "Shutter control"
+msgstr "Kontrol shutter"
+
+#: src/frontend/entangle-camera-manager.c:2546
+msgid "Tear off"
+msgstr "Lepas"
+
+#: src/frontend/entangle-help-about.ui:17
+#: src/org.entangle_photo.Manager.desktop:5
+msgid "Tethered Camera Control & Capture"
+msgstr "Kontrol & Pengambilan Gambar Kamera Tethered"
+
+#: src/org.entangle_photo.Manager.metainfo.xml:8
+msgid "Tethered Camera Control &amp; Capture"
+msgstr "Kontrol &amp; Pengambilan Gambar Kamera Tethered"
+
+#: src/org.entangle_photo.Manager.metainfo.xml:39
+msgid "The Entangle Photo project"
+msgstr "Proyek Entangle Photo"
+
+#: src/frontend/entangle-camera-manager.c:1164
+msgid ""
+"The camera cannot be opened because it is mounted as a filesystem. Do you "
+"wish to umount it now?"
+msgstr ""
+"Kamera tidak dapat dibuka karena dipasang sebagai filesystem. Apakah Anda "
+"ingin umount sekarang?"
+
+#: src/frontend/entangle-camera-manager.c:652
+#: src/frontend/entangle-camera-manager.c:655
+msgid "This camera does not support image capture"
+msgstr "Kamera ini tidak mendukung pengambilan gambar"
+
+#: src/frontend/entangle-camera-manager.c:661
+#: src/frontend/entangle-camera-manager.c:664
+msgid "This camera does not support image preview"
+msgstr "Kamera ini tidak mendukung pratinjau gambar"
+
+#: src/backend/entangle-camera.c:3153
+#, c-format
+msgid "Time setting not available with this camera"
+msgstr "Pengaturan waktu tidak tersedia dengan kamera ini"
+
+#: src/backend/entangle-camera.c:3332
+#, c-format
+msgid "Time setting was not a choice widget"
+msgstr "Pengaturan waktu bukan widget pilihan"
+
+#: src/backend/entangle-camera.c:3165
+#, c-format
+msgid "Time setting was not a date widget"
+msgstr "Pengaturan waktu bukan widget tanggal"
+
+#: src/frontend/entangle-help-overlay.ui:86
+msgctxt "shortcut window"
+msgid "Toggle histogram scale"
+msgstr "Beralih skala histogram"
+
+#: src/frontend/entangle-help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle image mask"
+msgstr "Beralih masker gambar"
+
+#: src/frontend/entangle-help-overlay.ui:126
+msgctxt "shortcut window"
+msgid "Toggle live preview"
+msgstr "Beralih pratinjau langsung"
+
+#: src/frontend/entangle-help-overlay.ui:79
+msgctxt "shortcut window"
+msgid "Toggle overexposure highlighting"
+msgstr "Beralih penyorotan overexposure"
+
+#: src/backend/entangle-camera.c:1060
+#, c-format
+msgid "Unable to capture image: %s"
+msgstr "Tidak dapat mengambil gambar: %s"
+
+#: src/backend/entangle-camera.c:1191
+#, c-format
+msgid "Unable to capture preview: %s"
+msgstr "Tidak dapat mengambil pratinjau: %s"
+
+#: src/frontend/entangle-camera-manager.c:1123
+#: src/frontend/entangle-camera-manager.c:2245
+#, c-format
+msgid "Unable to connect to camera: %s"
+msgstr "Tidak dapat terhubung ke kamera: %s"
+
+#: src/backend/entangle-camera.c:1500
+#, c-format
+msgid "Unable to delete file: %s"
+msgstr "Tidak dapat menghapus file: %s"
+
+#: src/backend/entangle-camera.c:2265
+#, c-format
+msgid "Unable to fetch camera control configuration: %s"
+msgstr "Tidak dapat mengambil konfigurasi kontrol kamera: %s"
+
+#: src/backend/entangle-camera.c:1846 src/backend/entangle-camera.c:2005
+#: src/backend/entangle-camera.c:2144
+#, c-format
+msgid "Unable to fetch widget name"
+msgstr "Tidak dapat mengambil nama widget"
+
+#: src/backend/entangle-camera.c:1840 src/backend/entangle-camera.c:1999
+#: src/backend/entangle-camera.c:2138 src/backend/entangle-camera.c:2601
+#: src/backend/entangle-camera.c:2776 src/backend/entangle-camera.c:2938
+#: src/backend/entangle-camera.c:3159 src/backend/entangle-camera.c:3326
+#, c-format
+msgid "Unable to fetch widget type"
+msgstr "Tidak dapat mengambil tipe widget"
+
+#: src/backend/entangle-camera.c:1351
+#, c-format
+msgid "Unable to get camera file: %s"
+msgstr "Tidak dapat mendapatkan file kamera: %s"
+
+#: src/backend/entangle-camera.c:1197 src/backend/entangle-camera.c:1358
+#, c-format
+msgid "Unable to get file data: %s"
+msgstr "Tidak dapat mendapatkan data file: %s"
+
+#: src/backend/entangle-camera.c:1203
+#, c-format
+msgid "Unable to get filename: %s"
+msgstr "Tidak dapat mendapatkan nama file: %s"
+
+#: src/backend/entangle-camera.c:693
+#, c-format
+msgid "Unable to initialize camera: %s"
+msgstr "Tidak dapat menginisialisasi kamera: %s"
+
+#: src/backend/entangle-camera.c:2256
+#, c-format
+msgid "Unable to load controls, camera is not opened"
+msgstr "Tidak dapat memuat kontrol, kamera tidak dibuka"
+
+#: src/backend/entangle-camera.c:2418 src/backend/entangle-camera.c:2636
+#: src/backend/entangle-camera.c:2805 src/backend/entangle-camera.c:2996
+#: src/backend/entangle-camera.c:3180 src/backend/entangle-camera.c:3349
+#, c-format
+msgid "Unable to save camera control configuration: %s"
+msgstr "Tidak dapat menyimpan konfigurasi kontrol kamera: %s"
+
+#: src/backend/entangle-camera.c:2399
+#, c-format
+msgid "Unable to save controls, camera is not configurable"
+msgstr "Tidak dapat menyimpan kontrol, kamera tidak dapat dikonfigurasi"
+
+#: src/backend/entangle-camera.c:2393
+#, c-format
+msgid "Unable to save controls, camera is not opened"
+msgstr "Tidak dapat menyimpan kontrol, kamera tidak dibuka"
+
+#: src/backend/entangle-camera.c:1646
+#, c-format
+msgid "Unable to wait for events: %s"
+msgstr "Tidak dapat menunggu event: %s"
+
+#: src/frontend/entangle-script.c:95
+msgid "Untitled script"
+msgstr "Skrip tanpa judul"
+
+#: src/frontend/entangle-preferences-display.ui:839
+msgid "Use embedded preview from raw files"
+msgstr "Gunakan pratinjau tertanam dari file raw"
+
+#: src/frontend/entangle-preferences-display.ui:182
+msgid "Use preview output as capture image"
+msgstr "Gunakan output pratinjau sebagai gambar pengambilan"
+
+#: src/backend/entangle-camera.c:2595
+#, c-format
+msgid "Viewfinder control not available with this camera"
+msgstr "Kontrol viewfinder tidak tersedia dengan kamera ini"
+
+#: src/backend/entangle-camera.c:2607
+#, c-format
+msgid "Viewfinder control was not a toggle widget"
+msgstr "Kontrol viewfinder bukan widget toggle"
+
+#: src/frontend/entangle-help-overlay.ui:95
+msgctxt "shortcut window"
+msgid "Window display"
+msgstr "Tampilan jendela"
+
+#: src/frontend/entangle-camera-manager.c:1168
+#: src/frontend/entangle-camera-picker.c:134
+msgid "Yes"
+msgstr "Ya"
+
+#: src/frontend/entangle-camera-manager-menus.ui:97
+msgid "Zoom _In"
+msgstr "Zum P_erbesar"
+
+#: src/frontend/entangle-camera-manager-menus.ui:101
+msgid "Zoom _Out"
+msgstr "Zum P_erkecil"
+
+#: src/frontend/entangle-help-overlay.ui:65
+msgctxt "shortcut window"
+msgid "Zoom best"
+msgstr "Zum terbaik"
+
+#: src/frontend/entangle-help-overlay.ui:44
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Zum perbesar"
+
+#: src/frontend/entangle-help-overlay.ui:58
+msgctxt "shortcut window"
+msgid "Zoom normal"
+msgstr "Zum normal"
+
+#: src/frontend/entangle-help-overlay.ui:51
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Zum perkecil"
+
+#: src/frontend/entangle-camera-manager-menus.ui:46
+msgid "_About"
+msgstr "_Tentang"
+
+#: src/frontend/entangle-camera-manager.c:1494
+msgid "_Cancel"
+msgstr "_Batal"
+
+#: src/frontend/entangle-camera-manager-menus.ui:22
+msgid "_Connect…"
+msgstr "_Hubungkan…"
+
+#: src/frontend/entangle-camera-manager-menus.ui:26
+msgid "_Disconnect…"
+msgstr "_Putuskan…"
+
+#: src/frontend/entangle-camera-manager-menus.ui:62
+msgid "_Fullscreen"
+msgstr "_Layar penuh"
+
+#: src/frontend/entangle-camera-manager-menus.ui:32
+msgid "_Help"
+msgstr "_Bantuan"
+
+#: src/frontend/entangle-camera-manager-menus.ui:38
+msgid "_Keyboard shortcuts"
+msgstr "_Pintasan keyboard"
+
+#: src/frontend/entangle-camera-manager-menus.ui:42
+msgid "_Manual"
+msgstr "_Manual"
+
+#: src/frontend/entangle-camera-manager-menus.ui:6
+msgid "_New window"
+msgstr "_Jendela baru"
+
+#: src/frontend/entangle-camera-manager-menus.ui:91
+msgid "_Normal Size"
+msgstr "_Ukuran Normal"
+
+#: src/frontend/entangle-camera-manager.c:1495
+msgid "_Open"
+msgstr "_Buka"
+
+#: src/frontend/entangle-camera-manager-menus.ui:10
+msgid "_Preferences…"
+msgstr "_Preferensi…"
+
+#: src/frontend/entangle-camera-manager-menus.ui:66
+msgid "_Presentation"
+msgstr "_Presentasi"
+
+#: src/frontend/entangle-camera-manager-menus.ui:53
+msgid "_Quit"
+msgstr "_Keluar"
+
+#: src/frontend/entangle-camera-manager-menus.ui:16
+msgid "_Select session…"
+msgstr "_Pilih sesi…"
+
+#: src/frontend/entangle-camera-manager-menus.ui:72
+msgid "_Settings"
+msgstr "_Pengaturan"
+
+#: src/frontend/entangle-camera-manager-menus.ui:34
+msgid "_Supported cameras"
+msgstr "_Kamera yang didukung"
+
+#: src/frontend/entangle-camera-manager-menus.ui:78
+msgid "_Synchronize capture"
+msgstr "_Sinkronisasi pengambilan gambar"
+
+#: src/frontend/entangle-camera-support.c:184
+msgid "capture"
+msgstr "ambil gambar"
+
+#: src/frontend/entangle-camera-support.ui:65
+msgid "label"
+msgstr "label"
+
+#: src/frontend/entangle-camera-support.c:190
+msgid "preview"
+msgstr "pratinjau"
+
+#: src/frontend/entangle-camera-support.c:196
+msgid "settings"
+msgstr "pengaturan"
