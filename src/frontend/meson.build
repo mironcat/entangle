@@ -108,7 +108,7 @@ entangle_frontend_cflags = [
     '-DPKGDATADIR="' + entangle_pkgdatadir + '"',
     '-DLIBDIR="' + entangle_libdir + '"',
     '-DVERSION="' + meson.project_version() + '"',
-] + girepository_cflags
+] + girepository_cflags + warning_cflags
 
 entangle_frontend = shared_library(
   'entangle_frontend',

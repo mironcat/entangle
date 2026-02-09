@@ -134,10 +134,13 @@ entangle_backend_deps = [
   libraw_dep,
 ]
 
+entangle_backend_cflags = warning_cflags
+
 entangle_backend = shared_library(
   'entangle_backend',
   sources: entangle_backend_sources,
   dependencies: entangle_backend_deps,
+  c_args: entangle_backend_cflags,
   version: '0.0.0',
   install: true,
   install_dir: entangle_libdir,

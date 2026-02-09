@@ -23,7 +23,7 @@ entangle_cflags = [
     '-DDATADIR="' + entangle_datadir + '"',
     '-DLOCALE_DIR="' + entangle_localedir + '"',
     '-DGETTEXT_PACKAGE="entangle"',
-] + girepository_cflags
+] + girepository_cflags + warning_cflags
 
 entangle = executable(
   'entangle',

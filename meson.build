@@ -221,22 +221,20 @@ check_cflags = [
   '-Wno-suggest-attribute=const',
 ]
 
-cflags = []
+warning_cflags = []
 foreach cflag: check_cflags
   if cc.has_argument(cflag)
-    cflags += [cflag]
+    warning_cflags += [cflag]
   endif
 endforeach
 
 werror_option = get_option('enable-werror')
 if werror_option
   if cc.has_argument('-Werror')
-    cflags += ['-Werror']
+    warning_cflags += ['-Werror']
   endif
 endif
 
-
-add_project_arguments(cflags, language: 'c')
 
 entangle_prefix = get_option('prefix')
 entangle_bindir = join_paths(entangle_prefix, get_option('bindir'))
