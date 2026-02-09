@@ -32,7 +32,7 @@ stages:
   image: ${CI_REGISTRY_IMAGE}/${NAME}:latest
   stage: build
   script:
-    - meson --prefix="`pwd`/vroot" -Denable-gtk-doc=true build
+    - meson --prefix="`pwd`/vroot" -Denable-gtk-doc=true build -Denable-werror=true
     - ninja -C build dist
     - if [ test -f /usr/bin/rpmbuild ]; then rpmbuild --nodeps --define "_sourcedir `pwd`" -ta --clean entangle*.tar.xz ; fi
 
