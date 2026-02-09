@@ -45,7 +45,7 @@ struct _EntangleScriptClass
                           EntangleCameraAutomata *automata,
                           GCancellable *cancel,
                           GAsyncReadyCallback callback,
-                          gpointer data);
+                          gpointer user_data);
     gboolean (*execute_finish)(EntangleScript *script,
                                GAsyncResult *result,
                                GError **error);
@@ -60,7 +60,7 @@ entangle_script_execute_async(EntangleScript *script,
                               EntangleCameraAutomata *automata,
                               GCancellable *cancel,
                               GAsyncReadyCallback callback,
-                              gpointer data);
+                              gpointer user_data);
 gboolean
 entangle_script_execute_finish(EntangleScript *script,
                                GAsyncResult *result,

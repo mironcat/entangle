@@ -145,20 +145,20 @@ entangle_script_get_config_widget(EntangleScript *script)
  * @cancel: (transfer none)(allow-none): cancellation handler
  * @callback: (scope async): a #GAsyncReadyCallback to call when the script has
  * finished
- * @data: (closure): the data to pass to the callback function
+ * @user_data: the data to pass to the callback function
  */
 void
 entangle_script_execute_async(EntangleScript *script,
                               EntangleCameraAutomata *automata,
                               GCancellable *cancel,
                               GAsyncReadyCallback callback,
-                              gpointer data)
+                              gpointer user_data)
 {
     g_return_if_fail(ENTANGLE_IS_SCRIPT(script));
     g_return_if_fail(ENTANGLE_SCRIPT_GET_CLASS(script)->execute_async != NULL);
 
     ENTANGLE_SCRIPT_GET_CLASS(script)->execute_async(script, automata, cancel,
-                                                     callback, data);
+                                                     callback, user_data);
 }
 
 /**

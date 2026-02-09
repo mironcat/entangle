@@ -753,7 +753,7 @@ entangle_camera_open_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Attempt to open to and initialize the camera. This
  * may fail if the camera is in use by another application,
@@ -892,7 +892,7 @@ entangle_camera_close_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Close from the camera, enabling it to be used by
  * other applications.
@@ -1102,7 +1102,7 @@ entangle_camera_capture_image_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Trigger the camera shutter and download the first resulting
  * image. If the camera is shooting in multiple formats (eg JPEG
@@ -1256,7 +1256,7 @@ entangle_camera_preview_image_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Enable "live view", if not already enabled, and capture a
  * low resolution preview image. The "live view" mode will
@@ -1410,7 +1410,7 @@ entangle_camera_download_file_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Download the data associated with @file and set the data
  * on @file.
@@ -1542,7 +1542,7 @@ entangle_camera_delete_file_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Delete @file from the camera capture target.
  *
@@ -1749,7 +1749,7 @@ entangle_camera_process_events_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Wait upto @waitms milliseconds for events to arrive from
  * the camera. Signals will be emitted for any interesting
@@ -2328,7 +2328,7 @@ entangle_camera_load_controls_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Loads the configuration controls from the camera.
  *
@@ -2464,7 +2464,7 @@ entangle_camera_save_controls_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Saves the configuration controls to the camera.
  *
@@ -2681,7 +2681,7 @@ entangle_camera_set_viewfinder_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * If @enabled is TRUE, the view finder will be activated
  * allowing preview images to be captured. If @enabled is
@@ -2845,7 +2845,7 @@ entangle_camera_autofocus_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Trigger the autofocus mechanism on the camera, waiting
  * until focus is achieved or fails.
@@ -3064,7 +3064,7 @@ entangle_camera_manualfocus_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Trigger the focus mechanism on the camera, to move
  * by @step.
@@ -3223,7 +3223,7 @@ entangle_camera_set_clock_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Update the camera clock to be @epochsecs seconds since
  * the epoch.
@@ -3395,7 +3395,7 @@ entangle_camera_set_capture_target_helper(GTask *task,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Set the destination for storing captured images
  * to @target.
@@ -3718,7 +3718,7 @@ entangle_camera_unmount_complete(GObject *object,
  * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
  * @callback: (scope async): a GAsyncReadyCallback to call when the request is
  * satisfied.
- * @user_data: (closure): the data to pass to callback function.
+ * @user_data: the data to pass to callback function.
  *
  * Unmount the camera virtual filesystem, allowing it to be
  * opened.
