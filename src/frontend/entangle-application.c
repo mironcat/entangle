@@ -479,7 +479,9 @@ entangle_application_init(EntangleApplication *app)
     app->supportedCameras = entangle_camera_list_new_supported();
 
 #if GIREPOSITORY_MAJOR_VERSION >= 2
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     app->giRepository = gi_repository_dup_default();
+#pragma GCC diagnostic pop
     gi_repository_require(app->giRepository, "Peas", "1.0", 0, NULL);
 #else
     app->giRepository = g_object_ref(g_irepository_get_default());
