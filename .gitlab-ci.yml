@@ -4,7 +4,7 @@ stages:
   - build
 
 .container-job-template: &container-job-definition
-  image: docker:stable
+  image: docker:latest
   stage: container
   services:
     - docker:dind
