@@ -47,7 +47,6 @@ gudev_dep = dependency('gudev-1.0', version: gudev_min_version)
 lcms2_dep = dependency('lcms2', version: lcms2_min_version)
 libpeas_dep = dependency('libpeas-1.0', version: libpeas_min_version)
 libpeas_gtk_dep = dependency('libpeas-gtk-1.0', version: libpeas_min_version)
-pygobject_dep = dependency('pygobject-3.0', required: false)
 gexiv2_dep = dependency('gexiv2-0.16', version: gexiv2_016_min_version, required: false)
 if not gexiv2_dep.found()
     gexiv2_dep = dependency('gexiv2', version: gexiv2_min_version)
@@ -60,19 +59,39 @@ libraw_dep = cc.find_library('raw_r')
 gst_dep = dependency('gstreamer-1.0', version: gst_min_version)
 gst_video_dep = dependency('gstreamer-video-1.0', version: gst_min_version)
 
-# pygobject 3.52.x switched from libgirepository-1.0 to libgirepository-2.0,
-# and libpeas 1.38 did the same.
-# pygobject -dev files might not always be installed, but libpeas
-# 1.36 might have that change backported by distros, so check both.
-if (
-  libpeas_dep.version().version_compare('>=1.38')
-  or (pygobject_dep.found() and pygobject_dep.version().version_compare('>=3.52'))
-)
-  girepository_dep = dependency('girepository-2.0', version: girepository2_min_version)
-  girepository_cflags = ['-DGIREPOSITORY_MAJOR_VERSION=2']
+# libpeas1 switched to girepository-2.0. This is an API break as the
+# girepository.h header uses different function prefix. We can thus
+# detect 'g_irepository_get_type' (from gobject-introspection) vs
+# 'gi_repository_get_type' (from glib)
+
+with_girepository2 = false
+gi1_test_code = '''
+    #include <libpeas/peas.h>
+
+    int main(void) {
+      g_irepository_get_type();
+      return 0;
+    }
+'''
+gi2_test_code = '''
+    #include <libpeas/peas.h>
+
+    int main(void) {
+      gi_repository_get_type();
+      return 0;
+    }
+'''
+
+if cc.compiles(gi2_test_code, dependencies: [libpeas_dep], args: ['-Werror', '-O2'])
+    girepository_dep = dependency('girepository-2.0', version: girepository2_min_version)
+    girepository_cflags = ['-DGIREPOSITORY_MAJOR_VERSION=2']
 else
-  girepository_dep = dependency('gobject-introspection-1.0', version: gobject_introspection_min_version)
-  girepository_cflags = ['-DGIREPOSITORY_MAJOR_VERSION=1']
+    if cc.compiles(gi1_test_code, dependencies: [libpeas_dep], args: ['-Werror', '-O2'])
+        girepository_dep = dependency('gobject-introspection-1.0', version: gobject_introspection_min_version)
+        girepository_cflags = ['-DGIREPOSITORY_MAJOR_VERSION=1']
+    else
+        error('Cannot determine if libpeas1 uses girepository-1.0 or girepository-2.0')
+    endif
 endif
 
 gnome = import('gnome')
