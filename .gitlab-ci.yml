@@ -3,7 +3,14 @@ stages:
   - style
   - build
 
-.container-job-template: &container-job-definition
+.base-job:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE != "1"'
+      when: never
+    - when: on_success
+
+.container-job:
+  extends: .base-job
   image: docker:latest
   stage: container
   services:
@@ -20,7 +27,8 @@ stages:
   after_script:
     - docker logout
 
-.build-job-template: &build-job-definition
+.build-job:
+  extends: .base-job
   image: ${CI_REGISTRY_IMAGE}/${NAME}:latest
   stage: build
   script:
@@ -28,32 +36,36 @@ stages:
     - ninja -C build dist
     - if [ test -f /usr/bin/rpmbuild ]; then rpmbuild --nodeps --define "_sourcedir `pwd`" -ta --clean entangle*.tar.xz ; fi
 
+.style-job:
+  extends: .base-job
+  stage: style
+
 container-build-fedora:
-  <<: *container-job-definition
+  extends: .container-job
   variables:
     NAME: build-fedora
 
 container-build-ubuntu:
-  <<: *container-job-definition
+  extends: .container-job
   variables:
     NAME: build-ubuntu
 
 build-fedora:
-  <<: *build-job-definition
+  extends: .build-job
   needs:
     - job: container-build-fedora
   variables:
     NAME: build-fedora
 
 build-ubuntu:
+  extends: .build-job
   needs:
     - job: container-build-ubuntu
-  <<: *build-job-definition
   variables:
     NAME: build-ubuntu
 
 syntax-check:
-  stage: style
+  extends: .style-job
   needs:
     - job: container-build-fedora
   image: ${CI_REGISTRY_IMAGE}/build-fedora:latest
@@ -61,7 +73,7 @@ syntax-check:
     - make syntax-check
 
 clang-format:
-  stage: style
+  extends: .style-job
   needs:
     - job: container-build-fedora
   image: ${CI_REGISTRY_IMAGE}/build-fedora:latest
