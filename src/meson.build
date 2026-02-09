@@ -92,8 +92,7 @@ gir_incs = [
   'Peas-1.0',
   'Gst-1.0',
   'GstBase-1.0',
-  'GExiv2-0.10',
-]
+] + gexiv2_gi_name
 
 gir_dir = join_paths(entangle_datadir, 'gir-1.0')
 typelib_dir = join_paths(entangle_libdir, 'girepository-1.0')

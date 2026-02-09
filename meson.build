@@ -48,8 +48,10 @@ lcms2_dep = dependency('lcms2', version: lcms2_min_version)
 libpeas_dep = dependency('libpeas-1.0', version: libpeas_min_version)
 libpeas_gtk_dep = dependency('libpeas-gtk-1.0', version: libpeas_min_version)
 gexiv2_dep = dependency('gexiv2-0.16', version: gexiv2_016_min_version, required: false)
+gexiv2_gi_name = 'GExiv2-0.16'
 if not gexiv2_dep.found()
     gexiv2_dep = dependency('gexiv2', version: gexiv2_min_version)
+    gexiv2_gi_name = 'GExiv2-0.10'
 endif
 xext_dep = dependency('xext', version: xext_min_version)
 # Cannot use pkg-config file as it includes a bogus '-fopenmp' arg in Libs
