@@ -209,7 +209,7 @@ check_cflags = [
   '-Wjump-misses-init',
   '-Wframe-larger-than=40096',
   '-O2',
-  '-Wp,-D_FORTIFY_SOURCE=2',
+  '-D_FORTIFY_SOURCE=2',
   '-fstack-protector-all',
   '--param=ssp-buffer-size=4',
   '-fexceptions',
