@@ -40,22 +40,30 @@ container-build-ubuntu:
 
 build-fedora:
   <<: *build-job-definition
+  needs:
+    - job: container-build-fedora
   variables:
     NAME: build-fedora
 
 build-ubuntu:
+  needs:
+    - job: container-build-ubuntu
   <<: *build-job-definition
   variables:
     NAME: build-ubuntu
 
 syntax-check:
   stage: style
+  needs:
+    - job: container-build-fedora
   image: ${CI_REGISTRY_IMAGE}/build-fedora:latest
   script:
     - make syntax-check
 
 clang-format:
   stage: style
+  needs:
+    - job: container-build-fedora
   image: ${CI_REGISTRY_IMAGE}/build-fedora:latest
   script:
     - meson build
