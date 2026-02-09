@@ -1,4 +1,4 @@
-FROM fedora:41
+FROM fedora:43
 
 RUN dnf install -y clang clang-tools-extra glib2-devel libgphoto2-devel \
      libgexiv2-devel libgudev1-devel libpeas1-devel lcms2-devel \
