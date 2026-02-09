@@ -25,6 +25,30 @@
 #include "entangle-debug.h"
 #include "entangle-media.h"
 
+#if GEXIV2_CHECK_VERSION(0, 16, 0)
+#define entangle_gexiv2_metadata_has_tag(m, t)                                 \
+    gexiv2_metadata_has_tag(m, t, NULL)
+#define entangle_gexiv2_metadata_get_exif_tag_rational(m, t, n, d)             \
+    gexiv2_metadata_get_exif_tag_rational(m, t, n, d, NULL)
+#define entangle_gexiv2_metadata_get_iso_speed(m)                              \
+    gexiv2_metadata_get_iso_speed(m, NULL)
+#else
+#if GEXIV2_CHECK_VERSION(0, 14, 0)
+#define entangle_gexiv2_metadata_has_tag(m, t)                                 \
+    gexiv2_metadata_try_has_tag(m, t, NULL)
+#define entangle_gexiv2_metadata_get_exif_tag_rational(m, t, n, d)             \
+    gexiv2_metadata_try_get_exif_tag_rational(m, t, n, d, NULL)
+#define entangle_gexiv2_metadata_get_iso_speed(m)                              \
+    gexiv2_metadata_try_get_iso_speed(m, NULL)
+#else
+#define entangle_gexiv2_metadata_has_tag(m, t) gexiv2_metadata_has_tag(m, t)
+#define entangle_gexiv2_metadata_get_exif_tag_rational(m, t, n, d)             \
+    gexiv2_metadata_get_exif_tag_rational(m, t, n, d)
+#define entangle_gexiv2_metadata_get_iso_speed(m)                              \
+    gexiv2_metadata_get_iso_speed(m)
+#endif
+#endif
+
 struct _EntangleMediaStatusbar
 {
     GtkBox parent;
@@ -200,8 +224,9 @@ entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statusbar)
         guint isonum;
         gdouble focalnum;
 
-        if (gexiv2_metadata_has_tag(metadata, "Exif.Photo.ExposureTime")) {
-            gexiv2_metadata_get_exif_tag_rational(
+        if (entangle_gexiv2_metadata_has_tag(metadata,
+                                             "Exif.Photo.ExposureTime")) {
+            entangle_gexiv2_metadata_get_exif_tag_rational(
                 metadata, "Exif.Photo.ExposureTime", &nom, &den);
             if (den == 10)
                 shutter = g_strdup_printf("%0.1lf secs", (double)nom / 10.0);
@@ -211,11 +236,12 @@ entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statusbar)
                 shutter = g_strdup_printf("%d/%d secs", nom, den);
         }
 
-        if ((gexiv2_metadata_has_tag(metadata, "Exif.Photo.FNumber") &&
-             gexiv2_metadata_get_exif_tag_rational(
+        if ((entangle_gexiv2_metadata_has_tag(metadata, "Exif.Photo.FNumber") &&
+             entangle_gexiv2_metadata_get_exif_tag_rational(
                  metadata, "Exif.Photo.FNumber", &fnumn, &fnumd)) ||
-            (gexiv2_metadata_has_tag(metadata, "Exif.Photo.Aperture") &&
-             gexiv2_metadata_get_exif_tag_rational(
+            (entangle_gexiv2_metadata_has_tag(metadata,
+                                              "Exif.Photo.Aperture") &&
+             entangle_gexiv2_metadata_get_exif_tag_rational(
                  metadata, "Exif.Photo.Aperture", &fnumn, &fnumd))) {
             fnum = (double)fnumn / (double)fnumd;
             if (fnum < 10.0)
@@ -224,13 +250,15 @@ entangle_media_statusbar_update_labels(EntangleMediaStatusbar *statusbar)
                 aperture = g_strdup_printf("f/%2.0f", fnum);
         }
 
-        if (gexiv2_metadata_has_tag(metadata, "Exif.Photo.ISOSpeedRatings")) {
-            isonum = gexiv2_metadata_get_iso_speed(metadata);
+        if (entangle_gexiv2_metadata_has_tag(metadata,
+                                             "Exif.Photo.ISOSpeedRatings")) {
+            isonum = entangle_gexiv2_metadata_get_iso_speed(metadata);
             iso = g_strdup_printf("ISO %d", isonum);
         }
 
-        if (gexiv2_metadata_has_tag(metadata, "Exif.Photo.FocalLength")) {
-            gexiv2_metadata_get_exif_tag_rational(
+        if (entangle_gexiv2_metadata_has_tag(metadata,
+                                             "Exif.Photo.FocalLength")) {
+            entangle_gexiv2_metadata_get_exif_tag_rational(
                 metadata, "Exif.Photo.FocalLength", &nom, &den);
             if (den > 0.0001) {
                 focalnum = (nom / den);

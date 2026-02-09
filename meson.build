@@ -24,6 +24,7 @@ gobject_introspection_min_version = '>= 1.54.0'
 lcms2_min_version = '>= 2.0'
 libpeas_min_version = '>= 1.2.0'
 gexiv2_min_version = '>= 0.10'
+gexiv2_016_min_version = '>= 0.16'
 xext_min_version = '>= 1.3.0'
 libraw_min_version = '>= 0.9.0'
 gst_min_version = '>= 1.0.0'
@@ -46,7 +47,10 @@ gobject_introspection_dep = dependency('gobject-introspection-1.0', version: gob
 lcms2_dep = dependency('lcms2', version: lcms2_min_version)
 libpeas_dep = dependency('libpeas-1.0', version: libpeas_min_version)
 libpeas_gtk_dep = dependency('libpeas-gtk-1.0', version: libpeas_min_version)
-gexiv2_dep = dependency('gexiv2', version: gexiv2_min_version)
+gexiv2_dep = dependency('gexiv2-0.16', version: gexiv2_016_min_version, required: false)
+if not gexiv2_dep.found()
+    gexiv2_dep = dependency('gexiv2', version: gexiv2_min_version)
+endif
 xext_dep = dependency('xext', version: xext_min_version)
 # Cannot use pkg-config file as it includes a bogus '-fopenmp' arg in Libs
 # which in turn confuses g-ir-scanner

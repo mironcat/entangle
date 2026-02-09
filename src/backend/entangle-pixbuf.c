@@ -24,6 +24,25 @@
 
 #include "entangle-debug.h"
 
+#if GEXIV2_CHECK_VERSION(0, 16, 0)
+#define entangle_gexiv2_metadata_get_orientation(m)                            \
+    gexiv2_metadata_get_orientation(m, NULL)
+#define entangle_gexiv2_metadata_get_preview_image(m, b)                       \
+    gexiv2_metadata_get_preview_image(metadata, best, NULL)
+#else
+#if GEXIV2_CHECK_VERSION(0, 14, 0)
+#define entangle_gexiv2_metadata_get_orientation(m)                            \
+    gexiv2_metadata_try_get_orientation(m, NULL)
+#define entangle_gexiv2_metadata_get_preview_image(m, b)                       \
+    gexiv2_metadata_try_get_preview_image(metadata, best, NULL)
+#else
+#define entangle_gexiv2_metadata_get_orientation(m)                            \
+    gexiv2_metadata_get_orientation(m)
+#define entangle_gexiv2_metadata_get_preview_image(m, b)                       \
+    gexiv2_metadata_get_preview_image(metadata, best)
+#endif
+#endif
+
 /**
  * entangle_pixbuf_auto_rotate:
  * @src: (transfer none): the pixbuf to be rotated
@@ -51,7 +70,7 @@ entangle_pixbuf_auto_rotate(GdkPixbuf *src, GExiv2Metadata *metadata)
         g_object_unref(dest);
 
         if (metadata) {
-            transform = gexiv2_metadata_get_orientation(metadata);
+            transform = entangle_gexiv2_metadata_get_orientation(metadata);
         } else {
             const char *orientationstr =
                 gdk_pixbuf_get_option(src, "tEXt::Entangle::Orientation");
@@ -230,7 +249,8 @@ entangle_pixbuf_open_image_master_gdk(EntangleImage *image,
         result = entangle_pixbuf_auto_rotate(master, metadata);
         g_object_unref(master);
     } else {
-        GExiv2Orientation orient = gexiv2_metadata_get_orientation(metadata);
+        GExiv2Orientation orient =
+            entangle_gexiv2_metadata_get_orientation(metadata);
         /* gdk_pixbuf_save doesn't update internal options and there
            is no set_option method, so abuse gobject data slots :-( */
         g_object_set_data_full(G_OBJECT(master), "tEXt::Entangle::Orientation",
@@ -360,7 +380,7 @@ entangle_pixbuf_open_image_preview_raw(EntangleImage *image,
             result = tmp;
         } else {
             GExiv2Orientation orient =
-                gexiv2_metadata_get_orientation(metadata);
+                entangle_gexiv2_metadata_get_orientation(metadata);
             /* gdk_pixbuf_save doesn't update internal options and there
                is no set_option method, so abuse gobject data slots :-( */
             g_object_set_data_full(G_OBJECT(result),
@@ -410,7 +430,7 @@ entangle_pixbuf_open_image_preview_exiv(EntangleImage *image,
         goto cleanup;
     }
 
-    preview = gexiv2_metadata_get_preview_image(metadata, best);
+    preview = entangle_gexiv2_metadata_get_preview_image(metadata, best);
 
     loader = gdk_pixbuf_loader_new_with_mime_type(
         gexiv2_preview_image_get_mime_type(preview), NULL);
@@ -430,7 +450,7 @@ entangle_pixbuf_open_image_preview_exiv(EntangleImage *image,
         goto cleanup;
     }
 
-    orient = gexiv2_metadata_get_orientation(metadata);
+    orient = entangle_gexiv2_metadata_get_orientation(metadata);
     /* gdk_pixbuf_save doesn't update internal options and there
        is no set_option method, so abuse gobject data slots :-( */
     g_object_set_data_full(G_OBJECT(master), "tEXt::Entangle::Orientation",
