@@ -41,7 +41,7 @@ and 'hands off' shooting directly from the controlling computer.
 %autosetup -p1
 
 %build
-%meson -Denable-gtk-doc=true
+%meson -Denable-gtk-doc=true || ( cat %{_vpath_builddir}/meson-logs/meson-log.txt; exit 1 )
 %meson_build
 
 %install
