@@ -154,7 +154,7 @@ check_cflags = [
   '-Wunused-function',
   '-Wunused-label',
   '-Wunused-local-typedefs',
-  '-Wunused-macros',
+  '-Wno-unused-macros',
   '-Wunused-parameter',
   '-Wunused-result',
   '-Wunused-value',
