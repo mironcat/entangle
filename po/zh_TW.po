@@ -6,14 +6,14 @@
 # Walter Cheuk <wwycheuk@gmail.com>, 2012
 # hsu zangmen <chzang55@gmail.com>, 2025.
 # Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
+# Alang Hsu <alang.hsu@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2025-04-06 17:53+0000\n"
-"Last-Translator: Weblate Translation Memory <noreply-mt-weblate-translation-"
-"memory@weblate.org>\n"
+"PO-Revision-Date: 2026-08-02 14:18+0000\n"
+"Last-Translator: Alang Hsu <alang.hsu@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.fedoraproject.org/"
 "projects/entangle/master/zh_TW/>\n"
 "Language: zh_TW\n"
@@ -21,91 +21,91 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 2026.7.1\n"
 
 msgid "'Escape' to close"
-msgstr ""
+msgstr "按「Esc」關閉"
 
 msgid "0"
 msgstr "0"
 
 msgid "1.15:1 - Movietone"
-msgstr ""
+msgstr "1.15:1 - Movietone"
 
 msgid "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
-msgstr ""
+msgstr "1.33:1 (4:3, 12:9) - Super 35mm / DSLR / MF 645"
 
 msgid "1.37:1 - 35mm movie"
-msgstr ""
+msgstr "1.37:1 - 35mm movie"
 
 msgid "1.44:1 - IMAX"
-msgstr ""
+msgstr "1.44:1 - IMAX"
 
 msgid "1.50:1 (3:2, 15:10)- 35mm SLR"
-msgstr ""
+msgstr "1.50:1 (3:2, 15:10)- 35mm SLR"
 
 msgid "1.66:1 (5:3, 15:9) - Super 16mm"
-msgstr ""
+msgstr "1.66:1 (5:3, 15:9) - Super 16mm"
 
 msgid "1.6:1 (8:5, 16:10) - Widescreen"
-msgstr ""
+msgstr "1.6:1 (8:5, 16:10) - Widescreen"
 
 msgid "1.75:1 (7:4) - Widescreen"
-msgstr ""
+msgstr "1.75:1 (7:4) - Widescreen"
 
 msgid "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
-msgstr ""
+msgstr "1.77:1 (16:9) - APS-H / HDTV / Widescreen"
 
 msgid "1.85:1 - 35mm Widescreen"
-msgstr ""
+msgstr "1.85:1 - 35mm Widescreen"
 
 msgid "12.00:1 - Circle-Vision 360"
-msgstr ""
+msgstr "12.00:1 - Circle-Vision 360"
 
 msgid "1:1 - Square / MF 6x6"
-msgstr ""
+msgstr "1:1 - Square / MF 6x6"
 
 msgid "2.00:1 - SuperScope"
-msgstr ""
+msgstr "2.00:1 - SuperScope"
 
 msgid "2.10:1 (21:10) - Planned HDTV"
-msgstr ""
+msgstr "2.10:1 (21:10) - Planned HDTV"
 
 msgid "2.20:1 (11:5, 22:10) - 70mm movie"
-msgstr ""
+msgstr "2.20:1 (11:5, 22:10) - 70mm movie"
 
 msgid "2.35:1 - CinemaScope"
-msgstr ""
+msgstr "2.35:1 - CinemaScope"
 
 msgid "2.37:1 (64:27)- HDTV cinema"
-msgstr ""
+msgstr "2.37:1 (64:27)- HDTV cinema"
 
 msgid "2.39:1 (12:5)- Panavision"
-msgstr ""
+msgstr "2.39:1 (12:5)- Panavision"
 
 msgid "2.55:1 (23:9)- CinemaScope 55"
-msgstr ""
+msgstr "2.55:1 (23:9)- CinemaScope 55"
 
 msgid "2.59:1 (13:5)- Cinerama"
-msgstr ""
+msgstr "2.59:1 (13:5)- Cinerama"
 
 msgid "2.66:1 (8:3, 24:9)- Super 16mm"
-msgstr ""
+msgstr "2.66:1 (8:3, 24:9)- Super 16mm"
 
 msgid "2.76:1 (11:4) - Ultra Panavision"
-msgstr ""
+msgstr "2.76:1 (11:4) - Ultra Panavision"
 
 msgid "2.93:1 - MGM Camera 65"
-msgstr ""
+msgstr "2.93:1 - MGM Camera 65"
 
 msgid "3"
-msgstr ""
+msgstr "3"
 
 msgid "3:1 APS Panorama"
-msgstr ""
+msgstr "3:1 APS Panorama"
 
 msgid "4.00:1 - Polyvision"
-msgstr ""
+msgstr "4.00:1 - Polyvision"
 
 msgid "<b>Capture</b>"
 msgstr "<b>擷取</b>"
@@ -114,132 +114,132 @@ msgid "<b>Colour management</b>"
 msgstr "<b>色彩管理</b>"
 
 msgid "<b>Image Viewer</b>"
-msgstr ""
+msgstr "<b>影像檢視器</b>"
 
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>介面</b>"
 
 msgid "<b>Plugins</b>"
-msgstr ""
+msgstr "<b>外掛程式</b>"
 
 msgid "About - Entangle"
 msgstr "關於 - Entangle"
 
 msgid "Absolute colourimetric"
-msgstr ""
+msgstr "絕對色度"
 
 msgid "All files (*.*)"
 msgstr "所有檔案 (*)"
 
 msgid "Apply mask to alter aspect ratio"
-msgstr ""
+msgstr "套用遮罩以變更長寬比"
 
 msgid "Aspect ratio:"
-msgstr ""
+msgstr "長寬比："
 
 msgctxt "shortcut window"
 msgid "Autofocus"
-msgstr ""
+msgstr "自動對焦"
 
 #, c-format
 msgid "Autofocus control not available with this camera"
-msgstr ""
+msgstr "自動對焦控制不適用於此相機"
 
 #, c-format
 msgid "Autofocus control was not a toggle widget"
-msgstr ""
+msgstr "自動對焦控制不是切換元件"
 
 msgid "Autofocus failed"
-msgstr ""
+msgstr "自動對焦失敗"
 
 msgid "Automatically connect to cameras at startup"
-msgstr ""
+msgstr "啟動時自動連線至相機"
 
 msgid "Automatically synchronize camera clock"
-msgstr ""
+msgstr "自動同步相機時鐘"
 
 msgid "Automation"
 msgstr "自動"
 
 msgid "Background:"
-msgstr ""
+msgstr "背景："
 
 msgid "Best Fit"
-msgstr ""
+msgstr "最適大小"
 
 msgid "Blank screen when capturing images"
-msgstr ""
+msgstr "擷取影像時遮蔽螢幕"
 
 msgid "Camera connect failed"
-msgstr ""
+msgstr "相機連線失敗"
 
 msgid "Camera control update failed"
-msgstr ""
+msgstr "相機控制項更新失敗"
 
 msgid "Camera is in use"
-msgstr ""
+msgstr "相機使用中"
 
 msgid "Camera load controls failed"
-msgstr ""
+msgstr "載入相機控制項失敗"
 
 msgid "Cancel"
 msgstr "取消"
 
 #, c-format
 msgid "Cannot capture image while not opened"
-msgstr ""
+msgstr "尚未開啟，無法擷取影像"
 
 #, c-format
 msgid "Cannot delete file while not opened"
-msgstr ""
+msgstr "尚未開啟，無法刪除檔案"
 
 #, c-format
 msgid "Cannot download file while not opened"
-msgstr ""
+msgstr "尚未開啟，無法下載檔案"
 
 #, c-format
 msgid "Cannot initialize gphoto2 abilities"
-msgstr ""
+msgstr "無法初始化 gphoto2 功能"
 
 #, c-format
 msgid "Cannot initialize gphoto2 ports"
-msgstr ""
+msgstr "無法初始化 gphoto2 連接埠"
 
 #, c-format
 msgid "Cannot load gphoto2 abilities"
-msgstr ""
+msgstr "無法載入 gphoto2 功能"
 
 #, c-format
 msgid "Cannot load gphoto2 ports"
-msgstr ""
+msgstr "無法載入 gphoto2 連接埠"
 
 #, c-format
 msgid "Cannot preview image while not opened"
-msgstr ""
+msgstr "尚未開啟，無法預覽影像"
 
 #, c-format
 msgid "Cannot wait for events while not opened"
-msgstr ""
+msgstr "尚未開啟，無法等待事件"
 
 msgid "Capture"
 msgstr "擷取"
 
 msgctxt "shortcut window"
 msgid "Capture a single image"
-msgstr ""
+msgstr "擷取單張影像"
 
 msgid "Capture an image"
 msgstr "擷取影像"
 
 #, c-format
 msgid "Capture target setting not available with this camera"
-msgstr ""
+msgstr "擷取目標設定不適用於此相機"
 
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr ""
+msgstr "擷取;相機;遙控;相片;"
 
 msgid "Center lines"
-msgstr ""
+msgstr "中央線"
 
 msgid ""
 "Check that the camera is not\n"
@@ -248,56 +248,61 @@ msgid ""
 " - mounted as a <b>filesystem</b> on the desktop\n"
 " - in <b>sleep mode</b> to save battery power\n"
 msgstr ""
+"請檢查相機是否：\n"
+"\n"
+" - 被其他相片<b>應用程式</b>開啟\n"
+" - 以<b>檔案系統</b>掛載於桌面上\n"
+" - 為節省電力進入<b>睡眠模式</b>\n"
 
 msgctxt "shortcut window"
 msgid "Close all windows & exit"
-msgstr ""
+msgstr "關閉所有視窗並結束"
 
 msgid "Color Management"
 msgstr "色彩管理"
 
 msgid "Colour managed display"
-msgstr ""
+msgstr "色彩管理顯示"
 
 msgid "Continue preview mode after capture"
-msgstr "擷取後繼續擷取模式"
+msgstr "擷取後繼續預覽模式"
 
 msgid "Continuous capture preview"
-msgstr "持續擷取預覽"
+msgstr "連續擷取預覽"
 
 msgctxt "shortcut window"
 msgid "Controlling the application"
-msgstr ""
+msgstr "操控應用程式"
 
 #, c-format
 msgid "Controls not available for this camera"
-msgstr ""
+msgstr "控制項不適用於此相機"
 
 #, c-format
 msgid "Controls not available when camera is closed"
-msgstr ""
+msgstr "相機未開啟時無法使用控制項"
 
 msgid "Delete"
 msgstr "刪除"
 
 msgid "Delete file from camera after downloading"
-msgstr ""
+msgstr "下載後從相機刪除檔案"
 
 msgid "Detect the system monitor profile"
-msgstr ""
+msgstr "偵測系統顯示器設定檔"
 
 msgid "Display focus point during preview"
-msgstr ""
+msgstr "預覽時顯示對焦點"
 
 msgctxt "shortcut window"
 msgid "Display help manual"
-msgstr ""
+msgstr "顯示說明手冊"
 
 msgid "Entangle"
-msgstr ""
+msgstr "Entangle"
 
 msgid "Entangle Preferences"
-msgstr ""
+msgstr "Entangle 偏好設定"
 
 msgid ""
 "Entangle can trigger the camera shutter to capture new images. When "
@@ -306,161 +311,165 @@ msgid ""
 "are captured by the camera. Entangle also allows the settings of the camera "
 "to be changed from the computer."
 msgstr ""
+"Entangle 可觸發相機快門以擷取新影像。若相機支援，可在擷取前顯示場景的持續更新"
+"預覽。影像將在相機擷取時下載並顯示。Entangle 亦可從電腦變更相機的各項設定。"
 
 msgid ""
 "Entangle is a program used to control digital cameras that are connected to "
 "the computer via USB."
-msgstr ""
+msgstr "Entangle 是一個用於控制透過 USB 連接至電腦的數位相機之程式。"
 
 msgid ""
 "Entangle is compatible with most DSLR cameras from Nikon and Canon, some of "
 "their compact camera models, and a variety of cameras from other "
 "manufacturers."
 msgstr ""
+"Entangle 相容於多數 Nikon 與 Canon 的 DSLR 相機、部分小型相機型號，以及其他製"
+"造商的各種相機。"
 
 msgid "Entangle: Camera autofocus failed"
-msgstr ""
+msgstr "Entangle：相機自動對焦失敗"
 
 msgid "Entangle: Camera connect failed"
-msgstr ""
+msgstr "Entangle：相機連線失敗"
 
 msgid "Entangle: Camera control update failed"
-msgstr ""
+msgstr "Entangle：相機控制項更新失敗"
 
 msgid "Entangle: Camera load controls failed"
-msgstr ""
+msgstr "Entangle：載入相機控制項失敗"
 
 msgid "Entangle: Camera manual focus failed"
-msgstr ""
+msgstr "Entangle：相機手動對焦失敗"
 
 msgid "Entangle: Operation failed"
-msgstr ""
+msgstr "Entangle：操作失敗"
 
 #, c-format
 msgid "Failed to read manual focus choice %d: %s %d"
-msgstr ""
+msgstr "無法讀取手動對焦選項 %d：%s %d"
 
 #, c-format
 msgid "Failed to set autofocus state: %s %d"
-msgstr ""
+msgstr "無法設定自動對焦狀態：%s %d"
 
 #, c-format
 msgid "Failed to set capture target: %s %d"
-msgstr ""
+msgstr "無法設定擷取目標：%s %d"
 
 #, c-format
 msgid "Failed to set manual focus state: %s %d"
-msgstr ""
+msgstr "無法設定手動對焦狀態：%s %d"
 
 #, c-format
 msgid "Failed to set time state: %s %d"
-msgstr ""
+msgstr "無法設定時間狀態：%s %d"
 
 #, c-format
 msgid "Failed to set viewfinder state: %s %d"
-msgstr ""
+msgstr "無法設定觀景窗狀態：%s %d"
 
 msgid "Filename pattern:"
-msgstr ""
+msgstr "檔名模式："
 
 msgid "Flip horizontally"
-msgstr ""
+msgstr "水平翻轉"
 
 msgid "Flip vertically"
-msgstr ""
+msgstr "垂直翻轉"
 
 msgctxt "shortcut window"
 msgid "Focus control (during live preview)"
-msgstr ""
+msgstr "對焦控制（即時預覽期間）"
 
 msgctxt "shortcut window"
 msgid "Focus in (large step)"
-msgstr ""
+msgstr "對焦移近（大步）"
 
 msgctxt "shortcut window"
 msgid "Focus in (small step)"
-msgstr ""
+msgstr "對焦移近（小步）"
 
 msgctxt "shortcut window"
 msgid "Focus out (large step)"
-msgstr ""
+msgstr "對焦移遠（大步）"
 
 msgctxt "shortcut window"
 msgid "Focus out (small step)"
-msgstr ""
+msgstr "對焦移遠（小步）"
 
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr "全螢幕(_F)"
+msgstr "全螢幕"
 
 msgid "Golden sections"
-msgstr ""
+msgstr "黃金分割"
 
 msgid "Grid lines:"
-msgstr ""
+msgstr "格線："
 
 msgid "Highlight areas of overexposure"
-msgstr ""
+msgstr "標示過度曝光區域"
 
 msgid "Highlight:"
-msgstr ""
+msgstr "醒目提示："
 
 msgid "ICC profiles (*.icc, *.icm)"
-msgstr ""
+msgstr "ICC 設定檔 (*.icc, *.icm)"
 
 msgid "IP Address:"
 msgstr "IP 位址："
 
 msgid "Image Viewer"
-msgstr ""
+msgstr "影像檢視器"
 
 msgctxt "shortcut window"
 msgid "Image display"
-msgstr ""
+msgstr "影像顯示"
 
 msgid "Image histogram"
-msgstr ""
+msgstr "影像色階分佈圖"
 
 msgid "Interface"
 msgstr "介面"
 
 #, c-format
 msgid "Manual focus control not available with this camera"
-msgstr ""
+msgstr "手動對焦控制不適用於此相機"
 
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
-msgstr ""
+msgstr "手動對焦控制不是範圍或單選元件"
 
 msgid "Manual focus failed"
-msgstr ""
+msgstr "手動對焦失敗"
 
 msgid "Mask opacity:"
-msgstr ""
+msgstr "遮罩不透明度："
 
 msgid "Missing 'execute' method implementation"
-msgstr ""
+msgstr "缺少「execute」方法的實作"
 
 msgid "Mode of operation:"
-msgstr ""
+msgstr "操作模式："
 
 msgid "Model"
 msgstr "型號"
 
 msgid "Monitor"
-msgstr "監視器"
+msgstr "顯示器"
 
 msgid "Monitor profile:"
-msgstr ""
+msgstr "螢幕設定檔："
 
 msgid "Network camera"
-msgstr ""
+msgstr "網路攝影機"
 
 msgid "No"
 msgstr "否"
 
 msgid "No camera connected"
-msgstr ""
+msgstr "未連接相機"
 
 msgid ""
 "No cameras were detected, check that\n"
@@ -474,15 +483,25 @@ msgid ""
 "when plugged in, for others try a refresh\n"
 "or enter a network camera IP address"
 msgstr ""
+"未偵測到相機，請檢查：\n"
+"\n"
+"  - <b>連接線</b>是否確實連接\n"
+"  - 相機是否已<b>開啟</b>\n"
+"  - 相機是否處於<b>正確模式</b>\n"
+"  - 相機是否為<b>支援的</b>型號\n"
+"\n"
+"USB 相機插入後會自動偵測，\n"
+"其他類型請嘗試重新整理\n"
+"或輸入網路攝影機的 IP 位址"
 
 msgid "No config options"
-msgstr ""
+msgstr "無設定選項"
 
 msgid "No controls available"
-msgstr ""
+msgstr "無可用控制項"
 
 msgid "No script"
-msgstr ""
+msgstr "無指令稿"
 
 msgid "None"
 msgstr "無"
@@ -491,265 +510,265 @@ msgid "Off"
 msgstr "關閉"
 
 msgid "On"
-msgstr "開"
+msgstr "開啟"
 
 msgid "Open"
-msgstr "開啟(_O)"
+msgstr "開啟"
 
 msgctxt "shortcut window"
 msgid "Open a new camera window"
-msgstr ""
+msgstr "開啟新的相機視窗"
 
 msgid "Open with"
-msgstr ""
+msgstr "以此開啟"
 
 #, c-format
 msgid "Operation: %s"
-msgstr ""
+msgstr "操作：%s"
 
 msgid "Overlay earlier images"
-msgstr ""
+msgstr "疊加先前的影像"
 
 msgid "Overlay layers:"
-msgstr ""
+msgstr "疊加圖層："
 
 msgid "Pattern must contain 'XXXXXX' placeholder"
-msgstr ""
+msgstr "模式中必須包含「XXXXXX」佔位符"
 
 msgid "Perceptual"
-msgstr ""
+msgstr "感知式"
 
 msgid "Plugins"
-msgstr ""
+msgstr "外掛程式"
 
 msgid "Port"
 msgstr "連接埠"
 
 msgctxt "shortcut window"
 msgid "Presentation"
-msgstr ""
+msgstr "簡報"
 
 msgid "Preview"
 msgstr "預覽"
 
 msgid "Quarters"
-msgstr ""
+msgstr "四等分"
 
 msgid "RGB profile:"
-msgstr ""
+msgstr "RGB 設定檔："
 
 msgid "Relative colourimetric"
-msgstr ""
+msgstr "相對色度"
 
 msgid "Rendering intent:"
-msgstr ""
+msgstr "演色意圖："
 
 msgid "Reset controls"
-msgstr ""
+msgstr "重設控制項"
 
 msgid "Retry"
 msgstr "重試"
 
 msgid "Rule of 3rds"
-msgstr ""
+msgstr "三分法"
 
 msgid "Rule of 5ths"
-msgstr ""
+msgstr "五分法"
 
 msgid "Saturation"
-msgstr "飽和度："
+msgstr "飽和度"
 
 msgid "Screen blanking is not available on this display"
-msgstr ""
+msgstr "此顯示器不支援螢幕遮蔽"
 
 msgid "Screen blanking is not implemented on this platform"
-msgstr ""
+msgstr "此平台未實作螢幕遮蔽"
 
 msgid "Script"
-msgstr ""
+msgstr "指令稿"
 
 msgid "Select a camera to connect to:"
-msgstr "選擇要連接相機："
+msgstr "選取要連線的相機："
 
 msgid "Select a folder"
-msgstr ""
+msgstr "選取資料夾"
 
 msgid "Select application..."
-msgstr ""
+msgstr "選取應用程式…"
 
 msgid "Select camera - Entangle"
-msgstr "選擇相機 - Entangle"
+msgstr "選取相機 - Entangle"
 
 msgid "Set clock"
-msgstr ""
+msgstr "設定時鐘"
 
 msgid "Show linear histogram"
-msgstr ""
+msgstr "顯示線性色階分佈圖"
 
 msgctxt "shortcut window"
 msgid "Shutter control"
-msgstr ""
+msgstr "快門控制"
 
 msgid "Tear off"
-msgstr ""
+msgstr "分離"
 
 msgid "Tethered Camera Control & Capture"
-msgstr ""
+msgstr "遙控相機控制與擷取"
 
 msgid "Tethered Camera Control &amp; Capture"
-msgstr ""
+msgstr "遙控相機控制與擷取"
 
 msgid "The Entangle Photo project"
-msgstr ""
+msgstr "Entangle 相片專案"
 
 msgid ""
 "The camera cannot be opened because it is mounted as a filesystem. Do you "
 "wish to umount it now?"
-msgstr ""
+msgstr "相機因掛載為檔案系統而無法開啟。要立即解除安裝嗎？"
 
 msgid "This camera does not support image capture"
-msgstr ""
+msgstr "此相機不支援影像擷取"
 
 msgid "This camera does not support image preview"
-msgstr ""
+msgstr "此相機不支援影像預覽"
 
 #, c-format
 msgid "Time setting not available with this camera"
-msgstr ""
+msgstr "時間設定不適用於此相機"
 
 #, c-format
 msgid "Time setting was not a choice widget"
-msgstr ""
+msgstr "時間設定不是選項元件"
 
 #, c-format
 msgid "Time setting was not a date widget"
-msgstr ""
+msgstr "時間設定不是日期元件"
 
 msgctxt "shortcut window"
 msgid "Toggle histogram scale"
-msgstr ""
+msgstr "切換色階分佈圖比例"
 
 msgctxt "shortcut window"
 msgid "Toggle image mask"
-msgstr ""
+msgstr "切換影像遮罩"
 
 msgctxt "shortcut window"
 msgid "Toggle live preview"
-msgstr ""
+msgstr "切換即時預覽"
 
 msgctxt "shortcut window"
 msgid "Toggle overexposure highlighting"
-msgstr ""
+msgstr "切換過度曝光區域標示"
 
 #, c-format
 msgid "Unable to capture image: %s"
-msgstr ""
+msgstr "無法擷取影像：%s"
 
 #, c-format
 msgid "Unable to capture preview: %s"
-msgstr ""
+msgstr "無法擷取預覽：%s"
 
 #, c-format
 msgid "Unable to connect to camera: %s"
-msgstr ""
+msgstr "無法連線至相機：%s"
 
 #, c-format
 msgid "Unable to delete file: %s"
-msgstr "無法刪除 %s 檔案"
+msgstr "無法刪除檔案：%s"
 
 #, c-format
 msgid "Unable to fetch camera control configuration: %s"
-msgstr ""
+msgstr "無法取得相機控制組態：%s"
 
 #, c-format
 msgid "Unable to fetch widget name"
-msgstr ""
+msgstr "無法取得元件名稱"
 
 #, c-format
 msgid "Unable to fetch widget type"
-msgstr ""
+msgstr "無法取得元件類型"
 
 #, c-format
 msgid "Unable to get camera file: %s"
-msgstr ""
+msgstr "無法取得相機檔案：%s"
 
 #, c-format
 msgid "Unable to get file data: %s"
-msgstr ""
+msgstr "無法取得檔案資料：%s"
 
 #, c-format
 msgid "Unable to get filename: %s"
-msgstr ""
+msgstr "無法取得檔名：%s"
 
 #, c-format
 msgid "Unable to initialize camera: %s"
-msgstr ""
+msgstr "無法初始化相機：%s"
 
 #, c-format
 msgid "Unable to load controls, camera is not opened"
-msgstr ""
+msgstr "無法載入控制項，相機尚未開啟"
 
 #, c-format
 msgid "Unable to save camera control configuration: %s"
-msgstr ""
+msgstr "無法儲存相機控制組態：%s"
 
 #, c-format
 msgid "Unable to save controls, camera is not configurable"
-msgstr ""
+msgstr "無法儲存控制項，相機不支援設定"
 
 #, c-format
 msgid "Unable to save controls, camera is not opened"
-msgstr ""
+msgstr "無法儲存控制項，相機尚未開啟"
 
 #, c-format
 msgid "Unable to wait for events: %s"
-msgstr ""
+msgstr "無法等待事件：%s"
 
 msgid "Untitled script"
-msgstr ""
+msgstr "未命名指令稿"
 
 msgid "Use embedded preview from raw files"
-msgstr ""
+msgstr "使用 RAW 檔的內嵌預覽"
 
 msgid "Use preview output as capture image"
-msgstr ""
+msgstr "使用預覽輸出作為擷取影像"
 
 #, c-format
 msgid "Viewfinder control not available with this camera"
-msgstr ""
+msgstr "觀景窗控制不適用於此相機"
 
 #, c-format
 msgid "Viewfinder control was not a toggle widget"
-msgstr ""
+msgstr "觀景窗控制不是切換元件"
 
 msgctxt "shortcut window"
 msgid "Window display"
-msgstr ""
+msgstr "視窗顯示"
 
 msgid "Yes"
 msgstr "是"
 
 msgid "Zoom _In"
-msgstr ""
+msgstr "放大(_I)"
 
 msgid "Zoom _Out"
-msgstr ""
+msgstr "縮小(_O)"
 
 msgctxt "shortcut window"
 msgid "Zoom best"
-msgstr ""
+msgstr "最適縮放"
 
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "放大"
 
 msgctxt "shortcut window"
 msgid "Zoom normal"
-msgstr ""
+msgstr "原始大小"
 
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "縮小"
 
 msgid "_About"
 msgstr "關於(_A)"
@@ -758,28 +777,28 @@ msgid "_Cancel"
 msgstr "取消(_C)"
 
 msgid "_Connect…"
-msgstr "連接(_C)"
+msgstr "連線(_C)…"
 
 msgid "_Disconnect…"
-msgstr "斷線"
+msgstr "中斷連線(_D)…"
 
 msgid "_Fullscreen"
 msgstr "全螢幕(_F)"
 
 msgid "_Help"
-msgstr "求助(_H)"
+msgstr "說明(_H)"
 
 msgid "_Keyboard shortcuts"
-msgstr "鍵盤快捷鍵"
+msgstr "鍵盤快捷鍵(_K)"
 
 msgid "_Manual"
-msgstr "手動"
+msgstr "手動(_M)"
 
 msgid "_New window"
-msgstr ""
+msgstr "新視窗(_N)"
 
 msgid "_Normal Size"
-msgstr "普通大小(_N)"
+msgstr "原始大小(_N)"
 
 msgid "_Open"
 msgstr "開啟(_O)"
@@ -788,22 +807,22 @@ msgid "_Preferences…"
 msgstr "偏好設定(_P)"
 
 msgid "_Presentation"
-msgstr ""
+msgstr "簡報(_P)"
 
 msgid "_Quit"
-msgstr "退出(_Q)"
+msgstr "結束(_Q)"
 
 msgid "_Select session…"
-msgstr ""
+msgstr "選取工作階段(_S)…"
 
 msgid "_Settings"
-msgstr "設定"
+msgstr "設定(_S)"
 
 msgid "_Supported cameras"
-msgstr ""
+msgstr "支援的相機(_S)"
 
 msgid "_Synchronize capture"
-msgstr ""
+msgstr "同步擷取(_S)"
 
 msgid "capture"
 msgstr "擷取"
