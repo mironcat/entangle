@@ -7,13 +7,14 @@
 # Tommy He <lovenemesis@gmail.com>, 2013-2014
 # Tian Shixiong <tiansworld@gmail.com>, 2020.
 # Charles Lee <lchopn@gmail.com>, 2020, 2021.
+# 耗子 <haozi@loli.email>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: entangle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-03 22:07+0100\n"
-"PO-Revision-Date: 2021-12-02 13:16+0000\n"
-"Last-Translator: Charles Lee <lchopn@gmail.com>\n"
+"PO-Revision-Date: 2026-04-02 23:59+0000\n"
+"Last-Translator: 耗子 <haozi@loli.email>\n"
 "Language-Team: Chinese (Simplified) <https://translate.fedoraproject.org/"
 "projects/entangle/master/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 5.16.2\n"
 
 msgid "'Escape' to close"
 msgstr "'Esc' 键关闭"
@@ -236,7 +237,7 @@ msgid "Capture target setting not available with this camera"
 msgstr "此相机的捕捉目标设置不可用"
 
 msgid "Capture;Camera;Tethered;Photo;"
-msgstr ""
+msgstr "拍摄;相机;联机拍摄;照片;"
 
 msgid "Center lines"
 msgstr "中心线"
@@ -440,7 +441,7 @@ msgstr "该相机不可以使用手动对焦控制"
 
 #, c-format
 msgid "Manual focus control was not a range or radio widget"
-msgstr ""
+msgstr "手动对焦控件不是范围或单选部件"
 
 msgid "Manual focus failed"
 msgstr "手动对焦失败"
@@ -449,7 +450,7 @@ msgid "Mask opacity:"
 msgstr "蒙板透明度:"
 
 msgid "Missing 'execute' method implementation"
-msgstr ""
+msgstr "缺少 'execute' 方法实现"
 
 msgid "Mode of operation:"
 msgstr "操作模式："
@@ -611,7 +612,7 @@ msgid "Shutter control"
 msgstr "快门控制"
 
 msgid "Tear off"
-msgstr ""
+msgstr "分离"
 
 msgid "Tethered Camera Control & Capture"
 msgstr "连接相机控制与拍摄"
@@ -639,7 +640,7 @@ msgstr "该相机不可以使用时间设定"
 
 #, c-format
 msgid "Time setting was not a choice widget"
-msgstr ""
+msgstr "时间设置不是选择部件"
 
 #, c-format
 msgid "Time setting was not a date widget"
