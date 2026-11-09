@@ -103,6 +103,8 @@ struct _EntangleCameraManager
     GtkMenuButton *titlebarButtonView;
     GtkMenuButton *titlebarButtonZoom;
     GtkSpinner *titlebarStatus;
+    GtkScale *focusSlider;
+    gboolean focusSliderUpdating;
 
     EntangleMedia *currentMedia;
 
@@ -635,6 +637,13 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
                              canFocus);
     gtk_widget_set_sensitive(GTK_WIDGET(manager->toolbarButtonFocus),
                              canFocus);
+
+    gboolean canManualFocus =
+        manager->cameraReady && manager->camera && manager->taskPreview &&
+        entangle_camera_get_has_manual_focus(manager->camera);
+    if (manager->focusSlider)
+        gtk_widget_set_sensitive(GTK_WIDGET(manager->focusSlider),
+                                 canManualFocus);
 
     gtk_widget_set_sensitive(
         GTK_WIDGET(manager->toolbarButtonCapture),
@@ -2069,6 +2078,60 @@ do_camera_manualfocus_finish(GObject *source,
     }
 }
 
+static void
+do_camera_manualfocus_value_finish(GObject *source,
+                                   GAsyncResult *result,
+                                   gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    EntangleCamera *camera = ENTANGLE_CAMERA(source);
+    GError *error = NULL;
+
+    if (!entangle_camera_manualfocus_value_finish(camera, result, &error)) {
+        GtkWidget *msg =
+            gtk_message_dialog_new(GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR,
+                                   GTK_BUTTONS_OK, _("Manual focus failed"));
+        gtk_window_set_title(GTK_WINDOW(msg),
+                             _("Entangle: Camera manual focus failed"));
+        gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(msg), "%s",
+                                                 error->message);
+        g_signal_connect_swapped(msg, "response",
+                                 G_CALLBACK(gtk_widget_destroy), msg);
+        gtk_widget_show_all(msg);
+
+        g_error_free(error);
+    }
+}
+
+static void
+do_focus_slider_changed(GtkRange *range, gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    gint value;
+
+    if (manager->focusSliderUpdating)
+        return;
+
+    if (!manager->camera || !manager->taskPreview)
+        return;
+
+    value = (gint) gtk_range_get_value(range);
+    if (value == 0)
+        return;
+
+    manager->focusSliderUpdating = TRUE;
+    gtk_range_set_value(range, 0);
+    manager->focusSliderUpdating = FALSE;
+
+    entangle_camera_manualfocus_value_async(manager->camera, value, NULL,
+                                            do_camera_manualfocus_value_finish,
+                                            manager);
+}
+
 gboolean
 do_manager_key_release(GtkWidget *widget G_GNUC_UNUSED,
                        GdkEventKey *ev,
@@ -3110,7 +3173,22 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_widget_show(GTK_WIDGET(manager->mediaStatusbar));
 
     ENTANGLE_DEBUG("Adding %p to %p", manager->imageDisplay, imageViewport);
-    gtk_paned_pack1(manager->displayPanel, imageOverlay, TRUE, TRUE);
+
+    GtkWidget *imageBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    manager->focusSlider =
+        GTK_SCALE(gtk_scale_new_with_range(GTK_ORIENTATION_VERTICAL, -7.0,
+                                           7.0, 1.0));
+    gtk_scale_set_draw_value(manager->focusSlider, FALSE);
+    gtk_widget_set_size_request(GTK_WIDGET(manager->focusSlider), 32, -1);
+    gtk_widget_set_tooltip_text(GTK_WIDGET(manager->focusSlider),
+                                _("Manual focus (use Manual/DMF focus mode; "
+                                  "drag up/down)"));
+    g_signal_connect(manager->focusSlider, "value-changed",
+                     G_CALLBACK(do_focus_slider_changed), manager);
+    gtk_box_pack_start(GTK_BOX(imageBox), imageOverlay, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(imageBox),
+                       GTK_WIDGET(manager->focusSlider), FALSE, FALSE, 0);
+    gtk_paned_pack1(manager->displayPanel, imageBox, TRUE, TRUE);
     gtk_paned_pack2(manager->displayPanel, GTK_WIDGET(iconScroll), FALSE, TRUE);
     gtk_widget_show_all(GTK_WIDGET(manager->displayPanel));
 
