@@ -83,6 +83,7 @@ struct _EntangleCamera
     gboolean hasViewfinder;
     gboolean hasAutofocus;
     gboolean hasFocusArea;
+    gboolean hasManualFocus;
 };
 
 G_DEFINE_TYPE(EntangleCamera, entangle_camera, G_TYPE_OBJECT);
@@ -2316,6 +2317,16 @@ entangle_camera_load_controls(EntangleCamera *cam, GError **error)
             ENTANGLE_DEBUG("No spot focus area widget");
             cam->hasFocusArea = FALSE;
         }
+
+        if (entangle_camera_find_widget(cam,
+                                        "/main/actions/manualfocusdrive") ||
+            entangle_camera_find_widget(cam, "/main/actions/manualfocus")) {
+            ENTANGLE_DEBUG("Found a manual focus widget");
+            cam->hasManualFocus = TRUE;
+        } else {
+            ENTANGLE_DEBUG("No manual focus widget");
+            cam->hasManualFocus = FALSE;
+        }
     }
 
     ret = do_load_controls(cam, "", cam->widgets, error);
@@ -3267,6 +3278,7 @@ entangle_camera_manualfocus(EntangleCamera *cam,
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     gboolean ret = FALSE;
+    gboolean sony = FALSE;
     CameraWidget *widget;
     CameraWidgetType type;
     int err;
@@ -3290,6 +3302,10 @@ entangle_camera_manualfocus(EntangleCamera *cam,
 
     widget = entangle_camera_find_widget(cam, "/main/actions/manualfocusdrive");
     if (!widget) {
+        widget = entangle_camera_find_widget(cam, "/main/actions/manualfocus");
+        sony = widget != NULL;
+    }
+    if (!widget) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Manual focus control not available with this camera"));
         goto cleanup;
@@ -3310,12 +3326,12 @@ entangle_camera_manualfocus(EntangleCamera *cam,
     if (type == GP_WIDGET_RANGE) {
         /* Nikon */
         float values[] = {
-            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_COARSE] = 512,
-            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_MEDIUM] = 64,
-            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_FINE] = 8,
-            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_COARSE] = -512,
-            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_MEDIUM] = -64,
-            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_FINE] = -8,
+            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_COARSE] = sony ? 7 : 512,
+            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_MEDIUM] = sony ? 3 : 64,
+            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_FINE] = sony ? 1 : 8,
+            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_COARSE] = sony ? -7 : -512,
+            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_MEDIUM] = sony ? -3 : -64,
+            [ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_OUT_FINE] = sony ? -1 : -8,
         };
 
         float value = values[step];
@@ -3460,6 +3476,171 @@ gboolean
 entangle_camera_manualfocus_finish(EntangleCamera *cam,
                                    GAsyncResult *result,
                                    GError **error)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    return g_task_propagate_boolean(G_TASK(result), error);
+}
+
+/**
+ * entangle_camera_manualfocus_value:
+ * @cam: (transfer none): the camera
+ * @value: focus step in the camera's native range (Sony: -7..7)
+ * @error: a GError, or NULL
+ *
+ * Move the lens focus by a relative number of steps.
+ *
+ * This can only be invoked when the camera is opened.
+ *
+ * Returns: TRUE if the focus step was applied, FALSE on error
+ */
+gboolean
+entangle_camera_manualfocus_value(EntangleCamera *cam,
+                                  gint value,
+                                  GError **error)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    gboolean ret = FALSE;
+    CameraWidget *widget;
+    CameraWidgetType type;
+    float fvalue;
+    int err;
+
+    g_mutex_lock(&cam->lock);
+    entangle_camera_begin_job(cam);
+
+    if (cam->cam == NULL) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Controls not available when camera is closed"));
+        goto cleanup;
+    }
+
+    if (cam->widgets == NULL) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Controls not available for this camera"));
+        goto cleanup;
+    }
+
+    widget = entangle_camera_find_widget(cam, "/main/actions/manualfocus");
+    if (!widget) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Manual focus control not available with this camera"));
+        goto cleanup;
+    }
+
+    if ((err = gp_widget_get_type(widget, &type)) != GP_OK) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to fetch widget type"));
+        goto cleanup;
+    }
+
+    if (type != GP_WIDGET_RANGE) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Manual focus control was not a range widget"));
+        goto cleanup;
+    }
+
+    value = CLAMP(value, -7, 7);
+    if (value == 0) {
+        ret = TRUE;
+        goto cleanup;
+    }
+
+    fvalue = value;
+    if ((err = gp_widget_set_value(widget, &fvalue)) != GP_OK) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Failed to set manual focus state: %s %d"),
+                    gp_port_result_as_string(err), err);
+        goto cleanup;
+    }
+
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+        GP_OK) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to save camera control configuration: %s"),
+                    cam->lastError);
+        goto cleanup;
+    }
+
+    /* Keep the widget reusable for the next relative move, but do not
+     * send the zero value to the camera. */
+    fvalue = 0;
+    gp_widget_set_value(widget, &fvalue);
+    gp_widget_set_changed(widget, FALSE);
+
+    ret = TRUE;
+
+cleanup:
+    entangle_camera_end_job(cam);
+    g_mutex_unlock(&cam->lock);
+    return ret;
+}
+
+static void
+entangle_camera_manualfocus_value_helper(GTask *task,
+                                         gpointer object,
+                                         gpointer task_data,
+                                         GCancellable *cancellable
+                                             G_GNUC_UNUSED)
+{
+    gint value = GPOINTER_TO_INT(task_data);
+    GError *error = NULL;
+
+    if (!entangle_camera_manualfocus_value(ENTANGLE_CAMERA(object), value,
+                                           &error)) {
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
+    }
+}
+
+/**
+ * entangle_camera_manualfocus_value_async:
+ * @cam: (transfer none): the camera
+ * @value: focus step in the camera's native range (Sony: -7..7)
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: the data to pass to callback function.
+ *
+ * Move the lens focus by a relative number of steps.
+ *
+ * This will execute in the background, and invoke @callback when complete,
+ * whereupon entangle_camera_manualfocus_value_finish can be used to check
+ * the status.
+ */
+void
+entangle_camera_manualfocus_value_async(EntangleCamera *cam,
+                                        gint value,
+                                        GCancellable *cancellable,
+                                        GAsyncReadyCallback callback,
+                                        gpointer user_data)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
+
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
+
+    g_task_set_task_data(task, GINT_TO_POINTER(value), NULL);
+    g_task_run_in_thread(task, entangle_camera_manualfocus_value_helper);
+    g_object_unref(task);
+}
+
+/**
+ * entangle_camera_manualfocus_value_finish:
+ * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
+ *
+ * Check the completion status of a previous call to
+ * entangle_camera_manualfocus_value_async.
+ *
+ * Returns: TRUE if the focus step was applied, FALSE on error
+ */
+gboolean
+entangle_camera_manualfocus_value_finish(EntangleCamera *cam,
+                                         GAsyncResult *result,
+                                         GError **error)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
@@ -3928,6 +4109,29 @@ entangle_camera_get_has_focus_area(EntangleCamera *cam)
 
     g_mutex_lock(&cam->lock);
     ret = cam->hasFocusArea;
+    g_mutex_unlock(&cam->lock);
+
+    return ret;
+}
+
+/**
+ * entangle_camera_get_has_manual_focus:
+ * @cam: (transfer none): the camera
+ *
+ * Check if the camera supports manual focus adjustment
+ *
+ * Returns: TRUE if the camera supports manual focus adjustment,
+ *          FALSE otherwise
+ */
+gboolean
+entangle_camera_get_has_manual_focus(EntangleCamera *cam)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    gboolean ret;
+
+    g_mutex_lock(&cam->lock);
+    ret = cam->hasManualFocus;
     g_mutex_unlock(&cam->lock);
 
     return ret;
