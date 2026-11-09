@@ -37,6 +37,11 @@
     <property name="can_focus">False</property>
     <property name="icon_name">object-rotate-right-symbolic</property>
   </object>
+  <object class="GtkImage" id="image8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">zoom-fit-best-symbolic</property>
+  </object>
   <template class="EntangleCameraManager" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
     <property name="default_width">1000</property>
@@ -88,6 +93,17 @@
               <packing>
                 <property name="position">3</property>
               </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="toolbarButtonFocus">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="action_name">win.focus</property>
+                <property name="image">image8</property>
+                <property name="always_show_image">True</property>
+                <property name="tooltip_text" translatable="yes">Autofocus (half-press shutter)</property>
+              </object>
             </child>
             <child>
               <object class="GtkButton" id="toolbarButtonCancel">
@@ -268,6 +284,17 @@
           <packing>
             <property name="position">3</property>
           </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="titlebarButtonFocus">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="action_name">win.focus</property>
+            <property name="image">image8</property>
+            <property name="always_show_image">True</property>
+            <property name="tooltip_text" translatable="yes">Autofocus (half-press shutter)</property>
+          </object>
         </child>
         <child>
           <object class="GtkButton" id="titlebarButtonCancel">

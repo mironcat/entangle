@@ -84,6 +84,7 @@ struct _EntangleCameraManager
     GtkHeaderBar *toolbarBox;
     GtkButton *toolbarButtonCapture;
     GtkToggleButton *toolbarButtonPreview;
+    GtkButton *toolbarButtonFocus;
     GtkButton *toolbarButtonCancel;
     GtkMenuButton *toolbarButtonAction;
     GtkMenuButton *toolbarButtonView;
@@ -96,6 +97,7 @@ struct _EntangleCameraManager
     GtkHeaderBar *titlebarBox;
     GtkButton *titlebarButtonCapture;
     GtkToggleButton *titlebarButtonPreview;
+    GtkButton *titlebarButtonFocus;
     GtkButton *titlebarButtonCancel;
     GtkMenuButton *titlebarButtonAction;
     GtkMenuButton *titlebarButtonView;
@@ -162,6 +164,8 @@ do_menu_session_delete_activate(GtkMenuItem *item G_GNUC_UNUSED,
 
 static void
 do_camera_sync_clock_finish(GObject *src, GAsyncResult *res, gpointer opaque);
+static void
+do_camera_autofocus_finish(GObject *src, GAsyncResult *res, gpointer opaque);
 
 static EntanglePreferences *
 entangle_camera_manager_get_preferences(EntangleCameraManager *manager)
@@ -586,6 +590,7 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
 
     GAction *actionCapture;
     GAction *actionPreview;
+    GAction *actionFocus;
     GAction *actionCancel;
 
     GAction *actionSession;
@@ -596,6 +601,7 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
         g_action_map_lookup_action(G_ACTION_MAP(manager), "session");
     actionPreview =
         g_action_map_lookup_action(G_ACTION_MAP(manager), "preview");
+    actionFocus = g_action_map_lookup_action(G_ACTION_MAP(manager), "focus");
     actionCancel = g_action_map_lookup_action(G_ACTION_MAP(manager), "cancel");
 
     actionSession =
@@ -622,6 +628,14 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
     gtk_widget_set_sensitive(GTK_WIDGET(manager->titlebarButtonCancel),
                              manager->taskCapture);
 
+    gboolean canFocus =
+        manager->cameraReady && manager->camera && manager->taskPreview &&
+        entangle_camera_get_has_autofocus(manager->camera);
+    gtk_widget_set_sensitive(GTK_WIDGET(manager->titlebarButtonFocus),
+                             canFocus);
+    gtk_widget_set_sensitive(GTK_WIDGET(manager->toolbarButtonFocus),
+                             canFocus);
+
     gtk_widget_set_sensitive(
         GTK_WIDGET(manager->toolbarButtonCapture),
         gtk_widget_get_sensitive(GTK_WIDGET(manager->titlebarButtonCapture)));
@@ -638,6 +652,7 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
     g_simple_action_set_enabled(
         G_SIMPLE_ACTION(actionPreview),
         gtk_widget_get_sensitive(GTK_WIDGET(manager->titlebarButtonPreview)));
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(actionFocus), canFocus);
     g_simple_action_set_enabled(
         G_SIMPLE_ACTION(actionCancel),
         gtk_widget_get_sensitive(GTK_WIDGET(manager->titlebarButtonCancel)));
@@ -658,6 +673,10 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
                                 _("Capture an image"));
     gtk_widget_set_tooltip_text(GTK_WIDGET(manager->toolbarButtonPreview),
                                 _("Continuous capture preview"));
+    gtk_widget_set_tooltip_text(GTK_WIDGET(manager->titlebarButtonFocus),
+                                _("Autofocus (half-press shutter)"));
+    gtk_widget_set_tooltip_text(GTK_WIDGET(manager->toolbarButtonFocus),
+                                _("Autofocus (half-press shutter)"));
 
     if (manager->camera) {
         if (!entangle_camera_get_has_capture(manager->camera)) {
@@ -676,6 +695,21 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
             gtk_widget_set_tooltip_text(
                 GTK_WIDGET(manager->toolbarButtonPreview),
                 _("This camera does not support image preview"));
+        }
+        if (!entangle_camera_get_has_autofocus(manager->camera)) {
+            gtk_widget_set_tooltip_text(
+                GTK_WIDGET(manager->titlebarButtonFocus),
+                _("This camera does not support autofocus"));
+            gtk_widget_set_tooltip_text(
+                GTK_WIDGET(manager->toolbarButtonFocus),
+                _("This camera does not support autofocus"));
+        } else if (!manager->taskPreview) {
+            gtk_widget_set_tooltip_text(
+                GTK_WIDGET(manager->titlebarButtonFocus),
+                _("Start live preview to use autofocus"));
+            gtk_widget_set_tooltip_text(
+                GTK_WIDGET(manager->toolbarButtonFocus),
+                _("Start live preview to use autofocus"));
         }
     }
 
@@ -1465,6 +1499,8 @@ entangle_camera_manager_class_init(EntangleCameraManagerClass *klass)
     gtk_widget_class_bind_template_child(
         GTK_WIDGET_CLASS(klass), EntangleCameraManager, toolbarButtonPreview);
     gtk_widget_class_bind_template_child(
+        GTK_WIDGET_CLASS(klass), EntangleCameraManager, toolbarButtonFocus);
+    gtk_widget_class_bind_template_child(
         GTK_WIDGET_CLASS(klass), EntangleCameraManager, toolbarButtonCancel);
     gtk_widget_class_bind_template_child(
         GTK_WIDGET_CLASS(klass), EntangleCameraManager, toolbarButtonAction);
@@ -1480,6 +1516,8 @@ entangle_camera_manager_class_init(EntangleCameraManagerClass *klass)
         GTK_WIDGET_CLASS(klass), EntangleCameraManager, titlebarButtonCapture);
     gtk_widget_class_bind_template_child(
         GTK_WIDGET_CLASS(klass), EntangleCameraManager, titlebarButtonPreview);
+    gtk_widget_class_bind_template_child(
+        GTK_WIDGET_CLASS(klass), EntangleCameraManager, titlebarButtonFocus);
     gtk_widget_class_bind_template_child(
         GTK_WIDGET_CLASS(klass), EntangleCameraManager, titlebarButtonCancel);
     gtk_widget_class_bind_template_child(
@@ -1826,6 +1864,22 @@ do_action_preview(GSimpleAction *act G_GNUC_UNUSED,
         gtk_toggle_button_set_active(manager->toolbarButtonPreview, False);
         do_camera_manager_preview_cancel(manager);
     }
+}
+
+static void
+do_action_focus(GSimpleAction *act G_GNUC_UNUSED,
+                GVariant *param G_GNUC_UNUSED,
+                gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+
+    if (!manager->camera || !manager->taskPreview)
+        return;
+
+    entangle_camera_autofocus_async(manager->camera, NULL,
+                                    do_camera_autofocus_finish, manager);
 }
 
 static void
@@ -2827,6 +2881,7 @@ static GActionEntry actions[] = {
     { .name = "disconnect", .activate = do_action_disconnect },
     { .name = "capture", .activate = do_action_capture },
     { .name = "preview", .activate = do_action_preview },
+    { .name = "focus", .activate = do_action_focus },
     { .name = "rotate-cw", .activate = do_action_rotate_cw },
     { .name = "rotate-ccw", .activate = do_action_rotate_ccw },
     { .name = "rotate-reset", .activate = do_action_rotate_reset },

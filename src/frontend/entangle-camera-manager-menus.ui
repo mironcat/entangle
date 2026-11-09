@@ -28,6 +28,12 @@
       </item>
     </section>
     <section>
+      <item>
+        <attribute name="label" translatable="yes">_Autofocus</attribute>
+        <attribute name="action">win.focus</attribute>
+      </item>
+    </section>
+    <section>
       <submenu>
 	<attribute name="label" translatable="yes">_Help</attribute>
 	<item>
