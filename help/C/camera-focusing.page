@@ -35,6 +35,13 @@
   </p>
 
   <p>
+    A vertical slider on the right edge of the preview moves the lens
+    focus in manual focus mode. The slider returns to the centre after
+    each step and is only enabled while live preview is active and the
+    camera supports manual focus adjustment.
+  </p>
+
+  <p>
     To manually focus, the lens can be moved in either direction
     at two levels of granularity. Small shifts in focal point
     can be made using the <key>,</key> and <key>.</key> keys.
