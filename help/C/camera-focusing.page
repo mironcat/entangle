@@ -17,8 +17,9 @@
   </p>
 
   <p>
-    To trigger autofocus at any time press the <key>a</key>. If
-    the camera is unable to achieve focus, for example, due to
+    To trigger autofocus at any time press the <key>a</key>, or use
+    the autofocus button in the toolbar while live preview is active.
+    If the camera is unable to achieve focus, for example, due to
     low lighting conditions or a subject that is too close to
     the lens, an error may be displayed.
   </p>
