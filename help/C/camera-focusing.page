@@ -35,10 +35,11 @@
   </p>
 
   <p>
-    A vertical slider on the right edge of the preview moves the lens
-    focus in manual focus mode. The slider returns to the centre after
-    each step and is only enabled while live preview is active and the
-    camera supports manual focus adjustment.
+    A manual focus control on the right edge of the preview moves the
+    lens focus in manual focus mode. Set the step size in the numeric
+    field and press <key>-</key> or <key>+</key> to move the focus by
+    that many steps. The control is only enabled while live preview is
+    active and the camera supports manual focus adjustment.
   </p>
 
   <p>

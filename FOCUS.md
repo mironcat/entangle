@@ -6,7 +6,8 @@ This fork adds three ways to focus the camera while live preview is active:
   which emulates a half-press of the shutter release;
 * **click-to-focus** on the preview image, which moves the focus point to
   the clicked position and triggers autofocus there;
-* a **vertical manual focus slider** to the right of the preview.
+* a **manual focus control** to the right of the preview: a numeric step
+  value with `−` and `+` buttons.
 
 ## Usage
 
@@ -15,10 +16,10 @@ Start live preview, then either:
 * press the autofocus button (the frame icon next to the rotate button),
   press `a`, or use *Autofocus* in the menu;
 * click anywhere on the preview image;
-* drag the vertical slider on the right edge of the preview to move the
-  lens focus. The slider returns to the centre after each step, so it
-  behaves like a spring-loaded jog control. It is available when the
-  camera is in manual focus mode.
+* use the manual focus control on the right edge of the preview: set the
+  step size in the numeric field and press `−` or `+` to move the lens
+  by that many focus steps. The control is available when the camera is
+  in manual focus mode.
 
 The red focus point overlay shows the selected focus position. It is
 controlled by the *Focus point* option in
@@ -71,7 +72,7 @@ affected.
   focus point overlay position.
 * `src/frontend/entangle-camera-manager.c`: `win.focus` action,
   autofocus buttons, focus point signal handling, the 640x480
-  coordinate conversion and the manual focus slider.
+  coordinate conversion and the manual focus step controls.
 * `help/C/camera-focusing.page`: user documentation.
 
 ## Debugging
