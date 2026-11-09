@@ -3187,7 +3187,7 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
                      G_CALLBACK(do_focus_slider_changed), manager);
     gtk_box_pack_start(GTK_BOX(imageBox), imageOverlay, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(imageBox),
-                       GTK_WIDGET(manager->focusSlider), FALSE, FALSE, 0);
+                       GTK_WIDGET(manager->focusSlider), FALSE, TRUE, 0);
     gtk_paned_pack1(manager->displayPanel, imageBox, TRUE, TRUE);
     gtk_paned_pack2(manager->displayPanel, GTK_WIDGET(iconScroll), FALSE, TRUE);
     gtk_widget_show_all(GTK_WIDGET(manager->displayPanel));
