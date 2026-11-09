@@ -32,6 +32,11 @@
     <property name="can_focus">False</property>
     <property name="icon_name">process-stop-symbolic</property>
   </object>
+  <object class="GtkImage" id="image7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">object-rotate-right-symbolic</property>
+  </object>
   <template class="EntangleCameraManager" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
     <property name="default_width">1000</property>
@@ -71,6 +76,20 @@
               </packing>
             </child>
             <child>
+              <object class="GtkButton" id="toolbarButtonRotate">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="action_name">win.rotate-cw</property>
+                <property name="image">image7</property>
+                <property name="always_show_image">True</property>
+                <property name="tooltip_text" translatable="yes">Rotate preview 90° clockwise</property>
+              </object>
+              <packing>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkButton" id="toolbarButtonCancel">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -80,7 +99,7 @@
                 <property name="always_show_image">True</property>
               </object>
               <packing>
-                <property name="position">3</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child>
@@ -237,6 +256,20 @@
           </packing>
         </child>
         <child>
+          <object class="GtkButton" id="titlebarButtonRotate">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="action_name">win.rotate-cw</property>
+            <property name="image">image7</property>
+            <property name="always_show_image">True</property>
+            <property name="tooltip_text" translatable="yes">Rotate preview 90° clockwise</property>
+          </object>
+          <packing>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkButton" id="titlebarButtonCancel">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -246,7 +279,7 @@
             <property name="always_show_image">True</property>
           </object>
           <packing>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
         <child>

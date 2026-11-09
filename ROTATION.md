@@ -8,6 +8,19 @@ and captured images shown in Entangle).
 Open `Edit -> Preferences -> Image Viewer` and select a value in the
 `Rotation` combo box: `0°`, `90°`, `180°` or `270°` (clockwise).
 
+The button next to the live preview toggle in the header bar rotates the
+preview 90° clockwise. The same action is available from the view menu
+and with the keyboard:
+
+* `Ctrl+R` - rotate clockwise
+* `Ctrl+Shift+R` - rotate counterclockwise
+* `Ctrl+Shift+0` - reset to 0°
+
+Double-clicking a thumbnail in the session browser opens it with the
+default application for that file type (the same application as the
+"Open" item in the thumbnail context menu, i.e. the one configured in
+the desktop's "Open With" settings).
+
 The setting is stored in GSettings:
 
 ```sh

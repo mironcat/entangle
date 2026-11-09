@@ -105,6 +105,7 @@ enum
 enum
 {
     SIGNAL_SELECTION_CHANGED,
+    SIGNAL_MEDIA_ACTIVATED,
 
     SIGNAL_LAST,
 };
@@ -510,6 +511,23 @@ entangle_session_browser_button_press(GtkWidget *widget, GdkEventButton *event)
     if (!gtk_widget_has_focus(widget))
         gtk_widget_grab_focus(widget);
 
+    if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
+        idx = entangle_session_browser_get_index_at_coords(browser, event->x,
+                                                           event->y);
+
+        if (idx >= 0) {
+            EntangleMedia *media =
+                entangle_session_get_media(browser->session, idx);
+
+            if (media)
+                g_signal_emit(browser,
+                              browser_signals[SIGNAL_MEDIA_ACTIVATED], 0,
+                              media);
+        }
+
+        return TRUE;
+    }
+
     if (event->button == 1 && event->type == GDK_BUTTON_PRESS) {
         idx = entangle_session_browser_get_index_at_coords(browser, event->x,
                                                            event->y);
@@ -861,6 +879,12 @@ entangle_session_browser_class_init(EntangleSessionBrowserClass *klass)
         g_signal_new("selection-changed", G_TYPE_FROM_CLASS(object_class),
                      G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
                      g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
+
+    browser_signals[SIGNAL_MEDIA_ACTIVATED] =
+        g_signal_new("media-activated", G_TYPE_FROM_CLASS(object_class),
+                     G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                     g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
+                     ENTANGLE_TYPE_MEDIA);
 }
 
 EntangleSessionBrowser *

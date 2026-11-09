@@ -1829,6 +1829,50 @@ do_action_preview(GSimpleAction *act G_GNUC_UNUSED,
 }
 
 static void
+do_action_rotate_cw(GSimpleAction *act G_GNUC_UNUSED,
+                    GVariant *param G_GNUC_UNUSED,
+                    gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    EntanglePreferences *prefs =
+        entangle_camera_manager_get_preferences(manager);
+    gint rotation = entangle_preferences_img_get_rotation(prefs);
+
+    entangle_preferences_img_set_rotation(prefs, (rotation + 90) % 360);
+}
+
+static void
+do_action_rotate_ccw(GSimpleAction *act G_GNUC_UNUSED,
+                     GVariant *param G_GNUC_UNUSED,
+                     gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    EntanglePreferences *prefs =
+        entangle_camera_manager_get_preferences(manager);
+    gint rotation = entangle_preferences_img_get_rotation(prefs);
+
+    entangle_preferences_img_set_rotation(prefs, (rotation + 270) % 360);
+}
+
+static void
+do_action_rotate_reset(GSimpleAction *act G_GNUC_UNUSED,
+                       GVariant *param G_GNUC_UNUSED,
+                       gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    EntanglePreferences *prefs =
+        entangle_camera_manager_get_preferences(manager);
+
+    entangle_preferences_img_set_rotation(prefs, 0);
+}
+
+static void
 do_camera_sync_clock_finish(GObject *src, GAsyncResult *res, gpointer opaque)
 {
     EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
@@ -2435,6 +2479,20 @@ do_menu_session_open_activate(GtkMenuItem *item G_GNUC_UNUSED,
     g_list_free(files);
 }
 
+static void
+do_session_browser_media_activated(EntangleSessionBrowser *browser
+                                   G_GNUC_UNUSED,
+                                   EntangleMedia *media,
+                                   EntangleCameraManager *manager)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+    g_return_if_fail(media != NULL);
+
+    manager->sessionBrowserMedia = media;
+
+    do_menu_session_open_activate(NULL, manager);
+}
+
 void
 do_menu_session_delete_activate(GtkMenuItem *item G_GNUC_UNUSED,
                                 EntangleCameraManager *manager)
@@ -2769,6 +2827,9 @@ static GActionEntry actions[] = {
     { .name = "disconnect", .activate = do_action_disconnect },
     { .name = "capture", .activate = do_action_capture },
     { .name = "preview", .activate = do_action_preview },
+    { .name = "rotate-cw", .activate = do_action_rotate_cw },
+    { .name = "rotate-ccw", .activate = do_action_rotate_ccw },
+    { .name = "rotate-reset", .activate = do_action_rotate_reset },
     { .name = "cancel", .activate = do_action_cancel },
     { .name = "sync-clock", .activate = do_action_sync_clock },
     { .name = "zoom-best", .activate = do_action_zoom_best },
@@ -2890,6 +2951,8 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
 
     g_signal_connect(manager->sessionBrowser, "selection-changed",
                      G_CALLBACK(do_session_media_selected), manager);
+    g_signal_connect(manager->sessionBrowser, "media-activated",
+                     G_CALLBACK(do_session_browser_media_activated), manager);
     g_signal_connect(manager->sessionBrowser, "button-press-event",
                      G_CALLBACK(do_session_browser_popup), manager);
 

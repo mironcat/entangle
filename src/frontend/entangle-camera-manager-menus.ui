@@ -75,6 +75,20 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Rotate _Clockwise</attribute>
+        <attribute name="action">win.rotate-cw</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Rotate _Counterclockwise</attribute>
+        <attribute name="action">win.rotate-ccw</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Reset Rotation</attribute>
+        <attribute name="action">win.rotate-reset</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
 	<attribute name="label" translatable="yes">_Synchronize capture</attribute>
 	<attribute name="action">win.sync-capture</attribute>
       </item>
