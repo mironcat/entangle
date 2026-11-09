@@ -82,6 +82,7 @@ struct _EntangleCamera
     gboolean hasSettings;
     gboolean hasViewfinder;
     gboolean hasAutofocus;
+    gboolean hasFocusArea;
 };
 
 G_DEFINE_TYPE(EntangleCamera, entangle_camera, G_TYPE_OBJECT);
@@ -2306,6 +2307,15 @@ entangle_camera_load_controls(EntangleCamera *cam, GError **error)
             ENTANGLE_DEBUG("No autofocus widget");
             cam->hasAutofocus = FALSE;
         }
+
+        if (entangle_camera_find_widget(cam,
+                                        "/main/actions/spotfocusarea")) {
+            ENTANGLE_DEBUG("Found a spot focus area widget");
+            cam->hasFocusArea = TRUE;
+        } else {
+            ENTANGLE_DEBUG("No spot focus area widget");
+            cam->hasFocusArea = FALSE;
+        }
     }
 
     ret = do_load_controls(cam, "", cam->widgets, error);
@@ -2986,6 +2996,252 @@ entangle_camera_autofocus_finish(EntangleCamera *cam,
     return g_task_propagate_boolean(G_TASK(result), error);
 }
 
+static gboolean
+entangle_camera_focus_area_is_spot(const gchar *value)
+{
+    if (!value)
+        return FALSE;
+
+    return strstr(value, "Flexible Spot") != NULL ||
+           strstr(value, "Expand Flexible") != NULL ||
+           strstr(value, "Flexible") != NULL || strstr(value, "Гибк") != NULL;
+}
+
+static const gchar *
+entangle_camera_focus_area_spot_choice(CameraWidget *widget)
+{
+    CameraWidgetType type;
+    const gchar *best = NULL;
+    int count = 0;
+    int i;
+
+    if (gp_widget_get_type(widget, &type) != GP_OK || type != GP_WIDGET_RADIO)
+        return NULL;
+
+    count = gp_widget_count_choices(widget);
+    for (i = 0; i < count; i++) {
+        const gchar *choice = NULL;
+
+        if (gp_widget_get_choice(widget, i, &choice) != GP_OK || !choice)
+            continue;
+
+        if (strstr(choice, "Flexible Spot: M") != NULL ||
+            strstr(choice, "Flexible Spot") != NULL)
+            return choice;
+
+        if (!best && entangle_camera_focus_area_is_spot(choice))
+            best = choice;
+    }
+
+    return best;
+}
+
+/**
+ * entangle_camera_set_focus_area:
+ * @cam: (transfer none): the camera
+ * @x: horizontal focus point position, in the camera's 640x480 grid
+ * @y: vertical focus point position, in the camera's 640x480 grid
+ * @error: a GError, or NULL
+ *
+ * Move the camera focus point to the given position and trigger
+ * autofocus there.
+ *
+ * This can only be invoked when the camera is opened.
+ *
+ * This blocks execution of the caller until completion.
+ *
+ * Returns: TRUE if the focus point was set and autofocus triggered,
+ *          FALSE on error
+ */
+gboolean
+entangle_camera_set_focus_area(EntangleCamera *cam,
+                               gint x,
+                               gint y,
+                               GError **error)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    gboolean ret = FALSE;
+    CameraWidget *widget = NULL;
+    CameraWidget *focusArea = NULL;
+    CameraWidgetType type;
+    gchar text[32];
+    int err;
+
+    g_mutex_lock(&cam->lock);
+    entangle_camera_begin_job(cam);
+
+    if (cam->cam == NULL) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Controls not available when camera is closed"));
+        goto cleanup;
+    }
+
+    if (cam->widgets == NULL) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Controls not available for this camera"));
+        goto cleanup;
+    }
+
+    widget = entangle_camera_find_widget(cam, "/main/actions/spotfocusarea");
+    if (!widget) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Focus area control not available with this camera"));
+        goto cleanup;
+    }
+
+    if ((err = gp_widget_get_type(widget, &type)) != GP_OK) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to fetch widget type"));
+        goto cleanup;
+    }
+
+    if (type != GP_WIDGET_TEXT) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Focus area control was not a text widget"));
+        goto cleanup;
+    }
+
+    x = CLAMP(x, 0, 639);
+    y = CLAMP(y, 0, 479);
+
+    /* Sony only honours the focus position in one of the Flexible Spot
+     * modes. Switch out of Wide/Zone/Center if necessary. */
+    focusArea =
+        entangle_camera_find_widget(cam, "/main/capturesettings/focusarea");
+    if (focusArea) {
+        CameraWidgetType areaType;
+
+        if (gp_widget_get_type(focusArea, &areaType) == GP_OK &&
+            areaType == GP_WIDGET_RADIO) {
+            gchar *current = NULL;
+
+            gp_widget_get_value(focusArea, &current);
+            if (!entangle_camera_focus_area_is_spot(current)) {
+                const gchar *spot =
+                    entangle_camera_focus_area_spot_choice(focusArea);
+
+                if (spot) {
+                    gp_widget_set_value(focusArea, spot);
+                    if ((err = gp_camera_set_config(cam->cam, cam->widgets,
+                                                    cam->ctx)) != GP_OK) {
+                        g_set_error(
+                            error, ENTANGLE_CAMERA_ERROR, 0,
+                            _("Unable to save camera control configuration: %s"),
+                            cam->lastError);
+                        goto cleanup;
+                    }
+                }
+            }
+        }
+    }
+
+    g_snprintf(text, sizeof(text), "%d,%d", x, y);
+    if ((err = gp_widget_set_value(widget, text)) != GP_OK) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Failed to set focus area: %s %d"),
+                    gp_port_result_as_string(err), err);
+        goto cleanup;
+    }
+
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+        GP_OK) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to save camera control configuration: %s"),
+                    cam->lastError);
+        goto cleanup;
+    }
+
+    ret = TRUE;
+
+cleanup:
+    entangle_camera_end_job(cam);
+    g_mutex_unlock(&cam->lock);
+
+    if (ret)
+        ret = entangle_camera_autofocus(cam, error);
+
+    return ret;
+}
+
+static void
+entangle_camera_set_focus_area_helper(GTask *task,
+                                      gpointer object,
+                                      gpointer task_data,
+                                      GCancellable *cancellable
+                                          G_GNUC_UNUSED)
+{
+    gint *coords = task_data;
+    GError *error = NULL;
+
+    if (!entangle_camera_set_focus_area(ENTANGLE_CAMERA(object), coords[0],
+                                        coords[1], &error)) {
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
+    }
+}
+
+/**
+ * entangle_camera_set_focus_area_async:
+ * @cam: (transfer none): the camera
+ * @x: horizontal focus point position, in the camera's 640x480 grid
+ * @y: vertical focus point position, in the camera's 640x480 grid
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: the data to pass to callback function.
+ *
+ * Move the camera focus point to the given position and trigger
+ * autofocus there.
+ *
+ * This will execute in the background, and invoke @callback when complete,
+ * whereupon entangle_camera_set_focus_area_finish can be used to check
+ * the status.
+ */
+void
+entangle_camera_set_focus_area_async(EntangleCamera *cam,
+                                     gint x,
+                                     gint y,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
+
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
+    gint *coords = g_new(gint, 2);
+
+    coords[0] = x;
+    coords[1] = y;
+    g_task_set_task_data(task, coords, g_free);
+
+    g_task_run_in_thread(task, entangle_camera_set_focus_area_helper);
+    g_object_unref(task);
+}
+
+/**
+ * entangle_camera_set_focus_area_finish:
+ * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
+ *
+ * Check the completion status of a previous call to
+ * entangle_camera_set_focus_area_async.
+ *
+ * Returns: TRUE if the focus area was set and autofocus triggered,
+ *          FALSE on error
+ */
+gboolean
+entangle_camera_set_focus_area_finish(EntangleCamera *cam,
+                                      GAsyncResult *result,
+                                      GError **error)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    return g_task_propagate_boolean(G_TASK(result), error);
+}
+
 /**
  * entangle_camera_manualfocus:
  * @cam: (transfer none): the camera
@@ -3648,6 +3904,28 @@ entangle_camera_get_has_autofocus(EntangleCamera *cam)
 
     g_mutex_lock(&cam->lock);
     ret = cam->hasAutofocus;
+    g_mutex_unlock(&cam->lock);
+
+    return ret;
+}
+
+/**
+ * entangle_camera_get_has_focus_area:
+ * @cam: (transfer none): the camera
+ *
+ * Check if the camera supports selecting a focus area position
+ *
+ * Returns: TRUE if the camera supports a focus area position, FALSE otherwise
+ */
+gboolean
+entangle_camera_get_has_focus_area(EntangleCamera *cam)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    gboolean ret;
+
+    g_mutex_lock(&cam->lock);
+    ret = cam->hasFocusArea;
     g_mutex_unlock(&cam->lock);
 
     return ret;

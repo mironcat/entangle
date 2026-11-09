@@ -176,6 +176,23 @@ entangle_camera_autofocus_finish(EntangleCamera *cam,
                                  GAsyncResult *result,
                                  GError **error);
 
+gboolean
+entangle_camera_set_focus_area(EntangleCamera *cam,
+                               gint x,
+                               gint y,
+                               GError **error);
+void
+entangle_camera_set_focus_area_async(EntangleCamera *cam,
+                                     gint x,
+                                     gint y,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data);
+gboolean
+entangle_camera_set_focus_area_finish(EntangleCamera *cam,
+                                      GAsyncResult *result,
+                                      GError **error);
+
 typedef enum
 {
     ENTANGLE_CAMERA_MANUAL_FOCUS_STEP_IN_COARSE,
@@ -247,6 +264,8 @@ gboolean
 entangle_camera_get_has_viewfinder(EntangleCamera *cam);
 gboolean
 entangle_camera_get_has_autofocus(EntangleCamera *cam);
+gboolean
+entangle_camera_get_has_focus_area(EntangleCamera *cam);
 
 gboolean
 entangle_camera_load_controls(EntangleCamera *cam, GError **error);
