@@ -29,7 +29,7 @@ Sony cameras expose the shutter half-press as
 `/main/actions/autofocus` and the focus point as
 `/main/actions/spotfocusarea`, using a `x,y` text value in a 640x480
 grid. Sony only honours the position in one of the Flexible Spot focus
-area modes, so Entangle switches `/main/capturesettings/focusarea` to a
+area modes, so Entangle switches `/main/settings/focusarea` to a
 Flexible Spot mode automatically when needed.
 
 The click position is mapped through the same transform used to draw

@@ -3107,8 +3107,10 @@ entangle_camera_set_focus_area(EntangleCamera *cam,
 
     /* Sony only honours the focus position in one of the Flexible Spot
      * modes. Switch out of Wide/Zone/Center if necessary. */
-    focusArea =
-        entangle_camera_find_widget(cam, "/main/capturesettings/focusarea");
+    focusArea = entangle_camera_find_widget(cam, "/main/settings/focusarea");
+    if (!focusArea)
+        focusArea =
+            entangle_camera_find_widget(cam, "/main/capturesettings/focusarea");
     if (focusArea) {
         CameraWidgetType areaType;
 
