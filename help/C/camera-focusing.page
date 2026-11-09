@@ -25,6 +25,16 @@
   </p>
 
   <p>
+    While live preview is active, clicking on the preview image moves
+    the camera focus point to that position and triggers autofocus.
+    This requires the camera to support a movable focus point. When
+    necessary, <app>Entangle</app> switches the camera into a Flexible
+    Spot focus area mode automatically. The red focus point overlay
+    shows the selected position; it can be disabled in the Image Viewer
+    preferences.
+  </p>
+
+  <p>
     To manually focus, the lens can be moved in either direction
     at two levels of granularity. Small shifts in focal point
     can be made using the <key>,</key> and <key>.</key> keys.
