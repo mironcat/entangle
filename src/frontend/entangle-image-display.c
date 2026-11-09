@@ -44,6 +44,7 @@ struct _EntangleImageDisplay
     gboolean overexposureHighlighting;
     gboolean flipVertically;
     gboolean flipHorizontally;
+    gint rotation;
 
     gchar *textOverlay;
 
@@ -70,6 +71,7 @@ enum
     PROP_TEXT_OVERLAY,
     PROP_FLIP_VERTICALLY,
     PROP_FLIP_HORIZONTALLY,
+    PROP_ROTATION,
 };
 
 static void
@@ -262,6 +264,10 @@ entangle_image_display_get_property(GObject *object,
         g_value_set_boolean(value, display->flipHorizontally);
         break;
 
+    case PROP_ROTATION:
+        g_value_set_int(value, display->rotation);
+        break;
+
     case PROP_TEXT_OVERLAY:
         g_value_set_string(value, display->textOverlay);
         break;
@@ -329,6 +335,10 @@ entangle_image_display_set_property(GObject *object,
     case PROP_FLIP_HORIZONTALLY:
         entangle_image_display_set_flip_horizontally(
             display, g_value_get_boolean(value));
+        break;
+
+    case PROP_ROTATION:
+        entangle_image_display_set_rotation(display, g_value_get_int(value));
         break;
 
     case PROP_TEXT_OVERLAY:
@@ -599,6 +609,7 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
     int ww, wh;            /* Available drawing area extents */
     int pw = 0, ph = 0;    /* Original image size */
+    int ew = 0, eh = 0;    /* Effective (rotated) image size */
     double iw, ih;         /* Desired image size */
     double mx = 0, my = 0; /* Offset of image within available area */
     double sx = 1, sy = 1; /* Amount to scale by */
@@ -611,7 +622,14 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     if (display->pixmap) {
         pw = cairo_image_surface_get_width(display->pixmap);
         ph = cairo_image_surface_get_height(display->pixmap);
-        aspectImage = (double)pw / (double)ph;
+        if (display->rotation == 90 || display->rotation == 270) {
+            ew = ph;
+            eh = pw;
+        } else {
+            ew = pw;
+            eh = ph;
+        }
+        aspectImage = (double)ew / (double)eh;
     }
 
     /* Decide what size we're going to draw the image */
@@ -634,12 +652,12 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     } else {
         if (display->scale > 0) {
             /* Scale image larger */
-            iw = (double)pw * display->scale;
-            ih = (double)ph * display->scale;
+            iw = (double)ew * display->scale;
+            ih = (double)eh * display->scale;
         } else {
             /* Use native image size */
-            iw = (double)pw;
-            ih = (double)ph;
+            iw = (double)ew;
+            ih = (double)eh;
         }
     }
 
@@ -648,8 +666,8 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     my = (wh - ih) / 2;
 
     /* Calculate the scale factor for drawing */
-    sx = iw / pw;
-    sy = ih / ph;
+    sx = iw / ew;
+    sy = ih / eh;
 
     ENTANGLE_DEBUG("Got win %dx%d image %dx%d, autoscale=%d scale=%lf", ww, wh,
                    pw, ph, display->autoscale ? 1 : 0, display->scale);
@@ -675,27 +693,22 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     /* Draw the actual image(s) */
     if (display->pixmap) {
         cairo_matrix_t m;
+        double fx = display->flipHorizontally ? -1 : 1;
+        double fy = display->flipVertically ? -1 : 1;
+        double cx = mx / sx + ew / 2.0;
+        double cy = my / sy + eh / 2.0;
+
         cairo_get_matrix(cr, &m);
         cairo_scale(cr, sx, sy);
 
-        if (display->flipVertically || display->flipHorizontally) {
-            cairo_matrix_t flip;
-            double fx = display->flipHorizontally ? -1 : 1;
-            double fy = display->flipVertically ? -1 : 1;
-            double cx = ww / sx / 2;
-            double cy = wh / sy / 2;
+        /* Rotate and flip around the centre of the (rotated) image. */
+        cairo_translate(cr, cx, cy);
+        if (display->rotation)
+            cairo_rotate(cr, display->rotation * G_PI / 180.0);
+        cairo_scale(cr, fx, fy);
+        cairo_translate(cr, -pw / 2.0, -ph / 2.0);
 
-            cairo_matrix_init_identity(&flip);
-
-            flip.xx = fx;
-            flip.yy = fy;
-            flip.x0 = cx * (1 - fx);
-            flip.y0 = cy * (1 - fy);
-
-            cairo_transform(cr, &flip);
-        }
-
-        cairo_set_source_surface(cr, display->pixmap, mx / sx, my / sy);
+        cairo_set_source_surface(cr, display->pixmap, 0, 0);
         cairo_paint(cr);
         cairo_set_matrix(cr, &m);
     }
@@ -767,8 +780,13 @@ entangle_image_display_get_preferred_width(GtkWidget *widget,
          * be used filled with the image */
         *minwidth = *natwidth = 100;
     } else {
+        gint width = gdk_pixbuf_get_width(pixbuf);
+
+        if (display->rotation == 90 || display->rotation == 270)
+            width = gdk_pixbuf_get_height(pixbuf);
+
         /* Start a 1-to-1 mode */
-        *minwidth = *natwidth = gdk_pixbuf_get_width(pixbuf);
+        *minwidth = *natwidth = width;
         if (display->scale > 0) {
             /* Scaling mode */
             *minwidth = *natwidth = (int)((double)*minwidth * display->scale);
@@ -802,8 +820,13 @@ entangle_image_display_get_preferred_height(GtkWidget *widget,
          * be used filled with the image */
         *minheight = *natheight = 100;
     } else {
+        gint height = gdk_pixbuf_get_height(pixbuf);
+
+        if (display->rotation == 90 || display->rotation == 270)
+            height = gdk_pixbuf_get_width(pixbuf);
+
         /* Start a 1-to-1 mode */
-        *minheight = *natheight = gdk_pixbuf_get_height(pixbuf);
+        *minheight = *natheight = height;
         if (display->scale > 0) {
             /* Scaling mode */
             *minheight = *natheight =
@@ -908,6 +931,14 @@ entangle_image_display_class_init(EntangleImageDisplayClass *klass)
                              "Flip horizontally", TRUE,
                              G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+
+    g_object_class_install_property(
+        object_class, PROP_ROTATION,
+        g_param_spec_int("rotation", "Rotation",
+                         "Rotate the preview and captured images clockwise",
+                         0, 270, 0,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                             G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 }
 
 EntangleImageDisplay *
@@ -1231,6 +1262,34 @@ entangle_image_display_get_flip_horizontally(EntangleImageDisplay *display)
     g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), FALSE);
 
     return display->flipHorizontally;
+}
+
+void
+entangle_image_display_set_rotation(EntangleImageDisplay *display,
+                                    gint rotation)
+{
+    g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display));
+
+    rotation = ((rotation % 360) + 360) % 360;
+    if (rotation % 90 != 0)
+        rotation = 0;
+
+    if (display->rotation == rotation)
+        return;
+
+    display->rotation = rotation;
+
+    entangle_image_display_try_render_pixmap(display);
+    if (gtk_widget_get_visible((GtkWidget *)display))
+        gtk_widget_queue_draw(GTK_WIDGET(display));
+}
+
+gint
+entangle_image_display_get_rotation(EntangleImageDisplay *display)
+{
+    g_return_val_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(display), 0);
+
+    return display->rotation;
 }
 
 gboolean

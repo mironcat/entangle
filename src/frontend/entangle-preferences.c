@@ -72,6 +72,7 @@ G_DEFINE_TYPE(EntanglePreferences, entangle_preferences, G_TYPE_OBJECT);
 #define SETTING_IMG_OVEREXPOSURE_HIGHLIGHTING "overexposure-highlighting"
 #define SETTING_IMG_FLIP_VERTICALLY "flip-vertically"
 #define SETTING_IMG_FLIP_HORIZONTALLY "flip-horizontally"
+#define SETTING_IMG_ROTATION "rotation"
 #define SETTING_IMG_FOCUS_POINT "focus-point"
 #define SETTING_IMG_GRID_LINES "grid-lines"
 #define SETTING_IMG_EMBEDDED_PREVIEW "embedded-preview"
@@ -118,6 +119,7 @@ G_DEFINE_TYPE(EntanglePreferences, entangle_preferences, G_TYPE_OBJECT);
     SETTING_IMG "-" SETTING_IMG_FLIP_VERTICALLY
 #define PROP_NAME_IMG_FLIP_HORIZONTALLY                                        \
     SETTING_IMG "-" SETTING_IMG_FLIP_HORIZONTALLY
+#define PROP_NAME_IMG_ROTATION SETTING_IMG "-" SETTING_IMG_ROTATION
 #define PROP_NAME_IMG_FOCUS_POINT SETTING_IMG "-" SETTING_IMG_FOCUS_POINT
 #define PROP_NAME_IMG_GRID_LINES SETTING_IMG "-" SETTING_IMG_GRID_LINES
 #define PROP_NAME_IMG_EMBEDDED_PREVIEW                                         \
@@ -154,6 +156,7 @@ enum
     PROP_IMG_OVEREXPOSURE_HIGHLIGHTING,
     PROP_IMG_FLIP_VERTICALLY,
     PROP_IMG_FLIP_HORIZONTALLY,
+    PROP_IMG_ROTATION,
     PROP_IMG_FOCUS_POINT,
     PROP_IMG_GRID_LINES,
     PROP_IMG_EMBEDDED_PREVIEW,
@@ -311,6 +314,12 @@ entangle_preferences_get_property(GObject *object,
         g_value_set_boolean(
             value, g_settings_get_boolean(prefs->imgSettings,
                                           SETTING_IMG_FLIP_HORIZONTALLY));
+        break;
+
+    case PROP_IMG_ROTATION:
+        g_value_set_int(value,
+                        g_settings_get_int(prefs->imgSettings,
+                                           SETTING_IMG_ROTATION));
         break;
 
     case PROP_IMG_ASPECT_RATIO:
@@ -491,6 +500,11 @@ entangle_preferences_set_property(GObject *object,
         g_settings_set_boolean(prefs->imgSettings,
                                SETTING_IMG_FLIP_HORIZONTALLY,
                                g_value_get_boolean(value));
+        break;
+
+    case PROP_IMG_ROTATION:
+        g_settings_set_int(prefs->imgSettings, SETTING_IMG_ROTATION,
+                           g_value_get_int(value));
         break;
 
     case PROP_IMG_ASPECT_RATIO:
@@ -718,6 +732,14 @@ entangle_preferences_class_init(EntanglePreferencesClass *klass)
                              "Flip horizontally", "Flip horizontally", TRUE,
                              G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+
+    g_object_class_install_property(
+        object_class, PROP_IMG_ROTATION,
+        g_param_spec_int(PROP_NAME_IMG_ROTATION, "Rotation",
+                         "Rotate the preview and captured images clockwise",
+                         0, 270, 0,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
+                             G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
 
     g_object_class_install_property(
         object_class, PROP_IMG_FOCUS_POINT,
@@ -1665,6 +1687,42 @@ entangle_preferences_img_set_flip_horizontally(EntanglePreferences *prefs,
     g_settings_set_boolean(prefs->imgSettings, SETTING_IMG_FLIP_HORIZONTALLY,
                            enabled);
     g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_FLIP_HORIZONTALLY);
+}
+
+/**
+ * entangle_preferences_img_get_rotation:
+ * @prefs: (transfer none): the preferences store
+ *
+ * Determine the rotation angle applied to the image display
+ *
+ * Returns: the rotation in degrees (0, 90, 180 or 270)
+ */
+gint
+entangle_preferences_img_get_rotation(EntanglePreferences *prefs)
+{
+    g_return_val_if_fail(ENTANGLE_IS_PREFERENCES(prefs), 0);
+
+    return g_settings_get_int(prefs->imgSettings, SETTING_IMG_ROTATION);
+}
+
+/**
+ * entangle_preferences_img_set_rotation:
+ * @prefs: (transfer none): the preferences store
+ * @rotation: rotation in degrees
+ *
+ * Set the rotation applied to the image display. Only multiples of 90
+ * are meaningful; the value is normalized to 0, 90, 180 or 270.
+ */
+void
+entangle_preferences_img_set_rotation(EntanglePreferences *prefs,
+                                      gint rotation)
+{
+    g_return_if_fail(ENTANGLE_IS_PREFERENCES(prefs));
+
+    rotation = ((rotation % 360) + 360) % 360;
+
+    g_settings_set_int(prefs->imgSettings, SETTING_IMG_ROTATION, rotation);
+    g_object_notify(G_OBJECT(prefs), PROP_NAME_IMG_ROTATION);
 }
 
 /**

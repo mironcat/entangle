@@ -111,6 +111,12 @@ entangle_image_display_set_flip_horizontally(EntangleImageDisplay *display,
 gboolean
 entangle_image_display_get_flip_horizontally(EntangleImageDisplay *display);
 
+void
+entangle_image_display_set_rotation(EntangleImageDisplay *display,
+                                    gint rotation);
+gint
+entangle_image_display_get_rotation(EntangleImageDisplay *display);
+
 gboolean
 entangle_image_display_get_loaded(EntangleImageDisplay *display);
 

@@ -379,6 +379,18 @@ entangle_camera_manager_update_flip_horizontally(EntangleCameraManager *manager)
 }
 
 static void
+entangle_camera_manager_update_rotation(EntangleCameraManager *manager)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+
+    EntanglePreferences *prefs =
+        entangle_camera_manager_get_preferences(manager);
+    gint rotation = entangle_preferences_img_get_rotation(prefs);
+
+    entangle_image_display_set_rotation(manager->imageDisplay, rotation);
+}
+
+static void
 entangle_camera_manager_update_histogram_linear(EntangleCameraManager *manager)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
@@ -547,6 +559,8 @@ entangle_camera_manager_prefs_changed(GObject *object G_GNUC_UNUSED,
         entangle_camera_manager_update_flip_vertically(manager);
     } else if (g_str_equal(spec->name, "img-flip-horizontally")) {
         entangle_camera_manager_update_flip_horizontally(manager);
+    } else if (g_str_equal(spec->name, "img-rotation")) {
+        entangle_camera_manager_update_rotation(manager);
     } else if (g_str_equal(spec->name, "img-focus-point") ||
                g_str_equal(spec->name, "img-grid-lines")) {
         entangle_camera_manager_update_viewfinder(manager);
@@ -1335,6 +1349,7 @@ do_entangle_camera_manager_set_app(GObject *object,
     entangle_camera_manager_update_overexposure_highlighting(manager);
     entangle_camera_manager_update_flip_vertically(manager);
     entangle_camera_manager_update_flip_horizontally(manager);
+    entangle_camera_manager_update_rotation(manager);
     entangle_camera_manager_update_image_loader(manager);
     entangle_camera_manager_update_background_highlight(manager);
     entangle_camera_manager_update_automata(manager);

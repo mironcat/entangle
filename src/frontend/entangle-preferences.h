@@ -152,6 +152,11 @@ entangle_preferences_img_get_flip_horizontally(EntanglePreferences *prefs);
 void
 entangle_preferences_img_set_flip_horizontally(EntanglePreferences *prefs,
                                                gboolean enabled);
+gint
+entangle_preferences_img_get_rotation(EntanglePreferences *prefs);
+void
+entangle_preferences_img_set_rotation(EntanglePreferences *prefs,
+                                      gint rotation);
 gboolean
 entangle_preferences_img_get_focus_point(EntanglePreferences *prefs);
 void

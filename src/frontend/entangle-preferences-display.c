@@ -94,6 +94,7 @@ struct _EntanglePreferencesDisplay
     GtkToggleButton *imgOverexposureHighlighting;
     GtkToggleButton *imgFlipVertically;
     GtkToggleButton *imgFlipHorizontally;
+    GtkComboBox *imgRotation;
     GtkLabel *imgAspectRatioLabel;
     GtkLabel *imgMaskOpacityLabel;
     GtkComboBox *imgAspectRatio;
@@ -182,6 +183,9 @@ do_img_flip_vertically_toggled(GtkToggleButton *src,
 void
 do_img_flip_horizontally_toggled(GtkToggleButton *src,
                                  EntanglePreferencesDisplay *display);
+void
+do_img_rotation_changed(GtkComboBox *src,
+                        EntanglePreferencesDisplay *display);
 void
 do_img_aspect_ratio_changed(GtkComboBox *src,
                             EntanglePreferencesDisplay *display);
@@ -412,6 +416,20 @@ entangle_preferences_display_notify(GObject *object,
         if (newvalue != oldvalue)
             gtk_toggle_button_set_active(preferences->imgFlipHorizontally,
                                          newvalue);
+    } else if (strcmp(spec->name, "img-rotation") == 0) {
+        gint newvalue;
+        gchar *id;
+        const gchar *oldid;
+
+        g_object_get(object, spec->name, &newvalue, NULL);
+
+        id = g_strdup_printf("%d", newvalue);
+        oldid = gtk_combo_box_get_active_id(preferences->imgRotation);
+
+        if (!oldid || strcmp(id, oldid) != 0)
+            gtk_combo_box_set_active_id(preferences->imgRotation, id);
+
+        g_free(id);
     } else if (strcmp(spec->name, "img-aspect-ratio") == 0) {
         gchar *newvalue;
         const gchar *oldvalue;
@@ -627,6 +645,11 @@ entangle_preferences_display_refresh(EntanglePreferencesDisplay *preferences)
         preferences->imgFlipHorizontally,
         entangle_preferences_img_get_flip_horizontally(preferences->prefs));
 
+    gchar *rotationId = g_strdup_printf(
+        "%d", entangle_preferences_img_get_rotation(preferences->prefs));
+    gtk_combo_box_set_active_id(preferences->imgRotation, rotationId);
+    g_free(rotationId);
+
     gtk_combo_box_set_active_id(preferences->imgAspectRatio, ratio);
     gtk_widget_set_sensitive(GTK_WIDGET(preferences->imgAspectRatio), hasRatio);
 
@@ -816,6 +839,9 @@ entangle_preferences_display_class_init(EntanglePreferencesDisplayClass *klass)
     gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
                                          EntanglePreferencesDisplay,
                                          imgFlipHorizontally);
+    gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
+                                         EntanglePreferencesDisplay,
+                                         imgRotation);
     gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(klass),
                                          EntanglePreferencesDisplay,
                                          imgAspectRatioLabel);
@@ -1134,6 +1160,18 @@ do_img_flip_horizontally_toggled(GtkToggleButton *src,
     gboolean enabled = gtk_toggle_button_get_active(src);
 
     entangle_preferences_img_set_flip_horizontally(preferences->prefs, enabled);
+}
+
+void
+do_img_rotation_changed(GtkComboBox *src,
+                        EntanglePreferencesDisplay *preferences)
+{
+    g_return_if_fail(ENTANGLE_IS_PREFERENCES_DISPLAY(preferences));
+
+    const gchar *id = gtk_combo_box_get_active_id(src);
+
+    if (id)
+        entangle_preferences_img_set_rotation(preferences->prefs, atoi(id));
 }
 
 void
