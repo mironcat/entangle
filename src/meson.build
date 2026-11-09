@@ -97,17 +97,19 @@ gir_incs = [
 gir_dir = join_paths(entangle_datadir, 'gir-1.0')
 typelib_dir = join_paths(entangle_libdir, 'girepository-1.0')
 
-entangle_gir = gnome.generate_gir(
-    entangle,
-    sources: gir_sources,
-    nsversion: '0.1',
-    namespace: 'Entangle',
-    includes: gir_incs,
-    include_directories: [
-      backend_inc,
-      frontend_inc,
-    ],
-    install: true,
-    install_dir_gir: gir_dir,
-    install_dir_typelib: typelib_dir,
-  )
+if get_option('introspection')
+  entangle_gir = gnome.generate_gir(
+      entangle,
+      sources: gir_sources,
+      nsversion: '0.1',
+      namespace: 'Entangle',
+      includes: gir_incs,
+      include_directories: [
+        backend_inc,
+        frontend_inc,
+      ],
+      install: true,
+      install_dir_gir: gir_dir,
+      install_dir_typelib: typelib_dir,
+    )
+endif

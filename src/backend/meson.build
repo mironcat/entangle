@@ -132,6 +132,7 @@ entangle_backend_deps = [
   libpeas_dep,
   gexiv2_dep,
   libraw_dep,
+  m_dep,
 ]
 
 entangle_backend_cflags = warning_cflags

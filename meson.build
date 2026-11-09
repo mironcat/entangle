@@ -58,6 +58,7 @@ xext_dep = dependency('xext', version: xext_min_version)
 # which in turn confuses g-ir-scanner
 #libraw_dep = dependency('libraw_r', version: libraw_min_version)
 libraw_dep = cc.find_library('raw_r')
+m_dep = cc.find_library('m', required: false)
 gst_dep = dependency('gstreamer-1.0', version: gst_min_version)
 gst_video_dep = dependency('gstreamer-video-1.0', version: gst_min_version)
 
@@ -254,7 +255,9 @@ po_dir = join_paths(meson.project_source_root(), 'po')
 subdir('src')
 subdir('po')
 subdir('help')
-subdir('docs')
+if get_option('enable-gtk-doc')
+  subdir('docs')
+endif
 
 test(
     'syntax-check',

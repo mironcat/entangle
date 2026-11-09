@@ -1,2 +1,3 @@
 option('enable-gtk-doc', type: 'boolean', value: false, description: 'use gtk-doc to build documentation')
+option('introspection', type: 'boolean', value: true, description: 'build GObject introspection data')
 option('enable-werror', type: 'boolean',  value: false, description: 'Enable -Werror flag')
