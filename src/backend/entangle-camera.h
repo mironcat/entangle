@@ -245,6 +245,8 @@ gboolean
 entangle_camera_get_has_settings(EntangleCamera *cam);
 gboolean
 entangle_camera_get_has_viewfinder(EntangleCamera *cam);
+gboolean
+entangle_camera_get_has_autofocus(EntangleCamera *cam);
 
 gboolean
 entangle_camera_load_controls(EntangleCamera *cam, GError **error);

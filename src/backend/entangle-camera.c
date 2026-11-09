@@ -81,6 +81,7 @@ struct _EntangleCamera
     gboolean hasPreview;
     gboolean hasSettings;
     gboolean hasViewfinder;
+    gboolean hasAutofocus;
 };
 
 G_DEFINE_TYPE(EntangleCamera, entangle_camera, G_TYPE_OBJECT);
@@ -2295,6 +2296,16 @@ entangle_camera_load_controls(EntangleCamera *cam, GError **error)
             ENTANGLE_DEBUG("No viewfinder widget");
             cam->hasViewfinder = FALSE;
         }
+
+        if (entangle_camera_find_widget(cam,
+                                        "/main/actions/autofocusdrive") ||
+            entangle_camera_find_widget(cam, "/main/actions/autofocus")) {
+            ENTANGLE_DEBUG("Found an autofocus widget");
+            cam->hasAutofocus = TRUE;
+        } else {
+            ENTANGLE_DEBUG("No autofocus widget");
+            cam->hasAutofocus = FALSE;
+        }
     }
 
     ret = do_load_controls(cam, "", cam->widgets, error);
@@ -2731,6 +2742,24 @@ entangle_camera_set_viewfinder_finish(EntangleCamera *cam,
     return g_task_propagate_boolean(G_TASK(result), error);
 }
 
+static gchar *
+entangle_camera_get_focus_indication(EntangleCamera *cam)
+{
+    CameraWidget *widget = NULL;
+    gchar *value = NULL;
+    gchar *ret = NULL;
+
+    if (gp_camera_get_single_config(cam->cam, "focusindication", &widget,
+                                    cam->ctx) != GP_OK)
+        return NULL;
+
+    if (gp_widget_get_value(widget, &value) == GP_OK && value)
+        ret = g_strdup(value);
+
+    gp_widget_free(widget);
+    return ret;
+}
+
 /**
  * entangle_camera_autofocus:
  * @cam: (transfer none): the camera
@@ -2751,7 +2780,8 @@ entangle_camera_autofocus(EntangleCamera *cam, GError **error)
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     gboolean ret = FALSE;
-    CameraWidget *widget;
+    gboolean sonyHalfPress = FALSE;
+    CameraWidget *widget = NULL;
     CameraWidgetType type;
     int value;
     int err;
@@ -2775,6 +2805,13 @@ entangle_camera_autofocus(EntangleCamera *cam, GError **error)
 
     widget = entangle_camera_find_widget(cam, "/main/actions/autofocusdrive");
     if (!widget) {
+        /* Sony exposes the shutter half-press as /main/actions/autofocus
+         * rather than the Nikon/Canon/Fuji /main/actions/autofocusdrive. */
+        widget = entangle_camera_find_widget(cam, "/main/actions/autofocus");
+        sonyHalfPress = widget != NULL;
+    }
+
+    if (!widget) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Autofocus control not available with this camera"));
         goto cleanup;
@@ -2792,28 +2829,86 @@ entangle_camera_autofocus(EntangleCamera *cam, GError **error)
         goto cleanup;
     }
 
-    value = 0;
-    if ((err = gp_widget_set_value(widget, &value)) != GP_OK) {
-        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Failed to set autofocus state: %s %d"),
-                    gp_port_result_as_string(err), err);
-        goto cleanup;
-    }
+    if (sonyHalfPress) {
+        gchar *initial = entangle_camera_get_focus_indication(cam);
 
-    value = 1;
-    if ((err = gp_widget_set_value(widget, &value)) != GP_OK) {
-        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Failed to set autofocus state: %s %d"),
-                    gp_port_result_as_string(err), err);
-        goto cleanup;
-    }
+        /* Press the shutter button half way and hold it while the camera
+         * performs autofocus. */
+        value = 1;
+        if ((err = gp_widget_set_value(widget, &value)) != GP_OK) {
+            g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                        _("Failed to set autofocus state: %s %d"),
+                        gp_port_result_as_string(err), err);
+            g_free(initial);
+            goto cleanup;
+        }
 
-    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
-        GP_OK) {
-        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Unable to save camera control configuration: %s"),
-                    cam->lastError);
-        goto cleanup;
+        if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+            GP_OK) {
+            g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                        _("Unable to save camera control configuration: %s"),
+                        cam->lastError);
+            g_free(initial);
+            goto cleanup;
+        }
+
+        /* Wait for focus to settle, but do not hold the button forever.
+         * The focus indication value changes from "Unlock" to either
+         * "Focus Locked" or "No Focus" once the camera is done. */
+        gint64 deadline = g_get_monotonic_time() + 2 * G_TIME_SPAN_SECOND;
+        while (g_get_monotonic_time() < deadline) {
+            gchar *current = entangle_camera_get_focus_indication(cam);
+            gboolean changed =
+                current && (!initial || strcmp(current, initial) != 0);
+
+            g_free(current);
+            if (changed)
+                break;
+
+            g_usleep(100 * 1000);
+        }
+        g_free(initial);
+
+        /* Release the shutter button. AF-S keeps the achieved focus. */
+        value = 0;
+        if ((err = gp_widget_set_value(widget, &value)) != GP_OK) {
+            g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                        _("Failed to set autofocus state: %s %d"),
+                        gp_port_result_as_string(err), err);
+            goto cleanup;
+        }
+
+        if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+            GP_OK) {
+            g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                        _("Unable to save camera control configuration: %s"),
+                        cam->lastError);
+            goto cleanup;
+        }
+    } else {
+        value = 0;
+        if ((err = gp_widget_set_value(widget, &value)) != GP_OK) {
+            g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                        _("Failed to set autofocus state: %s %d"),
+                        gp_port_result_as_string(err), err);
+            goto cleanup;
+        }
+
+        value = 1;
+        if ((err = gp_widget_set_value(widget, &value)) != GP_OK) {
+            g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                        _("Failed to set autofocus state: %s %d"),
+                        gp_port_result_as_string(err), err);
+            goto cleanup;
+        }
+
+        if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+            GP_OK) {
+            g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                        _("Unable to save camera control configuration: %s"),
+                        cam->lastError);
+            goto cleanup;
+        }
     }
 
     ret = TRUE;
@@ -3531,6 +3626,28 @@ entangle_camera_get_has_viewfinder(EntangleCamera *cam)
 
     g_mutex_lock(&cam->lock);
     ret = cam->hasViewfinder;
+    g_mutex_unlock(&cam->lock);
+
+    return ret;
+}
+
+/**
+ * entangle_camera_get_has_autofocus:
+ * @cam: (transfer none): the camera
+ *
+ * Check if the camera supports autofocus control
+ *
+ * Returns: TRUE if the camera supports autofocus control, FALSE otherwise
+ */
+gboolean
+entangle_camera_get_has_autofocus(EntangleCamera *cam)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    gboolean ret;
+
+    g_mutex_lock(&cam->lock);
+    ret = cam->hasAutofocus;
     g_mutex_unlock(&cam->lock);
 
     return ret;
