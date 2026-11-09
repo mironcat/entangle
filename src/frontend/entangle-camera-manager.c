@@ -1987,6 +1987,62 @@ do_camera_autofocus_finish(GObject *source,
 }
 
 static void
+do_camera_set_focus_area_finish(GObject *source,
+                                GAsyncResult *result,
+                                gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    EntangleCamera *camera = ENTANGLE_CAMERA(source);
+    GError *error = NULL;
+
+    if (!entangle_camera_set_focus_area_finish(camera, result, &error)) {
+        GtkWidget *msg =
+            gtk_message_dialog_new(GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR,
+                                   GTK_BUTTONS_OK, _("Autofocus failed"));
+        gtk_window_set_title(GTK_WINDOW(msg),
+                             _("Entangle: Camera autofocus failed"));
+        gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(msg), "%s",
+                                                 error->message);
+        g_signal_connect_swapped(msg, "response",
+                                 G_CALLBACK(gtk_widget_destroy), msg);
+        gtk_widget_show_all(msg);
+
+        g_error_free(error);
+    }
+}
+
+static void
+do_image_focus_point_selected(EntangleImageDisplay *display G_GNUC_UNUSED,
+                              gdouble x,
+                              gdouble y,
+                              gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    gint px, py;
+
+    if (!manager->camera || !manager->taskPreview)
+        return;
+
+    if (!entangle_camera_get_has_focus_area(manager->camera))
+        return;
+
+    px = (gint) (x * 639.0 + 0.5);
+    py = (gint) (y * 479.0 + 0.5);
+    px = CLAMP(px, 0, 639);
+    py = CLAMP(py, 0, 479);
+
+    ENTANGLE_DEBUG("Focus point selected at %.3f,%.3f -> %d,%d", x, y, px, py);
+
+    entangle_camera_set_focus_area_async(manager->camera, px, py, NULL,
+                                         do_camera_set_focus_area_finish,
+                                         manager);
+}
+
+static void
 do_camera_manualfocus_finish(GObject *source,
                              GAsyncResult *result,
                              gpointer opaque)
@@ -3003,6 +3059,8 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
 
     g_signal_connect(manager->imageDisplay, "size-allocate",
                      G_CALLBACK(do_restore_scroll), manager);
+    g_signal_connect(manager->imageDisplay, "focus-point-selected",
+                     G_CALLBACK(do_image_focus_point_selected), manager);
 
     g_signal_connect(manager->sessionBrowser, "selection-changed",
                      G_CALLBACK(do_session_media_selected), manager);

@@ -49,6 +49,12 @@ struct _EntangleImageDisplay
     gchar *textOverlay;
 
     gboolean focusPoint;
+    gdouble focusX;
+    gdouble focusY;
+    gboolean hasTransform;
+    cairo_matrix_t imageToWidget;
+    cairo_matrix_t widgetToImage;
+
     EntangleImageDisplayGrid gridDisplay;
 };
 
@@ -73,6 +79,14 @@ enum
     PROP_FLIP_HORIZONTALLY,
     PROP_ROTATION,
 };
+
+enum
+{
+    SIGNAL_FOCUS_POINT_SELECTED,
+    SIGNAL_LAST,
+};
+
+static guint signals[SIGNAL_LAST];
 
 static void
 entangle_image_display_image_pixbuf_notify(GObject *image,
@@ -388,17 +402,37 @@ entangle_image_display_realize(GtkWidget *widget)
 }
 
 static void
-entangle_image_display_draw_focus_point(GtkWidget *widget, cairo_t *cr)
+entangle_image_display_get_focus_widget_pos(EntangleImageDisplay *display,
+                                            gdouble *x,
+                                            gdouble *y)
+{
+    gint ww, wh;
+    gdouble fx, fy;
+
+    ww = gdk_window_get_width(gtk_widget_get_window(GTK_WIDGET(display)));
+    wh = gdk_window_get_height(gtk_widget_get_window(GTK_WIDGET(display)));
+
+    if (!display->pixmap || !display->hasTransform) {
+        *x = ww / 2.0;
+        *y = wh / 2.0;
+        return;
+    }
+
+    fx = display->focusX * cairo_image_surface_get_width(display->pixmap);
+    fy = display->focusY * cairo_image_surface_get_height(display->pixmap);
+    cairo_matrix_transform_point(&display->imageToWidget, &fx, &fy);
+
+    *x = fx;
+    *y = fy;
+}
+
+static void
+entangle_image_display_draw_focus_point(GtkWidget *widget,
+                                        cairo_t *cr,
+                                        gdouble cx,
+                                        gdouble cy)
 {
     g_return_if_fail(ENTANGLE_IS_IMAGE_DISPLAY(widget));
-
-    gint ww, wh, cx, cy;
-
-    ww = gdk_window_get_width(gtk_widget_get_window(widget));
-    wh = gdk_window_get_height(gtk_widget_get_window(widget));
-
-    cx = ww / 2;
-    cy = wh / 2;
 
     cairo_set_source_rgba(cr, 0.7, 0, 0, 1);
 
@@ -458,8 +492,6 @@ entangle_image_display_draw_grid_display(GtkWidget *widget,
     EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
     gint ww = gdk_window_get_width(gtk_widget_get_window(widget));
     gint wh = gdk_window_get_height(gtk_widget_get_window(widget));
-    gdouble cx = (ww - (mx * 2)) / 2.0;
-    gdouble cy = (wh - (my * 2)) / 2.0;
     gdouble offx[4], offy[4];
     gint count;
     gint i;
@@ -467,11 +499,13 @@ entangle_image_display_draw_grid_display(GtkWidget *widget,
     cairo_set_source_rgba(cr, 0.7, 0, 0, 1);
 
     if (display->focusPoint) {
+        gdouble fx, fy;
+
         /* Cut out the area where the focus point lives
          * to avoid lines going through it */
+        entangle_image_display_get_focus_widget_pos(display, &fx, &fy);
         cairo_rectangle(cr, mx, my, ww - (mx * 2), wh - (my * 2));
-        cairo_rectangle(cr, ww - mx - cx + SIZE, my + cy - SIZE, -1 * SIZE * 2,
-                        SIZE * 2);
+        cairo_rectangle(cr, fx + SIZE, fy - SIZE, -1 * SIZE * 2, SIZE * 2);
         cairo_clip(cr);
     }
 
@@ -619,6 +653,8 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     wh = gdk_window_get_height(gtk_widget_get_window(widget));
     aspectWin = (double)ww / (double)wh;
 
+    display->hasTransform = FALSE;
+
     if (display->pixmap) {
         pw = cairo_image_surface_get_width(display->pixmap);
         ph = cairo_image_surface_get_height(display->pixmap);
@@ -708,6 +744,12 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
         cairo_scale(cr, fx, fy);
         cairo_translate(cr, -pw / 2.0, -ph / 2.0);
 
+        cairo_get_matrix(cr, &display->imageToWidget);
+        display->widgetToImage = display->imageToWidget;
+        if (cairo_matrix_invert(&display->widgetToImage) ==
+            CAIRO_STATUS_SUCCESS)
+            display->hasTransform = TRUE;
+
         cairo_set_source_surface(cr, display->pixmap, 0, 0);
         cairo_paint(cr);
         cairo_set_matrix(cr, &m);
@@ -716,8 +758,12 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
     cairo_save(cr);
 
     /* Draw the focus point */
-    if (display->focusPoint)
-        entangle_image_display_draw_focus_point(widget, cr);
+    if (display->focusPoint) {
+        gdouble fx, fy;
+
+        entangle_image_display_get_focus_widget_pos(display, &fx, &fy);
+        entangle_image_display_draw_focus_point(widget, cr, fx, fy);
+    }
 
     /* Draw the grid lines */
     entangle_image_display_draw_grid_display(widget, cr, mx, my);
@@ -835,6 +881,46 @@ entangle_image_display_get_preferred_height(GtkWidget *widget,
     }
 }
 
+static gboolean
+entangle_image_display_button_press(GtkWidget *widget,
+                                    GdkEventButton *event,
+                                    gpointer user_data G_GNUC_UNUSED)
+{
+    EntangleImageDisplay *display = ENTANGLE_IMAGE_DISPLAY(widget);
+    gdouble x, y;
+    int pw, ph;
+
+    if (event->button != GDK_BUTTON_PRIMARY)
+        return FALSE;
+
+    if (!display->pixmap || !display->hasTransform)
+        return FALSE;
+
+    x = event->x;
+    y = event->y;
+    cairo_matrix_transform_point(&display->widgetToImage, &x, &y);
+
+    pw = cairo_image_surface_get_width(display->pixmap);
+    ph = cairo_image_surface_get_height(display->pixmap);
+
+    if (x < 0 || y < 0 || x >= pw || y >= ph)
+        return FALSE;
+
+    display->focusX = x / pw;
+    display->focusY = y / ph;
+
+    ENTANGLE_DEBUG("Focus click at %.1f,%.1f -> %.1f,%.1f of %dx%d "
+                   "(%0.3f,%0.3f)",
+                   event->x, event->y, x, y, pw, ph, display->focusX,
+                   display->focusY);
+
+    gtk_widget_queue_draw(widget);
+    g_signal_emit(display, signals[SIGNAL_FOCUS_POINT_SELECTED], 0,
+                  display->focusX, display->focusY);
+
+    return TRUE;
+}
+
 static void
 entangle_image_display_class_init(EntangleImageDisplayClass *klass)
 {
@@ -939,6 +1025,11 @@ entangle_image_display_class_init(EntangleImageDisplayClass *klass)
                          0, 270, 0,
                          G_PARAM_READWRITE | G_PARAM_STATIC_NAME |
                              G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+
+    signals[SIGNAL_FOCUS_POINT_SELECTED] =
+        g_signal_new("focus-point-selected", G_TYPE_FROM_CLASS(klass),
+                     G_SIGNAL_RUN_LAST, 0, NULL, NULL, NULL, G_TYPE_NONE, 2,
+                     G_TYPE_DOUBLE, G_TYPE_DOUBLE);
 }
 
 EntangleImageDisplay *
@@ -958,6 +1049,12 @@ entangle_image_display_init(EntangleImageDisplay *display)
     display->overexposureHighlighting = TRUE;
     display->flipVertically = FALSE;
     display->flipHorizontally = FALSE;
+    display->focusX = 0.5;
+    display->focusY = 0.5;
+
+    gtk_widget_add_events(GTK_WIDGET(display), GDK_BUTTON_PRESS_MASK);
+    g_signal_connect(display, "button-press-event",
+                     G_CALLBACK(entangle_image_display_button_press), NULL);
 }
 
 /**
