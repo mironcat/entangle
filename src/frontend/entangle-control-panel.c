@@ -95,10 +95,48 @@ do_update_control_finish(GObject *src, GAsyncResult *res, gpointer data)
     }
 }
 
+#define CONTROL_IDLE_KEY "entangle-control-idle"
+#define CONTROL_DESTROYED_KEY "entangle-control-destroyed"
+
+static void
+do_control_widget_destroy(GtkWidget *widget, gpointer data G_GNUC_UNUSED)
+{
+    guint id = GPOINTER_TO_UINT(
+        g_object_get_data(G_OBJECT(widget), CONTROL_IDLE_KEY));
+
+    if (id)
+        g_source_remove(id);
+
+    g_object_set_data(G_OBJECT(widget), CONTROL_IDLE_KEY, NULL);
+    g_object_set_data(G_OBJECT(widget), CONTROL_DESTROYED_KEY,
+                      GINT_TO_POINTER(1));
+}
+
+static void
+do_schedule_control_idle(GtkWidget *widget, GSourceFunc func)
+{
+    guint id;
+
+    if (g_object_get_data(G_OBJECT(widget), CONTROL_DESTROYED_KEY))
+        return;
+
+    id = GPOINTER_TO_UINT(
+        g_object_get_data(G_OBJECT(widget), CONTROL_IDLE_KEY));
+    if (id)
+        g_source_remove(id);
+
+    id = g_idle_add(func, widget);
+    g_object_set_data(G_OBJECT(widget), CONTROL_IDLE_KEY,
+                      GUINT_TO_POINTER(id));
+}
+
 static gboolean
 do_refresh_control_entry_idle(gpointer data)
 {
     GtkWidget *widget = GTK_WIDGET(data);
+
+    g_object_set_data(G_OBJECT(widget), CONTROL_IDLE_KEY, NULL);
+
     EntangleControlPanel *panel = g_object_get_data(G_OBJECT(widget), "panel");
     GObject *control = g_object_get_data(G_OBJECT(widget), "control");
     gchar *text;
@@ -123,7 +161,8 @@ do_refresh_control_entry(GObject *object G_GNUC_UNUSED,
                          GParamSpec *pspec G_GNUC_UNUSED,
                          gpointer data)
 {
-    g_idle_add(do_refresh_control_entry_idle, data);
+    do_schedule_control_idle(GTK_WIDGET(data),
+                             do_refresh_control_entry_idle);
 }
 
 static void
@@ -156,6 +195,9 @@ static gboolean
 do_refresh_control_range_idle(gpointer data)
 {
     GtkWidget *widget = GTK_WIDGET(data);
+
+    g_object_set_data(G_OBJECT(widget), CONTROL_IDLE_KEY, NULL);
+
     EntangleControlPanel *panel = g_object_get_data(G_OBJECT(widget), "panel");
     GObject *control = g_object_get_data(G_OBJECT(widget), "control");
     gfloat val;
@@ -183,7 +225,8 @@ do_refresh_control_range(GObject *object G_GNUC_UNUSED,
                          GParamSpec *pspec G_GNUC_UNUSED,
                          gpointer data)
 {
-    g_idle_add(do_refresh_control_range_idle, data);
+    do_schedule_control_idle(GTK_WIDGET(data),
+                             do_refresh_control_range_idle);
 }
 
 static void
@@ -215,6 +258,9 @@ static gboolean
 do_refresh_control_combo_idle(gpointer data)
 {
     GtkWidget *widget = GTK_WIDGET(data);
+
+    g_object_set_data(G_OBJECT(widget), CONTROL_IDLE_KEY, NULL);
+
     EntangleControlPanel *panel = g_object_get_data(G_OBJECT(widget), "panel");
     GObject *control = g_object_get_data(G_OBJECT(widget), "control");
     gchar *text;
@@ -258,7 +304,8 @@ do_refresh_control_combo(GObject *object G_GNUC_UNUSED,
                          GParamSpec *pspec G_GNUC_UNUSED,
                          gpointer data)
 {
-    g_idle_add(do_refresh_control_combo_idle, data);
+    do_schedule_control_idle(GTK_WIDGET(data),
+                             do_refresh_control_combo_idle);
 }
 
 static void
@@ -294,6 +341,9 @@ static gboolean
 do_refresh_control_toggle_idle(gpointer data)
 {
     GtkWidget *widget = GTK_WIDGET(data);
+
+    g_object_set_data(G_OBJECT(widget), CONTROL_IDLE_KEY, NULL);
+
     EntangleControlPanel *panel = g_object_get_data(G_OBJECT(widget), "panel");
     GObject *control = g_object_get_data(G_OBJECT(widget), "control");
     gboolean state;
@@ -318,7 +368,8 @@ do_refresh_control_toggle(GObject *object G_GNUC_UNUSED,
                           GParamSpec *pspec G_GNUC_UNUSED,
                           gpointer data)
 {
-    g_idle_add(do_refresh_control_toggle_idle, data);
+    do_schedule_control_idle(GTK_WIDGET(data),
+                             do_refresh_control_toggle_idle);
 }
 
 static void
@@ -349,6 +400,9 @@ static gboolean
 do_update_control_readonly_idle(gpointer data)
 {
     GtkWidget *widget = GTK_WIDGET(data);
+
+    g_object_set_data(G_OBJECT(widget), CONTROL_IDLE_KEY, NULL);
+
     GObject *control = g_object_get_data(G_OBJECT(widget), "control");
     gboolean state;
 
@@ -363,7 +417,8 @@ do_update_control_readonly(GObject *object G_GNUC_UNUSED,
                            GParamSpec *pspec G_GNUC_UNUSED,
                            gpointer data)
 {
-    g_idle_add(do_update_control_readonly_idle, data);
+    do_schedule_control_idle(GTK_WIDGET(data),
+                             do_update_control_readonly_idle);
 }
 
 static void
@@ -384,8 +439,9 @@ do_setup_control(EntangleControlPanel *panel,
         value = gtk_button_new_with_label(entangle_control_get_label(control));
         if (entangle_control_get_readonly(control))
             gtk_widget_set_sensitive(value, FALSE);
-        g_signal_connect(control, "notify::readonly",
-                         G_CALLBACK(do_update_control_readonly), value);
+        g_signal_connect_object(control, "notify::readonly",
+                                G_CALLBACK(do_update_control_readonly), value,
+                                0);
     } else if (ENTANGLE_IS_CONTROL_CHOICE(control)) {
         GtkCellRenderer *cell;
         GtkListStore *store;
@@ -445,10 +501,11 @@ do_setup_control(EntangleControlPanel *panel,
 
         g_signal_connect(value, "changed", G_CALLBACK(do_update_control_combo),
                          panel);
-        g_signal_connect(control, "notify::value",
-                         G_CALLBACK(do_refresh_control_combo), value);
-        g_signal_connect(control, "notify::readonly",
-                         G_CALLBACK(do_update_control_readonly), value);
+        g_signal_connect_object(control, "notify::value",
+                                G_CALLBACK(do_refresh_control_combo), value, 0);
+        g_signal_connect_object(control, "notify::readonly",
+                                G_CALLBACK(do_update_control_readonly), value,
+                                0);
     } else if (ENTANGLE_IS_CONTROL_DATE(control)) {
         int date;
 
@@ -479,10 +536,11 @@ do_setup_control(EntangleControlPanel *panel,
             gtk_widget_set_sensitive(value, FALSE);
         g_signal_connect(value, "change-value",
                          G_CALLBACK(do_update_control_range), panel);
-        g_signal_connect(control, "notify::value",
-                         G_CALLBACK(do_refresh_control_range), value);
-        g_signal_connect(control, "notify::readonly",
-                         G_CALLBACK(do_update_control_readonly), value);
+        g_signal_connect_object(control, "notify::value",
+                                G_CALLBACK(do_refresh_control_range), value, 0);
+        g_signal_connect_object(control, "notify::readonly",
+                                G_CALLBACK(do_update_control_readonly), value,
+                                0);
     } else if (ENTANGLE_IS_CONTROL_TEXT(control)) {
         const char *text;
 
@@ -493,10 +551,11 @@ do_setup_control(EntangleControlPanel *panel,
             gtk_widget_set_sensitive(value, FALSE);
         g_signal_connect(value, "focus-out-event",
                          G_CALLBACK(do_update_control_entry), panel);
-        g_signal_connect(control, "notify::value",
-                         G_CALLBACK(do_refresh_control_entry), value);
-        g_signal_connect(control, "notify::readonly",
-                         G_CALLBACK(do_update_control_readonly), value);
+        g_signal_connect_object(control, "notify::value",
+                                G_CALLBACK(do_refresh_control_entry), value, 0);
+        g_signal_connect_object(control, "notify::readonly",
+                                G_CALLBACK(do_update_control_readonly), value,
+                                0);
     } else if (ENTANGLE_IS_CONTROL_TOGGLE(control)) {
         gboolean active;
         needLabel = FALSE;
@@ -508,11 +567,16 @@ do_setup_control(EntangleControlPanel *panel,
             gtk_widget_set_sensitive(value, FALSE);
         g_signal_connect(value, "toggled", G_CALLBACK(do_update_control_toggle),
                          panel);
-        g_signal_connect(control, "notify::value",
-                         G_CALLBACK(do_refresh_control_toggle), value);
-        g_signal_connect(control, "notify::readonly",
-                         G_CALLBACK(do_update_control_readonly), value);
+        g_signal_connect_object(control, "notify::value",
+                                G_CALLBACK(do_refresh_control_toggle), value, 0);
+        g_signal_connect_object(control, "notify::readonly",
+                                G_CALLBACK(do_update_control_readonly), value,
+                                0);
     }
+
+    if (value)
+        g_signal_connect(value, "destroy",
+                         G_CALLBACK(do_control_widget_destroy), NULL);
 
     if (needLabel) {
         label = gtk_label_new(entangle_control_get_label(control));
