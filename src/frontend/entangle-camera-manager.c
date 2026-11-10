@@ -130,6 +130,7 @@ struct _EntangleCameraManager
     gboolean taskPreview;
     gboolean taskActive;
     gboolean taskProcessEvents;
+    gboolean destroyed;
     char *deleteImageDup;
     gboolean syncCapture;
     gboolean mediaContextMenu;
@@ -930,6 +931,9 @@ do_camera_process_events_finish(GObject *src,
         goto cleanup;
     }
 
+    if (manager->destroyed)
+        goto cleanup;
+
     if (!manager->cameraReady) {
         manager->cameraReady = TRUE;
         entangle_camera_automata_set_camera(manager->automata, manager->camera);
@@ -956,6 +960,9 @@ static void
 do_camera_process_events(EntangleCameraManager *manager)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+
+    if (manager->destroyed)
+        return;
 
     if (!manager->camera)
         return;
@@ -1706,11 +1713,19 @@ do_entangle_camera_manager_capture_finish(GObject *src,
     GError *error = NULL;
 
     if (!entangle_camera_automata_capture_finish(automata, res, &error)) {
-        do_camera_task_error(manager, _("Capture"), error);
-        g_error_free(error);
+        if (!manager->destroyed)
+            do_camera_task_error(manager, _("Capture"), error);
+        if (error)
+            g_error_free(error);
+    }
+
+    if (manager->destroyed) {
+        g_object_unref(manager);
+        return;
     }
 
     do_camera_task_complete(manager);
+    g_object_unref(manager);
 }
 
 static void
@@ -1725,13 +1740,21 @@ do_entangle_camera_manager_script_finish(GObject *src,
     GError *error = NULL;
 
     if (!entangle_script_execute_finish(script, res, &error)) {
-        do_camera_task_error(manager, _("Script"), error);
+        if (!manager->destroyed)
+            do_camera_task_error(manager, _("Script"), error);
         if (error)
             g_error_free(error);
     }
 
-    do_camera_task_complete(manager);
     g_object_unref(script);
+
+    if (manager->destroyed) {
+        g_object_unref(manager);
+        return;
+    }
+
+    do_camera_task_complete(manager);
+    g_object_unref(manager);
 }
 
 void
@@ -1761,6 +1784,7 @@ entangle_camera_manager_capture(EntangleCameraManager *manager)
         do_capture_widget_sensitivity(manager);
 
         script = entangle_script_config_get_selected(manager->scriptConfig);
+        g_object_ref(manager);
         if (script)
             entangle_script_execute_async(
                 script, manager->automata, manager->taskCancel,
@@ -1782,17 +1806,31 @@ do_entangle_camera_manager_preview_finish(GObject *src,
 
     EntangleCameraAutomata *automata = ENTANGLE_CAMERA_AUTOMATA(src);
     EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
-    EntanglePreferences *prefs =
-        entangle_camera_manager_get_preferences(manager);
     GError *error = NULL;
 
     if (!entangle_camera_automata_preview_finish(automata, res, &error)) {
-        do_camera_task_error(manager, _("Preview"), error);
+        if (!manager->destroyed)
+            do_camera_task_error(manager, _("Preview"), error);
     }
+
+    /* The window may have been destroyed while the asynchronous preview
+     * operation was in flight. The reference taken in
+     * entangle_camera_manager_preview_begin() keeps the manager alive
+     * until this callback runs, but the widgets are gone, so stop here. */
+    if (manager->destroyed) {
+        if (error)
+            g_error_free(error);
+        g_object_unref(manager);
+        return;
+    }
+
+    EntanglePreferences *prefs =
+        entangle_camera_manager_get_preferences(manager);
 
     if (!error && manager->camera &&
         !g_cancellable_is_cancelled(manager->taskCancel) &&
         entangle_preferences_capture_get_continuous_preview(prefs)) {
+        g_object_ref(manager);
         entangle_camera_automata_preview_async(
             manager->automata, manager->taskCancel, manager->taskConfirm,
             do_entangle_camera_manager_preview_finish, manager);
@@ -1804,6 +1842,8 @@ do_entangle_camera_manager_preview_finish(GObject *src,
         if (error)
             g_error_free(error);
     }
+
+    g_object_unref(manager);
 }
 
 void
@@ -1821,6 +1861,10 @@ entangle_camera_manager_preview_begin(EntangleCameraManager *manager)
     manager->taskPreview = TRUE;
     do_capture_widget_sensitivity(manager);
 
+    /* Keep the manager alive until the asynchronous preview operation
+     * finishes, otherwise closing the window during preview leaves the
+     * callback with a dangling pointer. */
+    g_object_ref(manager);
     entangle_camera_automata_preview_async(
         manager->automata, manager->taskCancel, manager->taskConfirm,
         do_entangle_camera_manager_preview_finish, manager);
@@ -1893,6 +1937,7 @@ do_action_focus(GSimpleAction *act G_GNUC_UNUSED,
     if (!manager->camera || !manager->taskPreview)
         return;
 
+    g_object_ref(manager);
     entangle_camera_autofocus_async(manager->camera, NULL,
                                     do_camera_autofocus_finish, manager);
 }
@@ -1949,10 +1994,13 @@ do_camera_sync_clock_finish(GObject *src, GAsyncResult *res, gpointer opaque)
     GError *error = NULL;
 
     if (!entangle_camera_set_clock_finish(camera, res, &error)) {
-        do_camera_task_error(manager, _("Set clock"), error);
-        g_error_free(error);
-        return;
+        if (!manager->destroyed)
+            do_camera_task_error(manager, _("Set clock"), error);
+        if (error)
+            g_error_free(error);
     }
+
+    g_object_unref(manager);
 }
 
 static void
@@ -1970,6 +2018,7 @@ do_action_sync_clock(GSimpleAction *act G_GNUC_UNUSED,
     if (!manager->camera)
         return;
 
+    g_object_ref(manager);
     entangle_camera_set_clock_async(manager->camera, epochsecs, NULL,
                                     do_camera_sync_clock_finish, manager);
 }
@@ -1986,19 +2035,24 @@ do_camera_autofocus_finish(GObject *source,
     GError *error = NULL;
 
     if (!entangle_camera_autofocus_finish(camera, result, &error)) {
-        GtkWidget *msg =
-            gtk_message_dialog_new(GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR,
-                                   GTK_BUTTONS_OK, _("Autofocus failed"));
-        gtk_window_set_title(GTK_WINDOW(msg),
-                             _("Entangle: Camera autofocus failed"));
-        gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(msg), "%s",
-                                                 error->message);
-        g_signal_connect_swapped(msg, "response",
-                                 G_CALLBACK(gtk_widget_destroy), msg);
-        gtk_widget_show_all(msg);
+        if (!manager->destroyed) {
+            GtkWidget *msg =
+                gtk_message_dialog_new(GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR,
+                                       GTK_BUTTONS_OK, _("Autofocus failed"));
+            gtk_window_set_title(GTK_WINDOW(msg),
+                                 _("Entangle: Camera autofocus failed"));
+            gtk_message_dialog_format_secondary_text(
+                GTK_MESSAGE_DIALOG(msg), "%s", error->message);
+            g_signal_connect_swapped(msg, "response",
+                                     G_CALLBACK(gtk_widget_destroy), msg);
+            gtk_widget_show_all(msg);
+        }
 
-        g_error_free(error);
+        if (error)
+            g_error_free(error);
     }
+
+    g_object_unref(manager);
 }
 
 static void
@@ -3040,6 +3094,20 @@ static GActionEntry actions[] = {
 };
 
 static void
+do_manager_destroy(GtkWidget *widget G_GNUC_UNUSED,
+                   EntangleCameraManager *manager)
+{
+    manager->destroyed = TRUE;
+
+    if (manager->taskCancel)
+        g_cancellable_cancel(manager->taskCancel);
+    if (manager->taskConfirm)
+        g_cancellable_cancel(manager->taskConfirm);
+    if (manager->monitorCancel)
+        g_cancellable_cancel(manager->monitorCancel);
+}
+
+static void
 entangle_camera_manager_init(EntangleCameraManager *manager)
 {
     GtkWidget *iconScroll;
@@ -3053,6 +3121,9 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     GtkBuilder *menuBuilder;
 
     gtk_widget_init_template(GTK_WIDGET(manager));
+
+    g_signal_connect(manager, "destroy", G_CALLBACK(do_manager_destroy),
+                     manager);
 
     manager->imageScrollHOffset = 0;
     manager->imageScrollVOffset = 0;
