@@ -53,6 +53,8 @@ struct _EntangleImageDisplay
     gdouble focusY;
     gboolean hasTransform;
     cairo_matrix_t imageToWidget;
+    gdouble originX;
+    gdouble originY;
     cairo_matrix_t widgetToImage;
 
     EntangleImageDisplayGrid gridDisplay;
@@ -422,6 +424,12 @@ entangle_image_display_get_focus_widget_pos(EntangleImageDisplay *display,
     fy = display->focusY * cairo_image_surface_get_height(display->pixmap);
     cairo_matrix_transform_point(&display->imageToWidget, &fx, &fy);
 
+    /* imageToWidget is in window coordinates, while the draw context is
+     * translated by the widget origin. Convert back to widget-relative
+     * coordinates so the marker lands where the user clicked. */
+    fx -= display->originX;
+    fy -= display->originY;
+
     *x = fx;
     *y = fy;
 }
@@ -735,6 +743,8 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
         double cy = my / sy + eh / 2.0;
 
         cairo_get_matrix(cr, &m);
+        display->originX = m.x0;
+        display->originY = m.y0;
         cairo_scale(cr, sx, sy);
 
         /* Rotate and flip around the centre of the (rotated) image. */
