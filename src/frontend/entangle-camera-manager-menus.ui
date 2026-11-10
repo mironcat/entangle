@@ -13,7 +13,7 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Select session…</attribute>
+        <attribute name="label" translatable="yes">_Capture settings…</attribute>
         <attribute name="action">win.session</attribute>
       </item>
     </section>

@@ -83,6 +83,25 @@ used to check the movement:
 The camera's own distance indicator is coarse (for example infinity,
 0.7 m, 0.3 m); that does not limit the actual focus range.
 
+## Save folder and filename prefix
+
+Open the action menu and choose **Capture settings…**. The dialog has:
+
+* **Save folder** — the directory where downloaded images are stored.
+  The folder is created if it does not exist, and its contents are
+  loaded into the session browser;
+* **Filename prefix** — text placed before the automatically generated
+  sequence number. For example, prefix `test_` and the camera's `.jpg`
+  extension produce `test_000000.jpg`, `test_000001.jpg`, and so on.
+
+The sequence number is six digits wide and restarts from the existing
+files in the selected folder. The original camera file extension is
+preserved. The prefix must not contain `/` or `X`, because `X` is the
+sequence-number placeholder in the internal filename pattern.
+
+The chosen folder and prefix are remembered in GSettings and used for
+new sessions.
+
 ## Extending the filter
 
 The same mechanism can be applied to other controls that libgphoto2

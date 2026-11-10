@@ -1577,6 +1577,71 @@ entangle_camera_manager_class_init(EntangleCameraManagerClass *klass)
 }
 
 static void
+do_capture_settings_parse_pattern(const gchar *pattern,
+                                  gchar **prefix,
+                                  gchar **postfix)
+{
+    const gchar *start = pattern ? strchr(pattern, 'X') : NULL;
+    const gchar *end;
+
+    if (!start) {
+        *prefix = g_strdup(pattern && *pattern ? pattern : "capture");
+        *postfix = g_strdup("");
+        return;
+    }
+
+    *prefix = g_strndup(pattern, start - pattern);
+    end = start;
+    while (*end == 'X')
+        end++;
+    *postfix = g_strdup(end);
+}
+
+static void
+do_capture_settings_error(GtkWindow *parent, const gchar *message)
+{
+    GtkWidget *msg = gtk_message_dialog_new(
+        parent, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", message);
+
+    gtk_window_set_title(GTK_WINDOW(msg), _("Entangle: Invalid capture settings"));
+    gtk_dialog_run(GTK_DIALOG(msg));
+    gtk_widget_destroy(msg);
+}
+
+static void
+do_capture_settings_choose_folder(GtkButton *button G_GNUC_UNUSED,
+                                  gpointer opaque)
+{
+    GtkEntry *entry = GTK_ENTRY(opaque);
+    GtkWidget *chooser;
+    gchar *folder;
+
+    chooser = gtk_file_chooser_dialog_new(
+        _("Select a folder"),
+        GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(entry))),
+        GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, _("_Cancel"),
+        GTK_RESPONSE_REJECT, _("_Open"), GTK_RESPONSE_ACCEPT, NULL);
+    gtk_file_chooser_set_local_only(GTK_FILE_CHOOSER(chooser), TRUE);
+    gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(chooser), FALSE);
+
+    folder = g_strdup(gtk_entry_get_text(entry));
+    if (folder && *folder)
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), folder);
+    g_free(folder);
+
+    if (gtk_dialog_run(GTK_DIALOG(chooser)) == GTK_RESPONSE_ACCEPT) {
+        folder = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+        if (folder) {
+            gtk_entry_set_text(entry, folder);
+            g_free(folder);
+        }
+    }
+
+    gtk_widget_destroy(chooser);
+}
+
+static void
 do_action_session(GSimpleAction *act G_GNUC_UNUSED,
                   GVariant *param G_GNUC_UNUSED,
                   gpointer opaque)
@@ -1584,41 +1649,151 @@ do_action_session(GSimpleAction *act G_GNUC_UNUSED,
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
 
     EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
-    GtkWidget *chooser;
-    gchar *dir;
     EntanglePreferences *prefs =
         entangle_camera_manager_get_preferences(manager);
+    gchar *directory = entangle_preferences_capture_get_last_session(prefs);
+    gchar *pattern = entangle_preferences_capture_get_filename_pattern(prefs);
+    gchar *prefix = NULL;
+    gchar *postfix = NULL;
+    GtkWidget *dialog;
+    GtkWidget *grid;
+    GtkWidget *folderLabel;
+    GtkWidget *folderEntry;
+    GtkWidget *folderButton;
+    GtkWidget *prefixLabel;
+    GtkWidget *prefixEntry;
+    GtkWidget *note;
 
-    chooser = gtk_file_chooser_dialog_new(
-        _("Select a folder"), GTK_WINDOW(manager),
-        GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, _("_Cancel"),
-        GTK_RESPONSE_REJECT, _("_Open"), GTK_RESPONSE_ACCEPT, NULL);
-    gtk_file_chooser_set_local_only(GTK_FILE_CHOOSER(chooser), TRUE);
-    gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(chooser), FALSE);
+    do_capture_settings_parse_pattern(pattern, &prefix, &postfix);
 
-    dir = entangle_preferences_capture_get_last_session(prefs);
-    g_mkdir_with_parents(dir, 0777);
+    dialog = gtk_dialog_new_with_buttons(
+        _("Capture settings"), GTK_WINDOW(manager),
+        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT, _("_Cancel"),
+        GTK_RESPONSE_CANCEL, _("_OK"), GTK_RESPONSE_OK, NULL);
+    gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 
-    gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), dir);
-    g_free(dir);
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_container_set_border_width(GTK_CONTAINER(grid), 12);
+    gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
+                      grid);
 
-    gtk_widget_hide(chooser);
+    folderLabel = gtk_label_new_with_mnemonic(_("_Save folder:"));
+    gtk_widget_set_halign(folderLabel, GTK_ALIGN_START);
+    folderEntry = gtk_entry_new();
+    gtk_entry_set_text(GTK_ENTRY(folderEntry), directory ? directory : "");
+    gtk_widget_set_hexpand(folderEntry, TRUE);
+    folderButton = gtk_button_new_with_mnemonic(_("_Choose…"));
+    gtk_label_set_mnemonic_widget(GTK_LABEL(folderLabel), folderEntry);
+    gtk_grid_attach(GTK_GRID(grid), folderLabel, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), folderEntry, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), folderButton, 2, 0, 1, 1);
 
-    if (gtk_dialog_run(GTK_DIALOG(chooser)) == GTK_RESPONSE_ACCEPT) {
+    prefixLabel = gtk_label_new_with_mnemonic(_("Filename _prefix:"));
+    gtk_widget_set_halign(prefixLabel, GTK_ALIGN_START);
+    prefixEntry = gtk_entry_new();
+    gtk_entry_set_text(GTK_ENTRY(prefixEntry), prefix ? prefix : "capture");
+    gtk_widget_set_hexpand(prefixEntry, TRUE);
+    gtk_label_set_mnemonic_widget(GTK_LABEL(prefixLabel), prefixEntry);
+    gtk_grid_attach(GTK_GRID(grid), prefixLabel, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), prefixEntry, 1, 1, 2, 1);
+
+    note = gtk_label_new(
+        _("A sequence number and the original file extension are appended "
+          "automatically. The prefix must not contain '/' or 'X'."));
+    gtk_label_set_xalign(GTK_LABEL(note), 0);
+    gtk_label_set_line_wrap(GTK_LABEL(note), TRUE);
+    gtk_grid_attach(GTK_GRID(grid), note, 0, 2, 3, 1);
+
+    g_signal_connect(folderButton, "clicked",
+                     G_CALLBACK(do_capture_settings_choose_folder),
+                     folderEntry);
+
+    gtk_widget_show_all(grid);
+
+    while (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_OK) {
+        const gchar *folderText = gtk_entry_get_text(GTK_ENTRY(folderEntry));
+        const gchar *prefixText = gtk_entry_get_text(GTK_ENTRY(prefixEntry));
+        gchar *folder = NULL;
+        gchar *cleanPrefix = NULL;
+        gchar *newPattern = NULL;
         EntangleSession *session;
-        gchar *pattern;
-        do_select_media(manager, NULL);
-        dir = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
-        pattern = entangle_preferences_capture_get_filename_pattern(prefs);
-        session = entangle_session_new(dir, pattern);
-        g_free(dir);
-        g_free(pattern);
-        g_hash_table_remove_all(manager->popups);
+
+        cleanPrefix = g_strdup(prefixText ? prefixText : "");
+        g_strstrip(cleanPrefix);
+
+        if (strchr(cleanPrefix, '/') || strchr(cleanPrefix, 'X')) {
+            do_capture_settings_error(
+                GTK_WINDOW(dialog),
+                _("The filename prefix must not contain '/' or 'X'."));
+            g_free(cleanPrefix);
+            continue;
+        }
+
+        if (!*cleanPrefix) {
+            g_free(cleanPrefix);
+            cleanPrefix = g_strdup("capture");
+        }
+
+        if (!folderText || !*folderText) {
+            do_capture_settings_error(
+                GTK_WINDOW(dialog),
+                _("Please choose a folder for saved images."));
+            g_free(cleanPrefix);
+            continue;
+        }
+
+        if (g_str_has_prefix(folderText, "~/"))
+            folder = g_build_filename(g_get_home_dir(), folderText + 2, NULL);
+        else
+            folder = g_strdup(folderText);
+
+        if (g_mkdir_with_parents(folder, 0777) != 0) {
+            gchar *msg = g_strdup_printf(
+                _("Unable to create folder '%s': %s"), folder,
+                g_strerror(errno));
+            do_capture_settings_error(GTK_WINDOW(dialog), msg);
+            g_free(msg);
+            g_free(folder);
+            g_free(cleanPrefix);
+            continue;
+        }
+
+        {
+            gchar *resolved = realpath(folder, NULL);
+
+            if (resolved) {
+                g_free(folder);
+                folder = g_strdup(resolved);
+                free(resolved);
+            }
+        }
+
+        newPattern =
+            g_strdup_printf("%sXXXXXX%s", cleanPrefix, postfix ? postfix : "");
+
+        entangle_preferences_capture_set_last_session(prefs, folder);
+        entangle_preferences_capture_set_filename_pattern(prefs, newPattern);
+
+        session = entangle_session_new(folder, newPattern);
         do_camera_manager_set_session(manager, session);
         g_object_unref(session);
+
+        ENTANGLE_DEBUG("Capture settings: folder='%s' pattern='%s'", folder,
+                       newPattern);
+
+        g_free(newPattern);
+        g_free(folder);
+        g_free(cleanPrefix);
+        break;
     }
 
-    gtk_widget_destroy(chooser);
+    gtk_widget_destroy(dialog);
+    g_free(directory);
+    g_free(pattern);
+    g_free(prefix);
+    g_free(postfix);
 }
 
 static void
