@@ -890,6 +890,11 @@ entangle_image_display_button_press(GtkWidget *widget,
     gdouble x, y;
     int pw, ph;
 
+    ENTANGLE_DEBUG("Image display button press at %.1f,%.1f pixmap=%p "
+                   "transform=%d",
+                   event->x, event->y, display->pixmap,
+                   display->hasTransform);
+
     if (event->button != GDK_BUTTON_PRIMARY)
         return FALSE;
 
@@ -898,10 +903,30 @@ entangle_image_display_button_press(GtkWidget *widget,
 
     x = event->x;
     y = event->y;
+
+    /* The drawing matrix is relative to the toplevel window, while GTK
+     * delivers button events in widget coordinates. Shift the event into
+     * the matrix's space when the widget is not at the window origin. */
+    {
+        gint wx = 0, wy = 0;
+
+        gtk_widget_translate_coordinates(widget,
+                                         gtk_widget_get_toplevel(widget), 0, 0,
+                                         &wx, &wy);
+        if ((wx || wy) && display->imageToWidget.x0 >= wx &&
+            display->imageToWidget.y0 >= wy) {
+            x += wx;
+            y += wy;
+        }
+    }
+
     cairo_matrix_transform_point(&display->widgetToImage, &x, &y);
 
     pw = cairo_image_surface_get_width(display->pixmap);
     ph = cairo_image_surface_get_height(display->pixmap);
+
+    ENTANGLE_DEBUG("Focus click transform %.1f,%.1f image %dx%d", x, y, pw,
+                   ph);
 
     if (x < 0 || y < 0 || x >= pw || y >= ph)
         return FALSE;

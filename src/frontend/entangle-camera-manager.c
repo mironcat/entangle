@@ -2090,18 +2090,25 @@ do_camera_set_focus_area_finish(GObject *source,
     GError *error = NULL;
 
     if (!entangle_camera_set_focus_area_finish(camera, result, &error)) {
-        GtkWidget *msg =
-            gtk_message_dialog_new(GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR,
-                                   GTK_BUTTONS_OK, _("Autofocus failed"));
-        gtk_window_set_title(GTK_WINDOW(msg),
-                             _("Entangle: Camera autofocus failed"));
-        gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(msg), "%s",
-                                                 error->message);
-        g_signal_connect_swapped(msg, "response",
-                                 G_CALLBACK(gtk_widget_destroy), msg);
-        gtk_widget_show_all(msg);
+        /* The camera briefly reports the AF point property as read-only
+         * while autofocus is finishing; the backend retries this, and a
+         * final transient failure should not pop up a dialog. */
+        if (!manager->destroyed && error &&
+            !strstr(error->message, "read-only")) {
+            GtkWidget *msg = gtk_message_dialog_new(
+                GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+                _("Autofocus failed"));
+            gtk_window_set_title(GTK_WINDOW(msg),
+                                 _("Entangle: Camera autofocus failed"));
+            gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(msg),
+                                                     "%s", error->message);
+            g_signal_connect_swapped(msg, "response",
+                                     G_CALLBACK(gtk_widget_destroy), msg);
+            gtk_widget_show_all(msg);
+        }
 
-        g_error_free(error);
+        if (error)
+            g_error_free(error);
     }
 }
 
@@ -2115,6 +2122,7 @@ do_image_focus_point_selected(EntangleImageDisplay *display G_GNUC_UNUSED,
 
     EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
     gint px, py;
+    gint minx = 0, maxx = 639, miny = 0, maxy = 479;
 
     if (!manager->camera || !manager->taskPreview)
         return;
@@ -2122,10 +2130,13 @@ do_image_focus_point_selected(EntangleImageDisplay *display G_GNUC_UNUSED,
     if (!entangle_camera_get_has_focus_area(manager->camera))
         return;
 
-    px = (gint) (x * 639.0 + 0.5);
-    py = (gint) (y * 479.0 + 0.5);
-    px = CLAMP(px, 0, 639);
-    py = CLAMP(py, 0, 479);
+    entangle_camera_get_focus_area_range(manager->camera, &minx, &maxx, &miny,
+                                         &maxy);
+
+    px = minx + (gint) (x * (maxx - minx) + 0.5);
+    py = miny + (gint) (y * (maxy - miny) + 0.5);
+    px = CLAMP(px, minx, maxx);
+    py = CLAMP(py, miny, maxy);
 
     ENTANGLE_DEBUG("Focus point selected at %.3f,%.3f -> %d,%d", x, y, px, py);
 

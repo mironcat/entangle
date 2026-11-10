@@ -1848,6 +1848,27 @@ cleanup:
     return ret;
 }
 
+/* Return the control that holds the AF point position.
+ *
+ * Most Sony bodies expose the libgphoto2 "spotfocusarea" text control
+ * (0xD2DC). The A7 III instead exposes the position through the
+ * undocumented 0xD232 menu property, packed as (x << 16) | y. */
+static CameraWidget *
+entangle_camera_find_focus_area_widget(EntangleCamera *cam)
+{
+    CameraWidget *widget;
+
+    widget = entangle_camera_find_widget(cam, "/main/actions/spotfocusarea");
+    if (widget)
+        return widget;
+
+    widget = entangle_camera_find_widget(cam, "/main/other/d232");
+    if (widget)
+        return widget;
+
+    return entangle_camera_find_widget(cam, "/main/other/d2dc");
+}
+
 static EntangleControl *
 do_build_controls(EntangleCamera *cam,
                   const char *path,
@@ -2557,12 +2578,11 @@ entangle_camera_load_controls(EntangleCamera *cam, GError **error)
             cam->hasAutofocus = FALSE;
         }
 
-        if (entangle_camera_find_widget(cam,
-                                        "/main/actions/spotfocusarea")) {
-            ENTANGLE_DEBUG("Found a spot focus area widget");
+        if (entangle_camera_find_focus_area_widget(cam)) {
+            ENTANGLE_DEBUG("Found a focus area widget");
             cam->hasFocusArea = TRUE;
         } else {
-            ENTANGLE_DEBUG("No spot focus area widget");
+            ENTANGLE_DEBUG("No focus area widget");
             cam->hasFocusArea = FALSE;
         }
 
@@ -3344,6 +3364,8 @@ entangle_camera_set_focus_area(EntangleCamera *cam,
     CameraWidget *focusArea = NULL;
     CameraWidgetType type;
     gchar text[32];
+    const gchar *widgetName = NULL;
+    gint attempt;
     int err;
 
     g_mutex_lock(&cam->lock);
@@ -3361,7 +3383,7 @@ entangle_camera_set_focus_area(EntangleCamera *cam,
         goto cleanup;
     }
 
-    widget = entangle_camera_find_widget(cam, "/main/actions/spotfocusarea");
+    widget = entangle_camera_find_focus_area_widget(cam);
     if (!widget) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Focus area control not available with this camera"));
@@ -3374,14 +3396,22 @@ entangle_camera_set_focus_area(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if (type != GP_WIDGET_TEXT) {
+    if (type != GP_WIDGET_TEXT && type != GP_WIDGET_MENU) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
-                    _("Focus area control was not a text widget"));
+                    _("Focus area control has an unsupported type"));
         goto cleanup;
     }
 
-    x = CLAMP(x, 0, 639);
-    y = CLAMP(y, 0, 479);
+    gp_widget_get_name(widget, &widgetName);
+    if (widgetName && g_str_equal(widgetName, "d232")) {
+        /* Measured on the A7 III: the camera clamps values to this
+         * rectangle inside the 640x480 touch coordinate space. */
+        x = CLAMP(x, 80, 560);
+        y = CLAMP(y, 64, 364);
+    } else {
+        x = CLAMP(x, 0, 639);
+        y = CLAMP(y, 0, 479);
+    }
 
     /* Sony only honours the focus position in one of the Flexible Spot
      * modes. Switch out of Wide/Zone/Center if necessary. */
@@ -3416,7 +3446,13 @@ entangle_camera_set_focus_area(EntangleCamera *cam,
         }
     }
 
-    g_snprintf(text, sizeof(text), "%d,%d", x, y);
+    if (type == GP_WIDGET_MENU) {
+        /* A7 III: packed (x << 16) | y in the 0xD232 menu property. */
+        g_snprintf(text, sizeof(text), "%d", (x << 16) | y);
+    } else {
+        g_snprintf(text, sizeof(text), "%d,%d", x, y);
+    }
+
     if ((err = gp_widget_set_value(widget, text)) != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Failed to set focus area: %s %d"),
@@ -3424,8 +3460,22 @@ entangle_camera_set_focus_area(EntangleCamera *cam,
         goto cleanup;
     }
 
-    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
-        GP_OK) {
+    /* The camera briefly reports the AF point property as read-only
+     * while it is finishing a previous autofocus operation. Retry for
+     * up to about two seconds instead of surfacing a spurious error. */
+    for (attempt = 0; attempt < 5; attempt++) {
+        gp_widget_set_changed(widget, TRUE);
+        err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx);
+        if (err == GP_OK)
+            break;
+
+        if (!cam->lastError || !strstr(cam->lastError, "read-only"))
+            break;
+
+        g_usleep(400 * 1000);
+    }
+
+    if (err != GP_OK) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
                     _("Unable to save camera control configuration: %s"),
                     cam->lastError);
@@ -3520,6 +3570,56 @@ entangle_camera_set_focus_area_finish(EntangleCamera *cam,
     g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
 
     return g_task_propagate_boolean(G_TASK(result), error);
+}
+
+/**
+ * entangle_camera_get_focus_area_range:
+ * @cam: (transfer none): the camera
+ * @minx: (out): minimum horizontal focus point position
+ * @maxx: (out): maximum horizontal focus point position
+ * @miny: (out): minimum vertical focus point position
+ * @maxy: (out): maximum vertical focus point position
+ *
+ * Get the range of the camera's focus point grid.
+ *
+ * The A7 III reports the AF point through the 0xD232 property, but the
+ * selectable area is inset from the 640x480 touch coordinate space.
+ * Other Sony bodies using the "spotfocusarea" control expose the full
+ * 640x480 range.
+ */
+void
+entangle_camera_get_focus_area_range(EntangleCamera *cam,
+                                     gint *minx,
+                                     gint *maxx,
+                                     gint *miny,
+                                     gint *maxy)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
+
+    gint x0 = 0, x1 = 639, y0 = 0, y1 = 479;
+
+    g_mutex_lock(&cam->lock);
+
+    if (cam->widgets &&
+        entangle_camera_find_widget(cam, "/main/other/d232")) {
+        /* Measured on the A7 III: the camera clamps both written values
+         * and joystick movement to this rectangle. */
+        x0 = 80;
+        x1 = 560;
+        y0 = 64;
+        y1 = 364;
+    }
+
+    g_mutex_unlock(&cam->lock);
+
+    if (minx)
+        *minx = x0;
+    if (maxx)
+        *maxx = x1;
+    if (miny)
+        *miny = y0;
+    if (maxy)
+        *maxy = y1;
 }
 
 /**

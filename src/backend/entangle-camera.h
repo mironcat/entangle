@@ -192,6 +192,12 @@ gboolean
 entangle_camera_set_focus_area_finish(EntangleCamera *cam,
                                       GAsyncResult *result,
                                       GError **error);
+void
+entangle_camera_get_focus_area_range(EntangleCamera *cam,
+                                     gint *minx,
+                                     gint *maxx,
+                                     gint *miny,
+                                     gint *maxy);
 
 typedef enum
 {
