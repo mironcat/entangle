@@ -43,6 +43,22 @@ example after mounting a different lens:
 rm ~/.cache/entangle/fnumber-*
 ```
 
+## Manual focus
+
+Sony cameras expose manual focus as a relative step range: the A7 III
+reports `/main/actions/manualfocus` with a range of -7..+7. Entangle
+shows a spring-loaded slider to the right of the live preview:
+
+* drag up/down to move focus; each change is sent as a relative
+  `manualfocus` command, so dragging gives smooth movement;
+* releasing the slider returns it to the centre;
+* the `+` / step / `-` controls remain available for precise step sizes;
+* the slider is only enabled while live preview is running and the
+  camera reports manual focus support.
+
+The slider range is taken from the camera's manual focus widget, so a
+camera with a different range gets a correctly sized slider.
+
 ## Extending the filter
 
 The same mechanism can be applied to other controls that libgphoto2
