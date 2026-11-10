@@ -2171,19 +2171,25 @@ do_camera_manualfocus_value_finish(GObject *source,
     GError *error = NULL;
 
     if (!entangle_camera_manualfocus_value_finish(camera, result, &error)) {
-        GtkWidget *msg =
-            gtk_message_dialog_new(GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR,
-                                   GTK_BUTTONS_OK, _("Manual focus failed"));
-        gtk_window_set_title(GTK_WINDOW(msg),
-                             _("Entangle: Camera manual focus failed"));
-        gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(msg), "%s",
-                                                 error->message);
-        g_signal_connect_swapped(msg, "response",
-                                 G_CALLBACK(gtk_widget_destroy), msg);
-        gtk_widget_show_all(msg);
+        if (!manager->destroyed) {
+            GtkWidget *msg =
+                gtk_message_dialog_new(GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR,
+                                       GTK_BUTTONS_OK,
+                                       _("Manual focus failed"));
+            gtk_window_set_title(GTK_WINDOW(msg),
+                                 _("Entangle: Camera manual focus failed"));
+            gtk_message_dialog_format_secondary_text(
+                GTK_MESSAGE_DIALOG(msg), "%s", error->message);
+            g_signal_connect_swapped(msg, "response",
+                                     G_CALLBACK(gtk_widget_destroy), msg);
+            gtk_widget_show_all(msg);
+        }
 
-        g_error_free(error);
+        if (error)
+            g_error_free(error);
     }
+
+    g_object_unref(manager);
 }
 
 static void
@@ -2202,15 +2208,24 @@ do_focus_slider_changed(GtkRange *range, gpointer opaque)
         return;
 
     value = (gint) gtk_range_get_value(range);
-    delta = value - manager->focusSliderLast;
+    delta = CLAMP(value - manager->focusSliderLast, -7, 7);
     if (delta == 0)
         return;
 
     manager->focusSliderLast = value;
 
-    entangle_camera_manualfocus_value_async(
-        manager->camera, CLAMP(delta, -7, 7), NULL,
-        do_camera_manualfocus_value_finish, manager);
+    /* Use the step field as a multiplier: 1 moves finely, 7 covers the
+     * focus range quickly. Split a fast drag into individual commands so
+     * the lens does not jump. */
+    gint stepSize = gtk_spin_button_get_value_as_int(manager->focusStep);
+    gint step = delta > 0 ? stepSize : -stepSize;
+
+    for (gint i = 0; i < ABS(delta); i++) {
+        g_object_ref(manager);
+        entangle_camera_manualfocus_value_async(
+            manager->camera, step, NULL,
+            do_camera_manualfocus_value_finish, manager);
+    }
 }
 
 static gboolean
@@ -2256,6 +2271,7 @@ do_focus_in_clicked(GtkButton *button G_GNUC_UNUSED, gpointer opaque)
         return;
 
     value = gtk_spin_button_get_value_as_int(manager->focusStep);
+    g_object_ref(manager);
     entangle_camera_manualfocus_value_async(manager->camera, value, NULL,
                                             do_camera_manualfocus_value_finish,
                                             manager);
@@ -2273,9 +2289,16 @@ do_focus_out_clicked(GtkButton *button G_GNUC_UNUSED, gpointer opaque)
         return;
 
     value = -gtk_spin_button_get_value_as_int(manager->focusStep);
+    g_object_ref(manager);
     entangle_camera_manualfocus_value_async(manager->camera, value, NULL,
                                             do_camera_manualfocus_value_finish,
                                             manager);
+}
+
+static void
+do_focus_step_activate(GtkEntry *entry G_GNUC_UNUSED, gpointer opaque)
+{
+    do_focus_in_clicked(NULL, opaque);
 }
 
 gboolean
@@ -3345,6 +3368,7 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
         GTK_ORIENTATION_VERTICAL, -7.0, 7.0, 1.0));
     gtk_scale_set_draw_value(manager->focusSlider, FALSE);
     gtk_range_set_value(GTK_RANGE(manager->focusSlider), 0);
+    gtk_range_set_increments(GTK_RANGE(manager->focusSlider), 1, 1);
     gtk_widget_set_size_request(GTK_WIDGET(manager->focusSlider), 32, -1);
     gtk_widget_set_tooltip_text(
         GTK_WIDGET(manager->focusSlider),
@@ -3388,6 +3412,8 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
                      G_CALLBACK(do_focus_in_clicked), manager);
     g_signal_connect(manager->focusOutButton, "clicked",
                      G_CALLBACK(do_focus_out_clicked), manager);
+    g_signal_connect(manager->focusStep, "activate",
+                     G_CALLBACK(do_focus_step_activate), manager);
 
     gtk_box_pack_start(GTK_BOX(imageBox), imageOverlay, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(imageBox),
