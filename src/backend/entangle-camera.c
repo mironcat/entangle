@@ -85,6 +85,8 @@ struct _EntangleCamera
     gboolean hasAutofocus;
     gboolean hasFocusArea;
     gboolean hasManualFocus;
+    gint manualFocusMin;
+    gint manualFocusMax;
 
     GList *supportedFNumbers;
     gboolean fnumberProbed;
@@ -481,6 +483,9 @@ entangle_camera_init(EntangleCamera *cam)
 {
     g_mutex_init(&cam->lock);
     g_cond_init(&cam->jobCond);
+
+    cam->manualFocusMin = -7;
+    cam->manualFocusMax = 7;
 }
 
 /**
@@ -2075,6 +2080,7 @@ entangle_camera_probe_fnumber_choices(EntangleCamera *cam,
     gdouble minf = -1.0;
     gdouble maxf = -1.0;
     int err = GP_OK;
+    int start;
     GList *ret = NULL;
 
     if (count < 2)
@@ -2133,7 +2139,7 @@ entangle_camera_probe_fnumber_choices(EntangleCamera *cam,
     /* Walk up from a likely maximum until the camera clamps the value.
      * Starting near f/22 avoids trying very small apertures like f/64,
      * which can take many seconds on Sony bodies. */
-    int start = count - 1;
+    start = count - 1;
     for (int i = 0; i < count; i++) {
         const char *choice = NULL;
 
@@ -2555,11 +2561,30 @@ entangle_camera_load_controls(EntangleCamera *cam, GError **error)
             cam->hasFocusArea = FALSE;
         }
 
-        if (entangle_camera_find_widget(cam,
-                                        "/main/actions/manualfocusdrive") ||
-            entangle_camera_find_widget(cam, "/main/actions/manualfocus")) {
+        CameraWidget *mfWidget = entangle_camera_find_widget(
+            cam, "/main/actions/manualfocusdrive");
+        if (!mfWidget)
+            mfWidget =
+                entangle_camera_find_widget(cam, "/main/actions/manualfocus");
+
+        if (mfWidget) {
+            CameraWidgetType mfType;
+
             ENTANGLE_DEBUG("Found a manual focus widget");
             cam->hasManualFocus = TRUE;
+
+            if (gp_widget_get_type(mfWidget, &mfType) == GP_OK &&
+                mfType == GP_WIDGET_RANGE) {
+                float fmin, fmax, fstep;
+
+                if (gp_widget_get_range(mfWidget, &fmin, &fmax, &fstep) ==
+                    GP_OK) {
+                    cam->manualFocusMin = (gint)fmin;
+                    cam->manualFocusMax = (gint)fmax;
+                    ENTANGLE_DEBUG("Manual focus range %d..%d",
+                                   cam->manualFocusMin, cam->manualFocusMax);
+                }
+            }
         } else {
             ENTANGLE_DEBUG("No manual focus widget");
             cam->hasManualFocus = FALSE;
@@ -4372,6 +4397,29 @@ entangle_camera_get_has_manual_focus(EntangleCamera *cam)
     g_mutex_unlock(&cam->lock);
 
     return ret;
+}
+
+/**
+ * entangle_camera_get_manual_focus_range:
+ * @cam: (transfer none): the camera
+ * @min: (out): the smallest relative focus step
+ * @max: (out): the largest relative focus step
+ *
+ * Get the range of relative focus steps exposed by the camera.
+ */
+void
+entangle_camera_get_manual_focus_range(EntangleCamera *cam,
+                                       gint *min,
+                                       gint *max)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
+
+    g_mutex_lock(&cam->lock);
+    if (min)
+        *min = cam->manualFocusMin;
+    if (max)
+        *max = cam->manualFocusMax;
+    g_mutex_unlock(&cam->lock);
 }
 
 /**

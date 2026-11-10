@@ -283,6 +283,10 @@ gboolean
 entangle_camera_get_has_focus_area(EntangleCamera *cam);
 gboolean
 entangle_camera_get_has_manual_focus(EntangleCamera *cam);
+void
+entangle_camera_get_manual_focus_range(EntangleCamera *cam,
+                                       gint *min,
+                                       gint *max);
 
 gboolean
 entangle_camera_load_controls(EntangleCamera *cam, GError **error);
