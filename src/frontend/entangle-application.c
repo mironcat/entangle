@@ -505,6 +505,17 @@ entangle_application_init(EntangleApplication *app)
 
     peas_engine_add_search_path(app->pluginEngine, userdir, userdir);
     g_free(userdir);
+
+    /* Allow a relocatable installation (binary tarball/AppImage) to point
+     * at its bundled plugins without relying on the compile-time prefix. */
+    {
+        const gchar *pluginDir = g_getenv("ENTANGLE_PLUGIN_DIR");
+
+        if (pluginDir && *pluginDir)
+            peas_engine_add_search_path(app->pluginEngine, pluginDir,
+                                        pluginDir);
+    }
+
     peas_engine_add_search_path(app->pluginEngine, LIBDIR "/entangle/plugins",
                                 DATADIR "/entangle/plugins");
     peas_engine_rescan_plugins(app->pluginEngine);
