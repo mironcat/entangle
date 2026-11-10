@@ -26,6 +26,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <gphoto2.h>
 
 #include "entangle-camera.h"
@@ -84,6 +85,9 @@ struct _EntangleCamera
     gboolean hasAutofocus;
     gboolean hasFocusArea;
     gboolean hasManualFocus;
+
+    GList *supportedFNumbers;
+    gboolean fnumberProbed;
 };
 
 G_DEFINE_TYPE(EntangleCamera, entangle_camera, G_TYPE_OBJECT);
@@ -316,6 +320,8 @@ entangle_camera_finalize(GObject *object)
         g_object_unref(cam->controls);
     if (cam->controlPaths)
         g_hash_table_unref(cam->controlPaths);
+    if (cam->supportedFNumbers)
+        g_list_free_full(cam->supportedFNumbers, g_free);
     if (cam->ports)
         gp_port_info_list_free(cam->ports);
     if (cam->caps)
@@ -1993,6 +1999,218 @@ entangle_str_equal_null(gchar *a, gchar *b)
  * Investigate if we can fix this to always run in main thread
  * to simplify thread safety for GTK frontend
  */
+static gdouble
+entangle_camera_parse_fnumber(const char *value)
+{
+    if (!value)
+        return -1.0;
+
+    if (g_str_has_prefix(value, "f/"))
+        value += 2;
+
+    return g_ascii_strtod(value, NULL);
+}
+
+/*
+ * Discover the aperture range actually supported by the mounted lens.
+ *
+ * libgphoto2's Sony driver exposes a hard-coded list of f-numbers
+ * (f/1 ... f/64) rather than the values supported by the lens. Asking
+ * the camera for a value outside the lens range silently clamps it to
+ * the nearest supported value, so two writes are enough to find the
+ * real minimum and maximum. The original value is restored afterwards.
+ */
+static GList *
+entangle_camera_filter_fnumber_choices(CameraWidget *widget,
+                                       gdouble minf,
+                                       gdouble maxf)
+{
+    GList *ret = NULL;
+    int count = gp_widget_count_choices(widget);
+
+    for (int i = 0; i < count; i++) {
+        const char *choice = NULL;
+        gdouble f;
+
+        if (gp_widget_get_choice(widget, i, &choice) != GP_OK || !choice)
+            continue;
+
+        f = entangle_camera_parse_fnumber(choice);
+        if (f >= minf - 0.001 && f <= maxf + 0.001)
+            ret = g_list_append(ret, g_strdup(choice));
+    }
+
+    return ret;
+}
+
+static gchar *
+entangle_camera_fnumber_cache_path(EntangleCamera *cam)
+{
+    gchar *name;
+    gchar *path;
+
+    if (!cam->serial || !*cam->serial)
+        return NULL;
+
+    name = g_strdup_printf("fnumber-%s", cam->serial);
+    path = g_build_filename(g_get_user_cache_dir(), "entangle", name, NULL);
+    ENTANGLE_DEBUG("F-number cache path '%s'", path);
+    g_free(name);
+
+    return path;
+}
+
+static GList *
+entangle_camera_probe_fnumber_choices(EntangleCamera *cam,
+                                      CameraWidget *widget)
+{
+    int count = gp_widget_count_choices(widget);
+    const char *first_raw = NULL;
+    const char *current_raw = NULL;
+    gchar *first = NULL;
+    gchar *current = NULL;
+    gchar *cache_path = NULL;
+    CameraWidget *readback = NULL;
+    const char *value = NULL;
+    gdouble minf = -1.0;
+    gdouble maxf = -1.0;
+    int err = GP_OK;
+    GList *ret = NULL;
+
+    if (count < 2)
+        return NULL;
+
+    if (gp_widget_get_value(widget, &current_raw) != GP_OK || !current_raw)
+        return NULL;
+    if (gp_widget_get_choice(widget, 0, &first_raw) != GP_OK || !first_raw)
+        return NULL;
+
+    /* gp_widget_get_value() points into the widget, so duplicate the
+     * strings before gp_widget_set_value() frees the old value. */
+    current = g_strdup(current_raw);
+    first = g_strdup(first_raw);
+
+    cache_path = entangle_camera_fnumber_cache_path(cam);
+    if (cache_path) {
+        gchar *data = NULL;
+
+        if (g_file_get_contents(cache_path, &data, NULL, NULL)) {
+            gdouble cmin = -1.0;
+            gdouble cmax = -1.0;
+
+            if (sscanf(data, "%lf %lf", &cmin, &cmax) == 2 && cmin >= 0.0 &&
+                cmax >= cmin) {
+                gdouble cur = entangle_camera_parse_fnumber(current);
+
+                if (cur >= cmin - 0.001 && cur <= cmax + 0.001) {
+                    ENTANGLE_DEBUG(
+                        "Using cached lens aperture range f/%g - f/%g", cmin,
+                        cmax);
+                    ret = entangle_camera_filter_fnumber_choices(widget, cmin,
+                                                                 cmax);
+                    g_free(data);
+                    goto out;
+                }
+            }
+            g_free(data);
+        }
+    }
+
+    gp_widget_set_value(widget, first);
+    err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx);
+    ENTANGLE_DEBUG("F-number probe: set '%s' -> %d", first, err);
+    if (err == GP_OK &&
+        gp_camera_get_single_config(cam->cam, "f-number", &readback,
+                                    cam->ctx) == GP_OK) {
+        if (gp_widget_get_value(readback, &value) == GP_OK && value) {
+            minf = entangle_camera_parse_fnumber(value);
+            ENTANGLE_DEBUG("F-number probe: minimum read back '%s'", value);
+        }
+        gp_widget_free(readback);
+        readback = NULL;
+    }
+
+    /* Walk up from a likely maximum until the camera clamps the value.
+     * Starting near f/22 avoids trying very small apertures like f/64,
+     * which can take many seconds on Sony bodies. */
+    int start = count - 1;
+    for (int i = 0; i < count; i++) {
+        const char *choice = NULL;
+
+        if (gp_widget_get_choice(widget, i, &choice) != GP_OK || !choice)
+            continue;
+        if (entangle_camera_parse_fnumber(choice) >= 22.0) {
+            start = i;
+            break;
+        }
+    }
+
+    for (int i = start; i < count; i++) {
+        const char *choice = NULL;
+        gdouble requested;
+        gdouble actual;
+
+        if (gp_widget_get_choice(widget, i, &choice) != GP_OK || !choice)
+            continue;
+
+        requested = entangle_camera_parse_fnumber(choice);
+
+        gp_widget_set_value(widget, choice);
+        err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx);
+        ENTANGLE_DEBUG("F-number probe: set '%s' -> %d", choice, err);
+        if (err != GP_OK)
+            break;
+
+        if (gp_camera_get_single_config(cam->cam, "f-number", &readback,
+                                        cam->ctx) != GP_OK)
+            break;
+
+        if (gp_widget_get_value(readback, &value) != GP_OK || !value) {
+            gp_widget_free(readback);
+            readback = NULL;
+            break;
+        }
+
+        actual = entangle_camera_parse_fnumber(value);
+        ENTANGLE_DEBUG("F-number probe: maximum read back '%s'", value);
+        maxf = actual;
+        gp_widget_free(readback);
+        readback = NULL;
+
+        if (actual < requested - 0.001)
+            break;
+    }
+
+    /* Restore the value the camera had before probing. */
+    gp_widget_set_value(widget, current);
+    err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx);
+    ENTANGLE_DEBUG("F-number probe: restore '%s' -> %d", current, err);
+
+    if (minf < 0.0 || maxf < 0.0 || minf > maxf)
+        goto out;
+
+    ENTANGLE_DEBUG("Lens aperture range f/%g - f/%g", (double)minf,
+                   (double)maxf);
+
+    if (cache_path) {
+        gchar *dir = g_path_get_dirname(cache_path);
+        gchar *data = g_strdup_printf("%g %g\n", (double)minf, (double)maxf);
+
+        g_mkdir_with_parents(dir, 0700);
+        g_file_set_contents(cache_path, data, -1, NULL);
+        g_free(data);
+        g_free(dir);
+    }
+
+    ret = entangle_camera_filter_fnumber_choices(widget, minf, maxf);
+
+out:
+    g_free(first);
+    g_free(current);
+    g_free(cache_path);
+    return ret;
+}
+
 static gboolean
 do_load_controls(EntangleCamera *cam,
                  const char *path,
@@ -2021,6 +2239,13 @@ do_load_controls(EntangleCamera *cam,
     gp_widget_get_readonly(widget, &ro);
 
     fullpath = g_strdup_printf("%s/%s", path, name);
+
+    gboolean is_fnumber =
+        g_str_has_suffix(fullpath, "/capturesettings/f-number");
+    gboolean is_sony =
+        cam->model && (g_str_has_prefix(cam->model, "Sony") ||
+                       strstr(cam->model, "ILCE") != NULL);
+
     ctrl = g_hash_table_lookup(cam->controlPaths, fullpath);
     if (!ctrl) {
         ret = TRUE;
@@ -2055,11 +2280,23 @@ do_load_controls(EntangleCamera *cam,
                 "Updating value of menu '%s' ('%s') old='%s' new='%s'",
                 entangle_control_get_path(ctrl),
                 entangle_control_get_label(ctrl), oldValue, newValue);
+            if (is_fnumber && is_sony && !ro && !cam->fnumberProbed) {
+                cam->supportedFNumbers =
+                    entangle_camera_probe_fnumber_choices(cam, widget);
+                cam->fnumberProbed = TRUE;
+            }
+
             entangle_control_choice_clear_entries(
                 ENTANGLE_CONTROL_CHOICE(ctrl));
             for (int i = 0; i < gp_widget_count_choices(widget); i++) {
                 const char *choice;
                 gp_widget_get_choice(widget, i, &choice);
+
+                if (is_fnumber && cam->supportedFNumbers &&
+                    !g_list_find_custom(cam->supportedFNumbers, choice,
+                                        (GCompareFunc)g_strcmp0))
+                    continue;
+
                 ENTANGLE_DEBUG("Add choice '%s'", choice);
                 entangle_control_choice_add_entry(ENTANGLE_CONTROL_CHOICE(ctrl),
                                                   choice);
