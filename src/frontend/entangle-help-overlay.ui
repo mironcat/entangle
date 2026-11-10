@@ -159,40 +159,54 @@
         <child>
           <object class="GtkShortcutsGroup">
             <property name="visible">True</property>
-            <property name="title" translatable="yes" context="shortcut window">Focus control (during live preview)</property>
+            <property name="title" translatable="yes" context="shortcut window">Focus control</property>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
-                <property name="title" translatable="yes" context="shortcut window">Autofocus</property>
+                <property name="title" translatable="yes" context="shortcut window">Autofocus (during live preview)</property>
                 <property name="accelerator">a</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
-                <property name="title" translatable="yes" context="shortcut window">Focus in (small step)</property>
+                <property name="title" translatable="yes" context="shortcut window">Focus in (selected step)</property>
+                <property name="accelerator">&lt;Primary&gt;bracketright</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">True</property>
+                <property name="title" translatable="yes" context="shortcut window">Focus out (selected step)</property>
+                <property name="accelerator">&lt;Primary&gt;bracketleft</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">True</property>
+                <property name="title" translatable="yes" context="shortcut window">Focus in (medium step)</property>
                 <property name="accelerator">period</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
-                <property name="title" translatable="yes" context="shortcut window">Focus out (small step)</property>
+                <property name="title" translatable="yes" context="shortcut window">Focus out (medium step)</property>
                 <property name="accelerator">comma</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
-                <property name="title" translatable="yes" context="shortcut window">Focus in (large step)</property>
-                <property name="accelerator">less</property>
+                <property name="title" translatable="yes" context="shortcut window">Focus in (coarse step)</property>
+                <property name="accelerator">greater</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
-                <property name="title" translatable="yes" context="shortcut window">Focus out (large step)</property>
-                <property name="accelerator">greater</property>
+                <property name="title" translatable="yes" context="shortcut window">Focus out (coarse step)</property>
+                <property name="accelerator">less</property>
               </object>
             </child>
           </object>

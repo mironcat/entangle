@@ -319,6 +319,8 @@ struct
     { .name = "win.rotate-cw", .accels = { "<Primary>r", NULL } },
     { .name = "win.rotate-ccw", .accels = { "<Primary><Shift>r", NULL } },
     { .name = "win.rotate-reset", .accels = { "<Primary><Shift>0", NULL } },
+    { .name = "win.focus-in", .accels = { "<Primary>bracketright", NULL } },
+    { .name = "win.focus-out", .accels = { "<Primary>bracketleft", NULL } },
     { .name = "win.zoom-in",
       .accels = { "<Primary>plus", "<Primary>equal", NULL } },
     { .name = "win.zoom-out", .accels = { "<Primary>minus", NULL } },

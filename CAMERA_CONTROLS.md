@@ -47,27 +47,41 @@ rm ~/.cache/entangle/fnumber-*
 
 Sony cameras expose manual focus as a relative step range: the A7 III
 reports `/main/actions/manualfocus` with a range of -7..+7. Entangle
-shows a spring-loaded slider to the right of the live preview:
+shows a spring-loaded slider to the right of the live preview and a
+small step field with `+` / `-` buttons:
 
-* drag up/down to move focus; each unit of drag sends an individual
-  relative `manualfocus` command, so a fast drag does not produce one
-  large jump;
-* releasing the slider returns it to the centre;
-* the step field is a multiplier: 1 gives fine movement, 7 covers the
-  focus range quickly. It is used by the slider and by the `+`/`-`
-  buttons; pressing Enter in the field applies one step;
-* the mouse wheel and clicks in the slider trough move by one unit;
-* the slider is only enabled while live preview is running and the
-  camera reports manual focus support.
+* the slider is a continuous jog: press and hold it away from the
+  centre and focus moves while it is held. The further from the centre,
+  the faster it moves; a small deflection gives fine adjustment.
+  Releasing the slider stops the lens and returns it to the centre;
+* only one focus command is in flight at a time, so releasing the
+  slider stops the lens immediately instead of draining a queue;
+* the step field (1-7) sets the size of one command. It is used by the
+  `+` / `-` buttons and by the mouse wheel; pressing Enter in the field
+  applies one step;
+* the mouse wheel moves one step per notch (smooth touchpad scrolling is
+  accumulated), without moving the slider handle;
+* the controls are enabled whenever the camera reports manual focus
+  support, whether or not live preview is running.
 
 The slider range is taken from the camera's manual focus widget, so a
 camera with a different range gets a correctly sized slider.
 
-Note that PTP exposes manual focus as relative steps, not as an absolute
-focus position. The camera's own distance indicator is coarse (for
-example infinity, 0.7 m, 0.3 m); that does not limit the actual focus
-range, but reaching close focus may require several drags. Use a larger
-step multiplier to move quickly and 1 for fine adjustment.
+PTP exposes manual focus as relative steps, not as an absolute focus
+position: the A7 III does not return the Sony `Focal Position` property
+(`0xD24C`). However, the camera writes `FocusPosition2` (0-255) and an
+approximate distance into the EXIF of captured images, which can be
+used to check the movement:
+
+* on the test body one `+7` command moved `FocusPosition2` by about
+  5-7 units;
+* the useful range was roughly 80 (closest focus, about 0.09 m with the
+  SEL30M35) to 255 (infinity), i.e. about 220 manual-focus units;
+* therefore a single drag cannot cover the whole range, but holding
+  the jog at full deflection traverses it in a few seconds.
+
+The camera's own distance indicator is coarse (for example infinity,
+0.7 m, 0.3 m); that does not limit the actual focus range.
 
 ## Extending the filter
 

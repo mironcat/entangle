@@ -699,7 +699,9 @@ entangle_camera_open(EntangleCamera *cam, GError **error)
     gp_port_info_list_get_info(cam->ports, i, &port);
 
     i = gp_abilities_list_lookup_model(cam->caps, cam->model);
+    ENTANGLE_DEBUG("Open model '%s' lookup %d", cam->model, i);
     gp_abilities_list_get_abilities(cam->caps, i, &cap);
+    ENTANGLE_DEBUG("Open abilities operations 0x%x", cap.operations);
 
     gp_camera_new(&cam->cam);
     gp_camera_set_abilities(cam->cam, cap);
@@ -726,6 +728,9 @@ entangle_camera_open(EntangleCamera *cam, GError **error)
     if (cap.operations & GP_OPERATION_CONFIG)
         cam->hasSettings = TRUE;
     cam->hasViewfinder = FALSE;
+
+    ENTANGLE_DEBUG("Open capabilities capture=%d preview=%d settings=%d",
+                   cam->hasCapture, cam->hasPreview, cam->hasSettings);
 
     gp_camera_get_summary(cam->cam, &txt, cam->ctx);
     cam->summary = g_strdup(txt.text);
@@ -3771,6 +3776,8 @@ entangle_camera_manualfocus_value(EntangleCamera *cam,
 
     g_mutex_lock(&cam->lock);
     entangle_camera_begin_job(cam);
+
+    ENTANGLE_DEBUG("Moving manual focus by %d", value);
 
     if (cam->cam == NULL) {
         g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
