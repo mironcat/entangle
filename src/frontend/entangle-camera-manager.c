@@ -137,6 +137,7 @@ struct _EntangleCameraManager
     gboolean taskActive;
     gboolean taskProcessEvents;
     gboolean destroyed;
+    gboolean closePending;
     char *deleteImageDup;
     gboolean syncCapture;
     gboolean mediaContextMenu;
@@ -1832,7 +1833,7 @@ do_entangle_camera_manager_preview_finish(GObject *src,
     GError *error = NULL;
 
     if (!entangle_camera_automata_preview_finish(automata, res, &error)) {
-        if (!manager->destroyed)
+        if (!manager->destroyed && !manager->closePending)
             do_camera_task_error(manager, _("Preview"), error);
     }
 
@@ -1843,6 +1844,18 @@ do_entangle_camera_manager_preview_finish(GObject *src,
     if (manager->destroyed) {
         if (error)
             g_error_free(error);
+        g_object_unref(manager);
+        return;
+    }
+
+    /* Window close was requested while the preview was running. The
+     * current preview operation has now finished, so it is safe to tear
+     * down the window (and release the camera) without leaving PTP I/O
+     * in flight. */
+    if (manager->closePending) {
+        if (error)
+            g_error_free(error);
+        gtk_widget_destroy(GTK_WIDGET(manager));
         g_object_unref(manager);
         return;
     }
@@ -2139,6 +2152,13 @@ do_image_focus_point_selected(EntangleImageDisplay *display G_GNUC_UNUSED,
     py = CLAMP(py, miny, maxy);
 
     ENTANGLE_DEBUG("Focus point selected at %.3f,%.3f -> %d,%d", x, y, px, py);
+
+    /* Make sure the focus marker is visible and follows the click even
+     * if the preference was off. */
+    EntanglePreferences *prefs =
+        entangle_camera_manager_get_preferences(manager);
+    entangle_preferences_img_set_focus_point(prefs, TRUE);
+    entangle_image_display_set_focus_point(manager->imageDisplay, TRUE);
 
     entangle_camera_set_focus_area_async(manager->camera, px, py, NULL,
                                          do_camera_set_focus_area_finish,
@@ -2748,6 +2768,17 @@ do_manager_delete(GtkWidget *src G_GNUC_UNUSED,
                   EntangleCameraManager *manager)
 {
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager), TRUE);
+
+    /* Do not tear down the camera while a preview or capture operation
+     * is still doing PTP I/O; that is what leaves the camera in a PTP
+     * timeout. Cancel the operation and let its completion callback
+     * destroy the window. */
+    if (manager->taskPreview && !manager->closePending) {
+        ENTANGLE_DEBUG("Stopping live preview before closing");
+        manager->closePending = TRUE;
+        entangle_camera_manager_preview_cancel(manager);
+        return TRUE;
+    }
 
     gtk_widget_destroy(GTK_WIDGET(manager));
     return TRUE;

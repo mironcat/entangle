@@ -245,7 +245,10 @@ do_action_quit(GSimpleAction *act G_GNUC_UNUSED,
 
     while (tmp) {
         GtkWidget *window = GTK_WIDGET(tmp->data);
-        gtk_widget_destroy(window);
+
+        /* Ask the window to close so camera managers can stop their
+         * live preview before the camera is released. */
+        gtk_window_close(GTK_WINDOW(window));
         tmp = tmp->next;
     }
     g_list_free(tmp);
