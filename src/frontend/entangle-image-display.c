@@ -424,11 +424,10 @@ entangle_image_display_get_focus_widget_pos(EntangleImageDisplay *display,
     fy = display->focusY * cairo_image_surface_get_height(display->pixmap);
     cairo_matrix_transform_point(&display->imageToWidget, &fx, &fy);
 
-    /* imageToWidget is in window coordinates, while the draw context is
-     * translated by the widget origin. Convert back to widget-relative
-     * coordinates so the marker lands where the user clicked. */
-    fx -= display->originX;
-    fy -= display->originY;
+    /* imageToWidget is widget-relative, while the draw context used for
+     * the marker is translated by the widget origin. */
+    fx += display->originX;
+    fy += display->originY;
 
     *x = fx;
     *y = fy;
@@ -754,11 +753,24 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
         cairo_scale(cr, fx, fy);
         cairo_translate(cr, -pw / 2.0, -ph / 2.0);
 
-        cairo_get_matrix(cr, &display->imageToWidget);
-        display->widgetToImage = display->imageToWidget;
-        if (cairo_matrix_invert(&display->widgetToImage) ==
-            CAIRO_STATUS_SUCCESS)
-            display->hasTransform = TRUE;
+        /* The draw context is translated to the widget origin, but button
+         * events arrive in widget-relative coordinates. Store the image
+         * transform in widget-relative space so both rotated and
+         * unrotated previews map clicks uniformly. */
+        {
+            cairo_matrix_t imageMatrix;
+            cairo_matrix_t baseInv = m;
+
+            cairo_get_matrix(cr, &imageMatrix);
+            if (cairo_matrix_invert(&baseInv) == CAIRO_STATUS_SUCCESS) {
+                cairo_matrix_multiply(&display->imageToWidget, &imageMatrix,
+                                      &baseInv);
+                display->widgetToImage = display->imageToWidget;
+                if (cairo_matrix_invert(&display->widgetToImage) ==
+                    CAIRO_STATUS_SUCCESS)
+                    display->hasTransform = TRUE;
+            }
+        }
 
         cairo_set_source_surface(cr, display->pixmap, 0, 0);
         cairo_paint(cr);
@@ -913,22 +925,6 @@ entangle_image_display_button_press(GtkWidget *widget,
 
     x = event->x;
     y = event->y;
-
-    /* The drawing matrix is relative to the toplevel window, while GTK
-     * delivers button events in widget coordinates. Shift the event into
-     * the matrix's space when the widget is not at the window origin. */
-    {
-        gint wx = 0, wy = 0;
-
-        gtk_widget_translate_coordinates(widget,
-                                         gtk_widget_get_toplevel(widget), 0, 0,
-                                         &wx, &wy);
-        if ((wx || wy) && display->imageToWidget.x0 >= wx &&
-            display->imageToWidget.y0 >= wy) {
-            x += wx;
-            y += wy;
-        }
-    }
 
     cairo_matrix_transform_point(&display->widgetToImage, &x, &y);
 
