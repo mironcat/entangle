@@ -106,6 +106,7 @@ enum
 {
     SIGNAL_SELECTION_CHANGED,
     SIGNAL_MEDIA_ACTIVATED,
+    SIGNAL_MEDIA_DELETE,
 
     SIGNAL_LAST,
 };
@@ -738,6 +739,14 @@ entangle_session_browser_key_press(GtkWidget *widget, GdkEventKey *event)
         }
         return TRUE;
 
+    case GDK_KEY_Delete:
+    case GDK_KEY_KP_Delete:
+        if (browser->selectedMedia) {
+            g_signal_emit(browser, browser_signals[SIGNAL_MEDIA_DELETE], 0,
+                          browser->selectedMedia);
+        }
+        return TRUE;
+
     default:
         return GTK_WIDGET_CLASS(entangle_session_browser_parent_class)
             ->key_press_event(widget, event);
@@ -882,6 +891,12 @@ entangle_session_browser_class_init(EntangleSessionBrowserClass *klass)
 
     browser_signals[SIGNAL_MEDIA_ACTIVATED] =
         g_signal_new("media-activated", G_TYPE_FROM_CLASS(object_class),
+                     G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
+                     g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
+                     ENTANGLE_TYPE_MEDIA);
+
+    browser_signals[SIGNAL_MEDIA_DELETE] =
+        g_signal_new("media-delete", G_TYPE_FROM_CLASS(object_class),
                      G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
                      g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1,
                      ENTANGLE_TYPE_MEDIA);

@@ -136,6 +136,23 @@ orientation is already applied to the image data when the file is loaded,
 so rotating or flipping it again would turn it by 180 degrees compared to
 the file and to every other viewer.
 
+## Autofocus indicator
+
+A small lamp below the buttons in the right panel shows the state of the
+camera focus:
+
+* **green** — the camera focuses automatically (the autofocus is active);
+* **dimmed** — the camera is in Manual or DMF focus mode;
+* **pulsing** — a focus operation is running (the autofocus button or a
+  click on the preview).
+
+## Deleting images
+
+Select an image in the session browser at the bottom of the window and
+press **Delete** to remove it: the file is deleted from disk and the
+image disappears from the session. The same is possible with the
+**Delete** entry of the context menu.
+
 ## Extending the filter
 
 The same mechanism can be applied to other controls that libgphoto2

@@ -108,6 +108,9 @@ struct _EntangleCameraManager
     GtkScale *focusSlider;
     GtkToggleButton *manualFocusButton;
     GtkToggleButton *gridButton;
+    GtkWidget *afIndicator;
+    gboolean afIndicatorActive;
+    gboolean afIndicatorBusy;
     GtkEntry *captureFilenameEntry;
     GtkLabel *captureFilenameWarning;
     GtkLabel *rotationLabel;
@@ -375,6 +378,80 @@ entangle_camera_manager_update_overexposure_highlighting(
 
     entangle_image_display_set_overexposure_highlighting(manager->imageDisplay,
                                                          enabled);
+}
+
+/* Draw the small status lamp that shows whether the camera is focusing
+ * automatically. It is green while the autofocus is active, dimmed while
+ * the camera is in manual focus mode, and pulses while a focus operation
+ * is running. */
+static gboolean
+do_af_indicator_draw(GtkWidget *widget, cairo_t *cr, gpointer opaque)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque), FALSE);
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    int ww = gtk_widget_get_allocated_width(widget);
+    int wh = gtk_widget_get_allocated_height(widget);
+    double cx = ww / 2.0;
+    double cy = wh / 2.0;
+    double radius = (MIN(ww, wh) / 2.0) - 2.0;
+
+    if (radius <= 0)
+        return TRUE;
+
+    if (manager->afIndicatorBusy) {
+        cairo_set_source_rgba(cr, 0.18, 0.76, 0.47, 0.35);
+        cairo_arc(cr, cx, cy, radius + 2.0, 0, 2 * G_PI);
+        cairo_fill(cr);
+    }
+
+    if (manager->afIndicatorActive)
+        cairo_set_source_rgb(cr, 0.18, 0.76, 0.47);
+    else
+        cairo_set_source_rgb(cr, 0.45, 0.45, 0.45);
+
+    cairo_arc(cr, cx, cy, radius, 0, 2 * G_PI);
+    cairo_fill(cr);
+
+    return TRUE;
+}
+
+/* Refresh the state of the autofocus lamp. */
+static void
+entangle_camera_manager_update_af_indicator(EntangleCameraManager *manager)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+
+    gboolean active = FALSE;
+
+    if (manager->cameraReady && manager->camera) {
+        gboolean manual = entangle_camera_get_manual_focus_mode(manager->camera);
+
+        active = entangle_camera_get_has_autofocus(manager->camera) && !manual;
+    }
+
+    if (manager->afIndicatorActive == active)
+        return;
+
+    manager->afIndicatorActive = active;
+    if (manager->afIndicator)
+        gtk_widget_queue_draw(manager->afIndicator);
+}
+
+/* Mark the beginning or the end of a focus operation, so that the lamp
+ * shows that the camera is busy focusing. */
+static void
+entangle_camera_manager_set_af_busy(EntangleCameraManager *manager,
+                                    gboolean busy)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+
+    if (manager->afIndicatorBusy == busy)
+        return;
+
+    manager->afIndicatorBusy = busy;
+    if (manager->afIndicator)
+        gtk_widget_queue_draw(manager->afIndicator);
 }
 
 /* Apply the view transform to the image display.
@@ -767,6 +844,8 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
         gtk_widget_set_sensitive(GTK_WIDGET(manager->focusSlider),
                                  manualFocusMode);
     }
+
+    entangle_camera_manager_update_af_indicator(manager);
 
     gtk_widget_set_sensitive(
         GTK_WIDGET(manager->toolbarButtonCapture),
@@ -2377,6 +2456,8 @@ do_action_focus(GSimpleAction *act G_GNUC_UNUSED,
     if (!manager->camera || !manager->taskPreview)
         return;
 
+    entangle_camera_manager_set_af_busy(manager, TRUE);
+
     g_object_ref(manager);
     entangle_camera_autofocus_async(manager->camera, NULL,
                                     do_camera_autofocus_finish, manager);
@@ -2492,6 +2573,8 @@ do_camera_autofocus_finish(GObject *source,
             g_error_free(error);
     }
 
+    entangle_camera_manager_set_af_busy(manager, FALSE);
+
     g_object_unref(manager);
 }
 
@@ -2527,6 +2610,8 @@ do_camera_set_focus_area_finish(GObject *source,
         if (error)
             g_error_free(error);
     }
+
+    entangle_camera_manager_set_af_busy(manager, FALSE);
 }
 
 static void
@@ -2556,6 +2641,9 @@ do_image_focus_point_selected(EntangleImageDisplay *display G_GNUC_UNUSED,
     py = CLAMP(py, miny, maxy);
 
     ENTANGLE_DEBUG("Focus point selected at %.3f,%.3f -> %d,%d", x, y, px, py);
+
+    /* The camera starts focusing on the new AF point. */
+    entangle_camera_manager_set_af_busy(manager, TRUE);
 
     /* Make sure the focus marker is visible and follows the click even
      * if the preference was off. */
@@ -3456,23 +3544,39 @@ do_session_browser_media_activated(EntangleSessionBrowser *browser
     do_menu_session_open_activate(NULL, manager);
 }
 
+/* Delete a media file from disk and drop it from the session. */
+static void
+do_delete_media(EntangleCameraManager *manager, EntangleMedia *media)
+{
+    GError *error = NULL;
+
+    if (!media)
+        return;
+
+    if (!entangle_media_delete(media, &error)) {
+        do_camera_task_error(manager, _("Delete"), error);
+        return;
+    }
+    entangle_session_remove_media(manager->session, media);
+}
+
+static void
+do_session_browser_media_delete(EntangleSessionBrowser *browser G_GNUC_UNUSED,
+                                EntangleMedia *media,
+                                gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    do_delete_media(ENTANGLE_CAMERA_MANAGER(opaque), media);
+}
+
 void
 do_menu_session_delete_activate(GtkMenuItem *item G_GNUC_UNUSED,
                                 EntangleCameraManager *manager)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
 
-    GError *error = NULL;
-
-    if (!manager->sessionBrowserMedia)
-        return;
-
-    if (!entangle_media_delete(manager->sessionBrowserMedia, &error)) {
-        do_camera_task_error(manager, _("Delete"), error);
-        return;
-    }
-    entangle_session_remove_media(manager->session,
-                                  manager->sessionBrowserMedia);
+    do_delete_media(manager, manager->sessionBrowserMedia);
 }
 
 static void
@@ -3944,6 +4048,8 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
                      G_CALLBACK(do_session_media_selected), manager);
     g_signal_connect(manager->sessionBrowser, "media-activated",
                      G_CALLBACK(do_session_browser_media_activated), manager);
+    g_signal_connect(manager->sessionBrowser, "media-delete",
+                     G_CALLBACK(do_session_browser_media_delete), manager);
     g_signal_connect(manager->sessionBrowser, "button-press-event",
                      G_CALLBACK(do_session_browser_popup), manager);
 
@@ -4107,6 +4213,18 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
                      manager);
     gtk_box_pack_start(GTK_BOX(focusBox), GTK_WIDGET(manager->gridButton),
                        FALSE, FALSE, 0);
+
+    /* Autofocus status lamp */
+    manager->afIndicator = gtk_drawing_area_new();
+    gtk_widget_set_size_request(manager->afIndicator, 20, 20);
+    gtk_widget_set_valign(manager->afIndicator, GTK_ALIGN_CENTER);
+    gtk_widget_set_tooltip_text(
+        manager->afIndicator,
+        _("Green: the camera focuses automatically. Dimmed: manual focus mode"));
+    g_signal_connect(manager->afIndicator, "draw",
+                     G_CALLBACK(do_af_indicator_draw), manager);
+    gtk_box_pack_start(GTK_BOX(focusBox), manager->afIndicator, FALSE, FALSE, 0);
+    gtk_widget_show(manager->afIndicator);
 
     gtk_box_pack_start(GTK_BOX(imageBox), imageOverlay, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(imageBox),
