@@ -110,6 +110,7 @@ struct _EntangleCameraManager
     GtkToggleButton *gridButton;
     GtkEntry *captureFilenameEntry;
     GtkLabel *captureFilenameWarning;
+    GtkLabel *rotationLabel;
     gboolean updatingManualFocus;
     gboolean updatingGrid;
     gboolean updatingCaptureFilename;
@@ -408,7 +409,8 @@ entangle_camera_manager_update_rotation(EntangleCameraManager *manager)
 
     EntanglePreferences *prefs =
         entangle_camera_manager_get_preferences(manager);
-    gint rotation = entangle_preferences_img_get_rotation(prefs);
+    gint previewRotation = entangle_preferences_img_get_rotation(prefs);
+    gint rotation = previewRotation;
 
     /* Captured stills already carry the selected rotation in their EXIF
      * orientation, so applying the display rotation again would rotate
@@ -417,6 +419,13 @@ entangle_camera_manager_update_rotation(EntangleCameraManager *manager)
         rotation = 0;
 
     entangle_image_display_set_rotation(manager->imageDisplay, rotation);
+
+    if (manager->rotationLabel) {
+        gchar *text =
+            g_strdup_printf(_("Preview rotation: %d°"), previewRotation);
+        gtk_label_set_text(manager->rotationLabel, text);
+        g_free(text);
+    }
 }
 
 static void
@@ -4109,6 +4118,22 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_box_pack_start(GTK_BOX(settingsBox), versionLabel, FALSE, FALSE, 0);
     gtk_widget_show(versionLabel);
     g_free(versionText);
+
+    manager->rotationLabel = GTK_LABEL(gtk_label_new(NULL));
+    gtk_label_set_xalign(manager->rotationLabel, 0);
+    gtk_label_set_ellipsize(manager->rotationLabel, PANGO_ELLIPSIZE_END);
+    gtk_widget_set_tooltip_text(
+        GTK_WIDGET(manager->rotationLabel),
+        _("Current preview rotation; captured images receive the same "
+          "EXIF orientation"));
+    gtk_style_context_add_class(
+        gtk_widget_get_style_context(GTK_WIDGET(manager->rotationLabel)),
+        "dim-label");
+    gtk_widget_set_margin_start(GTK_WIDGET(manager->rotationLabel), 6);
+    gtk_widget_set_margin_end(GTK_WIDGET(manager->rotationLabel), 6);
+    gtk_box_pack_start(GTK_BOX(settingsBox),
+                       GTK_WIDGET(manager->rotationLabel), FALSE, FALSE, 0);
+    gtk_widget_show(GTK_WIDGET(manager->rotationLabel));
 
     gtk_box_pack_start(GTK_BOX(settingsBox), GTK_WIDGET(manager->controlPanel),
                        FALSE, TRUE, 0);
