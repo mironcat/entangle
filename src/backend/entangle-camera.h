@@ -293,6 +293,22 @@ void
 entangle_camera_get_manual_focus_range(EntangleCamera *cam,
                                        gint *min,
                                        gint *max);
+gboolean
+entangle_camera_get_manual_focus_mode(EntangleCamera *cam);
+gboolean
+entangle_camera_set_manual_focus_mode(EntangleCamera *cam,
+                                      gboolean enabled,
+                                      GError **error);
+void
+entangle_camera_set_manual_focus_mode_async(EntangleCamera *cam,
+                                            gboolean enabled,
+                                            GCancellable *cancellable,
+                                            GAsyncReadyCallback callback,
+                                            gpointer user_data);
+gboolean
+entangle_camera_set_manual_focus_mode_finish(EntangleCamera *cam,
+                                             GAsyncResult *result,
+                                             GError **error);
 
 gboolean
 entangle_camera_load_controls(EntangleCamera *cam, GError **error);

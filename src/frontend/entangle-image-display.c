@@ -500,7 +500,7 @@ entangle_image_display_draw_grid_display(GtkWidget *widget,
     gint count;
     gint i;
 
-    cairo_set_source_rgba(cr, 0.7, 0, 0, 1);
+    cairo_set_source_rgba(cr, 0.3, 0.3, 0.3, 1);
 
     if (display->focusPoint) {
         gdouble fx, fy;

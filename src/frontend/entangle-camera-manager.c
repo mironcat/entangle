@@ -105,8 +105,15 @@ struct _EntangleCameraManager
     GtkMenuButton *titlebarButtonView;
     GtkMenuButton *titlebarButtonZoom;
     GtkSpinner *titlebarStatus;
-    GtkSpinButton *focusStep;
     GtkScale *focusSlider;
+    GtkToggleButton *manualFocusButton;
+    GtkToggleButton *gridButton;
+    GtkEntry *captureFilenameEntry;
+    GtkLabel *captureFilenameWarning;
+    gboolean updatingManualFocus;
+    gboolean updatingGrid;
+    gboolean updatingCaptureFilename;
+    gint lastGridMode;
     gboolean focusSliderUpdating;
     gboolean focusSliderDragging;
     gboolean focusJogInFlight;
@@ -521,6 +528,54 @@ entangle_camera_manager_update_viewfinder(EntangleCameraManager *manager)
 }
 
 static void
+entangle_camera_manager_update_grid_button(EntangleCameraManager *manager)
+{
+    EntanglePreferences *prefs;
+    gint mode;
+
+    if (!manager->gridButton || !manager->prefs)
+        return;
+
+    prefs = entangle_camera_manager_get_preferences(manager);
+    mode = entangle_preferences_img_get_grid_lines(prefs);
+
+    manager->updatingGrid = TRUE;
+    gtk_toggle_button_set_active(manager->gridButton,
+                                 mode != ENTANGLE_IMAGE_DISPLAY_GRID_NONE);
+    manager->updatingGrid = FALSE;
+
+    if (mode != ENTANGLE_IMAGE_DISPLAY_GRID_NONE)
+        manager->lastGridMode = mode;
+}
+
+static void
+do_grid_toggled(GtkToggleButton *button, gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    EntanglePreferences *prefs =
+        entangle_camera_manager_get_preferences(manager);
+    gint mode;
+
+    if (manager->updatingGrid)
+        return;
+
+    if (gtk_toggle_button_get_active(button)) {
+        mode = manager->lastGridMode;
+        if (mode == ENTANGLE_IMAGE_DISPLAY_GRID_NONE)
+            mode = ENTANGLE_IMAGE_DISPLAY_GRID_RULE_OF_3RDS;
+        entangle_preferences_img_set_grid_lines(prefs, mode);
+    } else {
+        mode = entangle_preferences_img_get_grid_lines(prefs);
+        if (mode != ENTANGLE_IMAGE_DISPLAY_GRID_NONE)
+            manager->lastGridMode = mode;
+        entangle_preferences_img_set_grid_lines(
+            prefs, ENTANGLE_IMAGE_DISPLAY_GRID_NONE);
+    }
+}
+
+static void
 entangle_camera_manager_update_image_loader(EntangleCameraManager *manager)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
@@ -579,6 +634,8 @@ entangle_camera_manager_prefs_changed(GObject *object G_GNUC_UNUSED,
     } else if (g_str_equal(spec->name, "img-focus-point") ||
                g_str_equal(spec->name, "img-grid-lines")) {
         entangle_camera_manager_update_viewfinder(manager);
+        if (g_str_equal(spec->name, "img-grid-lines"))
+            entangle_camera_manager_update_grid_button(manager);
     } else if (g_str_equal(spec->name, "img-embedded-preview")) {
         entangle_camera_manager_update_image_loader(manager);
     } else if (g_str_equal(spec->name, "capture-delete-file")) {
@@ -647,12 +704,21 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
     gtk_widget_set_sensitive(GTK_WIDGET(manager->toolbarButtonFocus),
                              canFocus);
 
-    gboolean canManualFocus =
+    gboolean hasManualFocus =
         manager->cameraReady && manager->camera &&
         entangle_camera_get_has_manual_focus(manager->camera);
-    if (manager->focusStep)
-        gtk_widget_set_sensitive(GTK_WIDGET(manager->focusStep),
-                                 canManualFocus);
+    gboolean manualFocusMode =
+        hasManualFocus &&
+        entangle_camera_get_manual_focus_mode(manager->camera);
+
+    if (manager->manualFocusButton) {
+        gtk_widget_set_sensitive(GTK_WIDGET(manager->manualFocusButton),
+                                 hasManualFocus);
+        manager->updatingManualFocus = TRUE;
+        gtk_toggle_button_set_active(manager->manualFocusButton,
+                                     manualFocusMode);
+        manager->updatingManualFocus = FALSE;
+    }
 
     if (manager->focusSlider) {
         gint focusMin = -7;
@@ -668,7 +734,7 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
         gtk_range_set_value(GTK_RANGE(manager->focusSlider), 0);
         manager->focusSliderUpdating = FALSE;
         gtk_widget_set_sensitive(GTK_WIDGET(manager->focusSlider),
-                                 canManualFocus);
+                                 manualFocusMode);
     }
 
     gtk_widget_set_sensitive(
@@ -1401,6 +1467,22 @@ do_camera_manager_set_session(EntangleCameraManager *manager,
                 GTK_FILE_CHOOSER(manager->captureFolderButton), dir);
         manager->updatingCaptureFolder = FALSE;
     }
+
+    if (manager->captureFilenameEntry) {
+        const gchar *pattern =
+            manager->session
+                ? entangle_session_filename_pattern(manager->session)
+                : "";
+
+        manager->updatingCaptureFilename = TRUE;
+        gtk_entry_set_text(manager->captureFilenameEntry,
+                           pattern ? pattern : "");
+        manager->updatingCaptureFilename = FALSE;
+        if (manager->captureFilenameWarning)
+            gtk_label_set_text(manager->captureFilenameWarning, "");
+    }
+
+    entangle_camera_manager_update_grid_button(manager);
 }
 
 static void
@@ -1433,6 +1515,54 @@ do_capture_folder_changed(GtkFileChooserButton *button, gpointer opaque)
 
     g_free(pattern);
     g_free(dir);
+}
+
+static void
+do_capture_filename_apply(EntangleCameraManager *manager)
+{
+    EntanglePreferences *prefs =
+        entangle_camera_manager_get_preferences(manager);
+    const gchar *pattern;
+    gchar *dir;
+    EntangleSession *session;
+
+    if (manager->updatingCaptureFilename || !manager->captureFilenameEntry)
+        return;
+
+    pattern = gtk_entry_get_text(manager->captureFilenameEntry);
+    if (!pattern || !*pattern || !strstr(pattern, "XXXXXX") ||
+        strchr(pattern, '/')) {
+        gtk_label_set_text(
+            manager->captureFilenameWarning,
+            _("Use XXXXXX for the sequence number and avoid '/'"));
+        return;
+    }
+
+    gtk_label_set_text(manager->captureFilenameWarning, "");
+    entangle_preferences_capture_set_filename_pattern(prefs, pattern);
+
+    if (manager->session) {
+        dir = g_strdup(entangle_session_directory(manager->session));
+        session = entangle_session_new(dir, pattern);
+        do_camera_manager_set_session(manager, session);
+        g_object_unref(session);
+        g_free(dir);
+    }
+}
+
+static void
+do_capture_filename_activate(GtkEntry *entry G_GNUC_UNUSED, gpointer opaque)
+{
+    do_capture_filename_apply(ENTANGLE_CAMERA_MANAGER(opaque));
+}
+
+static gboolean
+do_capture_filename_focus_out(GtkWidget *widget G_GNUC_UNUSED,
+                              GdkEventFocus *event G_GNUC_UNUSED,
+                              gpointer opaque)
+{
+    do_capture_filename_apply(ENTANGLE_CAMERA_MANAGER(opaque));
+    return FALSE;
 }
 
 static void
@@ -2547,7 +2677,7 @@ do_focus_slider_scroll(GtkWidget *widget G_GNUC_UNUSED,
     if (dir == 0)
         return TRUE;
 
-    gint value = gtk_spin_button_get_value_as_int(manager->focusStep) * dir;
+    gint value = dir;
     g_object_ref(manager);
     entangle_camera_manualfocus_value_async(manager->camera, value, NULL,
                                             do_camera_manualfocus_value_finish,
@@ -2630,7 +2760,7 @@ do_focus_in_clicked(GtkButton *button G_GNUC_UNUSED, gpointer opaque)
     if (!manager->camera)
         return;
 
-    value = gtk_spin_button_get_value_as_int(manager->focusStep);
+    value = 1;
     g_object_ref(manager);
     entangle_camera_manualfocus_value_async(manager->camera, value, NULL,
                                             do_camera_manualfocus_value_finish,
@@ -2648,7 +2778,7 @@ do_focus_out_clicked(GtkButton *button G_GNUC_UNUSED, gpointer opaque)
     if (!manager->camera)
         return;
 
-    value = -gtk_spin_button_get_value_as_int(manager->focusStep);
+    value = -1;
     g_object_ref(manager);
     entangle_camera_manualfocus_value_async(manager->camera, value, NULL,
                                             do_camera_manualfocus_value_finish,
@@ -2656,9 +2786,52 @@ do_focus_out_clicked(GtkButton *button G_GNUC_UNUSED, gpointer opaque)
 }
 
 static void
-do_focus_step_activate(GtkEntry *entry G_GNUC_UNUSED, gpointer opaque)
+do_manual_focus_mode_finish(GObject *source,
+                            GAsyncResult *result,
+                            gpointer opaque)
 {
-    do_focus_in_clicked(NULL, opaque);
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    EntangleCamera *camera = ENTANGLE_CAMERA(source);
+    GError *error = NULL;
+
+    if (!entangle_camera_set_manual_focus_mode_finish(camera, result, &error)) {
+        if (!manager->destroyed && error) {
+            GtkWidget *msg = gtk_message_dialog_new(
+                GTK_WINDOW(manager), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+                _("Unable to change focus mode"));
+            gtk_window_set_title(GTK_WINDOW(msg),
+                                 _("Entangle: Camera focus mode failed"));
+            gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(msg),
+                                                     "%s", error->message);
+            g_signal_connect_swapped(msg, "response",
+                                     G_CALLBACK(gtk_widget_destroy), msg);
+            gtk_widget_show_all(msg);
+        }
+        if (error)
+            g_error_free(error);
+    }
+
+    do_capture_widget_sensitivity(manager);
+
+    g_object_unref(manager);
+}
+
+static void
+do_manual_focus_toggled(GtkToggleButton *button, gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+
+    if (manager->updatingManualFocus || !manager->camera)
+        return;
+
+    gboolean enabled = gtk_toggle_button_get_active(button);
+    g_object_ref(manager);
+    entangle_camera_set_manual_focus_mode_async(
+        manager->camera, enabled, NULL, do_manual_focus_mode_finish, manager);
 }
 
 static void
@@ -3741,6 +3914,29 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
                        GTK_WIDGET(manager->captureFolderButton), FALSE, FALSE,
                        0);
 
+    GtkWidget *captureTemplateBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+    GtkWidget *captureTemplateLabel = gtk_label_new(_("Filename template:"));
+    gtk_widget_set_halign(captureTemplateLabel, GTK_ALIGN_START);
+    manager->captureFilenameEntry = GTK_ENTRY(gtk_entry_new());
+    gtk_widget_set_hexpand(GTK_WIDGET(manager->captureFilenameEntry), TRUE);
+    gtk_widget_set_tooltip_text(
+        GTK_WIDGET(manager->captureFilenameEntry),
+        _("Use XXXXXX for the sequence number, for example captureXXXXXX"));
+    manager->captureFilenameWarning = GTK_LABEL(gtk_label_new(""));
+    gtk_label_set_xalign(manager->captureFilenameWarning, 0);
+    gtk_label_set_line_wrap(manager->captureFilenameWarning, TRUE);
+    gtk_box_pack_start(GTK_BOX(captureTemplateBox), captureTemplateLabel,
+                       FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(captureTemplateBox),
+                       GTK_WIDGET(manager->captureFilenameEntry), TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(captureTemplateBox),
+                       GTK_WIDGET(manager->captureFilenameWarning), FALSE, FALSE,
+                       0);
+    g_signal_connect(manager->captureFilenameEntry, "activate",
+                     G_CALLBACK(do_capture_filename_activate), manager);
+    g_signal_connect(manager->captureFilenameEntry, "focus-out-event",
+                     G_CALLBACK(do_capture_filename_focus_out), manager);
+
     iconScroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(iconScroll),
                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
@@ -3815,20 +4011,14 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_box_pack_start(GTK_BOX(focusBox), captureButton, FALSE, FALSE, 0);
     g_object_unref(captureButton);
 
-    manager->focusStep =
-        GTK_SPIN_BUTTON(gtk_spin_button_new_with_range(1.0, 7.0, 1.0));
-    gtk_widget_set_tooltip_text(
-        GTK_WIDGET(manager->focusStep),
-        _("Manual focus step size (1-7); used by the mouse wheel, "
-          "shortcuts and the slider speed"));
-    gtk_spin_button_set_numeric(manager->focusStep, TRUE);
-    gtk_spin_button_set_digits(manager->focusStep, 0);
-    gtk_entry_set_width_chars(GTK_ENTRY(manager->focusStep), 3);
-    gtk_widget_set_size_request(GTK_WIDGET(manager->focusStep), 50, -1);
-    gtk_box_pack_start(GTK_BOX(focusBox), GTK_WIDGET(manager->focusStep),
-                       FALSE, FALSE, 0);
-    g_signal_connect(manager->focusStep, "activate",
-                     G_CALLBACK(do_focus_step_activate), manager);
+    /* Move the preview toggle from the titlebar into the focus panel. */
+    GtkWidget *previewButton = GTK_WIDGET(manager->titlebarButtonPreview);
+    g_object_ref(previewButton);
+    gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(previewButton)),
+                         previewButton);
+    gtk_widget_set_size_request(previewButton, 40, 40);
+    gtk_box_pack_start(GTK_BOX(focusBox), previewButton, FALSE, FALSE, 0);
+    g_object_unref(previewButton);
 
     /* Move the autofocus button from the titlebar into the focus panel. */
     GtkWidget *autofocusButton = GTK_WIDGET(manager->titlebarButtonFocus);
@@ -3838,6 +4028,27 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_widget_set_size_request(autofocusButton, 40, 40);
     gtk_box_pack_start(GTK_BOX(focusBox), autofocusButton, FALSE, FALSE, 0);
     g_object_unref(autofocusButton);
+
+    manager->manualFocusButton = GTK_TOGGLE_BUTTON(
+        gtk_toggle_button_new_with_label(_("MF")));
+    gtk_widget_set_tooltip_text(
+        GTK_WIDGET(manager->manualFocusButton),
+        _("Manual focus mode (enables the focus slider)"));
+    gtk_widget_set_size_request(GTK_WIDGET(manager->manualFocusButton), 40, -1);
+    g_signal_connect(manager->manualFocusButton, "toggled",
+                     G_CALLBACK(do_manual_focus_toggled), manager);
+    gtk_box_pack_start(GTK_BOX(focusBox),
+                       GTK_WIDGET(manager->manualFocusButton), FALSE, FALSE, 0);
+
+    manager->gridButton =
+        GTK_TOGGLE_BUTTON(gtk_toggle_button_new_with_label(_("Grid")));
+    gtk_widget_set_tooltip_text(GTK_WIDGET(manager->gridButton),
+                                _("Show or hide the composition grid"));
+    gtk_widget_set_size_request(GTK_WIDGET(manager->gridButton), 40, -1);
+    g_signal_connect(manager->gridButton, "toggled", G_CALLBACK(do_grid_toggled),
+                     manager);
+    gtk_box_pack_start(GTK_BOX(focusBox), GTK_WIDGET(manager->gridButton),
+                       FALSE, FALSE, 0);
 
     gtk_box_pack_start(GTK_BOX(imageBox), imageOverlay, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(imageBox),
@@ -3858,6 +4069,7 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_container_add(GTK_CONTAINER(manager->scriptConfigExpander),
                       GTK_WIDGET(manager->scriptConfig));
     gtk_box_pack_start(GTK_BOX(settingsBox), captureFolderBox, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(settingsBox), captureTemplateBox, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(settingsBox), GTK_WIDGET(imageHistogramExpander),
                        FALSE, TRUE, 0);
     gtk_container_add(GTK_CONTAINER(imageHistogramExpander),
@@ -3865,12 +4077,15 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_widget_show(GTK_WIDGET(manager->settingsViewport));
     gtk_widget_show(settingsBox);
     gtk_widget_show_all(captureFolderBox);
+    gtk_widget_show_all(captureTemplateBox);
     gtk_widget_show(imageHistogramExpander);
 
     gtk_widget_set_margin_end(manager->scriptConfigExpander, 6);
     gtk_widget_set_margin_end(imageHistogramExpander, 6);
     gtk_widget_set_margin_start(captureFolderBox, 6);
     gtk_widget_set_margin_end(captureFolderBox, 6);
+    gtk_widget_set_margin_start(captureTemplateBox, 6);
+    gtk_widget_set_margin_end(captureTemplateBox, 6);
 
     manager->monitorCancel = g_cancellable_new();
     manager->taskCancel = g_cancellable_new();

@@ -1869,6 +1869,18 @@ entangle_camera_find_focus_area_widget(EntangleCamera *cam)
     return entangle_camera_find_widget(cam, "/main/other/d2dc");
 }
 
+static CameraWidget *
+entangle_camera_find_focus_mode_widget(EntangleCamera *cam)
+{
+    CameraWidget *widget;
+
+    widget = entangle_camera_find_widget(cam, "/main/capturesettings/focusmode");
+    if (widget)
+        return widget;
+
+    return entangle_camera_find_widget(cam, "/main/settings/focusmode");
+}
+
 static EntangleControl *
 do_build_controls(EntangleCamera *cam,
                   const char *path,
@@ -4527,6 +4539,216 @@ entangle_camera_get_manual_focus_range(EntangleCamera *cam,
     if (max)
         *max = cam->manualFocusMax;
     g_mutex_unlock(&cam->lock);
+}
+
+static const gchar *
+entangle_camera_focus_mode_choice(CameraWidget *widget, gboolean manual)
+{
+    gint count = gp_widget_count_choices(widget);
+    const gchar *fallback = NULL;
+
+    for (gint i = 0; i < count; i++) {
+        const gchar *choice = NULL;
+
+        if (gp_widget_get_choice(widget, i, &choice) != GP_OK || !choice)
+            continue;
+
+        if (manual) {
+            if (strstr(choice, "Manual") || strstr(choice, "DMF"))
+                return choice;
+        } else {
+            if (strstr(choice, "Automatic"))
+                return choice;
+            if (!fallback &&
+                (strstr(choice, "AF-C") || strstr(choice, "AF-A") ||
+                 strstr(choice, "AF-S") || strstr(choice, "AF")))
+                fallback = choice;
+        }
+    }
+
+    return fallback;
+}
+
+/**
+ * entangle_camera_get_manual_focus_mode:
+ * @cam: (transfer none): the camera
+ *
+ * Check whether the camera is currently in a manual focus mode.
+ *
+ * Returns: TRUE if the focus mode is Manual or DMF
+ */
+gboolean
+entangle_camera_get_manual_focus_mode(EntangleCamera *cam)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    gboolean ret = FALSE;
+    CameraWidget *widget;
+    CameraWidgetType type;
+    gchar *value = NULL;
+
+    g_mutex_lock(&cam->lock);
+
+    widget = entangle_camera_find_focus_mode_widget(cam);
+    if (widget && gp_widget_get_type(widget, &type) == GP_OK &&
+        (type == GP_WIDGET_RADIO || type == GP_WIDGET_MENU) &&
+        gp_widget_get_value(widget, &value) == GP_OK && value) {
+        ret = strstr(value, "Manual") != NULL || strstr(value, "DMF") != NULL;
+    }
+
+    g_mutex_unlock(&cam->lock);
+
+    return ret;
+}
+
+/**
+ * entangle_camera_set_manual_focus_mode:
+ * @cam: (transfer none): the camera
+ * @enabled: TRUE for Manual/DMF, FALSE for an autofocus mode
+ * @error: a GError, or NULL
+ *
+ * Switch the camera focus mode between manual and autofocus.
+ *
+ * Returns: TRUE on success, FALSE on error
+ */
+gboolean
+entangle_camera_set_manual_focus_mode(EntangleCamera *cam,
+                                      gboolean enabled,
+                                      GError **error)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    gboolean ret = FALSE;
+    CameraWidget *widget;
+    CameraWidgetType type;
+    const gchar *choice;
+    int err;
+
+    g_mutex_lock(&cam->lock);
+    entangle_camera_begin_job(cam);
+
+    if (cam->cam == NULL) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Controls not available when camera is closed"));
+        goto cleanup;
+    }
+
+    if (cam->widgets == NULL) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Controls not available for this camera"));
+        goto cleanup;
+    }
+
+    widget = entangle_camera_find_focus_mode_widget(cam);
+    if (!widget) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Focus mode control not available with this camera"));
+        goto cleanup;
+    }
+
+    if (gp_widget_get_type(widget, &type) != GP_OK ||
+        (type != GP_WIDGET_RADIO && type != GP_WIDGET_MENU)) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Focus mode control has an unsupported type"));
+        goto cleanup;
+    }
+
+    choice = entangle_camera_focus_mode_choice(widget, enabled);
+    if (!choice) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Requested focus mode is not supported by the camera"));
+        goto cleanup;
+    }
+
+    if ((err = gp_widget_set_value(widget, choice)) != GP_OK) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Failed to set focus mode: %s %d"),
+                    gp_port_result_as_string(err), err);
+        goto cleanup;
+    }
+
+    if ((err = gp_camera_set_config(cam->cam, cam->widgets, cam->ctx)) !=
+        GP_OK) {
+        g_set_error(error, ENTANGLE_CAMERA_ERROR, 0,
+                    _("Unable to save camera control configuration: %s"),
+                    cam->lastError);
+        goto cleanup;
+    }
+
+    ENTANGLE_DEBUG("Set manual focus mode %s ('%s')", enabled ? "on" : "off",
+                   choice);
+    ret = TRUE;
+
+cleanup:
+    entangle_camera_end_job(cam);
+    g_mutex_unlock(&cam->lock);
+
+    return ret;
+}
+
+static void
+entangle_camera_set_manual_focus_mode_helper(GTask *task,
+                                             gpointer object,
+                                             gpointer task_data,
+                                             GCancellable *cancellable
+                                                 G_GNUC_UNUSED)
+{
+    gboolean enabled = GPOINTER_TO_INT(task_data);
+    GError *error = NULL;
+
+    if (!entangle_camera_set_manual_focus_mode(ENTANGLE_CAMERA(object), enabled,
+                                               &error)) {
+        g_task_return_error(task, error);
+    } else {
+        g_task_return_boolean(task, TRUE);
+    }
+}
+
+/**
+ * entangle_camera_set_manual_focus_mode_async:
+ * @cam: (transfer none): the camera
+ * @enabled: TRUE for Manual/DMF, FALSE for an autofocus mode
+ * @cancellable: (nullable): optional GCancellable object, NULL to ignore.
+ * @callback: (scope async): a GAsyncReadyCallback to call when the request is
+ * satisfied.
+ * @user_data: the data to pass to callback function.
+ *
+ * Switch the camera focus mode in the background.
+ */
+void
+entangle_camera_set_manual_focus_mode_async(EntangleCamera *cam,
+                                            gboolean enabled,
+                                            GCancellable *cancellable,
+                                            GAsyncReadyCallback callback,
+                                            gpointer user_data)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA(cam));
+
+    GTask *task = g_task_new(cam, cancellable, callback, user_data);
+
+    g_task_set_task_data(task, GINT_TO_POINTER(enabled), NULL);
+    g_task_run_in_thread(task, entangle_camera_set_manual_focus_mode_helper);
+    g_object_unref(task);
+}
+
+/**
+ * entangle_camera_set_manual_focus_mode_finish:
+ * @cam: (transfer none): the camera
+ * @result: a GAsyncResult
+ * @error: a GError, or NULL
+ *
+ * Check the completion status of a previous focus mode switch.
+ *
+ * Returns: TRUE on success, FALSE on error
+ */
+gboolean
+entangle_camera_set_manual_focus_mode_finish(EntangleCamera *cam,
+                                             GAsyncResult *result,
+                                             GError **error)
+{
+    g_return_val_if_fail(ENTANGLE_IS_CAMERA(cam), FALSE);
+
+    return g_task_propagate_boolean(G_TASK(result), error);
 }
 
 /**
