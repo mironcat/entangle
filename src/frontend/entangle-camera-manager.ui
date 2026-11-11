@@ -42,6 +42,11 @@
     <property name="can_focus">False</property>
     <property name="icon_name">zoom-fit-best-symbolic</property>
   </object>
+  <object class="GtkImage" id="imageSidebar">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">sidebar-show-symbolic</property>
+  </object>
   <template class="EntangleCameraManager" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
     <property name="default_width">1000</property>
@@ -248,6 +253,17 @@
         <property name="title">No camera connected</property>
         <property name="has_subtitle">False</property>
         <property name="show_close_button">True</property>
+        <child>
+          <object class="GtkToggleButton" id="titlebarButtonSidebar">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="action_name">win.settings</property>
+            <property name="image">imageSidebar</property>
+            <property name="always_show_image">True</property>
+            <property name="tooltip_text" translatable="yes">Show or hide the camera settings panel</property>
+          </object>
+        </child>
         <child>
           <object class="GtkButton" id="titlebarButtonCapture">
             <property name="visible">True</property>

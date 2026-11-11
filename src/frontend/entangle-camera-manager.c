@@ -121,6 +121,7 @@ struct _EntangleCameraManager
     gdouble focusWheelAccum;
 
     EntangleMedia *currentMedia;
+    gboolean displayingStill;
 
     EntangleMediaPopup *mediaPresentation;
     gint presentationMonitor;
@@ -408,6 +409,12 @@ entangle_camera_manager_update_rotation(EntangleCameraManager *manager)
     EntanglePreferences *prefs =
         entangle_camera_manager_get_preferences(manager);
     gint rotation = entangle_preferences_img_get_rotation(prefs);
+
+    /* Captured stills already carry the selected rotation in their EXIF
+     * orientation, so applying the display rotation again would rotate
+     * them twice. Only rotate the live preview. */
+    if (manager->displayingStill)
+        rotation = 0;
 
     entangle_image_display_set_rotation(manager->imageDisplay, rotation);
 }
@@ -905,6 +912,11 @@ do_select_image(EntangleCameraManager *manager, EntangleImage *image)
     }
 
     entangle_image_display_set_image_list(manager->imageDisplay, newimages);
+    entangle_image_display_set_rotation(
+        manager->imageDisplay,
+        manager->displayingStill
+            ? 0
+            : entangle_preferences_img_get_rotation(prefs));
     entangle_image_histogram_set_image(manager->imageHistogram, image);
 
     g_list_foreach(oldimages, (GFunc)g_object_unref, NULL);
@@ -1136,6 +1148,8 @@ do_camera_file_preview(EntangleCamera *cam G_GNUC_UNUSED,
         if (!image)
             image = entangle_image_new_pixbuf(pixbuf);
 
+        manager->displayingStill =
+            entangle_media_get_filename(ENTANGLE_MEDIA(image)) != NULL;
         do_select_media(manager, ENTANGLE_MEDIA(image));
 
         g_object_unref(pixbuf);
@@ -3309,6 +3323,7 @@ do_session_media_selected(GtkIconView *view G_GNUC_UNUSED, gpointer data)
         entangle_session_browser_get_selected_media(manager->sessionBrowser);
 
     ENTANGLE_DEBUG("Media selection changed");
+    manager->displayingStill = media != NULL;
     do_select_media(manager, media);
     if (media)
         g_object_unref(media);
