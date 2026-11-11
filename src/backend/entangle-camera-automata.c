@@ -20,6 +20,8 @@
 
 #include <string.h>
 
+#include <gexiv2/gexiv2.h>
+
 #include "entangle-camera-automata.h"
 
 #include "entangle-debug.h"
@@ -41,6 +43,8 @@ struct _EntangleCameraAutomata
     EntangleCamera *camera;
 
     gboolean deleteFile;
+
+    gint captureRotation;
 
     char *deleteImageDup;
 
@@ -212,6 +216,93 @@ entangle_camera_automata_data_free(EntangleCameraAutomataData *data)
     g_free(data);
 }
 
+static gint
+entangle_camera_exif_orientation_from_rotation(gint rotation)
+{
+    rotation = ((rotation % 360) + 360) % 360;
+
+    switch (rotation) {
+    case 90:
+        return 6;
+    case 180:
+        return 3;
+    case 270:
+        return 8;
+    default:
+        return 1;
+    }
+}
+
+static gint
+entangle_camera_exif_rotation_from_orientation(gint orientation)
+{
+    switch (orientation) {
+    case 3:
+        return 180;
+    case 6:
+        return 90;
+    case 8:
+        return 270;
+    default:
+        return 0;
+    }
+}
+
+static void
+do_apply_capture_orientation(const gchar *path, gint rotation)
+{
+    GExiv2Metadata *metadata;
+    GError *error = NULL;
+    gchar *current;
+    gchar *value;
+    gint currentOrientation;
+    gint combined;
+
+    if (!path || rotation == 0)
+        return;
+
+    metadata = gexiv2_metadata_new();
+    if (!gexiv2_metadata_open_path(metadata, path, &error)) {
+        ENTANGLE_DEBUG("Cannot open EXIF metadata for %s: %s", path,
+                       error ? error->message : "unknown error");
+        g_clear_error(&error);
+        g_object_unref(metadata);
+        return;
+    }
+
+    current =
+        gexiv2_metadata_get_tag_string(metadata, "Exif.Image.Orientation");
+    currentOrientation =
+        current ? (gint) g_ascii_strtoll(current, NULL, 10) : 1;
+    g_free(current);
+
+    if (currentOrientation == 1 || currentOrientation == 3 ||
+        currentOrientation == 6 || currentOrientation == 8) {
+        combined = entangle_camera_exif_orientation_from_rotation(
+            (entangle_camera_exif_rotation_from_orientation(
+                 currentOrientation) +
+             rotation) %
+            360);
+    } else {
+        combined = entangle_camera_exif_orientation_from_rotation(rotation);
+    }
+
+    value = g_strdup_printf("%d", combined);
+    if (!gexiv2_metadata_set_tag_string(metadata, "Exif.Image.Orientation",
+                                        value)) {
+        ENTANGLE_DEBUG("Failed to set EXIF orientation for %s", path);
+    } else if (!gexiv2_metadata_save_file(metadata, path, &error)) {
+        ENTANGLE_DEBUG("Failed to save EXIF orientation for %s: %s", path,
+                       error ? error->message : "unknown error");
+    } else {
+        ENTANGLE_DEBUG("Applied EXIF orientation %d to %s", combined, path);
+    }
+
+    g_clear_error(&error);
+    g_free(value);
+    g_object_unref(metadata);
+}
+
 static void
 do_entangle_camera_file_download(EntangleCamera *cam G_GNUC_UNUSED,
                                  EntangleCameraFile *file,
@@ -232,6 +323,7 @@ do_entangle_camera_file_download(EntangleCamera *cam G_GNUC_UNUSED,
         goto cleanup;
     }
     ENTANGLE_DEBUG("Saved to %s", localpath);
+    do_apply_capture_orientation(localpath, automata->captureRotation);
     image = entangle_image_new_file(localpath);
 
     entangle_session_add_media(automata->session, ENTANGLE_MEDIA(image));
@@ -688,6 +780,19 @@ entangle_camera_automata_get_delete_file(EntangleCameraAutomata *automata)
     g_return_val_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata), TRUE);
 
     return automata->deleteFile;
+}
+
+void
+entangle_camera_automata_set_capture_rotation(EntangleCameraAutomata *automata,
+                                              gint rotation)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata));
+
+    rotation = ((rotation % 360) + 360) % 360;
+    if (rotation % 90 != 0)
+        rotation = 0;
+
+    automata->captureRotation = rotation;
 }
 
 /*

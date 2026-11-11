@@ -79,6 +79,9 @@ entangle_camera_automata_set_delete_file(EntangleCameraAutomata *automata,
                                          gboolean value);
 gboolean
 entangle_camera_automata_get_delete_file(EntangleCameraAutomata *automata);
+void
+entangle_camera_automata_set_capture_rotation(EntangleCameraAutomata *automata,
+                                              gint rotation);
 
 G_END_DECLS
 

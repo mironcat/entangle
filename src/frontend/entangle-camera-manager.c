@@ -2069,6 +2069,20 @@ do_camera_manager_preview_cancel(EntangleCameraManager *manager)
 }
 
 static void
+do_return_to_preview(EntangleCameraManager *manager)
+{
+    if (manager->destroyed || !manager->camera || manager->taskPreview)
+        return;
+
+    if (!entangle_camera_get_has_preview(manager->camera))
+        return;
+
+    gtk_toggle_button_set_active(manager->titlebarButtonPreview, TRUE);
+    gtk_toggle_button_set_active(manager->toolbarButtonPreview, TRUE);
+    do_camera_manager_preview_begin(manager);
+}
+
+static void
 do_entangle_camera_manager_capture_finish(GObject *src,
                                           GAsyncResult *res,
                                           gpointer opaque)
@@ -2093,6 +2107,7 @@ do_entangle_camera_manager_capture_finish(GObject *src,
     }
 
     do_camera_task_complete(manager);
+    do_return_to_preview(manager);
     g_object_unref(manager);
 }
 
@@ -2122,6 +2137,7 @@ do_entangle_camera_manager_script_finish(GObject *src,
     }
 
     do_camera_task_complete(manager);
+    do_return_to_preview(manager);
     g_object_unref(manager);
 }
 
@@ -2136,6 +2152,11 @@ entangle_camera_manager_capture(EntangleCameraManager *manager)
 
     if (!manager->camera)
         return;
+
+    if (manager->automata)
+        entangle_camera_automata_set_capture_rotation(
+            manager->automata,
+            entangle_image_display_get_rotation(manager->imageDisplay));
 
     if (manager->taskPreview) {
         if (entangle_preferences_capture_get_continuous_preview(prefs) &&
@@ -3974,7 +3995,6 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
 
     GtkWidget *imageBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     GtkWidget *focusBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
-    GtkWidget *focusLabel = gtk_label_new(_("Focus"));
 
     manager->focusSlider = GTK_SCALE(gtk_scale_new_with_range(
         GTK_ORIENTATION_VERTICAL, -7.0, 7.0, 1.0));
@@ -3999,8 +4019,6 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
                      G_CALLBACK(do_focus_slider_scroll), manager);
 
     gtk_widget_set_valign(focusBox, GTK_ALIGN_CENTER);
-
-    gtk_box_pack_start(GTK_BOX(focusBox), focusLabel, FALSE, FALSE, 0);
 
     /* Move the capture button from the titlebar into the focus panel. */
     GtkWidget *captureButton = GTK_WIDGET(manager->titlebarButtonCapture);
