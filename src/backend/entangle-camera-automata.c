@@ -221,13 +221,17 @@ entangle_camera_exif_orientation_from_rotation(gint rotation)
 {
     rotation = ((rotation % 360) + 360) % 360;
 
+    /* The preview rotates the coordinate system, so the image content
+     * turns the opposite way to the requested angle. Match it with the
+     * opposite EXIF orientation, otherwise external viewers show the
+     * image rotated by 180 degrees. */
     switch (rotation) {
     case 90:
-        return 6;
+        return 8;
     case 180:
         return 3;
     case 270:
-        return 8;
+        return 6;
     default:
         return 1;
     }
