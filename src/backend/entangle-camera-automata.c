@@ -233,33 +233,21 @@ entangle_camera_exif_orientation_from_rotation(gint rotation)
     }
 }
 
-static gint
-entangle_camera_exif_rotation_from_orientation(gint orientation)
-{
-    switch (orientation) {
-    case 3:
-        return 180;
-    case 6:
-        return 90;
-    case 8:
-        return 270;
-    default:
-        return 0;
-    }
-}
-
 static void
 do_apply_capture_orientation(const gchar *path, gint rotation)
 {
     GExiv2Metadata *metadata;
     GError *error = NULL;
-    gchar *current;
     gchar *value;
-    gint currentOrientation;
-    gint combined;
+    gint orientation;
 
-    if (!path || rotation == 0)
+    if (!path)
         return;
+
+    /* The live preview is a raw pixbuf without the camera's EXIF
+     * orientation. Write exactly the preview rotation so the saved file
+     * matches the preview, even if the camera reported an orientation. */
+    orientation = entangle_camera_exif_orientation_from_rotation(rotation);
 
     metadata = gexiv2_metadata_new();
     if (!gexiv2_metadata_open_path(metadata, path, &error)) {
@@ -270,24 +258,7 @@ do_apply_capture_orientation(const gchar *path, gint rotation)
         return;
     }
 
-    current =
-        gexiv2_metadata_get_tag_string(metadata, "Exif.Image.Orientation");
-    currentOrientation =
-        current ? (gint) g_ascii_strtoll(current, NULL, 10) : 1;
-    g_free(current);
-
-    if (currentOrientation == 1 || currentOrientation == 3 ||
-        currentOrientation == 6 || currentOrientation == 8) {
-        combined = entangle_camera_exif_orientation_from_rotation(
-            (entangle_camera_exif_rotation_from_orientation(
-                 currentOrientation) +
-             rotation) %
-            360);
-    } else {
-        combined = entangle_camera_exif_orientation_from_rotation(rotation);
-    }
-
-    value = g_strdup_printf("%d", combined);
+    value = g_strdup_printf("%d", orientation);
     if (!gexiv2_metadata_set_tag_string(metadata, "Exif.Image.Orientation",
                                         value)) {
         ENTANGLE_DEBUG("Failed to set EXIF orientation for %s", path);
@@ -295,7 +266,7 @@ do_apply_capture_orientation(const gchar *path, gint rotation)
         ENTANGLE_DEBUG("Failed to save EXIF orientation for %s: %s", path,
                        error ? error->message : "unknown error");
     } else {
-        ENTANGLE_DEBUG("Applied EXIF orientation %d to %s", combined, path);
+        ENTANGLE_DEBUG("Applied EXIF orientation %d to %s", orientation, path);
     }
 
     g_clear_error(&error);
