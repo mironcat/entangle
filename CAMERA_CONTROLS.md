@@ -102,6 +102,40 @@ sequence-number placeholder in the internal filename pattern.
 The chosen folder and prefix are remembered in GSettings and used for
 new sessions.
 
+## Preview rotation and the EXIF orientation of captures
+
+The **Preview rotation** setting (the rotate buttons in the toolbar, or
+the `rotation` key of `org.entangle-photo.manager.img`) turns the live
+view clockwise by 0, 90, 180 or 270 degrees. The current value is shown
+in the settings panel on the left.
+
+The same transform is written into the EXIF orientation of every captured
+file, so the file looks exactly like the preview did when it was taken —
+in Entangle and in any other viewer:
+
+| Preview rotation | EXIF orientation |
+| ---------------- | ---------------- |
+| 0°   | 1 (normal)        |
+| 90°  | 6 (rotate 90 CW)  |
+| 180° | 3 (rotate 180)    |
+| 270° | 8 (rotate 270 CW) |
+
+The orientation is written both to `Exif.Image.Orientation` and to
+`Exif.Thumbnail.Orientation`, so the embedded thumbnail of the file is
+turned the same way as the image itself.
+
+Two more settings take part in this: **flip vertically** and **flip
+horizontally**. They are applied to the preview before the rotation, so
+they are mirrored into the EXIF orientation as well (for example both
+flips together with a 90° rotation produce orientation 8). Both are off
+by default, because the live view of the A7 III is not mirrored — with
+them enabled the preview was shown upside down.
+
+A captured still is drawn without any of these transforms: its EXIF
+orientation is already applied to the image data when the file is loaded,
+so rotating or flipping it again would turn it by 180 degrees compared to
+the file and to every other viewer.
+
 ## Extending the filter
 
 The same mechanism can be applied to other controls that libgphoto2

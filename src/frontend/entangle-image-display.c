@@ -711,6 +711,13 @@ entangle_image_display_draw(GtkWidget *widget, cairo_t *cr)
 
     ENTANGLE_DEBUG("Got win %dx%d image %dx%d, autoscale=%d scale=%lf", ww, wh,
                    pw, ph, display->autoscale ? 1 : 0, display->scale);
+    {
+        int ox = 0, oy = 0;
+        gdk_window_get_origin(gtk_widget_get_window(GTK_WIDGET(display)), &ox,
+                              &oy);
+        ENTANGLE_DEBUG("Display at %d,%d rotation %d", ox, oy,
+                       display->rotation);
+    }
     ENTANGLE_DEBUG("Drawing image %lf,%lf at %lf %lf sclaed %lfx%lf", iw, ih,
                    mx, my, sx, sy);
 

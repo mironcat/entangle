@@ -82,6 +82,11 @@ entangle_camera_automata_get_delete_file(EntangleCameraAutomata *automata);
 void
 entangle_camera_automata_set_capture_rotation(EntangleCameraAutomata *automata,
                                               gint rotation);
+void
+entangle_camera_automata_set_capture_transform(EntangleCameraAutomata *automata,
+                                               gint rotation,
+                                               gboolean flipH,
+                                               gboolean flipV);
 
 G_END_DECLS
 

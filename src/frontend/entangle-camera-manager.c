@@ -377,48 +377,39 @@ entangle_camera_manager_update_overexposure_highlighting(
                                                          enabled);
 }
 
+/* Apply the view transform to the image display.
+ *
+ * The live preview is drawn with the user selected rotation and flips.
+ * A captured still is drawn without any of them: its pixbuf already has
+ * the EXIF orientation applied when it was loaded, so rotating or flipping
+ * it again would show it turned by 180 degrees compared to the file and to
+ * every other image viewer.
+ */
 static void
-entangle_camera_manager_update_flip_vertically(EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    EntanglePreferences *prefs =
-        entangle_camera_manager_get_preferences(manager);
-    gboolean enabled = entangle_preferences_img_get_flip_vertically(prefs);
-
-    entangle_image_display_set_flip_vertically(manager->imageDisplay, enabled);
-}
-
-static void
-entangle_camera_manager_update_flip_horizontally(EntangleCameraManager *manager)
-{
-    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
-
-    EntanglePreferences *prefs =
-        entangle_camera_manager_get_preferences(manager);
-    gboolean enabled = entangle_preferences_img_get_flip_horizontally(prefs);
-
-    entangle_image_display_set_flip_horizontally(manager->imageDisplay,
-                                                 enabled);
-}
-
-static void
-entangle_camera_manager_update_rotation(EntangleCameraManager *manager)
+entangle_camera_manager_update_display_transform(EntangleCameraManager *manager)
 {
     g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
 
     EntanglePreferences *prefs =
         entangle_camera_manager_get_preferences(manager);
     gint previewRotation = entangle_preferences_img_get_rotation(prefs);
-    gint rotation = previewRotation;
+    gint rotation;
+    gboolean flipH;
+    gboolean flipV;
 
-    /* Captured stills already carry the selected rotation in their EXIF
-     * orientation, so applying the display rotation again would rotate
-     * them twice. Only rotate the live preview. */
-    if (manager->displayingStill)
+    if (manager->displayingStill) {
         rotation = 0;
+        flipH = FALSE;
+        flipV = FALSE;
+    } else {
+        rotation = previewRotation;
+        flipH = entangle_preferences_img_get_flip_horizontally(prefs);
+        flipV = entangle_preferences_img_get_flip_vertically(prefs);
+    }
 
     entangle_image_display_set_rotation(manager->imageDisplay, rotation);
+    entangle_image_display_set_flip_horizontally(manager->imageDisplay, flipH);
+    entangle_image_display_set_flip_vertically(manager->imageDisplay, flipV);
 
     if (manager->rotationLabel) {
         gchar *text =
@@ -426,6 +417,30 @@ entangle_camera_manager_update_rotation(EntangleCameraManager *manager)
         gtk_label_set_text(manager->rotationLabel, text);
         g_free(text);
     }
+}
+
+static void
+entangle_camera_manager_update_flip_vertically(EntangleCameraManager *manager)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+
+    entangle_camera_manager_update_display_transform(manager);
+}
+
+static void
+entangle_camera_manager_update_flip_horizontally(EntangleCameraManager *manager)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+
+    entangle_camera_manager_update_display_transform(manager);
+}
+
+static void
+entangle_camera_manager_update_rotation(EntangleCameraManager *manager)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(manager));
+
+    entangle_camera_manager_update_display_transform(manager);
 }
 
 static void
@@ -921,11 +936,7 @@ do_select_image(EntangleCameraManager *manager, EntangleImage *image)
     }
 
     entangle_image_display_set_image_list(manager->imageDisplay, newimages);
-    entangle_image_display_set_rotation(
-        manager->imageDisplay,
-        manager->displayingStill
-            ? 0
-            : entangle_preferences_img_get_rotation(prefs));
+    entangle_camera_manager_update_display_transform(manager);
     entangle_image_histogram_set_image(manager->imageHistogram, image);
 
     g_list_foreach(oldimages, (GFunc)g_object_unref, NULL);
@@ -2176,10 +2187,15 @@ entangle_camera_manager_capture(EntangleCameraManager *manager)
     if (!manager->camera)
         return;
 
+    /* The captured file has to carry the very same transform the live
+     * preview was shown with, so take it from the preferences rather than
+     * from the display, which may currently show a still. */
     if (manager->automata)
-        entangle_camera_automata_set_capture_rotation(
+        entangle_camera_automata_set_capture_transform(
             manager->automata,
-            entangle_image_display_get_rotation(manager->imageDisplay));
+            entangle_preferences_img_get_rotation(prefs),
+            entangle_preferences_img_get_flip_horizontally(prefs),
+            entangle_preferences_img_get_flip_vertically(prefs));
 
     if (manager->taskPreview) {
         if (entangle_preferences_capture_get_continuous_preview(prefs) &&

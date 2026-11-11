@@ -45,6 +45,8 @@ struct _EntangleCameraAutomata
     gboolean deleteFile;
 
     gint captureRotation;
+    gboolean captureFlipH;
+    gboolean captureFlipV;
 
     char *deleteImageDup;
 
@@ -217,28 +219,63 @@ entangle_camera_automata_data_free(EntangleCameraAutomataData *data)
 }
 
 static gint
-entangle_camera_exif_orientation_from_rotation(gint rotation)
+entangle_camera_exif_orientation_from_transform(gint rotation,
+                                                gboolean flipH,
+                                                gboolean flipV)
 {
     rotation = ((rotation % 360) + 360) % 360;
 
-    /* The preview rotates the coordinate system, so the image content
-     * turns the opposite way to the requested angle. Match it with the
-     * opposite EXIF orientation, otherwise external viewers show the
-     * image rotated by 180 degrees. */
+    /* The view transform is applied to the preview as a flip followed by
+     * a clockwise rotation. The EXIF orientation has to describe the very
+     * same transform, so that an external viewer shows the captured file
+     * exactly like the preview did.
+     *
+     * EXIF orientation values:
+     *   1 normal          2 mirror horizontal   3 rotate 180
+     *   4 mirror vertical 5 mirror + rotate 90  6 rotate 90
+     *   7 mirror + rotate 270                   8 rotate 270
+     */
     switch (rotation) {
     case 90:
-        return 8;
+        if (flipH && flipV)
+            return 8;
+        if (flipH)
+            return 7;
+        if (flipV)
+            return 5;
+        return 6;
     case 180:
+        if (flipH && flipV)
+            return 1;
+        if (flipH)
+            return 4;
+        if (flipV)
+            return 2;
         return 3;
     case 270:
-        return 6;
+        if (flipH && flipV)
+            return 6;
+        if (flipH)
+            return 5;
+        if (flipV)
+            return 7;
+        return 8;
     default:
+        if (flipH && flipV)
+            return 3;
+        if (flipH)
+            return 2;
+        if (flipV)
+            return 4;
         return 1;
     }
 }
 
 static void
-do_apply_capture_orientation(const gchar *path, gint rotation)
+do_apply_capture_orientation(const gchar *path,
+                             gint rotation,
+                             gboolean flipH,
+                             gboolean flipV)
 {
     GExiv2Metadata *metadata;
     GError *error = NULL;
@@ -251,9 +288,10 @@ do_apply_capture_orientation(const gchar *path, gint rotation)
         return;
 
     /* The live preview is a raw pixbuf without the camera's EXIF
-     * orientation. Write exactly the preview rotation so the saved file
+     * orientation. Write exactly the preview transform so the saved file
      * matches the preview, even if the camera reported an orientation. */
-    orientation = entangle_camera_exif_orientation_from_rotation(rotation);
+    orientation = entangle_camera_exif_orientation_from_transform(
+        rotation, flipH, flipV);
 
     metadata = gexiv2_metadata_new();
     if (!gexiv2_metadata_open_path(metadata, path, &error)) {
@@ -307,7 +345,9 @@ do_entangle_camera_file_download(EntangleCamera *cam G_GNUC_UNUSED,
         goto cleanup;
     }
     ENTANGLE_DEBUG("Saved to %s", localpath);
-    do_apply_capture_orientation(localpath, automata->captureRotation);
+    do_apply_capture_orientation(localpath, automata->captureRotation,
+                                 automata->captureFlipH,
+                                 automata->captureFlipV);
     image = entangle_image_new_file(localpath);
 
     entangle_session_add_media(automata->session, ENTANGLE_MEDIA(image));
@@ -777,6 +817,19 @@ entangle_camera_automata_set_capture_rotation(EntangleCameraAutomata *automata,
         rotation = 0;
 
     automata->captureRotation = rotation;
+}
+
+void
+entangle_camera_automata_set_capture_transform(EntangleCameraAutomata *automata,
+                                               gint rotation,
+                                               gboolean flipH,
+                                               gboolean flipV)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_AUTOMATA(automata));
+
+    entangle_camera_automata_set_capture_rotation(automata, rotation);
+    automata->captureFlipH = flipH;
+    automata->captureFlipV = flipV;
 }
 
 /*

@@ -146,13 +146,13 @@
     </key>
 
     <key type="b" name="flip-vertically">
-      <default>true</default>
+      <default>false</default>
       <summary>Flip vertically</summary>
       <description>Flip vertically</description>
     </key>
 
     <key type="b" name="flip-horizontally">
-      <default>true</default>
+      <default>false</default>
       <summary>Flip horizontally</summary>
       <description>Flip horizontally</description>
     </key>
