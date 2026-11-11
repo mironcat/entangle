@@ -240,6 +240,8 @@ do_apply_capture_orientation(const gchar *path, gint rotation)
     GError *error = NULL;
     gchar *value;
     gint orientation;
+    gboolean image_ok;
+    gboolean thumb_ok;
 
     if (!path)
         return;
@@ -259,14 +261,21 @@ do_apply_capture_orientation(const gchar *path, gint rotation)
     }
 
     value = g_strdup_printf("%d", orientation);
-    if (!gexiv2_metadata_set_tag_string(metadata, "Exif.Image.Orientation",
-                                        value)) {
+    image_ok = gexiv2_metadata_set_tag_string(
+        metadata, "Exif.Image.Orientation", value);
+    /* Keep the embedded thumbnail/preview aligned with the main image,
+     * otherwise Entangle and external viewers can disagree. */
+    thumb_ok = gexiv2_metadata_set_tag_string(
+        metadata, "Exif.Thumbnail.Orientation", value);
+
+    if (!image_ok) {
         ENTANGLE_DEBUG("Failed to set EXIF orientation for %s", path);
     } else if (!gexiv2_metadata_save_file(metadata, path, &error)) {
         ENTANGLE_DEBUG("Failed to save EXIF orientation for %s: %s", path,
                        error ? error->message : "unknown error");
     } else {
-        ENTANGLE_DEBUG("Applied EXIF orientation %d to %s", orientation, path);
+        ENTANGLE_DEBUG("Applied EXIF orientation %d to %s (thumbnail %s)",
+                       orientation, path, thumb_ok ? "ok" : "unavailable");
     }
 
     g_clear_error(&error);
