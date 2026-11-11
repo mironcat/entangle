@@ -424,11 +424,8 @@ entangle_image_display_get_focus_widget_pos(EntangleImageDisplay *display,
     fy = display->focusY * cairo_image_surface_get_height(display->pixmap);
     cairo_matrix_transform_point(&display->imageToWidget, &fx, &fy);
 
-    /* imageToWidget is widget-relative, while the draw context used for
-     * the marker is translated by the widget origin. */
-    fx += display->originX;
-    fy += display->originY;
-
+    /* imageToWidget is already widget-relative; the draw context adds
+     * the widget origin when painting the marker. */
     *x = fx;
     *y = fy;
 }

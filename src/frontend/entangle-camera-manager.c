@@ -79,6 +79,8 @@ struct _EntangleCameraManager
     EntangleControlPanel *controlPanel;
     EntangleImageHistogram *imageHistogram;
     GtkWidget *scriptConfigExpander;
+    GtkFileChooserButton *captureFolderButton;
+    gboolean updatingCaptureFolder;
 
     GtkBox *winBox;
     GtkHeaderBar *toolbarBox;
@@ -1394,6 +1396,50 @@ do_camera_manager_set_session(EntangleCameraManager *manager,
     }
     entangle_session_browser_set_session(manager->sessionBrowser,
                                          manager->session);
+
+    if (manager->captureFolderButton) {
+        const gchar *dir = manager->session
+                               ? entangle_session_directory(manager->session)
+                               : NULL;
+
+        manager->updatingCaptureFolder = TRUE;
+        if (dir)
+            gtk_file_chooser_set_filename(
+                GTK_FILE_CHOOSER(manager->captureFolderButton), dir);
+        manager->updatingCaptureFolder = FALSE;
+    }
+}
+
+static void
+do_capture_folder_changed(GtkFileChooserButton *button, gpointer opaque)
+{
+    g_return_if_fail(ENTANGLE_IS_CAMERA_MANAGER(opaque));
+
+    EntangleCameraManager *manager = ENTANGLE_CAMERA_MANAGER(opaque);
+    EntanglePreferences *prefs =
+        entangle_camera_manager_get_preferences(manager);
+    gchar *dir;
+    gchar *pattern;
+    EntangleSession *session;
+
+    if (manager->updatingCaptureFolder)
+        return;
+
+    dir = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(button));
+    if (!dir || !*dir) {
+        g_free(dir);
+        return;
+    }
+
+    g_mkdir_with_parents(dir, 0777);
+
+    pattern = entangle_preferences_capture_get_filename_pattern(prefs);
+    session = entangle_session_new(dir, pattern);
+    do_camera_manager_set_session(manager, session);
+    g_object_unref(session);
+
+    g_free(pattern);
+    g_free(dir);
 }
 
 static void
@@ -3676,10 +3722,31 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
 
     settingsBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
     imageHistogramExpander = gtk_expander_new(_("Image histogram"));
-    gtk_expander_set_expanded(GTK_EXPANDER(imageHistogramExpander), TRUE);
+    gtk_expander_set_expanded(GTK_EXPANDER(imageHistogramExpander), FALSE);
     manager->scriptConfigExpander = gtk_expander_new(_("Automation"));
     gtk_expander_set_expanded(GTK_EXPANDER(manager->scriptConfigExpander),
                               TRUE);
+
+    manager->captureFolderButton = GTK_FILE_CHOOSER_BUTTON(
+        gtk_file_chooser_button_new(_("Select save folder"),
+                                    GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER));
+    gtk_file_chooser_button_set_width_chars(manager->captureFolderButton, 12);
+    gtk_widget_set_tooltip_text(
+        GTK_WIDGET(manager->captureFolderButton),
+        _("Folder where captured images are saved"));
+    g_signal_connect(manager->captureFolderButton, "file-set",
+                     G_CALLBACK(do_capture_folder_changed), manager);
+
+    GtkWidget *captureFolderBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+    GtkWidget *captureFolderLabel = gtk_label_new(_("Save folder:"));
+    gtk_widget_set_halign(captureFolderLabel, GTK_ALIGN_START);
+    gtk_widget_set_size_request(GTK_WIDGET(manager->captureFolderButton), 200,
+                                -1);
+    gtk_box_pack_start(GTK_BOX(captureFolderBox), captureFolderLabel, FALSE,
+                       FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(captureFolderBox),
+                       GTK_WIDGET(manager->captureFolderButton), FALSE, FALSE,
+                       0);
 
     iconScroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(iconScroll),
@@ -3796,16 +3863,20 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
                        0);
     gtk_container_add(GTK_CONTAINER(manager->scriptConfigExpander),
                       GTK_WIDGET(manager->scriptConfig));
+    gtk_box_pack_start(GTK_BOX(settingsBox), captureFolderBox, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(settingsBox), GTK_WIDGET(imageHistogramExpander),
                        FALSE, TRUE, 0);
     gtk_container_add(GTK_CONTAINER(imageHistogramExpander),
                       GTK_WIDGET(manager->imageHistogram));
     gtk_widget_show(GTK_WIDGET(manager->settingsViewport));
     gtk_widget_show(settingsBox);
+    gtk_widget_show_all(captureFolderBox);
     gtk_widget_show(imageHistogramExpander);
 
     gtk_widget_set_margin_end(manager->scriptConfigExpander, 6);
     gtk_widget_set_margin_end(imageHistogramExpander, 6);
+    gtk_widget_set_margin_start(captureFolderBox, 6);
+    gtk_widget_set_margin_end(captureFolderBox, 6);
 
     manager->monitorCancel = g_cancellable_new();
     manager->taskCancel = g_cancellable_new();
