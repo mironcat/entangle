@@ -102,12 +102,26 @@ entangle_frontend_deps = [
   entangle_backend_dep,
 ]
 
+git = find_program('git', required: false)
+git_version = ''
+if git.found()
+  git_result = run_command(git, 'describe', '--tags', '--always', '--dirty',
+                           check: false)
+  if git_result.returncode() == 0
+    git_version = git_result.stdout().strip()
+  endif
+endif
+if git_version == ''
+  git_version = meson.project_version()
+endif
+
 entangle_frontend_cflags = [
     '-DPREFIX="' + entangle_prefix + '"',
     '-DDATADIR="' + entangle_datadir + '"',
     '-DPKGDATADIR="' + entangle_pkgdatadir + '"',
     '-DLIBDIR="' + entangle_libdir + '"',
     '-DVERSION="' + meson.project_version() + '"',
+    '-DGIT_VERSION="' + git_version + '"',
 ] + girepository_cflags + warning_cflags
 
 entangle_frontend = shared_library(

@@ -4094,6 +4094,22 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_container_add(GTK_CONTAINER(iconScroll),
                       GTK_WIDGET(manager->sessionBrowser));
     gtk_container_add(GTK_CONTAINER(manager->settingsViewport), settingsBox);
+
+    GtkWidget *versionLabel = gtk_label_new(NULL);
+    gchar *versionText =
+        g_strdup_printf(_("Entangle %s · %s"), VERSION, GIT_VERSION);
+    gtk_label_set_text(GTK_LABEL(versionLabel), versionText);
+    gtk_label_set_xalign(GTK_LABEL(versionLabel), 0);
+    gtk_label_set_ellipsize(GTK_LABEL(versionLabel), PANGO_ELLIPSIZE_END);
+    gtk_widget_set_tooltip_text(versionLabel, versionText);
+    gtk_style_context_add_class(gtk_widget_get_style_context(versionLabel),
+                                "dim-label");
+    gtk_widget_set_margin_start(versionLabel, 6);
+    gtk_widget_set_margin_end(versionLabel, 6);
+    gtk_box_pack_start(GTK_BOX(settingsBox), versionLabel, FALSE, FALSE, 0);
+    gtk_widget_show(versionLabel);
+    g_free(versionText);
+
     gtk_box_pack_start(GTK_BOX(settingsBox), GTK_WIDGET(manager->controlPanel),
                        FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(settingsBox),
