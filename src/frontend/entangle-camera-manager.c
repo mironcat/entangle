@@ -105,8 +105,6 @@ struct _EntangleCameraManager
     GtkMenuButton *titlebarButtonView;
     GtkMenuButton *titlebarButtonZoom;
     GtkSpinner *titlebarStatus;
-    GtkButton *focusInButton;
-    GtkButton *focusOutButton;
     GtkSpinButton *focusStep;
     GtkScale *focusSlider;
     gboolean focusSliderUpdating;
@@ -652,14 +650,9 @@ do_capture_widget_sensitivity(EntangleCameraManager *manager)
     gboolean canManualFocus =
         manager->cameraReady && manager->camera &&
         entangle_camera_get_has_manual_focus(manager->camera);
-    if (manager->focusInButton) {
-        gtk_widget_set_sensitive(GTK_WIDGET(manager->focusInButton),
-                                 canManualFocus);
+    if (manager->focusStep)
         gtk_widget_set_sensitive(GTK_WIDGET(manager->focusStep),
                                  canManualFocus);
-        gtk_widget_set_sensitive(GTK_WIDGET(manager->focusOutButton),
-                                 canManualFocus);
-    }
 
     if (manager->focusSlider) {
         gint focusMin = -7;
@@ -3793,7 +3786,7 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     gtk_range_set_value(GTK_RANGE(manager->focusSlider), 0);
     gtk_range_set_increments(GTK_RANGE(manager->focusSlider), 1, 1);
     gtk_widget_set_size_request(GTK_WIDGET(manager->focusSlider), 32, -1);
-    /* Mouse-only: keyboard users have the +/- buttons and shortcuts. */
+    /* Mouse-only: keyboard users have the focus shortcuts. */
     gtk_widget_set_can_focus(GTK_WIDGET(manager->focusSlider), FALSE);
     gtk_widget_set_tooltip_text(
         GTK_WIDGET(manager->focusSlider),
@@ -3809,41 +3802,42 @@ entangle_camera_manager_init(EntangleCameraManager *manager)
     g_signal_connect(manager->focusSlider, "scroll-event",
                      G_CALLBACK(do_focus_slider_scroll), manager);
 
-    manager->focusInButton = GTK_BUTTON(gtk_button_new_with_label("+"));
+    gtk_widget_set_valign(focusBox, GTK_ALIGN_CENTER);
+
+    gtk_box_pack_start(GTK_BOX(focusBox), focusLabel, FALSE, FALSE, 0);
+
+    /* Move the capture button from the titlebar into the focus panel. */
+    GtkWidget *captureButton = GTK_WIDGET(manager->titlebarButtonCapture);
+    g_object_ref(captureButton);
+    gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(captureButton)),
+                         captureButton);
+    gtk_widget_set_size_request(captureButton, 40, 40);
+    gtk_box_pack_start(GTK_BOX(focusBox), captureButton, FALSE, FALSE, 0);
+    g_object_unref(captureButton);
+
     manager->focusStep =
         GTK_SPIN_BUTTON(gtk_spin_button_new_with_range(1.0, 7.0, 1.0));
-    manager->focusOutButton = GTK_BUTTON(gtk_button_new_with_label("−"));
-
-    gtk_widget_set_valign(focusBox, GTK_ALIGN_CENTER);
-    gtk_widget_set_tooltip_text(
-        GTK_WIDGET(manager->focusInButton),
-        _("Move focus by the selected number of steps"));
-    gtk_widget_set_tooltip_text(
-        GTK_WIDGET(manager->focusOutButton),
-        _("Move focus in the opposite direction"));
     gtk_widget_set_tooltip_text(
         GTK_WIDGET(manager->focusStep),
-        _("Manual focus step size (1-7); used by the buttons, mouse wheel "
-          "and the slider speed"));
+        _("Manual focus step size (1-7); used by the mouse wheel, "
+          "shortcuts and the slider speed"));
     gtk_spin_button_set_numeric(manager->focusStep, TRUE);
     gtk_spin_button_set_digits(manager->focusStep, 0);
     gtk_entry_set_width_chars(GTK_ENTRY(manager->focusStep), 3);
     gtk_widget_set_size_request(GTK_WIDGET(manager->focusStep), 50, -1);
-
-    gtk_box_pack_start(GTK_BOX(focusBox), focusLabel, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(focusBox), GTK_WIDGET(manager->focusInButton),
-                       FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(focusBox), GTK_WIDGET(manager->focusStep),
                        FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(focusBox), GTK_WIDGET(manager->focusOutButton),
-                       FALSE, FALSE, 0);
-
-    g_signal_connect(manager->focusInButton, "clicked",
-                     G_CALLBACK(do_focus_in_clicked), manager);
-    g_signal_connect(manager->focusOutButton, "clicked",
-                     G_CALLBACK(do_focus_out_clicked), manager);
     g_signal_connect(manager->focusStep, "activate",
                      G_CALLBACK(do_focus_step_activate), manager);
+
+    /* Move the autofocus button from the titlebar into the focus panel. */
+    GtkWidget *autofocusButton = GTK_WIDGET(manager->titlebarButtonFocus);
+    g_object_ref(autofocusButton);
+    gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(autofocusButton)),
+                         autofocusButton);
+    gtk_widget_set_size_request(autofocusButton, 40, 40);
+    gtk_box_pack_start(GTK_BOX(focusBox), autofocusButton, FALSE, FALSE, 0);
+    g_object_unref(autofocusButton);
 
     gtk_box_pack_start(GTK_BOX(imageBox), imageOverlay, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(imageBox),
